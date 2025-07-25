@@ -102,11 +102,11 @@
       const rows = data.trim().split('\n').slice(1).map(r => r.split(','));
 
       const puzzles = rows
-        .filter(row => row[6].trim().toLowerCase() === 'yes')
+        .filter(row => (row[5] || '').trim().toLowerCase() === 'yes')  // ✅ Column F = index 5
         .reverse();
 
       puzzles.forEach(puzzle => {
-        const [id, emojiPuzzle, answer] = puzzle;
+        const [emojiPuzzle, answer] = puzzle;
 
         const cleanPuzzle = emojiPuzzle.replace(/Key Below.*/i, '').trim();
         const cleanAnswer = answer.replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
@@ -115,15 +115,15 @@
         puzzleDiv.className = "puzzle-card";
         puzzleDiv.innerHTML = `
           <h3 class="emoji">${cleanPuzzle}</h3>
-          <button onclick="toggleAnswer('answer-${id}', this)">Show Answer</button>
-          <p id="answer-${id}" class="answer"><strong>Answer:</strong>\n${cleanAnswer}</p>
+          <button onclick="toggleAnswer(this)">Show Answer</button>
+          <p class="answer"><strong>Answer:</strong>\n${cleanAnswer}</p>
         `;
         document.getElementById('puzzle-container').appendChild(puzzleDiv);
       });
     }
 
-    function toggleAnswer(id, btn) {
-      const answerEl = document.getElementById(id);
+    function toggleAnswer(btn) {
+      const answerEl = btn.nextElementSibling;
       if (answerEl.classList.contains('show')) {
         answerEl.classList.remove('show');
         btn.textContent = 'Show Answer';
