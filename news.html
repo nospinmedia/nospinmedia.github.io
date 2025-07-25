@@ -16,19 +16,29 @@
 
     .story-card { background: #fff; border-radius: 8px; padding: 1rem; margin: 0.8rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     .story-card h3 { font-size: 1.3rem; margin: 0; display: flex; justify-content: space-between; align-items: center; }
-    .share-btn { font-size: 0.8rem; background: #0077cc; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; margin-left: 10px; }
     .bias { font-size: 0.9rem; font-weight: bold; color: #666; margin-top: 0.3rem; }
 
     .summary { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; margin-top: 0.5rem; }
-    .summary.show { max-height: 2000px; opacity: 1; }
+    .summary.show { max-height: 1000px; opacity: 1; }
 
-    button.toggle { margin-top: 0.6rem; padding: 6px 12px; font-size: 0.95rem; cursor: pointer; border-radius: 4px; border: 1px solid #333; background: #333; color: #fff; }
-    button.toggle:hover { background: #555; }
+    button.toggle, button.share-btn {
+      margin-top: 0.6rem; padding: 6px 12px; font-size: 0.9rem; cursor: pointer;
+      border-radius: 4px; border: 1px solid #333; background: #333; color: #fff;
+    }
+    button.toggle:hover, button.share-btn:hover { background: #555; }
+    button.share-btn { margin-left: 10px; font-size: 0.8rem; background: #0066cc; border-color: #0066cc; }
+    button.share-btn:hover { background: #004c99; }
   </style>
   <script>
+    let storyId = null;
+
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
     async function loadStories() {
-      const params = new URLSearchParams(window.location.search);
-      const storyId = params.get('id');
+      storyId = getQueryParam('id');
 
       const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XVtrcww27HY5HloDUF4DazBDoTQKQKrNZdXH5Vv6XyfwiXSX9WwWYxXSGK6PCXH-9pZSwJyQn5uT/pub?output=csv';
       const response = await fetch(sheetURL);
@@ -50,9 +60,9 @@
       if (current || row.length) { row.push(current); rows.push(row); }
 
       const data = rows.slice(1);
-      let stories = data.filter(r => r[6].trim().toLowerCase() === 'yes');
+      let stories = data.filter(r => r[6] && r[6].trim().toLowerCase() === 'yes');
 
-      // ✅ If in share mode, filter only the matching story
+      // ✅ Filter to one story if share mode
       if (storyId) {
         stories = stories.filter(r => r[2].trim() === storyId);
       }
@@ -78,7 +88,7 @@
           const storyID = r[2].trim();
           const headline = r[3];
           const bias = r[4];
-          const summary = (r[5] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
+          const summary = (r[5] || '').replace(/— Powered by No Spin Media[\\s\\S]*/i, '').trim();
 
           const card = document.createElement('div');
           card.className = 'story-card';
@@ -90,6 +100,15 @@
             <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
             <div class="summary">${summary}</div>
           `;
+
+          // ✅ Auto-open summary if in share mode
+          if (storyId && storyID === storyId) {
+            const summaryEl = card.querySelector('.summary');
+            summaryEl.classList.add('show');
+            const toggleBtn = card.querySelector('.toggle');
+            toggleBtn.textContent = 'Hide Story';
+          }
+
           dateGroup.appendChild(card);
         });
 
@@ -100,13 +119,15 @@
     function toggleSummary(btn) {
       const summaryEl = btn.nextElementSibling;
       summaryEl.classList.toggle('show');
-      btn.textContent = summaryEl.classList.contains('show') ? 'Hide Story' : 'Show Story';
+      btn.textContent = summaryEl.classList.contains('show') 
+        ? 'Hide Story' 
+        : 'Show Story';
     }
 
     function shareStory(id) {
       const url = `${window.location.origin}${window.location.pathname}?id=${id}`;
       navigator.clipboard.writeText(url).then(() => {
-        alert('Story link copied to clipboard!');
+        alert('Share link copied to clipboard!');
       });
     }
 
