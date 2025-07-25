@@ -7,16 +7,24 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; color: #222; }
-    .container { max-width: 900px; margin: 2rem auto; padding: 1rem; }
+    .container { display: flex; flex-wrap: wrap; max-width: 1100px; margin: 2rem auto; padding: 1rem; }
+    .main { flex: 1 1 65%; padding: 1rem; }
+    .sidebar { flex: 1 1 30%; background: #fff; padding: 1rem; border-left: 2px solid #eee; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.05); height: fit-content; }
+
     .date-group { margin-bottom: 2rem; }
     .date-header { background: #333; color: #fff; padding: 0.5rem 1rem; border-radius: 4px; font-weight: bold; font-size: 1.2rem; }
     .post-card { background: #fff; border-radius: 8px; padding: 1rem; margin: 0.8rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .post-header h3 { font-size: 1.3rem; margin: 0; }
+    .post-header h3 { font-size: 1.4rem; margin: 0; }
     .post-type { font-size: 1rem; font-weight: bold; color: #555; margin-top: 0.4rem; }
     .comment { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; margin-top: 0.5rem; }
     .comment.show { max-height: 1000px; opacity: 1; }
     button.toggle { margin-top: 0.6rem; padding: 6px 12px; font-size: 0.95rem; cursor: pointer; border-radius: 4px; border: 1px solid #333; background: #333; color: #fff; }
     button.toggle:hover { background: #555; }
+
+    @media (max-width: 768px) {
+      .container { flex-direction: column; }
+      .sidebar { border-left: none; border-top: 2px solid #eee; margin-top: 1rem; }
+    }
   </style>
   <script>
     async function loadPosts() {
@@ -40,7 +48,7 @@
       if (current || row.length) { row.push(current); rows.push(row); }
 
       const data = rows.slice(1);
-      const posts = data.filter(r => r[0].trim() && r[1].trim());
+      const posts = data.filter(r => r[0].trim() && r[1].trim() && r[4].trim()); // ✅ Only if Type filled
       posts.sort((a,b) => new Date(b[0]) - new Date(a[0]));
 
       const groups = {};
@@ -60,14 +68,14 @@
         groups[date].forEach(r => {
           const post = r[1];
           const comment = (r[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
-          const type = r[4] || 'Comment';
+          const type = r[4].trim() || 'Story';
 
           const card = document.createElement('div');
           card.className = 'post-card';
           card.innerHTML = `
             <div class="post-header"><h3>${post}</h3></div>
             <div class="post-type">Type: ${type}</div>
-            <button class="toggle" onclick="toggleComment(this)">Show ${type}</button>
+            <button class="toggle" onclick="toggleComment(this, '${type}')">Show ${type}</button>
             <div class="comment"><strong>${type}:</strong>\n${comment}</div>
           `;
           dateGroup.appendChild(card);
@@ -76,12 +84,12 @@
       }
     }
 
-    function toggleComment(btn) {
+    function toggleComment(btn, type) {
       const commentEl = btn.nextElementSibling;
       commentEl.classList.toggle('show');
       btn.textContent = commentEl.classList.contains('show') 
-        ? btn.textContent.replace('Show', 'Hide') 
-        : btn.textContent.replace('Hide', 'Show');
+        ? `Hide ${type}` 
+        : `Show ${type}`;
     }
 
     window.onload = () => {
@@ -99,8 +107,24 @@
   <div id="site-header"></div>
 
   <div class="container">
-    <h1>AI Generated Posts</h1>
-    <div id="posts-container"></div>
+    <div class="main">
+      <h1>AI Generated Posts</h1>
+      <div id="posts-container"></div>
+    </div>
+
+    <div class="sidebar">
+      <h2>Support Us 💙</h2>
+      <p>Like what we're doing? Help keep No Spin Media running:</p>
+      <p><strong>Venmo:</strong><br/>
+        <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+      </p>
+      <h2>Follow Us</h2>
+      <p>
+        📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
+      </p>
+      <h2>Contact</h2>
+      <p>📨 nospinmedia.ai@gmail.com</p>
+    </div>
   </div>
 
   <footer>
