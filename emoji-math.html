@@ -49,7 +49,6 @@
 
       const data = rows.slice(1); // skip header
 
-      // Used = Column G (index 6)
       const puzzles = data.filter(r => (r[6] || '').toLowerCase().includes('yes')).reverse();
 
       puzzles.forEach(p => {
@@ -80,22 +79,19 @@
       }
     }
 
-    window.onload = loadPuzzles;
+    window.onload = () => {
+      fetch('header.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('site-header').innerHTML = html;
+          loadPuzzles();
+        });
+    }
   </script>
 </head>
 <body>
 
-  <header>
-    <img src="images/NSM-Logo-Light.png" alt="No Spin Media Logo" style="height: 48px; vertical-align: middle; margin-right: 10px;">
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="emoji-puzzles.html">Emoji Puzzles</a>
-      <a href="emoji-math.html">Emoji Math</a>
-      <a href="sponsor.html">Support</a>
-      <a href="ai.html">Why AI?</a>
-      <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
-    </nav>
-  </header>
+  <div id="site-header"></div>
 
   <div class="container">
     <div class="main">
