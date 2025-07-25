@@ -94,47 +94,21 @@
     }
   </style>
   <script>
-    async function loadPuzzles() {
-      const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSoyPjj_QxgVJ-l8BAetRaMyY-Lg_YjyGHfX98XqacaOkdDj553orqlaoPRkwicEcZjZsAL7_4w4nRS/pub?output=csv';
+  async function loadPuzzles() {
+    const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSoyPjj_QxgVJ-l8BAetRaMyY-Lg_YjyGHfX98XqacaOkdDj553orqlaoPRkwicEcZjZsAL7_4w4nRS/pub?output=csv';
 
-      const response = await fetch(sheetURL);
-      const data = await response.text();
-      const rows = data.trim().split('\n').slice(1).map(r => r.split(','));
+    const response = await fetch(sheetURL);
+    const data = await response.text();
+    const rows = data.trim().split('\n');
 
-      const puzzles = rows
-        .filter(row => (row[5] || '').trim().toLowerCase() === 'yes')  // ✅ Column F = index 5
-        .reverse();
+    // Show raw rows for debugging
+    const debug = document.createElement('pre');
+    debug.textContent = rows.join('\n');
+    document.body.prepend(debug);
+  }
+  window.onload = loadPuzzles;
+</script>
 
-      puzzles.forEach(puzzle => {
-        const [emojiPuzzle, answer] = puzzle;
-
-        const cleanPuzzle = emojiPuzzle.replace(/Key Below.*/i, '').trim();
-        const cleanAnswer = answer.replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
-
-        const puzzleDiv = document.createElement('div');
-        puzzleDiv.className = "puzzle-card";
-        puzzleDiv.innerHTML = `
-          <h3 class="emoji">${cleanPuzzle}</h3>
-          <button onclick="toggleAnswer(this)">Show Answer</button>
-          <p class="answer"><strong>Answer:</strong>\n${cleanAnswer}</p>
-        `;
-        document.getElementById('puzzle-container').appendChild(puzzleDiv);
-      });
-    }
-
-    function toggleAnswer(btn) {
-      const answerEl = btn.nextElementSibling;
-      if (answerEl.classList.contains('show')) {
-        answerEl.classList.remove('show');
-        btn.textContent = 'Show Answer';
-      } else {
-        answerEl.classList.add('show');
-        btn.textContent = 'Hide Answer';
-      }
-    }
-
-    window.onload = loadPuzzles;
-  </script>
 </head>
 <body>
 
