@@ -7,25 +7,23 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; color: #222; }
-    header { background: #111; color: #fff; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
-    header img { max-height: 60px; }
-    nav a { color: #fff; margin-left: 20px; text-decoration: none; font-weight: bold; }
     .container { max-width: 900px; margin: 2rem auto; padding: 1rem; }
-    .post-card { background: #fff; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .date-group { margin-bottom: 2rem; }
+    .date-header { background: #333; color: #fff; padding: 0.5rem 1rem; border-radius: 4px; font-weight: bold; }
+    .post-card { background: #fff; border-radius: 8px; padding: 1rem; margin: 0.8rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     .post-header { display: flex; justify-content: space-between; align-items: center; }
-    .post-date { font-size: 0.9rem; color: #666; }
     .post-type { font-size: 0.85rem; color: #888; margin-top: 0.2rem; }
     .comment { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; margin-top: 0.5rem; }
-    .comment.show { max-height: 800px; opacity: 1; }
+    .comment.show { max-height: 1000px; opacity: 1; }
     button.toggle { margin-top: 0.5rem; padding: 5px 10px; font-size: 0.9rem; cursor: pointer; }
   </style>
   <script>
     async function loadPosts() {
-      const sheetURL = '<<YOUR GOOGLE SHEETS CSV LINK>>';
+      const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6MD-jJVdU22fsfcC1zu16HdCSeANVZS-Sjxf76iUcu7yCSax43w4UyDfVnQv750z_uSpjA-_pXVB_/pub?output=csv';
       const response = await fetch(sheetURL);
       const text = await response.text();
 
-      // CSV parser safe for commas and quotes
+      // CSV parser for quotes and commas
       const rows = [];
       let current = '', insideQuotes = false, row = [];
       for (let i = 0; i < text.length; i++) {
@@ -41,41 +39,52 @@
       }
       if (current || row.length) { row.push(current); rows.push(row); }
 
-      const data = rows.slice(1); // skip header
+      const data = rows.slice(1);
 
-      // ✅ Filter out empty rows (must have Date and Post content)
-      const posts = data.filter(r => r[0].trim() && r[1].trim()).reverse();
+      // ✅ Only rows with Date + Post
+      const posts = data.filter(r => r[0].trim() && r[1].trim());
 
+      // ✅ Sort by date descending
+      posts.sort((a,b) => new Date(b[0]) - new Date(a[0]));
+
+      // ✅ Group by date
+      const groups = {};
       posts.forEach(r => {
         const date = r[0];
-        const post = r[1];
-        const comment = (r[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
-        const type = r[4] || '';
-
-        const card = document.createElement('div');
-        card.className = 'post-card';
-        card.innerHTML = `
-          <div class="post-header">
-            <h3>${post}</h3>
-            <span class="post-date">${date}</span>
-          </div>
-          ${type ? `<div class="post-type">Type: ${type}</div>` : ''}
-          <button class="toggle" onclick="toggleComment(this)">Show Comment</button>
-          <div class="comment"><strong>Comment:</strong>\n${comment}</div>
-        `;
-        document.getElementById('posts-container').appendChild(card);
+        if (!groups[date]) groups[date] = [];
+        groups[date].push(r);
       });
+
+      const container = document.getElementById('posts-container');
+      for (const date in groups) {
+        const dateGroup = document.createElement('div');
+        dateGroup.className = 'date-group';
+        const dateObj = new Date(date);
+        const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
+        groups[date].forEach(r => {
+          const post = r[1];
+          const comment = (r[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
+          const type = r[4] || '';
+
+          const card = document.createElement('div');
+          card.className = 'post-card';
+          card.innerHTML = `
+            <div class="post-header"><h3>${post}</h3></div>
+            ${type ? `<div class="post-type">Type: ${type}</div>` : ''}
+            <button class="toggle" onclick="toggleComment(this)">Show Comment</button>
+            <div class="comment"><strong>Comment:</strong>\n${comment}</div>
+          `;
+          dateGroup.appendChild(card);
+        });
+        container.appendChild(dateGroup);
+      }
     }
 
     function toggleComment(btn) {
       const commentEl = btn.nextElementSibling;
-      if (commentEl.classList.contains('show')) {
-        commentEl.classList.remove('show');
-        btn.textContent = 'Show Comment';
-      } else {
-        commentEl.classList.add('show');
-        btn.textContent = 'Hide Comment';
-      }
+      commentEl.classList.toggle('show');
+      btn.textContent = commentEl.classList.contains('show') ? 'Hide Comment' : 'Show Comment';
     }
 
     window.onload = () => {
