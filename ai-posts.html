@@ -1,47 +1,167 @@
-async function loadPosts() {
-  const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6MD-jJVdU22fsfcC1zu16HdCSeANVZS-Sjxf76iUcu7yCSax43w4UyDfVnQv750z_uSpjA-_pXVB_/pub?output=csv';
-  const response = await fetch(sheetURL);
-  const text = await response.text();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>No Spin Media AI Posts</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; color: #222; }
+    .container { display: flex; max-width: 1200px; margin: 2rem auto; padding: 1rem; gap: 2rem; }
+    .main { flex: 2; }
+    .sidebar { flex: 1; background: #fff; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); height: fit-content; }
 
-  const rows = [];
-  let current = '', insideQuotes = false, row = [];
-  for (let i = 0; i < text.length; i++) {
-    const char = text[i];
-    if (char === '"' && text[i+1] === '"') { current += '"'; i++; continue; }
-    if (char === '"') { insideQuotes = !insideQuotes; continue; }
-    if (char === ',' && !insideQuotes) { row.push(current); current = ''; continue; }
-    if ((char === '\n' || char === '\r') && !insideQuotes) {
-      if (current || row.length) { row.push(current); rows.push(row); row = []; current = ''; }
-      continue;
+    .filter-bar { margin-bottom: 1rem; }
+    .filter-bar select { padding: 6px 10px; font-size: 1rem; }
+
+    .date-group { margin-bottom: 2rem; }
+    .date-header { background: #333; color: #fff; padding: 0.5rem 1rem; border-radius: 4px; font-weight: bold; font-size: 1.2rem; }
+
+    .post-card { background: #fff; border-radius: 8px; padding: 1rem; margin: 0.8rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .post-header h3 { font-size: 1.3rem; margin: 0; }
+    .post-type { font-size: 1rem; font-weight: bold; color: #555; margin-top: 0.4rem; }
+
+    .comment { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; margin-top: 0.5rem; }
+    .comment.show { max-height: 1000px; opacity: 1; }
+
+    button.toggle { margin-top: 0.6rem; padding: 6px 12px; font-size: 0.95rem; cursor: pointer; border-radius: 4px; border: 1px solid #333; background: #333; color: #fff; }
+    button.toggle:hover { background: #555; }
+  </style>
+  <script>
+    let allPosts = [];
+
+    async function loadPosts() {
+      const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6MD-jJVdU22fsfcC1zu16HdCSeANVZS-Sjxf76iUcu7yCSax43w4UyDfVnQv750z_uSpjA-_pXVB_/pub?output=csv';
+      const response = await fetch(sheetURL);
+      const text = await response.text();
+
+      const rows = [];
+      let current = '', insideQuotes = false, row = [];
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        if (char === '"' && text[i+1] === '"') { current += '"'; i++; continue; }
+        if (char === '"') { insideQuotes = !insideQuotes; continue; }
+        if (char === ',' && !insideQuotes) { row.push(current); current = ''; continue; }
+        if ((char === '\n' || char === '\r') && !insideQuotes) {
+          if (current || row.length) { row.push(current); rows.push(row); row = []; current = ''; }
+          continue;
+        }
+        current += char;
+      }
+      if (current || row.length) { row.push(current); rows.push(row); }
+
+      const data = rows.slice(1);
+      allPosts = data.filter(r => r[0].trim() && r[1].trim());
+
+      // Default Type = Story
+      allPosts.forEach(r => {
+        if (!r[4] || !r[4].trim()) r[4] = 'Story';
+      });
+
+      allPosts.sort((a,b) => new Date(b[0]) - new Date(a[0]));
+      renderPosts();
+      populateFilter();
     }
-    current += char;
-  }
-  if (current || row.length) { row.push(current); rows.push(row); }
 
-  const data = rows.slice(1);
-  allPosts = data.filter(r => r[0].trim() && r[1].trim());
+    function renderPosts(filterType = 'all') {
+      const container = document.getElementById('posts-container');
+      container.innerHTML = '';
 
-  // ✅ Default Type to "Story" if missing
-  allPosts.forEach(r => {
-    if (!r[4] || !r[4].trim()) r[4] = 'Story';
-  });
+      const groups = {};
+      allPosts.forEach(r => {
+        if (filterType !== 'all' && r[4].trim() !== filterType) return;
+        const date = r[0];
+        if (!groups[date]) groups[date] = [];
+        groups[date].push(r);
+      });
 
-  allPosts.sort((a,b) => new Date(b[0]) - new Date(a[0]));
+      for (const date in groups) {
+        const dateGroup = document.createElement('div');
+        dateGroup.className = 'date-group';
+        const dateObj = new Date(date);
+        const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
+        groups[date].forEach(r => {
+          const post = r[1];
+          const comment = (r[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
+          const type = r[4] || 'Story';
 
-  renderPosts();
-  populateFilter();
-}
+          const card = document.createElement('div');
+          card.className = 'post-card';
+          card.innerHTML = `
+            <div class="post-header"><h3>${post}</h3></div>
+            <div class="post-type">Type: ${type}</div>
+            <button class="toggle" onclick="toggleComment(this)">Show ${type}</button>
+            <div class="comment"><strong>${type}:</strong>\n${comment}</div>
+          `;
+          dateGroup.appendChild(card);
+        });
+        container.appendChild(dateGroup);
+      }
+    }
 
-function populateFilter() {
-  const types = [...new Set(allPosts.map(r => r[4].trim()))];
-  const select = document.getElementById('typeFilter');
-  // ✅ Add proper <option> markup
-  select.innerHTML = '<option value="all">All Types</option>'; 
+    function populateFilter() {
+      const types = [...new Set(allPosts.map(r => r[4].trim()))];
+      const select = document.getElementById('typeFilter');
+      select.innerHTML = '<option value="all">All Types</option>'; // ✅ Proper <option>
+      types.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t;
+        opt.textContent = t;
+        select.appendChild(opt);
+      });
+    }
 
-  types.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t;
-    opt.textContent = t;
-    select.appendChild(opt);
-  });
-}
+    function toggleComment(btn) {
+      const commentEl = btn.nextElementSibling;
+      commentEl.classList.toggle('show');
+      btn.textContent = commentEl.classList.contains('show') 
+        ? btn.textContent.replace('Show', 'Hide') 
+        : btn.textContent.replace('Hide', 'Show');
+    }
+
+    window.onload = () => {
+      fetch('header.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('site-header').innerHTML = html;
+          loadPosts();
+        });
+    }
+  </script>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="container">
+    <div class="main">
+      <h1>AI Generated Posts</h1>
+      <div class="filter-bar">
+        <label for="typeFilter"><strong>Filter by Type:</strong></label>
+        <select id="typeFilter" onchange="renderPosts(this.value)"></select>
+      </div>
+      <div id="posts-container"></div>
+    </div>
+
+    <div class="sidebar">
+      <h2>Support Us 💙</h2>
+      <p>Like what we're doing? Help keep No Spin Media running:</p>
+      <p><strong>Venmo:</strong><br/>
+        <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+      </p>
+      <h2>Follow Us</h2>
+      <p>
+        📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
+      </p>
+      <h2>Contact</h2>
+      <p>📨 nospinmedia.ai@gmail.com</p>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
+  </footer>
+
+</body>
+</html>
