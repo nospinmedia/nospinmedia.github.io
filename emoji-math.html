@@ -93,21 +93,59 @@
       }
     }
   </style>
-  <script>
+<script>
   async function loadPuzzles() {
     const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSoyPjj_QxgVJ-l8BAetRaMyY-Lg_YjyGHfX98XqacaOkdDj553orqlaoPRkwicEcZjZsAL7_4w4nRS/pub?output=csv';
-
     const response = await fetch(sheetURL);
-    const data = await response.text();
-    const rows = data.trim().split('\n');
+    const csvText = await response.text();
 
-    // Show raw rows for debugging
-    const debug = document.createElement('pre');
-    debug.textContent = rows.join('\n');
-    document.body.prepend(debug);
+    // Parse CSV safely, respecting quotes
+    const rows = [];
+    let current = '', insideQuotes = false, row = [];
+    for (let char of csvText) {
+      if (char === '"' && !insideQuotes) { insideQuotes = true; continue; }
+      if (char === '"' && insideQuotes) { insideQuotes = false; continue; }
+      if (char === ',' && !insideQuotes) { row.push(current); current = ''; continue; }
+      if (char === '\n' && !insideQuotes) { row.push(current); rows.push(row); row = []; current = ''; continue; }
+      current += char;
+    }
+    if (row.length) rows.push(row);
+
+    const data = rows.slice(1); // skip header
+
+    const puzzles = data
+      .filter(r => (r[5] || '').toLowerCase().includes('yes'))
+      .reverse();
+
+    puzzles.forEach(puzzle => {
+      const emojiPuzzle = puzzle[0].replace(/Key Below.*/i, '').trim();
+      const answer = puzzle[1].replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
+
+      const puzzleDiv = document.createElement('div');
+      puzzleDiv.className = "puzzle-card";
+      puzzleDiv.innerHTML = `
+        <h3 class="emoji">${emojiPuzzle}</h3>
+        <button onclick="toggleAnswer(this)">Show Answer</button>
+        <p class="answer"><strong>Answer:</strong>\n${answer}</p>
+      `;
+      document.getElementById('puzzle-container').appendChild(puzzleDiv);
+    });
   }
+
+  function toggleAnswer(btn) {
+    const answerEl = btn.nextElementSibling;
+    if (answerEl.classList.contains('show')) {
+      answerEl.classList.remove('show');
+      btn.textContent = 'Show Answer';
+    } else {
+      answerEl.classList.add('show');
+      btn.textContent = 'Hide Answer';
+    }
+  }
+
   window.onload = loadPuzzles;
 </script>
+
 
 </head>
 <body>
