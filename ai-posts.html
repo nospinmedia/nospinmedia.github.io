@@ -7,9 +7,12 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; color: #222; }
-    .container { display: flex; flex-wrap: wrap; max-width: 1100px; margin: 2rem auto; padding: 1rem; }
-    .main { flex: 1 1 65%; padding: 1rem; }
-    .sidebar { flex: 1 1 30%; background: #fff; padding: 1rem; border-left: 2px solid #eee; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.05); height: fit-content; }
+    .container { display: flex; max-width: 1100px; margin: 2rem auto; padding: 1rem; gap: 1.5rem; }
+    .main { flex: 1 1 65%; }
+    .sidebar { flex: 0 0 250px; background: #fff; padding: 1rem; border-left: 2px solid #eee; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.05); }
+
+    .filter-bar { margin-bottom: 1rem; }
+    select { padding: 6px; font-size: 1rem; }
 
     .date-group { margin-bottom: 2rem; }
     .date-header { background: #333; color: #fff; padding: 0.5rem 1rem; border-radius: 4px; font-weight: bold; font-size: 1.2rem; }
@@ -21,12 +24,14 @@
     button.toggle { margin-top: 0.6rem; padding: 6px 12px; font-size: 0.95rem; cursor: pointer; border-radius: 4px; border: 1px solid #333; background: #333; color: #fff; }
     button.toggle:hover { background: #555; }
 
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       .container { flex-direction: column; }
-      .sidebar { border-left: none; border-top: 2px solid #eee; margin-top: 1rem; }
+      .sidebar { border-left: none; border-top: 2px solid #eee; }
     }
   </style>
   <script>
+    let allPosts = [];
+
     async function loadPosts() {
       const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6MD-jJVdU22fsfcC1zu16HdCSeANVZS-Sjxf76iUcu7yCSax43w4UyDfVnQv750z_uSpjA-_pXVB_/pub?output=csv';
       const response = await fetch(sheetURL);
@@ -48,8 +53,29 @@
       if (current || row.length) { row.push(current); rows.push(row); }
 
       const data = rows.slice(1);
-      const posts = data.filter(r => r[0].trim() && r[1].trim() && r[4].trim()); // ✅ Only if Type filled
-      posts.sort((a,b) => new Date(b[0]) - new Date(a[0]));
+      allPosts = data.filter(r => r[0].trim() && r[1].trim() && r[4].trim());
+      allPosts.sort((a,b) => new Date(b[0]) - new Date(a[0]));
+
+      renderPosts();
+      populateFilter();
+    }
+
+    function populateFilter() {
+      const types = [...new Set(allPosts.map(r => r[4].trim()))];
+      const select = document.getElementById('typeFilter');
+      types.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t;
+        opt.textContent = t;
+        select.appendChild(opt);
+      });
+    }
+
+    function renderPosts(filterType = 'all') {
+      const container = document.getElementById('posts-container');
+      container.innerHTML = '';
+
+      const posts = filterType === 'all' ? allPosts : allPosts.filter(r => r[4].trim() === filterType);
 
       const groups = {};
       posts.forEach(r => {
@@ -58,7 +84,6 @@
         groups[date].push(r);
       });
 
-      const container = document.getElementById('posts-container');
       for (const date in groups) {
         const dateGroup = document.createElement('div');
         dateGroup.className = 'date-group';
@@ -92,6 +117,11 @@
         : `Show ${type}`;
     }
 
+    function filterChanged() {
+      const type = document.getElementById('typeFilter').value;
+      renderPosts(type);
+    }
+
     window.onload = () => {
       fetch('header.html')
         .then(res => res.text())
@@ -109,6 +139,12 @@
   <div class="container">
     <div class="main">
       <h1>AI Generated Posts</h1>
+      <div class="filter-bar">
+        <label><strong>Filter by Type:</strong></label>
+        <select id="typeFilter" onchange="filterChanged()">
+          <option value="all">All Types</option>
+        </select>
+      </div>
       <div id="posts-container"></div>
     </div>
 
@@ -119,9 +155,7 @@
         <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
       </p>
       <h2>Follow Us</h2>
-      <p>
-        📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
-      </p>
+      <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
       <h2>Contact</h2>
       <p>📨 nospinmedia.ai@gmail.com</p>
     </div>
