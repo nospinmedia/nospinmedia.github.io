@@ -8,12 +8,40 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
-      background-color: #fff;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
       color: #222;
     }
+
+    /* ✅ Header/Nav styling */
+    header {
+      background: #111;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header img {
+      max-height: 60px;
+    }
+    nav a {
+      color: #fff;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 2rem auto;
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
     h1, h2, h3 {
       color: #111;
     }
@@ -32,38 +60,63 @@
     .contact {
       margin-top: 2rem;
     }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+      background: #f4f4f4;
+      margin-top: 2rem;
+    }
   </style>
+  <script>
+    window.onload = () => {
+      fetch('header.html')
+        .then(res => res.text())
+        .then(html => document.getElementById('site-header').innerHTML = html);
+    }
+  </script>
 </head>
 <body>
 
-  <h1>Support & Sponsor No Spin Media</h1>
-  <p>We’re building something better — truth-first news, powered by AI, free of political spin, hype, or rage bait.</p>
+  <!-- ✅ Shared header -->
+  <div id="site-header"></div>
 
-  <div class="venmo">
-    <h2>🚀 Donate via Venmo</h2>
+  <div class="content">
+    <h1>Support & Sponsor No Spin Media</h1>
+    <p>We’re building something better — truth-first news, powered by AI, free of political spin, hype, or rage bait.</p>
+
+    <div class="venmo">
+      <h2>🚀 Donate via Venmo</h2>
+      <p>
+        Every contribution helps us stay independent, ad-free, and focused on facts.
+        <br/><br/>
+        <strong>Venmo:</strong> <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+      </p>
+    </div>
+
+    <h2>📣 Sponsorship & Advertising</h2>
+    <p>Want to get your brand in front of an audience that values truth, clarity, and sanity in media?</p>
     <p>
-      Every contribution helps us stay independent, ad-free, and focused on facts.
-      <br/><br/>
-      <strong>Venmo:</strong> <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+      We offer limited, respectful sponsorship opportunities — no popups, no intrusive ads, and no political agendas.
+      If you’re interested in sponsoring a section like our Fun Feed, News Highlights, or Birthday History posts,
+      reach out and let’s talk.
+    </p>
+
+    <div class="contact">
+      <h3>📬 Contact Us</h3>
+      <p>Email: <a href="mailto:nospinmedia.ai@gmail.com">nospinmedia.ai@gmail.com</a></p>
+    </div>
+
+    <p style="margin-top: 3rem; font-size: 0.9rem; color: #666;">
+      Note: We only accept sponsorships from companies or creators whose values align with our mission of spin-free, truth-based content. No political advertising will be accepted.
     </p>
   </div>
 
-  <h2>📣 Sponsorship & Advertising</h2>
-  <p>Want to get your brand in front of an audience that values truth, clarity, and sanity in media?</p>
-  <p>
-    We offer limited, respectful sponsorship opportunities — no popups, no intrusive ads, and no political agendas.
-    If you’re interested in sponsoring a section like our Fun Feed, News Highlights, or Birthday History posts,
-    reach out and let’s talk.
-  </p>
-
-  <div class="contact">
-    <h3>📬 Contact Us</h3>
-    <p>Email: <a href="mailto:nospinmedia.ai@gmail.com">nospinmedia.ai@gmail.com</a></p>
-  </div>
-
-  <p style="margin-top: 3rem; font-size: 0.9rem; color: #666;">
-    Note: We only accept sponsorships from companies or creators whose values align with our mission of spin-free, truth-based content. No political advertising will be accepted.
-  </p>
+  <footer>
+    © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
+  </footer>
 
 </body>
 </html>
