@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>No Spin Media Emoji Puzzles</title>
+  <script>
+    async function loadPuzzles() {
+      const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7f0etKNohW3DKXjHCjQaG0dJMrIAnBYcE2ey4a_bB-Uj20SSB6x_-kRYQZlvH4l-Lg9DiT-qfW0GE/pub?output=csv';
+
+      const response = await fetch(sheetURL);
+      const data = await response.text();
+      const rows = data.trim().split('\n').slice(1).map(r => r.split(','));
+
+      const puzzles = rows
+        .filter(row => row[6].trim().toLowerCase() === 'yes')
+        .reverse();
+
+      puzzles.forEach(puzzle => {
+        const [id, emoji, answer, category, difficulty, hint] = puzzle;
+
+        const puzzleDiv = document.createElement('div');
+        puzzleDiv.innerHTML = `
+          <h3>${emoji}</h3>
+          <p><strong>Category:</strong> ${category} | <strong>Difficulty:</strong> ${difficulty}</p>
+          <p><strong>Hint:</strong> ${hint}</p>
+          <button onclick="showAnswer('answer-${id}')">Show Answer</button>
+          <p id="answer-${id}" style="display:none;"><strong>Answer:</strong> ${answer}</p>
+          <hr>
+        `;
+        document.getElementById('puzzle-container').appendChild(puzzleDiv);
+      });
+    }
+
+    function showAnswer(id) {
+      document.getElementById(id).style.display = 'block';
+    }
+
+    window.onload = loadPuzzles;
+  </script>
+</head>
+<body>
+  <h1>No Spin Media Emoji Puzzles</h1>
+  <div id="puzzle-container"></div>
+</body>
+</html>
