@@ -35,7 +35,9 @@ async function loadPosts() {
 function populateFilter() {
   const types = [...new Set(allPosts.map(r => r[4].trim()))];
   const select = document.getElementById('typeFilter');
-  select.innerHTML = '<option value="all">All Types</option>'; // reset
+  // ✅ Add proper <option> markup
+  select.innerHTML = '<option value="all">All Types</option>'; 
+
   types.forEach(t => {
     const opt = document.createElement('option');
     opt.value = t;
