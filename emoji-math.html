@@ -51,10 +51,10 @@
       margin-top: 0;
     }
     h3.emoji {
-      font-size: 3.5rem; /* Large emoji equations */
+      font-size: 3.5rem;
       text-align: center;
       margin: 0.5em 0;
-      white-space: pre-line; /* preserve line breaks for multi-line equations */
+      white-space: pre-line;
     }
     .puzzle-card {
       border: 1px solid #ccc;
@@ -75,7 +75,7 @@
       overflow: hidden;
       opacity: 0;
       transition: all 0.4s ease;
-      white-space: pre-line; /* preserve line breaks in answer */
+      white-space: pre-line;
     }
     .answer.show {
       max-height: 500px;
@@ -95,7 +95,7 @@
   </style>
   <script>
     async function loadPuzzles() {
-      const sheetURL = 'YOUR_CSV_LINK_HERE'; // Replace with published CSV link for Emoji Math
+      const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSoyPjj_QxgVJ-l8BAetRaMyY-Lg_YjyGHfX98XqacaOkdDj553orqlaoPRkwicEcZjZsAL7_4w4nRS/pub?output=csv';
 
       const response = await fetch(sheetURL);
       const data = await response.text();
@@ -108,10 +108,7 @@
       puzzles.forEach(puzzle => {
         const [id, emojiPuzzle, answer] = puzzle;
 
-        // Remove "Key Below" and any trailing taglines from the emojiPuzzle text
         const cleanPuzzle = emojiPuzzle.replace(/Key Below.*/i, '').trim();
-
-        // Clean answer to remove Powered by text if present
         const cleanAnswer = answer.replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
 
         const puzzleDiv = document.createElement('div');
