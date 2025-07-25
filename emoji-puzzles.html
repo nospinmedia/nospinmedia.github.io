@@ -3,6 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <title>No Spin Media Emoji Puzzles</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: auto;
+    }
+    h3.emoji {
+      font-size: 3rem; /* makes the emojis much larger */
+      text-align: center;
+      margin: 0.5em 0;
+    }
+    .puzzle-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 15px 0;
+      background: #f9f9f9;
+    }
+    button {
+      margin-top: 8px;
+      padding: 5px 10px;
+      font-size: 1em;
+    }
+  </style>
   <script>
     async function loadPuzzles() {
       const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQDM6kEONOWJyxyBsFMHPE1goO88H5HVvkDvRPiI14YXd11wEEaoVOCMCSAGdy5w0HHqpsR1Mcf5rpm/pub?output=csv';
@@ -19,13 +43,13 @@
         const [id, emoji, answer, category, difficulty, hint] = puzzle;
 
         const puzzleDiv = document.createElement('div');
+        puzzleDiv.className = "puzzle-card";
         puzzleDiv.innerHTML = `
-          <h3>${emoji}</h3>
+          <h3 class="emoji">${emoji}</h3>
           <p><strong>Category:</strong> ${category} | <strong>Difficulty:</strong> ${difficulty}</p>
           <p><strong>Hint:</strong> ${hint}</p>
           <button onclick="showAnswer('answer-${id}')">Show Answer</button>
           <p id="answer-${id}" style="display:none;"><strong>Answer:</strong> ${answer}</p>
-          <hr>
         `;
         document.getElementById('puzzle-container').appendChild(puzzleDiv);
       });
