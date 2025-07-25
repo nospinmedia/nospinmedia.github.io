@@ -13,23 +13,6 @@
       background: #f4f4f4;
       color: #222;
     }
-    header {
-      background: #111;
-      color: #fff;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    header img {
-      max-height: 60px;
-    }
-    nav a {
-      color: #fff;
-      margin-left: 20px;
-      text-decoration: none;
-      font-weight: bold;
-    }
     .container {
       display: flex;
       flex-wrap: wrap;
@@ -80,18 +63,17 @@
       }
     }
   </style>
+  <script>
+    window.onload = () => {
+      fetch('header.html')
+        .then(res => res.text())
+        .then(html => document.getElementById('site-header').innerHTML = html);
+    }
+  </script>
 </head>
 <body>
 
-  <header>
-    <img src="images/NSM-Logo-Light.png" alt="No Spin Media Logo" style="height: 48px; vertical-align: middle; margin-right: 10px;">
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="sponsor.html">Support</a>
-      <a href="ai.html">Why AI?</a>
-      <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
-    </nav>
-  </header>
+  <div id="site-header"></div>
 
   <div class="container">
     <div class="main">
