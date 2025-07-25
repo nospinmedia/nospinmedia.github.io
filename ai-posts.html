@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>No Spin Media AI Posts</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; color: #222; }
+    header { background: #111; color: #fff; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+    header img { max-height: 60px; }
+    nav a { color: #fff; margin-left: 20px; text-decoration: none; font-weight: bold; }
+    .container { max-width: 900px; margin: 2rem auto; padding: 1rem; }
+    .post-card { background: #fff; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .post-header { display: flex; justify-content: space-between; align-items: center; }
+    .post-date { font-size: 0.9rem; color: #666; }
+    .comment { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; margin-top: 0.5rem; }
+    .comment.show { max-height: 800px; opacity: 1; }
+    button.toggle { margin-top: 0.5rem; padding: 5px 10px; font-size: 0.9rem; cursor: pointer; }
+  </style>
+  <script>
+    async function loadPosts() {
+      const sheetURL = '<<YOUR GOOGLE SHEETS CSV LINK>>';
+      const response = await fetch(sheetURL);
+      const text = await response.text();
+
+      // CSV parser safe for commas and quotes
+      const rows = [];
+      let current = '', insideQuotes = false, row = [];
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        if (char === '"' && text[i+1] === '"') { current += '"'; i++; continue; }
+        if (char === '"') { insideQuotes = !insideQuotes; continue; }
+        if (char === ',' && !insideQuotes) { row.push(current); current = ''; continue; }
+        if ((char === '\n' || char === '\r') && !insideQuotes) {
+          if (current || row.length) { row.push(current); rows.push(row); row = []; current = ''; }
+          continue;
+        }
+        current += char;
+      }
+      if (current || row.length) { row.push(current); rows.push(row); }
+
+      const data = rows.slice(1); // skip header
+      const posts = data.reverse(); // newest first
+
+      posts.forEach(r => {
+        const date = r[0];
+        const post = r[1];
+        const comment = (r[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
+
+        const card = document.createElement('div');
+        card.className = 'post-card';
+        card.innerHTML = `
+          <div class="post-header">
+            <h3>${post}</h3>
+            <span class="post-date">${date}</span>
+          </div>
+          <button class="toggle" onclick="toggleComment(this)">Show Comment</button>
+          <div class="comment"><strong>Comment:</strong>\n${comment}</div>
+        `;
+        document.getElementById('posts-container').appendChild(card);
+      });
+    }
+
+    function toggleComment(btn) {
+      const commentEl = btn.nextElementSibling;
+      if (commentEl.classList.contains('show')) {
+        commentEl.classList.remove('show');
+        btn.textContent = 'Show Comment';
+      } else {
+        commentEl.classList.add('show');
+        btn.textContent = 'Hide Comment';
+      }
+    }
+
+    window.onload = () => {
+      fetch('header.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('site-header').innerHTML = html;
+          loadPosts();
+        });
+    }
+  </script>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="container">
+    <h1>AI Generated Posts</h1>
+    <div id="posts-container"></div>
+  </div>
+
+  <footer>
+    © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
+  </footer>
+
+</body>
+</html>
