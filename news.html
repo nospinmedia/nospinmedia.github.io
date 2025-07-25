@@ -15,17 +15,21 @@
     .date-header { background: #333; color: #fff; padding: 0.5rem 1rem; border-radius: 4px; font-weight: bold; font-size: 1.2rem; }
 
     .story-card { background: #fff; border-radius: 8px; padding: 1rem; margin: 0.8rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .story-card h3 { font-size: 1.3rem; margin: 0; }
+    .story-card h3 { font-size: 1.3rem; margin: 0; display: flex; justify-content: space-between; align-items: center; }
+    .share-btn { font-size: 0.8rem; background: #0077cc; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; margin-left: 10px; }
     .bias { font-size: 0.9rem; font-weight: bold; color: #666; margin-top: 0.3rem; }
 
     .summary { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; margin-top: 0.5rem; }
-    .summary.show { max-height: 1000px; opacity: 1; }
+    .summary.show { max-height: 2000px; opacity: 1; }
 
     button.toggle { margin-top: 0.6rem; padding: 6px 12px; font-size: 0.95rem; cursor: pointer; border-radius: 4px; border: 1px solid #333; background: #333; color: #fff; }
     button.toggle:hover { background: #555; }
   </style>
   <script>
     async function loadStories() {
+      const params = new URLSearchParams(window.location.search);
+      const storyId = params.get('id');
+
       const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR3XVtrcww27HY5HloDUF4DazBDoTQKQKrNZdXH5Vv6XyfwiXSX9WwWYxXSGK6PCXH-9pZSwJyQn5uT/pub?output=csv';
       const response = await fetch(sheetURL);
       const text = await response.text();
@@ -46,7 +50,13 @@
       if (current || row.length) { row.push(current); rows.push(row); }
 
       const data = rows.slice(1);
-      const stories = data.filter(r => r[6].trim().toLowerCase() === 'yes');
+      let stories = data.filter(r => r[6].trim().toLowerCase() === 'yes');
+
+      // ✅ If in share mode, filter only the matching story
+      if (storyId) {
+        stories = stories.filter(r => r[2].trim() === storyId);
+      }
+
       stories.sort((a,b) => new Date(b[0]) - new Date(a[0]));
 
       const groups = {};
@@ -65,6 +75,7 @@
         dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
 
         groups[date].forEach(r => {
+          const storyID = r[2].trim();
           const headline = r[3];
           const bias = r[4];
           const summary = (r[5] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
@@ -72,7 +83,9 @@
           const card = document.createElement('div');
           card.className = 'story-card';
           card.innerHTML = `
-            <h3>${headline}</h3>
+            <h3>${headline}
+              <button class="share-btn" onclick="shareStory('${storyID}')">Share</button>
+            </h3>
             <div class="bias">Bias: ${bias}</div>
             <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
             <div class="summary">${summary}</div>
@@ -87,9 +100,14 @@
     function toggleSummary(btn) {
       const summaryEl = btn.nextElementSibling;
       summaryEl.classList.toggle('show');
-      btn.textContent = summaryEl.classList.contains('show') 
-        ? 'Hide Story' 
-        : 'Show Story';
+      btn.textContent = summaryEl.classList.contains('show') ? 'Hide Story' : 'Show Story';
+    }
+
+    function shareStory(id) {
+      const url = `${window.location.origin}${window.location.pathname}?id=${id}`;
+      navigator.clipboard.writeText(url).then(() => {
+        alert('Story link copied to clipboard!');
+      });
     }
 
     window.onload = () => {
