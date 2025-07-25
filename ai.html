@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Why AI? | No Spin Media</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="style.css" />
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,23 +13,26 @@
       background: #f7f7f7;
       color: #222;
     }
+
+    /* ✅ Header/Nav styling */
     header {
-      background: #ffffff;
-      border-bottom: 1px solid #ddd;
-      padding: 1rem;
+      background: #111;
+      color: #fff;
+      padding: 1rem 2rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
     header img {
-      height: 40px;
+      max-height: 60px;
     }
     nav a {
-      margin-left: 1.5rem;
+      color: #fff;
+      margin-left: 20px;
       text-decoration: none;
-      color: #444;
       font-weight: bold;
     }
+
     .container {
       max-width: 800px;
       margin: 2rem auto;
@@ -41,24 +44,27 @@
     footer {
       margin-top: 3rem;
       padding: 1rem;
-      background: #eee;
+      background: #f4f4f4;
       text-align: center;
       font-size: 0.9rem;
+      color: #666;
     }
     h1 {
       margin-top: 0;
     }
   </style>
+  <script>
+    window.onload = () => {
+      fetch('header.html')
+        .then(res => res.text())
+        .then(html => document.getElementById('site-header').innerHTML = html);
+    }
+  </script>
 </head>
 <body>
-  <header>
-    <img src="images/NSM-Logo.png" alt="No Spin Media Logo" />
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="sponsor.html">Support</a>
-      <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
-    </nav>
-  </header>
+
+  <!-- ✅ Shared header -->
+  <div id="site-header"></div>
 
   <div class="container">
     <h1>Why AI? Why No Spin?</h1>
@@ -86,9 +92,10 @@
   </div>
 
   <footer>
-    — Powered by No Spin Media | 
+    © 2025 No Spin Media. Independent. Ad-free. Truth-focused. | 
     <a href="mailto:nospinmedia.ai@gmail.com">nospinmedia.ai@gmail.com</a> | 
     <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
   </footer>
+
 </body>
 </html>
