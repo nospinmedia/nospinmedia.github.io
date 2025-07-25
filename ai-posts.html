@@ -14,6 +14,7 @@
     .post-card { background: #fff; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     .post-header { display: flex; justify-content: space-between; align-items: center; }
     .post-date { font-size: 0.9rem; color: #666; }
+    .post-type { font-size: 0.85rem; color: #888; margin-top: 0.2rem; }
     .comment { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; margin-top: 0.5rem; }
     .comment.show { max-height: 800px; opacity: 1; }
     button.toggle { margin-top: 0.5rem; padding: 5px 10px; font-size: 0.9rem; cursor: pointer; }
@@ -41,12 +42,15 @@
       if (current || row.length) { row.push(current); rows.push(row); }
 
       const data = rows.slice(1); // skip header
-      const posts = data.reverse(); // newest first
+
+      // ✅ Filter out empty rows (must have Date and Post content)
+      const posts = data.filter(r => r[0].trim() && r[1].trim()).reverse();
 
       posts.forEach(r => {
         const date = r[0];
         const post = r[1];
         const comment = (r[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
+        const type = r[4] || '';
 
         const card = document.createElement('div');
         card.className = 'post-card';
@@ -55,6 +59,7 @@
             <h3>${post}</h3>
             <span class="post-date">${date}</span>
           </div>
+          ${type ? `<div class="post-type">Type: ${type}</div>` : ''}
           <button class="toggle" onclick="toggleComment(this)">Show Comment</button>
           <div class="comment"><strong>Comment:</strong>\n${comment}</div>
         `;
