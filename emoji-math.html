@@ -93,73 +93,62 @@
       white-space: pre;
     }
   </style>
-  <script>
-    async function loadPuzzles() {
-      const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSoyPjj_QxgVJ-l8BAetRaMyY-Lg_YjyGHfX98XqacaOkdDj553orqlaoPRkwicEcZjZsAL7_4w4nRS/pub?output=csv';
-      const response = await fetch(sheetURL);
-      const text = await response.text();
+ <script>
+  async function loadPuzzles() {
+    const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSoyPjj_QxgVJ-l8BAetRaMyY-Lg_YjyGHfX98XqacaOkdDj553orqlaoPRkwicEcZjZsAL7_4w4nRS/pub?output=csv';
+    const response = await fetch(sheetURL);
+    const text = await response.text();
 
-      // Debug: show raw CSV
-      document.getElementById('debug').textContent = text;
-
-      // Simple CSV split respecting quotes
-      const rows = [];
-      let current = '', insideQuotes = false, row = [];
-      for (let i = 0; i < text.length; i++) {
-        const char = text[i];
-        if (char === '"' && text[i+1] === '"') { current += '"'; i++; continue; }
-        if (char === '"') { insideQuotes = !insideQuotes; continue; }
-        if (char === ',' && !insideQuotes) { row.push(current); current = ''; continue; }
-        if ((char === '\n' || char === '\r') && !insideQuotes) {
-          if (current || row.length) { row.push(current); rows.push(row); row = []; current = ''; }
-          continue;
-        }
-        current += char;
+    // Safe CSV parser
+    const rows = [];
+    let current = '', insideQuotes = false, row = [];
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+      if (char === '"' && text[i+1] === '"') { current += '"'; i++; continue; }
+      if (char === '"') { insideQuotes = !insideQuotes; continue; }
+      if (char === ',' && !insideQuotes) { row.push(current); current = ''; continue; }
+      if ((char === '\n' || char === '\r') && !insideQuotes) {
+        if (current || row.length) { row.push(current); rows.push(row); row = []; current = ''; }
+        continue;
       }
-      if (current || row.length) { row.push(current); rows.push(row); }
-
-      console.log('Parsed Rows:', rows);
-
-      // Remove header row
-      const data = rows.slice(1);
-
-      // Debug: show first Used column value
-      if (data[0]) {
-        console.log('First row Used value:', data[0][6]);
-        alert('First row Used value: ' + data[0][6]);
-      }
-
-      // Filter rows with "Yes" in Used (column F = index 5)
-      const puzzles = data.filter(r => (r[5] || '').toLowerCase().includes('yes')).reverse();
-
-      puzzles.forEach(p => {
-        const emojiPuzzle = (p[0] || '').replace(/Key Below.*/i, '').trim();
-        const answer = (p[1] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
-
-        const card = document.createElement('div');
-        card.className = 'puzzle-card';
-        card.innerHTML = `
-          <h3 class="emoji">${emojiPuzzle}</h3>
-          <button onclick="toggleAnswer(this)">Show Answer</button>
-          <p class="answer"><strong>Answer:</strong>\n${answer}</p>
-        `;
-        document.getElementById('puzzle-container').appendChild(card);
-      });
+      current += char;
     }
+    if (current || row.length) { row.push(current); rows.push(row); }
 
-    function toggleAnswer(btn) {
-      const answerEl = btn.nextElementSibling;
-      if (answerEl.classList.contains('show')) {
-        answerEl.classList.remove('show');
-        btn.textContent = 'Show Answer';
-      } else {
-        answerEl.classList.add('show');
-        btn.textContent = 'Hide Answer';
-      }
+    const data = rows.slice(1); // skip header
+
+    // ✅ Use index 6 for Used column
+    const puzzles = data.filter(r => (r[6] || '').toLowerCase().includes('yes')).reverse();
+
+    puzzles.forEach(p => {
+      const emojiPuzzle = (p[0] || '').replace(/Key Below.*/i, '').trim();
+      const answer = (p[1] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
+
+      const card = document.createElement('div');
+      card.className = 'puzzle-card';
+      card.innerHTML = `
+        <h3 class="emoji">${emojiPuzzle}</h3>
+        <button onclick="toggleAnswer(this)">Show Answer</button>
+        <p class="answer"><strong>Answer:</strong>\n${answer}</p>
+      `;
+      document.getElementById('puzzle-container').appendChild(card);
+    });
+  }
+
+  function toggleAnswer(btn) {
+    const answerEl = btn.nextElementSibling;
+    if (answerEl.classList.contains('show')) {
+      answerEl.classList.remove('show');
+      btn.textContent = 'Show Answer';
+    } else {
+      answerEl.classList.add('show');
+      btn.textContent = 'Hide Answer';
     }
+  }
 
-    window.onload = loadPuzzles;
-  </script>
+  window.onload = loadPuzzles;
+</script>
+
 </head>
 <body>
 
