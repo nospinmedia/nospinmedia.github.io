@@ -20,23 +20,24 @@
     .post-card { background: #fff; border-radius: 8px; padding: 1rem; margin: 0.8rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     .post-header { display: flex; justify-content: space-between; align-items: center; }
     .post-header h3 { font-size: 1.3rem; margin: 0; flex: 1; }
-    .share-btn {
-      margin-left: 10px; padding: 4px 10px; font-size: 0.8rem;
-      background: #0066cc; border: none; border-radius: 4px; color: #fff; cursor: pointer;
-    }
-    .share-btn:hover { background: #004c99; }
-
     .post-type { font-size: 1rem; font-weight: bold; color: #555; margin-top: 0.4rem; }
 
     .comment { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; margin-top: 0.5rem; }
     .comment.show { max-height: 1000px; opacity: 1; }
 
-    button.toggle { margin-top: 0.6rem; padding: 6px 12px; font-size: 0.95rem; cursor: pointer; border-radius: 4px; border: 1px solid #333; background: #333; color: #fff; }
+    button.toggle, button.share-btn {
+      margin-top: 0.6rem; padding: 6px 12px; font-size: 0.9rem; cursor: pointer;
+      border-radius: 4px; border: 1px solid #333; background: #333; color: #fff;
+    }
     button.toggle:hover { background: #555; }
+    button.share-btn {
+      margin-left: 10px; font-size: 0.8rem; background: #0066cc; border-color: #0066cc;
+    }
+    button.share-btn:hover { background: #004c99; }
   </style>
   <script>
     let allPosts = [];
-    let shareId = null;
+    let postId = null;
 
     function getQueryParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
@@ -44,8 +45,7 @@
     }
 
     async function loadPosts() {
-      shareId = getQueryParam('id');
-
+      postId = getQueryParam('id');
       const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6MD-jJVdU22fsfcC1zu16HdCSeANVZS-Sjxf76iUcu7yCSax43w4UyDfVnQv750z_uSpjA-_pXVB_/pub?output=csv';
       const response = await fetch(sheetURL);
       const text = await response.text();
@@ -68,7 +68,13 @@
       const data = rows.slice(1);
       allPosts = data.filter(r => r[0].trim() && r[1].trim());
 
-      allPosts.forEach(r => { if (!r[4] || !r[4].trim()) r[4] = 'Story'; });
+      if (postId) {
+        allPosts = allPosts.filter(r => r[3].trim() === postId);
+      }
+
+      allPosts.forEach(r => {
+        if (!r[4] || !r[4].trim()) r[4] = 'Story';
+      });
 
       allPosts.sort((a,b) => new Date(b[0]) - new Date(a[0]));
       renderPosts();
@@ -82,8 +88,7 @@
       const groups = {};
       allPosts.forEach(r => {
         if (filterType !== 'all' && r[4].trim() !== filterType) return;
-        if (shareId && r[2] !== shareId) return; // only show matching post in share mode if ID exists
-        const date = r[0].trim();
+        const date = r[0];
         if (!groups[date]) groups[date] = [];
         groups[date].push(r);
       });
@@ -91,15 +96,14 @@
       for (const date in groups) {
         const dateGroup = document.createElement('div');
         dateGroup.className = 'date-group';
-
-        const formattedDate = date; // ✅ raw date string, no UTC shift
+        const dateObj = new Date(date);
+        const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
-
         groups[date].forEach(r => {
           const post = r[1];
           const comment = (r[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
           const type = r[4] || 'Story';
-          const id = r[5] || ''; // use column F for unique ID
+          const id = r[3] ? r[3].trim() : '';
 
           const card = document.createElement('div');
           card.className = 'post-card';
@@ -113,11 +117,11 @@
             <div class="comment"><strong>${type}:</strong>\n${comment}</div>
           `;
 
-          if (shareId && id === shareId) {
-            const summaryEl = card.querySelector('.comment');
-            summaryEl.classList.add('show');
+          if (postId && id === postId) {
+            const commentEl = card.querySelector('.comment');
+            commentEl.classList.add('show');
             const toggleBtn = card.querySelector('.toggle');
-            toggleBtn.textContent = `Hide ${type}`;
+            toggleBtn.textContent = toggleBtn.textContent.replace('Show', 'Hide');
           }
 
           dateGroup.appendChild(card);
