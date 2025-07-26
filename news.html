@@ -67,7 +67,7 @@
         stories = stories.filter(r => r[2].trim() === storyId);
       }
 
-      // ✅ Add today's date if only time is present
+      // ✅ Patch time-only rows to today's date
       const today = new Date();
       const yyyy = today.getFullYear();
       const mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -80,24 +80,27 @@
         }
       });
 
-      stories.sort((a,b) => new Date(b[0]) - new Date(a[0]));
-
+      // ✅ Group only by date part (YYYY-MM-DD)
       const groups = {};
       stories.forEach(r => {
-        const date = r[0];
-        if (!groups[date]) groups[date] = [];
-        groups[date].push(r);
+        const fullDate = new Date(r[0]);
+        const dateKey = `${fullDate.getFullYear()}-${String(fullDate.getMonth()+1).padStart(2,'0')}-${String(fullDate.getDate()).padStart(2,'0')}`;
+        if (!groups[dateKey]) groups[dateKey] = [];
+        groups[dateKey].push(r);
       });
 
+      const sortedKeys = Object.keys(groups).sort((a,b) => new Date(b) - new Date(a));
+
       const container = document.getElementById('stories-container');
-      for (const date in groups) {
+      sortedKeys.forEach(dateKey => {
+        const dateObj = new Date(dateKey);
+        const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
         const dateGroup = document.createElement('div');
         dateGroup.className = 'date-group';
-        const dateObj = new Date(date);
-        const formattedDate = isNaN(dateObj) ? date : dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
 
-        groups[date].forEach(r => {
+        groups[dateKey].forEach(r => {
           const storyID = r[2].trim();
           const headline = r[3];
           const bias = r[4];
@@ -126,7 +129,7 @@
         });
 
         container.appendChild(dateGroup);
-      }
+      });
     }
 
     function toggleSummary(btn) {
