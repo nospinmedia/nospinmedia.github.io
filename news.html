@@ -67,6 +67,19 @@
         stories = stories.filter(r => r[2].trim() === storyId);
       }
 
+      // ✅ Add today's date if only time is present
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      const todayPrefix = `${yyyy}-${mm}-${dd}`;
+
+      stories.forEach(r => {
+        if (/am|pm/i.test(r[0]) && !/\d{4}-\d{2}-\d{2}/.test(r[0])) {
+          r[0] = `${todayPrefix} ${r[0]}`;
+        }
+      });
+
       stories.sort((a,b) => new Date(b[0]) - new Date(a[0]));
 
       const groups = {};
@@ -88,7 +101,7 @@
           const storyID = r[2].trim();
           const headline = r[3];
           const bias = r[4];
-          const summary = (r[5] || '').replace(/— Powered by No Spin Media[\\s\\S]*/i, '').trim();
+          const summary = (r[5] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
 
           const card = document.createElement('div');
           card.className = 'story-card';
