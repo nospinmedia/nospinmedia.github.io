@@ -37,10 +37,13 @@
       return urlParams.get(param);
     }
 
-    function parseLocalDate(dateStr) {
-      if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return null;
-      const [y, m, d] = dateStr.split('-');
-      return new Date(Number(y), Number(m)-1, Number(d)); // ✅ no timezone shift
+    function formatDateLabel(dateStr) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr || 'Undated';
+      const [y,m,d] = dateStr.split('-');
+      const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+      const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      const fakeDate = new Date(Number(y), Number(m)-1, Number(d)); // local date, no UTC shift
+      return `${weekdays[fakeDate.getDay()]}, ${months[Number(m)-1]} ${Number(d)}, ${y}`;
     }
 
     async function loadStories() {
@@ -50,6 +53,7 @@
       const response = await fetch(sheetURL);
       const text = await response.text();
 
+      // CSV parser
       const rows = [];
       let current = '', insideQuotes = false, row = [];
       for (let i = 0; i < text.length; i++) {
@@ -66,26 +70,28 @@
       if (current || row.length) { row.push(current); rows.push(row); }
 
       const data = rows.slice(1);
-      let stories = data.filter(r => r[6] && r[6].trim().toLowerCase() === 'yes'); // ✅ only Yes
 
-      // ✅ Filter single story if share mode
+      // ✅ Only include rows marked Yes in column G
+      let stories = data.filter(r => r[6] && r[6].trim().toLowerCase() === 'yes');
+
+      // ✅ Filter for share mode
       if (storyId) {
-        stories = stories.filter(r => r[2].trim() === storyId);
+        stories = stories.filter(r => (r[2] || '').trim() === storyId);
       }
 
-      // ✅ Sort manually using parsed local dates
+      // ✅ Sort using raw text YYYY-MM-DD to avoid UTC offset
       stories.sort((a,b) => {
-        const da = parseLocalDate(a[0]);
-        const db = parseLocalDate(b[0]);
-        if (!da && !db) return 0;
-        if (!da) return 1;
-        if (!db) return -1;
-        return db - da;
+        const da = (a[0] || '').trim();
+        const db = (b[0] || '').trim();
+        if (da < db) return 1;
+        if (da > db) return -1;
+        return 0;
       });
 
+      // ✅ Group by raw text date
       const groups = {};
       stories.forEach(r => {
-        const date = r[0] || 'Undated';
+        const date = (r[0] || 'Undated').trim();
         if (!groups[date]) groups[date] = [];
         groups[date].push(r);
       });
@@ -94,14 +100,11 @@
       for (const date in groups) {
         const dateGroup = document.createElement('div');
         dateGroup.className = 'date-group';
-        const dateObj = parseLocalDate(date);
-        const formattedDate = dateObj 
-          ? dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
-          : date;
+        const formattedDate = formatDateLabel(date);
         dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
 
         groups[date].forEach(r => {
-          const storyID = r[2].trim();
+          const storyID = (r[2] || '').trim();
           const headline = r[3];
           const bias = r[4];
           const summary = (r[5] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
@@ -117,7 +120,7 @@
             <div class="summary">${summary}</div>
           `;
 
-          // ✅ Auto-open in share mode
+          // ✅ Auto-open summary if in share mode
           if (storyId && storyID === storyId) {
             const summaryEl = card.querySelector('.summary');
             summaryEl.classList.add('show');
