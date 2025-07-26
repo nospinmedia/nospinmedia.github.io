@@ -44,6 +44,11 @@
       return urlParams.get(param);
     }
 
+    function parseDateSafe(dateStr) {
+      const parts = dateStr.split('-');
+      return new Date(parts[0], parts[1]-1, parts[2]);
+    }
+
     async function loadPosts() {
       postId = getQueryParam('id');
       const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6MD-jJVdU22fsfcC1zu16HdCSeANVZS-Sjxf76iUcu7yCSax43w4UyDfVnQv750z_uSpjA-_pXVB_/pub?output=csv';
@@ -76,7 +81,7 @@
         if (!r[4] || !r[4].trim()) r[4] = 'Story';
       });
 
-      allPosts.sort((a,b) => new Date(b[0]) - new Date(a[0]));
+      allPosts.sort((a,b) => parseDateSafe(b[0]) - parseDateSafe(a[0]));
       renderPosts();
       populateFilter();
     }
@@ -96,7 +101,7 @@
       for (const date in groups) {
         const dateGroup = document.createElement('div');
         dateGroup.className = 'date-group';
-        const dateObj = new Date(date);
+        const dateObj = parseDateSafe(date);
         const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
         groups[date].forEach(r => {
