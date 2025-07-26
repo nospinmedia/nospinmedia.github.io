@@ -18,7 +18,14 @@
     .date-header { background: #333; color: #fff; padding: 0.5rem 1rem; border-radius: 4px; font-weight: bold; font-size: 1.2rem; }
 
     .post-card { background: #fff; border-radius: 8px; padding: 1rem; margin: 0.8rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .post-header h3 { font-size: 1.3rem; margin: 0; }
+    .post-header { display: flex; justify-content: space-between; align-items: center; }
+    .post-header h3 { font-size: 1.3rem; margin: 0; flex: 1; }
+    .share-btn {
+      margin-left: 10px; padding: 4px 10px; font-size: 0.8rem;
+      background: #0066cc; border: none; border-radius: 4px; color: #fff; cursor: pointer;
+    }
+    .share-btn:hover { background: #004c99; }
+
     .post-type { font-size: 1rem; font-weight: bold; color: #555; margin-top: 0.4rem; }
 
     .comment { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; margin-top: 0.5rem; }
@@ -29,8 +36,16 @@
   </style>
   <script>
     let allPosts = [];
+    let shareId = null;
+
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
 
     async function loadPosts() {
+      shareId = getQueryParam('id');
+
       const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6MD-jJVdU22fsfcC1zu16HdCSeANVZS-Sjxf76iUcu7yCSax43w4UyDfVnQv750z_uSpjA-_pXVB_/pub?output=csv';
       const response = await fetch(sheetURL);
       const text = await response.text();
@@ -53,10 +68,7 @@
       const data = rows.slice(1);
       allPosts = data.filter(r => r[0].trim() && r[1].trim());
 
-      // Default Type = Story
-      allPosts.forEach(r => {
-        if (!r[4] || !r[4].trim()) r[4] = 'Story';
-      });
+      allPosts.forEach(r => { if (!r[4] || !r[4].trim()) r[4] = 'Story'; });
 
       allPosts.sort((a,b) => new Date(b[0]) - new Date(a[0]));
       renderPosts();
@@ -70,7 +82,8 @@
       const groups = {};
       allPosts.forEach(r => {
         if (filterType !== 'all' && r[4].trim() !== filterType) return;
-        const date = r[0];
+        if (shareId && r[2] !== shareId) return; // only show matching post in share mode if ID exists
+        const date = r[0].trim();
         if (!groups[date]) groups[date] = [];
         groups[date].push(r);
       });
@@ -78,22 +91,35 @@
       for (const date in groups) {
         const dateGroup = document.createElement('div');
         dateGroup.className = 'date-group';
-        const dateObj = new Date(date);
-        const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+        const formattedDate = date; // ✅ raw date string, no UTC shift
         dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
+
         groups[date].forEach(r => {
           const post = r[1];
           const comment = (r[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
           const type = r[4] || 'Story';
+          const id = r[5] || ''; // use column F for unique ID
 
           const card = document.createElement('div');
           card.className = 'post-card';
           card.innerHTML = `
-            <div class="post-header"><h3>${post}</h3></div>
+            <div class="post-header">
+              <h3>${post}</h3>
+              <button class="share-btn" onclick="sharePost('${id}')">Share</button>
+            </div>
             <div class="post-type">Type: ${type}</div>
             <button class="toggle" onclick="toggleComment(this)">Show ${type}</button>
             <div class="comment"><strong>${type}:</strong>\n${comment}</div>
           `;
+
+          if (shareId && id === shareId) {
+            const summaryEl = card.querySelector('.comment');
+            summaryEl.classList.add('show');
+            const toggleBtn = card.querySelector('.toggle');
+            toggleBtn.textContent = `Hide ${type}`;
+          }
+
           dateGroup.appendChild(card);
         });
         container.appendChild(dateGroup);
@@ -103,7 +129,7 @@
     function populateFilter() {
       const types = [...new Set(allPosts.map(r => r[4].trim()))];
       const select = document.getElementById('typeFilter');
-      select.innerHTML = '<option value="all">All Types</option>'; // ✅ Proper <option>
+      select.innerHTML = '<option value="all">All Types</option>';
       types.forEach(t => {
         const opt = document.createElement('option');
         opt.value = t;
@@ -118,6 +144,13 @@
       btn.textContent = commentEl.classList.contains('show') 
         ? btn.textContent.replace('Show', 'Hide') 
         : btn.textContent.replace('Hide', 'Show');
+    }
+
+    function sharePost(id) {
+      const url = `${window.location.origin}${window.location.pathname}?id=${id}`;
+      navigator.clipboard.writeText(url).then(() => {
+        alert('Share link copied to clipboard!');
+      });
     }
 
     window.onload = () => {
