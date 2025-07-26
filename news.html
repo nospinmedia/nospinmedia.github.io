@@ -37,6 +37,12 @@
       return urlParams.get(param);
     }
 
+    function parseLocalDate(dateStr) {
+      if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return null;
+      const [y, m, d] = dateStr.split('-');
+      return new Date(Number(y), Number(m)-1, Number(d)); // ✅ no timezone shift
+    }
+
     async function loadStories() {
       storyId = getQueryParam('id');
 
@@ -60,37 +66,38 @@
       if (current || row.length) { row.push(current); rows.push(row); }
 
       const data = rows.slice(1);
+      let stories = data.filter(r => r[6] && r[6].trim().toLowerCase() === 'yes'); // ✅ only Yes
 
-      // ✅ Filter only "Yes" and valid dates
-      let stories = data.filter(r => {
-        const used = (r[6] || '').trim().toLowerCase();
-        const date = r[0].trim();
-        return used === 'yes' && date && !isNaN(new Date(date));
-      });
-
-      // ✅ Share mode (filter one ID)
+      // ✅ Filter single story if share mode
       if (storyId) {
         stories = stories.filter(r => r[2].trim() === storyId);
       }
 
-      // ✅ Sort newest first
-      stories.sort((a,b) => new Date(b[0]) - new Date(a[0]));
+      // ✅ Sort manually using parsed local dates
+      stories.sort((a,b) => {
+        const da = parseLocalDate(a[0]);
+        const db = parseLocalDate(b[0]);
+        if (!da && !db) return 0;
+        if (!da) return 1;
+        if (!db) return -1;
+        return db - da;
+      });
 
       const groups = {};
       stories.forEach(r => {
-        const date = r[0];
+        const date = r[0] || 'Undated';
         if (!groups[date]) groups[date] = [];
         groups[date].push(r);
       });
 
       const container = document.getElementById('stories-container');
-      container.innerHTML = '';
-
       for (const date in groups) {
         const dateGroup = document.createElement('div');
         dateGroup.className = 'date-group';
-        const dateObj = new Date(date);
-        const formattedDate = isNaN(dateObj) ? date : dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const dateObj = parseLocalDate(date);
+        const formattedDate = dateObj 
+          ? dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+          : date;
         dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
 
         groups[date].forEach(r => {
@@ -110,6 +117,7 @@
             <div class="summary">${summary}</div>
           `;
 
+          // ✅ Auto-open in share mode
           if (storyId && storyID === storyId) {
             const summaryEl = card.querySelector('.summary');
             summaryEl.classList.add('show');
