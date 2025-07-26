@@ -16,7 +16,6 @@
 
     .story-card { background: #fff; border-radius: 8px; padding: 1rem; margin: 0.8rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     .story-card h3 { font-size: 1.3rem; margin: 0; display: flex; justify-content: space-between; align-items: center; }
-    .story-time { font-size: 0.85rem; color: #777; margin-top: 4px; }
     .bias { font-size: 0.9rem; font-weight: bold; color: #666; margin-top: 0.3rem; }
 
     .summary { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; margin-top: 0.5rem; }
@@ -36,10 +35,6 @@
     function getQueryParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(param);
-    }
-
-    function isTimeOnly(value) {
-      return /am|pm/i.test(value) && !/\d{4}-\d{2}-\d{2}/.test(value);
     }
 
     async function loadStories() {
@@ -65,55 +60,44 @@
       if (current || row.length) { row.push(current); rows.push(row); }
 
       const data = rows.slice(1);
-      let stories = data.filter(r => r[6] && r[6].trim().toLowerCase() === 'yes');
 
-      // ✅ Patch time-only rows
-      const today = new Date();
-      const yyyy = today.getFullYear();
-      const mm = String(today.getMonth() + 1).padStart(2, '0');
-      const dd = String(today.getDate()).padStart(2, '0');
-      const todayPrefix = `${yyyy}-${mm}-${dd}`;
-
-      stories.forEach(r => {
-        if (isTimeOnly(r[0])) {
-          r[0] = `${todayPrefix} ${r[0]}`;
-        }
+      // ✅ Filter only "Yes" and valid dates
+      let stories = data.filter(r => {
+        const used = (r[6] || '').trim().toLowerCase();
+        const date = r[0].trim();
+        return used === 'yes' && date && !isNaN(new Date(date));
       });
 
-      // ✅ Filter to one story if share mode
+      // ✅ Share mode (filter one ID)
       if (storyId) {
         stories = stories.filter(r => r[2].trim() === storyId);
       }
 
-      // ✅ Group by date only
+      // ✅ Sort newest first
+      stories.sort((a,b) => new Date(b[0]) - new Date(a[0]));
+
       const groups = {};
       stories.forEach(r => {
-        const dateObj = new Date(r[0]);
-        if (isNaN(dateObj)) return;
-
-        const dateKey = `${dateObj.getFullYear()}-${String(dateObj.getMonth()+1).padStart(2,'0')}-${String(dateObj.getDate()).padStart(2,'0')}`;
-        if (!groups[dateKey]) groups[dateKey] = [];
-        groups[dateKey].push({ row: r, time: r[0].split(' ')[1] || '' });
+        const date = r[0];
+        if (!groups[date]) groups[date] = [];
+        groups[date].push(r);
       });
 
-      const sortedKeys = Object.keys(groups).sort((a,b) => new Date(b) - new Date(a));
-
       const container = document.getElementById('stories-container');
-      sortedKeys.forEach(dateKey => {
-        const dateObj = new Date(dateKey);
-        const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      container.innerHTML = '';
 
+      for (const date in groups) {
         const dateGroup = document.createElement('div');
         dateGroup.className = 'date-group';
+        const dateObj = new Date(date);
+        const formattedDate = isNaN(dateObj) ? date : dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
 
-        groups[dateKey].forEach(obj => {
-          const r = obj.row;
+        groups[date].forEach(r => {
           const storyID = r[2].trim();
           const headline = r[3];
           const bias = r[4];
           const summary = (r[5] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
-          const timeDisplay = obj.time ? `<div class="story-time">🕒 ${obj.time}</div>` : '';
 
           const card = document.createElement('div');
           card.className = 'story-card';
@@ -121,13 +105,11 @@
             <h3>${headline}
               <button class="share-btn" onclick="shareStory('${storyID}')">Share</button>
             </h3>
-            ${timeDisplay}
             <div class="bias">Bias: ${bias}</div>
             <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
             <div class="summary">${summary}</div>
           `;
 
-          // ✅ Auto-open in share mode
           if (storyId && storyID === storyId) {
             const summaryEl = card.querySelector('.summary');
             summaryEl.classList.add('show');
@@ -139,7 +121,7 @@
         });
 
         container.appendChild(dateGroup);
-      });
+      }
     }
 
     function toggleSummary(btn) {
