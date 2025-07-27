@@ -100,7 +100,7 @@
 
     .game-controls button,
     .game-controls select {
-      padding: 8px 10px; /* Reduced padding to make buttons less tall */
+      padding: 5px 8px; /* Further reduced padding to make buttons less tall */
       margin: 0; /* Remove individual margins as gap handles spacing */
       background: #60A3D9;
       color: #000;
@@ -108,7 +108,7 @@
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
-      font-size: 0.9em; /* Slightly smaller font for buttons */
+      font-size: 0.8em; /* Slightly smaller font for buttons */
       box-shadow: 0 0 10px rgba(96, 163, 217, 0.5);
       transition: all 0.2s ease-in-out;
       flex-grow: 1; /* Allow items to grow */
@@ -149,7 +149,7 @@
         border: 1px solid #60A3D9;
         background-color: #2E4057;
         color: #fff;
-        font-size: 0.9em; /* Match button font size */
+        font-size: 0.8em; /* Match button font size */
         outline: none;
     }
 
@@ -318,13 +318,13 @@
     }
 
     #number-pad button {
-      padding: 15px;
+      padding: 10px; /* Reduced padding for number buttons */
       background: #60A3D9;
       color: #000;
       border: none;
       border-radius: 8px;
       font-weight: bold;
-      font-size: 1em; /* Adjusted font size for desktop */
+      font-size: 0.9em; /* Adjusted font size for desktop */
       cursor: pointer;
       box-shadow: 0 0 8px rgba(96, 163, 217, 0.5);
       transition: all 0.2s ease-in-out;
@@ -352,7 +352,7 @@
     #number-pad button.clear-button,
     #number-pad button.pencil-mode-button {
       flex: 1 1 calc(50% - 5px); /* Each takes half the space minus gap */
-      padding: 10px 15px; /* Reduced padding to make buttons less tall */
+      padding: 8px 10px; /* Reduced padding to make buttons less tall */
       background: #FF6347;
       color: #fff;
     }
@@ -434,7 +434,7 @@
       }
       #number-pad button {
         font-size: 3.5vw; /* Responsive font size for buttons */
-        padding: 2vw; /* Responsive padding */
+        padding: 1.5vw; /* Responsive padding */
       }
       #number-pad .bottom-row-buttons {
           grid-column: span 3; /* On mobile, the container spans 3 columns */
@@ -445,19 +445,19 @@
       #number-pad button.pencil-mode-button {
         flex: 1 1 auto; /* Allow them to size automatically within the flex container */
         font-size: 3.5vw; /* Match other buttons */
-        padding: 2vw; /* Match other buttons */
+        padding: 1.5vw; /* Match other buttons */
       }
       .game-controls {
         margin-bottom: 2vw; /* Responsive margin on mobile */
         gap: 1.5vw; /* Responsive gap */
       }
       .game-controls button {
-        font-size: 3vw; /* Responsive font size */
-        padding: 1.2vw 2.5vw; /* Responsive padding */
+        font-size: 2.8vw; /* Responsive font size */
+        padding: 1vw 2vw; /* Responsive padding */
       }
       .game-controls select {
-        font-size: 3vw; /* Responsive font size */
-        padding: 1.2vw 2.5vw;
+        font-size: 2.8vw; /* Responsive font size */
+        padding: 1vw 2vw;
       }
       #game-header {
         font-size: 5vw; /* Responsive header font size */
@@ -501,7 +501,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Sudoku 🧩 <span id="game-version">v2.1</span></div>
+      <div id="game-header">Sudoku 🧩 <span id="game-version">v2.2</span></div>
       <div id="game-info">
         <span>Difficulty: <span id="current-difficulty">Medium</span></span>
         <span id="game-status">Ready</span>
