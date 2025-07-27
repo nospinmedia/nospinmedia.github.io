@@ -9,7 +9,7 @@
   <style>
     /* Global body styles for the game theme */
     body {
-      background: #000; /* Black background like the space game */
+      background: #222831; /* Deep charcoal for a calm background */
       color: #fff;
       margin: 0;
       font-family: 'Inter', Arial, sans-serif; /* Using Inter for a modern look */
@@ -30,11 +30,11 @@
 
     /* Game box styling (main game area) */
     #game-box {
-      border: 2px solid #0f0; /* Green border */
-      box-shadow: 0 0 20px #0f0; /* Green glow */
+      border: 2px solid #74B9FF; /* Muted blue border */
+      box-shadow: 0 0 20px #74B9FF; /* Muted blue glow */
       padding: 15px;
       border-radius: 12px; /* More rounded corners */
-      background: #000;
+      background: #222831; /* Match body background */
       position: relative;
       flex-grow: 1; /* Allows game box to take available space */
       max-width: 900px; /* Limit max width for better readability */
@@ -45,21 +45,21 @@
 
     /* Game header styling */
     #game-header {
-      color: #0f0;
+      color: #74B9FF; /* Muted blue header text */
       text-align: center;
       font-size: 2.2em; /* Slightly larger title */
       margin-bottom: 10px;
-      text-shadow: 0 0 10px #0f0;
+      text-shadow: 0 0 10px #74B9FF;
       position: relative;
       padding-bottom: 5px;
-      border-bottom: 1px solid rgba(0, 255, 0, 0.3); /* Subtle separator */
+      border-bottom: 1px solid rgba(116, 185, 255, 0.3); /* Subtle separator with new color */
     }
 
     #game-version {
       position: absolute;
       top: 5px;
       right: 15px;
-      color: #0f0;
+      color: #74B9FF;
       font-size: 0.7em; /* Smaller version text */
       opacity: 0.7;
     }
@@ -67,7 +67,7 @@
     /* Game info (score, moves, time) */
     #game-info {
       text-align: center;
-      color: #0f0;
+      color: #74B9FF; /* Muted blue info text */
       margin-bottom: 15px;
       font-weight: bold;
       font-size: 1.1em;
@@ -78,7 +78,7 @@
     }
     #game-info span {
       padding: 5px 10px;
-      background: rgba(0, 255, 0, 0.1);
+      background: rgba(116, 185, 255, 0.1); /* Subtle background with new color */
       border-radius: 5px;
     }
 
@@ -95,33 +95,33 @@
     .game-controls button {
       padding: 10px 20px;
       margin: 0 5px;
-      background: #0f0; /* Green buttons */
+      background: #60A3D9; /* Calming blue buttons */
       color: #000;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
       font-size: 1.1em;
-      box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+      box-shadow: 0 0 10px rgba(96, 163, 217, 0.5);
       transition: all 0.2s ease-in-out;
     }
 
     .game-controls button:hover {
-      background: #0aff0a;
-      box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+      background: #7ABCEF; /* Lighter blue on hover */
+      box-shadow: 0 0 15px rgba(122, 188, 239, 0.8);
       transform: translateY(-2px);
     }
 
     .game-controls button:active {
       transform: translateY(0);
-      box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+      box-shadow: 0 0 5px rgba(96, 163, 217, 0.3);
     }
 
     /* Sidebar styling (Donate section) */
     #sidebar {
-      background: #111;
-      border: 2px solid #0f0;
-      box-shadow: 0 0 15px #0f0;
+      background: #222831; /* Match body background */
+      border: 2px solid #74B9FF; /* Muted blue border */
+      box-shadow: 0 0 15px #74B9FF; /* Muted blue glow */
       padding: 20px;
       border-radius: 8px;
       max-width: 280px; /* Slightly wider sidebar */
@@ -131,13 +131,13 @@
     }
 
     #sidebar h2 {
-      color: #0f0;
+      color: #74B9FF; /* Muted blue header */
       text-align: center;
       margin-bottom: 15px;
     }
 
     #donate-button {
-      background: #ffd700; /* Gold button */
+      background: #ffd700; /* Gold button (kept for donation distinction) */
       color: #000;
       padding: 12px 25px;
       border: none;
@@ -178,8 +178,8 @@
 
     /* --- Klondike Specific Layout --- */
     #klondike-board {
-      background-color: #006400; /* Dark green felt */
-      border: 2px solid #0a0;
+      background-color: #2E4057; /* Deep, calm blue felt */
+      border: 2px solid #74B9FF; /* Muted blue border */
       border-radius: 10px;
       padding: 20px;
       display: grid;
@@ -197,7 +197,7 @@
     }
 
     .pile-container {
-      border: 1px dashed rgba(255, 255, 255, 0.3);
+      border: 1px dashed rgba(255, 255, 255, 0.4); /* Slightly more visible dashed border */
       border-radius: 8px;
       min-width: 80px; /* Standard card width */
       height: 110px; /* Standard card height */
@@ -206,7 +206,7 @@
       justify-content: center;
       align-items: center;
       font-size: 0.8em;
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255, 0.7); /* Slightly brighter text for empty piles */
       /* overflow: hidden; Removed for waste pile fix */
     }
 
@@ -242,7 +242,7 @@
     }
 
     .tableau-pile {
-      border: 1px dashed rgba(255, 255, 255, 0.3);
+      border: 1px dashed rgba(255, 255, 255, 0.4); /* Slightly more visible dashed border */
       border-radius: 8px;
       min-width: 80px;
       min-height: 110px; /* Initial height for empty pile */
@@ -309,8 +309,8 @@
 
     /* Drop target highlight */
     .pile-container.drag-over, .tableau-pile.drag-over {
-      border: 2px dashed #0f0; /* Green highlight for valid drop targets */
-      box-shadow: 0 0 15px #0f0;
+      border: 2px dashed #87CEEB !important; /* SkyBlue highlight for valid drop targets */
+      box-shadow: 0 0 15px #87CEEB !important;
     }
 
     /* Hint highlight style */
@@ -352,17 +352,17 @@
       background-color: #1a1a1a;
       margin: auto;
       padding: 30px;
-      border: 2px solid #0f0;
+      border: 2px solid #74B9FF; /* Muted blue border */
       border-radius: 12px;
       width: 80%;
       max-width: 700px;
-      box-shadow: 0 0 25px #0f0;
+      box-shadow: 0 0 25px #74B9FF;
       position: relative;
       animation: fadeIn 0.3s ease-out;
     }
 
     .modal-content h2 {
-      color: #0f0;
+      color: #74B9FF; /* Muted blue header */
       text-align: center;
       margin-bottom: 20px;
       font-size: 2em;
@@ -386,7 +386,7 @@
     }
 
     .close-button {
-      color: #0f0;
+      color: #74B9FF; /* Muted blue close button */
       position: absolute;
       top: 15px;
       right: 25px;
@@ -398,7 +398,7 @@
 
     .close-button:hover,
     .close-button:focus {
-      color: #0aff0a;
+      color: #87CEEB; /* Lighter blue on hover */
       text-decoration: none;
       cursor: pointer;
     }
@@ -473,7 +473,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Klondike Solitaire 🃏 <span id="game-version">v2.0</span></div>
+      <div id="game-header">Klondike Solitaire 🃏 <span id="game-version">v2.1</span></div>
       <div id="game-info">
         <span>Score: <span id="score">0</span></span>
         <span>Moves: <span id="moves">0</span></span>
@@ -531,7 +531,7 @@
           <div id="tableau-pile-6" class="tableau-pile" data-pile-index="6"></div>
         </div>
       </div>
-      <div id="game-message" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); padding: 20px 40px; border-radius: 10px; border: 2px solid #0f0; color: #0f0; font-size: 2em; font-weight: bold; text-shadow: 0 0 10px #0f0; display: none; z-index: 1001;"></div>
+      <div id="game-message" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); padding: 20px 40px; border-radius: 10px; border: 2px solid #74B9FF; color: #74B9FF; font-size: 2em; font-weight: bold; text-shadow: 0 0 10px #74B9FF; display: none; z-index: 1001;"></div>
     </div>
 
     <!-- Sidebar (Donate section) -->
@@ -676,10 +676,10 @@
       score = state.score;
       moves = state.moves;
       timer = state.timer;
-      stock = JSON.parse(JSON.stringify(stock));
-      waste = JSON.parse(JSON.stringify(waste));
-      foundations = JSON.parse(JSON.stringify(foundations));
-      tableau = JSON.parse(JSON.stringify(tableau));
+      stock = JSON.parse(JSON.stringify(state.stock));
+      waste = JSON.parse(JSON.stringify(state.waste));
+      foundations = JSON.parse(JSON.stringify(state.foundations));
+      tableau = JSON.parse(JSON.stringify(state.tableau));
       updateHUD();
       renderGame();
     }
