@@ -260,19 +260,21 @@
 
     /* Game message box */
     #game-message {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      /* Positioned above the board now */
+      position: relative; /* Changed from absolute to relative to flow with content */
+      margin: 10px auto; /* Center it above the board */
       background: rgba(0,0,0,0.8);
-      padding: 20px 40px;
-      border-radius: 10px;
+      padding: 10px 20px; /* Smaller padding */
+      border-radius: 8px; /* Slightly less rounded */
       border: 2px solid #74B9FF;
       color: #74B9FF;
-      font-size: 2em;
+      font-size: 1.5em; /* Smaller font size */
       font-weight: bold;
-      text-shadow: 0 0 10px #74B9FF;
+      text-shadow: 0 0 5px #74B9FF; /* Less intense shadow */
       display: none;
+      text-align: center; /* Center text within the box */
+      width: fit-content; /* Shrink to content width */
+      max-width: 80%; /* Don't get too wide on small screens */
       z-index: 1001;
     }
 
@@ -312,6 +314,10 @@
       #game-info span {
         font-size: 0.9em;
       }
+      #game-message {
+        font-size: 1.2em; /* Smaller on mobile */
+        padding: 8px 15px;
+      }
     }
   </style>
 </head>
@@ -328,7 +334,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Chess ♟️ <span id="game-version">v1.3</span></div>
+      <div id="game-header">Chess ♟️ <span id="game-version">v1.4</span></div>
       <div id="game-info">
         <span>Current Turn: <span id="current-turn">White</span></span>
         <span>Score: <span id="score">0</span></span>
@@ -344,10 +350,12 @@
         <button id="copyBtn">📋 Copy Link</button>
       </div>
 
+      <!-- Game message box moved here, above the chess board -->
+      <div id="game-message"></div>
+
       <div id="chess-board">
         <!-- Squares and pieces will be dynamically generated here -->
       </div>
-      <div id="game-message"></div>
     </div>
 
     <!-- Sidebar (Donate section) -->
