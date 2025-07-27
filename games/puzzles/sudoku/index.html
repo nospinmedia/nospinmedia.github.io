@@ -31,12 +31,12 @@
     #game-box {
       border: 2px solid #74B9FF; /* Muted blue border */
       box-shadow: 0 0 20px #74B9FF; /* Muted blue glow */
-      padding: 15px;
+      padding: 20px; /* Increased padding */
       border-radius: 12px; /* More rounded corners */
       background: #222831; /* Match body background */
       position: relative;
       flex-grow: 1;
-      max-width: 95%; /* Adjusted to 95% */
+      max-width: 680px; /* Adjusted max-width to comfortably fit board + padding */
       width: 100%; /* Ensure it takes full width within max-width */
       min-width: 320px;
       display: flex;
@@ -147,6 +147,7 @@
       height: fit-content;
       text-align: center;
       margin-top: 15px;
+      flex-shrink: 0; /* Prevent sidebar from shrinking */
     }
 
     #sidebar h2 {
@@ -207,6 +208,7 @@
       box-shadow: 0 0 25px rgba(116, 185, 255, 0.5);
       border-radius: 8px;
       overflow: hidden;
+      flex-shrink: 0; /* Prevent board from shrinking */
     }
 
     .sudoku-cell {
@@ -271,7 +273,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      margin-top: 15px; /* Adjusted margin */
+      margin-top: auto; /* Pushes to bottom of flex container */
       padding: 10px;
       border-radius: 8px;
       background: #2E4057; /* Darker blue background */
@@ -346,7 +348,7 @@
       }
       #game-box {
         width: 100%;
-        max-width: none;
+        max-width: none; /* Allow full width on mobile */
         padding: 10px;
       }
       #sidebar {
@@ -355,15 +357,18 @@
         margin-top: 20px;
       }
       #sudoku-board {
-        width: 95vw; /* Adjusted to 95vw */
-        height: 95vw; /* Adjusted to 95vw */
+        width: 90vw; /* Adjusted to 90vw for more padding */
+        height: 90vw; /* Adjusted to 90vw for more padding */
         max-width: 630px;
         max-height: 630px;
       }
       .sudoku-cell {
-        width: calc(95vw / 9); /* Ensures 9 cells fit within 95vw board */
-        height: calc(95vw / 9);
-        font-size: 7vw; /* Adjusted font size responsively */
+        width: calc(90vw / 9); /* Ensures 9 cells fit within 90vw board */
+        height: calc(90vw / 9);
+        font-size: 6vw; /* Adjusted font size responsively */
+      }
+      #number-pad {
+        margin-top: 15px; /* Keep some margin for number pad on mobile */
       }
       #number-pad button {
         font-size: 1.2em;
@@ -403,7 +408,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.1</span></div>
+      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.2</span></div>
       <div id="game-info">
         <span>Difficulty: <span id="current-difficulty">Medium</span></span>
         <span id="game-status">Ready</span>
