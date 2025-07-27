@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Space Invaders - No Spin Media</title>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #fff;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0;
+    }
+    .main {
+      flex: 1 1 65%;
+      padding: 0;
+      background: #000;
+      text-align: center;
+    }
+    .sidebar {
+      flex: 1 1 25%;
+      background: #fff;
+      color: #222;
+      padding: 1rem;
+      border-left: 2px solid #222;
+      height: fit-content;
+    }
+    canvas {
+      background: #000;
+      display: block;
+      margin: 0 auto;
+    }
+    .game-header {
+      background: #111;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+    .game-header a {
+      color: #4da6ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .game-header a:hover {
+      text-decoration: underline;
+    }
+    .share-buttons {
+      margin: 0.5rem 0;
+    }
+    .share-buttons button {
+      padding: 0.4rem 0.8rem;
+      margin-right: 0.5rem;
+      background: #0073e6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .share-buttons button:hover {
+      background: #005bb5;
+    }
+    #modeSelect {
+      margin-top: 0.5rem;
+      padding: 0.3rem;
+      font-size: 1rem;
+    }
+    /* Touch controls */
+    #touch-controls {
+      display: none;
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+    #touch-controls button {
+      padding: 0.8rem 1.5rem;
+      margin: 0.3rem;
+      font-size: 1.1rem;
+      background: #0073e6;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+    }
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .sidebar {
+        border-left: none;
+        border-top: 2px solid #222;
+      }
+      #touch-controls {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Universal header -->
+  <div id="site-header"></div>
+
+  <!-- ✅ Game header bar -->
+  <div class="game-header">
+    <a href="../index.html">← Back to Arcade</a>
+    <span>❤️ Love this game? <a href="/sponsor.html">Help us make more</a></span>
+  </div>
+
+  <div class="container">
+    <div class="main">
+      <h1>Space Invaders 👾</h1>
+
+      <!-- ✅ Share buttons -->
+      <div class="share-buttons">
+        <button id="shareBtn">🔗 Share with Friends</button>
+        <button id="copyBtn">📋 Copy Link</button>
+      </div>
+
+      <!-- ✅ Mode selector -->
+      <label for="modeSelect">Graphics Mode:</label>
+      <select id="modeSelect">
+        <option value="retro">Retro</option>
+        <option value="enhanced">Enhanced</option>
+      </select>
+
+      <!-- ✅ Game canvas -->
+      <canvas id="gameCanvas" width="480" height="640"></canvas>
+
+      <!-- ✅ Touch controls for mobile -->
+      <div id="touch-controls">
+        <button onclick="moveLeft()">⬅️</button>
+        <button onclick="fire()">🔥 Fire</button>
+        <button onclick="moveRight()">➡️</button>
+      </div>
+    </div>
+
+    <!-- ✅ Donation sidebar -->
+    <div class="sidebar">
+      <h2>Support Us 💙</h2>
+      <p>Like what we're doing? Help keep No Spin Media running:</p>
+      <p><strong>Venmo:</strong><br/>
+        <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+      </p>
+      <h2>Follow Us</h2>
+      <p>
+        📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
+      </p>
+      <h2>Contact</h2>
+      <p>📨 nospinmedia.ai@gmail.com</p>
+    </div>
+  </div>
+
+  <footer style="background:#111;color:#666;padding:0.5rem;text-align:center;">
+    © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
+  </footer>
+
+  <!-- ✅ Game Logic -->
+  <script>
+    // Basic Space Invaders
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let ship = { x: 220, y: 600, w: 40, h: 20, speed: 5 };
+    let bullets = [];
+    let aliens = [];
+    let keys = {};
+
+    function initAliens() {
+      aliens = [];
+      for (let r = 0; r < 4; r++) {
+        for (let c = 0; c < 8; c++) {
+          aliens.push({ x: 50 + c * 50, y: 50 + r * 40, w: 30, h: 20, alive: true });
+        }
+      }
+    }
+    initAliens();
+
+    function drawShip() {
+      ctx.fillStyle = mode === 'retro' ? '#0f0' : '#0ff';
+      ctx.fillRect(ship.x, ship.y, ship.w, ship.h);
+    }
+
+    function drawAliens() {
+      ctx.fillStyle = mode === 'retro' ? '#0f0' : '#ff0';
+      aliens.forEach(a => {
+        if (a.alive) ctx.fillRect(a.x, a.y, a.w, a.h);
+      });
+    }
+
+    function drawBullets() {
+      ctx.fillStyle = '#fff';
+      bullets.forEach(b => ctx.fillRect(b.x, b.y, 4, 10));
+    }
+
+    function update() {
+      if (keys['ArrowLeft']) ship.x -= ship.speed;
+      if (keys['ArrowRight']) ship.x += ship.speed;
+      if (ship.x < 0) ship.x = 0;
+      if (ship.x + ship.w > canvas.width) ship.x = canvas.width - ship.w;
+
+      bullets.forEach(b => b.y -= 6);
+      bullets = bullets.filter(b => b.y > 0);
+
+      bullets.forEach(b => {
+        aliens.forEach(a => {
+          if (a.alive && b.x < a.x + a.w && b.x + 4 > a.x && b.y < a.y + a.h && b.y + 10 > a.y) {
+            a.alive = false;
+            b.y = -10;
+          }
+        });
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      drawShip();
+      drawAliens();
+      drawBullets();
+    }
+
+    function loop() {
+      update();
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    document.addEventListener('keydown', e => keys[e.key] = true);
+    document.addEventListener('keyup', e => {
+      keys[e.key] = false;
+      if (e.key === ' ') fire();
+    });
+
+    function fire() {
+      bullets.push({ x: ship.x + ship.w/2 - 2, y: ship.y });
+    }
+
+    function moveLeft() { ship.x -= ship.speed * 2; }
+    function moveRight() { ship.x += ship.speed * 2; }
+
+    let mode = 'retro';
+    document.getElementById('modeSelect').addEventListener('change', e => {
+      mode = e.target.value;
+    });
+
+    loop();
+  </script>
+
+  <!-- ✅ Share Script -->
+  <script>
+    const pageUrl = window.location.href;
+    const pageTitle = document.title;
+
+    document.getElementById('shareBtn').addEventListener('click', async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: pageTitle, url: pageUrl });
+        } catch (err) {
+          console.log('Share cancelled', err);
+        }
+      } else {
+        navigator.clipboard.writeText(pageUrl);
+        alert('Link copied to clipboard:\n' + pageUrl);
+      }
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      navigator.clipboard.writeText(pageUrl);
+      alert('Link copied to clipboard:\n' + pageUrl);
+    });
+  </script>
+
+  <!-- ✅ Load universal header -->
+  <script>
+    fetch('/header.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('site-header').innerHTML = html);
+  </script>
+</body>
+</html>
