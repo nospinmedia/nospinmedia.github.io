@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klondike Solitaire - No Spin Media</title>
+  <!-- Link to your existing global stylesheet -->
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    /* Global body styles for the game theme */
+    body {
+      background: #000; /* Black background like the space game */
+      color: #fff;
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif; /* Using Inter for a modern look */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh; /* Ensure footer stays at bottom */
+    }
+
+    /* Main game container layout */
+    #game-container {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+      gap: 30px;
+      flex-wrap: wrap; /* Allows wrapping on smaller screens */
+      flex-grow: 1; /* Allows container to grow and push footer down */
+    }
+
+    /* Game box styling (main game area) */
+    #game-box {
+      border: 2px solid #0f0; /* Green border */
+      box-shadow: 0 0 20px #0f0; /* Green glow */
+      padding: 15px;
+      border-radius: 12px; /* More rounded corners */
+      background: #000;
+      position: relative;
+      flex-grow: 1; /* Allows game box to take available space */
+      max-width: 900px; /* Limit max width for better readability */
+      min-width: 320px; /* Minimum width for mobile */
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Game header styling */
+    #game-header {
+      color: #0f0;
+      text-align: center;
+      font-size: 2.2em; /* Slightly larger title */
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px #0f0;
+      position: relative;
+      padding-bottom: 5px;
+      border-bottom: 1px solid rgba(0, 255, 0, 0.3); /* Subtle separator */
+    }
+
+    #game-version {
+      position: absolute;
+      top: 5px;
+      right: 15px;
+      color: #0f0;
+      font-size: 0.7em; /* Smaller version text */
+      opacity: 0.7;
+    }
+
+    /* Game info (score, moves, time) */
+    #game-info {
+      text-align: center;
+      color: #0f0;
+      margin-bottom: 15px;
+      font-weight: bold;
+      font-size: 1.1em;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    #game-info span {
+      padding: 5px 10px;
+      background: rgba(0, 255, 0, 0.1);
+      border-radius: 5px;
+    }
+
+    /* Game controls/buttons */
+    .game-controls {
+      text-align: center;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .game-controls button {
+      padding: 10px 20px;
+      margin: 0 5px;
+      background: #0f0; /* Green buttons */
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1em;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+      transition: all 0.2s ease-in-out;
+    }
+
+    .game-controls button:hover {
+      background: #0aff0a;
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+      transform: translateY(-2px);
+    }
+
+    .game-controls button:active {
+      transform: translateY(0);
+      box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+    }
+
+    /* Sidebar styling (Donate section) */
+    #sidebar {
+      background: #111;
+      border: 2px solid #0f0;
+      box-shadow: 0 0 15px #0f0;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 280px; /* Slightly wider sidebar */
+      height: fit-content;
+      text-align: center;
+      margin-top: 15px; /* Align with game box top */
+    }
+
+    #sidebar h2 {
+      color: #0f0;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    #donate-button {
+      background: #ffd700; /* Gold button */
+      color: #000;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 15px auto 10px; /* More margin */
+      display: block;
+      transition: all 0.2s ease-in-out;
+    }
+
+    #donate-button:hover {
+      background: #ffe033;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+      transform: translateY(-2px);
+    }
+
+    #donate-button:active {
+      transform: translateY(0);
+      box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+    }
+
+    #sidebar p {
+      font-size: 0.9em;
+      color: #aaa;
+      line-height: 1.4;
+    }
+
+    /* Footer styling */
+    footer {
+      text-align: center;
+      color: #666;
+      padding: 15px;
+      font-size: 0.9em;
+      margin-top: auto; /* Pushes footer to the bottom */
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* --- Klondike Specific Layout --- */
+    #klondike-board {
+      background-color: #006400; /* Dark green felt */
+      border: 2px solid #0a0;
+      border-radius: 10px;
+      padding: 20px;
+      display: grid;
+      gap: 15px;
+      grid-template-rows: auto 1fr; /* Top row for stock/waste/foundations, then tableau */
+      flex-grow: 1; /* Allow board to fill remaining space */
+      min-height: 400px; /* Minimum height for the board */
+    }
+
+    #top-area {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .pile-container {
+      border: 1px dashed rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      min-width: 80px; /* Standard card width */
+      height: 110px; /* Standard card height */
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.8em;
+      color: rgba(255, 255, 255, 0.5);
+      overflow: hidden; /* Hide overflowing cards for visual stacking */
+    }
+
+    #foundations {
+      display: flex;
+      gap: 15px;
+    }
+
+    #tableau {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr); /* 7 tableau piles */
+      gap: 15px;
+      align-items: start; /* Align piles to the top */
+    }
+
+    .tableau-pile {
+      border: 1px dashed rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      min-width: 80px;
+      min-height: 110px; /* Initial height for empty pile */
+      position: relative;
+      padding-top: 5px; /* Space for stacked cards */
+    }
+
+    /* Card Styling */
+    .card {
+      width: 80px;
+      height: 110px;
+      border-radius: 8px;
+      background-color: #fff;
+      border: 1px solid #333;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      position: absolute; /* For stacking */
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px;
+      font-weight: bold;
+      font-size: 1.2em;
+      color: #000;
+      transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+      user-select: none; /* Prevent text selection on cards */
+    }
+
+    .card.red {
+      color: #f00;
+    }
+
+    .card-rank {
+      font-size: 1.5em;
+      line-height: 1;
+    }
+
+    .card-suit {
+      font-size: 1.5em;
+      line-height: 1;
+    }
+
+    .card-back {
+      background-color: #00f; /* Blue back */
+      background-image: linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.1) 75%, rgba(255,255,255,0.1) 100%),
+                        linear-gradient(-45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.1) 75%, rgba(255,255,255,0.1) 100%);
+      background-size: 20px 20px;
+      border: 1px solid #00a;
+      box-shadow: inset 0 0 10px rgba(0, 0, 255, 0.5);
+      color: transparent; /* Hide rank/suit on back */
+    }
+
+    /* Card stacking in tableau */
+    .tableau-pile .card {
+      position: absolute;
+      left: 0;
+      top: 0; /* Will be offset by JS */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      #game-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+      }
+      #game-box {
+        width: 100%;
+        max-width: none;
+        padding: 10px;
+      }
+      #sidebar {
+        width: 100%;
+        max-width: none;
+        margin-top: 20px;
+      }
+      #top-area, #foundations {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      #tableau {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Adjust columns for smaller screens */
+        gap: 10px;
+      }
+      .pile-container, .tableau-pile {
+        min-width: 70px; /* Slightly smaller on small screens */
+        height: 100px;
+      }
+      .card {
+        width: 70px;
+        height: 100px;
+        font-size: 1.1em;
+      }
+      .card-rank, .card-suit {
+        font-size: 1.3em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site-wide header (fetched dynamically) -->
+  <div id="site-header"></div>
+  <script>
+    fetch(window.location.origin + '/header.html')
+      .then(r => r.text())
+      .then(h => document.getElementById('site-header').innerHTML = h)
+      .catch(e => console.error('Error fetching header:', e));
+  </script>
+
+  <div id="game-container">
+    <div id="game-box">
+      <div id="game-header">Klondike Solitaire 🃏 <span id="game-version">v1.1</span></div>
+      <div id="game-info">
+        <span>Score: <span id="score">0</span></span>
+        <span>Moves: <span id="moves">0</span></span>
+        <span>Time: <span id="time">0:00</span></span>
+      </div>
+
+      <div class="game-controls">
+        <button id="newGameBtn">✨ New Game</button>
+        <button id="undoBtn">↩️ Undo</button>
+        <button id="hintBtn">💡 Hint</button>
+      </div>
+
+      <div id="klondike-board">
+        <div id="top-area">
+          <!-- Stock and Waste Pile -->
+          <div style="display: flex; gap: 15px;">
+            <div id="stock-pile" class="pile-container">
+              <div class="card card-back" style="position: relative;"></div> <!-- Example card back -->
+              <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">Stock</span>
+            </div>
+            <div id="waste-pile" class="pile-container">
+              <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">Waste</span>
+            </div>
+          </div>
+
+          <!-- Foundation Piles -->
+          <div id="foundations">
+            <div id="foundation-hearts" class="pile-container">
+              <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">❤️</span>
+            </div>
+            <div id="foundation-diamonds" class="pile-container">
+              <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">♦️</span>
+            </div>
+            <div id="foundation-clubs" class="pile-container">
+              <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">♣️</span>
+            </div>
+            <div id="foundation-spades" class="pile-container">
+              <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">♠️</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tableau Piles -->
+        <div id="tableau">
+          <!-- These will be dynamically populated by JavaScript -->
+          <div id="tableau-pile-0" class="tableau-pile"></div>
+          <div id="tableau-pile-1" class="tableau-pile"></div>
+          <div id="tableau-pile-2" class="tableau-pile"></div>
+          <div id="tableau-pile-3" class="tableau-pile"></div>
+          <div id="tableau-pile-4" class="tableau-pile"></div>
+          <div id="tableau-pile-5" class="tableau-pile"></div>
+          <div id="tableau-pile-6" class="tableau-pile"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar (Donate section) -->
+    <div id="sidebar">
+      <h2>Support Us!</h2>
+      <p>If you enjoy ad-free games from No Spin Media, consider supporting us.</p>
+      <button id="donate-button" onclick="window.location.href='/sponsor.html'">Donate Now</button>
+      <p style="font-size:0.8em; color:#aaa;">Your help keeps No Spin Media alive and growing.</p>
+    </div>
+  </div>
+
+  <!-- Site-wide footer -->
+  <footer style="text-align:center;color:#666;padding:10px;">
+    © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
+  </footer>
+
+  <script>
+    // --- Game State Variables ---
+    let score = 0;
+    let moves = 0;
+    let timer = 0;
+    let gameInterval; // To hold the setInterval for the timer
+
+    // Card data structure (example)
+    const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+    const suits = ['hearts', 'diamonds', 'clubs', 'spades']; // Using full names for internal logic
+    const suitSymbols = { 'hearts': '❤️', 'diamonds': '♦️', 'clubs': '♣️', 'spades': '♠️' };
+    const redSuits = ['hearts', 'diamonds'];
+
+    let deck = [];
+    let stock = [];
+    let waste = [];
+    let foundations = { 'hearts': [], 'diamonds': [], 'clubs': [], 'spades': [] };
+    let tableau = [[], [], [], [], [], [], []]; // 7 tableau piles
+
+    // --- DOM Elements ---
+    const scoreEl = document.getElementById('score');
+    const movesEl = document.getElementById('moves');
+    const timeEl = document.getElementById('time');
+    const stockPileEl = document.getElementById('stock-pile');
+    const wastePileEl = document.getElementById('waste-pile');
+    const foundationsEl = {
+      hearts: document.getElementById('foundation-hearts'),
+      diamonds: document.getElementById('foundation-diamonds'),
+      clubs: document.getElementById('foundation-clubs'),
+      spades: document.getElementById('foundation-spades')
+    };
+    const tableauPilesEl = Array.from({ length: 7 }, (_, i) => document.getElementById(`tableau-pile-${i}`));
+
+    // --- Game Initialization ---
+    function initializeGame() {
+      score = 0;
+      moves = 0;
+      timer = 0;
+      updateHUD();
+      clearInterval(gameInterval); // Clear any existing timer
+
+      // Create a fresh deck
+      deck = [];
+      for (const suit of suits) {
+        for (const rank of ranks) {
+          deck.push({ rank, suit, faceUp: false });
+        }
+      }
+
+      // Shuffle the deck
+      shuffleDeck(deck);
+
+      // Reset piles
+      stock = [...deck]; // All cards start in stock
+      waste = [];
+      for (const suit in foundations) {
+        foundations[suit] = [];
+      }
+      tableau = Array.from({ length: 7 }, () => []);
+
+      dealInitialCards();
+      renderGame();
+      startGameTimer();
+    }
+
+    function shuffleDeck(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+      }
+    }
+
+    function dealInitialCards() {
+      // Deal to tableau piles
+      for (let i = 0; i < 7; i++) {
+        for (let j = 0; j <= i; j++) {
+          const card = stock.pop();
+          if (card) {
+            card.faceUp = (j === i); // Only the top card is face up
+            tableau[i].push(card);
+          }
+        }
+      }
+    }
+
+    // --- Rendering Functions ---
+    function createCardElement(card) {
+      const cardEl = document.createElement('div');
+      cardEl.classList.add('card');
+      cardEl.dataset.rank = card.rank;
+      cardEl.dataset.suit = card.suit;
+
+      if (redSuits.includes(card.suit)) {
+        cardEl.classList.add('red');
+      }
+
+      if (card.faceUp) {
+        cardEl.innerHTML = `
+          <div class="card-rank top-left">${card.rank}</div>
+          <div class="card-suit">${suitSymbols[card.suit]}</div>
+          <div class="card-rank bottom-right">${card.rank}</div>
+        `;
+      } else {
+        cardEl.classList.add('card-back');
+      }
+      return cardEl;
+    }
+
+    function renderGame() {
+      // Clear all existing cards from DOM
+      stockPileEl.innerHTML = '';
+      wastePileEl.innerHTML = '';
+      for (const suit in foundationsEl) {
+        foundationsEl[suit].innerHTML = `<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">${suitSymbols[suit]}</span>`;
+      }
+      tableauPilesEl.forEach(pileEl => pileEl.innerHTML = '');
+
+      // Render Stock pile
+      if (stock.length > 0) {
+        const stockCardEl = createCardElement({ rank: '', suit: '', faceUp: false }); // Just a generic back
+        stockPileEl.appendChild(stockCardEl);
+      } else {
+        // If stock is empty, show a visual indicator
+        stockPileEl.innerHTML = `<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.5;">Empty</span>`;
+      }
+
+      // Render Waste pile
+      if (waste.length > 0) {
+        const topWasteCard = waste[waste.length - 1];
+        const wasteCardEl = createCardElement(topWasteCard);
+        wastePileEl.appendChild(wasteCardEl);
+      } else {
+        wastePileEl.innerHTML = `<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.5;">Waste</span>`;
+      }
+
+
+      // Render Foundations
+      for (const suit in foundations) {
+        if (foundations[suit].length > 0) {
+          const topCard = foundations[suit][foundations[suit].length - 1];
+          const cardEl = createCardElement(topCard);
+          foundationsEl[suit].appendChild(cardEl);
+        }
+      }
+
+      // Render Tableau piles
+      tableau.forEach((pile, pileIndex) => {
+        const pileEl = tableauPilesEl[pileIndex];
+        pile.forEach((card, cardIndex) => {
+          const cardEl = createCardElement(card);
+          // Position cards for stacking effect
+          cardEl.style.top = `${cardIndex * 20}px`; // Adjust vertical offset for stacking
+          pileEl.appendChild(cardEl);
+        });
+      });
+    }
+
+    // --- HUD Update ---
+    function updateHUD() {
+      scoreEl.innerText = score;
+      movesEl.innerText = moves;
+      const minutes = Math.floor(timer / 60);
+      const seconds = timer % 60;
+      timeEl.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }
+
+    // --- Game Timer ---
+    function startGameTimer() {
+      gameInterval = setInterval(() => {
+        timer++;
+        updateHUD();
+      }, 1000);
+    }
+
+    // --- Event Handlers (Placeholder for game logic) ---
+    function handleNewGame() {
+      console.log('New Game clicked!');
+      initializeGame();
+    }
+
+    function handleUndo() {
+      console.log('Undo clicked!');
+      // Implement undo logic here
+    }
+
+    function handleHint() {
+      console.log('Hint clicked!');
+      // Implement hint logic here
+    }
+
+    // --- Initial Setup ---
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('newGameBtn').addEventListener('click', handleNewGame);
+      document.getElementById('undoBtn').addEventListener('click', handleUndo);
+      document.getElementById('hintBtn').addEventListener('click', handleHint);
+
+      // Placeholder for stock pile click (deal from stock)
+      stockPileEl.addEventListener('click', () => {
+        if (stock.length > 0) {
+          const card = stock.pop();
+          card.faceUp = true;
+          waste.push(card);
+          moves++;
+          renderGame();
+          updateHUD();
+        } else if (waste.length > 0) {
+          // If stock is empty, move waste back to stock (redeal)
+          stock = waste.reverse().map(c => ({ ...c, faceUp: false })); // Flip cards back down
+          waste = [];
+          moves++;
+          renderGame();
+          updateHUD();
+        }
+      });
+
+      // Initialize the game when the page loads
+      initializeGame();
+    });
+
+  </script>
+</body>
+</html>
