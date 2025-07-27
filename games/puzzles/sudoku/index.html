@@ -87,7 +87,7 @@
       border-radius: 5px;
     }
 
-    /* Game controls/buttons - same as chess */
+    /* Game controls/buttons */
     .game-controls {
       text-align: center;
       margin-bottom: 20px;
@@ -126,12 +126,6 @@
     .game-controls select:active {
       transform: translateY(0);
       box-shadow: 0 0 5px rgba(96, 163, 217, 0.3);
-    }
-
-    .game-controls button.active-mode {
-        background: #FFD700; /* Gold for active pencil mode */
-        color: #000;
-        box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
     }
 
     /* Difficulty dropdown */
@@ -331,14 +325,22 @@
       box-shadow: 0 0 4px rgba(96, 163, 217, 0.3);
     }
 
-    #number-pad button.clear-button {
-      grid-column: span 3; /* Clear button spans all columns */
+    #number-pad button.clear-button,
+    #number-pad button.pencil-mode-button { /* New class for pencil mode button */
+      grid-column: span 2; /* Clear and Pencil Mode buttons span 2 columns */
       background: #FF6347;
       color: #fff;
     }
-    #number-pad button.clear-button:hover {
+    #number-pad button.clear-button:hover,
+    #number-pad button.pencil-mode-button:hover {
         background: #FF7F50;
     }
+    #number-pad button.pencil-mode-button.active-mode {
+        background: #FFD700; /* Gold for active pencil mode */
+        color: #000;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+    }
+
 
     /* Game message box (for all messages) - same as chess */
     #game-message {
@@ -403,10 +405,16 @@
       #number-pad {
         margin-top: 1vw; /* Responsive margin on mobile */
         padding: 1.5vw; /* Responsive padding on mobile */
+        grid-template-columns: repeat(3, 1fr); /* 3 columns for numbers */
       }
       #number-pad button {
         font-size: 3.5vw; /* Responsive font size for buttons */
         padding: 2vw; /* Responsive padding */
+      }
+      #number-pad button.clear-button,
+      #number-pad button.pencil-mode-button {
+        grid-column: span 1; /* On mobile, they are normal buttons */
+        font-size: 3.5vw; /* Match other buttons */
       }
       .game-controls {
         margin-bottom: 2vw; /* Responsive margin on mobile */
@@ -462,7 +470,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.9</span></div>
+      <div id="game-header">Sudoku 🧩 <span id="game-version">v2.0</span></div>
       <div id="game-info">
         <span>Difficulty: <span id="current-difficulty">Medium</span></span>
         <span id="game-status">Ready</span>
@@ -476,7 +484,6 @@
             <option value="hard">Hard</option>
         </select>
         <button id="solveBtn">💡 Solve</button>
-        <button id="pencilModeBtn">✏️ Pencil Mode</button>
         <button id="shareBtn">🔗 Share with Friends</button>
         <button id="copyBtn">📋 Copy Link</button>
       </div>
@@ -499,6 +506,7 @@
         <button data-value="8">8</button>
         <button data-value="9">9</button>
         <button data-value="clear" class="clear-button">Clear</button>
+        <button id="pencilModeBtn" class="pencil-mode-button">✏️ Pencil Mode</button>
       </div>
     </div>
 
