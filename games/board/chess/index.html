@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chess - No Spin Media</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    /* Global body styles for the game theme */
+    body {
+      background: #222831; /* Deep charcoal for a calm background */
+      color: #fff;
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif; /* Using Inter for a modern look */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh; /* Ensure footer stays at bottom */
+    }
+
+    /* Main game container layout */
+    #game-container {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+      gap: 30px;
+      flex-wrap: wrap; /* Allows wrapping on smaller screens */
+      flex-grow: 1; /* Allows container to grow and push footer down */
+    }
+
+    /* Game box styling (main game area) */
+    #game-box {
+      border: 2px solid #74B9FF; /* Muted blue border */
+      box-shadow: 0 0 20px #74B9FF; /* Muted blue glow */
+      padding: 15px;
+      border-radius: 12px; /* More rounded corners */
+      background: #222831; /* Match body background */
+      position: relative;
+      flex-grow: 1; /* Allows game box to take available space */
+      max-width: 900px; /* Limit max width for better readability */
+      min-width: 320px; /* Minimum width for mobile */
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Game header styling */
+    #game-header {
+      color: #74B9FF; /* Muted blue header text */
+      text-align: center;
+      font-size: 2.2em; /* Slightly larger title */
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px #74B9FF;
+      position: relative;
+      padding-bottom: 5px;
+      border-bottom: 1px solid rgba(116, 185, 255, 0.3); /* Subtle separator with new color */
+    }
+
+    #game-version {
+      position: absolute;
+      top: 5px;
+      right: 15px;
+      color: #74B9FF;
+      font-size: 0.7em; /* Smaller version text */
+      opacity: 0.7;
+    }
+
+    /* Game info (current turn, messages) */
+    #game-info {
+      text-align: center;
+      color: #74B9FF; /* Muted blue info text */
+      margin-bottom: 15px;
+      font-weight: bold;
+      font-size: 1.1em;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    #game-info span {
+      padding: 5px 10px;
+      background: rgba(116, 185, 255, 0.1); /* Subtle background with new color */
+      border-radius: 5px;
+    }
+
+    /* Game controls/buttons */
+    .game-controls {
+      text-align: center;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .game-controls button {
+      padding: 10px 20px;
+      margin: 0 5px;
+      background: #60A3D9; /* Calming blue buttons */
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1em;
+      box-shadow: 0 0 10px rgba(96, 163, 217, 0.5);
+      transition: all 0.2s ease-in-out;
+    }
+
+    .game-controls button:hover {
+      background: #7ABCEF; /* Lighter blue on hover */
+      box-shadow: 0 0 15px rgba(122, 188, 239, 0.8);
+      transform: translateY(-2px);
+    }
+
+    .game-controls button:active {
+      transform: translateY(0);
+      box-shadow: 0 0 5px rgba(96, 163, 217, 0.3);
+    }
+
+    /* Sidebar styling (Donate section) */
+    #sidebar {
+      background: #222831; /* Match body background */
+      border: 2px solid #74B9FF; /* Muted blue border */
+      box-shadow: 0 0 15px #74B9FF; /* Muted blue glow */
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 280px; /* Slightly wider sidebar */
+      height: fit-content;
+      text-align: center;
+      margin-top: 15px; /* Align with game box top */
+    }
+
+    #sidebar h2 {
+      color: #74B9FF; /* Muted blue header */
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    #donate-button {
+      background: #ffd700; /* Gold button (kept for donation distinction) */
+      color: #000;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 15px auto 10px; /* More margin */
+      display: block;
+      transition: all 0.2s ease-in-out;
+    }
+
+    #donate-button:hover {
+      background: #ffe033;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+      transform: translateY(-2px);
+    }
+
+    #donate-button:active {
+      transform: translateY(0);
+      box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+    }
+
+    #sidebar p {
+      font-size: 0.9em;
+      color: #aaa;
+      line-height: 1.4;
+    }
+
+    /* Footer styling */
+    footer {
+      text-align: center;
+      color: #666;
+      padding: 15px;
+      font-size: 0.9em;
+      margin-top: auto; /* Pushes footer to the bottom */
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* --- Chess Board Specific Layout --- */
+    #chess-board {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      width: 560px; /* 8 * 70px per square */
+      height: 560px; /* 8 * 70px per square */
+      margin: 20px auto;
+      border: 4px solid #74B9FF; /* Muted blue border for the board */
+      box-shadow: 0 0 25px rgba(116, 185, 255, 0.5);
+      border-radius: 8px;
+      overflow: hidden; /* Ensures pieces don't overflow board corners */
+    }
+
+    .square {
+      width: 70px;
+      height: 70px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 4em; /* Large enough for Unicode pieces */
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+      position: relative; /* For piece positioning */
+    }
+
+    .light {
+      background-color: #AEC6CF; /* Light blue-grey */
+    }
+
+    .dark {
+      background-color: #4A6572; /* Calm blue-grey */
+    }
+
+    .selected {
+      background-color: #FFC300; /* Orange-yellow for selected piece */
+      box-shadow: inset 0 0 10px #FFC300;
+    }
+
+    .possible-move {
+      background-color: #87CEEB; /* SkyBlue for possible moves */
+      box-shadow: inset 0 0 10px #87CEEB;
+    }
+
+    .piece {
+      user-select: none; /* Prevent text selection on pieces */
+      font-size: 0.9em; /* Adjust font size for piece symbols */
+      line-height: 1; /* Ensure vertical centering */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 0.2s ease-in-out; /* Smooth movement */
+    }
+
+    .piece.white {
+      color: #F8F8F8; /* Off-white for white pieces */
+    }
+
+    .piece.black {
+      color: #333333; /* Dark grey for black pieces */
+    }
+
+    /* Game message box */
+    #game-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.8);
+      padding: 20px 40px;
+      border-radius: 10px;
+      border: 2px solid #74B9FF;
+      color: #74B9FF;
+      font-size: 2em;
+      font-weight: bold;
+      text-shadow: 0 0 10px #74B9FF;
+      display: none;
+      z-index: 1001;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      #game-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+      }
+      #game-box {
+        width: 100%;
+        max-width: none;
+        padding: 10px;
+      }
+      #sidebar {
+        width: 100%;
+        max-width: none;
+        margin-top: 20px;
+      }
+      #chess-board {
+        width: 90vw; /* Make board responsive */
+        height: 90vw;
+        max-width: 500px; /* Cap max size */
+        max-height: 500px;
+      }
+      .square {
+        font-size: 10vw; /* Adjust piece size responsively */
+      }
+      .game-controls button {
+        font-size: 1em;
+        padding: 8px 15px;
+      }
+      #game-header {
+        font-size: 1.8em;
+      }
+      #game-info span {
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site-wide header (fetched dynamically) -->
+  <div id="site-header"></div>
+  <script>
+    fetch(window.location.origin + '/header.html')
+      .then(r => r.text())
+      .then(h => document.getElementById('site-header').innerHTML = h)
+      .catch(e => console.error('Error fetching header:', e));
+  </script>
+
+  <div id="game-container">
+    <div id="game-box">
+      <div id="game-header">Chess ♟️ <span id="game-version">v1.0</span></div>
+      <div id="game-info">
+        <span>Current Turn: <span id="current-turn">White</span></span>
+      </div>
+
+      <div class="game-controls">
+        <button id="newGameBtn">✨ New Game</button>
+      </div>
+
+      <div id="chess-board">
+        <!-- Squares and pieces will be dynamically generated here -->
+      </div>
+      <div id="game-message"></div>
+    </div>
+
+    <!-- Sidebar (Donate section) -->
+    <div id="sidebar">
+      <h2>Support Us!</h2>
+      <p>If you enjoy ad-free games from No Spin Media, consider supporting us.</p>
+      <button id="donate-button" onclick="window.location.href='/sponsor.html'">Donate Now</button>
+      <p style="font-size:0.8em; color:#aaa;">Your help keeps No Spin Media alive and growing.</p>
+    </div>
+  </div>
+
+  <!-- Site-wide footer -->
+  <footer style="text-align:center;color:#666;padding:10px;">
+    © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
+  </footer>
+
+  <script>
+    // --- Game State Variables ---
+    const pieceSymbols = {
+      'p': '♙', 'r': '♖', 'n': '♘', 'b': '♗', 'q': '♕', 'k': '♔', // White pieces
+      'P': '♟', 'R': '♜', 'N': '♞', 'B': '♝', 'Q': '♛', 'K': '♚'  // Black pieces
+    };
+
+    let board = []; // 8x8 array representing the chessboard
+    let currentTurn = 'white'; // 'white' or 'black'
+    let selectedPiece = null; // { row, col, piece } of the selected piece
+    let possibleMoves = []; // Array of { row, col } for valid moves for selected piece
+
+    // --- DOM Elements ---
+    const chessBoardEl = document.getElementById('chess-board');
+    const currentTurnEl = document.getElementById('current-turn');
+    const gameMessageEl = document.getElementById('game-message');
+    const newGameBtn = document.getElementById('newGameBtn');
+
+    // --- Game Initialization ---
+    function initializeGame() {
+      currentTurn = 'white';
+      selectedPiece = null;
+      possibleMoves = [];
+      hideGameMessage();
+      renderBoard();
+      updateHUD();
+    }
+
+    // --- Board Representation and Setup ---
+    function setupInitialBoard() {
+      // Initialize empty board
+      board = Array(8).fill(null).map(() => Array(8).fill(null));
+
+      // Set up black pieces (uppercase for black)
+      board[0][0] = { type: 'R', color: 'black' }; // Rook
+      board[0][1] = { type: 'N', color: 'black' }; // Knight
+      board[0][2] = { type: 'B', color: 'black' }; // Bishop
+      board[0][3] = { type: 'Q', color: 'black' }; // Queen
+      board[0][4] = { type: 'K', color: 'black' }; // King
+      board[0][5] = { type: 'B', color: 'black' }; // Bishop
+      board[0][6] = { type: 'N', color: 'black' }; // Knight
+      board[0][7] = { type: 'R', color: 'black' }; // Rook
+      for (let i = 0; i < 8; i++) {
+        board[1][i] = { type: 'P', color: 'black' }; // Pawns
+      }
+
+      // Set up white pieces (lowercase for white)
+      board[7][0] = { type: 'r', color: 'white' }; // Rook
+      board[7][1] = { type: 'n', color: 'white' }; // Knight
+      board[7][2] = { type: 'b', color: 'white' }; // Bishop
+      board[7][3] = { type: 'q', color: 'white' }; // Queen
+      board[7][4] = { type: 'k', color: 'white' }; // King
+      board[7][5] = { type: 'b', color: 'white' }; // Bishop
+      board[7][6] = { type: 'n', color: 'white' }; // Knight
+      board[7][7] = { type: 'r', color: 'white' }; // Rook
+      for (let i = 0; i < 8; i++) {
+        board[6][i] = { type: 'p', color: 'white' }; // Pawns
+      }
+    }
+
+    // --- Rendering Functions ---
+    function renderBoard() {
+      chessBoardEl.innerHTML = ''; // Clear existing board
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          const squareEl = document.createElement('div');
+          squareEl.classList.add('square');
+          squareEl.classList.add((r + c) % 2 === 0 ? 'light' : 'dark');
+          squareEl.dataset.row = r;
+          squareEl.dataset.col = c;
+
+          const piece = board[r][c];
+          if (piece) {
+            const pieceEl = document.createElement('span');
+            pieceEl.classList.add('piece', piece.color);
+            pieceEl.textContent = pieceSymbols[piece.type];
+            squareEl.appendChild(pieceEl);
+          }
+
+          // Add click listener to each square
+          squareEl.addEventListener('click', handleSquareClick);
+          chessBoardEl.appendChild(squareEl);
+        }
+      }
+      highlightSelectedAndPossibleMoves();
+    }
+
+    function highlightSelectedAndPossibleMoves() {
+      document.querySelectorAll('.square').forEach(squareEl => {
+        squareEl.classList.remove('selected', 'possible-move');
+      });
+
+      if (selectedPiece) {
+        const selectedEl = document.querySelector(`.square[data-row="${selectedPiece.row}"][data-col="${selectedPiece.col}"]`);
+        if (selectedEl) {
+          selectedEl.classList.add('selected');
+        }
+
+        possibleMoves.forEach(move => {
+          const moveEl = document.querySelector(`.square[data-row="${move.row}"][data-col="${move.col}"]`);
+          if (moveEl) {
+            moveEl.classList.add('possible-move');
+          }
+        });
+      }
+    }
+
+    function updateHUD() {
+      currentTurnEl.textContent = currentTurn.charAt(0).toUpperCase() + currentTurn.slice(1);
+    }
+
+    function displayGameMessage(message) {
+      gameMessageEl.textContent = message;
+      gameMessageEl.style.display = 'block';
+      setTimeout(hideGameMessage, 2000); // Hide after 2 seconds
+    }
+
+    function hideGameMessage() {
+      gameMessageEl.style.display = 'none';
+    }
+
+    // --- Game Logic: Piece Movement Validation (Simplified for v1.0) ---
+    // NOTE: This is a highly simplified validation. It does not account for:
+    // - Blocking pieces between source and destination (except for pawns).
+    // - Check/Checkmate logic.
+    // - Castling, En Passant, Pawn Promotion.
+    // These are complex and would be added in future versions.
+    function getPossibleMoves(row, col, piece) {
+      const moves = [];
+      const pieceColor = piece.color;
+      const opponentColor = pieceColor === 'white' ? 'black' : 'white';
+
+      switch (piece.type.toLowerCase()) {
+        case 'p': // Pawn
+          const direction = pieceColor === 'white' ? -1 : 1; // White moves up, black moves down
+          // Single step forward
+          if (board[row + direction] && !board[row + direction][col]) {
+            moves.push({ row: row + direction, col: col });
+          }
+          // Double step forward on first move
+          if ((pieceColor === 'white' && row === 6) || (pieceColor === 'black' && row === 1)) {
+            if (!board[row + direction][col] && !board[row + 2 * direction][col]) {
+              moves.push({ row: row + 2 * direction, col: col });
+            }
+          }
+          // Basic diagonal capture (doesn't check if opponent piece exists)
+          if (board[row + direction] && board[row + direction][col - 1] && board[row + direction][col - 1]?.color === opponentColor) {
+            moves.push({ row: row + direction, col: col - 1 });
+          }
+          if (board[row + direction] && board[row + direction][col + 1] && board[row + direction][col + 1]?.color === opponentColor) {
+            moves.push({ row: row + direction, col: col + 1 });
+          }
+          break;
+        case 'r': // Rook
+          // Horizontal and Vertical (simplified: assumes no blocking pieces)
+          for (let i = 0; i < 8; i++) {
+            if (i !== col && board[row][i]?.color !== pieceColor) moves.push({ row: row, col: i });
+            if (i !== row && board[i][col]?.color !== pieceColor) moves.push({ row: i, col: col });
+          }
+          break;
+        case 'n': // Knight
+          const knightMoves = [
+            { dr: -2, dc: -1 }, { dr: -2, dc: 1 }, { dr: -1, dc: -2 }, { dr: -1, dc: 2 },
+            { dr: 1, dc: -2 }, { dr: 1, dc: 2 }, { dr: 2, dc: -1 }, { dr: 2, dc: 1 }
+          ];
+          knightMoves.forEach(move => {
+            const newRow = row + move.dr;
+            const newCol = col + move.dc;
+            if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
+              if (!board[newRow][newCol] || board[newRow][newCol].color !== pieceColor) {
+                moves.push({ row: newRow, col: newCol });
+              }
+            }
+          });
+          break;
+        case 'b': // Bishop
+          // Diagonal (simplified: assumes no blocking pieces)
+          for (let i = 1; i < 8; i++) {
+            if (row + i < 8 && col + i < 8 && board[row + i][col + i]?.color !== pieceColor) moves.push({ row: row + i, col: col + i });
+            if (row + i < 8 && col - i >= 0 && board[row + i][col - i]?.color !== pieceColor) moves.push({ row: row + i, col: col - i });
+            if (row - i >= 0 && col + i < 8 && board[row - i][col + i]?.color !== pieceColor) moves.push({ row: row - i, col: col + i });
+            if (row - i >= 0 && col - i >= 0 && board[row - i][col - i]?.color !== pieceColor) moves.push({ row: row - i, col: col - i });
+          }
+          break;
+        case 'q': // Queen (Rook + Bishop)
+          // Horizontal and Vertical
+          for (let i = 0; i < 8; i++) {
+            if (i !== col && board[row][i]?.color !== pieceColor) moves.push({ row: row, col: i });
+            if (i !== row && board[i][col]?.color !== pieceColor) moves.push({ row: i, col: col });
+          }
+          // Diagonal
+          for (let i = 1; i < 8; i++) {
+            if (row + i < 8 && col + i < 8 && board[row + i][col + i]?.color !== pieceColor) moves.push({ row: row + i, col: col + i });
+            if (row + i < 8 && col - i >= 0 && board[row + i][col - i]?.color !== pieceColor) moves.push({ row: row + i, col: col - i });
+            if (row - i >= 0 && col + i < 8 && board[row - i][col + i]?.color !== pieceColor) moves.push({ row: row - i, col: col + i });
+            if (row - i >= 0 && col - i >= 0 && board[row - i][col - i]?.color !== pieceColor) moves.push({ row: row - i, col: col - i });
+          }
+          break;
+        case 'k': // King
+          const kingMoves = [
+            { dr: -1, dc: -1 }, { dr: -1, dc: 0 }, { dr: -1, dc: 1 },
+            { dr: 0, dc: -1 }, { dr: 0, dc: 1 },
+            { dr: 1, dc: -1 }, { dr: 1, dc: 0 }, { dr: 1, dc: 1 }
+          ];
+          kingMoves.forEach(move => {
+            const newRow = row + move.dr;
+            const newCol = col + move.dc;
+            if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
+              if (!board[newRow][newCol] || board[newRow][newCol].color !== pieceColor) {
+                moves.push({ row: newRow, col: newCol });
+              }
+            }
+          });
+          break;
+      }
+      return moves;
+    }
+
+
+    // --- Event Handlers ---
+    function handleSquareClick(event) {
+      const clickedRow = parseInt(event.currentTarget.dataset.row);
+      const clickedCol = parseInt(event.currentTarget.dataset.col);
+      const clickedPiece = board[clickedRow][clickedCol];
+
+      // If a piece is already selected
+      if (selectedPiece) {
+        // Check if clicked square is a valid move for the selected piece
+        const isValidMove = possibleMoves.some(move => move.row === clickedRow && move.col === clickedCol);
+
+        if (isValidMove) {
+          // Perform the move
+          board[clickedRow][clickedCol] = selectedPiece.piece; // Move piece
+          board[selectedPiece.row][selectedPiece.col] = null; // Clear old position
+
+          // Reset selection and switch turn
+          selectedPiece = null;
+          possibleMoves = [];
+          currentTurn = currentTurn === 'white' ? 'black' : 'white';
+          updateHUD();
+          renderBoard();
+          displayGameMessage("Move made!");
+        } else if (clickedPiece && clickedPiece.color === currentTurn) {
+          // Clicked on a different piece of the current player's color
+          selectedPiece = { row: clickedRow, col: clickedCol, piece: clickedPiece };
+          possibleMoves = getPossibleMoves(clickedRow, clickedCol, clickedPiece);
+          renderBoard(); // Re-render to highlight new selection
+        } else {
+          // Invalid move or clicked on opponent's piece/empty square (deselect)
+          selectedPiece = null;
+          possibleMoves = [];
+          renderBoard();
+          displayGameMessage("Invalid move or deselected.");
+        }
+      } else {
+        // No piece selected, try to select one
+        if (clickedPiece && clickedPiece.color === currentTurn) {
+          selectedPiece = { row: clickedRow, col: clickedCol, piece: clickedPiece };
+          possibleMoves = getPossibleMoves(clickedRow, clickedCol, clickedPiece);
+          renderBoard(); // Highlight selected piece and possible moves
+        } else if (clickedPiece && clickedPiece.color !== currentTurn) {
+          displayGameMessage("It's not your turn!");
+        } else {
+          displayGameMessage("Select a piece to move.");
+        }
+      }
+    }
+
+    // --- Initial Setup ---
+    document.addEventListener('DOMContentLoaded', () => {
+      newGameBtn.addEventListener('click', () => {
+        setupInitialBoard(); // Reset board to initial state
+        initializeGame(); // Re-initialize game state
+        displayGameMessage("New Game Started!");
+      });
+
+      // Share and Copy Link buttons (from Klondike)
+      document.getElementById('shareBtn').onclick = () => {
+        if (navigator.share) {
+          navigator.share({
+            title: "Chess - No Spin Media",
+            url: window.location.href
+          }).catch((error) => console.error('Error sharing:', error));
+        } else {
+          document.execCommand('copy'); // Fallback for clipboard
+          displayGameMessage("Link copied to clipboard!");
+        }
+      };
+      document.getElementById('copyBtn').onclick = () => {
+        document.execCommand('copy'); // Fallback for clipboard
+        displayGameMessage("Link copied to clipboard!");
+      };
+
+      // Initial game setup when page loads
+      setupInitialBoard();
+      initializeGame();
+    });
+  </script>
+</body>
+</html>
