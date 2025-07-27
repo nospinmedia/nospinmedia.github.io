@@ -535,7 +535,7 @@
     <div id="site-header"></div> 
     <div id="game-container">
       <div id="game-box">
-        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.9</span></div>
+        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.10</span></div>
         <div id="game-info">
           <span>Difficulty: <span id="current-difficulty">Medium</span></span>
           <span id="game-status">Ready</span>
@@ -1006,7 +1006,7 @@
       } else if (pencilMode) {
           gameStatusEl.textContent = 'Pencil Mode Active';
       } else if (autoPencilMode) {
-          gameStatusEl.textContent = 'Auto Pencil Active';
+          // Removed: gameStatusEl.textContent = 'Auto Pencil Active';
       } else {
           gameStatusEl.textContent = 'Playing';
       }
@@ -1097,7 +1097,7 @@
         updatePencilModeButton(); // Ensure manual pencil button is updated
         updateAutoPencilButton(); // Update button text and style immediately
         updateAllPencilMarks(); // Recalculate and render marks based on new autoPencilMode state
-        gameStatusEl.textContent = autoPencilMode ? 'Auto Pencil Active' : 'Playing';
+        // Removed: gameStatusEl.textContent = autoPencilMode ? 'Auto Pencil Active' : 'Playing';
       });
 
 
