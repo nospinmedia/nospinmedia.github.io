@@ -92,6 +92,7 @@
       justify-content: space-around;
       flex-wrap: wrap;
       gap: 10px;
+      min-height: 30px; /* Ensure a consistent height to prevent shifts */
     }
     #game-info span {
       padding: 5px 10px;
@@ -535,7 +536,7 @@
     <div id="site-header"></div> 
     <div id="game-container">
       <div id="game-box">
-        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.10</span></div>
+        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.11</span></div>
         <div id="game-info">
           <span>Difficulty: <span id="current-difficulty">Medium</span></span>
           <span id="game-status">Ready</span>
@@ -1005,8 +1006,6 @@
         }
       } else if (pencilMode) {
           gameStatusEl.textContent = 'Pencil Mode Active';
-      } else if (autoPencilMode) {
-          // Removed: gameStatusEl.textContent = 'Auto Pencil Active';
       } else {
           gameStatusEl.textContent = 'Playing';
       }
@@ -1086,7 +1085,8 @@
         }
         updatePencilModeButton(); // Update button text and style immediately
         updateAutoPencilButton(); // Ensure auto pencil button is updated
-        gameStatusEl.textContent = pencilMode ? 'Pencil Mode Active' : 'Playing';
+        // Removed: gameStatusEl.textContent = pencilMode ? 'Pencil Mode Active' : 'Playing';
+        gameStatusEl.textContent = 'Playing'; // Always set to Playing for consistency
       });
 
       autoPencilBtn.addEventListener('click', () => {
@@ -1098,6 +1098,7 @@
         updateAutoPencilButton(); // Update button text and style immediately
         updateAllPencilMarks(); // Recalculate and render marks based on new autoPencilMode state
         // Removed: gameStatusEl.textContent = autoPencilMode ? 'Auto Pencil Active' : 'Playing';
+        gameStatusEl.textContent = 'Playing'; // Always set to Playing for consistency
       });
 
 
