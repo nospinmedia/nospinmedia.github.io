@@ -41,7 +41,7 @@
       background: #222831; /* Match body background */
       position: relative;
       flex-grow: 1;
-      max-width: 500px; /* Adjusted max-width for desktop */
+      max-width: 550px; /* Adjusted max-width for desktop */
       width: 100%; /* Ensure it takes full width within max-width */
       min-width: 320px;
       display: flex;
@@ -120,6 +120,12 @@
     .game-controls button:active {
       transform: translateY(0);
       box-shadow: 0 0 5px rgba(96, 163, 217, 0.3);
+    }
+
+    .game-controls button.active-mode {
+        background: #FFD700; /* Gold for active pencil mode */
+        color: #000;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
     }
 
     /* Difficulty dropdown */
@@ -214,7 +220,7 @@
       border-radius: 8px;
       overflow: hidden;
       flex-shrink: 0;
-      max-width: 450px; /* Max width for desktop board */
+      max-width: 500px; /* Max width for desktop board */
     }
 
     .sudoku-cell {
@@ -228,7 +234,28 @@
       background-color: #AEC6CF;
       color: #000;
       transition: background-color 0.2s ease-in-out;
+      position: relative; /* For pencil marks positioning */
     }
+
+    /* Pencil marks grid inside cell */
+    .sudoku-cell .pencil-marks {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        width: 100%;
+        height: 100%;
+        font-size: 0.6em; /* Smaller font for pencil marks */
+        color: #555; /* Lighter color for pencil marks */
+        font-weight: normal;
+        gap: 1px;
+        padding: 2px;
+    }
+    .sudoku-cell .pencil-marks div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
 
     /* Darker background for 3x3 blocks */
     .sudoku-cell:nth-child(3n):not(:last-child) {
@@ -361,16 +388,20 @@
         margin-top: 20px;
       }
       #sudoku-board {
-        width: 95vw; /* Adjusted to 95vw for more space */
-        height: 95vw; /* Adjusted to 95vw */
+        width: 98vw; /* Adjusted to 98vw for more space */
+        height: 98vw; /* Adjusted to 98vw */
         max-width: 630px; /* Still cap max size for larger tablets */
         max-height: 630px;
         margin: 1vw auto; /* Responsive margin on mobile */
       }
       .sudoku-cell {
-        width: calc(95vw / 9); /* Ensures 9 cells fit within 95vw board */
-        height: calc(95vw / 9);
+        width: calc(98vw / 9); /* Ensures 9 cells fit within 98vw board */
+        height: calc(98vw / 9);
         font-size: 5vw; /* Adjusted font size responsively */
+      }
+      .sudoku-cell .pencil-marks {
+          font-size: 2vw; /* Smaller font for pencil marks on mobile */
+          padding: 0.5vw;
       }
       #number-pad {
         margin-top: 1vw; /* Responsive margin on mobile */
@@ -434,7 +465,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.6</span></div>
+      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.7</span></div>
       <div id="game-info">
         <span>Difficulty: <span id="current-difficulty">Medium</span></span>
         <span id="game-status">Ready</span>
@@ -448,6 +479,7 @@
             <option value="hard">Hard</option>
         </select>
         <button id="solveBtn">💡 Solve</button>
+        <button id="pencilModeBtn">✏️ Pencil Mode</button>
         <button id="shareBtn">🔗 Share with Friends</button>
         <button id="copyBtn">📋 Copy Link</button>
       </div>
@@ -496,6 +528,10 @@
     let difficulty = 'medium'; // 'easy', 'medium', 'hard'
     let messageTimeoutId = null; // To manage the hide timeout for temporary messages
     let gameEnded = false; // Flag to indicate if the game has ended
+    let pencilMode = false; // New: Pencil mode state
+    // New: Store pencil marks for each cell
+    let pencilMarks = Array(9).fill(0).map(() => Array(9).fill(0).map(() => new Set()));
+
 
     // --- DOM Elements ---
     const sudokuBoardEl = document.getElementById('sudoku-board');
@@ -506,6 +542,7 @@
     const gameMessageEl = document.getElementById('game-message');
     const currentDifficultyEl = document.getElementById('current-difficulty');
     const gameStatusEl = document.getElementById('game-status');
+    const pencilModeBtn = document.getElementById('pencilModeBtn'); // New: Pencil mode button
 
     // --- Sudoku Core Logic (Backtracking for Generation and Solving) ---
 
@@ -614,6 +651,8 @@
       }
       initialBoard = JSON.parse(JSON.stringify(tempBoard)); // Store the initial puzzle
       board = JSON.parse(JSON.stringify(tempBoard)); // Set current board to the puzzle
+      // Reset pencil marks for new game
+      pencilMarks = Array(9).fill(0).map(() => Array(9).fill(0).map(() => new Set()));
     }
 
     // Helper to fill a board for generation (different from solve, ensures a full board)
@@ -649,6 +688,8 @@
       renderBoard();
       updateHUD();
       gameStatusEl.textContent = 'Playing';
+      pencilMode = false; // Reset pencil mode on new game
+      pencilModeBtn.classList.remove('active-mode');
     }
 
     // --- Rendering Functions ---
@@ -676,6 +717,20 @@
             cellEl.classList.add('fixed'); // Fixed numbers cannot be changed
           } else if (board[r][c] !== 0) {
             cellEl.textContent = board[r][c];
+            // If a main number is present, clear pencil marks for that cell
+            pencilMarks[r][c].clear();
+          } else {
+            // Render pencil marks if no main number is present
+            const pencilMarksContainer = document.createElement('div');
+            pencilMarksContainer.classList.add('pencil-marks');
+            for (let i = 1; i <= 9; i++) {
+                const markEl = document.createElement('div');
+                if (pencilMarks[r][c].has(i)) {
+                    markEl.textContent = i;
+                }
+                pencilMarksContainer.appendChild(markEl);
+            }
+            cellEl.appendChild(pencilMarksContainer);
           }
 
           cellEl.addEventListener('click', handleCellClick);
@@ -773,17 +828,39 @@
       const value = event.target.dataset.value;
       const { row, col } = selectedCell;
 
-      if (value === 'clear') {
-        board[row][col] = 0;
+      if (initialBoard[row][col] !== 0) { // Cannot change fixed cells
+        displayGameMessage("Cannot change fixed numbers!");
+        return;
+      }
+
+      if (pencilMode) {
+        // Pencil mode logic
+        if (value === 'clear') {
+          pencilMarks[row][col].clear(); // Clear all pencil marks
+        } else {
+          const num = parseInt(value);
+          if (pencilMarks[row][col].has(num)) {
+            pencilMarks[row][col].delete(num); // Toggle off
+          } else {
+            pencilMarks[row][col].add(num); // Toggle on
+          }
+        }
+        board[row][col] = 0; // Ensure main number is cleared in pencil mode
       } else {
-        const num = parseInt(value);
-        board[row][col] = num;
+        // Normal input mode logic
+        if (value === 'clear') {
+          board[row][col] = 0;
+        } else {
+          const num = parseInt(value);
+          board[row][col] = num;
+          pencilMarks[row][col].clear(); // Clear pencil marks when setting a main number
+        }
       }
 
       renderBoard(); // Re-render board to show changes
 
-      // Validate the current input if it's not a clear
-      if (value !== 'clear') {
+      // Validate the current input if it's not a clear and not in pencil mode
+      if (value !== 'clear' && !pencilMode) {
         if (!isValid(board, row, col, board[row][col])) {
           document.querySelector(`.sudoku-cell[data-row="${row}"][data-col="${col}"]`).classList.add('invalid');
           displayGameMessage("Invalid move!");
@@ -797,10 +874,13 @@
             gameStatusEl.textContent = 'Playing';
           }
         }
+      } else if (pencilMode) {
+          gameStatusEl.textContent = 'Pencil Mode Active';
       } else {
           gameStatusEl.textContent = 'Playing';
       }
     }
+
 
     function checkWin() {
       for (let r = 0; r < 9; r++) {
@@ -820,6 +900,7 @@
         }
         // Use the stored solution to fill the board
         board = JSON.parse(JSON.stringify(solution));
+        pencilMarks = Array(9).fill(0).map(() => Array(9).fill(0).map(() => new Set())); // Clear pencil marks
         renderBoard();
         updateHUD();
         displayGameMessage("Puzzle solved!", true);
@@ -832,6 +913,19 @@
     document.addEventListener('DOMContentLoaded', () => {
       newGameBtn.addEventListener('click', initializeGame);
       solveBtn.addEventListener('click', solveCurrentPuzzle);
+
+      pencilModeBtn.addEventListener('click', () => {
+        pencilMode = !pencilMode;
+        if (pencilMode) {
+          pencilModeBtn.classList.add('active-mode');
+          displayGameMessage("Pencil Mode ON. Enter notes.");
+          gameStatusEl.textContent = 'Pencil Mode Active';
+        } else {
+          pencilModeBtn.classList.remove('active-mode');
+          displayGameMessage("Pencil Mode OFF. Enter final answers.");
+          gameStatusEl.textContent = 'Playing';
+        }
+      });
 
       difficultySelect.addEventListener('change', (event) => {
         difficulty = event.target.value;
