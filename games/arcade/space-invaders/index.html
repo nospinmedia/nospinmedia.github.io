@@ -3,21 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Invaders</title>
+    <title>Space Invaders - Computer Castle</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #000;
             color: #fff;
             font-family: 'Inter', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
             margin: 0;
-            overflow: hidden; /* Prevent scrolling */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            display: flex;
+            flex-direction: column; /* Stack header, main content vertically */
+            min-height: 100vh;
         }
+
+        /* Site Header Styling */
+        #site-header {
+            background-color: #1a1a1a;
+            padding: 15px 20px;
+            text-align: center;
+            border-bottom: 2px solid #0F0;
+            box-shadow: 0 2px 10px rgba(0, 255, 0, 0.3);
+            width: 100%;
+            box-sizing: border-box; /* Include padding in width */
+        }
+        #site-header h1 {
+            margin: 0;
+            color: #0F0;
+            font-size: 2.5em;
+            text-shadow: 0 0 8px rgba(0, 255, 0, 0.7);
+        }
+        #site-header p {
+            margin: 5px 0 0;
+            font-size: 1em;
+            color: #AAA;
+        }
+
+        /* Main Content Layout */
+        #main-content-container {
+            display: flex;
+            flex-grow: 1; /* Allow main content to take remaining vertical space */
+            justify-content: center; /* Center game and sidebar horizontally */
+            align-items: flex-start; /* Align items to the top */
+            padding: 20px;
+            gap: 30px; /* Space between game and sidebar */
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+
+        /* Game Container Styling */
         #game-container {
             background-color: #000;
             border: 2px solid #0F0;
@@ -27,6 +60,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            flex-shrink: 0; /* Prevent game container from shrinking */
         }
         canvas {
             background-color: #000;
@@ -41,7 +75,7 @@
             padding: 5px 0;
             font-size: 1.2em;
             color: #0F0;
-            margin-bottom: 10px; /* Added margin for better spacing */
+            margin-bottom: 10px;
         }
         #game-controls {
             display: flex;
@@ -72,26 +106,99 @@
             transform: translateY(0);
             box-shadow: 0 2px 5px rgba(0, 128, 0, 0.3);
         }
-        /* Removed #message-box styling as it's no longer used */
+
+        /* Sidebar / Donate Section Styling */
+        #sidebar {
+            background-color: #1a1a1a;
+            border: 2px solid #0F0;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            width: 250px; /* Fixed width for sidebar */
+            min-width: 200px; /* Minimum width for responsiveness */
+            box-sizing: border-box;
+            text-align: center;
+        }
+        #sidebar h2 {
+            color: #0F0;
+            font-size: 1.8em;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        #sidebar p {
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        #donate-button {
+            background-color: #FFD700; /* Gold color */
+            color: #000;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        #donate-button:hover {
+            background-color: #FFE033;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 215, 0, 0.6);
+        }
+        #donate-button:active {
+            background-color: #CCAA00;
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            #main-content-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            #sidebar {
+                width: 90%; /* Make sidebar wider on small screens */
+                max-width: 600px; /* Limit max width */
+            }
+        }
     </style>
 </head>
 <body>
-    <div id="game-container">
-        <h1>Space Invaders <i class="fas fa-space-shuttle"></i></h1>
-        <div id="game-info">
-            <span>Score: <span id="score">0</span></span>
-            <span>Lives: <span id="lives">3</span></span>
-            <span>High Score: <span id="highScore">0</span></span>
-            <span>Level: <span id="level">1</span></span>
-        </div>
-        <canvas id="gameCanvas"></canvas>
-        <div id="game-controls">
-            <button class="game-button" id="startButton">Start Game</button>
-            <button class="game-button" id="resetButton">Reset Game</button>
-        </div>
-    </div>
+    <header id="site-header">
+        <h1>Computer Castle BBS <i class="fas fa-terminal"></i></h1>
+        <p>Rebuilding the Legacy of a Classic BBS on the Web</p>
+    </header>
 
-    <!-- Removed message-box div -->
+    <div id="main-content-container">
+        <div id="game-area">
+            <div id="game-container">
+                <h1>Space Invaders <i class="fas fa-space-shuttle"></i></h1>
+                <div id="game-info">
+                    <span>Score: <span id="score">0</span></span>
+                    <span>Lives: <span id="lives">3</span></span>
+                    <span>High Score: <span id="highScore">0</span></span>
+                    <span>Level: <span id="level">1</span></span>
+                </div>
+                <canvas id="gameCanvas"></canvas>
+                <div id="game-controls">
+                    <button class="game-button" id="startButton">Start Game</button>
+                    <button class="game-button" id="resetButton">Reset Game</button>
+                </div>
+            </div>
+        </div>
+
+        <aside id="sidebar">
+            <h2>Support Us!</h2>
+            <p>If you enjoy the retro experience of Computer Castle BBS and our games, consider supporting our project!</p>
+            <button id="donate-button">Donate Now</button>
+            <p style="font-size: 0.8em; margin-top: 15px; color: #888;">Your contributions help keep the legacy alive.</p>
+        </aside>
+    </div>
 
     <script>
         const canvas = document.getElementById('gameCanvas');
@@ -102,7 +209,6 @@
         const levelDisplay = document.getElementById('level');
         const startButton = document.getElementById('startButton');
         const resetButton = document.getElementById('resetButton');
-        // Removed messageBox, messageText, messageOkButton references
 
         // Game settings
         const GAME_WIDTH = 600;
@@ -128,7 +234,8 @@
         const NUM_SHIELDS = 4;
         const SHIELD_WIDTH = 60;
         const SHIELD_HEIGHT = 20;
-        const SHIELD_HEALTH_MAX = 3; // How many hits a shield can take
+        const SHIELD_BLOCK_SIZE = 5; // Size of individual blocks within the shield
+        const SHIELD_HEALTH_PER_BLOCK = 3; // How many hits each *individual* block can take
         const SHIELD_Y_OFFSET = 50; // Distance from bottom of canvas
         const SHIELD_COLORS = ['#00FF00', '#FFA500', '#FF0000']; // Green, Orange, Red for health states
 
@@ -221,20 +328,22 @@
             ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
         }
 
-        // Draw Shield
+        // Draw Shield - now renders individual blocks based on their damage
         function drawShield(shield) {
-            // Determine color based on health
-            let colorIndex = Math.floor((shield.health / SHIELD_HEALTH_MAX) * (SHIELD_COLORS.length - 1));
-            colorIndex = Math.min(colorIndex, SHIELD_COLORS.length - 1); // Ensure index is within bounds
-            ctx.fillStyle = SHIELD_COLORS[colorIndex];
-            
-            // Draw multiple small blocks to simulate damage
-            const block_size = 5;
-            for (let r = 0; r < shield.height / block_size; r++) {
-                for (let c = 0; c < shield.width / block_size; c++) {
-                    // Only draw if this block hasn't been "destroyed"
-                    if (shield.damageMap[r][c] < SHIELD_HEALTH_MAX) {
-                        ctx.fillRect(shield.x + c * block_size, shield.y + r * block_size, block_size, block_size);
+            const numRows = shield.damageMap.length;
+            const numCols = shield.damageMap[0].length;
+
+            for (let r = 0; r < numRows; r++) {
+                for (let c = 0; c < numCols; c++) {
+                    const blockDamage = shield.damageMap[r][c];
+                    if (blockDamage < SHIELD_HEALTH_PER_BLOCK) { // Only draw if block is not fully destroyed
+                        // Calculate color based on individual block's remaining health
+                        let remainingHealth = SHIELD_HEALTH_PER_BLOCK - blockDamage;
+                        let colorIndex = Math.floor((remainingHealth / SHIELD_HEALTH_PER_BLOCK) * (SHIELD_COLORS.length - 1));
+                        colorIndex = Math.min(colorIndex, SHIELD_COLORS.length - 1); // Clamp index
+                        ctx.fillStyle = SHIELD_COLORS[colorIndex];
+                        
+                        ctx.fillRect(shield.x + c * SHIELD_BLOCK_SIZE, shield.y + r * SHIELD_BLOCK_SIZE, SHIELD_BLOCK_SIZE, SHIELD_BLOCK_SIZE);
                     }
                 }
             }
@@ -292,15 +401,19 @@
             const shieldY = GAME_HEIGHT - SHIELD_Y_OFFSET;
 
             for (let i = 0; i < NUM_SHIELDS; i++) {
-                // Initialize damage map for each shield
-                const damageMap = Array(SHIELD_HEIGHT / 5).fill(0).map(() => Array(SHIELD_WIDTH / 5).fill(0));
+                // Initialize damage map for each shield block
+                const numBlocksX = SHIELD_WIDTH / SHIELD_BLOCK_SIZE;
+                const numBlocksY = SHIELD_HEIGHT / SHIELD_BLOCK_SIZE;
+                // damageMap stores damage taken by each block. 0 = no damage, SHIELD_HEALTH_PER_BLOCK = destroyed
+                const damageMap = Array(numBlocksY).fill(0).map(() => Array(numBlocksX).fill(0));
+                
                 shields.push({
                     x: shieldSpacing * (i + 1) + i * SHIELD_WIDTH,
                     y: shieldY,
                     width: SHIELD_WIDTH,
                     height: SHIELD_HEIGHT,
-                    health: SHIELD_HEALTH_MAX,
-                    damageMap: damageMap // Map to track individual block damage
+                    // No overall 'health' for the shield itself, just the blocks
+                    damageMap: damageMap 
                 });
             }
         }
@@ -349,11 +462,7 @@
 
             // Draw Shields
             for (let i = shields.length - 1; i >= 0; i--) {
-                if (shields[i].health > 0) {
-                    drawShield(shields[i]);
-                } else {
-                    shields.splice(i, 1); // Remove shield if health is 0
-                }
+                drawShield(shields[i]);
             }
 
             // Update aliens
@@ -407,36 +516,36 @@
                         score += 10;
                         updateInfoDisplay();
                         hitAlien = true;
-                        break;
+                        break; // Stop checking for collisions for this bullet
                     }
                 }
                 if (hitAlien) continue; // Bullet already removed, move to next player bullet
 
                 // Collision with shields (player bullets)
-                let hitShield = false;
+                let hitShieldBlock = false;
                 for (let k = shields.length - 1; k >= 0; k--) {
                     let shield = shields[k];
-                    if (shield.health > 0 && checkCollision(bullet, shield)) {
+                    if (checkCollision(bullet, shield)) {
                         // Calculate hit position relative to shield for localized damage
                         const hitX = bullet.x - shield.x;
                         const hitY = bullet.y - shield.y;
-                        const blockSize = 5;
-                        const blockCol = Math.floor(hitX / blockSize);
-                        const blockRow = Math.floor(hitY / blockSize);
+                        
+                        const blockCol = Math.floor(hitX / SHIELD_BLOCK_SIZE);
+                        const blockRow = Math.floor(hitY / SHIELD_BLOCK_SIZE);
 
                         if (blockRow >= 0 && blockRow < shield.damageMap.length &&
                             blockCol >= 0 && blockCol < shield.damageMap[0].length) {
-                            if (shield.damageMap[blockRow][blockCol] < SHIELD_HEALTH_MAX) {
-                                shield.damageMap[blockRow][blockCol]++;
-                                shield.health--; // Decrement overall shield health
+                            
+                            if (shield.damageMap[blockRow][blockCol] < SHIELD_HEALTH_PER_BLOCK) {
+                                shield.damageMap[blockRow][blockCol]++; // Increment damage for this specific block
                                 playerBullets.splice(i, 1); // Remove bullet
-                                hitShield = true;
-                                break;
+                                hitShieldBlock = true;
+                                break; // Stop checking for collisions for this bullet
                             }
                         }
                     }
                 }
-                if (hitShield) continue;
+                if (hitShieldBlock) continue;
 
                 // Remove bullet if off-screen
                 if (bullet.y < 0) {
@@ -461,29 +570,29 @@
                 }
 
                 // Collision with shields (alien bullets)
-                let hitShield = false;
+                let hitShieldBlock = false;
                 for (let k = shields.length - 1; k >= 0; k--) {
                     let shield = shields[k];
-                    if (shield.health > 0 && checkCollision(bullet, shield)) {
+                    if (checkCollision(bullet, shield)) {
                         const hitX = bullet.x - shield.x;
                         const hitY = bullet.y - shield.y;
-                        const blockSize = 5;
-                        const blockCol = Math.floor(hitX / blockSize);
-                        const blockRow = Math.floor(hitY / blockSize);
+                        
+                        const blockCol = Math.floor(hitX / SHIELD_BLOCK_SIZE);
+                        const blockRow = Math.floor(hitY / SHIELD_BLOCK_SIZE);
 
                         if (blockRow >= 0 && blockRow < shield.damageMap.length &&
                             blockCol >= 0 && blockCol < shield.damageMap[0].length) {
-                            if (shield.damageMap[blockRow][blockCol] < SHIELD_HEALTH_MAX) {
-                                shield.damageMap[blockRow][blockCol]++;
-                                shield.health--; // Decrement overall shield health
+                            
+                            if (shield.damageMap[blockRow][blockCol] < SHIELD_HEALTH_PER_BLOCK) {
+                                shield.damageMap[blockRow][blockCol]++; // Increment damage for this specific block
                                 alienBullets.splice(i, 1); // Remove bullet
-                                hitShield = true;
-                                break;
+                                hitShieldBlock = true;
+                                break; // Stop checking for collisions for this bullet
                             }
                         }
                     }
                 }
-                if (hitShield) continue;
+                if (hitShieldBlock) continue;
 
                 // Remove bullet if off-screen
                 if (bullet.y > GAME_HEIGHT) {
@@ -503,7 +612,6 @@
             level++;
             alienMoveSpeed += 0.2; // Slightly increase alien horizontal speed
             alienFireRate = Math.max(50, alienFireRate - 10); // Make aliens fire faster, but not too fast
-            // No pop-up message, just update the level display
             resetEntities(); // Create new wave of aliens and reset shields
             updateInfoDisplay();
         }
@@ -514,11 +622,8 @@
                 highScore = score;
                 localStorage.setItem('spaceInvadersHighScore', highScore);
             }
-            // No pop-up message for game over, just stop the game and update scores
             updateInfoDisplay();
         }
-
-        // Removed showMessage and hideMessage functions
 
         // Event Listeners
         document.addEventListener('keydown', e => {
@@ -559,8 +664,6 @@
             gameRunning = false; // Stop the game loop
             initGame(); // Reset all game stats and entities
         });
-
-        // Removed messageOkButton event listener
 
         // Initialize game on window load
         window.onload = function() {
