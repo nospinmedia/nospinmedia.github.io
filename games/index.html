@@ -83,6 +83,16 @@
     .game-category a:hover {
       text-decoration: underline;
     }
+    #shareBtn {
+      padding: 0.5rem 1rem;
+      background: #0073e6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 1rem 0;
+    }
     footer {
       text-align: center;
       padding: 1rem;
@@ -124,6 +134,9 @@
     <div class="main">
       <h1>Games 🎮</h1>
       <p>Welcome to the No Spin Media Games section. Select a category below:</p>
+
+      <!-- ✅ Share button -->
+      <button id="shareBtn">🔗 Share This Page</button>
 
       <div class="game-category">
         <h2>🕹️ Arcade</h2>
@@ -173,6 +186,25 @@
   <footer>
     © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
   </footer>
+
+  <!-- ✅ Share script -->
+  <script>
+    document.getElementById('shareBtn').addEventListener('click', async () => {
+      const url = window.location.href;
+      const title = document.title;
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: title, url: url });
+        } catch (err) {
+          console.log('Share cancelled', err);
+        }
+      } else {
+        navigator.clipboard.writeText(url).then(() => {
+          alert('Link copied to clipboard:\n' + url);
+        });
+      }
+    });
+  </script>
 
 </body>
 </html>
