@@ -48,7 +48,7 @@
     #game-box {
       border: 2px solid #74B9FF; /* Muted blue border */
       box-shadow: 0 0 20px #74B9FF; /* Muted blue glow */
-      padding: 20px 20px 30px 20px; /* Increased padding-bottom */
+      padding: 20px; /* Uniform padding */
       border-radius: 12px; /* More rounded corners */
       background: #222831; /* Match body background */
       position: relative;
@@ -58,12 +58,12 @@
       min-width: 320px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between; /* Distribute space evenly vertically */
+      /* Removed justify-content: space-between; */
       margin-top: 20px; /* Added margin-top to push it down */
     }
 
     /* Consistent spacing between major sections within game-box */
-    #game-box > *:not(:last-child) {
+    #game-box > * {
       margin-bottom: 15px;
     }
 
@@ -72,7 +72,6 @@
       color: #74B9FF;
       text-align: center;
       font-size: 2.2em;
-      /* margin-bottom: 10px; Removed, handled by parent's margin-bottom */
       text-shadow: 0 0 10px #74B9FF;
       position: relative;
       padding-bottom: 5px;
@@ -92,7 +91,6 @@
     #game-info {
       text-align: center;
       color: #74B9FF;
-      /* margin-bottom: 15px; Removed, handled by parent's margin-bottom */
       font-weight: bold;
       font-size: 1.1em;
       display: flex;
@@ -110,7 +108,6 @@
     /* Game controls/buttons */
     .game-controls {
       text-align: center;
-      /* margin-bottom: 20px; Removed, handled by parent's margin-bottom */
       display: flex;
       flex-wrap: wrap; /* Allows wrapping */
       gap: 10px;
@@ -238,10 +235,9 @@
     #sudoku-board {
       display: grid;
       grid-template-columns: repeat(9, 1fr);
-      grid-template-rows: repeat(9, 1fr);
+      grid-template-rows: repeat(9, 1fr); /* Use 1fr for rows too */
       width: 100%; /* Make board take 100% of parent's width */
       aspect-ratio: 1 / 1; /* Keep it square */
-      /* margin: 10px auto; Removed, handled by parent's margin-bottom */
       border: 4px solid #74B9FF;
       box-shadow: 0 0 25px rgba(116, 185, 255, 0.5);
       border-radius: 8px;
@@ -249,8 +245,7 @@
       flex-shrink: 0;
       flex-grow: 1; /* Allow board to grow within available space */
       max-width: 340px; /* Adjusted max width for desktop to fit smaller board */
-      height: auto; /* Let height auto-adjust */
-      min-height: 340px; /* Ensure enough space for all rows */
+      margin-bottom: 0; /* Remove margin below board */
     }
 
     .sudoku-cell {
@@ -266,7 +261,7 @@
       transition: background-color 0.2s ease-in-out;
       position: relative; /* For pencil marks positioning */
       min-height: 38px; /* Added min-height to prevent shifts when pencil marks appear/disappear */
-      height: calc(100% / 9); /* Fixed height based on board size */
+      /* height: calc(100% / 9); Removed as 1fr handles it */
     }
 
     /* Pencil marks grid inside cell */
@@ -336,11 +331,12 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      /* margin-top: auto; Removed, handled by parent's margin-bottom */
       padding: 10px;
       border-radius: 8px;
       background: #2E4057;
       flex-shrink: 0; /* Ensure it doesn't shrink */
+      margin-top: 0; /* Ensure no top margin for number pad */
+      margin-bottom: 0; /* Ensure no bottom margin for number pad */
     }
 
     #number-pad button {
@@ -461,7 +457,7 @@
         margin-top: 2vw; /* Responsive margin-top for mobile */
       }
       /* Responsive spacing between major sections within game-box */
-      #game-box > *:not(:last-child) {
+      #game-box > * {
         margin-bottom: 1.5vw;
       }
       #sidebar {
@@ -474,12 +470,12 @@
         height: 90vw; /* Force square board */
         max-width: none; /* Removed fixed max-width */
         max-height: none; /* Removed fixed max-height */
-        /* margin: 1vw auto; Removed, handled by parent's margin-bottom */
         min-height: unset; /* Remove min-height for mobile */
+        margin-bottom: 0; /* Remove margin below board */
       }
       .sudoku-cell {
         width: calc(90vw / 9); /* Ensures 9 cells fit within 90vw board */
-        height: calc(90vw / 9); /* Fixed height based on board size */
+        /* height: calc(90vw / 9); Removed as 1fr handles it */
         font-size: 4.5vw; /* Adjusted font size responsively */
         min-height: 10vw; /* Responsive min-height for mobile cells */
       }
@@ -488,9 +484,10 @@
           padding: 0.3vw;
       }
       #number-pad {
-        /* margin-top: 1vw; Removed, handled by parent's margin-bottom */
         padding: 1.5vw; /* Responsive padding on mobile */
         grid-template-columns: repeat(3, 1fr); /* 3 columns for numbers */
+        margin-top: 0; /* Ensure no top margin for number pad */
+        margin-bottom: 0; /* Ensure no bottom margin for number pad */
       }
       #number-pad button {
         font-size: 3vw; /* Responsive font size for buttons */
@@ -509,7 +506,6 @@
         padding: 1.2vw 0.8vw; /* Match other buttons, slightly less horizontal padding */
       }
       .game-controls {
-        /* margin-bottom: 2vw; Removed, handled by parent's margin-bottom */
         gap: 1.5vw; /* Responsive gap */
       }
       .game-controls button {
@@ -522,7 +518,6 @@
       }
       #game-header {
         font-size: 5vw; /* Responsive header font size */
-        /* margin-bottom: 2vw; Removed */
       }
       #game-version {
         font-size: 2vw;
@@ -530,7 +525,6 @@
         top: 1.5vw;
       }
       #game-info {
-        /* margin-bottom: 2vw; Removed */
         font-size: 2.8vw; /* Responsive info font size */
         gap: 2vw;
       }
@@ -556,7 +550,7 @@
     <div id="site-header"></div> 
     <div id="game-container">
       <div id="game-box">
-        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.19</span></div>
+        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.20</span></div>
         <div id="game-info">
           <span>Difficulty: <span id="current-difficulty">Medium</span></span>
           <span id="game-status">Ready</span>
