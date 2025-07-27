@@ -308,13 +308,16 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Chess ♟️ <span id="game-version">v1.1</span></div>
+      <div id="game-header">Chess ♟️ <span id="game-version">v1.2</span></div>
       <div id="game-info">
         <span>Current Turn: <span id="current-turn">White</span></span>
+        <span>Score: <span id="score">0</span></span>
       </div>
 
       <div class="game-controls">
         <button id="newGameBtn">✨ New Game</button>
+        <button id="shareBtn">🔗 Share with Friends</button>
+        <button id="copyBtn">📋 Copy Link</button>
       </div>
 
       <div id="chess-board">
@@ -344,14 +347,22 @@
       'P': '♟', 'R': '♜', 'N': '♞', 'B': '♝', 'Q': '♛', 'K': '♚'  // Black pieces
     };
 
+    // Define piece values for scoring
+    const pieceValues = {
+        'p': 10, 'r': 50, 'n': 30, 'b': 30, 'q': 90, 'k': 0, // White pieces (King has 0 value for capture scoring)
+        'P': 10, 'R': 50, 'N': 30, 'B': 30, 'Q': 90, 'K': 0  // Black pieces
+    };
+
     let board = []; // 8x8 array representing the chessboard
     let currentTurn = 'white'; // 'white' or 'black'
     let selectedPiece = null; // { row, col, piece } of the selected piece
     let possibleMoves = []; // Array of { row, col } for valid moves for selected piece
+    let score = 0; // Initialize score
 
     // --- DOM Elements ---
     const chessBoardEl = document.getElementById('chess-board');
     const currentTurnEl = document.getElementById('current-turn');
+    const scoreEl = document.getElementById('score'); // Get score element
     const gameMessageEl = document.getElementById('game-message');
     const newGameBtn = document.getElementById('newGameBtn');
 
@@ -360,6 +371,7 @@
       currentTurn = 'white';
       selectedPiece = null;
       possibleMoves = [];
+      score = 0; // Reset score on new game
       hideGameMessage();
       renderBoard();
       updateHUD();
@@ -446,6 +458,7 @@
 
     function updateHUD() {
       currentTurnEl.textContent = currentTurn.charAt(0).toUpperCase() + currentTurn.slice(1);
+      scoreEl.textContent = score; // Update score display
     }
 
     function displayGameMessage(message) {
@@ -498,7 +511,7 @@
           const startRow = pieceColor === 'white' ? 6 : 1;
 
           // Single step forward
-          if (!board[row + direction][col]) {
+          if (board[row + direction] && !board[row + direction][col]) {
             moves.push({ row: row + direction, col: col });
             // Double step forward on first move
             if (row === startRow && !board[row + 2 * direction][col]) {
@@ -506,10 +519,10 @@
             }
           }
           // Diagonal captures
-          if (col - 1 >= 0 && board[row + direction] && board[row + direction][col - 1]?.color === opponentColor) {
+          if (col - 1 >= 0 && board[row + direction] && board[row + direction][col - 1] && board[row + direction][col - 1].color === opponentColor) {
             moves.push({ row: row + direction, col: col - 1 });
           }
-          if (col + 1 < 8 && board[row + direction] && board[row + direction][col + 1]?.color === opponentColor) {
+          if (col + 1 < 8 && board[row + direction] && board[row + direction][col + 1] && board[row + direction][col + 1].color === opponentColor) {
             moves.push({ row: row + direction, col: col + 1 });
           }
           break;
@@ -590,17 +603,22 @@
           // Pick a random valid move
           const randomMove = allPossibleAIMoves[Math.floor(Math.random() * allPossibleAIMoves.length)];
 
+          // Check for capture and update score
+          const capturedPiece = board[randomMove.toRow][randomMove.toCol];
+          if (capturedPiece) {
+              score += pieceValues[capturedPiece.type]; // Add score for captured piece
+          }
+
           // Perform the move
           board[randomMove.toRow][randomMove.toCol] = randomMove.piece; // Move piece
           board[randomMove.fromRow][randomMove.fromCol] = null; // Clear old position
 
-          // Check if a King was captured (simple win condition for v1.0)
-          if (randomMove.piece.type.toLowerCase() === 'k' && board[randomMove.toRow][randomMove.toCol]?.type.toLowerCase() !== 'k') {
-              displayGameMessage(`${currentTurn.toUpperCase()} wins! (King captured)`);
+          // Check if a King was captured (simple win condition)
+          if (capturedPiece && capturedPiece.type.toLowerCase() === 'k') {
+              displayGameMessage(`White wins! (Black King captured)`);
               // Stop game or offer new game
               return;
           }
-
 
           // Switch turn
           currentTurn = 'white';
@@ -631,13 +649,19 @@
         const isValidMove = possibleMoves.some(move => move.row === clickedRow && move.col === clickedCol);
 
         if (isValidMove) {
+          // Check for capture and update score
+          const capturedPiece = board[clickedRow][clickedCol];
+          if (capturedPiece) {
+              score += pieceValues[capturedPiece.type]; // Add score for captured piece
+          }
+
           // Perform the move
           board[clickedRow][clickedCol] = selectedPiece.piece; // Move piece
           board[selectedPiece.row][selectedPiece.col] = null; // Clear old position
 
-          // Check if opponent's King was captured (simple win condition for v1.0)
-          if (clickedPiece && clickedPiece.type.toLowerCase() === 'k') {
-              displayGameMessage(`${currentTurn.toUpperCase()} wins! (King captured)`);
+          // Check if opponent's King was captured (simple win condition)
+          if (capturedPiece && capturedPiece.type.toLowerCase() === 'k') {
+              displayGameMessage(`White wins! (Black King captured)`);
               // Stop game or offer new game
               return;
           }
