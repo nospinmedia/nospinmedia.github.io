@@ -483,9 +483,17 @@
           audioContext = new (window.AudioContext || window.webkitAudioContext)();
           console.log(`AudioContext created. Initial state: ${audioContext.state}`);
 
-          // Load sounds only once
-          shootBuffer = await loadSound('https://www.soundjay.com/buttons/beep-07.wav');
-          explosionBuffer = await loadSound('https://www.soundjay.com/misc/explosion-01.wav');
+          // --- FIX #1: Unlock by playing a 0-length buffer immediately ---
+          const silentSource = audioContext.createBufferSource();
+          silentSource.buffer = audioContext.createBuffer(1, 1, 22050); // 1 channel, 1 frame, 22050 sample rate (minimal)
+          silentSource.connect(audioContext.destination);
+          silentSource.start(); // Start and immediately stop (or let it play for 0 duration)
+          silentSource.stop(0); // Stop it right away, otherwise it might make a tiny click or extend the context lifetime unnecessarily
+          // -----------------------------------------------------------------
+
+          // --- FIX #2: Load sounds from local paths (assuming you've downloaded them) ---
+          shootBuffer = await loadSound('/sounds/beep-07.wav'); // Changed URL
+          explosionBuffer = await loadSound('/sounds/explosion-01.wav'); // Changed URL
       }
 
       // Ensure audio context is resumed after a user gesture (like clicking Start Game)
