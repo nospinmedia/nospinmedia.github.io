@@ -1,158 +1,729 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>No Spin Media - Card Games</title>
-  <link rel="stylesheet" href="../../style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chess - No Spin Media</title>
+  <link rel="stylesheet" href="/style.css">
   <style>
+    /* Global body styles for the game theme */
     body {
-      font-family: Arial, sans-serif;
+      background: #222831; /* Deep charcoal for a calm background */
+      color: #fff;
       margin: 0;
-      padding: 0;
-      background: #f4f4f4;
-      color: #222;
-    }
-    .container {
+      font-family: 'Inter', Arial, sans-serif; /* Using Inter for a modern look */
       display: flex;
-      flex-wrap: wrap;
-      padding: 2rem;
-    }
-    .main {
-      flex: 1 1 65%;
-      padding: 1rem;
-    }
-    .sidebar {
-      flex: 1 1 25%;
-      background: #fff;
-      padding: 1rem;
-      margin-left: 2rem;
-      border-left: 2px solid #eee;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      height: fit-content;
-    }
-    h1 {
-      font-size: 2rem;
-      margin-top: 0;
+      flex-direction: column;
+      min-height: 100vh; /* Ensure footer stays at bottom */
     }
 
-    /* 🎨 Game card styling */
-    .game-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
+    /* Main game container layout */
+    #game-container {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+      gap: 30px;
+      flex-wrap: wrap; /* Allows wrapping on smaller screens */
+      flex-grow: 1; /* Allows container to grow and push footer down */
     }
-    .game-card {
-      background: linear-gradient(145deg, #fff, #f7f7f7);
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+    /* Game box styling (main game area) */
+    #game-box {
+      border: 2px solid #74B9FF; /* Muted blue border */
+      box-shadow: 0 0 20px #74B9FF; /* Muted blue glow */
+      padding: 15px;
+      border-radius: 12px; /* More rounded corners */
+      background: #222831; /* Match body background */
+      position: relative;
+      flex-grow: 1; /* Allows game box to take available space */
+      max-width: 900px; /* Limit max width for better readability */
+      min-width: 320px; /* Minimum width for mobile */
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Game header styling */
+    #game-header {
+      color: #74B9FF; /* Muted blue header text */
       text-align: center;
+      font-size: 2.2em; /* Slightly larger title */
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px #74B9FF;
       position: relative;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .game-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-    }
-    .game-card h2 {
-      font-size: 1.4rem;
-      margin: 0.5rem 0;
-    }
-    .game-card p {
-      color: #555;
-      margin: 0.5rem 0 1rem;
+      padding-bottom: 5px;
+      border-bottom: 1px solid rgba(116, 185, 255, 0.3); /* Subtle separator with new color */
     }
 
-    /* 🎨 Play button */
-    .game-card a {
-      display: inline-block;
-      padding: 0.6rem 1.4rem;
-      background: #0073e6;
-      color: white;
-      border-radius: 6px;
-      font-weight: bold;
-      text-decoration: none;
-      position: relative;
-      z-index: 2;
-      box-shadow: 0 0 12px rgba(0,115,230,0.4);
-      transition: background 0.3s, box-shadow 0.3s;
-    }
-    .game-card a:hover {
-      background: #005bb5;
-      box-shadow: 0 0 16px rgba(0,91,181,0.6);
-    }
-
-    /* ♠️ Decorative card images */
-    .card-deco {
+    #game-version {
       position: absolute;
-      width: 60px;
-      opacity: 0.15;
-      z-index: 1;
-      pointer-events: none;
-      transform: rotate(-15deg);
+      top: 5px;
+      right: 15px;
+      color: #74B9FF;
+      font-size: 0.7em; /* Smaller version text */
+      opacity: 0.7;
     }
-    .card-top-left { top: -10px; left: -10px; }
-    .card-bottom-right { bottom: -10px; right: -10px; transform: rotate(15deg); }
 
+    /* Game info (current turn, messages) */
+    #game-info {
+      text-align: center;
+      color: #74B9FF; /* Muted blue info text */
+      margin-bottom: 15px;
+      font-weight: bold;
+      font-size: 1.1em;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    #game-info span {
+      padding: 5px 10px;
+      background: rgba(116, 185, 255, 0.1); /* Subtle background with new color */
+      border-radius: 5px;
+    }
+
+    /* Game controls/buttons */
+    .game-controls {
+      text-align: center;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .game-controls button {
+      padding: 10px 20px;
+      margin: 0 5px;
+      background: #60A3D9; /* Calming blue buttons */
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1em;
+      box-shadow: 0 0 10px rgba(96, 163, 217, 0.5);
+      transition: all 0.2s ease-in-out;
+    }
+
+    .game-controls button:hover {
+      background: #7ABCEF; /* Lighter blue on hover */
+      box-shadow: 0 0 15px rgba(122, 188, 239, 0.8);
+      transform: translateY(-2px);
+    }
+
+    .game-controls button:active {
+      transform: translateY(0);
+      box-shadow: 0 0 5px rgba(96, 163, 217, 0.3);
+    }
+
+    /* Sidebar styling (Donate section) */
+    #sidebar {
+      background: #222831; /* Match body background */
+      border: 2px solid #74B9FF; /* Muted blue border */
+      box-shadow: 0 0 15px #74B9FF; /* Muted blue glow */
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 280px; /* Slightly wider sidebar */
+      height: fit-content;
+      text-align: center;
+      margin-top: 15px; /* Align with game box top */
+    }
+
+    #sidebar h2 {
+      color: #74B9FF; /* Muted blue header */
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    #donate-button {
+      background: #ffd700; /* Gold button (kept for donation distinction) */
+      color: #000;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 15px auto 10px; /* More margin */
+      display: block;
+      transition: all 0.2s ease-in-out;
+    }
+
+    #donate-button:hover {
+      background: #ffe033;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+      transform: translateY(-2px);
+    }
+
+    #donate-button:active {
+      transform: translateY(0);
+      box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+    }
+
+    #sidebar p {
+      font-size: 0.9em;
+      color: #aaa;
+      line-height: 1.4;
+    }
+
+    /* Footer styling */
     footer {
       text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
       color: #666;
+      padding: 15px;
+      font-size: 0.9em;
+      margin-top: auto; /* Pushes footer to the bottom */
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
+
+    /* --- Chess Board Specific Layout --- */
+    #chess-board {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      width: 560px; /* 8 * 70px per square */
+      height: 560px; /* 8 * 70px per square */
+      margin: 20px auto;
+      border: 4px solid #74B9FF; /* Muted blue border for the board */
+      box-shadow: 0 0 25px rgba(116, 185, 255, 0.5);
+      border-radius: 8px;
+      overflow: hidden; /* Ensures pieces don't overflow board corners */
+    }
+
+    .square {
+      width: 70px;
+      height: 70px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 4em; /* Large enough for Unicode pieces */
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+      position: relative; /* For piece positioning */
+    }
+
+    .light {
+      background-color: #AEC6CF; /* Light blue-grey */
+    }
+
+    .dark {
+      background-color: #4A6572; /* Calm blue-grey */
+    }
+
+    .selected {
+      background-color: #4682B4; /* SteelBlue for selected piece */
+      box-shadow: inset 0 0 10px #4682B4;
+    }
+
+    .possible-move {
+      background-color: #87CEEB; /* SkyBlue for possible moves */
+      box-shadow: inset 0 0 10px #87CEEB;
+    }
+
+    .piece {
+      user-select: none; /* Prevent text selection on pieces */
+      font-size: 0.9em; /* Adjust font size for piece symbols */
+      line-height: 1; /* Ensure vertical centering */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 0.2s ease-in-out; /* Smooth movement */
+    }
+
+    .piece.white {
+      color: #F8F8F8; /* Off-white for white pieces */
+    }
+
+    .piece.black {
+      color: #333333; /* Dark grey for black pieces */
+    }
+
+    /* Game message box */
+    #game-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.8);
+      padding: 20px 40px;
+      border-radius: 10px;
+      border: 2px solid #74B9FF;
+      color: #74B9FF;
+      font-size: 2em;
+      font-weight: bold;
+      text-shadow: 0 0 10px #74B9FF;
+      display: none;
+      z-index: 1001;
+    }
+
+    /* Responsive adjustments */
     @media (max-width: 768px) {
-      .container { flex-direction: column; }
-      .sidebar {
-        margin-left: 0;
-        margin-top: 1rem;
-        border-left: none;
-        border-top: 2px solid #eee;
+      #game-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+      }
+      #game-box {
+        width: 100%;
+        max-width: none;
+        padding: 10px;
+      }
+      #sidebar {
+        width: 100%;
+        max-width: none;
+        margin-top: 20px;
+      }
+      #chess-board {
+        width: 90vw; /* Make board responsive */
+        height: 90vw;
+        max-width: 500px; /* Cap max size */
+        max-height: 500px;
+      }
+      .square {
+        font-size: 10vw; /* Adjust piece size responsively */
+      }
+      .game-controls button {
+        font-size: 1em;
+        padding: 8px 15px;
+      }
+      #game-header {
+        font-size: 1.8em;
+      }
+      #game-info span {
+        font-size: 0.9em;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- ✅ Global Header -->
+  <!-- Site-wide header (fetched dynamically) -->
   <div id="site-header"></div>
   <script>
-    fetch('/header.html')
-      .then(r=>r.text())
-      .then(h=>document.getElementById('site-header').innerHTML=h);
+    fetch(window.location.origin + '/header.html')
+      .then(r => r.text())
+      .then(h => document.getElementById('site-header').innerHTML = h)
+      .catch(e => console.error('Error fetching header:', e));
   </script>
 
-  <div class="container">
-    <div class="main">
-      <h1>🃏 Card Games</h1>
-      <p>Pick a card game to start playing:</p>
-
-      <div class="game-list">
-        <div class="game-card">
-          <img src="../../images/cards/ace-spades.png" alt="Ace of Spades" class="card-deco card-top-left">
-          <img src="../../images/cards/king-hearts.png" alt="King of Hearts" class="card-deco card-bottom-right">
-          <h2>Klondike Solitaire</h2>
-          <p>Classic solitaire card game.</p>
-          <a href="klondike/index.html">Play</a>
-        </div>
+  <div id="game-container">
+    <div id="game-box">
+      <div id="game-header">Chess ♟️ <span id="game-version">v1.1</span></div>
+      <div id="game-info">
+        <span>Current Turn: <span id="current-turn">White</span></span>
       </div>
+
+      <div class="game-controls">
+        <button id="newGameBtn">✨ New Game</button>
+      </div>
+
+      <div id="chess-board">
+        <!-- Squares and pieces will be dynamically generated here -->
+      </div>
+      <div id="game-message"></div>
     </div>
 
-    <!-- ✅ Sidebar Donation -->
-    <div class="sidebar">
-      <h2>Support Us 💙</h2>
+    <!-- Sidebar (Donate section) -->
+    <div id="sidebar">
+      <h2>Support Us!</h2>
       <p>If you enjoy ad-free games from No Spin Media, consider supporting us.</p>
-      <button id="donate-button" onclick="window.location.href='../../sponsor.html'">Donate Now</button>
+      <button id="donate-button" onclick="window.location.href='/sponsor.html'">Donate Now</button>
       <p style="font-size:0.8em; color:#aaa;">Your help keeps No Spin Media alive and growing.</p>
     </div>
   </div>
 
-  <footer>
+  <!-- Site-wide footer -->
+  <footer style="text-align:center;color:#666;padding:10px;">
     © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
   </footer>
 
+  <script>
+    // --- Game State Variables ---
+    const pieceSymbols = {
+      'p': '♙', 'r': '♖', 'n': '♘', 'b': '♗', 'q': '♕', 'k': '♔', // White pieces
+      'P': '♟', 'R': '♜', 'N': '♞', 'B': '♝', 'Q': '♛', 'K': '♚'  // Black pieces
+    };
+
+    let board = []; // 8x8 array representing the chessboard
+    let currentTurn = 'white'; // 'white' or 'black'
+    let selectedPiece = null; // { row, col, piece } of the selected piece
+    let possibleMoves = []; // Array of { row, col } for valid moves for selected piece
+
+    // --- DOM Elements ---
+    const chessBoardEl = document.getElementById('chess-board');
+    const currentTurnEl = document.getElementById('current-turn');
+    const gameMessageEl = document.getElementById('game-message');
+    const newGameBtn = document.getElementById('newGameBtn');
+
+    // --- Game Initialization ---
+    function initializeGame() {
+      currentTurn = 'white';
+      selectedPiece = null;
+      possibleMoves = [];
+      hideGameMessage();
+      renderBoard();
+      updateHUD();
+    }
+
+    // --- Board Representation and Setup ---
+    function setupInitialBoard() {
+      // Initialize empty board
+      board = Array(8).fill(null).map(() => Array(8).fill(null));
+
+      // Set up black pieces (uppercase for black)
+      board[0][0] = { type: 'R', color: 'black' }; // Rook
+      board[0][1] = { type: 'N', color: 'black' }; // Knight
+      board[0][2] = { type: 'B', color: 'black' }; // Bishop
+      board[0][3] = { type: 'Q', color: 'black' }; // Queen
+      board[0][4] = { type: 'K', color: 'black' }; // King
+      board[0][5] = { type: 'B', color: 'black' }; // Bishop
+      board[0][6] = { type: 'N', color: 'black' }; // Knight
+      board[0][7] = { type: 'R', color: 'black' }; // Rook
+      for (let i = 0; i < 8; i++) {
+        board[1][i] = { type: 'P', color: 'black' }; // Pawns
+      }
+
+      // Set up white pieces (lowercase for white)
+      board[7][0] = { type: 'r', color: 'white' }; // Rook
+      board[7][1] = { type: 'n', color: 'white' }; // Knight
+      board[7][2] = { type: 'b', color: 'white' }; // Bishop
+      board[7][3] = { type: 'q', color: 'white' }; // Queen
+      board[7][4] = { type: 'k', color: 'white' }; // King
+      board[7][5] = { type: 'b', color: 'white' }; // Bishop
+      board[7][6] = { type: 'n', color: 'white' }; // Knight
+      board[7][7] = { type: 'r', color: 'white' }; // Rook
+      for (let i = 0; i < 8; i++) {
+        board[6][i] = { type: 'p', color: 'white' }; // Pawns
+      }
+    }
+
+    // --- Rendering Functions ---
+    function renderBoard() {
+      chessBoardEl.innerHTML = ''; // Clear existing board
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          const squareEl = document.createElement('div');
+          squareEl.classList.add('square');
+          squareEl.classList.add((r + c) % 2 === 0 ? 'light' : 'dark');
+          squareEl.dataset.row = r;
+          squareEl.dataset.col = c;
+
+          const piece = board[r][c];
+          if (piece) {
+            const pieceEl = document.createElement('span');
+            pieceEl.classList.add('piece', piece.color);
+            pieceEl.textContent = pieceSymbols[piece.type];
+            squareEl.appendChild(pieceEl);
+          }
+
+          // Add click listener to each square
+          squareEl.addEventListener('click', handleSquareClick);
+          chessBoardEl.appendChild(squareEl);
+        }
+      }
+      highlightSelectedAndPossibleMoves();
+    }
+
+    function highlightSelectedAndPossibleMoves() {
+      document.querySelectorAll('.square').forEach(squareEl => {
+        squareEl.classList.remove('selected', 'possible-move');
+      });
+
+      if (selectedPiece) {
+        const selectedEl = document.querySelector(`.square[data-row="${selectedPiece.row}"][data-col="${selectedPiece.col}"]`);
+        if (selectedEl) {
+          selectedEl.classList.add('selected');
+        }
+
+        possibleMoves.forEach(move => {
+          const moveEl = document.querySelector(`.square[data-row="${move.row}"][data-col="${move.col}"]`);
+          if (moveEl) {
+            moveEl.classList.add('possible-move');
+          }
+        });
+      }
+    }
+
+    function updateHUD() {
+      currentTurnEl.textContent = currentTurn.charAt(0).toUpperCase() + currentTurn.slice(1);
+    }
+
+    function displayGameMessage(message) {
+      gameMessageEl.textContent = message;
+      gameMessageEl.style.display = 'block';
+      setTimeout(hideGameMessage, 2000); // Hide after 2 seconds
+    }
+
+    function hideGameMessage() {
+      gameMessageEl.style.display = 'none';
+    }
+
+    // --- Game Logic: Piece Movement Validation (Simplified for v1.0) ---
+    // NOTE: This is a highly simplified validation. It does not account for:
+    // - Blocking pieces between source and destination (except for pawns).
+    // - Check/Checkmate logic.
+    // - Castling, En Passant, Pawn Promotion.
+    // These are complex and would be added in future versions.
+    function getPossibleMoves(row, col, piece) {
+      const moves = [];
+      const pieceColor = piece.color;
+      const opponentColor = pieceColor === 'white' ? 'black' : 'white';
+
+      // Helper function to check if a square is valid and not occupied by own piece
+      const isValidSquare = (r, c) => {
+        return r >= 0 && r < 8 && c >= 0 && c < 8 && (!board[r][c] || board[r][c].color !== pieceColor);
+      };
+
+      // Helper for sliding pieces (Rook, Bishop, Queen)
+      const addSlidingMoves = (dr, dc) => {
+        let r = row + dr;
+        let c = col + dc;
+        while (r >= 0 && r < 8 && c >= 0 && c < 8) {
+          if (!board[r][c]) { // Empty square
+            moves.push({ row: r, col: c });
+          } else if (board[r][c].color !== pieceColor) { // Opponent's piece (capture)
+            moves.push({ row: r, col: c });
+            break; // Stop after capturing
+          } else { // Own piece (blocking)
+            break;
+          }
+          r += dr;
+          c += dc;
+        }
+      };
+
+      switch (piece.type.toLowerCase()) {
+        case 'p': // Pawn
+          const direction = pieceColor === 'white' ? -1 : 1; // White moves up, black moves down
+          const startRow = pieceColor === 'white' ? 6 : 1;
+
+          // Single step forward
+          if (!board[row + direction][col]) {
+            moves.push({ row: row + direction, col: col });
+            // Double step forward on first move
+            if (row === startRow && !board[row + 2 * direction][col]) {
+              moves.push({ row: row + 2 * direction, col: col });
+            }
+          }
+          // Diagonal captures
+          if (col - 1 >= 0 && board[row + direction] && board[row + direction][col - 1]?.color === opponentColor) {
+            moves.push({ row: row + direction, col: col - 1 });
+          }
+          if (col + 1 < 8 && board[row + direction] && board[row + direction][col + 1]?.color === opponentColor) {
+            moves.push({ row: row + direction, col: col + 1 });
+          }
+          break;
+        case 'r': // Rook
+          addSlidingMoves(1, 0); addSlidingMoves(-1, 0); // Vertical
+          addSlidingMoves(0, 1); addSlidingMoves(0, -1); // Horizontal
+          break;
+        case 'n': // Knight
+          const knightMoves = [
+            { dr: -2, dc: -1 }, { dr: -2, dc: 1 }, { dr: -1, dc: -2 }, { dr: -1, dc: 2 },
+            { dr: 1, dc: -2 }, { dr: 1, dc: 2 }, { dr: 2, dc: -1 }, { dr: 2, dc: 1 }
+          ];
+          knightMoves.forEach(move => {
+            const newRow = row + move.dr;
+            const newCol = col + move.dc;
+            if (isValidSquare(newRow, newCol)) {
+              moves.push({ row: newRow, col: newCol });
+            }
+          });
+          break;
+        case 'b': // Bishop
+          addSlidingMoves(1, 1); addSlidingMoves(1, -1); // Diagonal
+          addSlidingMoves(-1, 1); addSlidingMoves(-1, -1); // Diagonal
+          break;
+        case 'q': // Queen (Rook + Bishop)
+          addSlidingMoves(1, 0); addSlidingMoves(-1, 0); // Vertical
+          addSlidingMoves(0, 1); addSlidingMoves(0, -1); // Horizontal
+          addSlidingMoves(1, 1); addSlidingMoves(1, -1); // Diagonal
+          addSlidingMoves(-1, 1); addSlidingMoves(-1, -1); // Diagonal
+          break;
+        case 'k': // King
+          const kingMoves = [
+            { dr: -1, dc: -1 }, { dr: -1, dc: 0 }, { dr: -1, dc: 1 },
+            { dr: 0, dc: -1 }, { dr: 0, dc: 1 },
+            { dr: 1, dc: -1 }, { dr: 1, dc: 0 }, { dr: 1, dc: 1 }
+          ];
+          kingMoves.forEach(move => {
+            const newRow = row + move.dr;
+            const newCol = col + move.dc;
+            if (isValidSquare(newRow, newCol)) {
+              moves.push({ row: newRow, col: newCol });
+            }
+          });
+          break;
+      }
+      return moves;
+    }
+
+    // --- AI Logic (Basic Random Move) ---
+    function makeAIMove() {
+      if (currentTurn !== 'black') return;
+
+      displayGameMessage("Black's Turn (AI thinking...)");
+
+      setTimeout(() => {
+        let allPossibleAIMoves = [];
+
+        // Collect all valid moves for all black pieces
+        for (let r = 0; r < 8; r++) {
+          for (let c = 0; c < 8; c++) {
+            const piece = board[r][c];
+            if (piece && piece.color === 'black') {
+              const movesForPiece = getPossibleMoves(r, c, piece);
+              movesForPiece.forEach(move => {
+                allPossibleAIMoves.push({
+                  fromRow: r,
+                  fromCol: c,
+                  toRow: move.row,
+                  toCol: move.col,
+                  piece: piece
+                });
+              });
+            }
+          }
+        }
+
+        if (allPossibleAIMoves.length > 0) {
+          // Pick a random valid move
+          const randomMove = allPossibleAIMoves[Math.floor(Math.random() * allPossibleAIMoves.length)];
+
+          // Perform the move
+          board[randomMove.toRow][randomMove.toCol] = randomMove.piece; // Move piece
+          board[randomMove.fromRow][randomMove.fromCol] = null; // Clear old position
+
+          // Check if a King was captured (simple win condition for v1.0)
+          if (randomMove.piece.type.toLowerCase() === 'k' && board[randomMove.toRow][randomMove.toCol]?.type.toLowerCase() !== 'k') {
+              displayGameMessage(`${currentTurn.toUpperCase()} wins! (King captured)`);
+              // Stop game or offer new game
+              return;
+          }
+
+
+          // Switch turn
+          currentTurn = 'white';
+          updateHUD();
+          renderBoard();
+          displayGameMessage("Black made a move!");
+        } else {
+          displayGameMessage("No moves for Black. Stalemate or Checkmate (not fully implemented).");
+        }
+      }, 1000); // 1 second delay for AI move
+    }
+
+
+    // --- Event Handlers ---
+    function handleSquareClick(event) {
+      if (currentTurn === 'black') {
+        displayGameMessage("It's Black's turn (AI). Please wait.");
+        return;
+      }
+
+      const clickedRow = parseInt(event.currentTarget.dataset.row);
+      const clickedCol = parseInt(event.currentTarget.dataset.col);
+      const clickedPiece = board[clickedRow][clickedCol];
+
+      // If a piece is already selected
+      if (selectedPiece) {
+        // Check if clicked square is a valid move for the selected piece
+        const isValidMove = possibleMoves.some(move => move.row === clickedRow && move.col === clickedCol);
+
+        if (isValidMove) {
+          // Perform the move
+          board[clickedRow][clickedCol] = selectedPiece.piece; // Move piece
+          board[selectedPiece.row][selectedPiece.col] = null; // Clear old position
+
+          // Check if opponent's King was captured (simple win condition for v1.0)
+          if (clickedPiece && clickedPiece.type.toLowerCase() === 'k') {
+              displayGameMessage(`${currentTurn.toUpperCase()} wins! (King captured)`);
+              // Stop game or offer new game
+              return;
+          }
+
+          // Reset selection and switch turn
+          selectedPiece = null;
+          possibleMoves = [];
+          currentTurn = currentTurn === 'white' ? 'black' : 'white';
+          updateHUD();
+          renderBoard();
+          displayGameMessage("Move made!");
+
+          // If it's now Black's turn, trigger AI move
+          if (currentTurn === 'black') {
+            makeAIMove();
+          }
+
+        } else if (clickedPiece && clickedPiece.color === currentTurn) {
+          // Clicked on a different piece of the current player's color
+          selectedPiece = { row: clickedRow, col: clickedCol, piece: clickedPiece };
+          possibleMoves = getPossibleMoves(clickedRow, clickedCol, clickedPiece);
+          renderBoard(); // Re-render to highlight new selection
+        } else {
+          // Invalid move or clicked on opponent's piece/empty square (deselect)
+          selectedPiece = null;
+          possibleMoves = [];
+          renderBoard();
+          displayGameMessage("Invalid move or deselected.");
+        }
+      } else {
+        // No piece selected, try to select one
+        if (clickedPiece && clickedPiece.color === currentTurn) {
+          selectedPiece = { row: clickedRow, col: clickedCol, piece: clickedPiece };
+          possibleMoves = getPossibleMoves(clickedRow, clickedCol, clickedPiece);
+          renderBoard(); // Highlight selected piece and possible moves
+        } else if (clickedPiece && clickedPiece.color !== currentTurn) {
+          displayGameMessage("It's not your turn!");
+        } else {
+          displayGameMessage("Select a piece to move.");
+        }
+      }
+    }
+
+    // --- Initial Setup ---
+    document.addEventListener('DOMContentLoaded', () => {
+      newGameBtn.addEventListener('click', () => {
+        setupInitialBoard(); // Reset board to initial state
+        initializeGame(); // Re-initialize game state
+        displayGameMessage("New Game Started!");
+      });
+
+      // Share and Copy Link buttons (from Klondike)
+      // NOTE: document.execCommand('copy') is deprecated. For better compatibility,
+      // consider using navigator.clipboard.writeText if running in a secure context.
+      // For this Canvas environment, execCommand might be more reliable.
+      document.getElementById('shareBtn').onclick = () => {
+        if (navigator.share) {
+          navigator.share({
+            title: "Chess - No Spin Media",
+            url: window.location.href
+          }).catch((error) => console.error('Error sharing:', error));
+        } else {
+          // Fallback for copying to clipboard
+          const dummyTextArea = document.createElement('textarea');
+          dummyTextArea.value = window.location.href;
+          document.body.appendChild(dummyTextArea);
+          dummyTextArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(dummyTextArea);
+          displayGameMessage("Link copied to clipboard!");
+        }
+      };
+      document.getElementById('copyBtn').onclick = () => {
+        const dummyTextArea = document.createElement('textarea');
+        dummyTextArea.value = window.location.href;
+        document.body.appendChild(dummyTextArea);
+        dummyTextArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(dummyTextArea);
+        displayGameMessage("Link copied to clipboard!");
+      };
+
+      // Initial game setup when page loads
+      setupInitialBoard();
+      initializeGame();
+    });
+  </script>
 </body>
 </html>
