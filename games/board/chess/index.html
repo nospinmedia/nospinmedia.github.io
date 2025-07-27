@@ -207,6 +207,7 @@
       box-shadow: 0 0 25px rgba(116, 185, 255, 0.5);
       border-radius: 8px;
       overflow: hidden; /* Ensures pieces don't overflow board corners */
+      position: relative; /* Crucial for positioning the overlay inside */
     }
 
     .square {
@@ -284,14 +285,14 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.9); /* Darker, more opaque background */
+      background: rgba(0, 0, 0, 0.7); /* Darker, more opaque background, but now transparent */
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
       z-index: 2000; /* Even higher z-index to cover everything */
       display: none; /* Hidden by default */
-      border-radius: 12px; /* Match game-box border radius */
+      /* No border-radius here, as it's inside chess-board which has it */
     }
 
     #game-over-text {
@@ -373,7 +374,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Chess ♟️ <span id="game-version">v2.0</span></div>
+      <div id="game-header">Chess ♟️ <span id="game-version">v2.1</span></div>
       <div id="game-info">
         <span>Current Turn: <span id="current-turn">White</span></span>
         <span>White Score: <span id="white-score">0</span></span>
@@ -395,11 +396,10 @@
 
       <div id="chess-board">
         <!-- Squares and pieces will be dynamically generated here -->
-      </div>
-
-      <!-- Game Over Overlay -->
-      <div id="game-over-overlay">
-        <span id="game-over-text"></span>
+        <!-- Game Over Overlay is now inside chess-board -->
+        <div id="game-over-overlay">
+          <span id="game-over-text"></span>
+        </div>
       </div>
     </div>
 
@@ -446,8 +446,8 @@
     const whiteScoreEl = document.getElementById('white-score'); // Get white score element
     const blackScoreEl = document.getElementById('black-score'); // Get black score element
     const gameMessageEl = document.getElementById('game-message'); // For in-game messages
-    const gameOverOverlayEl = document.getElementById('game-over-overlay'); // New: For game over messages
-    const gameOverTextEl = document.getElementById('game-over-text'); // New: Text inside game over overlay
+    const gameOverOverlayEl = document.getElementById('game-over-overlay'); // For game over messages
+    const gameOverTextEl = document.getElementById('game-over-text'); // Text inside game over overlay
     const newGameBtn = document.getElementById('newGameBtn');
     const gameModeSelect = document.getElementById('gameModeSelect'); // New DOM element
 
@@ -460,7 +460,7 @@
       blackScore = 0; // Reset score on new game
       gameEnded = false; // Reset game ended flag
       hideGameMessage(); // Hide in-game message initially
-      hideGameOverMessage(); // New: Hide game over message initially
+      hideGameOverMessage(); // Hide game over message initially
       renderBoard();
       updateHUD();
       stopAIGameLoop(); // Ensure any previous AI loop is stopped
