@@ -43,7 +43,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Galactic Siege 👾 <span id="game-version">v2.0</span></div>
+      <div id="game-header">Galactic Siege 👾 <span id="game-version">v2.1</span></div>
       <div id="game-info">
         Score: <span id="score">0</span> | Lives: <span id="lives">3</span> | High Score: <span id="highScore">0</span> | Level: <span id="level">1</span>
       </div>
@@ -118,25 +118,25 @@
     }
 
     function playSound(buffer, volume = 1.0) {
-        console.log(`playSound called for buffer. Sound Enabled: ${soundEnabled}, AudioContext State: ${audioContext ? audioContext.state : 'null'}, Buffer exists: ${!!buffer}`);
-        if (!soundEnabled || !audioContext || !buffer) return;
+        if (!soundEnabled || !audioContext || !buffer) {
+            // console.log(`playSound blocked: soundEnabled=${soundEnabled}, audioContext=${!!audioContext}, buffer=${!!buffer}`);
+            return;
+        }
 
         // Ensure audio context is running before playing
         if (audioContext.state === 'suspended') {
             audioContext.resume().then(() => {
-                console.log("AudioContext resumed for playback.");
+                console.log("AudioContext resumed for playback in playSound.");
                 _actualPlaySound(buffer, volume);
-            }).catch(e => console.error("Failed to resume audio context for playback:", e));
-        } else {
+            }).catch(e => console.error("Failed to resume audio context for playback in playSound:", e));
+        } else if (audioContext.state === 'running') {
             _actualPlaySound(buffer, volume);
+        } else {
+            console.warn(`AudioContext state is '${audioContext.state}'. Cannot play sound.`);
         }
     }
 
     function _actualPlaySound(buffer, volume) {
-        if (audioContext.state !== 'running') {
-            console.warn("AudioContext not running when _actualPlaySound tried to play.");
-            return;
-        }
         try {
             const source = audioContext.createBufferSource();
             source.buffer = buffer;
@@ -147,7 +147,7 @@
             source.connect(gainNode);
             gainNode.connect(audioContext.destination);
             source.start(0);
-            console.log("Sound source started.");
+            // console.log("Sound source started.");
         } catch (error) {
             console.error('Error in _actualPlaySound:', error);
         }
@@ -320,7 +320,7 @@
                     updateHUD();
                 } else { // No lives left, it's game over
                     gameOver();
-                    animationFrameId = requestAnimationFrame(update); // Request one more frame to show game over screen
+                    // No need to request another frame here, gameOver will stop animationFrameId
                     return; // Stop current update loop to prevent further logic execution
                 }
             }
@@ -343,16 +343,18 @@
                     continue;
                 }
 
+                let hitSomething = false;
                 for (let j = aliens.length - 1; j >= 0; j--) {
                     const a = aliens[j];
                     if(checkCollision(b, {x: a.x, y: a.y, width: ALIEN_SIZE, height: ALIEN_SIZE})){
                         aliens.splice(j,1);
                         bullets.splice(i,1);
                         score+=10; updateHUD();
+                        hitSomething = true;
                         break;
                     }
                 }
-                if (i >= bullets.length) continue;
+                if (hitSomething) continue; // Bullet hit an alien, no need to check shields for this bullet
 
                 for (let sIndex = 0; sIndex < shields.length; sIndex++) {
                     const s = shields[sIndex];
@@ -364,12 +366,13 @@
                                 if (checkCollision(b, {x: blockX, y: blockY, width: SHIELD_BLOCK, height: SHIELD_BLOCK})) {
                                     s.damage[r][c]++;
                                     bullets.splice(i,1);
+                                    hitSomething = true;
                                     break;
                                 }
                             }
                         }
                     }
-                    if (i >= bullets.length) break;
+                    if (hitSomething) break; // Bullet hit a shield, no need to check other shields for this bullet
                 }
             }
         } // End if (player.alive) for player-specific actions
@@ -385,6 +388,7 @@
                 continue;
             }
 
+            let hitSomething = false;
             if (player.alive && checkCollision(b, player)) {
               alienBullets.splice(i, 1);
               lives--;
@@ -392,8 +396,9 @@
               player.alive = false; // Player is hit, now exploding
               playerExplosionTimer = 120; // Start explosion animation
               updateHUD();
-              continue; // Continue to next bullet, this one is done
+              hitSomething = true;
             }
+            if (hitSomething) continue;
 
             for (let sIndex = 0; sIndex < shields.length; sIndex++) {
                 const s = shields[sIndex];
@@ -405,12 +410,13 @@
                             if (checkCollision(b, {x: blockX, y: blockY, width: SHIELD_BLOCK, height: SHIELD_BLOCK})) {
                                 s.damage[r][c]++;
                                 alienBullets.splice(i, 1);
+                                hitSomething = true;
                                 break;
                             }
                         }
                     }
                 }
-                if (i >= alienBullets.length) break;
+                if (hitSomething) break;
             }
         }
 
@@ -456,8 +462,8 @@
           level++;
           alienSpeed+=0.2;
           nextWaveTimer=180;
-          createAliens(true);
-          createShields();
+          createAliens(true); // Create new aliens that fly in
+          createShields(); // Restore shields for new level
         }
       } // End if (gameRunning && !gamePaused)
 
@@ -489,6 +495,7 @@
           }).catch(e => console.error("Failed to resume audio context in startGame:", e));
       }
 
+      // If a previous animation loop is running, cancel it before starting a new one
       if (animationFrameId) {
           cancelAnimationFrame(animationFrameId);
       }
@@ -502,7 +509,8 @@
       playerExplosionTimer = 0;
       gamePaused = false;
       document.getElementById('pauseBtn').innerText = '⏸️ Pause';
-      updateHUD(); gameRunning=true;
+      updateHUD();
+      gameRunning=true;
       document.getElementById('overlay').style.display="none";
 
       update(); // Start the game loop
@@ -511,15 +519,26 @@
     function gameOver(){
       gameRunning=false;
       if(score>highScore){ highScore=score; localStorage.setItem('galacticSiegeHS',highScore); }
-      updateHUD();
+      updateHUD(); // Update high score in HUD immediately
       const overlay=document.getElementById('overlay');
       overlay.innerHTML=`<div>Game Over</div><button class="overlay-btn" id="startBtn">Play Again</button>`;
       document.getElementById('startBtn').onclick=startGame;
       overlay.style.display="flex";
+
+      if (audioContext && audioContext.state !== 'closed') {
+        audioContext.close(); // Close audio context on game over for a clean state
+        audioContext = null;
+        shootBuffer = null;
+        explosionBuffer = null;
+        console.log("AudioContext closed by gameOver.");
+      }
+      cancelAnimationFrame(animationFrameId); // Stop the animation loop
+      animationFrameId = null;
     }
 
     function togglePause() {
-        if (!gameRunning && playerExplosionTimer === 0) return;
+        // Only allow pausing/resuming if the game is actually running and player is not exploding
+        if (!gameRunning || playerExplosionTimer > 0) return;
 
         gamePaused = !gamePaused;
         if (gamePaused) {
@@ -534,7 +553,7 @@
                     console.log("AudioContext resumed by togglePause.");
                 }).catch(e => console.error("Failed to resume audio context in togglePause:", e));
             }
-            if (!animationFrameId) { // Ensure the loop is running when resuming
+            if (!animationFrameId) { // Ensure the loop is running when resuming if it was cancelled for some reason
                 update();
             }
         }
@@ -552,10 +571,10 @@
         score=0; lives=3; level=1;
         bullets = [];
         alienBullets = [];
-        aliens = [];
-        shields = [];
+        aliens = []; // Clear aliens
+        shields = []; // Clear shields
         initPlayer();
-        createShields();
+        createShields(); // Recreate initial shields
         updateHUD();
 
         const overlay=document.getElementById('overlay');
@@ -608,7 +627,6 @@
 
     // Initial setup (before game starts)
     initPlayer();
-    // No need to create aliens or call update here; they're created/started by startGame()
     createShields();
     updateHUD();
     // The overlay should be displayed by default, waiting for the user to click "Start Game"
