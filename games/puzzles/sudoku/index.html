@@ -93,31 +93,37 @@
       margin-bottom: 20px;
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
+      flex-wrap: wrap; /* Allows wrapping */
       gap: 10px;
+      max-width: 100%; /* Ensure it respects parent width */
     }
 
-    .game-controls button {
-      padding: 10px 20px;
-      margin: 0 5px;
+    .game-controls button,
+    .game-controls select {
+      flex: 1 1 calc(50% - 10px); /* Each item takes roughly half width, adjusting for gap */
+      padding: 10px 10px; /* Reduced padding */
+      margin: 0; /* Remove individual margins as gap handles spacing */
       background: #60A3D9;
       color: #000;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
-      font-size: 1.1em;
+      font-size: 0.9em; /* Slightly smaller font for buttons */
       box-shadow: 0 0 10px rgba(96, 163, 217, 0.5);
       transition: all 0.2s ease-in-out;
+      min-width: 120px; /* Ensure buttons don't get too small */
     }
 
-    .game-controls button:hover {
+    .game-controls button:hover,
+    .game-controls select:hover {
       background: #7ABCEF;
       box-shadow: 0 0 15px rgba(122, 188, 239, 0.8);
       transform: translateY(-2px);
     }
 
-    .game-controls button:active {
+    .game-controls button:active,
+    .game-controls select:active {
       transform: translateY(0);
       box-shadow: 0 0 5px rgba(96, 163, 217, 0.3);
     }
@@ -130,22 +136,13 @@
 
     /* Difficulty dropdown */
     .game-controls select {
-        padding: 10px 15px;
-        border-radius: 8px;
         border: 1px solid #60A3D9;
         background-color: #2E4057;
         color: #fff;
-        font-size: 1.1em;
-        cursor: pointer;
+        font-size: 0.9em; /* Match button font size */
         outline: none;
-        box-shadow: 0 0 10px rgba(96, 163, 217, 0.3);
-        transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    .game-controls select:hover {
-        border-color: #7ABCEF;
-        box-shadow: 0 0 15px rgba(122, 188, 239, 0.5);
-    }
 
     /* Sidebar styling (Donate section) - same as chess */
     #sidebar {
@@ -465,7 +462,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.8</span></div>
+      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.9</span></div>
       <div id="game-info">
         <span>Difficulty: <span id="current-difficulty">Medium</span></span>
         <span id="game-status">Ready</span>
