@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>No Spin Media Games</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    /* Page styling */
+    .games-intro {
+      background: #fff;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .game-category {
+      background: #fff;
+      margin: 1rem 0;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .game-category h2 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #333;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 0.3rem;
+    }
+    .game-category ul {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 0 0;
+    }
+    .game-category li {
+      margin: 0.5rem 0;
+    }
+    .game-category a {
+      text-decoration: none;
+      color: #0073e6;
+      font-weight: bold;
+    }
+    .game-category a:hover {
+      text-decoration: underline;
+    }
+  </style>
+  <script>
+    window.onload = () => {
+      fetch('../header.html')
+        .then(res => res.text())
+        .then(html => document.getElementById('site-header').innerHTML = html);
+    }
+  </script>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="container">
+    <div class="main">
+      <div class="games-intro">
+        <h1>Games 🎮</h1>
+        <p>Welcome to the No Spin Media Games section. All games here are:</p>
+        <ul>
+          <li>✅ 100% unique and open source</li>
+          <li>✅ Built to be ad-free and tracking-free</li>
+          <li>✅ Fun, casual, and easy to play in your browser</li>
+        </ul>
+        <p>Select a category below to explore available games.</p>
+      </div>
+
+      <div class="game-category">
+        <h2>🕹️ Arcade</h2>
+        <ul>
+          <li><a href="arcade/">View Arcade Games</a></li>
+        </ul>
+      </div>
+
+      <div class="game-category">
+        <h2>🃏 Card Games</h2>
+        <ul>
+          <li><a href="cards/">View Card Games</a></li>
+        </ul>
+      </div>
+
+      <div class="game-category">
+        <h2>🎲 Board Games</h2>
+        <ul>
+          <li><a href="board/">View Board Games</a></li>
+        </ul>
+      </div>
+
+      <div class="game-category">
+        <h2>💡 Puzzles</h2>
+        <ul>
+          <li><a href="puzzles/">View Puzzles</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <h2>Support Us 💙</h2>
+      <p>Like what we're doing? Help keep No Spin Media running:</p>
+      <p><strong>Venmo:</strong><br/>
+        <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+      </p>
+      <h2>Follow Us</h2>
+      <p>
+        📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
+      </p>
+      <h2>Contact</h2>
+      <p>📨 nospinmedia.ai@gmail.com</p>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
+  </footer>
+
+</body>
+</html>
