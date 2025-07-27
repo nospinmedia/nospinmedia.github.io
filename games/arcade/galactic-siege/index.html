@@ -6,93 +6,28 @@
   <title>Galactic Siege - No Spin Media</title>
   <link rel="stylesheet" href="/style.css">
   <style>
-    body {
-      background-color: #000;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      margin: 0;
+    body { background:#000; color:#fff; margin:0; font-family:Arial,sans-serif; }
+    #game-container { display:flex; justify-content:center; padding:20px; gap:30px; flex-wrap:wrap; }
+    #game-box { border:2px solid #0f0; box-shadow:0 0 20px #0f0; padding:10px; border-radius:8px; background:#000; position:relative; }
+    #game-header { color:#0f0; text-align:center; font-size:1.8em; margin-bottom:5px; text-shadow:0 0 8px #0f0; }
+    #game-info { text-align:center; color:#0f0; margin-bottom:10px; font-weight:bold; }
+    canvas { background:#000; border:2px solid #0f0; display:block; margin:auto; }
+    #sidebar { background:#111; border:2px solid #0f0; box-shadow:0 0 15px #0f0; padding:20px; border-radius:8px; max-width:250px; height:fit-content; }
+    #sidebar h2 { color:#0f0; text-align:center; }
+    #donate-button { background:#ffd700; color:#000; padding:12px 25px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin:10px auto; display:block; }
+    #overlay {
+      position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8);
+      color:#0f0; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; font-size:2em; font-weight:bold; text-shadow:0 0 8px #0f0; z-index:5;
     }
-    #game-container {
-      display: flex;
-      justify-content: center;
-      padding: 20px;
-      gap: 30px;
+    .overlay-btn {
+      background:#0f0; color:#000; font-weight:bold; padding:0.5rem 1rem; margin-top:1rem;
+      border:none; border-radius:6px; cursor:pointer; font-size:1.2rem; box-shadow:0 0 10px #0f0;
     }
-    #game-box {
-      border: 2px solid #0f0;
-      box-shadow: 0 0 20px #0f0;
-      padding: 10px;
-      border-radius: 8px;
-      background: #000;
-    }
-    #game-header {
-      text-align: center;
-      color: #0f0;
-      font-size: 1.8em;
-      margin-bottom: 5px;
-    }
-    #game-info {
-      text-align: center;
-      margin-bottom: 10px;
-      color: #0f0;
-      font-weight: bold;
-    }
-    canvas {
-      background: #000;
-      display: block;
-      border: 2px solid #0f0;
-      margin: auto;
-    }
-    #sidebar {
-      background: #111;
-      border: 2px solid #0f0;
-      box-shadow: 0 0 15px #0f0;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 250px;
-      height: fit-content;
-    }
-    #sidebar h2 {
-      color: #0f0;
-      text-align: center;
-    }
-    #donate-button {
-      background-color: #ffd700;
-      color: #000;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      margin: 10px auto;
-      display: block;
-    }
-    #controls {
-      text-align: center;
-      margin-top: 10px;
-    }
-    .control-btn {
-      background: #008000;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      margin: 5px;
-      font-weight: bold;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .share-buttons {
-      text-align: center;
-      margin: 10px;
-    }
+    .share-buttons { text-align:center; margin:10px; }
     .share-buttons button {
-      padding: 6px 12px;
-      margin: 0 5px;
-      background: #0073e6;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
+      padding:6px 12px; margin:0 5px; background:#0073e6; color:#fff;
+      border:none; border-radius:4px; cursor:pointer; font-weight:bold;
     }
   </style>
 </head>
@@ -102,18 +37,15 @@
   <div id="site-header"></div>
   <script>
     fetch('/header.html')
-      .then(res => res.text())
-      .then(html => document.getElementById('site-header').innerHTML = html);
+      .then(r=>r.text())
+      .then(h=>document.getElementById('site-header').innerHTML=h);
   </script>
 
   <div id="game-container">
     <div id="game-box">
       <div id="game-header">Galactic Siege 👾</div>
       <div id="game-info">
-        Score: <span id="score">0</span> | 
-        Lives: <span id="lives">3</span> | 
-        High Score: <span id="highScore">0</span> | 
-        Level: <span id="level">1</span>
+        Score: <span id="score">0</span> | Lives: <span id="lives">3</span> | High Score: <span id="highScore">0</span> | Level: <span id="level">1</span>
       </div>
 
       <div class="share-buttons">
@@ -122,9 +54,10 @@
       </div>
 
       <canvas id="gameCanvas" width="600" height="500"></canvas>
-      <div id="controls">
-        <button class="control-btn" id="startBtn">Start Game</button>
-        <button class="control-btn" id="resetBtn">Reset Game</button>
+
+      <div id="overlay">
+        <div>Galactic Siege</div>
+        <button class="overlay-btn" id="startBtn">Start Game</button>
       </div>
     </div>
 
@@ -132,7 +65,7 @@
       <h2>Support Us!</h2>
       <p>If you enjoy ad-free games from No Spin Media, consider supporting us.</p>
       <button id="donate-button" onclick="window.location.href='/sponsor.html'">Donate Now</button>
-      <p style="font-size: 0.8em; color: #aaa;">Your help keeps No Spin Media alive and growing.</p>
+      <p style="font-size:0.8em; color:#aaa;">Your help keeps No Spin Media alive and growing.</p>
     </div>
   </div>
 
@@ -141,153 +74,217 @@
   </footer>
 
   <script>
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
+    const canvas=document.getElementById('gameCanvas');
+    const ctx=canvas.getContext('2d');
 
-    let player = { x: 280, y: 460, width: 40, height: 30, dx: 0 };
-    let bullets = [];
-    let aliens = [];
-    let alienDir = 1;
-    let score = 0, highScore = localStorage.getItem('galacticSiegeHighScore') || 0, lives = 3, level = 1;
-    let shields = [];
-    let gameRunning = false;
+    let player, bullets=[], aliens=[], shields=[];
+    let score=0, lives=3, level=1;
+    let highScore=localStorage.getItem('galacticSiegeHS')||0;
+    let alienDir=1, alienSpeed=0.5;
+    let gameRunning=false, nextWaveTimer=0;
 
-    const ALIEN_ROWS = 3;
-    const ALIEN_COLS = 8;
-    const BULLET_SPEED = 7;
-    const PLAYER_SPEED = 6;
+    const PLAYER_SPEED=6, BULLET_SPEED=7;
+    const PLAYER_WIDTH=40, PLAYER_HEIGHT=30;
 
-    function createAliens() {
-      aliens = [];
-      for (let r = 0; r < ALIEN_ROWS; r++) {
-        for (let c = 0; c < ALIEN_COLS; c++) {
-          aliens.push({ x: 50 + c * 60, y: 50 + r * 50, width: 30, height: 20 });
+    const ALIEN_ROWS=3, ALIEN_COLS=8;
+    const ALIEN_SIZE=20;
+
+    const SHIELD_BLOCK=5, SHIELD_WIDTH=60, SHIELD_HEIGHT=20;
+
+    function initPlayer(){
+      player={x:canvas.width/2-PLAYER_WIDTH/2,y:canvas.height-PLAYER_HEIGHT-10,width:PLAYER_WIDTH,height:PLAYER_HEIGHT,dx:0};
+    }
+
+    function createAliens(flyIn=false){
+      aliens=[];
+      const startX=50, startY=50, spacingX=50, spacingY=40;
+      for(let r=0;r<ALIEN_ROWS;r++){
+        for(let c=0;c<ALIEN_COLS;c++){
+          aliens.push({
+            x:startX+c*spacingX, y:flyIn?-60:r*spacingY+startY,
+            targetY:r*spacingY+startY, type:r
+          });
         }
       }
     }
 
-    function createShields() {
-      shields = [];
-      for (let i = 0; i < 4; i++) {
-        shields.push({ x: 80 + i * 120, y: 400, width: 60, height: 20, health: 6 });
+    function createShields(){
+      shields=[];
+      const gap=(canvas.width-(4*SHIELD_WIDTH))/5;
+      for(let i=0;i<4;i++){
+        const rows=SHIELD_HEIGHT/SHIELD_BLOCK, cols=SHIELD_WIDTH/SHIELD_BLOCK;
+        const dmg=Array.from({length:rows},()=>Array(cols).fill(0));
+        shields.push({x:gap*(i+1)+i*SHIELD_WIDTH,y:canvas.height-100,width:SHIELD_WIDTH,height:SHIELD_HEIGHT,damage:dmg});
       }
     }
 
-    function drawPlayer() {
-      ctx.fillStyle = "#fff";
+    function drawPlayer(){
+      ctx.fillStyle="#fff";
       ctx.beginPath();
-      ctx.moveTo(player.x + player.width / 2, player.y); // Nose
-      ctx.lineTo(player.x, player.y + player.height);
-      ctx.lineTo(player.x + player.width, player.y + player.height);
-      ctx.closePath();
-      ctx.fill();
-      ctx.fillStyle = "#00f"; // Cockpit
-      ctx.fillRect(player.x + player.width / 2 - 5, player.y + 10, 10, 8);
+      ctx.moveTo(player.x+player.width/2,player.y); // nose
+      ctx.lineTo(player.x,player.y+player.height);
+      ctx.lineTo(player.x+player.width,player.y+player.height);
+      ctx.closePath(); ctx.fill();
+      ctx.fillStyle="#00f";
+      ctx.fillRect(player.x+player.width/2-5,player.y+10,10,8);
     }
 
-    function drawAlien(a) {
-      ctx.fillStyle = "#f00";
-      ctx.fillRect(a.x, a.y, a.width, a.height / 2);
-      ctx.fillStyle = "#ff0";
-      ctx.fillRect(a.x, a.y + a.height / 2, a.width, a.height / 2);
+    function drawAlien(a){
+      ctx.save();
+      ctx.translate(a.x,a.y);
+      ctx.fillStyle="#0f0";
+      // top crab-like row
+      if(a.type===0){
+        ctx.fillRect(4,0,12,4);
+        ctx.fillRect(2,4,16,4);
+        ctx.fillRect(0,8,20,4);
+        ctx.fillRect(2,12,16,4);
+        ctx.fillRect(4,16,4,4);
+        ctx.fillRect(12,16,4,4);
+      }
+      // squid-like
+      if(a.type===1){
+        ctx.fillRect(6,0,8,4);
+        ctx.fillRect(4,4,12,4);
+        ctx.fillRect(2,8,16,4);
+        ctx.fillRect(0,12,20,4);
+        ctx.fillRect(6,16,2,4);
+        ctx.fillRect(12,16,2,4);
+      }
+      // bug-like
+      if(a.type===2){
+        ctx.fillRect(6,0,8,4);
+        ctx.fillRect(4,4,12,4);
+        ctx.fillRect(2,8,16,4);
+        ctx.fillRect(0,12,20,4);
+        ctx.fillRect(4,16,4,4);
+        ctx.fillRect(12,16,4,4);
+      }
+      ctx.restore();
     }
 
-    function drawShields() {
-      shields.forEach(s => {
-        if (s.health > 0) {
-          ctx.fillStyle = s.health > 4 ? "#0f0" : s.health > 2 ? "#ffa500" : "#f00";
-          ctx.fillRect(s.x, s.y, s.width, s.height);
+    function drawShields(){
+      shields.forEach(s=>{
+        for(let r=0;r<s.damage.length;r++){
+          for(let c=0;c<s.damage[r].length;c++){
+            if(s.damage[r][c]<3){
+              const hp=3-s.damage[r][c];
+              ctx.fillStyle=hp===3?"#0f0":hp===2?"#ffa500":"#f00";
+              ctx.fillRect(s.x+c*SHIELD_BLOCK,s.y+r*SHIELD_BLOCK,SHIELD_BLOCK,SHIELD_BLOCK);
+            }
+          }
         }
       });
     }
 
-    function update() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    function update(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
 
-      // Player
-      player.x += player.dx;
-      if (player.x < 0) player.x = 0;
-      if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+      if(nextWaveTimer>0){
+        ctx.fillStyle="#0f0"; ctx.font="bold 40px Arial"; ctx.textAlign="center";
+        ctx.fillText(`Next Wave in ${Math.ceil(nextWaveTimer/60)}`,canvas.width/2,canvas.height/2);
+        nextWaveTimer--; requestAnimationFrame(update); return;
+      }
+
+      if(!gameRunning){requestAnimationFrame(update); return;}
+
+      // Player movement
+      player.x+=player.dx;
+      if(player.x<0)player.x=0;
+      if(player.x+player.width>canvas.width)player.x=canvas.width-player.width;
+
+      // Draw entities
       drawPlayer();
+      aliens.forEach(drawAlien);
+      drawShields();
 
       // Bullets
-      bullets.forEach((b, i) => {
-        b.y -= BULLET_SPEED;
-        ctx.fillStyle = "#0ff";
-        ctx.fillRect(b.x, b.y, 3, 10);
-        if (b.y < 0) bullets.splice(i, 1);
+      bullets.forEach((b,i)=>{
+        b.y-=BULLET_SPEED;
+        ctx.fillStyle="#0ff";
+        ctx.fillRect(b.x,b.y,3,10);
+        if(b.y<0) bullets.splice(i,1);
 
-        // Collision with aliens
-        aliens.forEach((a, j) => {
-          if (b.x < a.x + a.width && b.x + 3 > a.x && b.y < a.y + a.height && b.y + 10 > a.y) {
-            aliens.splice(j, 1);
-            bullets.splice(i, 1);
-            score += 10;
-            updateHUD();
+        // collision
+        aliens.forEach((a,j)=>{
+          if(b.x<a.x+20 && b.x+3>a.x && b.y<a.y+20 && b.y+10>a.y){
+            aliens.splice(j,1);
+            bullets.splice(i,1);
+            score+=10; updateHUD();
           }
         });
       });
 
-      // Aliens
-      let edgeHit = false;
-      aliens.forEach(a => {
-        a.x += alienDir;
-        if (a.x < 0 || a.x + a.width > canvas.width) edgeHit = true;
-        drawAlien(a);
+      // Aliens movement
+      let edge=false;
+      aliens.forEach(a=>{
+        a.x+=alienDir*alienSpeed;
+        if(a.x<0 || a.x+20>canvas.width) edge=true;
       });
-      if (edgeHit) {
-        alienDir *= -1;
-        aliens.forEach(a => a.y += 10);
+      if(edge){
+        alienDir*=-1;
+        aliens.forEach(a=>a.y+=10);
       }
 
-      // Shields
-      drawShields();
+      // Check bottom collision
+      aliens.forEach(a=>{
+        if(a.y+20>canvas.height-60){
+          gameOver();
+        }
+      });
 
-      if (aliens.length === 0) nextLevel();
+      // Next level
+      if(aliens.length===0){
+        level++;
+        alienSpeed+=0.2;
+        nextWaveTimer=180; // 3 sec
+        createAliens(true);
+        createShields();
+      }
 
       requestAnimationFrame(update);
     }
 
-    function updateHUD() {
-      document.getElementById('score').innerText = score;
-      document.getElementById('lives').innerText = lives;
-      document.getElementById('highScore').innerText = highScore;
-      document.getElementById('level').innerText = level;
+    function updateHUD(){
+      document.getElementById('score').innerText=score;
+      document.getElementById('lives').innerText=lives;
+      document.getElementById('level').innerText=level;
+      document.getElementById('highScore').innerText=highScore;
     }
 
-    function startGame() {
-      createAliens();
-      createShields();
-      gameRunning = true;
-      score = 0;
-      lives = 3;
-      level = 1;
+    function startGame(){
+      score=0; lives=3; level=1; alienSpeed=0.5;
+      initPlayer(); createAliens(true); createShields();
+      updateHUD(); gameRunning=true;
+      document.getElementById('overlay').style.display="none";
+    }
+
+    function gameOver(){
+      gameRunning=false;
+      if(score>highScore){ highScore=score; localStorage.setItem('galacticSiegeHS',highScore); }
       updateHUD();
-      update();
+      const overlay=document.getElementById('overlay');
+      overlay.innerHTML=`<div>Game Over</div><button class="overlay-btn" onclick="startGame()">Play Again</button>`;
+      overlay.style.display="flex";
     }
 
-    function nextLevel() {
-      level++;
-      createAliens();
-      createShields();
-    }
-
-    document.addEventListener('keydown', e => {
-      if (e.key === "ArrowLeft") player.dx = -PLAYER_SPEED;
-      if (e.key === "ArrowRight") player.dx = PLAYER_SPEED;
-      if (e.key === " ") {
-        bullets.push({ x: player.x + player.width / 2, y: player.y });
+    document.addEventListener('keydown',e=>{
+      if(e.key==="ArrowLeft") player.dx=-PLAYER_SPEED;
+      if(e.key==="ArrowRight") player.dx=PLAYER_SPEED;
+      if(e.key===" "){
+        bullets.push({x:player.x+player.width/2,y:player.y});
       }
     });
-
-    document.addEventListener('keyup', e => {
-      if (e.key === "ArrowLeft" || e.key === "ArrowRight") player.dx = 0;
+    document.addEventListener('keyup',e=>{
+      if(e.key==="ArrowLeft"||e.key==="ArrowRight") player.dx=0;
     });
 
-    document.getElementById('startBtn').onclick = startGame;
-    document.getElementById('resetBtn').onclick = startGame;
+    document.getElementById('startBtn').onclick=startGame;
 
-    updateHUD();
+    document.getElementById('shareBtn').onclick=()=>{navigator.share?navigator.share({title:"Galactic Siege",url:location.href}):navigator.clipboard.writeText(location.href).then(()=>alert("Link copied"));};
+    document.getElementById('copyBtn').onclick=()=>{navigator.clipboard.writeText(location.href).then(()=>alert("Link copied"));};
+
+    initPlayer(); createShields(); updateHUD(); update();
   </script>
 </body>
 </html>
