@@ -357,7 +357,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Chess ♟️ <span id="game-version">v2.3</span></div>
+      <div id="game-header">Chess ♟️ <span id="game-version">v2.4</span></div>
       <div id="game-info">
         <span>Current Turn: <span id="current-turn">White</span></span>
         <span>White Score: <span id="white-score">0</span></span>
@@ -418,6 +418,7 @@
     let gameMode = 'playComputer'; // 'playComputer' or 'watchAI'
     let aiMoveTimeoutId = null; // To store the timeout ID for AI moves
     let gameEnded = false; // Flag to indicate if the game has ended
+    let messageTimeoutId = null; // New: To manage the hide timeout for temporary messages
 
     // --- DOM Elements ---
     const chessBoardEl = document.getElementById('chess-board');
@@ -540,13 +541,18 @@
 
     // Function to display messages. If isGameOver is true, message persists.
     function displayGameMessage(message, isGameOver = false) {
+      // Clear any existing timeout for temporary messages
+      clearTimeout(messageTimeoutId);
+      messageTimeoutId = null; // Reset it
+
       gameMessageEl.textContent = message;
       gameMessageEl.style.display = 'block';
       if (isGameOver) {
         gameMessageEl.classList.add('game-over-style'); // Add style for game over
       } else {
         gameMessageEl.classList.remove('game-over-style'); // Remove style for temporary messages
-        setTimeout(hideGameMessage, 2000); // Hide temporary messages after 2 seconds
+        // Schedule hiding only for temporary messages
+        messageTimeoutId = setTimeout(hideGameMessage, 2000);
       }
     }
 
@@ -558,6 +564,10 @@
     function endGame(winnerColor = null) {
         gameEnded = true;
         stopAIGameLoop();
+        // New: Clear any pending temporary message hide timeout when game ends
+        clearTimeout(messageTimeoutId);
+        messageTimeoutId = null;
+
         if (winnerColor) {
             displayGameMessage(`${winnerColor.toUpperCase()} wins by King capture!`, true); // True for persistent message
         } else {
@@ -737,7 +747,7 @@
               return; // Stop further processing as game has ended
           }
 
-          // Only display "X made a move!" if the game hasn't ended
+          // Only display "X made a move!" if the game hasn't ended (this check is crucial)
           if (!gameEnded) {
             currentTurn = playerColor === 'white' ? 'black' : 'white';
             displayGameMessage(`${playerColor.charAt(0).toUpperCase() + playerColor.slice(1)} made a move!`);
@@ -745,7 +755,7 @@
 
 
           // If in Watch AI mode, trigger the next AI move
-          if (gameMode === 'watchAI' && !gameEnded) {
+          if (gameMode === 'watchAI' && !gameEnded) { // gameEnded check is still needed here
               makeAIMoveForColor(currentTurn);
           }
 
@@ -820,7 +830,7 @@
               return; // Stop further processing as game has ended
           }
 
-          // Only display "X made a move!" if the game hasn't ended
+          // Only display "X made a move!" if the game hasn't ended (this check is crucial)
           if (!gameEnded) {
             selectedPiece = null;
             possibleMoves = [];
@@ -831,7 +841,7 @@
 
           // If it's now Black's turn, trigger AI move
           if (currentTurn === 'black' && !gameEnded) {
-            makeAIMoveForColor('black');
+            makeAIMoveForColor(currentTurn);
           }
 
         } else if (clickedPiece && clickedPiece.color === currentTurn) {
