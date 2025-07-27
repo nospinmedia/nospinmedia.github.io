@@ -48,7 +48,7 @@
     #game-box {
       border: 2px solid #74B9FF; /* Muted blue border */
       box-shadow: 0 0 20px #74B9FF; /* Muted blue glow */
-      padding: 20px 20px 30px 20px; /* Increased padding-bottom */
+      padding: 20px; /* Uniform padding, internal spacing handled by children margins */
       border-radius: 12px; /* More rounded corners */
       background: #222831; /* Match body background */
       position: relative;
@@ -58,6 +58,12 @@
       min-width: 320px;
       display: flex;
       flex-direction: column;
+      justify-content: space-between; /* Distribute space evenly vertically */
+    }
+
+    /* Consistent spacing between major sections within game-box */
+    #game-box > *:not(:last-child) {
+      margin-bottom: 15px;
     }
 
     /* Game header styling - same as chess */
@@ -65,7 +71,7 @@
       color: #74B9FF;
       text-align: center;
       font-size: 2.2em;
-      margin-bottom: 10px;
+      /* margin-bottom: 10px; Removed, handled by parent's margin-bottom */
       text-shadow: 0 0 10px #74B9FF;
       position: relative;
       padding-bottom: 5px;
@@ -85,7 +91,7 @@
     #game-info {
       text-align: center;
       color: #74B9FF;
-      margin-bottom: 15px;
+      /* margin-bottom: 15px; Removed, handled by parent's margin-bottom */
       font-weight: bold;
       font-size: 1.1em;
       display: flex;
@@ -103,7 +109,7 @@
     /* Game controls/buttons */
     .game-controls {
       text-align: center;
-      margin-bottom: 20px;
+      /* margin-bottom: 20px; Removed, handled by parent's margin-bottom */
       display: flex;
       flex-wrap: wrap; /* Allows wrapping */
       gap: 10px;
@@ -234,13 +240,14 @@
       grid-template-rows: repeat(9, 1fr);
       width: 100%; /* Make board take 100% of parent's width */
       aspect-ratio: 1 / 1; /* Keep it square */
-      margin: 10px auto;
+      /* margin: 10px auto; Removed, handled by parent's margin-bottom */
       border: 4px solid #74B9FF;
       box-shadow: 0 0 25px rgba(116, 185, 255, 0.5);
       border-radius: 8px;
       overflow: hidden;
       flex-shrink: 0;
-      max-width: 340px; /* Adjusted max width for desktop board (approx 1/3 smaller) */
+      flex-grow: 1; /* Allow board to grow within available space */
+      max-width: 340px; /* Adjusted max width for desktop to fit smaller board */
     }
 
     .sudoku-cell {
@@ -325,10 +332,11 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      margin-top: auto; /* Pushes to bottom of flex container */
+      /* margin-top: auto; Removed, handled by parent's margin-bottom */
       padding: 10px;
       border-radius: 8px;
       background: #2E4057;
+      flex-shrink: 0; /* Ensure it doesn't shrink */
     }
 
     #number-pad button {
@@ -445,7 +453,11 @@
       #game-box {
         width: 100%;
         max-width: none; /* Allow full width on mobile */
-        padding: 1vw 1vw 3vw 1vw; /* Responsive padding on mobile, increased bottom padding */
+        padding: 1vw; /* Responsive padding on mobile */
+      }
+      /* Responsive spacing between major sections within game-box */
+      #game-box > *:not(:last-child) {
+        margin-bottom: 1.5vw;
       }
       #sidebar {
         width: 100%;
@@ -455,9 +467,9 @@
       #sudoku-board {
         width: 90vw; /* Adjusted to 90vw for more space */
         height: 90vw; /* Adjusted to 90vw */
-        max-width: 630px; /* Still cap max size for larger tablets */
-        max-height: 630px;
-        margin: 1vw auto; /* Responsive margin on mobile */
+        max-width: none; /* Removed fixed max-width */
+        max-height: none; /* Removed fixed max-height */
+        /* margin: 1vw auto; Removed, handled by parent's margin-bottom */
       }
       .sudoku-cell {
         width: calc(90vw / 9); /* Ensures 9 cells fit within 90vw board */
@@ -470,7 +482,7 @@
           padding: 0.3vw;
       }
       #number-pad {
-        margin-top: 1vw; /* Responsive margin on mobile */
+        /* margin-top: 1vw; Removed, handled by parent's margin-bottom */
         padding: 1.5vw; /* Responsive padding on mobile */
         grid-template-columns: repeat(3, 1fr); /* 3 columns for numbers */
       }
@@ -491,7 +503,7 @@
         padding: 1.2vw 0.8vw; /* Match other buttons, slightly less horizontal padding */
       }
       .game-controls {
-        margin-bottom: 2vw; /* Responsive margin on mobile */
+        /* margin-bottom: 2vw; Removed, handled by parent's margin-bottom */
         gap: 1.5vw; /* Responsive gap */
       }
       .game-controls button {
@@ -504,7 +516,7 @@
       }
       #game-header {
         font-size: 5vw; /* Responsive header font size */
-        margin-bottom: 2vw;
+        /* margin-bottom: 2vw; Removed */
       }
       #game-version {
         font-size: 2vw;
@@ -512,7 +524,7 @@
         top: 1.5vw;
       }
       #game-info {
-        margin-bottom: 2vw;
+        /* margin-bottom: 2vw; Removed */
         font-size: 2.8vw; /* Responsive info font size */
         gap: 2vw;
       }
@@ -538,7 +550,7 @@
     <div id="site-header"></div> 
     <div id="game-container">
       <div id="game-box">
-        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.15</span></div>
+        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.16</span></div>
         <div id="game-info">
           <span>Difficulty: <span id="current-difficulty">Medium</span></span>
           <span id="game-status">Ready</span>
@@ -613,8 +625,8 @@
     let gameEnded = false; // Flag to indicate if the game has ended
     let pencilMode = false; // Manual pencil mode state
     let autoPencilMode = false; // New: Auto pencil mode state
-    // New: Store pencil marks for each cell
-    let pencilMarks = Array(9).fill(0).map(() => Array(9).fill(0).map(() => new Set()));
+    // New: Store user's manual pencil marks separately
+    let userPencilMarks = Array(9).fill(0).map(() => Array(9).fill(0).map(() => new Set()));
 
 
     // --- DOM Elements ---
@@ -736,8 +748,8 @@
       }
       initialBoard = JSON.parse(JSON.stringify(tempBoard)); // Store the initial puzzle
       board = JSON.parse(JSON.stringify(tempBoard)); // Set current board to the puzzle
-      // Reset pencil marks for new game
-      pencilMarks = Array(9).fill(0).map(() => Array(9).fill(0).map(() => new Set()));
+      // Reset userPencilMarks for new game
+      userPencilMarks = Array(9).fill(0).map(() => Array(9).fill(0).map(() => new Set()));
     }
 
     // Helper to fill a board for generation (different from solve, ensures a full board)
@@ -770,7 +782,9 @@
       selectedCell = null;
       hideGameMessage();
       generateSudoku(difficulty); // Generate a new puzzle
-      renderBoard();
+      // Reset userPencilMarks for new game
+      userPencilMarks = Array(9).fill(0).map(() => Array(9).fill(0).map(() => new Set()));
+      renderBoard(); // Initial render will use empty userPencilMarks or auto-generated if autoPencilMode is on
       updateHUD();
       gameStatusEl.textContent = 'Playing'; // Reset status on new game
       pencilMode = false; // Reset manual pencil mode on new game
@@ -805,26 +819,33 @@
           } else if (board[r][c] !== 0) {
             cellEl.textContent = board[r][c];
             // If a main number is present, clear pencil marks for that cell
-            pencilMarks[r][c].clear();
+            userPencilMarks[r][c].clear(); // Clear user marks if a number is placed
           } else {
-            // Render pencil marks if no main number is present
+            // Determine which pencil marks to display
+            let marksToDisplay = new Set();
+            if (autoPencilMode) {
+                // If auto pencil is on, calculate and display auto candidates
+                marksToDisplay = calculatePossibleNumbers(board, r, c);
+            } else {
+                // If auto pencil is off, display user's manual marks
+                marksToDisplay = userPencilMarks[r][c];
+            }
+
             const pencilMarksContainer = document.createElement('div');
             pencilMarksContainer.classList.add('pencil-marks');
-            // Sort pencil marks for consistent display
-            const sortedPencilMarks = Array.from(pencilMarks[r][c]).sort((a, b) => a - b);
+            const sortedMarks = Array.from(marksToDisplay).sort((a, b) => a - b);
             
             // Only append pencil marks if there are any
-            if (sortedPencilMarks.length > 0) {
+            if (sortedMarks.length > 0) {
                 for (let i = 1; i <= 9; i++) {
                     const markEl = document.createElement('div');
-                    if (sortedPencilMarks.includes(i)) {
+                    if (sortedMarks.includes(i)) {
                         markEl.textContent = i;
                     }
                     pencilMarksContainer.appendChild(markEl);
                 }
                 cellEl.appendChild(pencilMarksContainer);
             }
-            // If no main number and no pencil marks, leave cell empty (no NaN)
           }
 
           cellEl.addEventListener('click', handleCellClick);
@@ -927,26 +948,9 @@
         return possibilities;
     }
 
-    // Function to update all pencil marks on the board (for auto-pencil)
-    function updateAllPencilMarks() {
-        // Clear all existing pencil marks first
-        for (let r = 0; r < 9; r++) {
-            for (let c = 0; c < 9; c++) {
-                pencilMarks[r][c].clear();
-            }
-        }
-
-        if (autoPencilMode) {
-            for (let r = 0; r < 9; r++) {
-                for (let c = 0; c < 9; c++) {
-                    if (board[r][c] === 0) { // Only for empty cells
-                        const candidates = calculatePossibleNumbers(board, r, c);
-                        candidates.forEach(num => pencilMarks[r][c].add(num));
-                    }
-                }
-            }
-        }
-        renderBoard(); // Re-render to show updated pencil marks
+    // Function to update pencil marks display based on current mode
+    function updatePencilMarksDisplay() {
+        renderBoard(); // Re-render to show correct pencil marks (auto or manual)
     }
 
     function handleNumberInput(event) {
@@ -961,35 +965,31 @@
       }
 
       if (pencilMode) {
-        // Manual Pencil mode logic
+        // Manual Pencil mode logic: update userPencilMarks
         if (value === 'clear') {
-          pencilMarks[row][col].clear(); // Clear all pencil marks
+          userPencilMarks[row][col].clear(); // Clear all user pencil marks
         } else {
           const num = parseInt(value);
-          if (pencilMarks[row][col].has(num)) {
-            pencilMarks[row][col].delete(num); // Toggle off
+          if (userPencilMarks[row][col].has(num)) {
+            userPencilMarks[row][col].delete(num); // Toggle off
           } else {
-            pencilMarks[row][col].add(num); // Toggle on
+            userPencilMarks[row][col].add(num); // Toggle on
           }
         }
         board[row][col] = 0; // Ensure main number is cleared in manual pencil mode
       } else {
-        // Normal input mode logic (or if autoPencilMode is active)
+        // Normal input mode logic
         if (value === 'clear') {
           board[row][col] = 0;
         } else {
           const num = parseInt(value);
           board[row][col] = num;
-          pencilMarks[row][col].clear(); // Clear pencil marks when setting a main number
+          userPencilMarks[row][col].clear(); // Clear user pencil marks when setting a main number
         }
       }
 
-      renderBoard(); // Re-render board to show changes
-
-      // If auto pencil mode is active, update all pencil marks after any input
-      if (autoPencilMode) {
-          updateAllPencilMarks();
-      }
+      // After any input, re-render the board to reflect changes based on current mode
+      updatePencilMarksDisplay(); // This will re-evaluate what to display
 
       // Validate the current input if it's not a clear and not in any pencil mode
       if (value !== 'clear' && !pencilMode && !autoPencilMode) {
@@ -1006,10 +1006,8 @@
             gameStatusEl.textContent = 'Playing';
           }
         }
-      } else if (pencilMode) {
-          // No message here when entering numbers in pencil mode
       } else {
-          gameStatusEl.textContent = 'Playing';
+          gameStatusEl.textContent = 'Playing'; // Always set to Playing for consistency
       }
     }
 
@@ -1032,8 +1030,8 @@
         }
         // Use the stored solution to fill the board
         board = JSON.parse(JSON.stringify(solution));
-        pencilMarks = Array(9).fill(0).map(() => Array(9).fill(0).map(() => new Set())); // Clear pencil marks
-        renderBoard();
+        userPencilMarks = Array(9).fill(0).map(() => Array(9).fill(0).map(() => new Set())); // Clear user pencil marks
+        updatePencilMarksDisplay(); // Re-render to clear pencil marks
         updateHUD();
         displayGameMessage("Puzzle solved!", true);
         gameStatusEl.textContent = 'Solved!';
@@ -1083,11 +1081,10 @@
         pencilMode = !pencilMode;
         if (pencilMode) { // If manual pencil mode is turned ON, turn auto pencil mode OFF
             autoPencilMode = false;
-            updateAllPencilMarks(); // Clear auto-generated marks
         }
         updatePencilModeButton(); // Update button text and style immediately
         updateAutoPencilButton(); // Ensure auto pencil button is updated
-        // Removed: gameStatusEl.textContent = pencilMode ? 'Pencil Mode Active' : 'Playing';
+        updatePencilMarksDisplay(); // Re-render to show correct pencil marks (manual or none)
         gameStatusEl.textContent = 'Playing'; // Always set to Playing for consistency
       });
 
@@ -1098,8 +1095,7 @@
         }
         updatePencilModeButton(); // Ensure manual pencil button is updated
         updateAutoPencilButton(); // Update button text and style immediately
-        updateAllPencilMarks(); // Recalculate and render marks based on new autoPencilMode state
-        // Removed: gameStatusEl.textContent = autoPencilMode ? 'Auto Pencil Active' : 'Playing';
+        updatePencilMarksDisplay(); // Re-render to show correct pencil marks (auto or manual)
         gameStatusEl.textContent = 'Playing'; // Always set to Playing for consistency
       });
 
