@@ -41,6 +41,7 @@
             padding: 5px 0;
             font-size: 1.2em;
             color: #0F0;
+            margin-bottom: 10px; /* Added margin for better spacing */
         }
         #game-controls {
             display: flex;
@@ -71,35 +72,7 @@
             transform: translateY(0);
             box-shadow: 0 2px 5px rgba(0, 128, 0, 0.3);
         }
-        #message-box {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.9);
-            border: 2px solid #0F0;
-            border-radius: 10px;
-            padding: 30px;
-            color: #0F0;
-            font-size: 1.5em;
-            text-align: center;
-            z-index: 1000;
-            display: none; /* Hidden by default */
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.7);
-        }
-        #message-box button {
-            margin-top: 20px;
-            background-color: #008000;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-        }
-        #message-box button:hover {
-            background-color: #00B000;
-        }
+        /* Removed #message-box styling as it's no longer used */
     </style>
 </head>
 <body>
@@ -118,10 +91,7 @@
         </div>
     </div>
 
-    <div id="message-box">
-        <p id="message-text"></p>
-        <button id="message-ok-button">OK</button>
-    </div>
+    <!-- Removed message-box div -->
 
     <script>
         const canvas = document.getElementById('gameCanvas');
@@ -132,15 +102,15 @@
         const levelDisplay = document.getElementById('level');
         const startButton = document.getElementById('startButton');
         const resetButton = document.getElementById('resetButton');
-        const messageBox = document.getElementById('message-box');
-        const messageText = document.getElementById('message-text');
-        const messageOkButton = document.getElementById('message-ok-button');
+        // Removed messageBox, messageText, messageOkButton references
 
         // Game settings
         const GAME_WIDTH = 600;
         const GAME_HEIGHT = 400;
         const PLAYER_SIZE = 20;
         const ALIEN_SIZE = 20;
+        const BULLET_WIDTH = 4;
+        const BULLET_HEIGHT = 10;
         const PLAYER_SPEED = 5;
         const BULLET_SPEED = 7;
         const ALIEN_ROWS = 3;
@@ -151,8 +121,16 @@
         const ALIEN_START_Y = 30;
         const ALIEN_MOVE_DOWN_AMOUNT = 10;
         const ALIEN_INITIAL_MOVE_SPEED = 1; // Pixels per frame
-        const ALIEN_FIRE_RATE = 100; // Lower is faster (chance per frame)
+        const ALIEN_INITIAL_FIRE_RATE = 150; // Higher number = slower firing for level 1
         const PLAYER_INITIAL_LIVES = 3;
+
+        // Shield settings
+        const NUM_SHIELDS = 4;
+        const SHIELD_WIDTH = 60;
+        const SHIELD_HEIGHT = 20;
+        const SHIELD_HEALTH_MAX = 3; // How many hits a shield can take
+        const SHIELD_Y_OFFSET = 50; // Distance from bottom of canvas
+        const SHIELD_COLORS = ['#00FF00', '#FFA500', '#FF0000']; // Green, Orange, Red for health states
 
         let player = {
             x: GAME_WIDTH / 2 - PLAYER_SIZE / 2,
@@ -169,11 +147,13 @@
         let aliens = [];
         let playerBullets = [];
         let alienBullets = [];
+        let shields = []; // Array to hold shield objects
         let score = 0;
         let highScore = localStorage.getItem('spaceInvadersHighScore') || 0;
         let gameRunning = false;
         let alienMoveDirection = 1; // 1 for right, -1 for left
         let alienMoveSpeed = ALIEN_INITIAL_MOVE_SPEED;
+        let alienFireRate = ALIEN_INITIAL_FIRE_RATE;
         let level = 1; // Current game level
 
         // Keyboard input
@@ -181,7 +161,7 @@
 
         // --- Drawing Functions ---
 
-        // Draw Player Ship (more detailed than a simple rectangle)
+        // Draw Player Ship (more detailed)
         function drawPlayer() {
             if (player.isExploding) {
                 drawExplosion(player.x, player.y, player.explosionFrame);
@@ -200,7 +180,7 @@
             ctx.fillRect(player.x + player.width / 2 - 3, player.y + player.height / 3, 6, 8);
         }
 
-        // Draw Alien Ship (more detailed than a simple rectangle)
+        // Draw Alien Ship (more detailed)
         function drawAlien(alien) {
             ctx.fillStyle = alien.color;
             ctx.beginPath();
@@ -241,6 +221,25 @@
             ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
         }
 
+        // Draw Shield
+        function drawShield(shield) {
+            // Determine color based on health
+            let colorIndex = Math.floor((shield.health / SHIELD_HEALTH_MAX) * (SHIELD_COLORS.length - 1));
+            colorIndex = Math.min(colorIndex, SHIELD_COLORS.length - 1); // Ensure index is within bounds
+            ctx.fillStyle = SHIELD_COLORS[colorIndex];
+            
+            // Draw multiple small blocks to simulate damage
+            const block_size = 5;
+            for (let r = 0; r < shield.height / block_size; r++) {
+                for (let c = 0; c < shield.width / block_size; c++) {
+                    // Only draw if this block hasn't been "destroyed"
+                    if (shield.damageMap[r][c] < SHIELD_HEALTH_MAX) {
+                        ctx.fillRect(shield.x + c * block_size, shield.y + r * block_size, block_size, block_size);
+                    }
+                }
+            }
+        }
+
         // --- Game Logic Functions ---
 
         function initGame() {
@@ -250,6 +249,7 @@
             score = 0;
             level = 1;
             alienMoveSpeed = ALIEN_INITIAL_MOVE_SPEED;
+            alienFireRate = ALIEN_INITIAL_FIRE_RATE; // Reset fire rate for level 1
             highScore = localStorage.getItem('spaceInvadersHighScore') || 0;
             resetEntities();
             updateInfoDisplay();
@@ -260,7 +260,9 @@
             aliens = [];
             playerBullets = [];
             alienBullets = [];
+            shields = []; // Clear old shields
             createAliens();
+            createShields(); // Recreate shields for new level/game
             player.x = GAME_WIDTH / 2 - PLAYER_SIZE / 2;
             player.y = GAME_HEIGHT - PLAYER_SIZE - 10;
             player.dx = 0;
@@ -284,11 +286,37 @@
             }
         }
 
+        function createShields() {
+            shields = [];
+            const shieldSpacing = (GAME_WIDTH - (NUM_SHIELDS * SHIELD_WIDTH)) / (NUM_SHIELDS + 1);
+            const shieldY = GAME_HEIGHT - SHIELD_Y_OFFSET;
+
+            for (let i = 0; i < NUM_SHIELDS; i++) {
+                // Initialize damage map for each shield
+                const damageMap = Array(SHIELD_HEIGHT / 5).fill(0).map(() => Array(SHIELD_WIDTH / 5).fill(0));
+                shields.push({
+                    x: shieldSpacing * (i + 1) + i * SHIELD_WIDTH,
+                    y: shieldY,
+                    width: SHIELD_WIDTH,
+                    height: SHIELD_HEIGHT,
+                    health: SHIELD_HEALTH_MAX,
+                    damageMap: damageMap // Map to track individual block damage
+                });
+            }
+        }
+
         function updateInfoDisplay() {
             scoreDisplay.textContent = score;
             livesDisplay.textContent = player.lives;
             highScoreDisplay.textContent = highScore;
             levelDisplay.textContent = level;
+        }
+
+        function checkCollision(obj1, obj2) {
+            return obj1.x < obj2.x + obj2.width &&
+                   obj1.x + obj1.width > obj2.x &&
+                   obj1.y < obj2.y + obj2.height &&
+                   obj1.y + obj1.height > obj2.y;
         }
 
         function update() {
@@ -309,7 +337,7 @@
                     player.isExploding = false;
                     player.explosionFrame = 0;
                     if (player.lives <= 0) {
-                        endGame();
+                        endGame(); // Game over, no more lives
                         return;
                     }
                     // Reset player position after explosion if lives remain
@@ -318,6 +346,15 @@
                 }
             }
             drawPlayer();
+
+            // Draw Shields
+            for (let i = shields.length - 1; i >= 0; i--) {
+                if (shields[i].health > 0) {
+                    drawShield(shields[i]);
+                } else {
+                    shields.splice(i, 1); // Remove shield if health is 0
+                }
+            }
 
             // Update aliens
             let shouldMoveDown = false;
@@ -330,13 +367,13 @@
                 }
                 drawAlien(alien);
 
-                // Alien firing (random chance)
-                if (Math.random() * ALIEN_FIRE_RATE < 1) { // 1 in ALIEN_FIRE_RATE chance per alien per frame
+                // Alien firing (random chance, based on current alienFireRate)
+                if (Math.random() * alienFireRate < 1) { // 1 in alienFireRate chance per alien per frame
                     alienBullets.push({
-                        x: alien.x + alien.width / 2 - 2,
+                        x: alien.x + alien.width / 2 - BULLET_WIDTH / 2,
                         y: alien.y + alien.height,
-                        width: 4,
-                        height: 8,
+                        width: BULLET_WIDTH,
+                        height: BULLET_HEIGHT,
                         color: '#F00'
                     });
                 }
@@ -361,20 +398,45 @@
                 drawBullet(bullet);
 
                 // Collision with aliens
+                let hitAlien = false;
                 for (let j = aliens.length - 1; j >= 0; j--) {
                     let alien = aliens[j];
-                    if (bullet.x < alien.x + alien.width &&
-                        bullet.x + bullet.width > alien.x &&
-                        bullet.y < alien.y + alien.height &&
-                        bullet.y + bullet.height > alien.y) {
-                        // Collision! Remove alien and bullet
-                        aliens.splice(j, 1);
-                        playerBullets.splice(i, 1);
+                    if (checkCollision(bullet, alien)) {
+                        aliens.splice(j, 1); // Remove alien
+                        playerBullets.splice(i, 1); // Remove bullet
                         score += 10;
                         updateInfoDisplay();
-                        break; // Stop checking for collisions for this bullet
+                        hitAlien = true;
+                        break;
                     }
                 }
+                if (hitAlien) continue; // Bullet already removed, move to next player bullet
+
+                // Collision with shields (player bullets)
+                let hitShield = false;
+                for (let k = shields.length - 1; k >= 0; k--) {
+                    let shield = shields[k];
+                    if (shield.health > 0 && checkCollision(bullet, shield)) {
+                        // Calculate hit position relative to shield for localized damage
+                        const hitX = bullet.x - shield.x;
+                        const hitY = bullet.y - shield.y;
+                        const blockSize = 5;
+                        const blockCol = Math.floor(hitX / blockSize);
+                        const blockRow = Math.floor(hitY / blockSize);
+
+                        if (blockRow >= 0 && blockRow < shield.damageMap.length &&
+                            blockCol >= 0 && blockCol < shield.damageMap[0].length) {
+                            if (shield.damageMap[blockRow][blockCol] < SHIELD_HEALTH_MAX) {
+                                shield.damageMap[blockRow][blockCol]++;
+                                shield.health--; // Decrement overall shield health
+                                playerBullets.splice(i, 1); // Remove bullet
+                                hitShield = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (hitShield) continue;
 
                 // Remove bullet if off-screen
                 if (bullet.y < 0) {
@@ -389,19 +451,39 @@
                 drawBullet(bullet);
 
                 // Collision with player
-                if (bullet.x < player.x + player.width &&
-                    bullet.x + bullet.width > player.x &&
-                    bullet.y < player.y + player.height &&
-                    bullet.y + bullet.height > player.y &&
-                    !player.isExploding) {
-                    // Player hit!
+                if (checkCollision(bullet, player) && !player.isExploding) {
                     player.lives--;
                     player.isExploding = true;
                     player.explosionFrame = 0; // Start explosion animation
                     updateInfoDisplay();
                     alienBullets.splice(i, 1); // Remove alien bullet
-                    // No return here, let explosion animation play out
+                    continue; // Move to next alien bullet
                 }
+
+                // Collision with shields (alien bullets)
+                let hitShield = false;
+                for (let k = shields.length - 1; k >= 0; k--) {
+                    let shield = shields[k];
+                    if (shield.health > 0 && checkCollision(bullet, shield)) {
+                        const hitX = bullet.x - shield.x;
+                        const hitY = bullet.y - shield.y;
+                        const blockSize = 5;
+                        const blockCol = Math.floor(hitX / blockSize);
+                        const blockRow = Math.floor(hitY / blockSize);
+
+                        if (blockRow >= 0 && blockRow < shield.damageMap.length &&
+                            blockCol >= 0 && blockCol < shield.damageMap[0].length) {
+                            if (shield.damageMap[blockRow][blockCol] < SHIELD_HEALTH_MAX) {
+                                shield.damageMap[blockRow][blockCol]++;
+                                shield.health--; // Decrement overall shield health
+                                alienBullets.splice(i, 1); // Remove bullet
+                                hitShield = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (hitShield) continue;
 
                 // Remove bullet if off-screen
                 if (bullet.y > GAME_HEIGHT) {
@@ -419,9 +501,10 @@
 
         function levelUp() {
             level++;
-            alienMoveSpeed += 0.5; // Increase alien speed
-            showMessage(`LEVEL ${level} CLEARED! Get Ready!`);
-            resetEntities(); // Create new wave of aliens
+            alienMoveSpeed += 0.2; // Slightly increase alien horizontal speed
+            alienFireRate = Math.max(50, alienFireRate - 10); // Make aliens fire faster, but not too fast
+            // No pop-up message, just update the level display
+            resetEntities(); // Create new wave of aliens and reset shields
             updateInfoDisplay();
         }
 
@@ -430,25 +513,12 @@
             if (score > highScore) {
                 highScore = score;
                 localStorage.setItem('spaceInvadersHighScore', highScore);
-                message += "\nNEW HIGH SCORE!";
             }
-            showMessage(message);
+            // No pop-up message for game over, just stop the game and update scores
             updateInfoDisplay();
         }
 
-        function showMessage(msg) {
-            messageText.textContent = msg;
-            messageBox.style.display = 'block';
-        }
-
-        function hideMessage() {
-            messageBox.style.display = 'none';
-            if (!gameRunning && player.lives > 0) { // If game ended but not due to lives=0, allow restart
-                 // This condition helps prevent auto-start after "LEVEL CLEARED"
-                 // but allows 'OK' to restart after "GAME OVER"
-                 // For now, we'll just hide the message. Game start is via button.
-            }
-        }
+        // Removed showMessage and hideMessage functions
 
         // Event Listeners
         document.addEventListener('keydown', e => {
@@ -460,10 +530,10 @@
                     player.dx = PLAYER_SPEED;
                 } else if (e.key === ' ' && playerBullets.length < 1) { // Limit player bullets
                     playerBullets.push({
-                        x: player.x + player.width / 2 - 2,
+                        x: player.x + player.width / 2 - BULLET_WIDTH / 2,
                         y: player.y,
-                        width: 4,
-                        height: 10,
+                        width: BULLET_WIDTH,
+                        height: BULLET_HEIGHT,
                         color: '#0FF'
                     });
                 }
@@ -483,28 +553,14 @@
                 gameRunning = true;
                 requestAnimationFrame(update); // Start the game loop
             }
-            hideMessage(); // Hide any existing messages
         });
 
         resetButton.addEventListener('click', () => {
             gameRunning = false; // Stop the game loop
             initGame(); // Reset all game stats and entities
-            hideMessage();
         });
 
-        messageOkButton.addEventListener('click', () => {
-            hideMessage();
-            if (player.lives <= 0) { // If game ended due to no lives, allow restart via Start button
-                initGame(); // Reset for a new game
-            } else if (aliens.length === 0) { // If level was cleared, resume game loop
-                // The levelUp function already calls resetEntities and updateInfoDisplay
-                // We just need to ensure the game loop continues if it wasn't already.
-                if (!gameRunning) {
-                    gameRunning = true;
-                    requestAnimationFrame(update);
-                }
-            }
-        });
+        // Removed messageOkButton event listener
 
         // Initialize game on window load
         window.onload = function() {
