@@ -6,6 +6,11 @@
   <title>Sudoku - No Spin Media</title>
   <link rel="stylesheet" href="/style.css">
   <style>
+    /* Global box-sizing for consistent layout */
+    * {
+      box-sizing: border-box;
+    }
+
     /* Global body styles for the game theme - same as chess */
     body {
       background: #222831; /* Deep charcoal for a calm background */
@@ -215,7 +220,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 2em; /* Default font size for desktop */
+      font-size: 1.8em; /* Adjusted font size for desktop */
       font-weight: bold;
       cursor: pointer;
       border: 1px solid #333;
@@ -347,8 +352,7 @@
       #game-box {
         width: 100%;
         max-width: none; /* Allow full width on mobile */
-        padding: 5px; /* Reduced padding on mobile */
-        box-sizing: border-box; /* Include padding in width calculation */
+        padding: 2vw; /* Responsive padding on mobile */
       }
       #sidebar {
         width: 100%;
@@ -356,45 +360,57 @@
         margin-top: 20px;
       }
       #sudoku-board {
-        width: 95vw; /* Adjusted to 95vw for more padding */
-        height: 95vw; /* Adjusted to 95vw for more padding */
+        width: 96vw; /* Adjusted to 96vw for a bit more space */
+        height: 96vw; /* Adjusted to 96vw */
         max-width: 630px; /* Still cap max size for larger tablets */
         max-height: 630px;
-        margin: 5px auto; /* Reduced margin on mobile */
+        margin: 1vw auto; /* Responsive margin on mobile */
       }
       .sudoku-cell {
-        width: calc(95vw / 9); /* Ensures 9 cells fit within 95vw board */
-        height: calc(95vw / 9);
-        font-size: 6vw; /* Adjusted font size responsively */
+        width: calc(96vw / 9); /* Ensures 9 cells fit within 96vw board */
+        height: calc(96vw / 9);
+        font-size: 5.5vw; /* Adjusted font size responsively */
       }
       #number-pad {
-        margin-top: 10px; /* Reduced margin on mobile */
-        padding: 8px; /* Reduced padding on mobile */
+        margin-top: 2vw; /* Responsive margin on mobile */
+        padding: 2vw; /* Responsive padding on mobile */
       }
       #number-pad button {
         font-size: 1.1em; /* Slightly smaller buttons on mobile */
-        padding: 12px;
+        padding: 1.5vw; /* Responsive padding */
       }
       .game-controls {
-        margin-bottom: 10px; /* Reduced margin on mobile */
+        margin-bottom: 2vw; /* Responsive margin on mobile */
+        gap: 1.5vw; /* Responsive gap */
       }
       .game-controls button {
         font-size: 0.9em;
-        padding: 6px 12px;
+        padding: 1.2vw 2.5vw; /* Responsive padding */
+      }
+      .game-controls select {
+        font-size: 0.9em;
+        padding: 1.2vw 2.5vw;
       }
       #game-header {
-        font-size: 1.6em; /* Smaller header on mobile */
+        font-size: 5vw; /* Responsive header font size */
+        margin-bottom: 2vw;
+      }
+      #game-info {
+        margin-bottom: 2vw;
+        font-size: 3.5vw; /* Responsive info font size */
+        gap: 2vw;
       }
       #game-info span {
-        font-size: 0.8em; /* Smaller info text on mobile */
+        padding: 1vw 2vw;
       }
       #game-message {
-        font-size: 1em; /* Smaller messages on mobile */
-        padding: 6px 12px;
+        font-size: 4vw; /* Responsive messages font size */
+        padding: 2vw 4vw;
+        margin: 2vw auto;
       }
       #game-message.game-over-style {
-        font-size: 1.5em; /* Smaller game over message on mobile */
-        padding: 10px 15px;
+        font-size: 6vw; /* Responsive game over message font size */
+        padding: 3vw 5vw;
       }
     }
   </style>
@@ -412,7 +428,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.4</span></div>
+      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.5</span></div>
       <div id="game-info">
         <span>Difficulty: <span id="current-difficulty">Medium</span></span>
         <span id="game-status">Ready</span>
