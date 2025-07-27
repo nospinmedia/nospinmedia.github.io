@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sudoku - No Spin Media</title>
   <link rel="stylesheet" href="/style.css">
+  <!-- Open Graph and Twitter Card Meta Tags -->
+  <meta property="og:title" content="Play Sudoku 🧩 - No Spin Media">
+  <meta property="og:description" content="Free ad-free Sudoku game! Easy, Medium, and Hard levels. Play now!">
+  <meta property="og:image" content="https://nospin.media/images/sudoku-preview.png">
+  <meta property="og:url" content="https://nospin.media/games/puzzles/sudoku/index.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Play Sudoku 🧩 - No Spin Media">
+  <meta name="twitter:description" content="Free ad-free Sudoku game! Easy, Medium, and Hard levels.">
+  <meta name="twitter:image" content="https://nospin.media/images/sudoku-preview.png">
   <style>
     /* Global box-sizing for consistent layout */
     * {
@@ -246,6 +256,7 @@
       grid-template-columns: repeat(9, 1fr);
       grid-template-rows: repeat(9, 1fr); /* Use 1fr for rows too */
       width: 100%; /* Make board take 100% of parent's width */
+      aspect-ratio: 1 / 1; /* Re-added aspect ratio for desktop */
       border: 4px solid #74B9FF;
       box-shadow: 0 0 25px rgba(116, 185, 255, 0.5);
       border-radius: 8px;
@@ -253,7 +264,7 @@
       flex-shrink: 0;
       flex-grow: 1; /* Allow board to grow within available space */
       max-width: 340px; /* Adjusted max width for desktop to fit smaller board */
-      /* height: 340px; Removed fixed height */
+      height: 340px; /* Explicit height for desktop to ensure 9 rows fit */
     }
 
     .sudoku-cell {
@@ -268,8 +279,9 @@
       color: #000;
       transition: background-color 0.2s ease-in-out;
       position: relative; /* For pencil marks positioning */
-      height: 34px; /* Fixed height for desktop cells */
-      width: 34px; /* Fixed width for desktop cells */
+      height: 100%; /* Ensure cell takes full height of its grid row */
+      width: 100%; /* Ensure cell takes full width of its grid column */
+      overflow: hidden; /* Clip content if it overflows */
     }
 
     /* Pencil marks grid inside cell */
@@ -279,11 +291,11 @@
         grid-template-rows: repeat(3, 1fr);
         width: 100%;
         height: 100%;
-        font-size: 0.45em; /* Further reduced font size for pencil marks */
+        font-size: 0.4em; /* Further reduced font size for pencil marks */
         color: #fff; /* Changed to white for better visibility */
         font-weight: normal;
-        gap: 1px;
-        padding: 1px; /* Reduced padding */
+        gap: 0; /* Reduced gap to 0 */
+        padding: 0; /* Reduced padding to 0 */
     }
     .sudoku-cell .pencil-marks div {
         display: flex;
@@ -473,7 +485,7 @@
       }
       #sudoku-board {
         width: 90vw; /* Adjusted to 90vw for more space */
-        /* height: 81vw; Removed explicit height for mobile */
+        height: 90vw; /* Explicit height for mobile (90vw / 9 * 9) */
         max-width: none; /* Removed fixed max-width */
         max-height: none; /* Removed fixed max-height */
         min-height: unset; /* Remove min-height for mobile */
@@ -485,8 +497,9 @@
         font-size: 4.5vw; /* Adjusted font size responsively */
       }
       .sudoku-cell .pencil-marks {
-          font-size: 1.4vw; /* Further smaller font for pencil marks on mobile */
-          padding: 0.3vw;
+          font-size: 1.3vw; /* Further smaller font for pencil marks on mobile */
+          padding: 0; /* Reduced padding to 0 */
+          gap: 0; /* Reduced gap to 0 */
       }
       #number-pad {
         padding: 1.5vw; /* Responsive padding on mobile */
@@ -553,7 +566,7 @@
     <div id="site-header"></div> 
     <div id="game-container">
       <div id="game-box">
-        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.24</span></div>
+        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.25</span></div>
         <div id="game-info">
           <span>Difficulty: <span id="current-difficulty">Medium</span></span>
           <span id="game-status">Ready</span>
