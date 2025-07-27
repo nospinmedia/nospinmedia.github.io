@@ -1,33 +1,162 @@
-<style>
-  header {
-    background: #111;
-    color: #fff;
-    padding: 1rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  header img {
-    max-height: 60px;
-  }
-  header nav a {
-    color: #fff;
-    margin-left: 20px;
-    text-decoration: none;
-    font-weight: bold;
-  }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>No Spin Media Games</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #222;
+    }
+    header {
+      background: #111;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header img {
+      max-height: 60px;
+    }
+    header nav a {
+      color: #fff;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 2rem;
+    }
+    .main {
+      flex: 1 1 60%;
+      padding: 1rem;
+    }
+    .sidebar {
+      flex: 1 1 30%;
+      background: #fff;
+      padding: 1rem;
+      margin-top: 2rem;
+      border-left: 2px solid #eee;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-top: 0;
+    }
+    .game-category {
+      background: #fff;
+      margin: 1rem 0;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .game-category h2 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #333;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 0.3rem;
+    }
+    .game-category ul {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 0 0;
+    }
+    .game-category li {
+      margin: 0.5rem 0;
+    }
+    .game-category a {
+      text-decoration: none;
+      color: #0073e6;
+      font-weight: bold;
+    }
+    .game-category a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
 
-<header>
-  <img src="images/NSM-Logo-Light.png" alt="No Spin Media Logo" style="height: 48px; vertical-align: middle; margin-right: 10px;">
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="news.html">News</a>
-    <a href="emoji-puzzles.html">Emoji Puzzles</a>
-    <a href="emoji-math.html">Emoji Math</a>
-    <a href="ai-posts.html">AI Posts</a>
-    <a href="sponsor.html">Support</a>
-    <a href="ai.html">Why AI?</a>
-    <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
-  </nav>
-</header>
+  <!-- ✅ Header with correct relative links -->
+  <header>
+    <img src="../images/NSM-Logo-Light.png" alt="No Spin Media Logo" style="height: 48px; vertical-align: middle; margin-right: 10px;">
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="../news.html">News</a>
+      <a href="../emoji-puzzles.html">Emoji Puzzles</a>
+      <a href="../emoji-math.html">Emoji Math</a>
+      <a href="../ai-posts.html">AI Posts</a>
+      <a href="../sponsor.html">Support</a>
+      <a href="../ai.html">Why AI?</a>
+      <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="main">
+      <h1>Games 🎮</h1>
+      <p>Welcome to the No Spin Media Games section. Select a category below:</p>
+
+      <div class="game-category">
+        <h2>🕹️ Arcade</h2>
+        <ul>
+          <li><a href="arcade/">View Arcade Games</a></li>
+        </ul>
+      </div>
+
+      <div class="game-category">
+        <h2>🃏 Card Games</h2>
+        <ul>
+          <li><a href="cards/">View Card Games</a></li>
+        </ul>
+      </div>
+
+      <div class="game-category">
+        <h2>🎲 Board Games</h2>
+        <ul>
+          <li><a href="board/">View Board Games</a></li>
+        </ul>
+      </div>
+
+      <div class="game-category">
+        <h2>💡 Puzzles</h2>
+        <ul>
+          <li><a href="puzzles/">View Puzzles</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <h2>Support Us 💙</h2>
+      <p>Like what we're doing? Help keep No Spin Media running:</p>
+      <p><strong>Venmo:</strong><br/>
+        <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+      </p>
+      <h2>Follow Us</h2>
+      <p>
+        📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
+      </p>
+      <h2>Contact</h2>
+      <p>📨 nospinmedia.ai@gmail.com</p>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
+  </footer>
+
+</body>
+</html>
