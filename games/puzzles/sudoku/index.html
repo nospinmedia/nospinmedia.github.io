@@ -251,11 +251,11 @@
         grid-template-rows: repeat(3, 1fr);
         width: 100%;
         height: 100%;
-        font-size: 0.6em; /* Smaller font for pencil marks */
-        color: #555; /* Lighter color for pencil marks */
+        font-size: 0.5em; /* Further reduced font size for pencil marks */
+        color: #888; /* Lighter color for pencil marks */
         font-weight: normal;
         gap: 1px;
-        padding: 2px;
+        padding: 1px; /* Reduced padding */
     }
     .sudoku-cell .pencil-marks div {
         display: flex;
@@ -318,13 +318,13 @@
     }
 
     #number-pad button {
-      padding: 10px; /* Reduced padding for number buttons */
+      padding: 8px; /* Reduced padding for number buttons */
       background: #60A3D9;
       color: #000;
       border: none;
       border-radius: 8px;
       font-weight: bold;
-      font-size: 0.9em; /* Adjusted font size for desktop */
+      font-size: 0.8em; /* Adjusted font size for desktop */
       cursor: pointer;
       box-shadow: 0 0 8px rgba(96, 163, 217, 0.5);
       transition: all 0.2s ease-in-out;
@@ -424,8 +424,8 @@
         font-size: 4.5vw; /* Adjusted font size responsively */
       }
       .sudoku-cell .pencil-marks {
-          font-size: 1.8vw; /* Smaller font for pencil marks on mobile */
-          padding: 0.5vw;
+          font-size: 1.5vw; /* Further smaller font for pencil marks on mobile */
+          padding: 0.3vw;
       }
       #number-pad {
         margin-top: 1vw; /* Responsive margin on mobile */
@@ -433,8 +433,8 @@
         grid-template-columns: repeat(3, 1fr); /* 3 columns for numbers */
       }
       #number-pad button {
-        font-size: 3.5vw; /* Responsive font size for buttons */
-        padding: 1.5vw; /* Responsive padding */
+        font-size: 3vw; /* Responsive font size for buttons */
+        padding: 1.2vw; /* Responsive padding */
       }
       #number-pad .bottom-row-buttons {
           grid-column: span 3; /* On mobile, the container spans 3 columns */
@@ -444,20 +444,20 @@
       #number-pad button.clear-button,
       #number-pad button.pencil-mode-button {
         flex: 1 1 auto; /* Allow them to size automatically within the flex container */
-        font-size: 3.5vw; /* Match other buttons */
-        padding: 1.5vw; /* Match other buttons */
+        font-size: 3vw; /* Match other buttons */
+        padding: 1.2vw; /* Match other buttons */
       }
       .game-controls {
         margin-bottom: 2vw; /* Responsive margin on mobile */
         gap: 1.5vw; /* Responsive gap */
       }
       .game-controls button {
-        font-size: 2.8vw; /* Responsive font size */
-        padding: 1vw 2vw; /* Responsive padding */
+        font-size: 2.5vw; /* Responsive font size */
+        padding: 0.8vw 1.5vw; /* Responsive padding */
       }
       .game-controls select {
-        font-size: 2.8vw; /* Responsive font size */
-        padding: 1vw 2vw;
+        font-size: 2.5vw; /* Responsive font size */
+        padding: 0.8vw 1.5vw;
       }
       #game-header {
         font-size: 5vw; /* Responsive header font size */
@@ -501,7 +501,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Sudoku 🧩 <span id="game-version">v2.2</span></div>
+      <div id="game-header">Sudoku 🧩 <span id="game-version">v2.3</span></div>
       <div id="game-info">
         <span>Difficulty: <span id="current-difficulty">Medium</span></span>
         <span id="game-status">Ready</span>
@@ -538,7 +538,7 @@
         <button data-value="9">9</button>
         <div class="bottom-row-buttons">
             <button data-value="clear" class="clear-button">Clear</button>
-            <button id="pencilModeBtn" class="pencil-mode-button">✏️ Pencil Mode</button>
+            <button id="pencilModeBtn" class="pencil-mode-button">✏️ Pencil Mode OFF</button>
         </div>
       </div>
     </div>
@@ -727,7 +727,7 @@
       updateHUD();
       gameStatusEl.textContent = 'Playing';
       pencilMode = false; // Reset pencil mode on new game
-      pencilModeBtn.classList.remove('active-mode');
+      updatePencilModeButton(); // Update button text on new game
     }
 
     // --- Rendering Functions ---
@@ -761,9 +761,11 @@
             // Render pencil marks if no main number is present
             const pencilMarksContainer = document.createElement('div');
             pencilMarksContainer.classList.add('pencil-marks');
+            // Sort pencil marks for consistent display
+            const sortedPencilMarks = Array.from(pencilMarks[r][c]).sort((a, b) => a - b);
             for (let i = 1; i <= 9; i++) {
                 const markEl = document.createElement('div');
-                if (pencilMarks[r][c].has(i)) {
+                if (sortedPencilMarks.includes(i)) {
                     markEl.textContent = i;
                 }
                 pencilMarksContainer.appendChild(markEl);
@@ -947,6 +949,17 @@
         selectedCell = null; // Deselect any cell
     }
 
+    // New: Function to update the pencil mode button's text and active state
+    function updatePencilModeButton() {
+        if (pencilMode) {
+            pencilModeBtn.classList.add('active-mode');
+            pencilModeBtn.textContent = '✏️ Pencil Mode ON';
+        } else {
+            pencilModeBtn.classList.remove('active-mode');
+            pencilModeBtn.textContent = '✏️ Pencil Mode OFF';
+        }
+    }
+
     // --- Event Listeners ---
     document.addEventListener('DOMContentLoaded', () => {
       newGameBtn.addEventListener('click', initializeGame);
@@ -954,15 +967,8 @@
 
       pencilModeBtn.addEventListener('click', () => {
         pencilMode = !pencilMode;
-        if (pencilMode) {
-          pencilModeBtn.classList.add('active-mode');
-          displayGameMessage("Pencil Mode ON. Enter notes.");
-          gameStatusEl.textContent = 'Pencil Mode Active';
-        } else {
-          pencilModeBtn.classList.remove('active-mode');
-          displayGameMessage("Pencil Mode OFF. Enter final answers.");
-          gameStatusEl.textContent = 'Playing';
-        }
+        updatePencilModeButton(); // Update button text and style immediately
+        gameStatusEl.textContent = pencilMode ? 'Pencil Mode Active' : 'Playing';
       });
 
       difficultySelect.addEventListener('change', (event) => {
