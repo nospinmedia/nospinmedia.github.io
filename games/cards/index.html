@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>No Spin Media - Card Games</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #222;
+    }
+    header {
+      background: #111;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header img { max-height: 60px; }
+    header nav a {
+      color: #fff;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .container { padding: 2rem; }
+    h1 {
+      font-size: 2rem;
+      margin-top: 0;
+    }
+    .game-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .game-card {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+    .game-card h2 {
+      font-size: 1.2rem;
+      margin: 0.5rem 0;
+    }
+    .game-card a {
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: #0073e6;
+      color: white;
+      border-radius: 4px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .game-card a:hover { background: #005bb5; }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Header -->
+  <header>
+    <img src="../../images/NSM-Logo-Light.png" alt="No Spin Media Logo" style="height: 48px; vertical-align: middle; margin-right: 10px;">
+    <nav>
+      <a href="../../index.html">Home</a>
+      <a href="../index.html">Games</a>
+      <a href="../../news.html">News</a>
+      <a href="../../sponsor.html">Support</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1>🃏 Card Games</h1>
+    <p>Pick a card game to start playing:</p>
+
+    <div class="game-list">
+      <div class="game-card">
+        <h2>Klondike Solitaire</h2>
+        <p>Classic solitaire card game.</p>
+        <a href="klondike/index.html">Play</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
+  </footer>
+
+</body>
+</html>
