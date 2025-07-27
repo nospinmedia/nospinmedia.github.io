@@ -50,6 +50,22 @@
     .game-link:hover {
       background: #f0f8ff;
     }
+    .share-buttons {
+      margin: 1rem 0;
+    }
+    .share-buttons button {
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+      background: #0073e6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .share-buttons button:hover {
+      background: #005bb5;
+    }
   </style>
   <script>
     window.onload = () => {
@@ -68,6 +84,12 @@
     <div class="main">
       <h1>Arcade Games 🕹️</h1>
       <p>Classic browser-friendly arcade fun, open-source and ad-free.</p>
+
+      <!-- ✅ Share Buttons -->
+      <div class="share-buttons">
+        <button id="shareBtn">🔗 Share with Friends</button>
+        <button id="copyBtn">📋 Copy Link</button>
+      </div>
 
       <!-- ✅ Space Invaders link -->
       <a href="space-invaders/index.html" class="game-link">👾 Play Space Invaders</a>
@@ -92,6 +114,30 @@
   <footer>
     © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
   </footer>
+
+  <!-- ✅ Share Script -->
+  <script>
+    const pageUrl = window.location.href;
+    const pageTitle = document.title;
+
+    document.getElementById('shareBtn').addEventListener('click', async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: pageTitle, url: pageUrl });
+        } catch (err) {
+          console.log('Share cancelled', err);
+        }
+      } else {
+        navigator.clipboard.writeText(pageUrl);
+        alert('Link copied to clipboard:\n' + pageUrl);
+      }
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      navigator.clipboard.writeText(pageUrl);
+      alert('Link copied to clipboard:\n' + pageUrl);
+    });
+  </script>
 
 </body>
 </html>
