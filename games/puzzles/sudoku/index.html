@@ -92,16 +92,15 @@
       text-align: center;
       margin-bottom: 20px;
       display: flex;
-      justify-content: center;
       flex-wrap: wrap; /* Allows wrapping */
       gap: 10px;
       max-width: 100%; /* Ensure it respects parent width */
+      justify-content: center; /* Center items within the flex container */
     }
 
     .game-controls button,
     .game-controls select {
-      flex: 1 1 calc(50% - 10px); /* Each item takes roughly half width, adjusting for gap */
-      padding: 10px 10px; /* Reduced padding */
+      padding: 8px 10px; /* Reduced padding to make buttons less tall */
       margin: 0; /* Remove individual margins as gap handles spacing */
       background: #60A3D9;
       color: #000;
@@ -112,7 +111,24 @@
       font-size: 0.9em; /* Slightly smaller font for buttons */
       box-shadow: 0 0 10px rgba(96, 163, 217, 0.5);
       transition: all 0.2s ease-in-out;
-      min-width: 120px; /* Ensure buttons don't get too small */
+      flex-grow: 1; /* Allow items to grow */
+      flex-shrink: 1; /* Allow items to shrink */
+      min-width: 80px; /* Minimum width to prevent squishing */
+    }
+
+    /* Specific widths for top row buttons to ensure 3 fit */
+    .game-controls #newGameBtn,
+    .game-controls #difficultySelect,
+    .game-controls #solveBtn {
+        flex-basis: calc(33.33% - 10px); /* Roughly 1/3 width each, accounting for gap */
+        max-width: calc(33.33% - 10px);
+    }
+
+    /* Specific widths for second row buttons to ensure 2 fit */
+    .game-controls #shareBtn,
+    .game-controls #copyBtn {
+        flex-basis: calc(50% - 10px); /* Roughly 1/2 width each, accounting for gap */
+        max-width: calc(50% - 10px);
     }
 
     .game-controls button:hover,
@@ -325,9 +341,18 @@
       box-shadow: 0 0 4px rgba(96, 163, 217, 0.3);
     }
 
+    /* Adjust grid for Clear and Pencil Mode to be side-by-side */
+    #number-pad .bottom-row-buttons {
+        grid-column: span 3; /* Container for these two buttons spans all 3 columns */
+        display: flex;
+        gap: 10px;
+        justify-content: space-between; /* Distribute space evenly */
+    }
+
     #number-pad button.clear-button,
-    #number-pad button.pencil-mode-button { /* New class for pencil mode button */
-      grid-column: span 2; /* Clear and Pencil Mode buttons span 2 columns */
+    #number-pad button.pencil-mode-button {
+      flex: 1 1 calc(50% - 5px); /* Each takes half the space minus gap */
+      padding: 10px 15px; /* Reduced padding to make buttons less tall */
       background: #FF6347;
       color: #fff;
     }
@@ -411,10 +436,16 @@
         font-size: 3.5vw; /* Responsive font size for buttons */
         padding: 2vw; /* Responsive padding */
       }
+      #number-pad .bottom-row-buttons {
+          grid-column: span 3; /* On mobile, the container spans 3 columns */
+          flex-direction: row; /* Ensure they stay side by side */
+          justify-content: space-around;
+      }
       #number-pad button.clear-button,
       #number-pad button.pencil-mode-button {
-        grid-column: span 1; /* On mobile, they are normal buttons */
+        flex: 1 1 auto; /* Allow them to size automatically within the flex container */
         font-size: 3.5vw; /* Match other buttons */
+        padding: 2vw; /* Match other buttons */
       }
       .game-controls {
         margin-bottom: 2vw; /* Responsive margin on mobile */
@@ -470,7 +501,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Sudoku 🧩 <span id="game-version">v2.0</span></div>
+      <div id="game-header">Sudoku 🧩 <span id="game-version">v2.1</span></div>
       <div id="game-info">
         <span>Difficulty: <span id="current-difficulty">Medium</span></span>
         <span id="game-status">Ready</span>
@@ -505,8 +536,10 @@
         <button data-value="7">7</button>
         <button data-value="8">8</button>
         <button data-value="9">9</button>
-        <button data-value="clear" class="clear-button">Clear</button>
-        <button id="pencilModeBtn" class="pencil-mode-button">✏️ Pencil Mode</button>
+        <div class="bottom-row-buttons">
+            <button data-value="clear" class="clear-button">Clear</button>
+            <button id="pencilModeBtn" class="pencil-mode-button">✏️ Pencil Mode</button>
+        </div>
       </div>
     </div>
 
