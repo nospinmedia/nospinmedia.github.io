@@ -70,8 +70,10 @@
         const cleanAnswerText = (p[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
         const cleanHint = (p[5] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
 
-        // Extract numeric answer
-        const match = cleanAnswerText.match(/answer\s+is\s+(\d+)/i) || cleanAnswerText.match(/=\s*(\d+)/);
+        // ✅ Fixed: extract numeric answer including "Final answer:" format
+        const match = cleanAnswerText.match(/answer\s+is\s+(\d+)/i) ||
+                      cleanAnswerText.match(/Final\s+answer:\s+(\d+)/i) ||
+                      cleanAnswerText.match(/=\s*(\d+)/);
         const numericAnswer = match ? parseInt(match[1]) : null;
 
         const card = document.createElement('div');
