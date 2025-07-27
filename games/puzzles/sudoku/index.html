@@ -48,7 +48,7 @@
     #game-box {
       border: 2px solid #74B9FF; /* Muted blue border */
       box-shadow: 0 0 20px #74B9FF; /* Muted blue glow */
-      padding: 20px; /* Uniform padding, internal spacing handled by children margins */
+      padding: 20px 20px 30px 20px; /* Increased padding-bottom */
       border-radius: 12px; /* More rounded corners */
       background: #222831; /* Match body background */
       position: relative;
@@ -453,7 +453,7 @@
       #game-box {
         width: 100%;
         max-width: none; /* Allow full width on mobile */
-        padding: 1vw; /* Responsive padding on mobile */
+        padding: 2vw; /* Responsive padding on mobile, increased from 1vw */
       }
       /* Responsive spacing between major sections within game-box */
       #game-box > *:not(:last-child) {
@@ -550,7 +550,7 @@
     <div id="site-header"></div> 
     <div id="game-container">
       <div id="game-box">
-        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.16</span></div>
+        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.17</span></div>
         <div id="game-info">
           <span>Difficulty: <span id="current-difficulty">Medium</span></span>
           <span id="game-status">Ready</span>
