@@ -242,7 +242,6 @@
 
     .piece {
       user-select: none; /* Prevent text selection on pieces */
-      font-size: 0.9em; /* Adjust font size for piece symbols */
       line-height: 1; /* Ensure vertical centering */
       position: absolute;
       top: 50%;
@@ -321,9 +320,9 @@
         max-height: 500px;
       }
       .square {
-        width: 12.5vw; /* 100vw / 8 squares */
-        height: 12.5vw;
-        font-size: 10vw; /* Adjust piece size responsively */
+        width: calc(90vw / 8); /* Ensures 8 squares fit within 90vw board */
+        height: calc(90vw / 8);
+        font-size: 8vw; /* Adjust piece size responsively to fit square */
       }
       .game-controls button {
         font-size: 1em;
@@ -359,7 +358,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Chess ♟️ <span id="game-version">v2.5</span></div>
+      <div id="game-header">Chess ♟️ <span id="game-version">v2.6</span></div>
       <div id="game-info">
         <span>Current Turn: <span id="current-turn">White</span></span>
         <span>White Score: <span id="white-score">0</span></span>
