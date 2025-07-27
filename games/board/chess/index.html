@@ -116,6 +116,26 @@
       box-shadow: 0 0 5px rgba(96, 163, 217, 0.3);
     }
 
+    /* Game mode dropdown */
+    .game-controls select {
+        padding: 10px 15px;
+        border-radius: 8px;
+        border: 1px solid #60A3D9;
+        background-color: #2E4057; /* Darker blue for dropdown background */
+        color: #fff;
+        font-size: 1.1em;
+        cursor: pointer;
+        outline: none;
+        box-shadow: 0 0 10px rgba(96, 163, 217, 0.3);
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .game-controls select:hover {
+        border-color: #7ABCEF;
+        box-shadow: 0 0 15px rgba(122, 188, 239, 0.5);
+    }
+
+
     /* Sidebar styling (Donate section) */
     #sidebar {
       background: #222831; /* Match body background */
@@ -308,7 +328,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Chess ♟️ <span id="game-version">v1.2</span></div>
+      <div id="game-header">Chess ♟️ <span id="game-version">v1.3</span></div>
       <div id="game-info">
         <span>Current Turn: <span id="current-turn">White</span></span>
         <span>Score: <span id="score">0</span></span>
@@ -316,6 +336,10 @@
 
       <div class="game-controls">
         <button id="newGameBtn">✨ New Game</button>
+        <select id="gameModeSelect">
+            <option value="playComputer">Play Computer</option>
+            <option value="watchAI">Watch AI</option>
+        </select>
         <button id="shareBtn">🔗 Share with Friends</button>
         <button id="copyBtn">📋 Copy Link</button>
       </div>
@@ -358,6 +382,8 @@
     let selectedPiece = null; // { row, col, piece } of the selected piece
     let possibleMoves = []; // Array of { row, col } for valid moves for selected piece
     let score = 0; // Initialize score
+    let gameMode = 'playComputer'; // 'playComputer' or 'watchAI'
+    let aiMoveTimeoutId = null; // To store the timeout ID for AI moves
 
     // --- DOM Elements ---
     const chessBoardEl = document.getElementById('chess-board');
@@ -365,6 +391,7 @@
     const scoreEl = document.getElementById('score'); // Get score element
     const gameMessageEl = document.getElementById('game-message');
     const newGameBtn = document.getElementById('newGameBtn');
+    const gameModeSelect = document.getElementById('gameModeSelect'); // New DOM element
 
     // --- Game Initialization ---
     function initializeGame() {
@@ -375,6 +402,12 @@
       hideGameMessage();
       renderBoard();
       updateHUD();
+      stopAIGameLoop(); // Ensure any previous AI loop is stopped
+
+      if (gameMode === 'watchAI') {
+        // Start the AI vs AI loop
+        makeAIMoveForColor(currentTurn); // Start with white AI
+      }
     }
 
     // --- Board Representation and Setup ---
@@ -457,7 +490,13 @@
     }
 
     function updateHUD() {
-      currentTurnEl.textContent = currentTurn.charAt(0).toUpperCase() + currentTurn.slice(1);
+      let turnText = currentTurn.charAt(0).toUpperCase() + currentTurn.slice(1);
+      if (gameMode === 'playComputer') {
+        turnText += ` (Human vs AI)`;
+      } else if (gameMode === 'watchAI') {
+        turnText += ` (AI vs AI)`;
+      }
+      currentTurnEl.textContent = turnText;
       scoreEl.textContent = score; // Update score display
     }
 
@@ -571,20 +610,23 @@
       return moves;
     }
 
-    // --- AI Logic (Basic Random Move) ---
-    function makeAIMove() {
-      if (currentTurn !== 'black') return;
+    // --- AI Logic (Basic Random Move for a given color) ---
+    function makeAIMoveForColor(playerColor) {
+      // Clear any previous timeout to prevent multiple AI moves overlapping
+      clearTimeout(aiMoveTimeoutId);
 
-      displayGameMessage("Black's Turn (AI thinking...)");
+      if (currentTurn !== playerColor) return; // Only move if it's this AI's turn
 
-      setTimeout(() => {
+      displayGameMessage(`${playerColor.charAt(0).toUpperCase() + playerColor.slice(1)}'s Turn (AI thinking...)`);
+
+      aiMoveTimeoutId = setTimeout(() => {
         let allPossibleAIMoves = [];
 
-        // Collect all valid moves for all black pieces
+        // Collect all valid moves for the current AI's pieces
         for (let r = 0; r < 8; r++) {
           for (let c = 0; c < 8; c++) {
             const piece = board[r][c];
-            if (piece && piece.color === 'black') {
+            if (piece && piece.color === playerColor) {
               const movesForPiece = getPossibleMoves(r, c, piece);
               movesForPiece.forEach(move => {
                 allPossibleAIMoves.push({
@@ -606,7 +648,12 @@
           // Check for capture and update score
           const capturedPiece = board[randomMove.toRow][randomMove.toCol];
           if (capturedPiece) {
-              score += pieceValues[capturedPiece.type]; // Add score for captured piece
+              // Score logic: White gains points for capturing black pieces, black gains points for capturing white pieces
+              if (playerColor === 'white') {
+                  score += pieceValues[capturedPiece.type];
+              } else { // black captures white
+                  score -= pieceValues[capturedPiece.type.toLowerCase()]; // Deduct from score for black's capture
+              }
           }
 
           // Perform the move
@@ -615,26 +662,44 @@
 
           // Check if a King was captured (simple win condition)
           if (capturedPiece && capturedPiece.type.toLowerCase() === 'k') {
-              displayGameMessage(`White wins! (Black King captured)`);
-              // Stop game or offer new game
+              displayGameMessage(`${playerColor.toUpperCase()} wins! (King captured)`);
+              // Stop AI if game ends
+              stopAIGameLoop();
               return;
           }
 
           // Switch turn
-          currentTurn = 'white';
+          currentTurn = playerColor === 'white' ? 'black' : 'white';
           updateHUD();
           renderBoard();
-          displayGameMessage("Black made a move!");
+          displayGameMessage(`${playerColor.charAt(0).toUpperCase() + playerColor.slice(1)} made a move!`);
+
+          // If in Watch AI mode, trigger the next AI move
+          if (gameMode === 'watchAI') {
+              makeAIMoveForColor(currentTurn);
+          }
+
         } else {
-          displayGameMessage("No moves for Black. Stalemate or Checkmate (not fully implemented).");
+          displayGameMessage(`No moves for ${playerColor.charAt(0).toUpperCase() + playerColor.slice(1)}. Stalemate or Checkmate (not fully implemented).`);
+          stopAIGameLoop(); // Stop AI if no moves
         }
       }, 1000); // 1 second delay for AI move
+    }
+
+    function stopAIGameLoop() {
+        clearTimeout(aiMoveTimeoutId);
+        aiMoveTimeoutId = null;
     }
 
 
     // --- Event Handlers ---
     function handleSquareClick(event) {
-      if (currentTurn === 'black') {
+      if (gameMode === 'watchAI') {
+        displayGameMessage("In 'Watch AI' mode, you cannot move pieces.");
+        return;
+      }
+
+      if (currentTurn === 'black') { // This is for 'playComputer' mode, when it's AI's turn
         displayGameMessage("It's Black's turn (AI). Please wait.");
         return;
       }
@@ -652,7 +717,7 @@
           // Check for capture and update score
           const capturedPiece = board[clickedRow][clickedCol];
           if (capturedPiece) {
-              score += pieceValues[capturedPiece.type]; // Add score for captured piece
+              score += pieceValues[capturedPiece.type]; // Add score for captured piece (White's perspective)
           }
 
           // Perform the move
@@ -662,21 +727,20 @@
           // Check if opponent's King was captured (simple win condition)
           if (capturedPiece && capturedPiece.type.toLowerCase() === 'k') {
               displayGameMessage(`White wins! (Black King captured)`);
-              // Stop game or offer new game
               return;
           }
 
           // Reset selection and switch turn
           selectedPiece = null;
           possibleMoves = [];
-          currentTurn = currentTurn === 'white' ? 'black' : 'white';
+          currentTurn = 'black'; // Switch to black (AI)
           updateHUD();
           renderBoard();
-          displayGameMessage("Move made!");
+          displayGameMessage("White made a move!");
 
           // If it's now Black's turn, trigger AI move
           if (currentTurn === 'black') {
-            makeAIMove();
+            makeAIMoveForColor('black');
           }
 
         } else if (clickedPiece && clickedPiece.color === currentTurn) {
@@ -713,7 +777,14 @@
         displayGameMessage("New Game Started!");
       });
 
-      // Share and Copy Link buttons (from Klondike)
+      gameModeSelect.addEventListener('change', (event) => {
+        gameMode = event.target.value;
+        setupInitialBoard(); // Reset board for new mode
+        initializeGame(); // Re-initialize game state based on new mode
+        displayGameMessage(`Mode changed to: ${gameMode === 'playComputer' ? 'Play Computer' : 'Watch AI'}`);
+      });
+
+      // Share and Copy Link buttons
       // NOTE: document.execCommand('copy') is deprecated. For better compatibility,
       // consider using navigator.clipboard.writeText if running in a secure context.
       // For this Canvas environment, execCommand might be more reliable.
