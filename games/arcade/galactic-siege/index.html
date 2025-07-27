@@ -10,7 +10,7 @@
     #game-container { display:flex; justify-content:center; padding:20px; gap:30px; flex-wrap:wrap; }
     #game-box { border:2px solid #0f0; box-shadow:0 0 20px #0f0; padding:10px; border-radius:8px; background:#000; position:relative; }
     #game-header { color:#0f0; text-align:center; font-size:1.8em; margin-bottom:5px; text-shadow:0 0 8px #0f0; position:relative; }
-    #game-version { position:absolute; top:5px; right:10px; color:#0f0; font-size:0.8em; } /* Version style */
+    #game-version { position:absolute; top:5px; right:10px; color:#0f0; font-size:0.8em; }
     #game-info { text-align:center; color:#0f0; margin-bottom:10px; font-weight:bold; }
     canvas { background:#000; border:2px solid #0f0; display:block; margin:auto; }
     #sidebar { background:#111; border:2px solid #0f0; box-shadow:0 0 15px #0f0; padding:20px; border-radius:8px; max-width:250px; height:fit-content; }
@@ -43,7 +43,8 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Galactic Siege 👾 <span id="game-version">v1.9</span></div> <div id="game-info">
+      <div id="game-header">Galactic Siege 👾 <span id="game-version">v2.0</span></div>
+      <div id="game-info">
         Score: <span id="score">0</span> | Lives: <span id="lives">3</span> | High Score: <span id="highScore">0</span> | Level: <span id="level">1</span>
       </div>
 
@@ -103,10 +104,13 @@
 
     // --- Sound Functions (using Web Audio API) ---
     async function loadSound(url) {
+        console.log(`Attempting to load sound: ${url}`);
         try {
             const response = await fetch(url);
             const arrayBuffer = await response.arrayBuffer();
-            return await audioContext.decodeAudioData(arrayBuffer);
+            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+            console.log(`Successfully loaded and decoded: ${url}`);
+            return audioBuffer;
         } catch (error) {
             console.error('Error loading sound:', url, error);
             return null;
@@ -114,13 +118,15 @@
     }
 
     function playSound(buffer, volume = 1.0) {
+        console.log(`playSound called for buffer. Sound Enabled: ${soundEnabled}, AudioContext State: ${audioContext ? audioContext.state : 'null'}, Buffer exists: ${!!buffer}`);
         if (!soundEnabled || !audioContext || !buffer) return;
 
         // Ensure audio context is running before playing
         if (audioContext.state === 'suspended') {
             audioContext.resume().then(() => {
+                console.log("AudioContext resumed for playback.");
                 _actualPlaySound(buffer, volume);
-            }).catch(e => console.error("Failed to resume audio context:", e));
+            }).catch(e => console.error("Failed to resume audio context for playback:", e));
         } else {
             _actualPlaySound(buffer, volume);
         }
@@ -128,7 +134,7 @@
 
     function _actualPlaySound(buffer, volume) {
         if (audioContext.state !== 'running') {
-            console.warn("AudioContext not running, cannot play sound.");
+            console.warn("AudioContext not running when _actualPlaySound tried to play.");
             return;
         }
         try {
@@ -141,8 +147,9 @@
             source.connect(gainNode);
             gainNode.connect(audioContext.destination);
             source.start(0);
+            console.log("Sound source started.");
         } catch (error) {
-            console.error('Error playing sound:', error);
+            console.error('Error in _actualPlaySound:', error);
         }
     }
 
@@ -468,6 +475,7 @@
       // Initialize AudioContext and load sounds on first user interaction
       if (!audioContext) {
           audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          console.log(`AudioContext created. Initial state: ${audioContext.state}`);
 
           // Load sounds only once
           shootBuffer = await loadSound('https://www.soundjay.com/buttons/beep-07.wav');
@@ -517,7 +525,7 @@
         if (gamePaused) {
             document.getElementById('pauseBtn').innerText = '▶️ Resume';
             if (audioContext && audioContext.state === 'running') {
-                audioContext.suspend(); // Suspend audio context when pausing
+                audioContext.suspend().then(() => console.log("AudioContext suspended by togglePause.")).catch(e => console.error("Failed to suspend audio context in togglePause:", e));
             }
         } else {
             document.getElementById('pauseBtn').innerText = '⏸️ Pause';
@@ -561,6 +569,7 @@
             audioContext = null; // Reset for a fresh start next game
             shootBuffer = null;
             explosionBuffer = null;
+            console.log("AudioContext closed by endGame.");
         }
     }
 
@@ -599,11 +608,10 @@
 
     // Initial setup (before game starts)
     initPlayer();
-    createAliens(true); // Create aliens for the initial display
+    // No need to create aliens or call update here; they're created/started by startGame()
     createShields();
     updateHUD();
     // The overlay should be displayed by default, waiting for the user to click "Start Game"
-    // We don't call update() here; it's called by startGame() when the user clicks.
   </script>
 </body>
 </html>
