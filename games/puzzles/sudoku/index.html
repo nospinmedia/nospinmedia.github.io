@@ -36,7 +36,8 @@
       background: #222831; /* Match body background */
       position: relative;
       flex-grow: 1;
-      max-width: 900px;
+      max-width: 95%; /* Adjusted to 95% */
+      width: 100%; /* Ensure it takes full width within max-width */
       min-width: 320px;
       display: flex;
       flex-direction: column;
@@ -201,7 +202,7 @@
       grid-template-rows: repeat(9, 1fr);
       width: 630px; /* 9 * 70px per cell */
       height: 630px; /* 9 * 70px per cell */
-      margin: 20px auto;
+      margin: 10px auto; /* Adjusted margin */
       border: 4px solid #74B9FF; /* Muted blue border for the board */
       box-shadow: 0 0 25px rgba(116, 185, 255, 0.5);
       border-radius: 8px;
@@ -270,7 +271,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      margin-top: 20px;
+      margin-top: 15px; /* Adjusted margin */
       padding: 10px;
       border-radius: 8px;
       background: #2E4057; /* Darker blue background */
@@ -354,15 +355,15 @@
         margin-top: 20px;
       }
       #sudoku-board {
-        width: 90vw; /* Make board responsive */
-        height: 90vw;
-        max-width: 630px; /* Cap max size */
+        width: 95vw; /* Adjusted to 95vw */
+        height: 95vw; /* Adjusted to 95vw */
+        max-width: 630px;
         max-height: 630px;
       }
       .sudoku-cell {
-        width: calc(90vw / 9); /* Ensures 9 cells fit within 90vw board */
-        height: calc(90vw / 9);
-        font-size: 6vw; /* Adjust font size responsively */
+        width: calc(95vw / 9); /* Ensures 9 cells fit within 95vw board */
+        height: calc(95vw / 9);
+        font-size: 7vw; /* Adjusted font size responsively */
       }
       #number-pad button {
         font-size: 1.2em;
@@ -379,11 +380,11 @@
         font-size: 0.9em;
       }
       #game-message {
-        font-size: 1.2em; /* Smaller on mobile */
+        font-size: 1.2em;
         padding: 8px 15px;
       }
       #game-message.game-over-style {
-        font-size: 1.8em; /* Smaller on mobile for game over */
+        font-size: 1.8em;
         padding: 15px 20px;
       }
     }
@@ -402,7 +403,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.0</span></div>
+      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.1</span></div>
       <div id="game-info">
         <span>Difficulty: <span id="current-difficulty">Medium</span></span>
         <span id="game-status">Ready</span>
