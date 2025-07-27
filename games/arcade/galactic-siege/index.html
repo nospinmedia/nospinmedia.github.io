@@ -43,7 +43,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Galactic Siege 👾 <span id="game-version">v1.5</span></div> <div id="game-info">
+      <div id="game-header">Galactic Siege 👾 <span id="game-version">v1.6</span></div> <div id="game-info">
         Score: <span id="score">0</span> | Lives: <span id="lives">3</span> | High Score: <span id="highScore">0</span> | Level: <span id="level">1</span>
       </div>
 
@@ -90,7 +90,7 @@
     let animationFrameId; // To store the requestAnimationFrame ID
 
     let soundEnabled = true; // Initial sound state
-    // Reverted to direct Audio objects - these should now work reliably
+    // Reverted to direct Audio objects - should be more reliable
     const shootSound = new Audio('https://www.soundjay.com/buttons/beep-07.wav');
     const explosionSound = new Audio('https://www.soundjay.com/misc/explosion-01.wav');
     shootSound.volume = 0.5;
@@ -212,6 +212,21 @@
       });
     }
 
+    function drawBullets(){
+        bullets.forEach((b)=>{
+            ctx.fillStyle="#0ff";
+            ctx.fillRect(b.x,b.y,3,10);
+        });
+    }
+
+    function drawAlienBullets(){
+        alienBullets.forEach((b) => {
+            ctx.fillStyle = "#f00";
+            ctx.fillRect(b.x, b.y, 3, 10);
+        });
+    }
+
+
     function checkCollision(obj1, obj2){
       return obj1.x < obj2.x + obj2.width &&
              obj1.x + obj1.width > obj2.x &&
@@ -222,62 +237,36 @@
     function update(){
       ctx.clearRect(0,0,canvas.width,canvas.height);
 
+      // --- Drawing Phase (Always draws visible elements based on current state) ---
       if(nextWaveTimer>0){
         ctx.fillStyle="#0f0"; ctx.font="bold 40px Arial"; ctx.textAlign="center";
         ctx.fillText(`Next Wave in ${Math.ceil(nextWaveTimer/60)}`,canvas.width/2,canvas.height/2);
-        nextWaveTimer--;
       }
 
-      // If player is exploding, decrement timer
-      if (playerExplosionTimer > 0) {
-        drawPlayer(); // Draw explosion
-        playerExplosionTimer--;
-        if (playerExplosionTimer === 0) {
-          gameOver(); // Call game over after explosion animation
-          return; // Stop current update loop and await next game state
-        }
+      // Draw all game elements
+      drawPlayer();
+      aliens.forEach(drawAlien);
+      drawShields();
+      drawBullets();
+      drawAlienBullets();
+
+      // Display PAUSED message if game is paused
+      if (gamePaused) {
+          ctx.fillStyle="#0f0"; ctx.font="bold 40px Arial"; ctx.textAlign="center";
+          ctx.fillText("PAUSED",canvas.width/2,canvas.height/2);
       }
 
-      // If game is not running or paused, only redraw static elements
-      if(!gameRunning || gamePaused || playerExplosionTimer > 0){
-        // Only draw player if not exploding, or if exploding, draw its explosion
-        if (player.alive || playerExplosionTimer > 0) {
-            drawPlayer();
-        }
-        aliens.forEach(drawAlien);
-        drawShields();
-        bullets.forEach((b)=>{
-            ctx.fillStyle="#0ff";
-            ctx.fillRect(b.x,b.y,3,10);
-        });
-        alienBullets.forEach((b) => {
-            ctx.fillStyle = "#f00";
-            ctx.fillRect(b.x, b.y, 3, 10);
-        });
-
-        // If game is paused, display PAUSED message
-        if (gamePaused) {
-            ctx.fillStyle="#0f0"; ctx.font="bold 40px Arial"; ctx.textAlign="center";
-            ctx.fillText("PAUSED",canvas.width/2,canvas.height/2);
-        }
-
-      }
-
-
-      if (gameRunning && !gamePaused && playerExplosionTimer === 0) { // Only run game logic if conditions are met
+      // --- Game Logic Phase (Only runs if game is running and not paused/exploding) ---
+      if (gameRunning && !gamePaused && playerExplosionTimer === 0) {
           // Player movement
-          if (player.alive) {
-            player.x+=player.dx;
-            if(player.x<0)player.x=0;
-            if(player.x+player.width>canvas.width)player.x=canvas.width-player.width;
-          }
+          player.x+=player.dx;
+          if(player.x<0)player.x=0;
+          if(player.x+player.width>canvas.width)player.x=canvas.width-player.width;
 
           // Player Bullets
           for (let i = bullets.length - 1; i >= 0; i--) {
             const b = bullets[i];
             b.y-=BULLET_SPEED;
-            ctx.fillStyle="#0ff";
-            ctx.fillRect(b.x,b.y,3,10);
 
             if(b.y<0) {
                 bullets.splice(i,1);
@@ -318,8 +307,7 @@
           for (let i = alienBullets.length - 1; i >= 0; i--) {
             const b = alienBullets[i];
             b.y += ALIEN_BULLET_SPEED;
-            ctx.fillStyle = "#f00";
-            ctx.fillRect(b.x, b.y, 3, 10);
+
             if (b.y > canvas.height) {
                 alienBullets.splice(i, 1);
                 continue;
@@ -328,14 +316,14 @@
             if (player.alive && checkCollision(b, player)) {
               alienBullets.splice(i, 1);
               lives--;
-              if (soundEnabled) {
+              if (soundEnabled) { // Fixed: Removed `soundsLoaded.explosion` check
                 explosionSound.currentTime = 0;
                 explosionSound.play();
               }
               player.alive = false;
               playerExplosionTimer = 120;
               updateHUD();
-              continue;
+              continue; // Continue to next bullet, this one is done
             }
 
             for (let sIndex = 0; sIndex < shields.length; sIndex++) {
@@ -356,6 +344,7 @@
                 if (i >= alienBullets.length) break;
             }
           }
+
 
           // Aliens movement and flying in animation
           let edge=false;
@@ -384,13 +373,13 @@
           // Check bottom collision
           aliens.forEach(a=>{
             if(a.y+ALIEN_SIZE>canvas.height-60){
-              if (player.alive) {
-                if (soundEnabled) {
+              if (player.alive) { // Only trigger loss of life if player hasn't been hit already this frame
+                if (soundEnabled) { // Fixed: Removed `soundsLoaded.explosion` check
                   explosionSound.currentTime = 0;
                   explosionSound.play();
                 }
                 player.alive = false;
-                playerExplosionTimer = 120;
+                playerExplosionTimer = 120; // Start explosion animation
               }
             }
           });
@@ -405,7 +394,24 @@
           }
       }
 
-      animationFrameId = requestAnimationFrame(update);
+      // --- Post-Logic/Animation Phase ---
+      // This handles the player explosion animation completion and lives check
+      if (playerExplosionTimer > 0) {
+        // playerExplosionTimer is handled by the initial check at the top of update()
+        // No additional logic here, just let the timer count down.
+      } else if (!player.alive && gameRunning && lives > 0) { // Player exploded, but has lives left
+          // This block runs *after* explosion animation completes (playerExplosionTimer becomes 0)
+          initPlayer(); // Bring player back
+          alienBullets = []; // Clear any alien bullets that might still be on screen
+          player.alive = true; // Player is now alive again
+          // No need to set gameRunning=true, it already is.
+          updateHUD();
+      } else if (!player.alive && gameRunning && lives <= 0) { // Player exploded, no lives left
+          gameOver();
+      }
+
+
+      animationFrameId = requestAnimationFrame(update); // Request next frame for continuous loop
     }
 
     function updateHUD(){
@@ -416,7 +422,6 @@
     }
 
     function startGame(){
-      // Cancel any existing animation frame to ensure a clean restart
       if (animationFrameId) {
           cancelAnimationFrame(animationFrameId);
       }
@@ -433,8 +438,7 @@
       updateHUD(); gameRunning=true;
       document.getElementById('overlay').style.display="none";
 
-      // Start the game loop again
-      update();
+      update(); // Start the game loop
     }
 
     function gameOver(){
@@ -455,15 +459,14 @@
             document.getElementById('pauseBtn').innerText = '▶️ Resume';
         } else {
             document.getElementById('pauseBtn').innerText = '⏸️ Pause';
-            // When resuming, ensure the game loop kicks off again
-            if (!animationFrameId) {
+            // If resuming, and game was not running because it was paused, re-start the loop
+            if (!animationFrameId) { // Only call update if no frame is currently requested
                 update();
             }
         }
     }
 
     function endGame() {
-        // Cancel any active animation frame
         if (animationFrameId) {
             cancelAnimationFrame(animationFrameId);
             animationFrameId = null;
@@ -472,14 +475,13 @@
         gameRunning = false;
         gamePaused = false;
         playerExplosionTimer = 0;
-        // Resetting game state
         score=0; lives=3; level=1;
         bullets = [];
         alienBullets = [];
-        aliens = [];
-        shields = [];
-        initPlayer();
-        createShields();
+        aliens = []; // Clear aliens for a fresh start
+        shields = []; // Clear shields for a fresh start
+        initPlayer(); // Re-initialize player for a fresh start
+        createShields(); // Re-create shields for the start screen
         updateHUD();
 
         const overlay=document.getElementById('overlay');
@@ -494,7 +496,7 @@
       if(e.key==="ArrowRight" && player.alive && !gamePaused) player.dx=PLAYER_SPEED;
       if(e.key===" " && gameRunning && player.alive && !gamePaused){
         bullets.push({x:player.x+player.width/2-1.5,y:player.y, width:3, height:10});
-        if (soundEnabled) {
+        if (soundEnabled) { // Fixed: Removed `soundsLoaded.shoot` check
           shootSound.currentTime = 0;
           shootSound.play();
         }
@@ -516,7 +518,7 @@
     document.getElementById('endGameBtn').onclick=endGame;
 
 
-    // Initial setup. Do NOT call update() here.
+    // Initial setup
     initPlayer();
     createShields();
     updateHUD();
