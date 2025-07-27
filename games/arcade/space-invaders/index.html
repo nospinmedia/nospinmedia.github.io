@@ -75,7 +75,11 @@
       padding: 0.3rem;
       font-size: 1rem;
     }
-    /* Touch controls */
+    #hud {
+      color: #0f0;
+      font-weight: bold;
+      margin: 0.3rem;
+    }
     #touch-controls {
       display: none;
       text-align: center;
@@ -91,16 +95,9 @@
       border-radius: 6px;
     }
     @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-      }
-      .sidebar {
-        border-left: none;
-        border-top: 2px solid #222;
-      }
-      #touch-controls {
-        display: block;
-      }
+      .container { flex-direction: column; }
+      .sidebar { border-left: none; border-top: 2px solid #222; }
+      #touch-controls { display: block; }
     }
   </style>
 </head>
@@ -112,12 +109,18 @@
   <!-- ✅ Game header bar -->
   <div class="game-header">
     <a href="../index.html">← Back to Arcade</a>
-    <span>❤️ Love this game? <a href="/sponsor.html">Help us make more</a></span>
+    <div>
+      ❤️ Love this game? <a href="/sponsor.html">Help us make more</a>
+      <button id="soundToggle" style="margin-left:1rem;">🔊 Sound On</button>
+    </div>
   </div>
 
   <div class="container">
     <div class="main">
       <h1>Space Invaders 👾</h1>
+
+      <!-- ✅ HUD -->
+      <div id="hud">Score: 0 | Lives: 3 | High Score: 0</div>
 
       <!-- ✅ Share buttons -->
       <div class="share-buttons">
@@ -165,20 +168,25 @@
 
   <!-- ✅ Game Logic -->
   <script>
-    // Basic Space Invaders
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
-
+    let mode = 'retro';
+    let score = 0;
+    let highScore = localStorage.getItem('siHighScore') || 0;
+    let lives = 3;
+    let level = 1;
     let ship = { x: 220, y: 600, w: 40, h: 20, speed: 5 };
     let bullets = [];
+    let enemyBullets = [];
     let aliens = [];
     let keys = {};
+    let soundOn = true;
 
     function initAliens() {
       aliens = [];
       for (let r = 0; r < 4; r++) {
         for (let c = 0; c < 8; c++) {
-          aliens.push({ x: 50 + c * 50, y: 50 + r * 40, w: 30, h: 20, alive: true });
+          aliens.push({ x: 40 + c * 50, y: 40 + r * 40, w: 30, h: 20, alive: true });
         }
       }
     }
@@ -199,6 +207,13 @@
     function drawBullets() {
       ctx.fillStyle = '#fff';
       bullets.forEach(b => ctx.fillRect(b.x, b.y, 4, 10));
+      ctx.fillStyle = '#f00';
+      enemyBullets.forEach(b => ctx.fillRect(b.x, b.y, 4, 10));
+    }
+
+    function updateHUD() {
+      document.getElementById('hud').innerText =
+        `Score: ${score} | Lives: ${lives} | High Score: ${highScore}`;
     }
 
     function update() {
@@ -210,14 +225,60 @@
       bullets.forEach(b => b.y -= 6);
       bullets = bullets.filter(b => b.y > 0);
 
+      enemyBullets.forEach(b => b.y += 4);
+      enemyBullets = enemyBullets.filter(b => b.y < canvas.height);
+
       bullets.forEach(b => {
         aliens.forEach(a => {
           if (a.alive && b.x < a.x + a.w && b.x + 4 > a.x && b.y < a.y + a.h && b.y + 10 > a.y) {
             a.alive = false;
+            score += 10;
+            playSound('hit');
             b.y = -10;
           }
         });
       });
+
+      enemyBullets.forEach(b => {
+        if (b.x < ship.x + ship.w && b.x + 4 > ship.x && b.y < ship.y + ship.h && b.y + 10 > ship.y) {
+          lives--;
+          playSound('playerhit');
+          b.y = canvas.height + 10;
+          if (lives <= 0) gameOver();
+        }
+      });
+
+      // Alien movement
+      let dx = 1 + (level * 0.3);
+      let moveDown = false;
+      aliens.forEach(a => {
+        if (a.alive) {
+          a.x += dx * alienDir;
+          if (a.x + a.w > canvas.width - 10 || a.x < 10) moveDown = true;
+        }
+      });
+      if (moveDown) {
+        alienDir *= -1;
+        aliens.forEach(a => a.y += 10);
+      }
+
+      // Enemy firing
+      if (Math.random() < 0.02) {
+        let shooters = aliens.filter(a => a.alive);
+        if (shooters.length > 0) {
+          let shooter = shooters[Math.floor(Math.random() * shooters.length)];
+          enemyBullets.push({ x: shooter.x + shooter.w/2, y: shooter.y + shooter.h });
+          playSound('alienfire');
+        }
+      }
+
+      if (aliens.every(a => !a.alive)) {
+        level++;
+        initAliens();
+        playSound('level');
+      }
+
+      updateHUD();
     }
 
     function draw() {
@@ -233,24 +294,58 @@
       requestAnimationFrame(loop);
     }
 
-    document.addEventListener('keydown', e => keys[e.key] = true);
-    document.addEventListener('keyup', e => {
-      keys[e.key] = false;
-      if (e.key === ' ') fire();
-    });
-
     function fire() {
       bullets.push({ x: ship.x + ship.w/2 - 2, y: ship.y });
+      playSound('fire');
+    }
+
+    function gameOver() {
+      if (score > highScore) {
+        highScore = score;
+        localStorage.setItem('siHighScore', highScore);
+      }
+      alert('Game Over! Final Score: ' + score);
+      score = 0;
+      lives = 3;
+      level = 1;
+      initAliens();
     }
 
     function moveLeft() { ship.x -= ship.speed * 2; }
     function moveRight() { ship.x += ship.speed * 2; }
 
-    let mode = 'retro';
-    document.getElementById('modeSelect').addEventListener('change', e => {
-      mode = e.target.value;
+    document.addEventListener('keydown', e => {
+      keys[e.key] = true;
+      if (e.key === ' ') fire();
+    });
+    document.addEventListener('keyup', e => keys[e.key] = false);
+
+    document.getElementById('modeSelect').addEventListener('change', e => mode = e.target.value);
+
+    // Sound engine
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playSound(type) {
+      if (!soundOn) return;
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.connect(g); g.connect(audioCtx.destination);
+      if (type === 'fire') o.frequency.value = 440;
+      if (type === 'hit') o.frequency.value = 220;
+      if (type === 'playerhit') o.frequency.value = 110;
+      if (type === 'alienfire') o.frequency.value = 330;
+      if (type === 'level') o.frequency.value = 880;
+      o.type = 'square';
+      g.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      o.start();
+      o.stop(audioCtx.currentTime + 0.2);
+    }
+
+    document.getElementById('soundToggle').addEventListener('click', () => {
+      soundOn = !soundOn;
+      document.getElementById('soundToggle').innerText = soundOn ? '🔊 Sound On' : '🔇 Sound Off';
     });
 
+    updateHUD();
     loop();
   </script>
 
