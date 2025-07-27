@@ -48,7 +48,7 @@
     #game-box {
       border: 2px solid #74B9FF; /* Muted blue border */
       box-shadow: 0 0 20px #74B9FF; /* Muted blue glow */
-      padding: 20px; /* Uniform padding */
+      padding: 20px 20px 25px 20px; /* Adjusted padding-bottom */
       border-radius: 12px; /* More rounded corners */
       background: #222831; /* Match body background */
       position: relative;
@@ -58,7 +58,7 @@
       min-width: 320px;
       display: flex;
       flex-direction: column;
-      /* Removed justify-content: space-between; */
+      justify-content: space-around; /* Re-added to distribute space */
       margin-top: 20px; /* Added margin-top to push it down */
     }
 
@@ -66,6 +66,15 @@
     #game-box > * {
       margin-bottom: 15px;
     }
+    /* Specific overrides for no gap */
+    #sudoku-board {
+      margin-bottom: 0; /* Remove margin below board */
+    }
+    #number-pad {
+      margin-top: 0; /* Ensure no top margin for number pad */
+      margin-bottom: 0; /* Ensure no bottom margin for number pad */
+    }
+
 
     /* Game header styling - same as chess */
     #game-header {
@@ -245,7 +254,7 @@
       flex-shrink: 0;
       flex-grow: 1; /* Allow board to grow within available space */
       max-width: 340px; /* Adjusted max width for desktop to fit smaller board */
-      margin-bottom: 0; /* Remove margin below board */
+      /* height: 306px; Removed fixed height */
     }
 
     .sudoku-cell {
@@ -260,8 +269,9 @@
       color: #000;
       transition: background-color 0.2s ease-in-out;
       position: relative; /* For pencil marks positioning */
-      min-height: 38px; /* Added min-height to prevent shifts when pencil marks appear/disappear */
-      /* height: calc(100% / 9); Removed as 1fr handles it */
+      /* min-height: 38px; Removed */
+      height: 100%; /* Ensure cell takes full height of its grid row */
+      width: 100%; /* Ensure cell takes full width of its grid column */
     }
 
     /* Pencil marks grid inside cell */
@@ -335,8 +345,6 @@
       border-radius: 8px;
       background: #2E4057;
       flex-shrink: 0; /* Ensure it doesn't shrink */
-      margin-top: 0; /* Ensure no top margin for number pad */
-      margin-bottom: 0; /* Ensure no bottom margin for number pad */
     }
 
     #number-pad button {
@@ -453,7 +461,7 @@
       #game-box {
         width: 100%;
         max-width: none; /* Allow full width on mobile */
-        padding: 2vw; /* Responsive padding on mobile, increased from 1vw */
+        padding: 2vw 2vw 2vw 2vw; /* Adjusted responsive padding on mobile */
         margin-top: 2vw; /* Responsive margin-top for mobile */
       }
       /* Responsive spacing between major sections within game-box */
@@ -467,17 +475,15 @@
       }
       #sudoku-board {
         width: 90vw; /* Adjusted to 90vw for more space */
-        height: 90vw; /* Force square board */
+        height: 81vw; /* Explicit height for mobile (90vw / 9 * 9) */
         max-width: none; /* Removed fixed max-width */
         max-height: none; /* Removed fixed max-height */
         min-height: unset; /* Remove min-height for mobile */
-        margin-bottom: 0; /* Remove margin below board */
       }
       .sudoku-cell {
         width: calc(90vw / 9); /* Ensures 9 cells fit within 90vw board */
-        /* height: calc(90vw / 9); Removed as 1fr handles it */
+        height: 100%; /* Ensure cell takes full height of its grid row */
         font-size: 4.5vw; /* Adjusted font size responsively */
-        min-height: 10vw; /* Responsive min-height for mobile cells */
       }
       .sudoku-cell .pencil-marks {
           font-size: 1.5vw; /* Further smaller font for pencil marks on mobile */
@@ -486,8 +492,6 @@
       #number-pad {
         padding: 1.5vw; /* Responsive padding on mobile */
         grid-template-columns: repeat(3, 1fr); /* 3 columns for numbers */
-        margin-top: 0; /* Ensure no top margin for number pad */
-        margin-bottom: 0; /* Ensure no bottom margin for number pad */
       }
       #number-pad button {
         font-size: 3vw; /* Responsive font size for buttons */
@@ -550,7 +554,7 @@
     <div id="site-header"></div> 
     <div id="game-container">
       <div id="game-box">
-        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.20</span></div>
+        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.22</span></div>
         <div id="game-info">
           <span>Difficulty: <span id="current-difficulty">Medium</span></span>
           <span id="game-status">Ready</span>
