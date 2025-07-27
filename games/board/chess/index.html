@@ -259,7 +259,7 @@
       color: #333333; /* Dark grey for black pieces */
     }
 
-    /* Game message box (for in-game notifications) */
+    /* Game message box (for all messages) */
     #game-message {
       position: relative; /* Stays above the board */
       margin: 10px auto;
@@ -276,32 +276,6 @@
       width: fit-content;
       max-width: 80%;
       z-index: 1001; /* High z-index */
-    }
-
-    /* Game Over Overlay (for end game messages) */
-    #game-over-overlay {
-      position: absolute; /* Position over the board */
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7); /* Darker, more opaque background, but now transparent */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      z-index: 2000; /* Even higher z-index to cover everything */
-      display: none; /* Hidden by default */
-      /* No border-radius here, as it's inside chess-board which has it */
-    }
-
-    #game-over-text {
-      color: #FFD700; /* Gold color for game over text */
-      font-size: 3em; /* Very large font */
-      font-weight: bold;
-      text-shadow: 0 0 20px #FFD700; /* Strong glow */
-      text-align: center;
-      padding: 20px;
     }
 
     /* Highlight for captured square */
@@ -355,9 +329,6 @@
         font-size: 1.2em; /* Smaller on mobile */
         padding: 8px 15px;
       }
-      #game-over-text {
-        font-size: 2em; /* Smaller on mobile */
-      }
     }
   </style>
 </head>
@@ -374,7 +345,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Chess ♟️ <span id="game-version">v2.1</span></div>
+      <div id="game-header">Chess ♟️ <span id="game-version">v2.2</span></div>
       <div id="game-info">
         <span>Current Turn: <span id="current-turn">White</span></span>
         <span>White Score: <span id="white-score">0</span></span>
@@ -391,15 +362,11 @@
         <button id="copyBtn">📋 Copy Link</button>
       </div>
 
-      <!-- Game message box for in-game notifications -->
+      <!-- Game message box for all notifications, including game over -->
       <div id="game-message"></div>
 
       <div id="chess-board">
         <!-- Squares and pieces will be dynamically generated here -->
-        <!-- Game Over Overlay is now inside chess-board -->
-        <div id="game-over-overlay">
-          <span id="game-over-text"></span>
-        </div>
       </div>
     </div>
 
@@ -445,9 +412,7 @@
     const currentTurnEl = document.getElementById('current-turn');
     const whiteScoreEl = document.getElementById('white-score'); // Get white score element
     const blackScoreEl = document.getElementById('black-score'); // Get black score element
-    const gameMessageEl = document.getElementById('game-message'); // For in-game messages
-    const gameOverOverlayEl = document.getElementById('game-over-overlay'); // For game over messages
-    const gameOverTextEl = document.getElementById('game-over-text'); // Text inside game over overlay
+    const gameMessageEl = document.getElementById('game-message'); // For all messages
     const newGameBtn = document.getElementById('newGameBtn');
     const gameModeSelect = document.getElementById('gameModeSelect'); // New DOM element
 
@@ -459,8 +424,7 @@
       whiteScore = 0; // Reset score on new game
       blackScore = 0; // Reset score on new game
       gameEnded = false; // Reset game ended flag
-      hideGameMessage(); // Hide in-game message initially
-      hideGameOverMessage(); // Hide game over message initially
+      hideGameMessage(); // Ensure message is hidden on new game
       renderBoard();
       updateHUD();
       stopAIGameLoop(); // Ensure any previous AI loop is stopped
@@ -562,39 +526,28 @@
       blackScoreEl.textContent = blackScore; // Update black score display
     }
 
-    // Function for in-game messages (temporary)
-    function displayGameMessage(message) {
+    // Function to display messages. If isGameOver is true, message persists.
+    function displayGameMessage(message, isGameOver = false) {
       gameMessageEl.textContent = message;
       gameMessageEl.style.display = 'block';
-      setTimeout(hideGameMessage, 2000); // Hide after 2 seconds
+      if (!isGameOver) {
+        setTimeout(hideGameMessage, 2000); // Hide temporary messages after 2 seconds
+      }
     }
 
     function hideGameMessage() {
       gameMessageEl.style.display = 'none';
     }
 
-    // New function for game over messages (persistent overlay)
-    function displayGameOverMessage(message) {
-        gameOverTextEl.textContent = message;
-        gameOverOverlayEl.style.display = 'flex'; // Show the overlay
-    }
-
-    function hideGameOverMessage() {
-        gameOverOverlayEl.style.display = 'none'; // Hide the overlay
-    }
-
     function endGame(winnerColor = null) {
         gameEnded = true;
         stopAIGameLoop();
         if (winnerColor) {
-            displayGameOverMessage(`${winnerColor.toUpperCase()} wins by King capture!`);
+            displayGameMessage(`${winnerColor.toUpperCase()} wins by King capture!`, true); // True for persistent message
         } else {
-            // Determine which player has no moves left
             const noMovesPlayer = currentTurn.charAt(0).toUpperCase() + currentTurn.slice(1);
-            displayGameOverMessage(`Game over! ${noMovesPlayer} has no legal moves.`);
+            displayGameMessage(`Game over! ${noMovesPlayer} has no legal moves.`, true); // True for persistent message
         }
-        // Optionally disable board interaction more explicitly here
-        // For now, `handleSquareClick` checks `gameEnded`
     }
 
     // --- Game Logic: Piece Movement Validation (Simplified for v1.0) ---
