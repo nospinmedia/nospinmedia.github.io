@@ -41,7 +41,7 @@
       background: #222831; /* Match body background */
       position: relative;
       flex-grow: 1;
-      max-width: 550px; /* Adjusted max-width for desktop */
+      max-width: 380px; /* Adjusted max-width for desktop to fit smaller board */
       width: 100%; /* Ensure it takes full width within max-width */
       min-width: 320px;
       display: flex;
@@ -220,14 +220,14 @@
       border-radius: 8px;
       overflow: hidden;
       flex-shrink: 0;
-      max-width: 500px; /* Max width for desktop board */
+      max-width: 340px; /* Adjusted max width for desktop board (approx 1/3 smaller) */
     }
 
     .sudoku-cell {
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 1.5em; /* Adjusted font size for desktop */
+      font-size: 1.2em; /* Adjusted font size for desktop */
       font-weight: bold;
       cursor: pointer;
       border: 1px solid #333;
@@ -317,7 +317,7 @@
       border: none;
       border-radius: 8px;
       font-weight: bold;
-      font-size: 1.2em; /* Adjusted font size for desktop */
+      font-size: 1em; /* Adjusted font size for desktop */
       cursor: pointer;
       box-shadow: 0 0 8px rgba(96, 163, 217, 0.5);
       transition: all 0.2s ease-in-out;
@@ -388,19 +388,19 @@
         margin-top: 20px;
       }
       #sudoku-board {
-        width: 98vw; /* Adjusted to 98vw for more space */
-        height: 98vw; /* Adjusted to 98vw */
+        width: 90vw; /* Adjusted to 90vw for more space */
+        height: 90vw; /* Adjusted to 90vw */
         max-width: 630px; /* Still cap max size for larger tablets */
         max-height: 630px;
         margin: 1vw auto; /* Responsive margin on mobile */
       }
       .sudoku-cell {
-        width: calc(98vw / 9); /* Ensures 9 cells fit within 98vw board */
-        height: calc(98vw / 9);
-        font-size: 5vw; /* Adjusted font size responsively */
+        width: calc(90vw / 9); /* Ensures 9 cells fit within 90vw board */
+        height: calc(90vw / 9);
+        font-size: 4.5vw; /* Adjusted font size responsively */
       }
       .sudoku-cell .pencil-marks {
-          font-size: 2vw; /* Smaller font for pencil marks on mobile */
+          font-size: 1.8vw; /* Smaller font for pencil marks on mobile */
           padding: 0.5vw;
       }
       #number-pad {
@@ -408,7 +408,7 @@
         padding: 1.5vw; /* Responsive padding on mobile */
       }
       #number-pad button {
-        font-size: 4vw; /* Responsive font size for buttons */
+        font-size: 3.5vw; /* Responsive font size for buttons */
         padding: 2vw; /* Responsive padding */
       }
       .game-controls {
@@ -416,37 +416,37 @@
         gap: 1.5vw; /* Responsive gap */
       }
       .game-controls button {
-        font-size: 3.5vw; /* Responsive font size */
+        font-size: 3vw; /* Responsive font size */
         padding: 1.2vw 2.5vw; /* Responsive padding */
       }
       .game-controls select {
-        font-size: 3.5vw; /* Responsive font size */
+        font-size: 3vw; /* Responsive font size */
         padding: 1.2vw 2.5vw;
       }
       #game-header {
-        font-size: 6vw; /* Responsive header font size */
+        font-size: 5vw; /* Responsive header font size */
         margin-bottom: 2vw;
       }
       #game-version {
-        font-size: 2.5vw;
+        font-size: 2vw;
         right: 3vw;
         top: 1.5vw;
       }
       #game-info {
         margin-bottom: 2vw;
-        font-size: 3vw; /* Responsive info font size */
+        font-size: 2.8vw; /* Responsive info font size */
         gap: 2vw;
       }
       #game-info span {
         padding: 1vw 2vw;
       }
       #game-message {
-        font-size: 4vw; /* Responsive messages font size */
+        font-size: 3.5vw; /* Responsive messages font size */
         padding: 2vw 4vw;
         margin: 2vw auto;
       }
       #game-message.game-over-style {
-        font-size: 6vw; /* Responsive game over message font size */
+        font-size: 5vw; /* Responsive game over message font size */
         padding: 3vw 5vw;
       }
     }
@@ -465,7 +465,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.7</span></div>
+      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.8</span></div>
       <div id="game-info">
         <span>Difficulty: <span id="current-difficulty">Medium</span></span>
         <span id="game-status">Ready</span>
