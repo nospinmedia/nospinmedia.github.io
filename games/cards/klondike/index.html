@@ -461,7 +461,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Klondike Solitaire 🃏 <span id="game-version">v1.8</span></div>
+      <div id="game-header">Klondike Solitaire 🃏 <span id="game-version">v1.9</span></div>
       <div id="game-info">
         <span>Score: <span id="score">0</span></span>
         <span>Moves: <span id="moves">0</span></span>
@@ -483,7 +483,7 @@
           <div style="display: flex; gap: 15px;">
             <div id="stock-pile" class="pile-container">
               <div class="card card-back" style="position: relative;"></div> <!-- Example card back -->
-              <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">Stock<br>Click to Draw</span>
+              <span id="stock-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">Stock<br>Click to Draw</span>
             </div>
             <div id="waste-pile" class="pile-container">
               <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">Waste</span>
@@ -600,6 +600,7 @@
     const gameMessageEl = document.getElementById('game-message');
     const howToPlayModal = document.getElementById('how-to-play-modal');
     const closeHowToPlayBtn = document.querySelector('#how-to-play-modal .close-button');
+    const stockTextEl = document.getElementById('stock-text');
 
 
     let draggedCards = []; // Array of cards being dragged
@@ -607,6 +608,7 @@
 
     // --- Game Initialization ---
     function initializeGame() {
+      console.log('initializeGame called');
       score = 0;
       moves = 0;
       timer = 0;
@@ -633,10 +635,12 @@
       tableau = Array.from({ length: 7 }, () => []);
 
       dealInitialCards();
+      console.log('Tableau after dealing:', tableau); // Debugging log
       renderGame();
       saveGameState(); // Save initial state after dealing cards
       startGameTimer(); // Start timer immediately on game load/new game
       hideGameMessage();
+      console.log('Game initialized and rendered.');
     }
 
     function saveGameState() {
@@ -676,6 +680,7 @@
     }
 
     function dealInitialCards() {
+      console.log('dealInitialCards called');
       // Deal to tableau piles
       for (let i = 0; i < 7; i++) {
         for (let j = 0; j <= i; j++) {
@@ -686,6 +691,7 @@
           }
         }
       }
+      console.log('Stock after dealing:', stock.length); // Debugging log
     }
 
     // --- Rendering Functions ---
@@ -720,6 +726,7 @@
     }
 
     function renderGame() {
+      console.log('renderGame called');
       // Clear all existing cards from DOM
       stockPileEl.innerHTML = '';
       wastePileEl.innerHTML = '';
@@ -732,10 +739,14 @@
       if (stock.length > 0) {
         const stockCardEl = createCardElement({ rank: '', suit: '', faceUp: false }, 'stock');
         stockPileEl.appendChild(stockCardEl);
-        stockPileEl.querySelector('span').innerHTML = `Stock<br>Click to Draw`; // Update text
+        // Ensure the text element exists before trying to update its innerHTML
+        if (stockTextEl) {
+          stockTextEl.innerHTML = `Stock<br>Click to Draw`;
+        } else {
+          stockPileEl.innerHTML += `<span id="stock-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">Stock<br>Click to Draw</span>`;
+        }
       } else {
-        // If stock is empty, show a visual indicator
-        stockPileEl.innerHTML = `<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">Empty<br>Click to Reload</span>`;
+        stockPileEl.innerHTML = `<span id="stock-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">Empty<br>Click to Reload</span>`;
       }
 
       // Render Waste pile
@@ -781,6 +792,7 @@
       });
 
       addCardEventListeners(); // Re-add event listeners after re-rendering
+      console.log('renderGame completed.');
     }
 
     // --- HUD Update ---
@@ -1081,8 +1093,7 @@
       console.log('New Game clicked!');
       history = []; // Clear history for new game
       initializeGame();
-      saveGameState(); // Save initial state after dealing cards
-      startGameTimer(); // Start timer only after new game is initiated
+      // saveGameState() and startGameTimer() are now called within initializeGame()
     }
 
     function handleUndo() {
