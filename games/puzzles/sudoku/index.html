@@ -347,7 +347,8 @@
       #game-box {
         width: 100%;
         max-width: none; /* Allow full width on mobile */
-        padding: 10px;
+        padding: 5px; /* Reduced padding on mobile */
+        box-sizing: border-box; /* Include padding in width calculation */
       }
       #sidebar {
         width: 100%;
@@ -355,40 +356,45 @@
         margin-top: 20px;
       }
       #sudoku-board {
-        width: 90vw; /* Adjusted to 90vw for more padding */
-        height: 90vw; /* Adjusted to 90vw for more padding */
+        width: 95vw; /* Adjusted to 95vw for more padding */
+        height: 95vw; /* Adjusted to 95vw for more padding */
         max-width: 630px; /* Still cap max size for larger tablets */
         max-height: 630px;
+        margin: 5px auto; /* Reduced margin on mobile */
       }
       .sudoku-cell {
-        width: calc(90vw / 9); /* Ensures 9 cells fit within 90vw board */
-        height: calc(90vw / 9);
+        width: calc(95vw / 9); /* Ensures 9 cells fit within 95vw board */
+        height: calc(95vw / 9);
         font-size: 6vw; /* Adjusted font size responsively */
       }
       #number-pad {
-        margin-top: 15px; /* Keep some margin for number pad on mobile */
+        margin-top: 10px; /* Reduced margin on mobile */
+        padding: 8px; /* Reduced padding on mobile */
       }
       #number-pad button {
-        font-size: 1.2em;
-        padding: 10px;
+        font-size: 1.1em; /* Slightly smaller buttons on mobile */
+        padding: 12px;
+      }
+      .game-controls {
+        margin-bottom: 10px; /* Reduced margin on mobile */
       }
       .game-controls button {
-        font-size: 1em;
-        padding: 8px 15px;
+        font-size: 0.9em;
+        padding: 6px 12px;
       }
       #game-header {
-        font-size: 1.8em;
+        font-size: 1.6em; /* Smaller header on mobile */
       }
       #game-info span {
-        font-size: 0.9em;
+        font-size: 0.8em; /* Smaller info text on mobile */
       }
       #game-message {
-        font-size: 1.2em;
-        padding: 8px 15px;
+        font-size: 1em; /* Smaller messages on mobile */
+        padding: 6px 12px;
       }
       #game-message.game-over-style {
-        font-size: 1.8em;
-        padding: 15px 20px;
+        font-size: 1.5em; /* Smaller game over message on mobile */
+        padding: 10px 15px;
       }
     }
   </style>
@@ -406,7 +412,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.3</span></div>
+      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.4</span></div>
       <div id="game-info">
         <span>Difficulty: <span id="current-difficulty">Medium</span></span>
         <span id="game-status">Ready</span>
