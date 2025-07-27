@@ -2,79 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Space Invaders - No Spin Media</title>
   <link rel="stylesheet" href="/style.css" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #000;
-      color: #fff;
-    }
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      padding: 0;
-    }
-    .main {
-      flex: 1 1 65%;
-      padding: 0;
-      background: #000;
-      text-align: center;
-    }
-    .sidebar {
-      flex: 1 1 25%;
-      background: #fff;
-      color: #222;
-      padding: 1rem;
-      border-left: 2px solid #222;
-      height: fit-content;
-    }
-    canvas {
-      background: #000;
-      border: 2px solid red; /* ✅ Debug border */
-      display: block;
-      margin: 0 auto;
-    }
-    .game-header {
-      background: #111;
-      color: #fff;
-      padding: 0.5rem 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.9rem;
-    }
-    .game-header a {
-      color: #4da6ff;
-      text-decoration: none;
-      font-weight: bold;
-    }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #000; color: #fff; }
+    .container { display: flex; flex-wrap: wrap; padding: 0; }
+    .main { flex: 1 1 65%; padding: 0; background: #000; text-align: center; }
+    .sidebar { flex: 1 1 25%; background: #fff; color: #222; padding: 1rem; border-left: 2px solid #222; height: fit-content; }
+    canvas { background: #000; display: block; margin: 0 auto; touch-action: manipulation; }
+    .game-header { background: #111; color: #fff; padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
+    .game-header a { color: #4da6ff; text-decoration: none; font-weight: bold; }
     .share-buttons { margin: 0.5rem 0; }
-    .share-buttons button {
-      padding: 0.4rem 0.8rem;
-      margin-right: 0.5rem;
-      background: #0073e6;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      font-weight: bold;
-      cursor: pointer;
+    .share-buttons button, #touch-controls button {
+      padding: 0.6rem 1rem; margin: 0.3rem; background: #0073e6; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;
     }
-    #modeSelect { margin-top: 0.5rem; padding: 0.3rem; font-size: 1rem; }
     #hud { color: #0f0; font-weight: bold; margin: 0.3rem; }
     #touch-controls { display: none; text-align: center; margin-top: 0.5rem; }
-    #touch-controls button {
-      padding: 0.8rem 1.5rem;
-      margin: 0.3rem;
-      font-size: 1.1rem;
-      background: #0073e6;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-    }
+    #touch-controls button { font-size: 1.2rem; width: 30%; }
     @media (max-width: 768px) {
       .container { flex-direction: column; }
       .sidebar { border-left: none; border-top: 2px solid #222; }
@@ -97,7 +42,6 @@
   <div class="container">
     <div class="main">
       <h1>Space Invaders 👾</h1>
-
       <div id="hud">Score: 0 | Lives: 3 | High Score: 0</div>
 
       <div class="share-buttons">
@@ -105,18 +49,12 @@
         <button id="copyBtn">📋 Copy Link</button>
       </div>
 
-      <label for="modeSelect">Graphics Mode:</label>
-      <select id="modeSelect">
-        <option value="retro">Retro</option>
-        <option value="enhanced">Enhanced</option>
-      </select>
-
       <canvas id="gameCanvas" width="480" height="640"></canvas>
 
       <div id="touch-controls">
-        <button onclick="moveLeft()">⬅️</button>
-        <button onclick="fire()">🔥 Fire</button>
-        <button onclick="moveRight()">➡️</button>
+        <button id="leftBtn">⬅️</button>
+        <button id="fireBtn">🔥</button>
+        <button id="rightBtn">➡️</button>
       </div>
     </div>
 
@@ -126,6 +64,10 @@
       <p><strong>Venmo:</strong><br/>
         <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
       </p>
+      <h2>Follow Us</h2>
+      <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
+      <h2>Contact</h2>
+      <p>📨 nospinmedia.ai@gmail.com</p>
     </div>
   </div>
 
@@ -136,49 +78,69 @@
   <script>
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
-    let mode = 'retro';
-    let score = 0;
-    let highScore = localStorage.getItem('siHighScore') || 0;
-    let lives = 3;
+    let score = 0, highScore = localStorage.getItem('siHighScore') || 0, lives = 3, level = 1;
     let ship = { x: 220, y: 600, w: 40, h: 20, speed: 5 };
-    let bullets = [];
-    let aliens = [];
-    let keys = {};
-    let soundOn = true;
-    let alienDir = 1;
+    let bullets = [], enemyBullets = [], aliens = [], shields = [];
+    let keys = {}, soundOn = true, alienDir = 1, alienSpeed = 0.5;
+
+    function updateHUD() {
+      document.getElementById('hud').innerText = `Score: ${score} | Lives: ${lives} | High Score: ${highScore}`;
+    }
 
     function initAliens() {
       aliens = [];
-      for (let r = 0; r < 3; r++) {
-        for (let c = 0; c < 6; c++) {
-          aliens.push({ x: 50 + c * 60, y: 50 + r * 40, w: 30, h: 20, alive: true });
+      for (let r = 0; r < 4; r++) {
+        for (let c = 0; c < 8; c++) {
+          aliens.push({ x: 40 + c * 50, y: 40 + r * 40, w: 30, h: 20, alive: true, type: r });
         }
       }
     }
+
+    function initShields() {
+      shields = [];
+      const baseY = 500;
+      for (let s = 0; s < 3; s++) {
+        const offsetX = 80 + s * 130;
+        for (let r = 0; r < 4; r++) {
+          for (let c = 0; c < 6; c++) {
+            shields.push({ x: offsetX + c * 5, y: baseY + r * 5, w: 5, h: 5, alive: true });
+          }
+        }
+      }
+    }
+
     initAliens();
+    initShields();
 
     function drawShip() {
-      ctx.fillStyle = '#0f0'; // ✅ Force visible green
-      ctx.fillRect(ship.x, ship.y, ship.w, ship.h);
-      ctx.fillStyle = '#fff';
-      ctx.fillText('SHIP', ship.x + 2, ship.y - 5);
+      ctx.fillStyle = '#0ff';
+      ctx.beginPath();
+      ctx.moveTo(ship.x + ship.w/2, ship.y);
+      ctx.lineTo(ship.x, ship.y + ship.h);
+      ctx.lineTo(ship.x + ship.w, ship.y + ship.h);
+      ctx.closePath();
+      ctx.fill();
     }
 
     function drawAliens() {
-      ctx.fillStyle = '#ff0'; // ✅ Force visible yellow
       aliens.forEach(a => {
         if (a.alive) {
+          ctx.fillStyle = ['#0f0','#7fff00','#adff2f','#9acd32'][a.type];
           ctx.fillRect(a.x, a.y, a.w, a.h);
-          ctx.fillStyle = '#fff';
-          ctx.fillText('ALIEN', a.x, a.y - 5);
-          ctx.fillStyle = '#ff0';
         }
       });
     }
 
+    function drawShields() {
+      ctx.fillStyle = '#0f0';
+      shields.forEach(s => { if (s.alive) ctx.fillRect(s.x, s.y, s.w, s.h); });
+    }
+
     function drawBullets() {
-      ctx.fillStyle = '#0ff';
+      ctx.fillStyle = '#fff';
       bullets.forEach(b => ctx.fillRect(b.x, b.y, 4, 10));
+      ctx.fillStyle = '#f00';
+      enemyBullets.forEach(b => ctx.fillRect(b.x, b.y, 4, 10));
     }
 
     function update() {
@@ -189,41 +151,134 @@
 
       bullets.forEach(b => b.y -= 6);
       bullets = bullets.filter(b => b.y > 0);
+
+      enemyBullets.forEach(b => b.y += 4);
+      enemyBullets = enemyBullets.filter(b => b.y < canvas.height);
+
+      bullets.forEach(b => {
+        aliens.forEach(a => {
+          if (a.alive && b.x < a.x + a.w && b.x + 4 > a.x && b.y < a.y + a.h && b.y + 10 > a.y) {
+            a.alive = false; score += 10; playSound('hit'); b.y = -10;
+          }
+        });
+        shields.forEach(s => {
+          if (s.alive && b.x < s.x + s.w && b.x + 4 > s.x && b.y < s.y + s.h && b.y + 10 > s.y) {
+            s.alive = false; b.y = -10;
+          }
+        });
+      });
+
+      enemyBullets.forEach(b => {
+        if (b.x < ship.x + ship.w && b.x + 4 > ship.x && b.y < ship.y + ship.h && b.y + 10 > ship.y) {
+          lives--; playSound('playerhit'); b.y = canvas.height + 10;
+          if (lives <= 0) gameOver();
+        }
+        shields.forEach(s => {
+          if (s.alive && b.x < s.x + s.w && b.x + 4 > s.x && b.y < s.y + s.h && b.y + 10 > s.y) {
+            s.alive = false; b.y = canvas.height + 10;
+          }
+        });
+      });
+
+      let moveDown = false;
+      aliens.forEach(a => {
+        if (a.alive) {
+          a.x += alienDir * alienSpeed;
+          if (a.x + a.w > canvas.width - 10 || a.x < 10) moveDown = true;
+        }
+      });
+      if (moveDown) {
+        alienDir *= -1;
+        aliens.forEach(a => a.y += 10);
+      }
+
+      if (Math.random() < 0.02) {
+        let shooters = aliens.filter(a => a.alive);
+        if (shooters.length > 0) {
+          let shooter = shooters[Math.floor(Math.random() * shooters.length)];
+          enemyBullets.push({ x: shooter.x + shooter.w/2, y: shooter.y + shooter.h });
+          playSound('alienfire');
+        }
+      }
+
+      if (aliens.every(a => !a.alive)) {
+        level++; alienSpeed += 0.2;
+        initAliens(); initShields(); playSound('level');
+      }
+
+      updateHUD();
     }
 
     function draw() {
       ctx.clearRect(0,0,canvas.width,canvas.height);
-      drawShip();
-      drawAliens();
-      drawBullets();
+      drawShip(); drawAliens(); drawShields(); drawBullets();
     }
 
-    function loop() {
-      update();
-      draw();
-      requestAnimationFrame(loop);
+    function loop() { update(); draw(); requestAnimationFrame(loop); }
+
+    function fire() { bullets.push({ x: ship.x + ship.w/2 - 2, y: ship.y }); playSound('fire'); }
+
+    function gameOver() {
+      if (score > highScore) { highScore = score; localStorage.setItem('siHighScore', highScore); }
+      alert('Game Over! Final Score: ' + score);
+      score = 0; lives = 3; level = 1; alienSpeed = 0.5;
+      initAliens(); initShields();
     }
 
-    function fire() {
-      bullets.push({ x: ship.x + ship.w/2 - 2, y: ship.y });
-    }
+    // Touch controls
+    let leftInterval, rightInterval, fireInterval;
+    const leftBtn = document.getElementById('leftBtn');
+    const rightBtn = document.getElementById('rightBtn');
+    const fireBtn = document.getElementById('fireBtn');
 
-    function moveLeft() { ship.x -= ship.speed * 2; }
-    function moveRight() { ship.x += ship.speed * 2; }
+    function startHold(fn) { fn(); return setInterval(fn, 50); }
+    function stopHold(interval) { clearInterval(interval); }
 
-    document.addEventListener('keydown', e => {
-      keys[e.key] = true;
-      if (e.key === ' ') fire();
-    });
+    leftBtn.addEventListener('touchstart', () => leftInterval = startHold(() => ship.x -= ship.speed), { passive: false });
+    leftBtn.addEventListener('touchend', () => stopHold(leftInterval));
+    rightBtn.addEventListener('touchstart', () => rightInterval = startHold(() => ship.x += ship.speed), { passive: false });
+    rightBtn.addEventListener('touchend', () => stopHold(rightInterval));
+    fireBtn.addEventListener('touchstart', () => fireInterval = startHold(() => fire()), { passive: false });
+    fireBtn.addEventListener('touchend', () => stopHold(fireInterval));
+
+    // Keyboard controls
+    document.addEventListener('keydown', e => { keys[e.key] = true; if (e.key === ' ') fire(); });
     document.addEventListener('keyup', e => keys[e.key] = false);
 
+    // Sound system
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playSound(type) {
+      if (!soundOn) return;
+      const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+      o.connect(g); g.connect(audioCtx.destination);
+      const freq = { fire:440, hit:220, playerhit:110, alienfire:330, level:880 }[type];
+      o.frequency.value = freq; o.type = 'square';
+      g.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      o.start(); o.stop(audioCtx.currentTime + 0.2);
+    }
+
+    document.getElementById('soundToggle').addEventListener('click', () => {
+      soundOn = !soundOn;
+      document.getElementById('soundToggle').innerText = soundOn ? '🔊 Sound On' : '🔇 Sound Off';
+    });
+
+    updateHUD();
     loop();
   </script>
 
   <script>
-    fetch('/header.html')
-      .then(res => res.text())
-      .then(html => document.getElementById('site-header').innerHTML = html);
+    document.getElementById('shareBtn').addEventListener('click', async () => {
+      if (navigator.share) await navigator.share({ title: document.title, url: window.location.href });
+      else { navigator.clipboard.writeText(window.location.href); alert('Link copied: ' + window.location.href); }
+    });
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Link copied: ' + window.location.href);
+    });
+  </script>
+
+  <script>
+    fetch('/header.html').then(res => res.text()).then(html => document.getElementById('site-header').innerHTML = html);
   </script>
 </body>
 </html>
