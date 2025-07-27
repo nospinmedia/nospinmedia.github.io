@@ -36,34 +36,68 @@
       font-size: 2rem;
       margin-top: 0;
     }
+
+    /* 🎨 Game card styling */
     .game-list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
       margin-top: 1rem;
     }
     .game-card {
-      background: #fff;
-      padding: 1rem;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      background: linear-gradient(145deg, #fff, #f7f7f7);
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .game-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
     }
     .game-card h2 {
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       margin: 0.5rem 0;
     }
+    .game-card p {
+      color: #555;
+      margin: 0.5rem 0 1rem;
+    }
+
+    /* 🎨 Play button */
     .game-card a {
       display: inline-block;
-      margin-top: 0.5rem;
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 1.4rem;
       background: #0073e6;
       color: white;
-      border-radius: 4px;
+      border-radius: 6px;
       font-weight: bold;
       text-decoration: none;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 0 12px rgba(0,115,230,0.4);
+      transition: background 0.3s, box-shadow 0.3s;
     }
-    .game-card a:hover { background: #005bb5; }
+    .game-card a:hover {
+      background: #005bb5;
+      box-shadow: 0 0 16px rgba(0,91,181,0.6);
+    }
+
+    /* ♠️ Decorative card images */
+    .card-deco {
+      position: absolute;
+      width: 60px;
+      opacity: 0.15;
+      z-index: 1;
+      pointer-events: none;
+      transform: rotate(-15deg);
+    }
+    .card-top-left { top: -10px; left: -10px; }
+    .card-bottom-right { bottom: -10px; right: -10px; transform: rotate(15deg); }
+
     footer {
       text-align: center;
       padding: 1rem;
@@ -98,6 +132,8 @@
 
       <div class="game-list">
         <div class="game-card">
+          <img src="../../images/cards/ace-spades.png" alt="Ace of Spades" class="card-deco card-top-left">
+          <img src="../../images/cards/king-hearts.png" alt="King of Hearts" class="card-deco card-bottom-right">
           <h2>Klondike Solitaire</h2>
           <p>Classic solitaire card game.</p>
           <a href="klondike/index.html">Play</a>
