@@ -461,7 +461,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Klondike Solitaire 🃏 <span id="game-version">v1.6</span></div>
+      <div id="game-header">Klondike Solitaire 🃏 <span id="game-version">v1.7</span></div>
       <div id="game-info">
         <span>Score: <span id="score">0</span></span>
         <span>Moves: <span id="moves">0</span></span>
@@ -493,16 +493,16 @@
           <!-- Foundation Piles -->
           <div id="foundations">
             <div id="foundation-hearts" class="pile-container" data-suit="hearts">
-              <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">❤️</span>
+              <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3em;">❤️</span>
             </div>
             <div id="foundation-diamonds" class="pile-container" data-suit="diamonds">
-              <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">♦️</span>
+              <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3em;">♦️</span>
             </div>
             <div id="foundation-clubs" class="pile-container" data-suit="clubs">
-              <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">♣️</span>
+              <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3em;">♣️</span>
             </div>
             <div id="foundation-spades" class="pile-container" data-suit="spades">
-              <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">♠️</span>
+              <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3em;">♠️</span>
             </div>
           </div>
         </div>
@@ -607,8 +607,6 @@
 
     // --- Game Initialization ---
     function initializeGame() {
-      saveGameState(); // Save initial state for undo
-
       score = 0;
       moves = 0;
       timer = 0;
@@ -636,7 +634,7 @@
 
       dealInitialCards();
       renderGame();
-      startGameTimer();
+      // startGameTimer(); // Moved to handleNewGame to start only when user clicks
       hideGameMessage();
     }
 
@@ -725,7 +723,7 @@
       stockPileEl.innerHTML = '';
       wastePileEl.innerHTML = '';
       for (const suit in foundationsEl) {
-        foundationsEl[suit].innerHTML = `<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">${suitSymbols[suit]}</span>`;
+        foundationsEl[suit].innerHTML = `<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3em;">${suitSymbols[suit]}</span>`;
       }
       tableauPilesEl.forEach(pileEl => pileEl.innerHTML = '');
 
@@ -1082,6 +1080,8 @@
       console.log('New Game clicked!');
       history = []; // Clear history for new game
       initializeGame();
+      saveGameState(); // Save initial state after dealing cards
+      startGameTimer(); // Start timer only after new game is initiated
     }
 
     function handleUndo() {
