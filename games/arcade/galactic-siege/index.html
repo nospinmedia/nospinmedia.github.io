@@ -43,7 +43,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Galactic Siege 👾 <span id="game-version">v1.8</span></div> <div id="game-info">
+      <div id="game-header">Galactic Siege 👾 <span id="game-version">v1.9</span></div> <div id="game-info">
         Score: <span id="score">0</span> | Lives: <span id="lives">3</span> | High Score: <span id="highScore">0</span> | Level: <span id="level">1</span>
       </div>
 
@@ -116,6 +116,21 @@
     function playSound(buffer, volume = 1.0) {
         if (!soundEnabled || !audioContext || !buffer) return;
 
+        // Ensure audio context is running before playing
+        if (audioContext.state === 'suspended') {
+            audioContext.resume().then(() => {
+                _actualPlaySound(buffer, volume);
+            }).catch(e => console.error("Failed to resume audio context:", e));
+        } else {
+            _actualPlaySound(buffer, volume);
+        }
+    }
+
+    function _actualPlaySound(buffer, volume) {
+        if (audioContext.state !== 'running') {
+            console.warn("AudioContext not running, cannot play sound.");
+            return;
+        }
         try {
             const source = audioContext.createBufferSource();
             source.buffer = buffer;
@@ -254,11 +269,17 @@
         });
     }
 
+    function checkCollision(obj1, obj2){
+      return obj1.x < obj2.x + obj2.width &&
+             obj1.x + obj1.width > obj2.x &&
+             obj1.y < obj2.y + obj2.height &&
+             obj1.y + obj1.height > obj2.y;
+    }
+
     function update(){
       ctx.clearRect(0,0,canvas.width,canvas.height);
 
       // --- Drawing Phase (Always draws visible elements based on current state) ---
-      // This ensures everything is visible even if game is paused or on start screen
       drawPlayer();
       aliens.forEach(drawAlien);
       drawShields();
@@ -281,7 +302,7 @@
       // --- Game Logic Phase (Only runs if game is running and not paused) ---
       if (gameRunning && !gamePaused) {
 
-        // Player explosion timer countdown (happens regardless of whether game logic runs fully)
+        // Handle player explosion animation and state transition
         if (playerExplosionTimer > 0) {
             playerExplosionTimer--;
             if (playerExplosionTimer === 0) {
@@ -292,14 +313,13 @@
                     updateHUD();
                 } else { // No lives left, it's game over
                     gameOver();
-                    // Crucially, stop processing further game logic if game over
-                    animationFrameId = requestAnimationFrame(update); // Still need to request next frame to show game over
-                    return;
+                    animationFrameId = requestAnimationFrame(update); // Request one more frame to show game over screen
+                    return; // Stop current update loop to prevent further logic execution
                 }
             }
         }
 
-        // Only run main game logic if player is alive (or not currently exploding from a hit)
+        // Only process player movement and shooting if player is alive
         if (player.alive) {
             // Player movement
             player.x+=player.dx;
@@ -345,7 +365,7 @@
                     if (i >= bullets.length) break;
                 }
             }
-        } // End if (player.alive)
+        } // End if (player.alive) for player-specific actions
 
 
         // Alien Bullets (Always process as they exist independently of player's life state)
@@ -449,16 +469,17 @@
       if (!audioContext) {
           audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-          // Resume context if it's suspended (common browser policy)
-          if (audioContext.state === 'suspended') {
-              audioContext.resume();
-          }
-
           // Load sounds only once
           shootBuffer = await loadSound('https://www.soundjay.com/buttons/beep-07.wav');
           explosionBuffer = await loadSound('https://www.soundjay.com/misc/explosion-01.wav');
       }
 
+      // Ensure audio context is resumed after a user gesture (like clicking Start Game)
+      if (audioContext.state === 'suspended') {
+          audioContext.resume().then(() => {
+              console.log("AudioContext resumed by startGame.");
+          }).catch(e => console.error("Failed to resume audio context in startGame:", e));
+      }
 
       if (animationFrameId) {
           cancelAnimationFrame(animationFrameId);
@@ -466,7 +487,7 @@
 
       score=0; lives=3; level=1; alienSpeed=0.5; alienShootTimer = 60;
       initPlayer();
-      createAliens(true);
+      createAliens(true); // Always create aliens when starting a game
       createShields();
       bullets = [];
       alienBullets = [];
@@ -501,9 +522,11 @@
         } else {
             document.getElementById('pauseBtn').innerText = '⏸️ Pause';
             if (audioContext && audioContext.state === 'suspended') {
-                audioContext.resume(); // Resume audio context when resuming
+                audioContext.resume().then(() => {
+                    console.log("AudioContext resumed by togglePause.");
+                }).catch(e => console.error("Failed to resume audio context in togglePause:", e));
             }
-            if (!animationFrameId) {
+            if (!animationFrameId) { // Ensure the loop is running when resuming
                 update();
             }
         }
@@ -532,8 +555,8 @@
         document.getElementById('startBtn').onclick=startGame;
         overlay.style.display="flex";
 
-        // Stop audio context completely when ending the game
-        if (audioContext) {
+        // Close audio context completely when ending the game for a clean slate
+        if (audioContext && audioContext.state !== 'closed') {
             audioContext.close();
             audioContext = null; // Reset for a fresh start next game
             shootBuffer = null;
@@ -554,7 +577,7 @@
       if(e.key==="ArrowLeft"||e.key==="ArrowRight") player.dx=0;
     });
 
-    // Event listeners
+    // Event listeners for buttons
     document.getElementById('startBtn').onclick=startGame;
     document.getElementById('shareBtn').onclick=()=>{navigator.share?navigator.share({title:"Galactic Siege",url:location.href}):navigator.clipboard.writeText(location.href).then(()=>alert("Link copied"));};
     document.getElementById('copyBtn').onclick=()=>{navigator.clipboard.writeText(location.href).then(()=>alert("Link copied"));};
@@ -564,9 +587,9 @@
       // Attempt to resume/suspend context immediately if it exists and is relevant
       if (audioContext) {
           if (soundEnabled && audioContext.state === 'suspended') {
-              audioContext.resume();
+              audioContext.resume().then(() => console.log("AudioContext resumed by sound toggle.")).catch(e => console.error("Failed to resume audio context on toggle:", e));
           } else if (!soundEnabled && audioContext.state === 'running') {
-              audioContext.suspend();
+              audioContext.suspend().then(() => console.log("AudioContext suspended by sound toggle.")).catch(e => console.error("Failed to suspend audio context on toggle:", e));
           }
       }
     };
@@ -574,11 +597,13 @@
     document.getElementById('endGameBtn').onclick=endGame;
 
 
-    // Initial setup
+    // Initial setup (before game starts)
     initPlayer();
+    createAliens(true); // Create aliens for the initial display
     createShields();
     updateHUD();
     // The overlay should be displayed by default, waiting for the user to click "Start Game"
+    // We don't call update() here; it's called by startGame() when the user clicks.
   </script>
 </body>
 </html>
