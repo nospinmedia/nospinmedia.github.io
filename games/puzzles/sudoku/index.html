@@ -36,7 +36,7 @@
       background: #222831; /* Match body background */
       position: relative;
       flex-grow: 1;
-      max-width: 680px; /* Adjusted max-width to comfortably fit board + padding */
+      max-width: 700px; /* Adjusted max-width to comfortably fit board + padding */
       width: 100%; /* Ensure it takes full width within max-width */
       min-width: 320px;
       display: flex;
@@ -201,27 +201,25 @@
       display: grid;
       grid-template-columns: repeat(9, 1fr);
       grid-template-rows: repeat(9, 1fr);
-      width: 630px; /* 9 * 70px per cell */
-      height: 630px; /* 9 * 70px per cell */
-      margin: 10px auto; /* Adjusted margin */
-      border: 4px solid #74B9FF; /* Muted blue border for the board */
+      width: 100%; /* Make board take 100% of parent's width */
+      aspect-ratio: 1 / 1; /* Keep it square */
+      margin: 10px auto;
+      border: 4px solid #74B9FF;
       box-shadow: 0 0 25px rgba(116, 185, 255, 0.5);
       border-radius: 8px;
       overflow: hidden;
-      flex-shrink: 0; /* Prevent board from shrinking */
+      flex-shrink: 0;
     }
 
     .sudoku-cell {
-      width: 70px;
-      height: 70px;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 2em;
+      font-size: 2em; /* Default font size for desktop */
       font-weight: bold;
       cursor: pointer;
-      border: 1px solid #333; /* Cell borders */
-      background-color: #AEC6CF; /* Light square color */
+      border: 1px solid #333;
+      background-color: #AEC6CF;
       color: #000;
       transition: background-color 0.2s ease-in-out;
     }
@@ -245,27 +243,27 @@
     .sudoku-cell:nth-child(9n+1) { border-left: 1px solid #333; }
 
     .sudoku-cell.fixed {
-      background-color: #4A6572; /* Darker background for fixed numbers */
-      color: #F8F8F8; /* White text for fixed numbers */
+      background-color: #4A6572;
+      color: #F8F8F8;
       cursor: default;
     }
 
     .sudoku-cell.selected {
-      background-color: #4682B4; /* SteelBlue for selected cell */
+      background-color: #4682B4;
       box-shadow: inset 0 0 10px #4682B4;
     }
 
     .sudoku-cell.invalid {
-      background-color: #FF6347; /* Tomato red for invalid input */
+      background-color: #FF6347;
       color: #fff;
     }
 
     .sudoku-cell.highlight-same-value {
-        background-color: #87CEEB; /* SkyBlue for highlighting same value */
+        background-color: #87CEEB;
     }
 
     .sudoku-cell.highlight-group {
-        background-color: rgba(116, 185, 255, 0.3); /* Lighter blue for highlighting row/col/box */
+        background-color: rgba(116, 185, 255, 0.3);
     }
 
     /* Number input pad */
@@ -276,7 +274,7 @@
       margin-top: auto; /* Pushes to bottom of flex container */
       padding: 10px;
       border-radius: 8px;
-      background: #2E4057; /* Darker blue background */
+      background: #2E4057;
     }
 
     #number-pad button {
@@ -305,11 +303,11 @@
 
     #number-pad button.clear-button {
       grid-column: span 3; /* Clear button spans all columns */
-      background: #FF6347; /* Tomato red for clear */
+      background: #FF6347;
       color: #fff;
     }
     #number-pad button.clear-button:hover {
-        background: #FF7F50; /* Coral on hover */
+        background: #FF7F50;
     }
 
     /* Game message box (for all messages) - same as chess */
@@ -359,7 +357,7 @@
       #sudoku-board {
         width: 90vw; /* Adjusted to 90vw for more padding */
         height: 90vw; /* Adjusted to 90vw for more padding */
-        max-width: 630px;
+        max-width: 630px; /* Still cap max size for larger tablets */
         max-height: 630px;
       }
       .sudoku-cell {
@@ -408,7 +406,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.2</span></div>
+      <div id="game-header">Sudoku 🧩 <span id="game-version">v1.3</span></div>
       <div id="game-info">
         <span>Difficulty: <span id="current-difficulty">Medium</span></span>
         <span id="game-status">Ready</span>
