@@ -48,7 +48,7 @@
     #game-box {
       border: 2px solid #74B9FF; /* Muted blue border */
       box-shadow: 0 0 20px #74B9FF; /* Muted blue glow */
-      padding: 20px; /* Increased padding */
+      padding: 20px 20px 30px 20px; /* Increased padding-bottom */
       border-radius: 12px; /* More rounded corners */
       background: #222831; /* Match body background */
       position: relative;
@@ -445,7 +445,7 @@
       #game-box {
         width: 100%;
         max-width: none; /* Allow full width on mobile */
-        padding: 1vw; /* Responsive padding on mobile */
+        padding: 1vw 1vw 3vw 1vw; /* Responsive padding on mobile, increased bottom padding */
       }
       #sidebar {
         width: 100%;
@@ -538,7 +538,7 @@
     <div id="site-header"></div> 
     <div id="game-container">
       <div id="game-box">
-        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.13</span></div>
+        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.15</span></div>
         <div id="game-info">
           <span>Difficulty: <span id="current-difficulty">Medium</span></span>
           <span id="game-status">Ready</span>
@@ -1007,7 +1007,6 @@
           }
         }
       } else if (pencilMode) {
-          // Removed: gameStatusEl.textContent = 'Pencil Mode Active';
           // No message here when entering numbers in pencil mode
       } else {
           gameStatusEl.textContent = 'Playing';
