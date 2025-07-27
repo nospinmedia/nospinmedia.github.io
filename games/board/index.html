@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>No Spin Media - Board Games</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #222;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 2rem;
+    }
+    .main {
+      flex: 1 1 65%;
+      padding: 1rem;
+    }
+    .sidebar {
+      flex: 1 1 25%;
+      background: #fff;
+      padding: 1rem;
+      margin-left: 2rem;
+      border-left: 2px solid #eee;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      height: fit-content;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-top: 0;
+    }
+    .game-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .game-card {
+      background: linear-gradient(145deg, #fff, #eaeaea);
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .game-card h2 {
+      font-size: 1.4rem;
+      margin: 0.5rem 0;
+    }
+    .game-card a {
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      background: #111;
+      color: white;
+      border-radius: 6px;
+      font-weight: bold;
+      text-decoration: none;
+      position: relative;
+      z-index: 2;
+    }
+    .game-card a:hover {
+      background: #333;
+    }
+
+    /* ✅ Chess piece decorations */
+    .chess-piece {
+      position: absolute;
+      opacity: 0.15;
+      font-size: 5rem;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .piece-left { top: 10%; left: 5%; transform: rotate(-15deg); }
+    .piece-right { bottom: 10%; right: 5%; transform: rotate(15deg); }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    @media (max-width: 768px) {
+      .container { flex-direction: column; }
+      .sidebar {
+        margin-left: 0;
+        margin-top: 1rem;
+        border-left: none;
+        border-top: 2px solid #eee;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Global Header -->
+  <div id="site-header"></div>
+  <script>
+    fetch('/header.html')
+      .then(r=>r.text())
+      .then(h=>document.getElementById('site-header').innerHTML=h);
+  </script>
+
+  <div class="container">
+    <div class="main">
+      <h1>♟️ Board Games</h1>
+      <p>Choose a classic board game to play:</p>
+
+      <div class="game-list">
+        <div class="game-card">
+          <div class="chess-piece piece-left">♚</div>
+          <div class="chess-piece piece-right">♜</div>
+          <h2>Chess</h2>
+          <p>Test your strategy against the board.</p>
+          <a href="chess/index.html">Play</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ Sidebar Donation -->
+    <div class="sidebar">
+      <h2>Support Us 💙</h2>
+      <p>If you enjoy ad-free games from No Spin Media, consider supporting us.</p>
+      <button id="donate-button" onclick="window.location.href='../../sponsor.html'">Donate Now</button>
+      <p style="font-size:0.8em; color:#aaa;">Your help keeps No Spin Media alive and growing.</p>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
+  </footer>
+
+</body>
+</html>
