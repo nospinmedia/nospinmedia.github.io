@@ -267,8 +267,8 @@
       padding: 10px 20px;
       border-radius: 8px;
       border: 2px solid #74B9FF;
-      color: #74B9FF;
-      font-size: 1.5em;
+      color: #74B9FF; /* Default color for in-game messages */
+      font-size: 1.5em; /* Default size for in-game messages */
       font-weight: bold;
       text-shadow: 0 0 5px #74B9FF;
       display: none;
@@ -276,6 +276,14 @@
       width: fit-content;
       max-width: 80%;
       z-index: 1001; /* High z-index */
+    }
+
+    /* Style for game over message */
+    #game-message.game-over-style {
+      color: #FFD700; /* Gold color for game over text */
+      font-size: 2.5em; /* Larger font for game over */
+      text-shadow: 0 0 20px #FFD700; /* Stronger glow */
+      padding: 20px 30px; /* More padding for prominence */
     }
 
     /* Highlight for captured square */
@@ -329,6 +337,10 @@
         font-size: 1.2em; /* Smaller on mobile */
         padding: 8px 15px;
       }
+      #game-message.game-over-style {
+        font-size: 1.8em; /* Smaller on mobile for game over */
+        padding: 15px 20px;
+      }
     }
   </style>
 </head>
@@ -345,7 +357,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Chess ♟️ <span id="game-version">v2.2</span></div>
+      <div id="game-header">Chess ♟️ <span id="game-version">v2.3</span></div>
       <div id="game-info">
         <span>Current Turn: <span id="current-turn">White</span></span>
         <span>White Score: <span id="white-score">0</span></span>
@@ -530,13 +542,17 @@
     function displayGameMessage(message, isGameOver = false) {
       gameMessageEl.textContent = message;
       gameMessageEl.style.display = 'block';
-      if (!isGameOver) {
+      if (isGameOver) {
+        gameMessageEl.classList.add('game-over-style'); // Add style for game over
+      } else {
+        gameMessageEl.classList.remove('game-over-style'); // Remove style for temporary messages
         setTimeout(hideGameMessage, 2000); // Hide temporary messages after 2 seconds
       }
     }
 
     function hideGameMessage() {
       gameMessageEl.style.display = 'none';
+      gameMessageEl.classList.remove('game-over-style'); // Ensure style is removed when hidden
     }
 
     function endGame(winnerColor = null) {
@@ -718,12 +734,15 @@
           if (capturedPiece && capturedPiece.type.toLowerCase() === 'k') {
               // Add a small delay before calling endGame to allow for render and highlight
               setTimeout(() => endGame(playerColor), 100);
-              return;
+              return; // Stop further processing as game has ended
           }
 
-          // Switch turn
-          currentTurn = playerColor === 'white' ? 'black' : 'white';
-          displayGameMessage(`${playerColor.charAt(0).toUpperCase() + playerColor.slice(1)} made a move!`);
+          // Only display "X made a move!" if the game hasn't ended
+          if (!gameEnded) {
+            currentTurn = playerColor === 'white' ? 'black' : 'white';
+            displayGameMessage(`${playerColor.charAt(0).toUpperCase() + playerColor.slice(1)} made a move!`);
+          }
+
 
           // If in Watch AI mode, trigger the next AI move
           if (gameMode === 'watchAI' && !gameEnded) {
@@ -745,7 +764,7 @@
     // --- Event Handlers ---
     function handleSquareClick(event) {
       if (gameEnded) {
-        displayGameMessage("Game has ended. Start a New Game!");
+        displayGameMessage("Game has ended. Start a New Game!"); // Still display this temporary message
         return;
       }
 
@@ -798,14 +817,17 @@
           if (capturedPiece && capturedPiece.type.toLowerCase() === 'k') {
               // Add a small delay before calling endGame to allow for render and highlight
               setTimeout(() => endGame('white'), 100);
-              return;
+              return; // Stop further processing as game has ended
           }
 
-          // Reset selection and switch turn
-          selectedPiece = null;
-          possibleMoves = [];
-          currentTurn = 'black'; // Switch to black (AI)
-          displayGameMessage("White made a move!");
+          // Only display "X made a move!" if the game hasn't ended
+          if (!gameEnded) {
+            selectedPiece = null;
+            possibleMoves = [];
+            currentTurn = 'black'; // Switch to black (AI)
+            displayGameMessage("White made a move!");
+          }
+
 
           // If it's now Black's turn, trigger AI move
           if (currentTurn === 'black' && !gameEnded) {
