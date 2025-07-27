@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>No Spin Media - Puzzles</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #222;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 2rem;
+    }
+    .main {
+      flex: 1 1 65%;
+      padding: 1rem;
+    }
+    .sidebar {
+      flex: 1 1 25%;
+      background: #fff;
+      padding: 1rem;
+      margin-left: 2rem;
+      border-left: 2px solid #eee;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      height: fit-content;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-top: 0;
+    }
+
+    /* 🎨 Puzzle card styling */
+    .game-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .game-card {
+      background: linear-gradient(145deg, #fff, #f8f8f8);
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .game-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    }
+    .game-card h2 {
+      font-size: 1.4rem;
+      margin: 0.5rem 0;
+    }
+    .game-card p {
+      color: #555;
+      margin: 0.5rem 0 1rem;
+    }
+
+    /* 🎨 Play button */
+    .game-card a {
+      display: inline-block;
+      padding: 0.6rem 1.4rem;
+      background: #28a745;
+      color: white;
+      border-radius: 6px;
+      font-weight: bold;
+      text-decoration: none;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 0 12px rgba(40,167,69,0.4);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .game-card a:hover {
+      background: #1f7c36;
+      box-shadow: 0 0 16px rgba(31,124,54,0.6);
+    }
+
+    /* 🔢 Decorative Sudoku numbers */
+    .sudoku-num {
+      position: absolute;
+      font-size: 3.5rem;
+      font-weight: bold;
+      color: rgba(0,0,0,0.05);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .num-top-left { top: 10px; left: 15px; }
+    .num-bottom-right { bottom: 10px; right: 15px; }
+
+    /* 🟩 Subtle grid background */
+    .game-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
+      background-size: 33% 33%;
+      z-index: 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    @media (max-width: 768px) {
+      .container { flex-direction: column; }
+      .sidebar {
+        margin-left: 0;
+        margin-top: 1rem;
+        border-left: none;
+        border-top: 2px solid #eee;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Global Header -->
+  <div id="site-header"></div>
+  <script>
+    fetch('/header.html')
+      .then(r=>r.text())
+      .then(h=>document.getElementById('site-header').innerHTML=h);
+  </script>
+
+  <div class="container">
+    <div class="main">
+      <h1>🧩 Puzzles</h1>
+      <p>Test your brain with challenging puzzles:</p>
+
+      <div class="game-list">
+        <div class="game-card">
+          <div class="sudoku-num num-top-left">5</div>
+          <div class="sudoku-num num-bottom-right">9</div>
+          <h2>Sudoku</h2>
+          <p>Fill the grid with numbers 1–9 without repeating in rows, columns, or boxes.</p>
+          <a href="sudoku/index.html">Play</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ Sidebar Donation -->
+    <div class="sidebar">
+      <h2>Support Us 💙</h2>
+      <p>If you enjoy ad-free games from No Spin Media, consider supporting us.</p>
+      <button id="donate-button" onclick="window.location.href='../../sponsor.html'">Donate Now</button>
+      <p style="font-size:0.8em; color:#aaa;">Your help keeps No Spin Media alive and growing.</p>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
+  </footer>
+
+</body>
+</html>
