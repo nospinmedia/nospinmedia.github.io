@@ -255,6 +255,7 @@
       color: #000;
       transition: background-color 0.2s ease-in-out;
       position: relative; /* For pencil marks positioning */
+      min-height: 38px; /* Added min-height to prevent shifts when pencil marks appear/disappear */
     }
 
     /* Pencil marks grid inside cell */
@@ -462,6 +463,7 @@
         width: calc(90vw / 9); /* Ensures 9 cells fit within 90vw board */
         height: calc(90vw / 9);
         font-size: 4.5vw; /* Adjusted font size responsively */
+        min-height: 10vw; /* Responsive min-height for mobile cells */
       }
       .sudoku-cell .pencil-marks {
           font-size: 1.5vw; /* Further smaller font for pencil marks on mobile */
@@ -536,7 +538,7 @@
     <div id="site-header"></div> 
     <div id="game-container">
       <div id="game-box">
-        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.11</span></div>
+        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.12</span></div>
         <div id="game-info">
           <span>Difficulty: <span id="current-difficulty">Medium</span></span>
           <span id="game-status">Ready</span>
