@@ -58,7 +58,7 @@
       min-width: 320px;
       display: flex;
       flex-direction: column;
-      justify-content: space-around; /* Re-added to distribute space */
+      justify-content: flex-start; /* Changed to flex-start */
       margin-top: 20px; /* Added margin-top to push it down */
     }
 
@@ -246,7 +246,7 @@
       grid-template-columns: repeat(9, 1fr);
       grid-template-rows: repeat(9, 1fr); /* Use 1fr for rows too */
       width: 100%; /* Make board take 100% of parent's width */
-      aspect-ratio: 1 / 1; /* Keep it square */
+      /* aspect-ratio: 1 / 1; Removed for desktop */
       border: 4px solid #74B9FF;
       box-shadow: 0 0 25px rgba(116, 185, 255, 0.5);
       border-radius: 8px;
@@ -254,7 +254,7 @@
       flex-shrink: 0;
       flex-grow: 1; /* Allow board to grow within available space */
       max-width: 340px; /* Adjusted max width for desktop to fit smaller board */
-      /* height: 306px; Removed fixed height */
+      height: 340px; /* Explicit height for desktop to ensure 9 rows fit */
     }
 
     .sudoku-cell {
@@ -269,7 +269,6 @@
       color: #000;
       transition: background-color 0.2s ease-in-out;
       position: relative; /* For pencil marks positioning */
-      /* min-height: 38px; Removed */
       height: 100%; /* Ensure cell takes full height of its grid row */
       width: 100%; /* Ensure cell takes full width of its grid column */
     }
@@ -479,6 +478,7 @@
         max-width: none; /* Removed fixed max-width */
         max-height: none; /* Removed fixed max-height */
         min-height: unset; /* Remove min-height for mobile */
+        aspect-ratio: 1 / 1; /* Keep aspect ratio for mobile */
       }
       .sudoku-cell {
         width: calc(90vw / 9); /* Ensures 9 cells fit within 90vw board */
@@ -554,7 +554,7 @@
     <div id="site-header"></div> 
     <div id="game-container">
       <div id="game-box">
-        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.22</span></div>
+        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.23</span></div>
         <div id="game-info">
           <span>Difficulty: <span id="current-difficulty">Medium</span></span>
           <span id="game-status">Ready</span>
