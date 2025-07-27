@@ -22,6 +22,18 @@
       min-height: 100vh; /* Ensure footer stays at bottom */
     }
 
+    /* New wrapper for header and game content to control mobile order */
+    #main-content-wrapper {
+        display: flex;
+        flex-direction: column; /* Default: header on top */
+        flex-grow: 1; /* Allow it to grow and push footer down */
+    }
+
+    /* Site header styling (adjust if needed, but usually handled by /header.html's CSS) */
+    #site-header {
+        width: 100%; /* Ensure it takes full width */
+    }
+
     /* Main game container layout - same as chess */
     #game-container {
       display: flex;
@@ -396,6 +408,11 @@
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
+      /* Reverse order of header and game container on mobile */
+      #main-content-wrapper {
+          flex-direction: column-reverse;
+      }
+
       #game-container {
         flex-direction: column;
         align-items: center;
@@ -499,61 +516,64 @@
       .catch(e => console.error('Error fetching header:', e));
   </script>
 
-  <div id="game-container">
-    <div id="game-box">
-      <div id="game-header">Sudoku 🧩 <span id="game-version">v2.6</span></div>
-      <div id="game-info">
-        <span>Difficulty: <span id="current-difficulty">Medium</span></span>
-        <span id="game-status">Ready</span>
-      </div>
+  <div id="main-content-wrapper">
+    <div id="site-header"></div> <!-- This will contain the header fetched by JS -->
+    <div id="game-container">
+      <div id="game-box">
+        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.6</span></div>
+        <div id="game-info">
+          <span>Difficulty: <span id="current-difficulty">Medium</span></span>
+          <span id="game-status">Ready</span>
+        </div>
 
-      <div class="game-controls">
-        <button id="newGameBtn">✨ New Game</button>
-        <select id="difficultySelect">
-            <option value="easy">Easy</option>
-            <option value="medium" selected>Medium</option>
-            <option value="hard">Hard</option>
-        </select>
-        <button id="solveBtn">💡 Solve</button>
-        <button id="shareBtn">🔗 Share with Friends</button>
-        <button id="copyBtn">📋 Copy Link</button>
-      </div>
+        <div class="game-controls">
+          <button id="newGameBtn">✨ New Game</button>
+          <select id="difficultySelect">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+          </select>
+          <button id="solveBtn">💡 Solve</button>
+          <button id="shareBtn">🔗 Share with Friends</button>
+          <button id="copyBtn">📋 Copy Link</button>
+        </div>
 
-      <!-- Game message box for notifications -->
-      <div id="game-message"></div>
+        <!-- Game message box for notifications -->
+        <div id="game-message"></div>
 
-      <div id="sudoku-board">
-        <!-- Sudoku cells will be dynamically generated here -->
-      </div>
+        <div id="sudoku-board">
+          <!-- Sudoku cells will be dynamically generated here -->
+        </div>
 
-      <div id="number-pad">
-        <button data-value="1">1</button>
-        <button data-value="2">2</button>
-        <button data-value="3">3</button>
-        <button data-value="4">4</button>
-        <button data-value="5">5</button>
-        <button data-value="6">6</button>
-        <button data-value="7">7</button>
-        <button data-value="8">8</button>
-        <button data-value="9">9</button>
-        <div class="bottom-row-buttons">
-            <button data-value="clear" class="clear-button">Clear</button>
-            <button id="pencilModeBtn" class="pencil-mode-button">✏️ Pencil Mode OFF</button>
+        <div id="number-pad">
+          <button data-value="1">1</button>
+          <button data-value="2">2</button>
+          <button data-value="3">3</button>
+          <button data-value="4">4</button>
+          <button data-value="5">5</button>
+          <button data-value="6">6</button>
+          <button data-value="7">7</button>
+          <button data-value="8">8</button>
+          <button data-value="9">9</button>
+          <div class="bottom-row-buttons">
+              <button data-value="clear" class="clear-button">Clear</button>
+              <button id="pencilModeBtn" class="pencil-mode-button">✏️ Pencil Mode OFF</button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Sidebar (Donate section) -->
-    <div id="sidebar">
-      <h2>Support Us!</h2>
-      <p>If you enjoy ad-free games from No Spin Media, consider supporting us.</p>
-      <button id="donate-button" onclick="window.location.href='/sponsor.html'">Donate Now</button>
-      <p style="font-size:0.8em; color:#aaa;">Your help keeps No Spin Media alive and growing.</p>
+      <!-- Sidebar (Donate section) -->
+      <div id="sidebar">
+        <h2>Support Us!</h2>
+        <p>If you enjoy ad-free games from No Spin Media, consider supporting us.</p>
+        <button id="donate-button" onclick="window.location.href='/sponsor.html'">Donate Now</button>
+        <p style="font-size:0.8em; color:#aaa;">Your help keeps No Spin Media alive and growing.</p>
+      </div>
     </div>
   </div>
 
   <!-- Site-wide footer -->
-  <footer style="text-align:center;color:#666;padding:10px;">
+  <footer>
     © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
   </footer>
 
