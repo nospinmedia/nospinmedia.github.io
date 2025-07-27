@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Galactic Siege - No Spin Media</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body { background:#000; color:#fff; margin:0; font-family:Arial,sans-serif; }
+    canvas { background:#000; display:block; margin:0 auto; border:2px solid #0F0; box-shadow:0 0 20px rgba(0,255,0,0.5); }
+    h1 { color:#0F0; text-shadow:0 0 8px rgba(0,255,0,0.7); margin:0.5rem 0; }
+    #hud { color:#0F0; font-weight:bold; margin:0.5rem; text-shadow:0 0 4px rgba(0,255,0,0.6); }
+    .container { display:flex; flex-wrap:wrap; padding:1rem; gap:2rem; justify-content:center; }
+    .main { flex:1 1 65%; text-align:center; max-width:700px; }
+    .sidebar {
+      flex:0 0 250px; background:#1a1a1a; border:2px solid #0F0; border-radius:10px;
+      box-shadow:0 0 20px rgba(0,255,0,0.5); padding:1rem; text-align:center; color:#fff;
+    }
+    .sidebar h2 { color:#0F0; text-shadow:0 0 8px rgba(0,255,0,0.7); }
+    #donate-button {
+      background:#FFD700; color:#000; padding:12px 25px; border:none; border-radius:8px;
+      font-weight:bold; font-size:1.1em; cursor:pointer; box-shadow:0 0 10px rgba(255,215,0,0.5);
+    }
+    .game-frame { border:2px solid #0F0; border-radius:10px; padding:10px; box-shadow:0 0 20px rgba(0,255,0,0.5); background:#000; }
+    .share-buttons button {
+      padding:0.5rem 1rem; margin:0.3rem; background:#0073e6; color:white; border:none;
+      border-radius:4px; font-weight:bold; cursor:pointer;
+    }
+    #touch-controls { display:none; margin-top:0.5rem; }
+    #touch-controls button {
+      padding:0.8rem 1.2rem; margin:0.2rem; font-size:1.1rem; background:#0073e6; color:#fff; border:none; border-radius:6px;
+    }
+    @media(max-width:768px){
+      .container{flex-direction:column; align-items:center;}
+      #touch-controls{display:block;}
+    }
+
+    /* Overlay for Start/Game Over/Countdown */
+    #overlay {
+      position:absolute; top:0; left:0; width:100%; height:100%; display:flex;
+      justify-content:center; align-items:center; background:rgba(0,0,0,0.8);
+      color:#0F0; font-size:2rem; font-weight:bold; text-shadow:0 0 8px #0F0;
+      flex-direction:column; z-index:10;
+    }
+    .overlay-button {
+      margin-top:1rem; padding:0.8rem 1.5rem; background:#0F0; color:#000;
+      font-weight:bold; border:none; border-radius:8px; font-size:1.2rem; cursor:pointer;
+      box-shadow:0 0 10px rgba(0,255,0,0.7);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Universal header -->
+  <div id="site-header"></div>
+
+  <div class="container">
+    <div class="main">
+      <div class="game-frame" style="position:relative;">
+        <h1>Galactic Siege 👾</h1>
+        <div id="hud">Score: 0 | Lives: 3 | High Score: 0 | Level: 1</div>
+        <div class="share-buttons">
+          <button id="shareBtn">🔗 Share with Friends</button>
+          <button id="copyBtn">📋 Copy Link</button>
+          <button id="soundToggle">🔊 Sound On</button>
+        </div>
+        <canvas id="gameCanvas" width="600" height="500"></canvas>
+        <div id="touch-controls">
+          <button id="leftBtn">⬅️</button>
+          <button id="fireBtn">🔥</button>
+          <button id="rightBtn">➡️</button>
+        </div>
+        <!-- Overlay -->
+        <div id="overlay">
+          <div>Galactic Siege</div>
+          <button class="overlay-button" id="startBtn">Start Game</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <h2>Support Us!</h2>
+      <p>If you enjoy the ad-free experience and games from No Spin Media, consider supporting our project!</p>
+      <a href="https://venmo.com/NoSpinMedia" target="_blank"><button id="donate-button">Donate Now</button></a>
+      <p style="font-size:0.8em; margin-top:15px; color:#888;">Your contributions help keep No Spin Media alive and growing.</p>
+    </div>
+  </div>
+
+  <footer style="text-align:center; color:#666; padding:0.5rem; background:#111;">
+    © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
+  </footer>
+
+  <script>
+    const canvas=document.getElementById('gameCanvas');
+    const ctx=canvas.getContext('2d');
+    const hud=document.getElementById('hud');
+    const overlay=document.getElementById('overlay');
+    const startBtn=document.getElementById('startBtn');
+    let score=0, highScore=localStorage.getItem('galacticSiegeHS')||0, lives=3, level=1;
+    const PLAYER_SIZE=20, PLAYER_SPEED=5, BULLET_SPEED=7;
+    const ALIEN_ROWS=3, ALIEN_COLS=8, ALIEN_SIZE=20;
+    const ALIEN_SPACING_X=50, ALIEN_SPACING_Y=30, ALIEN_START_X=50, ALIEN_START_Y=30;
+    const SHIELD_BLOCK_SIZE=5, SHIELD_WIDTH=60, SHIELD_HEIGHT=20, SHIELD_HEALTH=3;
+    const NUM_SHIELDS=4, ALIEN_BULLET_LIMIT=3;
+    let player, aliens=[], playerBullets=[], alienBullets=[], shields=[];
+    let alienDir=1, alienSpeed=0.5, alienFireRate=200, soundOn=true, gameRunning=false;
+    let nextWaveCountdown=0;
+
+    function updateHUD(){
+      hud.innerText=`Score: ${score} | Lives: ${lives} | High Score: ${highScore} | Level: ${level}`;
+    }
+
+    function initPlayer(){
+      player={x:canvas.width/2-PLAYER_SIZE/2,y:canvas.height-PLAYER_SIZE-10,width:PLAYER_SIZE,height:PLAYER_SIZE,dx:0};
+    }
+
+    function initAliens(flyIn=false){
+      aliens=[];
+      for(let r=0;r<ALIEN_ROWS;r++){
+        for(let c=0;c<ALIEN_COLS;c++){
+          aliens.push({
+            x:ALIEN_START_X+c*ALIEN_SPACING_X,
+            y:flyIn?-50:r*ALIEN_SPACING_Y+ALIEN_START_Y,
+            targetY:r*ALIEN_SPACING_Y+ALIEN_START_Y,
+            w:ALIEN_SIZE,h:ALIEN_SIZE,color:`hsl(${r*60},100%,50%)`
+          });
+        }
+      }
+    }
+
+    function initShields(){
+      shields=[];
+      const spacing=(canvas.width-(NUM_SHIELDS*SHIELD_WIDTH))/(NUM_SHIELDS+1);
+      const baseY=canvas.height-80;
+      for(let s=0;s<NUM_SHIELDS;s++){
+        const x=spacing*(s+1)+s*SHIELD_WIDTH;
+        const rows=SHIELD_HEIGHT/SHIELD_BLOCK_SIZE, cols=SHIELD_WIDTH/SHIELD_BLOCK_SIZE;
+        const dmgMap=Array.from({length:rows},()=>Array(cols).fill(0));
+        shields.push({x,y:baseY,width:SHIELD_WIDTH,height:SHIELD_HEIGHT,damage:dmgMap});
+      }
+    }
+
+    function drawPlayer(){
+      ctx.fillStyle='#0F0';
+      ctx.beginPath();
+      ctx.moveTo(player.x,player.y+player.height);
+      ctx.lineTo(player.x+player.width/2,player.y);
+      ctx.lineTo(player.x+player.width,player.y+player.height);
+      ctx.closePath(); ctx.fill();
+    }
+
+    function drawAliens(){
+      aliens.forEach(a=>{
+        ctx.fillStyle=a.color;
+        ctx.fillRect(a.x,a.y,a.w,a.h);
+        if(a.y<a.targetY) a.y+=1; // fly-in animation
+      });
+    }
+
+    function drawShields(){
+      shields.forEach(shield=>{
+        for(let r=0;r<shield.damage.length;r++){
+          for(let c=0;c<shield.damage[r].length;c++){
+            if(shield.damage[r][c]<SHIELD_HEALTH){
+              const hp=SHIELD_HEALTH-shield.damage[r][c];
+              ctx.fillStyle=hp===3?'#0F0':hp===2?'#FFA500':'#F00';
+              ctx.fillRect(shield.x+c*SHIELD_BLOCK_SIZE,shield.y+r*SHIELD_BLOCK_SIZE,SHIELD_BLOCK_SIZE,SHIELD_BLOCK_SIZE);
+            }
+          }
+        }
+      });
+    }
+
+    function drawBullets(){
+      ctx.fillStyle='#0FF'; playerBullets.forEach(b=>ctx.fillRect(b.x,b.y,4,10));
+      ctx.fillStyle='#F00'; alienBullets.forEach(b=>ctx.fillRect(b.x,b.y,4,10));
+    }
+
+    function firePlayer(){
+      if(playerBullets.length<1){
+        playerBullets.push({x:player.x+player.width/2-2,y:player.y});
+        playSound(440);
+      }
+    }
+
+    function playSound(freq){
+      if(!soundOn)return;
+      if(!window.audioCtx) window.audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+      const o=window.audioCtx.createOscillator(), g=window.audioCtx.createGain();
+      o.connect(g); g.connect(window.audioCtx.destination);
+      o.frequency.value=freq; o.type='square';
+      g.gain.setValueAtTime(0.05,window.audioCtx.currentTime);
+      o.start(); o.stop(window.audioCtx.currentTime+0.2);
+    }
+
+    function update(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      if(nextWaveCountdown>0){
+        ctx.fillStyle='#0F0';
+        ctx.font='bold 40px Arial';
+        ctx.textAlign='center';
+        ctx.fillText(`Next Wave in ${Math.ceil(nextWaveCountdown/60)}`,canvas.width/2,canvas.height/2);
+        nextWaveCountdown--;
+        if(nextWaveCountdown===0){initAliens(true);}
+        requestAnimationFrame(update); return;
+      }
+
+      if(!gameRunning){requestAnimationFrame(update); return;}
+
+      player.x+=player.dx;
+      if(player.x<0)player.x=0; if(player.x+player.width>canvas.width)player.x=canvas.width-player.width;
+
+      playerBullets.forEach(b=>b.y-=BULLET_SPEED);
+      alienBullets.forEach(b=>b.y+=BULLET_SPEED);
+
+      drawPlayer(); drawAliens(); drawShields(); drawBullets();
+
+      requestAnimationFrame(update);
+    }
+
+    function startGame(){
+      score=0; lives=3; level=1; alienSpeed=0.5; alienFireRate=200;
+      initPlayer(); initAliens(true); initShields(); updateHUD();
+      gameRunning=true; overlay.style.display='none';
+    }
+
+    startBtn.onclick=startGame;
+
+    document.getElementById('soundToggle').onclick=()=>{soundOn=!soundOn; soundToggle.innerText=soundOn?'🔊 Sound On':'🔇 Sound Off';};
+    document.getElementById('shareBtn').onclick=async()=>{
+      if(navigator.share) await navigator.share({title:"Galactic Siege", url:window.location.href});
+      else {navigator.clipboard.writeText(window.location.href); alert('Link copied');}
+    };
+    document.getElementById('copyBtn').onclick=()=>{navigator.clipboard.writeText(window.location.href); alert('Link copied');};
+
+    document.addEventListener('keydown',e=>{
+      if(e.key==='ArrowLeft')player.dx=-PLAYER_SPEED;
+      if(e.key==='ArrowRight')player.dx=PLAYER_SPEED;
+      if(e.key===' ')firePlayer();
+    });
+    document.addEventListener('keyup',e=>{
+      if(e.key==='ArrowLeft'||e.key==='ArrowRight')player.dx=0;
+    });
+
+    initPlayer(); initShields(); updateHUD(); update();
+
+    fetch('/header.html').then(r=>r.text()).then(h=>document.getElementById('site-header').innerHTML=h);
+  </script>
+</body>
+</html>
