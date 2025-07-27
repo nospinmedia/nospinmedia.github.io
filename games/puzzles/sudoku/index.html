@@ -501,7 +501,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Sudoku 🧩 <span id="game-version">v2.4</span></div>
+      <div id="game-header">Sudoku 🧩 <span id="game-version">v2.5</span></div>
       <div id="game-info">
         <span>Difficulty: <span id="current-difficulty">Medium</span></span>
         <span id="game-status">Ready</span>
@@ -763,14 +763,19 @@
             pencilMarksContainer.classList.add('pencil-marks');
             // Sort pencil marks for consistent display
             const sortedPencilMarks = Array.from(pencilMarks[r][c]).sort((a, b) => a - b);
-            for (let i = 1; i <= 9; i++) {
-                const markEl = document.createElement('div');
-                if (sortedPencilMarks.includes(i)) {
-                    markEl.textContent = i;
+            
+            // Only append pencil marks if there are any
+            if (sortedPencilMarks.length > 0) {
+                for (let i = 1; i <= 9; i++) {
+                    const markEl = document.createElement('div');
+                    if (sortedPencilMarks.includes(i)) {
+                        markEl.textContent = i;
+                    }
+                    pencilMarksContainer.appendChild(markEl);
                 }
-                pencilMarksContainer.appendChild(markEl);
+                cellEl.appendChild(pencilMarksContainer);
             }
-            cellEl.appendChild(pencilMarksContainer);
+            // If no main number and no pencil marks, leave cell empty (no NaN)
           }
 
           cellEl.addEventListener('click', handleCellClick);
@@ -957,6 +962,11 @@
         } else {
             pencilModeBtn.classList.remove('active-mode');
             pencilModeBtn.textContent = '✏️ Pencil Mode OFF';
+        }
+        // Deselect cell when toggling pencil mode OFF
+        if (!pencilMode && selectedCell) {
+            selectedCell = null;
+            highlightSelectedCell(); // Re-render to remove selection highlight
         }
     }
 
