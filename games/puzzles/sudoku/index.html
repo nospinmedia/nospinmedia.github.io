@@ -362,18 +362,40 @@
     }
 
     #number-pad button.clear-button,
-    #number-pad button.pencil-mode-button {
-      flex: 1 1 calc(50% - 5px); /* Each takes half the space minus gap */
-      padding: 8px 10px; /* Reduced padding to make buttons less tall */
-      background: #FF6347;
+    #number-pad button.pencil-mode-button,
+    #number-pad button.auto-pencil-button { /* Added auto-pencil-button */
+      flex: 1 1 calc(33.33% - 7px); /* Each takes roughly 1/3 space minus gap for 3 buttons */
+      padding: 8px 5px; /* Reduced padding for 3 buttons */
+      background: #FF6347; /* Default color for Clear */
       color: #fff;
+      font-size: 0.75em; /* Slightly smaller font for 3 buttons */
     }
-    #number-pad button.clear-button:hover,
-    #number-pad button.pencil-mode-button:hover {
+    #number-pad button.clear-button {
+        background: #FF6347; /* Red for Clear */
+    }
+    #number-pad button.clear-button:hover {
         background: #FF7F50;
     }
+    #number-pad button.pencil-mode-button {
+        background: #60A3D9; /* Blue for Pencil Mode */
+    }
+    #number-pad button.pencil-mode-button:hover {
+        background: #7ABCEF;
+    }
+    #number-pad button.auto-pencil-button { /* Style for Auto Pencil button */
+        background: #28a745; /* Green for Auto Pencil */
+    }
+    #number-pad button.auto-pencil-button:hover {
+        background: #218838;
+    }
+
     #number-pad button.pencil-mode-button.active-mode {
         background: #FFD700; /* Gold for active pencil mode */
+        color: #000;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+    }
+    #number-pad button.auto-pencil-button.active-mode { /* Style for active Auto Pencil button */
+        background: #FFD700; /* Gold for active auto pencil mode */
         color: #000;
         box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
     }
@@ -459,10 +481,11 @@
           justify-content: space-around;
       }
       #number-pad button.clear-button,
-      #number-pad button.pencil-mode-button {
+      #number-pad button.pencil-mode-button,
+      #number-pad button.auto-pencil-button { /* Added auto-pencil-button */
         flex: 1 1 auto; /* Allow them to size automatically within the flex container */
-        font-size: 3vw; /* Match other buttons */
-        padding: 1.2vw; /* Match other buttons */
+        font-size: 2.8vw; /* Match other buttons */
+        padding: 1.2vw 0.8vw; /* Match other buttons, slightly less horizontal padding */
       }
       .game-controls {
         margin-bottom: 2vw; /* Responsive margin on mobile */
@@ -512,7 +535,7 @@
     <div id="site-header"></div> 
     <div id="game-container">
       <div id="game-box">
-        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.7</span></div>
+        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.9</span></div>
         <div id="game-info">
           <span>Difficulty: <span id="current-difficulty">Medium</span></span>
           <span id="game-status">Ready</span>
@@ -549,6 +572,7 @@
           <button data-value="9">9</button>
           <div class="bottom-row-buttons">
               <button data-value="clear" class="clear-button">Clear</button>
+              <button id="autoPencilBtn" class="auto-pencil-button">📝 Auto Pencil OFF</button>
               <button id="pencilModeBtn" class="pencil-mode-button">✏️ Pencil Mode OFF</button>
           </div>
         </div>
@@ -584,7 +608,8 @@
     let difficulty = 'medium'; // 'easy', 'medium', 'hard'
     let messageTimeoutId = null; // To manage the hide timeout for temporary messages
     let gameEnded = false; // Flag to indicate if the game has ended
-    let pencilMode = false; // New: Pencil mode state
+    let pencilMode = false; // Manual pencil mode state
+    let autoPencilMode = false; // New: Auto pencil mode state
     // New: Store pencil marks for each cell
     let pencilMarks = Array(9).fill(0).map(() => Array(9).fill(0).map(() => new Set()));
 
@@ -598,7 +623,8 @@
     const gameMessageEl = document.getElementById('game-message');
     const currentDifficultyEl = document.getElementById('current-difficulty');
     const gameStatusEl = document.getElementById('game-status');
-    const pencilModeBtn = document.getElementById('pencilModeBtn'); // New: Pencil mode button
+    const pencilModeBtn = document.getElementById('pencilModeBtn'); // Manual pencil mode button
+    const autoPencilBtn = document.getElementById('autoPencilBtn'); // New: Auto pencil button
 
     // --- Sudoku Core Logic (Backtracking for Generation and Solving) ---
 
@@ -744,8 +770,10 @@
       renderBoard();
       updateHUD();
       gameStatusEl.textContent = 'Playing'; // Reset status on new game
-      pencilMode = false; // Reset pencil mode on new game
+      pencilMode = false; // Reset manual pencil mode on new game
+      autoPencilMode = false; // Reset auto pencil mode on new game
       updatePencilModeButton(); // Update button text on new game
+      updateAutoPencilButton(); // Update button text on new game
     }
 
     // --- Rendering Functions ---
@@ -885,6 +913,39 @@
       highlightSelectedCell();
     }
 
+    // Helper to calculate possible numbers for a given cell
+    function calculatePossibleNumbers(currentBoard, row, col) {
+        const possibilities = new Set();
+        for (let num = 1; num <= 9; num++) {
+            if (isValid(currentBoard, row, col, num)) {
+                possibilities.add(num);
+            }
+        }
+        return possibilities;
+    }
+
+    // Function to update all pencil marks on the board (for auto-pencil)
+    function updateAllPencilMarks() {
+        // Clear all existing pencil marks first
+        for (let r = 0; r < 9; r++) {
+            for (let c = 0; c < 9; c++) {
+                pencilMarks[r][c].clear();
+            }
+        }
+
+        if (autoPencilMode) {
+            for (let r = 0; r < 9; r++) {
+                for (let c = 0; c < 9; c++) {
+                    if (board[r][c] === 0) { // Only for empty cells
+                        const candidates = calculatePossibleNumbers(board, r, c);
+                        candidates.forEach(num => pencilMarks[r][c].add(num));
+                    }
+                }
+            }
+        }
+        renderBoard(); // Re-render to show updated pencil marks
+    }
+
     function handleNumberInput(event) {
       if (!selectedCell || gameEnded) return;
 
@@ -897,7 +958,7 @@
       }
 
       if (pencilMode) {
-        // Pencil mode logic
+        // Manual Pencil mode logic
         if (value === 'clear') {
           pencilMarks[row][col].clear(); // Clear all pencil marks
         } else {
@@ -908,9 +969,9 @@
             pencilMarks[row][col].add(num); // Toggle on
           }
         }
-        board[row][col] = 0; // Ensure main number is cleared in pencil mode
+        board[row][col] = 0; // Ensure main number is cleared in manual pencil mode
       } else {
-        // Normal input mode logic
+        // Normal input mode logic (or if autoPencilMode is active)
         if (value === 'clear') {
           board[row][col] = 0;
         } else {
@@ -922,8 +983,13 @@
 
       renderBoard(); // Re-render board to show changes
 
-      // Validate the current input if it's not a clear and not in pencil mode
-      if (value !== 'clear' && !pencilMode) {
+      // If auto pencil mode is active, update all pencil marks after any input
+      if (autoPencilMode) {
+          updateAllPencilMarks();
+      }
+
+      // Validate the current input if it's not a clear and not in any pencil mode
+      if (value !== 'clear' && !pencilMode && !autoPencilMode) {
         if (!isValid(board, row, col, board[row][col])) {
           document.querySelector(`.sudoku-cell[data-row="${row}"][data-col="${col}"]`).classList.add('invalid');
           displayGameMessage("Invalid move!");
@@ -938,7 +1004,9 @@
           }
         }
       } else if (pencilMode) {
-          // No message here, status is handled by button text
+          gameStatusEl.textContent = 'Pencil Mode Active';
+      } else if (autoPencilMode) {
+          gameStatusEl.textContent = 'Auto Pencil Active';
       } else {
           gameStatusEl.textContent = 'Playing';
       }
@@ -972,7 +1040,7 @@
         selectedCell = null; // Deselect any cell
     }
 
-    // New: Function to update the pencil mode button's text and active state
+    // Function to update the manual pencil mode button's text and active state
     function updatePencilModeButton() {
         if (pencilMode) {
             pencilModeBtn.classList.add('active-mode');
@@ -988,6 +1056,23 @@
         }
     }
 
+    // New: Function to update the auto pencil mode button's text and active state
+    function updateAutoPencilButton() {
+        if (autoPencilMode) {
+            autoPencilBtn.classList.add('active-mode');
+            autoPencilBtn.textContent = '📝 Auto Pencil ON';
+        } else {
+            autoPencilBtn.classList.remove('active-mode');
+            autoPencilBtn.textContent = '📝 Auto Pencil OFF';
+        }
+        // Deselect cell when toggling auto pencil mode OFF
+        if (!autoPencilMode && selectedCell) {
+            selectedCell = null;
+            highlightSelectedCell(); // Re-render to remove selection highlight
+        }
+    }
+
+
     // --- Event Listeners ---
     document.addEventListener('DOMContentLoaded', () => {
       newGameBtn.addEventListener('click', initializeGame);
@@ -995,9 +1080,26 @@
 
       pencilModeBtn.addEventListener('click', () => {
         pencilMode = !pencilMode;
+        if (pencilMode) { // If manual pencil mode is turned ON, turn auto pencil mode OFF
+            autoPencilMode = false;
+            updateAllPencilMarks(); // Clear auto-generated marks
+        }
         updatePencilModeButton(); // Update button text and style immediately
-        // Removed: gameStatusEl.textContent = pencilMode ? 'Pencil Mode Active' : 'Playing';
+        updateAutoPencilButton(); // Ensure auto pencil button is updated
+        gameStatusEl.textContent = pencilMode ? 'Pencil Mode Active' : 'Playing';
       });
+
+      autoPencilBtn.addEventListener('click', () => {
+        autoPencilMode = !autoPencilMode;
+        if (autoPencilMode) { // If auto pencil mode is turned ON, turn manual pencil mode OFF
+            pencilMode = false;
+        }
+        updatePencilModeButton(); // Ensure manual pencil button is updated
+        updateAutoPencilButton(); // Update button text and style immediately
+        updateAllPencilMarks(); // Recalculate and render marks based on new autoPencilMode state
+        gameStatusEl.textContent = autoPencilMode ? 'Auto Pencil Active' : 'Playing';
+      });
+
 
       difficultySelect.addEventListener('change', (event) => {
         difficulty = event.target.value;
