@@ -43,7 +43,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Galactic Siege 👾 <span id="game-version">v1.3</span></div> <div id="game-info">
+      <div id="game-header">Galactic Siege 👾 <span id="game-version">v1.4</span></div> <div id="game-info">
         Score: <span id="score">0</span> | Lives: <span id="lives">3</span> | High Score: <span id="highScore">0</span> | Level: <span id="level">1</span>
       </div>
 
@@ -87,6 +87,7 @@
     let alienShootTimer = 60; // How often aliens shoot
     let playerExplosionTimer = 0; // Timer for player explosion animation
     let gamePaused = false; // New: Game pause state
+    let animationFrameId; // To store the requestAnimationFrame ID
 
     let soundEnabled = true; // Initial sound state
     // Make sure these paths are correct and the files exist!
@@ -94,6 +95,11 @@
     const explosionSound = new Audio('https://www.soundjay.com/misc/explosion-01.wav');
     shootSound.volume = 0.5; // Increased volume
     explosionSound.volume = 0.8; // Increased volume
+
+    // Load sounds before playing (fixes "no sound" issue)
+    let soundsLoaded = { shoot: false, explosion: false };
+    shootSound.addEventListener('canplaythrough', () => { soundsLoaded.shoot = true; });
+    explosionSound.addEventListener('canplaythrough', () => { soundsLoaded.explosion = true; });
 
     const PLAYER_SPEED=6, BULLET_SPEED=7, ALIEN_BULLET_SPEED=3;
     const PLAYER_WIDTH=40, PLAYER_HEIGHT=30;
@@ -224,7 +230,8 @@
       if(nextWaveTimer>0){
         ctx.fillStyle="#0f0"; ctx.font="bold 40px Arial"; ctx.textAlign="center";
         ctx.fillText(`Next Wave in ${Math.ceil(nextWaveTimer/60)}`,canvas.width/2,canvas.height/2);
-        nextWaveTimer--; requestAnimationFrame(update); return;
+        nextWaveTimer--;
+        animationFrameId = requestAnimationFrame(update); return;
       }
 
       // If player is exploding, decrement timer
@@ -233,9 +240,9 @@
         playerExplosionTimer--;
         if (playerExplosionTimer === 0) {
           gameOver(); // Call game over after explosion animation
-          return;
+          return; // Stop further updates until next frame
         }
-        requestAnimationFrame(update); // Keep animating explosion
+        animationFrameId = requestAnimationFrame(update); // Keep animating explosion
         return; // Skip game logic if player is exploding
       }
 
@@ -256,7 +263,7 @@
             ctx.fillRect(b.x, b.y, 3, 10);
         });
 
-        requestAnimationFrame(update);
+        animationFrameId = requestAnimationFrame(update);
         return;
       }
 
@@ -334,7 +341,7 @@
         if (player.alive && checkCollision(b, player)) {
           alienBullets.splice(i, 1);
           lives--;
-          if (soundEnabled) {
+          if (soundEnabled && soundsLoaded.explosion) {
             explosionSound.currentTime = 0; // Rewind sound to play immediately
             explosionSound.play();
           }
@@ -393,7 +400,7 @@
       aliens.forEach(a=>{
         if(a.y+ALIEN_SIZE>canvas.height-60){
           if (player.alive) { // Only trigger game over if player hasn't been hit already
-            if (soundEnabled) {
+            if (soundEnabled && soundsLoaded.explosion) {
               explosionSound.currentTime = 0; // Rewind sound
               explosionSound.play();
             }
@@ -412,7 +419,7 @@
         createShields(); // Reset shields
       }
 
-      requestAnimationFrame(update);
+      animationFrameId = requestAnimationFrame(update);
     }
 
     function updateHUD(){
@@ -423,6 +430,11 @@
     }
 
     function startGame(){
+      // Cancel any existing animation frame to ensure a clean restart
+      if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+      }
+
       score=0; lives=3; level=1; alienSpeed=0.5; alienShootTimer = 60;
       initPlayer();
       createAliens(true); // Start with aliens flying in
@@ -434,6 +446,9 @@
       document.getElementById('pauseBtn').innerText = '⏸️ Pause'; // Reset pause button text
       updateHUD(); gameRunning=true;
       document.getElementById('overlay').style.display="none";
+
+      // Start the game loop again
+      update();
     }
 
     function gameOver(){
@@ -441,27 +456,39 @@
       if(score>highScore){ highScore=score; localStorage.setItem('galacticSiegeHS',highScore); }
       updateHUD();
       const overlay=document.getElementById('overlay');
-      overlay.innerHTML=`<div>Game Over</div><button class="overlay-btn" onclick="startGame()">Play Again</button>`;
+      overlay.innerHTML=`<div>Game Over</div><button class="overlay-btn" id="startBtn">Play Again</button>`;
       // Re-assign start button listener, important when changing innerHTML
       document.getElementById('startBtn').onclick=startGame;
       overlay.style.display="flex";
     }
 
     function togglePause() {
-        if (!gameRunning) return; // Can't pause if game isn't running
+        if (!gameRunning && playerExplosionTimer === 0) return; // Can't pause if game isn't running or exploding
 
         gamePaused = !gamePaused;
         if (gamePaused) {
             document.getElementById('pauseBtn').innerText = '▶️ Resume';
-            // Optional: Pause all sounds here if they are playing
+            // Stopping the animation loop when paused
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null; // Clear the ID
+            }
         } else {
             document.getElementById('pauseBtn').innerText = '⏸️ Pause';
-            requestAnimationFrame(update); // Resume the game loop
-            // Optional: Resume sounds here
+            // Resuming the animation loop
+            if (!animationFrameId) {
+                update();
+            }
         }
     }
 
     function endGame() {
+        // Cancel any active animation frame
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+
         gameRunning = false;
         gamePaused = false; // Ensure game is not paused
         playerExplosionTimer = 0; // Clear any pending explosion
@@ -479,6 +506,7 @@
         overlay.innerHTML=`<div>Galactic Siege</div><button class="overlay-btn" id="startBtn">Start Game</button>`;
         document.getElementById('startBtn').onclick=startGame; // Re-assign start game handler
         overlay.style.display="flex";
+        // Do not call update() here, it will be called by startGame if the user clicks it.
     }
 
 
@@ -487,7 +515,7 @@
       if(e.key==="ArrowRight" && player.alive && !gamePaused) player.dx=PLAYER_SPEED;
       if(e.key===" " && gameRunning && player.alive && !gamePaused){ // Only allow shooting if game is running and player is alive and not paused
         bullets.push({x:player.x+player.width/2-1.5,y:player.y, width:3, height:10}); // Adjust x for bullet center
-        if (soundEnabled) {
+        if (soundEnabled && soundsLoaded.shoot) {
           shootSound.currentTime = 0; // Rewind sound to play immediately
           shootSound.play();
         }
@@ -509,7 +537,12 @@
     document.getElementById('endGameBtn').onclick=endGame; // Assign end game button handler
 
 
-    initPlayer(); createShields(); updateHUD(); update();
+    // Initial setup
+    initPlayer();
+    createShields();
+    updateHUD();
+    // Do NOT call update() directly here. It will be called by startGame() when the button is clicked.
+    // The initial overlay should be visible until game starts.
   </script>
 </body>
 </html>
