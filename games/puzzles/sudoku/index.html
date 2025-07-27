@@ -248,6 +248,8 @@
       flex-shrink: 0;
       flex-grow: 1; /* Allow board to grow within available space */
       max-width: 340px; /* Adjusted max width for desktop to fit smaller board */
+      height: auto; /* Let height auto-adjust */
+      min-height: 340px; /* Ensure enough space for all rows */
     }
 
     .sudoku-cell {
@@ -263,6 +265,7 @@
       transition: background-color 0.2s ease-in-out;
       position: relative; /* For pencil marks positioning */
       min-height: 38px; /* Added min-height to prevent shifts when pencil marks appear/disappear */
+      height: calc(100% / 9); /* Fixed height based on board size */
     }
 
     /* Pencil marks grid inside cell */
@@ -466,14 +469,15 @@
       }
       #sudoku-board {
         width: 90vw; /* Adjusted to 90vw for more space */
-        height: 90vw; /* Adjusted to 90vw */
+        height: 90vw; /* Force square board */
         max-width: none; /* Removed fixed max-width */
         max-height: none; /* Removed fixed max-height */
         /* margin: 1vw auto; Removed, handled by parent's margin-bottom */
+        min-height: unset; /* Remove min-height for mobile */
       }
       .sudoku-cell {
         width: calc(90vw / 9); /* Ensures 9 cells fit within 90vw board */
-        height: calc(90vw / 9);
+        height: calc(90vw / 9); /* Fixed height based on board size */
         font-size: 4.5vw; /* Adjusted font size responsively */
         min-height: 10vw; /* Responsive min-height for mobile cells */
       }
@@ -550,7 +554,7 @@
     <div id="site-header"></div> 
     <div id="game-container">
       <div id="game-box">
-        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.17</span></div>
+        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.18</span></div>
         <div id="game-info">
           <span>Difficulty: <span id="current-difficulty">Medium</span></span>
           <span id="game-status">Ready</span>
