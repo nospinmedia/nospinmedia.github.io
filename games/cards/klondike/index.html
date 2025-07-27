@@ -313,6 +313,18 @@
       box-shadow: 0 0 15px #0f0;
     }
 
+    /* Hint highlight style */
+    .hint-highlight {
+        border: 2px solid yellow !important; /* Yellow border for hint */
+        box-shadow: 0 0 15px yellow !important; /* Yellow glow */
+        animation: pulse-hint 1s infinite alternate; /* Pulsing effect */
+    }
+
+    @keyframes pulse-hint {
+        from { box-shadow: 0 0 15px yellow; }
+        to { box-shadow: 0 0 25px yellow; }
+    }
+
 
     /* Card stacking in tableau */
     .tableau-pile .card {
@@ -461,7 +473,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Klondike Solitaire 🃏 <span id="game-version">v1.9</span></div>
+      <div id="game-header">Klondike Solitaire 🃏 <span id="game-version">v2.0</span></div>
       <div id="game-info">
         <span>Score: <span id="score">0</span></span>
         <span>Moves: <span id="moves">0</span></span>
@@ -664,10 +676,10 @@
       score = state.score;
       moves = state.moves;
       timer = state.timer;
-      stock = JSON.parse(JSON.stringify(state.stock));
-      waste = JSON.parse(JSON.stringify(state.waste));
-      foundations = JSON.parse(JSON.stringify(state.foundations));
-      tableau = JSON.parse(JSON.stringify(state.tableau));
+      stock = JSON.parse(JSON.stringify(stock));
+      waste = JSON.parse(JSON.stringify(waste));
+      foundations = JSON.parse(JSON.stringify(foundations));
+      tableau = JSON.parse(JSON.stringify(tableau));
       updateHUD();
       renderGame();
     }
@@ -740,11 +752,15 @@
         const stockCardEl = createCardElement({ rank: '', suit: '', faceUp: false }, 'stock');
         stockPileEl.appendChild(stockCardEl);
         // Ensure the text element exists before trying to update its innerHTML
-        if (stockTextEl) {
-          stockTextEl.innerHTML = `Stock<br>Click to Draw`;
-        } else {
-          stockPileEl.innerHTML += `<span id="stock-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">Stock<br>Click to Draw</span>`;
+        // Use a consistent approach for adding the text span
+        let currentStockTextEl = stockPileEl.querySelector('#stock-text');
+        if (!currentStockTextEl) {
+            currentStockTextEl = document.createElement('span');
+            currentStockTextEl.id = 'stock-text';
+            currentStockTextEl.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;';
+            stockPileEl.appendChild(currentStockTextEl);
         }
+        currentStockTextEl.innerHTML = `Stock<br>Click to Draw`;
       } else {
         stockPileEl.innerHTML = `<span id="stock-text" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">Empty<br>Click to Reload</span>`;
       }
@@ -1058,6 +1074,108 @@
       console.log('No valid auto-move destination found for this card.');
     }
 
+    // --- Hint Logic ---
+    function findHint() {
+        // Clear any existing highlights first
+        clearHintHighlight();
+
+        let hintFound = false;
+
+        // 1. Check for moves from Waste to Foundation
+        if (waste.length > 0) {
+            const card = getTopCard(waste);
+            for (const suit in foundations) {
+                if (isMoveValid([card], 'foundation', foundations[suit])) {
+                    highlightHint(wastePileEl.lastElementChild, foundationsEl[suit]);
+                    hintFound = true;
+                    console.log('Hint: Waste to Foundation');
+                    return;
+                }
+            }
+        }
+
+        // 2. Check for moves from Tableau to Foundation
+        for (let i = 0; i < tableau.length; i++) {
+            const pile = tableau[i];
+            if (pile.length > 0) {
+                const card = getTopCard(pile);
+                if (card.faceUp) { // Only face-up cards can be moved
+                    for (const suit in foundations) {
+                        if (isMoveValid([card], 'foundation', foundations[suit])) {
+                            highlightHint(tableauPilesEl[i].lastElementChild, foundationsEl[suit]);
+                            hintFound = true;
+                            console.log('Hint: Tableau to Foundation');
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        // 3. Check for moves from Waste to Tableau
+        if (waste.length > 0) {
+            const card = getTopCard(waste);
+            for (let i = 0; i < tableau.length; i++) {
+                if (isMoveValid([card], 'tableau', tableau[i])) {
+                    highlightHint(wastePileEl.lastElementChild, tableauPilesEl[i]);
+                    hintFound = true;
+                    console.log('Hint: Waste to Tableau');
+                    return;
+                }
+            }
+        }
+
+        // 4. Check for moves from Tableau to Tableau
+        for (let i = 0; i < tableau.length; i++) {
+            const sourcePile = tableau[i];
+            for (let j = 0; j < sourcePile.length; j++) {
+                const card = sourcePile[j];
+                if (card.faceUp) { // Only face-up cards or stacks can be moved
+                    const cardsToMove = sourcePile.slice(j);
+                    for (let k = 0; k < tableau.length; k++) {
+                        if (i === k) continue; // Don't move to the same pile
+                        const targetPile = tableau[k];
+                        if (isMoveValid(cardsToMove, 'tableau', targetPile)) {
+                            // Highlight the first card of the stack and the target pile
+                            highlightHint(tableauPilesEl[i].children[j], tableauPilesEl[k]);
+                            hintFound = true;
+                            console.log('Hint: Tableau to Tableau');
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        // 5. Check for Stock to Waste (redeal or draw)
+        if (stock.length > 0 || waste.length > 0) { // If stock has cards or waste has cards to redeal
+            highlightHint(stockPileEl);
+            hintFound = true;
+            console.log('Hint: Click Stock to Draw/Redeal');
+            return;
+        }
+
+        if (!hintFound) {
+            displayGameMessage("No more moves available! Try a new game.");
+            setTimeout(hideGameMessage, 3000);
+            console.log('No hints found.');
+        }
+    }
+
+    function highlightHint(sourceEl, targetEl = null) {
+        sourceEl.classList.add('hint-highlight');
+        if (targetEl) {
+            targetEl.classList.add('hint-highlight');
+        }
+        setTimeout(clearHintHighlight, 1500); // Clear highlight after 1.5 seconds
+    }
+
+    function clearHintHighlight() {
+        document.querySelectorAll('.hint-highlight').forEach(el => {
+            el.classList.remove('hint-highlight');
+        });
+    }
+
 
     // --- Event Listeners Setup ---
     function addCardEventListeners() {
@@ -1110,7 +1228,7 @@
 
     function handleHint() {
       console.log('Hint clicked!');
-      // TODO: Implement hint logic here
+      findHint(); // Call the hint logic
     }
 
     function showHowToPlay() {
