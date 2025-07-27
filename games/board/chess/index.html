@@ -176,7 +176,7 @@
 
     #donate-button:active {
       transform: translateY(0);
-      box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+      box-shadow: 0 0 5px rgba(96, 163, 217, 0.3);
     }
 
     #sidebar p {
@@ -345,7 +345,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Chess ♟️ <span id="game-version">v1.8</span></div>
+      <div id="game-header">Chess ♟️ <span id="game-version">v1.9</span></div>
       <div id="game-info">
         <span>Current Turn: <span id="current-turn">White</span></span>
         <span>White Score: <span id="white-score">0</span></span>
@@ -546,7 +546,9 @@
         if (winnerColor) {
             displayGameMessage(`${winnerColor.toUpperCase()} wins by King capture!`, true); // Pass true for game over
         } else {
-            displayGameMessage(`Game over! No more moves for ${currentTurn.toUpperCase()}.`, true); // Pass true for game over
+            // Determine which player has no moves left
+            const noMovesPlayer = currentTurn.charAt(0).toUpperCase() + currentTurn.slice(1);
+            displayGameMessage(`Game over! ${noMovesPlayer} has no legal moves.`, true); // Pass true for game over
         }
         // Optionally disable board interaction more explicitly here
         // For now, `handleSquareClick` checks `gameEnded`
