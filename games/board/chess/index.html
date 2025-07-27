@@ -278,6 +278,17 @@
       z-index: 1001;
     }
 
+    /* Highlight for captured square */
+    .captured-square-highlight {
+        animation: capturedFlash 0.5s ease-out 2 alternate; /* Flash yellow twice */
+    }
+
+    @keyframes capturedFlash {
+        from { background-color: inherit; }
+        to { background-color: #FFD700; /* Gold color for flash */ }
+    }
+
+
     /* Responsive adjustments */
     @media (max-width: 768px) {
       #game-container {
@@ -334,7 +345,7 @@
 
   <div id="game-container">
     <div id="game-box">
-      <div id="game-header">Chess ♟️ <span id="game-version">v1.5</span></div>
+      <div id="game-header">Chess ♟️ <span id="game-version">v1.6</span></div>
       <div id="game-info">
         <span>Current Turn: <span id="current-turn">White</span></span>
         <span>White Score: <span id="white-score">0</span></span>
@@ -515,10 +526,12 @@
       blackScoreEl.textContent = blackScore; // Update black score display
     }
 
-    function displayGameMessage(message) {
+    // Modified displayGameMessage to handle game end duration
+    function displayGameMessage(message, isGameOver = false) {
       gameMessageEl.textContent = message;
       gameMessageEl.style.display = 'block';
-      setTimeout(hideGameMessage, 2000); // Hide after 2 seconds
+      const duration = isGameOver ? 5000 : 2000; // 5 seconds for game over, 2 for others
+      setTimeout(hideGameMessage, duration);
     }
 
     function hideGameMessage() {
@@ -529,9 +542,9 @@
         gameEnded = true;
         stopAIGameLoop();
         if (winnerColor) {
-            displayGameMessage(`${winnerColor.toUpperCase()} wins by King capture!`);
+            displayGameMessage(`${winnerColor.toUpperCase()} wins by King capture!`, true); // Pass true for game over
         } else {
-            displayGameMessage(`Game over! No more moves for ${currentTurn.toUpperCase()}.`);
+            displayGameMessage(`Game over! No more moves for ${currentTurn.toUpperCase()}.`, true); // Pass true for game over
         }
         // Optionally disable board interaction more explicitly here
         // For now, `handleSquareClick` checks `gameEnded`
@@ -686,6 +699,21 @@
           board[randomMove.toRow][randomMove.toCol] = randomMove.piece; // Move piece
           board[randomMove.fromRow][randomMove.fromCol] = null; // Clear old position
 
+          // Render the board first to update DOM
+          renderBoard();
+          updateHUD();
+
+          // Highlight captured square if a piece was captured
+          if (capturedPiece) {
+              const targetSquareEl = document.querySelector(`.square[data-row="${randomMove.toRow}"][data-col="${randomMove.toCol}"]`);
+              if (targetSquareEl) {
+                  targetSquareEl.classList.add('captured-square-highlight');
+                  setTimeout(() => {
+                      targetSquareEl.classList.remove('captured-square-highlight');
+                  }, 1000); // Highlight for 1 second
+              }
+          }
+
           // Check if a King was captured (simple win condition)
           if (capturedPiece && capturedPiece.type.toLowerCase() === 'k') {
               endGame(playerColor); // Declare winner
@@ -694,8 +722,6 @@
 
           // Switch turn
           currentTurn = playerColor === 'white' ? 'black' : 'white';
-          updateHUD();
-          renderBoard();
           displayGameMessage(`${playerColor.charAt(0).toUpperCase() + playerColor.slice(1)} made a move!`);
 
           // If in Watch AI mode, trigger the next AI move
@@ -752,6 +778,21 @@
           board[clickedRow][clickedCol] = selectedPiece.piece; // Move piece
           board[selectedPiece.row][selectedPiece.col] = null; // Clear old position
 
+          // Render the board first to update DOM
+          renderBoard();
+          updateHUD();
+
+          // Highlight captured square if a piece was captured
+          if (capturedPiece) {
+              const targetSquareEl = document.querySelector(`.square[data-row="${clickedRow}"][data-col="${clickedCol}"]`);
+              if (targetSquareEl) {
+                  targetSquareEl.classList.add('captured-square-highlight');
+                  setTimeout(() => {
+                      targetSquareEl.classList.remove('captured-square-highlight');
+                  }, 1000); // Highlight for 1 second
+              }
+          }
+
           // Check if opponent's King was captured (simple win condition)
           if (capturedPiece && capturedPiece.type.toLowerCase() === 'k') {
               endGame('white'); // Declare white as winner
@@ -762,8 +803,6 @@
           selectedPiece = null;
           possibleMoves = [];
           currentTurn = 'black'; // Switch to black (AI)
-          updateHUD();
-          renderBoard();
           displayGameMessage("White made a move!");
 
           // If it's now Black's turn, trigger AI move
