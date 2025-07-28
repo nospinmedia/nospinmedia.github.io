@@ -292,7 +292,6 @@
         width: 100%;
         height: 100%;
         font-size: 0.4em; /* Further reduced font size for pencil marks */
-        color: #fff; /* Changed to white for better visibility */
         font-weight: normal;
         gap: 0; /* Reduced gap to 0 */
         padding: 0; /* Reduced padding to 0 */
@@ -301,7 +300,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        color: #fff; /* Default pencil mark color */
+        color: #333; /* Default pencil mark color changed to dark grey */
     }
     /* Highlighted pencil mark */
     .sudoku-cell .pencil-marks div.highlighted-pencil-mark {
@@ -496,12 +495,12 @@
       #game-container {
         flex-direction: column;
         align-items: center;
-        padding: 10px;
+        padding: 10px; /* Keep consistent padding for the container */
       }
       #game-box {
-        width: 100%;
+        width: calc(100% - 20px); /* Ensure 10px padding from screen edges (10px from container + 10px from game-box padding) */
         max-width: none; /* Allow full width on mobile */
-        padding: 2vw 2vw 2vw 2vw; /* Adjusted responsive padding on mobile */
+        padding: 10px; /* Consistent padding for game-box on mobile */
         margin-top: 2vw; /* Responsive margin-top for mobile */
       }
       /* Responsive spacing between major sections within game-box */
@@ -514,16 +513,16 @@
         margin-top: 20px;
       }
       #sudoku-board {
-        width: 90vw; /* Adjusted to 90vw for more space */
-        height: 90vw; /* Explicit height for mobile (90vw / 9 * 9) */
+        width: 100%; /* Fill 100% of game-box width */
+        height: auto; /* Height determined by aspect ratio */
         max-width: none; /* Removed fixed max-width */
         max-height: none; /* Removed fixed max-height */
         min-height: unset; /* Remove min-height for mobile */
         aspect-ratio: 1 / 1; /* Keep aspect ratio for mobile */
       }
       .sudoku-cell {
-        width: calc(90vw / 9); /* Ensures 9 cells fit within 90vw board */
-        height: calc(90vw / 9); /* Ensure cell takes full height of its grid row */
+        width: 100%; /* Ensures 9 cells fit within board grid track */
+        height: 100%; /* Ensure cell takes full height of its grid row */
         font-size: 4.5vw; /* Adjusted font size responsively */
       }
       .sudoku-cell .pencil-marks {
@@ -596,7 +595,7 @@
     <div id="site-header"></div> 
     <div id="game-container">
       <div id="game-box">
-        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.261</span></div>
+        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.262</span></div>
         <div id="game-info">
           <span>Difficulty: <span id="current-difficulty">Medium</span></span>
           <span id="game-status">Ready</span>
