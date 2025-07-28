@@ -106,7 +106,7 @@
       opacity: 0.7;
     }
 
-    /* Game info (messages) - using for Sudoku messages */
+    /* Game info (messages) */
     #game-info {
       text-align: center;
       color: #74B9FF;
@@ -301,6 +301,12 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        color: #fff; /* Default pencil mark color */
+    }
+    /* Highlighted pencil mark */
+    .sudoku-cell .pencil-marks div.highlighted-pencil-mark {
+        background-color: #87CEEB; /* Light blue background for highlighted pencil mark */
+        color: #000; /* Black text for contrast */
     }
 
 
@@ -347,12 +353,14 @@
     }
 
     /* New: Highlight for selected number from pad */
-    .sudoku-cell.highlight-selected-number {
-        background-color: #FFD700; /* Gold highlight */
+    .sudoku-cell.highlight-number-selection {
+        background-color: #87CEEB; /* Light blue highlight */
         color: #000; /* Black text for contrast */
+        border: 1px solid #4682B4; /* Add border for grid-line effect */
+        box-shadow: inset 0 0 5px #4682B4; /* Add subtle shadow for grid-line effect */
     }
     /* Dim unselected cells when a number is highlighted */
-    .sudoku-cell:not(.highlight-selected-number):not(.fixed):not(.selected):not(.invalid):not(.highlight-group) {
+    .sudoku-cell:not(.highlight-number-selection):not(.fixed):not(.selected):not(.invalid):not(.highlight-group) {
         opacity: 0.7; /* Dim unselected cells */
     }
 
@@ -519,7 +527,7 @@
         font-size: 4.5vw; /* Adjusted font size responsively */
       }
       .sudoku-cell .pencil-marks {
-          font-size: 1.3vw; /* Further smaller font for pencil marks on mobile */
+          font-size: 1.2vw; /* Further smaller font for pencil marks on mobile */
           padding: 0; /* Reduced padding to 0 */
           gap: 0; /* Reduced gap to 0 */
       }
@@ -588,7 +596,7 @@
     <div id="site-header"></div> 
     <div id="game-container">
       <div id="game-box">
-        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.26</span></div>
+        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.261</span></div>
         <div id="game-info">
           <span>Difficulty: <span id="current-difficulty">Medium</span></span>
           <span id="game-status">Ready</span>
@@ -862,7 +870,7 @@
           cellEl.dataset.col = c;
 
           // Remove previous error/highlight classes before re-rendering
-          cellEl.classList.remove('unsolvable-error', 'highlight-selected-number');
+          cellEl.classList.remove('unsolvable-error', 'highlight-number-selection');
 
           // Add classes for 3x3 block borders
           if (r % 3 === 0 && r !== 0) {
@@ -902,6 +910,10 @@
                     const markEl = document.createElement('div');
                     if (sortedMarks.includes(i)) {
                         markEl.textContent = i;
+                        // New: Highlight matching pencil marks
+                        if (selectedNumberFromPad !== null && i === selectedNumberFromPad) {
+                            markEl.classList.add('highlighted-pencil-mark');
+                        }
                     }
                     pencilMarksContainer.appendChild(markEl);
                 }
@@ -909,9 +921,9 @@
             }
           }
 
-          // New: Add highlight for selected number from pad
+          // New: Add highlight for selected number from pad for main numbers
           if (selectedNumberFromPad !== null && board[r][c] === selectedNumberFromPad) {
-              cellEl.classList.add('highlight-selected-number');
+              cellEl.classList.add('highlight-number-selection');
           }
 
           cellEl.addEventListener('click', handleCellClick);
