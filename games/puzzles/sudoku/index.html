@@ -262,7 +262,7 @@
       border-radius: 8px;
       overflow: hidden;
       flex-shrink: 0;
-      flex-grow: 1; /* Allow board to grow within available space */
+      /* flex-grow: 1; Removed flex-grow to prevent stretching */
       max-width: 340px; /* Adjusted max width for desktop to fit smaller board */
       height: 340px; /* Explicit height for desktop to ensure 9 rows fit */
     }
@@ -345,6 +345,28 @@
     .sudoku-cell.highlight-group {
         background-color: rgba(116, 185, 255, 0.3);
     }
+
+    /* New: Highlight for selected number from pad */
+    .sudoku-cell.highlight-selected-number {
+        background-color: #FFD700; /* Gold highlight */
+        color: #000; /* Black text for contrast */
+    }
+    /* Dim unselected cells when a number is highlighted */
+    .sudoku-cell:not(.highlight-selected-number):not(.fixed):not(.selected):not(.invalid):not(.highlight-group) {
+        opacity: 0.7; /* Dim unselected cells */
+    }
+
+    /* New: Unsolvable error state */
+    .sudoku-cell.unsolvable-error {
+        border: 3px solid #FF0000; /* Thicker red border */
+        box-shadow: 0 0 15px #FF0000; /* Red glow */
+        animation: pulse-error 1s infinite alternate;
+    }
+    @keyframes pulse-error {
+        from { box-shadow: 0 0 15px #FF0000; }
+        to { box-shadow: 0 0 25px #FF0000; }
+    }
+
 
     /* Number input pad */
     #number-pad {
@@ -566,7 +588,7 @@
     <div id="site-header"></div> 
     <div id="game-container">
       <div id="game-box">
-        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.25</span></div>
+        <div id="game-header">Sudoku 🧩 <span id="game-version">v2.26</span></div>
         <div id="game-info">
           <span>Difficulty: <span id="current-difficulty">Medium</span></span>
           <span id="game-status">Ready</span>
@@ -643,6 +665,7 @@
     let autoPencilMode = false; // New: Auto pencil mode state
     // New: Store user's manual pencil marks separately
     let userPencilMarks = Array(9).fill(0).map(() => Array(9).fill(0).map(() => new Set()));
+    let selectedNumberFromPad = null; // New: Stores the number selected from the pad for highlighting
 
 
     // --- DOM Elements ---
@@ -722,6 +745,24 @@
       return false; // No solution found
     }
 
+    // New: Function to check if the puzzle is solvable from the current state (simple forward check)
+    function isPuzzleSolvable(currentBoard) {
+        let tempBoard = JSON.parse(JSON.stringify(currentBoard)); // Work on a copy
+        for (let r = 0; r < 9; r++) {
+            for (let c = 0; c < 9; c++) {
+                if (tempBoard[r][c] === 0) { // If cell is empty
+                    const possibilities = calculatePossibleNumbers(tempBoard, r, c);
+                    if (possibilities.size === 0) {
+                        return false; // Found an empty cell with no possible candidates
+                    }
+                }
+            }
+        }
+        // If all empty cells have at least one candidate, try a full solve
+        return solve(tempBoard);
+    }
+
+
     // --- Sudoku Puzzle Generation ---
     function generateSudoku(difficultyLevel) {
       // 1. Create a completely solved board
@@ -796,6 +837,7 @@
     function initializeGame() {
       gameEnded = false;
       selectedCell = null;
+      selectedNumberFromPad = null; // Reset selected number highlight
       hideGameMessage();
       generateSudoku(difficulty); // Generate a new puzzle
       // Reset userPencilMarks for new game
@@ -818,6 +860,9 @@
           cellEl.classList.add('sudoku-cell');
           cellEl.dataset.row = r;
           cellEl.dataset.col = c;
+
+          // Remove previous error/highlight classes before re-rendering
+          cellEl.classList.remove('unsolvable-error', 'highlight-selected-number');
 
           // Add classes for 3x3 block borders
           if (r % 3 === 0 && r !== 0) {
@@ -864,6 +909,11 @@
             }
           }
 
+          // New: Add highlight for selected number from pad
+          if (selectedNumberFromPad !== null && board[r][c] === selectedNumberFromPad) {
+              cellEl.classList.add('highlight-selected-number');
+          }
+
           cellEl.addEventListener('click', handleCellClick);
           sudokuBoardEl.appendChild(cellEl);
         }
@@ -874,6 +924,10 @@
     function highlightSelectedCell() {
         document.querySelectorAll('.sudoku-cell').forEach(cellEl => {
             cellEl.classList.remove('selected', 'invalid', 'highlight-same-value', 'highlight-group');
+            // Ensure unsolvable-error is also cleared when re-highlighting
+            if (!cellEl.classList.contains('unsolvable-error')) { // Don't remove if it's a persistent error
+                cellEl.classList.remove('unsolvable-error');
+            }
         });
 
         if (selectedCell) {
@@ -950,7 +1004,9 @@
       } else {
         selectedCell = { row, col };
       }
-      highlightSelectedCell();
+      // Clear number pad highlight when a cell is clicked
+      selectedNumberFromPad = null;
+      renderBoard(); // Re-render to update highlights
     }
 
     // Helper to calculate possible numbers for a given cell
@@ -974,11 +1030,18 @@
 
       const value = event.target.dataset.value;
       const { row, col } = selectedCell;
+      const selectedEl = document.querySelector(`.sudoku-cell[data-row="${row}"][data-col="${col}"]`);
+
 
       if (initialBoard[row][col] !== 0) { // Cannot change fixed cells
         displayGameMessage("Cannot change fixed numbers!");
+        selectedNumberFromPad = null; // Clear highlight if fixed cell is selected
+        renderBoard();
         return;
       }
+
+      // Clear any previous error state on the selected cell
+      selectedEl.classList.remove('unsolvable-error');
 
       if (pencilMode) {
         // Manual Pencil mode logic: update userPencilMarks
@@ -993,14 +1056,17 @@
           }
         }
         board[row][col] = 0; // Ensure main number is cleared in manual pencil mode
+        selectedNumberFromPad = null; // Clear number pad highlight in pencil mode
       } else {
         // Normal input mode logic
         if (value === 'clear') {
           board[row][col] = 0;
+          selectedNumberFromPad = null; // Clear number pad highlight
         } else {
           const num = parseInt(value);
           board[row][col] = num;
           userPencilMarks[row][col].clear(); // Clear user pencil marks when setting a main number
+          selectedNumberFromPad = num; // Set selected number for highlighting
         }
       }
 
@@ -1010,16 +1076,24 @@
       // Validate the current input if it's not a clear and not in any pencil mode
       if (value !== 'clear' && !pencilMode && !autoPencilMode) {
         if (!isValid(board, row, col, board[row][col])) {
-          document.querySelector(`.sudoku-cell[data-row="${row}"][data-col="${col}"]`).classList.add('invalid');
+          selectedEl.classList.add('invalid');
           displayGameMessage("Invalid move!");
+          gameStatusEl.textContent = 'Invalid!';
         } else {
-          // If valid, check for win condition
-          if (checkWin()) {
-            displayGameMessage("Congratulations! You solved the Sudoku!", true);
-            gameStatusEl.textContent = 'Solved!';
-            gameEnded = true;
+          // New: Check for puzzle solvability after a valid move
+          if (!isPuzzleSolvable(board)) {
+              selectedEl.classList.add('unsolvable-error');
+              displayGameMessage("Invalid move: Puzzle became unsolvable!", false); // Not game over, but an error
+              gameStatusEl.textContent = 'Error!';
           } else {
-            gameStatusEl.textContent = 'Playing';
+              // If valid and solvable, check for win condition
+              if (checkWin()) {
+                displayGameMessage("Congratulations! You solved the Sudoku!", true);
+                gameStatusEl.textContent = 'Solved!';
+                gameEnded = true;
+              } else {
+                gameStatusEl.textContent = 'Playing';
+              }
           }
         }
       } else {
@@ -1044,9 +1118,12 @@
             displayGameMessage("Game over! Start a New Game to solve a new puzzle.");
             return;
         }
+        // Clear any error states before solving
+        document.querySelectorAll('.unsolvable-error').forEach(el => el.classList.remove('unsolvable-error'));
         // Use the stored solution to fill the board
         board = JSON.parse(JSON.stringify(solution));
         userPencilMarks = Array(9).fill(0).map(() => Array(9).fill(0).map(() => new Set())); // Clear user pencil marks
+        selectedNumberFromPad = null; // Clear number pad highlight
         updatePencilMarksDisplay(); // Re-render to clear pencil marks
         updateHUD();
         displayGameMessage("Puzzle solved!", true);
@@ -1064,9 +1141,10 @@
             pencilModeBtn.classList.remove('active-mode');
             pencilModeBtn.textContent = '✏️ Pencil Mode OFF';
         }
-        // Deselect cell when toggling pencil mode OFF
+        // Deselect cell and clear number highlight when toggling pencil mode OFF
         if (!pencilMode && selectedCell) {
             selectedCell = null;
+            selectedNumberFromPad = null;
             highlightSelectedCell(); // Re-render to remove selection highlight
         }
     }
@@ -1080,9 +1158,10 @@
             autoPencilBtn.classList.remove('active-mode');
             autoPencilBtn.textContent = '📝 Auto Pencil OFF';
         }
-        // Deselect cell when toggling auto pencil mode OFF
+        // Deselect cell and clear number highlight when toggling auto pencil mode OFF
         if (!autoPencilMode && selectedCell) {
             selectedCell = null;
+            selectedNumberFromPad = null;
             highlightSelectedCell(); // Re-render to remove selection highlight
         }
     }
