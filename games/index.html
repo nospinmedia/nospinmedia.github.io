@@ -13,10 +13,8 @@
       background: #f4f4f4;
       color: #222;
     }
-    /* Shared header placeholder */
-    #site-header { margin-bottom: 0; }
 
-    /* Layout */
+    /* Container layout: main content + sidebar */
     .container {
       display: flex;
       flex-wrap: wrap;
@@ -24,6 +22,7 @@
       align-items: flex-start;
     }
 
+    /* Main grid */
     .main {
       flex: 1 1 65%;
       display: grid;
@@ -42,6 +41,7 @@
       margin: 0 0 0.3rem 0;
     }
 
+    /* Sidebar */
     .sidebar {
       flex: 1 1 25%;
       background: #fff;
@@ -57,7 +57,7 @@
       margin-top: 0;
     }
 
-    /* Category cards */
+    /* Game category cards */
     .game-category {
       background: #fff;
       padding: 1rem;
@@ -73,29 +73,14 @@
       padding-bottom: 0.3rem;
     }
 
-    .game-category ul {
-      list-style: none;
-      padding: 0;
-      margin: 0.5rem 0 0 0;
-    }
-
-    .game-category li {
-      margin: 0.5rem 0;
-    }
-
     .game-category a {
       text-decoration: none;
       color: #0073e6;
       font-weight: bold;
     }
 
-    .game-category a:hover {
-      text-decoration: underline;
-    }
-
-    /* Share buttons */
     .share-buttons {
-      margin: 0.8rem 0 0 0;
+      margin-top: 0.8rem;
       display: flex;
       gap: 0.5rem;
     }
@@ -115,32 +100,6 @@
       background: #005bb5;
     }
 
-    /* Feedback form */
-    form label {
-      display: block;
-      margin: 0.5rem 0 0.3rem;
-      font-weight: bold;
-    }
-
-    form input, form textarea, form select {
-      width: 100%;
-      padding: 0.4rem;
-      margin-bottom: 0.8rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-family: Arial, sans-serif;
-    }
-
-    form button {
-      background: #0073e6;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
     footer {
       text-align: center;
       padding: 1rem;
@@ -148,6 +107,31 @@
       color: #666;
     }
 
+    /* Feedback Form */
+    #feedbackForm input, #feedbackForm textarea, #feedbackForm select {
+      width: 100%;
+      padding: 6px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    #feedbackForm button {
+      background: #0073e6;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      width: 100%;
+    }
+
+    #feedbackForm button:hover {
+      background: #005bb5;
+    }
+
+    /* Mobile */
     @media (max-width: 768px) {
       .container {
         flex-direction: column;
@@ -182,7 +166,7 @@
     <div class="main">
       <div class="main-header">
         <h1>Games 🎮</h1>
-        <p>We love feedback, comments, and suggestions! Tell us what you think.</p>
+        <p>Welcome to the No Spin Media Games section. Select a category below:</p>
         <div class="share-buttons">
           <button id="shareBtn">🔗 Share with Friends</button>
           <button id="copyBtn">📋 Copy Link</button>
@@ -191,9 +175,7 @@
 
       <div class="game-category">
         <h2>🕹️ Arcade</h2>
-        <ul>
-          <li><a href="arcade/">View Arcade Games</a></li>
-        </ul>
+        <ul><li><a href="arcade/">View Arcade Games</a></li></ul>
         <div class="share-buttons">
           <button onclick="shareCategory('Arcade','arcade/')">🔗 Share Arcade</button>
           <button onclick="copyCategory('arcade/')">📋 Copy Arcade Link</button>
@@ -202,9 +184,7 @@
 
       <div class="game-category">
         <h2>🎲 Board Games</h2>
-        <ul>
-          <li><a href="board/">View Board Games</a></li>
-        </ul>
+        <ul><li><a href="board/">View Board Games</a></li></ul>
         <div class="share-buttons">
           <button onclick="shareCategory('Board Games','board/')">🔗 Share Board</button>
           <button onclick="copyCategory('board/')">📋 Copy Board Link</button>
@@ -213,9 +193,7 @@
 
       <div class="game-category">
         <h2>🃏 Card Games</h2>
-        <ul>
-          <li><a href="cards/">View Card Games</a></li>
-        </ul>
+        <ul><li><a href="cards/">View Card Games</a></li></ul>
         <div class="share-buttons">
           <button onclick="shareCategory('Card Games','cards/')">🔗 Share Cards</button>
           <button onclick="copyCategory('cards/')">📋 Copy Cards Link</button>
@@ -224,9 +202,7 @@
 
       <div class="game-category">
         <h2>💡 Puzzles</h2>
-        <ul>
-          <li><a href="puzzles/">View Puzzles</a></li>
-        </ul>
+        <ul><li><a href="puzzles/">View Puzzles</a></li></ul>
         <div class="share-buttons">
           <button onclick="shareCategory('Puzzles','puzzles/')">🔗 Share Puzzles</button>
           <button onclick="copyCategory('puzzles/')">📋 Copy Puzzles Link</button>
@@ -234,7 +210,7 @@
       </div>
     </div>
 
-    <!-- Sidebar donation info -->
+    <!-- Sidebar with donation & feedback -->
     <div class="sidebar">
       <h2>Support Us 💙</h2>
       <p>Like what we're doing? Help keep No Spin Media running:</p>
@@ -242,37 +218,24 @@
         <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
       </p>
 
-      <h2>Send Feedback</h2>
-      <form action="https://formspree.io/f/mvgqrall" method="POST">
-        <label for="category">Category:</label>
-        <select name="category" id="category">
-          <option value="Games" selected>Games</option>
+      <h2>We ❤️ Feedback!</h2>
+      <p>We love comments, ideas, and suggestions. Tell us what you think!</p>
+
+      <form id="feedbackForm">
+        <input type="text" id="name" name="name" placeholder="Your first name">
+        <input type="email" id="email" name="email" placeholder="you@email.com" required>
+        <select id="subject" name="subject">
+          <option value="Games" selected>Games (default)</option>
           <option value="Arcade">Arcade</option>
           <option value="Board Games">Board Games</option>
           <option value="Card Games">Card Games</option>
           <option value="Puzzles">Puzzles</option>
           <option value="Other">Other</option>
         </select>
-
-        <label>Your First Name:</label>
-        <input type="text" name="name" required>
-
-        <label>Your Email:</label>
-        <input type="email" name="email" required>
-
-        <label>Your Message:</label>
-        <textarea name="message" rows="4" required></textarea>
-
-        <input type="hidden" name="_subject" value="NSM Website Comment: Games">
-        <button type="submit">Send</button>
+        <textarea id="message" name="message" placeholder="Your feedback..." required></textarea>
+        <button type="submit">Send Feedback</button>
+        <p id="formStatus" style="font-size:0.9em;color:green;"></p>
       </form>
-
-      <h2>Follow Us</h2>
-      <p>
-        📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
-      </p>
-      <h2>Contact</h2>
-      <p>📨 nospinmedia.ai@gmail.com</p>
     </div>
   </div>
 
@@ -280,28 +243,21 @@
     © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
   </footer>
 
-  <!-- Share script -->
+  <!-- Share + Feedback Script -->
   <script>
     const baseUrl = window.location.origin + '/games/';
-
-    document.getElementById('shareBtn').addEventListener('click', async () => {
+    document.getElementById('shareBtn').onclick = async () => {
       if (navigator.share) {
-        try {
-          await navigator.share({ title: document.title, url: window.location.href });
-        } catch (err) {
-          console.log('Share cancelled', err);
-        }
+        await navigator.share({ title: document.title, url: window.location.href });
       } else {
         navigator.clipboard.writeText(window.location.href);
         alert('Link copied to clipboard:\n' + window.location.href);
       }
-    });
-
-    document.getElementById('copyBtn').addEventListener('click', () => {
+    };
+    document.getElementById('copyBtn').onclick = () => {
       navigator.clipboard.writeText(window.location.href);
       alert('Link copied to clipboard:\n' + window.location.href);
-    });
-
+    };
     function shareCategory(name, path) {
       const url = baseUrl + path;
       if (navigator.share) {
@@ -311,12 +267,30 @@
         alert(name + ' link copied:\n' + url);
       }
     }
-
     function copyCategory(path) {
       const url = baseUrl + path;
       navigator.clipboard.writeText(url);
       alert('Link copied to clipboard:\n' + url);
     }
+
+    // Feedback Form AJAX
+    document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        subject: "NSM Website Comment: " + document.getElementById('subject').value,
+        message: document.getElementById('message').value
+      };
+      const res = await fetch('https://script.google.com/macros/s/AKfycbzfbSIO3dfOZMF6pyzchRnpX5aRSGO2iGBA6gRV9qE7XVmlqFHDAMj8ba9dXiIjqCeb/exec', {
+        method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      document.getElementById('formStatus').textContent = result.status === "success" ?
+        "✅ Feedback sent. Thank you!" : "❌ Error sending. Please try again.";
+      if(result.status==="success") this.reset();
+    });
   </script>
+
 </body>
 </html>
