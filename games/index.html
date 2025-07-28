@@ -30,15 +30,35 @@
       text-decoration: none;
       font-weight: bold;
     }
+
+    /* Container layout: main content + sidebar */
     .container {
       display: flex;
       flex-wrap: wrap;
       padding: 2rem;
+      align-items: flex-start;
     }
+
+    /* Main section now uses grid layout */
     .main {
       flex: 1 1 65%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
       padding: 1rem;
     }
+
+    .main-header {
+      grid-column: 1 / -1;
+      margin-bottom: 1rem;
+    }
+
+    .main-header h1 {
+      font-size: 2rem;
+      margin: 0 0 0.3rem 0;
+    }
+
+    /* Sidebar donation info */
     .sidebar {
       flex: 1 1 25%;
       background: #fff;
@@ -49,17 +69,19 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       height: fit-content;
     }
-    h1 {
-      font-size: 2rem;
+
+    h2 {
       margin-top: 0;
     }
+
+    /* Game category cards */
     .game-category {
       background: #fff;
-      margin: 1rem 0;
       padding: 1rem;
       border-radius: 6px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
+
     .game-category h2 {
       margin-top: 0;
       font-size: 1.5rem;
@@ -67,47 +89,61 @@
       border-bottom: 2px solid #eee;
       padding-bottom: 0.3rem;
     }
+
     .game-category ul {
       list-style: none;
       padding: 0;
       margin: 0.5rem 0 0 0;
     }
+
     .game-category li {
       margin: 0.5rem 0;
     }
+
     .game-category a {
       text-decoration: none;
       color: #0073e6;
       font-weight: bold;
     }
+
     .game-category a:hover {
       text-decoration: underline;
     }
+
+    /* Share buttons */
     .share-buttons {
-      margin: 1rem 0;
+      margin: 0.8rem 0 0 0;
+      display: flex;
+      gap: 0.5rem;
     }
+
     .share-buttons button {
       padding: 0.5rem 1rem;
-      margin-right: 0.5rem;
       background: #0073e6;
       color: white;
       border: none;
       border-radius: 4px;
       font-weight: bold;
       cursor: pointer;
+      flex: 1;
     }
+
     .share-buttons button:hover {
       background: #005bb5;
     }
+
     footer {
       text-align: center;
       padding: 1rem;
       font-size: 0.9rem;
       color: #666;
     }
+
+    /* Mobile adjustments */
     @media (max-width: 768px) {
       .container {
         flex-direction: column;
+        padding: 1rem;
       }
       .sidebar {
         margin-left: 0;
@@ -115,12 +151,15 @@
         border-left: none;
         border-top: 2px solid #eee;
       }
+      .main {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- ✅ Header with Games link -->
+  <!-- Header with navigation -->
   <header>
     <img src="../images/NSM-Logo-Light.png" alt="No Spin Media Logo" style="height: 48px; vertical-align: middle; margin-right: 10px;">
     <nav>
@@ -137,14 +176,15 @@
   </header>
 
   <div class="container">
+    <!-- Main games grid -->
     <div class="main">
-      <h1>Games 🎮</h1>
-      <p>Welcome to the No Spin Media Games section. Select a category below:</p>
-
-      <!-- ✅ Share Buttons -->
-      <div class="share-buttons">
-        <button id="shareBtn">🔗 Share with Friends</button>
-        <button id="copyBtn">📋 Copy Link</button>
+      <div class="main-header">
+        <h1>Games 🎮</h1>
+        <p>Welcome to the No Spin Media Games section. Select a category below:</p>
+        <div class="share-buttons">
+          <button id="shareBtn">🔗 Share with Friends</button>
+          <button id="copyBtn">📋 Copy Link</button>
+        </div>
       </div>
 
       <div class="game-category">
@@ -152,21 +192,9 @@
         <ul>
           <li><a href="arcade/">View Arcade Games</a></li>
         </ul>
-        <!-- ✅ Share category button -->
         <div class="share-buttons">
           <button onclick="shareCategory('Arcade','arcade/')">🔗 Share Arcade</button>
           <button onclick="copyCategory('arcade/')">📋 Copy Arcade Link</button>
-        </div>
-      </div>
-
-      <div class="game-category">
-        <h2>🃏 Card Games</h2>
-        <ul>
-          <li><a href="cards/">View Card Games</a></li>
-        </ul>
-        <div class="share-buttons">
-          <button onclick="shareCategory('Card Games','cards/')">🔗 Share Cards</button>
-          <button onclick="copyCategory('cards/')">📋 Copy Cards Link</button>
         </div>
       </div>
 
@@ -182,6 +210,17 @@
       </div>
 
       <div class="game-category">
+        <h2>🃏 Card Games</h2>
+        <ul>
+          <li><a href="cards/">View Card Games</a></li>
+        </ul>
+        <div class="share-buttons">
+          <button onclick="shareCategory('Card Games','cards/')">🔗 Share Cards</button>
+          <button onclick="copyCategory('cards/')">📋 Copy Cards Link</button>
+        </div>
+      </div>
+
+      <div class="game-category">
         <h2>💡 Puzzles</h2>
         <ul>
           <li><a href="puzzles/">View Puzzles</a></li>
@@ -193,7 +232,7 @@
       </div>
     </div>
 
-    <!-- ✅ Sidebar donation info -->
+    <!-- Sidebar donation info -->
     <div class="sidebar">
       <h2>Support Us 💙</h2>
       <p>Like what we're doing? Help keep No Spin Media running:</p>
@@ -213,7 +252,7 @@
     © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
   </footer>
 
-  <!-- ✅ Share script -->
+  <!-- Share script -->
   <script>
     const baseUrl = window.location.origin + '/games/';
 
@@ -251,6 +290,5 @@
       alert('Link copied to clipboard:\n' + url);
     }
   </script>
-
 </body>
 </html>
