@@ -31,7 +31,6 @@
       font-weight: bold;
     }
 
-    /* Container layout: main content + sidebar */
     .container {
       display: flex;
       flex-wrap: wrap;
@@ -39,7 +38,6 @@
       align-items: flex-start;
     }
 
-    /* Main section now uses grid layout */
     .main {
       flex: 1 1 65%;
       display: grid;
@@ -58,7 +56,6 @@
       margin: 0 0 0.3rem 0;
     }
 
-    /* Sidebar donation info */
     .sidebar {
       flex: 1 1 25%;
       background: #fff;
@@ -74,7 +71,6 @@
       margin-top: 0;
     }
 
-    /* Game category cards */
     .game-category {
       background: #fff;
       padding: 1rem;
@@ -90,16 +86,6 @@
       padding-bottom: 0.3rem;
     }
 
-    .game-category ul {
-      list-style: none;
-      padding: 0;
-      margin: 0.5rem 0 0 0;
-    }
-
-    .game-category li {
-      margin: 0.5rem 0;
-    }
-
     .game-category a {
       text-decoration: none;
       color: #0073e6;
@@ -110,7 +96,6 @@
       text-decoration: underline;
     }
 
-    /* Share buttons */
     .share-buttons {
       margin: 0.8rem 0 0 0;
       display: flex;
@@ -132,6 +117,38 @@
       background: #005bb5;
     }
 
+    /* Comment box styling */
+    .comment-box {
+      margin-top: 20px;
+      background: #f9f9f9;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+
+    .comment-box input, .comment-box select, .comment-box textarea {
+      width: 100%;
+      margin-bottom: 8px;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .comment-box button {
+      width: 100%;
+      background: #0073e6;
+      color: #fff;
+      padding: 8px;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .comment-box button:hover {
+      background: #005bb5;
+    }
+
     footer {
       text-align: center;
       padding: 1rem;
@@ -139,7 +156,6 @@
       color: #666;
     }
 
-    /* Mobile adjustments */
     @media (max-width: 768px) {
       .container {
         flex-direction: column;
@@ -159,9 +175,8 @@
 </head>
 <body>
 
-  <!-- Header with navigation -->
   <header>
-    <img src="../images/NSM-Logo-Light.png" alt="No Spin Media Logo" style="height: 48px; vertical-align: middle; margin-right: 10px;">
+    <img src="../images/NSM-Logo-Light.png" alt="No Spin Media Logo" style="height: 48px;">
     <nav>
       <a href="../index.html">Home</a>
       <a href="../news.html">News</a>
@@ -176,7 +191,6 @@
   </header>
 
   <div class="container">
-    <!-- Main games grid -->
     <div class="main">
       <div class="main-header">
         <h1>Games 🎮</h1>
@@ -187,11 +201,10 @@
         </div>
       </div>
 
+      <!-- Categories -->
       <div class="game-category">
         <h2>🕹️ Arcade</h2>
-        <ul>
-          <li><a href="arcade/">View Arcade Games</a></li>
-        </ul>
+        <ul><li><a href="arcade/">View Arcade Games</a></li></ul>
         <div class="share-buttons">
           <button onclick="shareCategory('Arcade','arcade/')">🔗 Share Arcade</button>
           <button onclick="copyCategory('arcade/')">📋 Copy Arcade Link</button>
@@ -200,9 +213,7 @@
 
       <div class="game-category">
         <h2>🎲 Board Games</h2>
-        <ul>
-          <li><a href="board/">View Board Games</a></li>
-        </ul>
+        <ul><li><a href="board/">View Board Games</a></li></ul>
         <div class="share-buttons">
           <button onclick="shareCategory('Board Games','board/')">🔗 Share Board</button>
           <button onclick="copyCategory('board/')">📋 Copy Board Link</button>
@@ -211,9 +222,7 @@
 
       <div class="game-category">
         <h2>🃏 Card Games</h2>
-        <ul>
-          <li><a href="cards/">View Card Games</a></li>
-        </ul>
+        <ul><li><a href="cards/">View Card Games</a></li></ul>
         <div class="share-buttons">
           <button onclick="shareCategory('Card Games','cards/')">🔗 Share Cards</button>
           <button onclick="copyCategory('cards/')">📋 Copy Cards Link</button>
@@ -222,9 +231,7 @@
 
       <div class="game-category">
         <h2>💡 Puzzles</h2>
-        <ul>
-          <li><a href="puzzles/">View Puzzles</a></li>
-        </ul>
+        <ul><li><a href="puzzles/">View Puzzles</a></li></ul>
         <div class="share-buttons">
           <button onclick="shareCategory('Puzzles','puzzles/')">🔗 Share Puzzles</button>
           <button onclick="copyCategory('puzzles/')">📋 Copy Puzzles Link</button>
@@ -232,7 +239,7 @@
       </div>
     </div>
 
-    <!-- Sidebar donation info -->
+    <!-- Sidebar -->
     <div class="sidebar">
       <h2>Support Us 💙</h2>
       <p>Like what we're doing? Help keep No Spin Media running:</p>
@@ -240,11 +247,36 @@
         <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
       </p>
       <h2>Follow Us</h2>
-      <p>
-        📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
-      </p>
+      <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
       <h2>Contact</h2>
       <p>📨 nospinmedia.ai@gmail.com</p>
+
+      <!-- ✅ Comment Box -->
+      <div class="comment-box">
+        <h2>Have Ideas? 💭</h2>
+        <p style="font-size:0.9em;color:#333;">
+          We’re always looking for ways to make our Games section better.  
+          Send us your thoughts!
+        </p>
+        <form onsubmit="sendComment(event)">
+          <label>Category:</label>
+          <select id="category" required>
+            <option value="Games General">Games (General)</option>
+            <option value="Arcade">Arcade</option>
+            <option value="Board Games">Board Games</option>
+            <option value="Card Games">Card Games</option>
+            <option value="Puzzles">Puzzles</option>
+            <option value="Other">Other</option>
+          </select>
+          <label>First Name:</label>
+          <input type="text" id="name" required>
+          <label>Email:</label>
+          <input type="email" id="email" required>
+          <label>Your Comment:</label>
+          <textarea id="comment" rows="3" required></textarea>
+          <button type="submit">Send Feedback</button>
+        </form>
+      </div>
     </div>
   </div>
 
@@ -252,27 +284,9 @@
     © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
   </footer>
 
-  <!-- Share script -->
+  <!-- Share and Comment Script -->
   <script>
     const baseUrl = window.location.origin + '/games/';
-
-    document.getElementById('shareBtn').addEventListener('click', async () => {
-      if (navigator.share) {
-        try {
-          await navigator.share({ title: document.title, url: window.location.href });
-        } catch (err) {
-          console.log('Share cancelled', err);
-        }
-      } else {
-        navigator.clipboard.writeText(window.location.href);
-        alert('Link copied to clipboard:\n' + window.location.href);
-      }
-    });
-
-    document.getElementById('copyBtn').addEventListener('click', () => {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard:\n' + window.location.href);
-    });
 
     function shareCategory(name, path) {
       const url = baseUrl + path;
@@ -288,6 +302,36 @@
       const url = baseUrl + path;
       navigator.clipboard.writeText(url);
       alert('Link copied to clipboard:\n' + url);
+    }
+
+    document.getElementById('shareBtn').addEventListener('click', async () => {
+      if (navigator.share) {
+        await navigator.share({ title: document.title, url: window.location.href });
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard:\n' + window.location.href);
+      }
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Link copied to clipboard:\n' + window.location.href);
+    });
+
+    function sendComment(e) {
+      e.preventDefault();
+      const category = document.getElementById('category').value;
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const comment = document.getElementById('comment').value;
+
+      const subject = encodeURIComponent(category + " Feedback from " + name);
+      const body = encodeURIComponent(
+        "Category: " + category + "\nName: " + name + "\nEmail: " + email + "\n\nComment:\n" + comment
+      );
+
+      window.location.href = `mailto:nospinmedia.ai@gmail.com?subject=${subject}&body=${body}`;
+      alert("Thanks! Your " + category + " comment is ready to send via email.");
     }
   </script>
 </body>
