@@ -48,6 +48,8 @@
       padding: 1rem;
       margin-top: 2rem;
       border-left: 2px solid #eee;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
     h1 {
       font-size: 2rem;
@@ -72,6 +74,33 @@
       font-size: 0.9rem;
       color: #666;
     }
+
+    /* ✅ Feedback form styling */
+    #feedbackForm input, #feedbackForm textarea {
+      width: 100%;
+      padding: 8px;
+      margin: 6px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    #feedbackForm button {
+      background: #0073e6;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #feedbackForm button:hover { background: #005bb5; }
+    #formStatus {
+      font-size: 0.9em;
+      color: green;
+      margin: 6px 0;
+      text-align: center;
+    }
+
     @media (max-width: 768px) {
       .container {
         flex-direction: column;
@@ -131,12 +160,22 @@
       <p><strong>Venmo:</strong><br/>
         <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
       </p>
+
       <h2>Follow Us</h2>
-      <p>
-        📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
-      </p>
-      <h2>Contact</h2>
-      <p>📨 nospinmedia.ai@gmail.com</p>
+      <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
+
+      <h2>We ❤️ Your Thoughts!</h2>
+      <p>Have an idea, suggestion, or just want to say hi?  
+      We read every single message you send. 😊</p>
+
+      <!-- ✅ Feedback Form -->
+      <form id="feedbackForm">
+        <input type="text" id="name" name="name" placeholder="Your first name">
+        <input type="email" id="email" name="email" placeholder="you@email.com" required>
+        <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
+        <p id="formStatus"></p>
+        <button type="submit">💬 Send Feedback</button>
+      </form>
     </div>
   </div>
 
@@ -144,5 +183,47 @@
     © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
   </footer>
 
+  <script>
+    // ✅ Feedback form submit
+    document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const status = document.getElementById('formStatus');
+      status.textContent = "⏳ Sending...";
+
+      const name = document.getElementById('name').value || "Someone";
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      const data = {
+        name: name,
+        email: email,
+        subject: "Main Page",
+        message: message
+      };
+
+      try {
+        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+          method: 'POST',
+          headers: {'Content-Type':'text/plain'},
+          body: JSON.stringify(data)
+        });
+
+        let result = {};
+        try { result = await res.json(); } catch (err) { result = { status: "success" }; }
+
+        if (result.status === "success") {
+          status.textContent = "✅ Thanks! Your feedback was sent.";
+          this.reset();
+        } else {
+          status.textContent = "❌ Error sending. Please try again.";
+        }
+        setTimeout(()=>{ status.textContent = ""; }, 5000);
+      } catch (err) {
+        console.error(err);
+        status.textContent = "❌ Failed to send! Check connection.";
+        setTimeout(()=>{ status.textContent = ""; }, 5000);
+      }
+    });
+  </script>
 </body>
 </html>
