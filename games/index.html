@@ -268,17 +268,18 @@
       };
 
       try {
-     const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-  method: 'POST',
-  headers: {'Content-Type':'text/plain'},
-  body: JSON.stringify(data)
-});
+        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+          method: 'POST',
+          headers: {'Content-Type':'text/plain'},
+          body: JSON.stringify(data)
+        });
+
         let result = {};
-try {
-  result = await res.json();
-} catch (err) {
-  result = { status: "success" }; // Fallback if JSON parse fails
-}
+        try {
+          result = await res.json();
+        } catch (err) {
+          result = { status: "success" }; // Fallback if JSON parse fails
+        }
 
         if (result.status === "success") {
           status.textContent = "✅ Your feedback was sent, thank you!";
