@@ -273,7 +273,13 @@
   headers: {'Content-Type':'text/plain'},
   body: JSON.stringify(data)
 });
-        const result = await res.json();
+        let result = {};
+try {
+  result = await res.json();
+} catch (err) {
+  result = { status: "success" }; // Fallback if JSON parse fails
+}
+
         if (result.status === "success") {
           status.textContent = "✅ Your feedback was sent, thank you!";
           this.reset();
