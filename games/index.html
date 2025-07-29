@@ -263,7 +263,7 @@
       const data = {
         name: document.getElementById('name').value,
         email: document.getElementById('email').value,
-        subject: "NSM Website Comment: " + document.getElementById('subject').value,
+        subject: document.getElementById('subject').value,
         message: document.getElementById('message').value
       };
 
@@ -278,7 +278,7 @@
         try {
           result = await res.json();
         } catch (err) {
-          result = { status: "success" }; // Fallback if JSON parse fails
+          result = { status: "success" };
         }
 
         if (result.status === "success") {
