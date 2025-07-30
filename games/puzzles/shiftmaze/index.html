@@ -71,10 +71,10 @@
       box-sizing: border-box; /* Ensure border doesn't affect dimensions */
     }
 
-   /* Old wooden sign - positioned over the sign in the image */
+/* Old wooden sign - positioned over the sign in the image */
     #sign {
       position: absolute;
-      top: 10%; /* Moved much higher, almost as high as Exit */
+      top: 5%; /* Moved significantly higher, closer to Exit button */
       left: 84%; /* Centered horizontally above the door */
       transform: translateX(-50%) rotate(-4deg); /* Keep tilt */
       color: #e02c2c; /* Ominous red */
@@ -97,10 +97,10 @@
     }
 
     #torch-left {
-        top: 30%; /* Adjusted vertical position over the flame */
-        left: 50.5%; /* Adjusted horizontal position over the flame */
-        width: 4%; /* Slightly reduced size */
-        height: 8%; /* Slightly reduced size */
+        top: 27%; /* Adjusted vertical position to be directly on the flame */
+        left: 50.5%; /* Adjusted horizontal position to be directly on the flame */
+        width: 4%; /* Kept the slight reduction in size */
+        height: 8%; /* Kept the slight reduction in size */
     }
 
     @keyframes flicker {
@@ -190,7 +190,7 @@
   <div id="sign">ENTER IF YOU DARE</div>
   <div id="door"></div> <div class="torch-flame" id="torch-left"></div>
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
-  <div id="versionTag">v2.2</div>
+  <div id="versionTag">v2.4</div>
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
