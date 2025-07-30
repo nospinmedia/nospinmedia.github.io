@@ -6,6 +6,7 @@
   <title>ShiftMaze Entry</title>
   <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
   <style>
+
     html, body {
       height: 100%;
       margin: 0;
@@ -14,7 +15,7 @@
     }
     body {
       /* Background Image Integration - Ensure dungeon_wall_texture.jpg is in the same folder */
-      background: url('dungeon_wall_texture.jpg') no-repeat center center / cover; /* */
+      background: url('dungeon_wall_texture.jpg') no-repeat center center / cover;
       font-family: 'Press Start 2P', cursive, Arial, sans-serif;
       color: #fff;
       position: relative;
@@ -60,11 +61,11 @@
     /* Door - now a transparent clickable area WITH TEMPORARY BORDER */
     #door {
       position: absolute;
-      /* Adjusted to match the red box in the screenshot */
-      top: 46%; /* Shifted down to match red box */
-      left: 65%; /* Shifted right to match red box */
-      width: 15%; /* Maintain approximate original width */
-      height: 50%; /* Maintain approximate original height */
+      /* Further adjusted to match the red box in the latest screenshot */
+      top: 43%; /* Shifted up slightly */
+      left: 64%; /* Shifted further left slightly */
+      width: 18%; /* Adjusted width */
+      height: 53%; /* Adjusted height */
       background: transparent; /* Makes it transparent */
       cursor: pointer;
       z-index: 1; /* Keep it above the background */
@@ -191,7 +192,7 @@
       z-index: 10;
     }
 
-  </style>
+    </style>
 </head>
 <body>
   <div id="tv"><div id="tv-content"></div></div>
@@ -200,7 +201,7 @@
   <div class="torch-flame" id="torch-right"></div>
 
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
-  <div id="versionTag">v1.7</div>
+  <div id="versionTag">v1.8</div>
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
