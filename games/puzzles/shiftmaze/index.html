@@ -177,7 +177,7 @@
   <div class="torch-flame"></div>
   <img id="mouse" src="rat_transparent.gif" alt="mouse" />
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
-  <div id="versionTag">v3.4</div>
+  <div id="versionTag">v3.5</div>
   
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
@@ -237,11 +237,11 @@
 
     if (goingRight) {
   mouse.style.left = '-140px';
-  mouse.style.transform = "scaleX(1)"; // ✅ keep normal for right run
+  mouse.style.transform = "scaleX(-1)"; // ✅ keep normal for right run
   mouse.animate([{ left: '-140px' }, { left: screenWidth + 'px' }], { duration: 7000, fill: 'forwards' });
 } else {
   mouse.style.left = screenWidth + 'px';
-  mouse.style.transform = "scaleX(-1)"; // ✅ flip for left run
+  mouse.style.transform = "scaleX(1)"; // ✅ flip for left run
   mouse.animate([{ left: screenWidth + 'px' }, { left: '-140px' }], { duration: 7000, fill: 'forwards' });
 }
 
