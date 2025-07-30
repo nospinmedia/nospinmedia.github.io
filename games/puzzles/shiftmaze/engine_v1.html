@@ -53,7 +53,7 @@
       z-index: 2;
     }
 
-    /* TV Reflection (as in your v2.6) */
+    /* TV Reflection */
     #tv::before {
       content: "";
       position: absolute;
@@ -89,7 +89,7 @@
     }
 
     #puzzle-question {
-      font-size: 1.8vw;
+      font-size: 1.4vw; /* Reduced font size */
       margin-bottom: 20px;
     }
 
@@ -168,6 +168,17 @@
         border-radius: 3px;
         cursor: pointer;
     }
+
+    /* Mouse */
+    #mouse {
+      position: absolute;
+      bottom: 8px;
+      width: 120px;
+      z-index: 5;
+      opacity: 0.9;
+      filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.6));
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
@@ -187,6 +198,7 @@
       Debug ID: <input type="text" id="debug-room-id-input" />
       <button id="load-debug-room">Load</button>
   </div>
+  <img id="mouse" src="rat_transparent.gif" alt="mouse" />
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
@@ -204,6 +216,7 @@
     const debugInputDiv = document.getElementById('debug-input');
     const debugRoomIdInput = document.getElementById('debug-room-id-input');
     const loadDebugRoomBtn = document.getElementById('load-debug-room');
+    const mouse = document.getElementById('mouse'); // Get the mouse element
 
     let allPuzzles = [];
     let currentPuzzleIndex = -1;
@@ -237,8 +250,7 @@
     function saveGameState() {
       const gameState = {
         currentPuzzleIndex: currentPuzzleIndex,
-        score: score,
-        // You can add more state here, e.g., solvedPuzzles: []
+        score: score
       };
       localStorage.setItem(GAME_STATE_KEY, JSON.stringify(gameState));
     }
@@ -248,7 +260,6 @@
       if (savedState) {
         const gameState = JSON.parse(savedState);
         score = gameState.score || 0;
-        // currentPuzzleIndex will be determined by loadRandomPuzzle, unless in debug mode
       }
       currentScoreDisplay.textContent = score;
     }
@@ -264,7 +275,7 @@
       // Apply TV position for the current room, or randomize if not specified
       const tvProps = puzzle.tvPosition || {};
       tv.style.top = tvProps.top || `${20 + Math.random() * 30}%`; // Random top 20-50%
-      tv.style.left = tvProps.left || `${10 + Math.random() * 30}%`; // Random left 10-40%
+      tv.style.left = tvProps.left || `${5 + Math.random() * 25}%`; // Adjusted: Random left 5-30%
       tv.style.width = tvProps.width || `${18 + Math.random() * 5}%`; // Random width 18-23%
       tv.style.height = tvProps.height || `${22 + Math.random() * 5}%`; // Random height 22-27%
       tv.style.transform = tvProps.transform || `rotate(${Math.random() * 20 - 10}deg)`; // Random angle -10 to 10 deg
@@ -320,6 +331,31 @@
         }
     }
 
+    // --- Running Mouse Logic ---
+    const colors = [
+      'none', 'brightness(0.4)', 'sepia(1) saturate(3) hue-rotate(20deg)',
+      'brightness(2) saturate(0)', 'hue-rotate(90deg) saturate(2)'
+    ];
+
+    function runMouse() {
+      const screenWidth = window.innerWidth;
+      const goingRight = Math.random() > 0.5;
+      mouse.style.filter = `drop-shadow(2px 2px 2px rgba(0,0,0,0.6)) ${colors[Math.floor(Math.random()*colors.length)]}`;
+
+      if (goingRight) {
+        mouse.style.left = '-140px';
+        mouse.style.transform = "scaleX(-1)"; // Normal for right run
+        mouse.animate([{ left: '-140px' }, { left: screenWidth + 'px' }], { duration: 7000, fill: 'forwards' });
+      } else {
+        mouse.style.left = screenWidth + 'px';
+        mouse.style.transform = "scaleX(1)"; // Flip for left run
+        mouse.animate([{ left: screenWidth + 'px' }, { left: '-140px' }], { duration: 7000, fill: 'forwards' });
+      }
+
+      // Schedule next run after a random delay (between 15 to 19 seconds)
+      setTimeout(runMouse, 15000 + Math.random()*4000);
+    }
+
     // --- Event Listeners ---
     submitBtn.addEventListener('click', checkAnswer);
     puzzleInput.addEventListener('keypress', (e) => {
@@ -342,7 +378,7 @@
         }
     });
 
-    // --- Audio Control (copied from index.html) ---
+    // --- Audio Control ---
     const audio = document.getElementById('bgm');
     const muteBtn = document.getElementById('muteBtn');
 
@@ -422,6 +458,9 @@
                 message.textContent = "Error loading puzzles. Please check 'puzzles.json'.";
                 message.style.color = '#f00';
             });
+
+        // Start the mouse animation
+        setTimeout(runMouse, 2000);
     });
   </script>
 </body>
