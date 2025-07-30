@@ -6,8 +6,7 @@
   <title>ShiftMaze Entry</title>
   <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
   <style>
-
-   html, body {
+    html, body {
       height: 100%;
       margin: 0;
       padding: 0;
@@ -24,11 +23,11 @@
     /* TV screen - now a transparent overlay for content */
     #tv {
       position: absolute;
-      /* Adjusted positions to fit the new, smaller size */
-      top: 17%; /* Approximate vertical position */
-      left: 9.5%; /* Approximate horizontal position */
-      width: 28%; /* Approximate width of the screen area */
-      height: 40%; /* Approximate height of the screen area */
+      /* Adjusted positions and size for 1/3 smaller with a frame */
+      top: 20%; /* Adjusted top for smaller size */
+      left: 11.5%; /* Adjusted left for smaller size */
+      width: 18.66%; /* Original width 28% - 1/3 = 18.66% */
+      height: 26.66%; /* Original height 40% - 1/3 = 26.66% */
       
       background: rgba(0, 0, 0, 0.85); /* Dark background for the screen content */
       border-radius: 5px; /* Slight roundness if the screen has it */
@@ -46,6 +45,11 @@
       color: #e0e0e0; /* Off-white for screen text */
       box-sizing: border-box; /* Include padding in dimensions */
       padding: 1%; /* Small internal padding for content */
+      
+      /* Frame styling for TV */
+      border: 6px solid #4a3728; /* Brown border for frame */
+      outline: 2px solid #6b5c4f; /* Lighter outline for depth */
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.7); /* Overall shadow for the TV unit */
     }
     
     #tv-content {
@@ -112,8 +116,8 @@
     /* Exit button */
     #exitBtn {
       position: absolute;
-      top: 10px; /* Moved further up */
-      right: 10px; /* Moved further right */
+      top: 5px; /* Moved further up */
+      right: 5px; /* Moved further right */
       padding: 8px 15px;
       background: rgba(0,0,0,0.7);
       color: #ffcc00; /* Goldish color */
@@ -164,19 +168,17 @@
       font-family: 'Press Start 2P', cursive, Arial, sans-serif;
       z-index: 10;
     }
-
-    </style>
+  </style>
 </head>
 <body>
   <div id="tv"><div id="tv-content"></div></div>
   <div id="sign">ENTER IF YOU DARE</div>
   <div id="door"></div> <div class="torch-flame" id="torch-left"></div>
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
-  <div id="versionTag">v2.4</div>
+  <div id="versionTag">v2.6</div>
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
-
 
   <script>
     const tvContent = document.getElementById('tv-content');
@@ -263,4 +265,3 @@
   </script>
 </body>
 </html>
-  
