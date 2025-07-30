@@ -276,7 +276,7 @@
     },
     "tvPosition": { "top": "32%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
     "elements": []
-  }
+  },
   {
     "id": "room021",
     "name": "The Hollow Keep",
@@ -533,6 +533,786 @@
       "question": "What 5-letter word becomes shorter when you add two letters?",
       "answer": "short",
       "hint": "Another play on words."
+    },
+    "tvPosition": { "top": "32%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
+    "elements": []
+  }
+   {
+    "id": "room041",
+    "name": "The Watcher’s Alcove",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I have hands but cannot clap. What am I?",
+      "answer": "clock",
+      "hint": "Keeps time."
+    },
+    "tvPosition": { "top": "20%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room042",
+    "name": "The Number Well",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "What is 9 × 9 – 9?",
+      "answer": "72",
+      "hint": "Multiply first, then subtract."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "18%", "height": "22%", "transform": "rotate(-8deg)" },
+    "elements": []
+  },
+  {
+    "id": "room043",
+    "name": "The Silent Pool",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I can be cracked, made, told, and played. What am I?",
+      "answer": "joke",
+      "hint": "For laughter."
+    },
+    "tvPosition": { "top": "15%", "left": "8%", "width": "22%", "height": "28%", "transform": "rotate(2deg)" },
+    "elements": []
+  },
+  {
+    "id": "room044",
+    "name": "The Twin Doors",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "You see a boat filled with people, yet there isn’t a single person on board. How?",
+      "answer": "all married",
+      "hint": "Think about the word 'single'."
+    },
+    "tvPosition": { "top": "30%", "left": "12%", "width": "20%", "height": "25%", "transform": "rotate(-3deg)" },
+    "elements": []
+  },
+  {
+    "id": "room045",
+    "name": "The Word Chamber",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "What word is spelled incorrectly in every dictionary?",
+      "answer": "incorrectly",
+      "hint": "It’s a trick question."
+    },
+    "tvPosition": { "top": "18%", "left": "20%", "width": "21%", "height": "26%", "transform": "rotate(7deg)" },
+    "elements": []
+  },
+  {
+    "id": "room046",
+    "name": "The Stone Ledger",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "If 3 cats catch 3 mice in 3 minutes, how many cats are needed to catch 100 mice in 100 minutes?",
+      "answer": "3",
+      "hint": "The rate doesn’t change."
+    },
+    "tvPosition": { "top": "22%", "left": "10%", "width": "19%", "height": "24%", "transform": "rotate(-5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room047",
+    "name": "The Eternal Bridge",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "What has a neck but no head?",
+      "answer": "bottle",
+      "hint": "Holds liquids."
+    },
+    "tvPosition": { "top": "28%", "left": "5%", "width": "23%", "height": "28%", "transform": "rotate(0deg)" },
+    "elements": []
+  },
+  {
+    "id": "room048",
+    "name": "The Puzzle Hall",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "You see a 3-digit lock. The digits are 1, 2, 3. Each is used once. The sum is 6. What’s the code?",
+      "answer": "123",
+      "hint": "Smallest sequence adding to 6."
+    },
+    "tvPosition": { "top": "10%", "left": "20%", "width": "18%", "height": "22%", "transform": "rotate(-10deg)" },
+    "elements": []
+  },
+  {
+    "id": "room049",
+    "name": "The Chamber of Echoes",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "The more you take from me, the more I fill. What am I?",
+      "answer": "grave",
+      "hint": "A solemn answer."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "21%", "height": "26%", "transform": "rotate(4deg)" },
+    "elements": []
+  },
+  {
+    "id": "room050",
+    "name": "The Ciphered Alcove",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "Rearrange the letters in 'EVIL' to find something you can live in.",
+      "answer": "vile -> live",
+      "hint": "It’s an anagram."
+    },
+    "tvPosition": { "top": "32%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
+    "elements": []
+  },
+  {
+    "id": "room051",
+    "name": "The Lurking Hall",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I’m always running but have no legs. What am I?",
+      "answer": "time",
+      "hint": "Never stops moving."
+    },
+    "tvPosition": { "top": "20%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room052",
+    "name": "The Ancient Scale",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "What is 50% of 50?",
+      "answer": "25",
+      "hint": "Half of half a hundred."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "18%", "height": "22%", "transform": "rotate(-8deg)" },
+    "elements": []
+  },
+  {
+    "id": "room053",
+    "name": "The Trickster’s Den",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I’m always ahead but never move. What am I?",
+      "answer": "future",
+      "hint": "Time again."
+    },
+    "tvPosition": { "top": "15%", "left": "8%", "width": "22%", "height": "28%", "transform": "rotate(2deg)" },
+    "elements": []
+  },
+  {
+    "id": "room054",
+    "name": "The Illusion Gallery",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "A farmer has a fox, chicken, and grain. He must cross a river. He can take one at a time. How does he get all across safely?",
+      "answer": "fox->back->chicken->fox->grain",
+      "hint": "Classic river puzzle."
+    },
+    "tvPosition": { "top": "30%", "left": "12%", "width": "20%", "height": "25%", "transform": "rotate(-3deg)" },
+    "elements": []
+  },
+  {
+    "id": "room055",
+    "name": "The Whisper Archive",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "What 4-letter word can be written forward, backward, or upside down, and still be read the same?",
+      "answer": "noon",
+      "hint": "Think symmetry."
+    },
+    "tvPosition": { "top": "18%", "left": "20%", "width": "21%", "height": "26%", "transform": "rotate(7deg)" },
+    "elements": []
+  },
+  {
+    "id": "room056",
+    "name": "The Number Vault",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "If you double me and add 10, you get 50. What number am I?",
+      "answer": "20",
+      "hint": "Solve 2x + 10 = 50."
+    },
+    "tvPosition": { "top": "22%", "left": "10%", "width": "19%", "height": "24%", "transform": "rotate(-5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room057",
+    "name": "The Dimly Lit Room",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I am invisible, weigh nothing, and if you put me in a barrel I make it lighter. What am I?",
+      "answer": "hole",
+      "hint": "Creates emptiness."
+    },
+    "tvPosition": { "top": "28%", "left": "5%", "width": "23%", "height": "28%", "transform": "rotate(0deg)" },
+    "elements": []
+  },
+  {
+    "id": "room058",
+    "name": "The Paradox Chamber",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "You have a 5L jug and a 3L jug. Measure exactly 4L of water.",
+      "answer": "fill5->pour3->fill5->pour until 3 full",
+      "hint": "Use transfer between jugs."
+    },
+    "tvPosition": { "top": "10%", "left": "20%", "width": "18%", "height": "22%", "transform": "rotate(-10deg)" },
+    "elements": []
+  },
+  {
+    "id": "room059",
+    "name": "The Silent Sanctum",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I go up but never come down. What am I?",
+      "answer": "age",
+      "hint": "Everyone has it."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "21%", "height": "26%", "transform": "rotate(4deg)" },
+    "elements": []
+  },
+  {
+    "id": "room060",
+    "name": "The Ciphered Passage",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "What 9-letter word remains a word each time you remove one letter until one is left?",
+      "answer": "startling",
+      "hint": "Remove letters one at a time."
+    },
+    "tvPosition": { "top": "32%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
+    "elements": []
+  },
+  {
+    "id": "room061",
+    "name": "The Timekeeper's Watch",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I can fly without wings and cry without eyes. What am I?",
+      "answer": "cloud",
+      "hint": "Floats in the sky."
+    },
+    "tvPosition": { "top": "20%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room062",
+    "name": "The Number Nexus",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "What is 2³ + 3²?",
+      "answer": "17",
+      "hint": "Calculate powers first."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "18%", "height": "22%", "transform": "rotate(-8deg)" },
+    "elements": []
+  },
+  {
+    "id": "room063",
+    "name": "The Eternal Whisper",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "What comes once in a year, twice in a week, but never in a day?",
+      "answer": "e",
+      "hint": "Think letters again."
+    },
+    "tvPosition": { "top": "15%", "left": "8%", "width": "22%", "height": "28%", "transform": "rotate(2deg)" },
+    "elements": []
+  },
+  {
+    "id": "room064",
+    "name": "The Logic Vault",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "You have 3 switches and one bulb in another room. How do you find which switch controls it if you can enter once?",
+      "answer": "leave one on, one off, one on then off; check heat/light",
+      "hint": "Use the bulb’s heat."
+    },
+    "tvPosition": { "top": "30%", "left": "12%", "width": "20%", "height": "25%", "transform": "rotate(-3deg)" },
+    "elements": []
+  },
+  {
+    "id": "room065",
+    "name": "The Wordsmith's Niche",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "What starts with 'e', ends with 'e', but contains only one letter?",
+      "answer": "envelope",
+      "hint": "Carries messages."
+    },
+    "tvPosition": { "top": "18%", "left": "20%", "width": "21%", "height": "26%", "transform": "rotate(7deg)" },
+    "elements": []
+  },
+  {
+    "id": "room066",
+    "name": "The Arithmetic Arch",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "What is 100 ÷ (4 × 5)?",
+      "answer": "5",
+      "hint": "Do parentheses first."
+    },
+    "tvPosition": { "top": "22%", "left": "10%", "width": "19%", "height": "24%", "transform": "rotate(-5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room067",
+    "name": "The Riddle Gate",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I am taken before you get me. What am I?",
+      "answer": "photograph",
+      "hint": "Captured with a lens."
+    },
+    "tvPosition": { "top": "28%", "left": "5%", "width": "23%", "height": "28%", "transform": "rotate(0deg)" },
+    "elements": []
+  },
+  {
+    "id": "room068",
+    "name": "The Parity Hall",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "A man looks at a painting and says, 'Brothers and sisters I have none, but that man’s father is my father’s son.' Who is in the painting?",
+      "answer": "his son",
+      "hint": "Untangle the relationships."
+    },
+    "tvPosition": { "top": "10%", "left": "20%", "width": "18%", "height": "22%", "transform": "rotate(-10deg)" },
+    "elements": []
+  },
+  {
+    "id": "room069",
+    "name": "The Hollow Lantern",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I am not alive, but I grow. I have no mouth, yet I need air. What am I?",
+      "answer": "fire",
+      "hint": "Consumes fuel."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "21%", "height": "26%", "transform": "rotate(4deg)" },
+    "elements": []
+  },
+  {
+    "id": "room070",
+    "name": "The Word Gate",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "Add one letter to make me odd: 'even'.",
+      "answer": "seven",
+      "hint": "A play on spelling."
+    },
+    "tvPosition": { "top": "32%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
+    "elements": []
+  },
+  {
+    "id": "room071",
+    "name": "The Veiled Passage",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I can fill a room but take up no space. What am I?",
+      "answer": "light",
+      "hint": "Enables sight."
+    },
+    "tvPosition": { "top": "20%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room072",
+    "name": "The Counting Stair",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "What is the sum of all numbers from 1 to 10?",
+      "answer": "55",
+      "hint": "Use (n×(n+1))/2."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "18%", "height": "22%", "transform": "rotate(-8deg)" },
+    "elements": []
+  },
+  {
+    "id": "room073",
+    "name": "The Whispering Stairwell",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "You can see me in water but I never get wet. What am I?",
+      "answer": "reflection",
+      "hint": "Appears on the surface."
+    },
+    "tvPosition": { "top": "15%", "left": "8%", "width": "22%", "height": "28%", "transform": "rotate(2deg)" },
+    "elements": []
+  },
+  {
+    "id": "room074",
+    "name": "The Logic Circle",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "You are in a room with 2 doors. One leads to freedom, one to death. One guard lies, one tells truth. You can ask one question. What do you ask?",
+      "answer": "ask what the other would say",
+      "hint": "Classic logic test."
+    },
+    "tvPosition": { "top": "30%", "left": "12%", "width": "20%", "height": "25%", "transform": "rotate(-3deg)" },
+    "elements": []
+  },
+  {
+    "id": "room075",
+    "name": "The Word Alchemy Room",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "What 6-letter word contains 6, takes away 1 and 12 remains?",
+      "answer": "dozens",
+      "hint": "Play on quantities."
+    },
+    "tvPosition": { "top": "18%", "left": "20%", "width": "21%", "height": "26%", "transform": "rotate(7deg)" },
+    "elements": []
+  },
+  {
+    "id": "room076",
+    "name": "The Equation Bridge",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "What is 7² + 5²?",
+      "answer": "74",
+      "hint": "Square each, then add."
+    },
+    "tvPosition": { "top": "22%", "left": "10%", "width": "19%", "height": "24%", "transform": "rotate(-5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room077",
+    "name": "The Forgotten Shrine",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I am always moving but have no legs and no wings. What am I?",
+      "answer": "wind",
+      "hint": "Felt on your face."
+    },
+    "tvPosition": { "top": "28%", "left": "5%", "width": "23%", "height": "28%", "transform": "rotate(0deg)" },
+    "elements": []
+  },
+  {
+    "id": "room078",
+    "name": "The Puzzle Vault",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "You have two ropes that each burn in 60 minutes but not evenly. How do you measure 45 minutes?",
+      "answer": "burn one both ends, other one end",
+      "hint": "Variable burn rate puzzle."
+    },
+    "tvPosition": { "top": "10%", "left": "20%", "width": "18%", "height": "22%", "transform": "rotate(-10deg)" },
+    "elements": []
+  },
+  {
+    "id": "room079",
+    "name": "The Enigma Archway",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "The more I dry, the wetter I become. What am I?",
+      "answer": "towel",
+      "hint": "Used after bathing."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "21%", "height": "26%", "transform": "rotate(4deg)" },
+    "elements": []
+  },
+  {
+    "id": "room080",
+    "name": "The Word Crypt",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "Remove one letter and I become even. What word am I?",
+      "answer": "seven",
+      "hint": "Play on letters and numbers."
+    },
+    "tvPosition": { "top": "32%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
+    "elements": []
+  }
+  {
+    "id": "room081",
+    "name": "The Hollow Bell",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I ring but have no fingers. What am I?",
+      "answer": "bell",
+      "hint": "Produces sound when struck."
+    },
+    "tvPosition": { "top": "20%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room082",
+    "name": "The Equation Hall",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "Solve: (6 × 6) ÷ (3 × 2)",
+      "answer": "6",
+      "hint": "Simplify step by step."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "18%", "height": "22%", "transform": "rotate(-8deg)" },
+    "elements": []
+  },
+  {
+    "id": "room083",
+    "name": "The Murmuring Hall",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "You can break me without touching me. What am I?",
+      "answer": "promise",
+      "hint": "A matter of trust."
+    },
+    "tvPosition": { "top": "15%", "left": "8%", "width": "22%", "height": "28%", "transform": "rotate(2deg)" },
+    "elements": []
+  },
+  {
+    "id": "room084",
+    "name": "The Logic Nexus",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "You have two coins totaling 30 cents. One isn’t a nickel. What are the coins?",
+      "answer": "quarter and nickel",
+      "hint": "Only one isn’t a nickel."
+    },
+    "tvPosition": { "top": "30%", "left": "12%", "width": "20%", "height": "25%", "transform": "rotate(-3deg)" },
+    "elements": []
+  },
+  {
+    "id": "room085",
+    "name": "The Word Forge",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "What 8-letter word can have a letter removed one at a time and still make words until one letter is left?",
+      "answer": "starting",
+      "hint": "Remove letters sequentially."
+    },
+    "tvPosition": { "top": "18%", "left": "20%", "width": "21%", "height": "26%", "transform": "rotate(7deg)" },
+    "elements": []
+  },
+  {
+    "id": "room086",
+    "name": "The Numeric Passage",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "If x = 4, what is 2x²?",
+      "answer": "32",
+      "hint": "Square first, then multiply."
+    },
+    "tvPosition": { "top": "22%", "left": "10%", "width": "19%", "height": "24%", "transform": "rotate(-5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room087",
+    "name": "The Wind Tunnel",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "The more you take of me, the more you leave behind. I am not footsteps or memories. What am I?",
+      "answer": "time",
+      "hint": "It slips away constantly."
+    },
+    "tvPosition": { "top": "28%", "left": "5%", "width": "23%", "height": "28%", "transform": "rotate(0deg)" },
+    "elements": []
+  },
+  {
+    "id": "room088",
+    "name": "The Logic Atrium",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "You meet a man who always lies on Mondays, Tuesdays, and Wednesdays. He says 'I lied yesterday.' What day is it?",
+      "answer": "Thursday",
+      "hint": "Work through the statements logically."
+    },
+    "tvPosition": { "top": "10%", "left": "20%", "width": "18%", "height": "22%", "transform": "rotate(-10deg)" },
+    "elements": []
+  },
+  {
+    "id": "room089",
+    "name": "The Ember Chamber",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "Feed me and I live; give me drink and I die. What am I?",
+      "answer": "fire",
+      "hint": "Consumes fuel, fears water."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "21%", "height": "26%", "transform": "rotate(4deg)" },
+    "elements": []
+  },
+  {
+    "id": "room090",
+    "name": "The Word Vault",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "What five-letter word can you remove two letters from and still say the same?",
+      "answer": "queue",
+      "hint": "Pronunciation trick."
+    },
+    "tvPosition": { "top": "32%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
+    "elements": []
+  },
+  {
+    "id": "room091",
+    "name": "The Shadow Door",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I follow you everywhere but cannot be touched. What am I?",
+      "answer": "shadow",
+      "hint": "Appears when light shines."
+    },
+    "tvPosition": { "top": "20%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room092",
+    "name": "The Math Sanctum",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "What is (8 + 4) × 2?",
+      "answer": "24",
+      "hint": "Add first, then multiply."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "18%", "height": "22%", "transform": "rotate(-8deg)" },
+    "elements": []
+  },
+  {
+    "id": "room093",
+    "name": "The Riddle Nook",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I have a bed but never sleep, I run but never walk. What am I?",
+      "answer": "river",
+      "hint": "Flows endlessly."
+    },
+    "tvPosition": { "top": "15%", "left": "8%", "width": "22%", "height": "28%", "transform": "rotate(2deg)" },
+    "elements": []
+  },
+  {
+    "id": "room094",
+    "name": "The Paradox Library",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "Three doctors say Robert is their brother. Robert says he has no brothers. How?",
+      "answer": "they are sisters",
+      "hint": "Gender twist."
+    },
+    "tvPosition": { "top": "30%", "left": "12%", "width": "20%", "height": "25%", "transform": "rotate(-3deg)" },
+    "elements": []
+  },
+  {
+    "id": "room095",
+    "name": "The Word Gallery",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "What begins with T, ends with T, and is full of T?",
+      "answer": "teapot",
+      "hint": "Think beverage."
+    },
+    "tvPosition": { "top": "18%", "left": "20%", "width": "21%", "height": "26%", "transform": "rotate(7deg)" },
+    "elements": []
+  },
+  {
+    "id": "room096",
+    "name": "The Numeric Hall",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "If you divide 30 by 1/2 and add 10, what do you get?",
+      "answer": "70",
+      "hint": "Dividing by a fraction multiplies."
+    },
+    "tvPosition": { "top": "22%", "left": "10%", "width": "19%", "height": "24%", "transform": "rotate(-5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room097",
+    "name": "The Whisper Vault",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "What has one eye but can’t see and spins around?",
+      "answer": "hurricane",
+      "hint": "Storm-related."
+    },
+    "tvPosition": { "top": "28%", "left": "5%", "width": "23%", "height": "28%", "transform": "rotate(0deg)" },
+    "elements": []
+  },
+  {
+    "id": "room098",
+    "name": "The Puzzle Spire",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "You have a fox, rabbit, and carrots to cross a river. You can take one at a time. How do you get all across?",
+      "answer": "rabbit->back->fox->rabbit->carrots->rabbit",
+      "hint": "Similar to fox/chicken puzzle."
+    },
+    "tvPosition": { "top": "10%", "left": "20%", "width": "18%", "height": "22%", "transform": "rotate(-10deg)" },
+    "elements": []
+  },
+  {
+    "id": "room099",
+    "name": "The Ember Gate",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I’m always in the past, never in the present, and can’t be in the future. What am I?",
+      "answer": "history",
+      "hint": "Events already gone."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "21%", "height": "26%", "transform": "rotate(4deg)" },
+    "elements": []
+  },
+  {
+    "id": "room100",
+    "name": "The Final Archive",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "What begins and ends with E but only has one letter?",
+      "answer": "envelope",
+      "hint": "Carries mail."
     },
     "tvPosition": { "top": "32%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
     "elements": []
