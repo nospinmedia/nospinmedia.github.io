@@ -1,0 +1,150 @@
+[
+  {
+    "id": "room001",
+    "name": "The Rusty Antechamber",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I have cities, but no houses; forests, but no trees; and water, but no fish. What am I?",
+      "answer": "map",
+      "hint": "You use me for navigation."
+    },
+    "tvPosition": { "top": "20%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(5deg)" },
+    "elements": [
+      {"type": "torch", "top": "30%", "left": "45%", "glow": true}
+    ]
+  },
+  {
+    "id": "room002",
+    "name": "The Echoing Cavern",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "What is 7 times 8?",
+      "answer": "56",
+      "hint": "Basic multiplication."
+    },
+    "tvPosition": { "top": "25%", "left": "60%", "width": "18%", "height": "22%", "transform": "rotate(-8deg)" },
+    "elements": [
+      {"type": "torch", "top": "35%", "left": "70%", "glow": true},
+      {"type": "torch", "top": "35%", "left": "20%", "glow": true}
+    ]
+  },
+  {
+    "id": "room003",
+    "name": "The Cryptic Cell",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "What has an eye, but cannot see?",
+      "answer": "needle",
+      "hint": "You use it for sewing."
+    },
+    "tvPosition": { "top": "15%", "left": "35%", "width": "22%", "height": "28%", "transform": "rotate(2deg)" },
+    "elements": [
+      {"type": "text", "content": "Beware the shadows.", "position": {"top": "85%", "left": "50%"}}
+    ]
+  },
+  {
+    "id": "room004",
+    "name": "The Sunken Alcove",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "What is always in front of you but can’t be seen?",
+      "answer": "future",
+      "hint": "Time-related concept."
+    },
+    "tvPosition": { "top": "30%", "left": "15%", "width": "20%", "height": "25%", "transform": "rotate(-3deg)" },
+    "elements": [
+      {"type": "torch", "top": "40%", "left": "50%", "glow": true}
+    ]
+  },
+  {
+    "id": "room005",
+    "name": "The Dusty Library",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "What question can you never answer yes to?",
+      "answer": "are you asleep yet",
+      "hint": "Think about the act of answering."
+    },
+    "tvPosition": { "top": "18%", "left": "55%", "width": "21%", "height": "26%", "transform": "rotate(7deg)" },
+    "elements": [
+      {"type": "text", "content": "Read carefully.", "position": {"top": "10%", "left": "10%"}}
+    ]
+  },
+  {
+    "id": "room006",
+    "name": "The Tortured Hall",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "If you have 5 apples and take away 2, how many do you have?",
+      "answer": "2",
+      "hint": "It's a trick question!"
+    },
+    "tvPosition": { "top": "22%", "left": "30%", "width": "19%", "height": "24%", "transform": "rotate(-5deg)" },
+    "elements": [
+      {"type": "torch", "top": "32%", "left": "25%", "glow": true},
+      {"type": "torch", "top": "32%", "left": "75%", "glow": true}
+    ]
+  },
+  {
+    "id": "room007",
+    "name": "The Whispering Walls",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "What has to be broken before you can use it?",
+      "answer": "egg",
+      "hint": "Common in breakfast."
+    },
+    "tvPosition": { "top": "28%", "left": "12%", "width": "23%", "height": "28%", "transform": "rotate(0deg)" },
+    "elements": []
+  },
+  {
+    "id": "room008",
+    "name": "The Glimmering Grotto",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "What can you catch, but not throw?",
+      "answer": "cold",
+      "hint": "A common ailment."
+    },
+    "tvPosition": { "top": "10%", "left": "70%", "width": "18%", "height": "22%", "transform": "rotate(-10deg)" },
+    "elements": [
+      {"type": "text", "content": "A chill fills the air.", "position": {"top": "70%", "left": "20%"}}
+    ]
+  },
+  {
+    "id": "room009",
+    "name": "The Forgotten Chamber",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "What is full of holes but still holds water?",
+      "answer": "sponge",
+      "hint": "Used for cleaning."
+    },
+    "tvPosition": { "top": "25%", "left": "40%", "width": "21%", "height": "26%", "transform": "rotate(4deg)" },
+    "elements": [
+      {"type": "torch", "top": "30%", "left": "60%", "glow": true}
+    ]
+  },
+  {
+    "id": "room010",
+    "name": "The Endless Corridor",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "What is always coming, but never arrives?",
+      "answer": "tomorrow",
+      "hint": "Another time-related concept."
+    },
+    "tvPosition": { "top": "32%", "left": "25%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
+    "elements": []
+  }
+]
