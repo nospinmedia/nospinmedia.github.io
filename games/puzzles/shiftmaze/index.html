@@ -13,8 +13,8 @@
       overflow: hidden; /* Prevent scrollbars */
     }
     body {
-      /* Background Image Integration */
-      background: url('dungeon_entrance.png') no-repeat center center / cover; /* Use your new image */
+      /* Background Image Integration - Ensure dungeon_wall_texture.jpg is in the same folder */
+      background: url('dungeon_wall_texture.jpg') no-repeat center center / cover;
       font-family: 'Press Start 2P', cursive, Arial, sans-serif;
       color: #fff;
       position: relative;
@@ -23,10 +23,10 @@
     /* TV screen - now a transparent overlay for content */
     #tv {
       position: absolute;
-      /* Adjusted positions to fit the image. Fine-tune these percentages if needed. */
-      top: 15.5%; /* Approximate vertical position */
-      left: 7.5%; /* Approximate horizontal position */
-      width: 32%; /* Approximate width of the screen area */
+      /* Adjusted positions to fit the image for a 'real' sized TV */
+      top: 15%; /* Approximate vertical position */
+      left: 8.5%; /* Approximate horizontal position */
+      width: 34%; /* Approximate width of the screen area */
       height: 48%; /* Approximate height of the screen area */
       
       background: rgba(0, 0, 0, 0.85); /* Dark background for the screen content */
@@ -40,7 +40,7 @@
       text-align: center;
       overflow: hidden;
       font-family: 'VT323', monospace; /* Retro console font */
-      font-size: 1.2vw; /* Responsive font size */
+      font-size: 1.6vw; /* Larger, responsive font size */
       line-height: 1.3;
       color: #e0e0e0; /* Off-white for screen text */
       box-sizing: border-box; /* Include padding in dimensions */
@@ -60,11 +60,11 @@
     /* Door - now a transparent clickable area */
     #door {
       position: absolute;
-      /* Adjusted positions to fit the image. Fine-tune these percentages if needed. */
+      /* Adjusted positions to precisely line up with the door in the background image */
       top: 41%; /* Start from top of the door frame in the image */
-      left: 63.5%; /* Start from left of the door frame in the image */
-      width: 17%; /* Width of the door in the image */
-      height: 57%; /* Height of the door in the image */
+      left: 62.5%; /* Start from left of the door frame in the image */
+      width: 17.5%; /* Width of the door in the image */
+      height: 56%; /* Height of the door in the image */
       background: transparent; /* Makes it transparent */
       cursor: pointer;
       z-index: 1; /* Keep it above the background */
@@ -74,15 +74,63 @@
     #sign {
       position: absolute;
       top: 30%; /* Approximate vertical position */
-      left: 66%; /* Approximate horizontal position */
-      transform: translateX(-50%) rotate(-4deg); /* Adjust based on image tilt */
+      left: 71.5%; /* Approximate horizontal position to center */
+      transform: translateX(-50%) rotate(-4deg); /* Keep tilt */
       color: #e02c2c; /* Ominous red */
       font-family: 'Creepster', cursive; /* Spooky font */
       font-weight: bold;
-      font-size: 2.5vw; /* Responsive font size */
+      font-size: 3vw; /* Larger, responsive font size */
       text-shadow: 3px 3px 6px #000;
       white-space: nowrap;
       z-index: 2;
+    }
+
+    /* Torch flame effect */
+    .torch-flame {
+      position: absolute;
+      border-radius: 50%; /* Make it a circular glow */
+      animation: flicker 0.8s infinite alternate; /* Flicker animation */
+      pointer-events: none; /* Don't block clicks */
+      filter: blur(5px); /* Soften the glow */
+      z-index: 1; /* Below the sign/buttons, above background */
+    }
+
+    #torch-left {
+        top: 31%; /* Position over the left torch flame */
+        left: 48.2%;
+        width: 5%; /* Adjust size of the glow area */
+        height: 10%;
+    }
+
+    #torch-right {
+        top: 31%; /* Position over the right torch flame */
+        left: 92.5%;
+        width: 5%;
+        height: 10%;
+    }
+
+    @keyframes flicker {
+      0% {
+        opacity: 0.8;
+        box-shadow: 0 0 15px 5px rgba(255, 165, 0, 0.7), /* Orange */
+                    0 0 30px 10px rgba(255, 200, 0, 0.4), /* Yellow */
+                    0 0 50px 20px rgba(255, 69, 0, 0.2); /* Deeper orange/red */
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        box-shadow: 0 0 20px 7px rgba(255, 200, 0, 0.8), /* Brighter Yellow */
+                    0 0 40px 15px rgba(255, 120, 0, 0.5), /* Brighter Orange */
+                    0 0 60px 25px rgba(255, 69, 0, 0.3);
+        transform: scale(1.05); /* Slightly bigger */
+      }
+      100% {
+        opacity: 0.7;
+        box-shadow: 0 0 10px 4px rgba(255, 150, 0, 0.6), /* Dimmer Orange */
+                    0 0 25px 8px rgba(255, 100, 0, 0.3), /* Dimmer Yellow */
+                    0 0 40px 15px rgba(255, 69, 0, 0.15);
+        transform: scale(0.98); /* Slightly smaller */
+      }
     }
 
     /* Exit button */
@@ -145,9 +193,12 @@
 </head>
 <body>
   <div id="tv"><div id="tv-content"></div></div>
-  <div id="sign">Enter if you dare</div>
-  <div id="door"></div> <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
-  <div id="versionTag">v1.3</div>
+  <div id="sign">ENTER IF YOU DARE</div>
+  <div id="door"></div> <div class="torch-flame" id="torch-left"></div>
+  <div class="torch-flame" id="torch-right"></div>
+
+  <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
+  <div id="versionTag">v1.4</div>
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
@@ -155,15 +206,15 @@
   <script>
     const tvContent = document.getElementById('tv-content');
     let msgIndex = 0;
+    // Updated entryMessages with the text shown in the screenshot
     const entryMessages = [
-        "🎯 Ready to enter the ShiftMaze? Do you dare?",
-        "Explore fun AI-generated games at nospin.media!"
+        "Did you know? All content is AI-created at nospin.media!"
     ];
     let allMessages = [];
 
     function formatMessage(msg) {
       // This function formats messages to fit the TV screen, padding with empty lines
-      // Adjust totalDisplayLines based on how many lines fit well in your TV area.
+      // Adjusted totalDisplayLines for potentially more content now that TV is bigger
       const totalDisplayLines = 5; 
       const lines = msg.split("\n");
       const padding = Math.max(0, totalDisplayLines - lines.length);
@@ -200,7 +251,6 @@
     const door = document.getElementById('door');
     door.addEventListener('click', () => {
       // Directly redirect when the transparent door area is clicked
-      // No visual door animation needed as the door is part of the background image
       window.location.href = "engine_v1.html"; 
     });
 
