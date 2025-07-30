@@ -89,15 +89,17 @@
     /* 🔗 Share section styling */
     .share-section {
       margin-top: 1rem;
-      text-align: center;
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
     }
     .share-section button {
-      margin-top: 0.3rem;
       padding: 0.4rem 1rem;
       background: #0073e6;
       color: white;
       border: none;
       border-radius: 4px;
+      font-weight: bold;
       cursor: pointer;
     }
     .share-section button:hover {
@@ -207,9 +209,17 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- ✅ Comments Section -->
-      <div style="margin-top:2rem; background:#fff; padding:1rem; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+    <!-- ✅ Sidebar Donation + Feedback -->
+    <div class="sidebar">
+      <h2>Support Us 💙</h2>
+      <p>If you enjoy ad-free games from No Spin Media, consider supporting us.</p>
+      <button id="donate-button" onclick="window.location.href='../../sponsor.html'">Donate Now</button>
+      <p style="font-size:0.8em; color:#aaa;">Your help keeps No Spin Media alive and growing.</p>
+
+      <!-- 💬 Feedback Form -->
+      <div style="margin-top:2rem;">
         <h2>💬 We value your feedback!</h2>
         <p>We're working hard to improve ShiftMaze and other puzzles. 
            Your comments and suggestions help shape the game.</p>
@@ -219,7 +229,7 @@
           <select id="pf_subject" name="subject" style="width:100%; padding:8px; margin:4px 0;">
             <option value="Puzzles" selected>Puzzles (general)</option>
             <option value="Sudoku">Sudoku</option>
-            <option value="MagaMaze">MagaMaze (ShiftMaze)</option>
+            <option value="ShiftMaze">ShiftMaze</option>
             <option value="Other">Other</option>
           </select>
           <textarea id="pf_message" name="message" rows="4" placeholder="Your feedback..." required style="width:100%; padding:8px; margin:4px 0;"></textarea>
@@ -227,14 +237,6 @@
           <button type="submit" style="background:#0073e6; color:white; border:none; padding:10px; width:100%; border-radius:4px; font-weight:bold;">Send Feedback</button>
         </form>
       </div>
-    </div>
-
-    <!-- ✅ Sidebar Donation -->
-    <div class="sidebar">
-      <h2>Support Us 💙</h2>
-      <p>If you enjoy ad-free games from No Spin Media, consider supporting us.</p>
-      <button id="donate-button" onclick="window.location.href='../../sponsor.html'">Donate Now</button>
-      <p style="font-size:0.8em; color:#aaa;">Your help keeps No Spin Media alive and growing.</p>
     </div>
   </div>
 
