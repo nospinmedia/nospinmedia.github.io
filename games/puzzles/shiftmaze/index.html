@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -22,13 +22,13 @@
     /* TV screen */
     #tv {
       position: absolute;
-      top: 24%; /* moved down */
+      top: 24%;
       left: 12%;
       width: 18%;
-      height: 22%; /* reduced height */
+      height: 22%;
       background: rgba(0, 0, 0, 0.85);
       border-radius: 5px;
-      transform: rotate(-2deg); /* slight tilt */
+      transform: rotate(-2deg);
       box-shadow: inset 0 0 15px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.7);
       border: 6px solid #4a3728;
       outline: 2px solid #6b5c4f;
@@ -108,25 +108,35 @@
       border-radius: 5px;
     }
 
-    /* Torch glow fixed inside */
+    /* Torch glow */
     .torch-flame {
-  position: absolute;
-  top: 25%;  /* moved slightly down */
-  left: 65%; /* closer to wall */
-  width: 3.8%; /* smaller size to fit */
-  height: 6.5%;
-  background: radial-gradient(circle, rgba(255,180,50,0.8) 0%, rgba(255,100,0,0.4) 60%, transparent 100%);
-  border-radius: 50%;
-  filter: blur(10px);
-  animation: flicker 0.25s infinite alternate;
-  pointer-events: none;
-  z-index: 1;
-}
-
+      position: absolute;
+      top: 25%;
+      left: 65%;
+      width: 3.8%;
+      height: 6.5%;
+      background: radial-gradient(circle, rgba(255,180,50,0.8) 0%, rgba(255,100,0,0.4) 60%, transparent 100%);
+      border-radius: 50%;
+      filter: blur(10px);
+      animation: flicker 0.25s infinite alternate;
+      pointer-events: none;
+      z-index: 1;
+    }
 
     @keyframes flicker {
       0% { opacity: 0.7; transform: scale(1); }
       100% { opacity: 1; transform: scale(1.1); }
+    }
+
+    /* Mouse */
+    #mouse {
+      position: absolute;
+      bottom: 8px;
+      width: 120px;
+      z-index: 5;
+      opacity: 0.9;
+      filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.6));
+      pointer-events: none;
     }
 
     /* Exit button */
@@ -144,22 +154,6 @@
       font-family: 'Press Start 2P', cursive, Arial, sans-serif;
       font-size: 0.9em;
       box-shadow: 0 0 10px rgba(255,204,0,0.4);
-      z-index: 10;
-    }
-
-    /* Mute button */
-    #muteBtn {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      padding: 8px;
-      background: rgba(0,0,0,0.7);
-      color: #0f0;
-      border: 2px solid #0f0;
-      border-radius: 5px;
-      font-size: 1.4em;
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(0,255,0,0.4);
       z-index: 10;
     }
 
@@ -181,8 +175,9 @@
   <div id="sign">ENTER IF YOU DARE</div>
   <div id="door"></div>
   <div class="torch-flame"></div>
+  <img id="mouse" src="rat_transparent.gif" alt="mouse" />
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
-  <div id="versionTag">v2.9</div>
+  <div id="versionTag">v3.3</div>
   
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
@@ -206,7 +201,7 @@
 
       let html = "";
       for (let i = 0; i < topPadding; i++) html += "<div>&nbsp;</div>";
-      lines.forEach(line => html += <div>${line}</div>);
+      lines.forEach(line => html += `<div>${line}</div>`);  <!-- ✅ fixed template literal -->
       for (let i = 0; i < bottomPadding; i++) html += "<div>&nbsp;</div>";
       return html;
     }
@@ -227,23 +222,36 @@
         tvContent.innerHTML = formatMessage(allMessages[0]);
       });
 
+    // ✅ Mouse with direction fix + random color tint
+    const mouse = document.getElementById('mouse');
+    const colors = [
+      'none', 'brightness(0.4)', 'sepia(1) saturate(3) hue-rotate(20deg)',
+      'brightness(2) saturate(0)', 'hue-rotate(90deg) saturate(2)'
+    ];
+
+    function runMouse() {
+      const screenWidth = window.innerWidth;
+      const goingRight = Math.random() > 0.5;
+      mouse.style.filter = `drop-shadow(2px 2px 2px rgba(0,0,0,0.6)) ${colors[Math.floor(Math.random()*colors.length)]}`;
+
+      if (goingRight) {
+        mouse.style.left = '-140px';
+        mouse.style.transform = "scaleX(1)"; // ✅ faces right
+        mouse.animate([{ left: '-140px' }, { left: screenWidth + 'px' }], { duration: 7000, fill: 'forwards' });
+      } else {
+        mouse.style.left = screenWidth + 'px';
+        mouse.style.transform = "scaleX(-1)"; // ✅ faces left
+        mouse.animate([{ left: screenWidth + 'px' }, { left: '-140px' }], { duration: 7000, fill: 'forwards' });
+      }
+
+      setTimeout(runMouse, 15000 + Math.random()*4000);
+    }
+
+    setTimeout(runMouse, 2000);
+
     const door = document.getElementById('door');
     door.addEventListener('click', () => {
       window.location.href = "engine_v1.html";
-    });
-
-    const audio = document.getElementById('bgm');
-    const muteBtn = document.getElementById('muteBtn');
-    setTimeout(() => { if (audio.paused) muteBtn.textContent = "🔇"; }, 500);
-    muteBtn.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
-        audio.muted = false;
-        muteBtn.textContent = "🔊";
-      } else {
-        audio.muted = !audio.muted;
-        muteBtn.textContent = audio.muted ? "🔇" : "🔊";
-      }
     });
   </script>
 </body>
