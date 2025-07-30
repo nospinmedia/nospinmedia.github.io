@@ -224,6 +224,31 @@
       filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.6)); /* Base shadow */
       pointer-events: none;
     }
+
+    /* Mute Button Styling */
+    #muteBtn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffcc00;
+      border: 2px solid #ffcc00;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.5em;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    #muteBtn:hover {
+      background: #ffcc00;
+      color: #4a3728;
+    }
   </style>
 </head>
 <body>
@@ -437,6 +462,14 @@
     const audio = document.getElementById('bgm');
     const muteBtn = document.getElementById('muteBtn');
 
+    // Attempt to play audio on user interaction or after a short delay
+    document.addEventListener('click', () => {
+        if (audio.paused && !audio.muted) {
+            audio.play().catch(e => console.log("Autoplay blocked, user interaction needed:", e));
+        }
+    }, { once: true }); // Only run once to ensure immediate playback on first click
+
+    // Check audio state after a short timeout to handle potential autoplay blocks
     setTimeout(() => {
         if (audio.paused && !audio.muted) {
             muteBtn.textContent = "🔇";
@@ -444,20 +477,20 @@
     }, 500);
 
     muteBtn.addEventListener('click', () => {
-      if (audio.paused && !audio.muted) {
+      if (audio.paused && !audio.muted) { // If audio is paused but not explicitly muted (likely autoplay block)
         audio.play().catch(e => console.log("Autoplay blocked:", e));
-        audio.muted = false;
+        audio.muted = false; // Ensure it's not muted
         muteBtn.textContent = "🔊";
       } else {
         audio.muted = !audio.muted;
         muteBtn.textContent = audio.muted ? "🔇" : "🔊";
+        if (!audio.muted && audio.paused) { // If unmuting and still paused (e.g., first interaction)
+            audio.play().catch(e => console.log("Autoplay blocked on unmute:", e));
+        }
       }
     });
 
     document.addEventListener('DOMContentLoaded', () => {
-        if (audio.autoplay && audio.paused) {
-            muteBtn.textContent = "🔇";
-        }
         // Set the version display
         versionDisplay.textContent = `v${GAME_VERSION}`;
 
