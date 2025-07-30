@@ -39,11 +39,49 @@
     }
   </style>
   <script>
-    window.onload = () => {
+    document.addEventListener('DOMContentLoaded', () => {
+      // ✅ Load header
       fetch('../header.html')
         .then(res => res.text())
         .then(html => document.getElementById('site-header').innerHTML = html);
-    }
+
+      // ✅ Feedback form submit
+      document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const status = document.getElementById('formStatus');
+        status.textContent = "⏳ Sending...";
+
+        const name = document.getElementById('name').value || "Someone";
+        const email = document.getElementById('email').value;
+        const section = document.getElementById('subject').value;
+        const message = document.getElementById('message').value;
+
+        const data = { name, email, subject: section, message };
+
+        try {
+          const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify(data)
+          });
+
+          let result = {};
+          try { result = await res.json(); } catch (err) { result = { status: "success" }; }
+
+          if (result.status === "success") {
+            status.textContent = "✅ Your feedback was sent, thank you!";
+            this.reset();
+          } else {
+            status.textContent = "❌ Error sending. Please try again.";
+          }
+          setTimeout(() => { status.textContent = ""; }, 5000);
+        } catch (err) {
+          console.error(err);
+          status.textContent = "❌ Failed to send! Check connection.";
+          setTimeout(() => { status.textContent = ""; }, 5000);
+        }
+      });
+    });
 
     function copyLink(url) {
       navigator.clipboard.writeText(url);
