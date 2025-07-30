@@ -57,7 +57,7 @@
         align-items: center;
     }
 
-    /* Door - now a transparent clickable area WITH TEMPORARY BORDER */
+    /* Door - now a transparent clickable area (border removed) */
     #door {
       position: absolute;
       /* Adjusted to match the door in the background image, moved more right and up */
@@ -68,7 +68,7 @@
       background: transparent; /* Makes it transparent */
       cursor: pointer;
       z-index: 1; /* Keep it above the background */
-      border: 2px solid rgba(255, 0, 0, 0.5); /* TEMPORARY BORDER FOR VISUALIZATION - REMOVE THIS LINE LATER! */
+      /* border: 2px solid rgba(255, 0, 0, 0.5); -- TEMPORARY BORDER REMOVED */
       box-sizing: border-box; /* Ensure border doesn't affect dimensions */
     }
 
@@ -200,7 +200,7 @@
   <div class="torch-flame" id="torch-right"></div>
 
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
-  <div id="versionTag">v1.9</div>
+  <div id="versionTag">v2.0</div>
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
