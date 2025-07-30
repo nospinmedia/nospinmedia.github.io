@@ -17,8 +17,6 @@
       overflow: hidden;
       position: relative;
     }
-
-    /* Vignette for dungeon effect */
     body::after {
       content: "";
       position: absolute;
@@ -36,11 +34,16 @@
       width: 25%;
       min-width: 220px;
       max-width: 400px;
+      height: 200px; /* fixed height */
       background: #000;
       color: #0ff;
       border: 4px solid #333;
       border-radius: 8px;
-      padding: 15px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
       font-weight: bold;
       font-size: 1.1em;
@@ -69,8 +72,6 @@
       transform-origin: left center;
       z-index: 1;
     }
-
-    /* Door knob */
     #door::after {
       content: "";
       position: absolute;
@@ -82,13 +83,11 @@
       border: 2px solid #111;
       border-radius: 50%;
     }
-
-    /* Door open animation */
     #door.open {
       transform: perspective(800px) rotateY(-90deg);
     }
 
-    /* Old wooden sign above door */
+    /* Old wooden sign */
     #sign {
       position: absolute;
       top: 30%;
@@ -135,6 +134,17 @@
       cursor: pointer;
       z-index: 10;
     }
+
+    /* Version tag */
+    #versionTag {
+      position: absolute;
+      bottom: 5px;
+      right: 10px;
+      font-size: 0.8em;
+      color: rgba(255,255,255,0.6);
+      font-weight: bold;
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
@@ -142,6 +152,7 @@
   <div id="sign">Enter if you dare</div>
   <div id="door"></div>
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
+  <div id="versionTag">v1.1</div>
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
@@ -149,23 +160,34 @@
   <script>
     const tv = document.getElementById('tv');
     let msgIndex = 0;
-
-    // Hard-coded entry-specific message
     const entryMessages = ["🎯 Ready to enter the ShiftMaze? Do you dare?"];
 
-    // Fetch JSON messages and merge
+    function formatMessage(msg) {
+      const lines = msg.split("\n");
+      const total = 10;
+      const padding = Math.max(0, total - lines.length);
+      const top = Math.floor(padding / 2);
+      const bottom = padding - top;
+
+      let html = "";
+      for (let i = 0; i < top; i++) html += "<div>&nbsp;</div>";
+      lines.forEach(line => html += `<div>${line}</div>`);
+      for (let i = 0; i < bottom; i++) html += "<div>&nbsp;</div>";
+      return html;
+    }
+
     fetch('tv_messages.json')
       .then(res => res.json())
       .then(data => {
         const messages = [...entryMessages, ...data];
+        tv.innerHTML = formatMessage(messages[0]);
         setInterval(() => {
           msgIndex = (msgIndex + 1) % messages.length;
-          tv.textContent = messages[msgIndex];
+          tv.innerHTML = formatMessage(messages[msgIndex]);
         }, 9000);
       })
       .catch(err => console.error('Failed to load tv_messages.json', err));
 
-    // Door click animation + redirect
     const door = document.getElementById('door');
     door.addEventListener('click', () => {
       door.classList.add('open');
@@ -174,7 +196,6 @@
       }, 1000);
     });
 
-    // Music mute toggle
     const audio = document.getElementById('bgm');
     const muteBtn = document.getElementById('muteBtn');
     setTimeout(() => { if (audio.paused) muteBtn.textContent = "🔇"; }, 500);
