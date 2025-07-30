@@ -125,11 +125,14 @@
     #mouse {
       position: absolute;
       bottom: 5px;
-      left: -80px;
-      width: 50px;
+      left: -100px;
+      width: 75px;   /* increased size */
       height: auto;
       z-index: 5;
+      opacity: 0.7;  /* semi-transparent */
       filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5));
+      transform: scaleX(-1); /* default facing left */
+      transition: left 4s linear;
     }
 
     /* Exit button */
@@ -219,12 +222,21 @@
 
     function moveMouse() {
       const screenWidth = window.innerWidth;
-      const newX = Math.random() * (screenWidth - 80);
-      const duration = 4000 + Math.random()*2000;
-      mouse.style.transition = `left ${duration}ms linear`;
-      mouse.style.left = `${newX}px`;
-      setTimeout(moveMouse, duration + 2000);
+      const goingRight = Math.random() > 0.5;
+      const startX = goingRight ? -100 : screenWidth + 100;
+      const endX = goingRight ? screenWidth + 100 : -100;
+
+      mouse.style.left = `${startX}px`;
+      mouse.style.transform = goingRight ? "scaleX(1)" : "scaleX(-1)";
+
+      setTimeout(() => {
+        mouse.style.transition = `left 5s linear`;
+        mouse.style.left = `${endX}px`;
+      }, 50);
+
+      setTimeout(moveMouse, 8000 + Math.random()*3000); // wait before next run
     }
+
     setTimeout(moveMouse, 1000);
 
     // Door click
