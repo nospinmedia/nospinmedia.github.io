@@ -147,4 +147,134 @@
     "tvPosition": { "top": "32%", "left": "25%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
     "elements": []
   }
+ {
+    "id": "room011",
+    "name": "The Gilded Vault",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "The more of me you take, the more you leave behind. What am I?",
+      "answer": "footsteps",
+      "hint": "You make these when walking."
+    },
+    "tvPosition": { "top": "20%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room012",
+    "name": "The Stone Lab",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "What is (12 ÷ 3) + (5 × 2)?",
+      "answer": "14",
+      "hint": "Order of operations applies."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "18%", "height": "22%", "transform": "rotate(-8deg)" },
+    "elements": []
+  },
+  {
+    "id": "room013",
+    "name": "The Shifting Passage",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "The more you take away from me, the bigger I get. What am I?",
+      "answer": "hole",
+      "hint": "You might dig it."
+    },
+    "tvPosition": { "top": "15%", "left": "8%", "width": "22%", "height": "28%", "transform": "rotate(2deg)" },
+    "elements": []
+  },
+  {
+    "id": "room014",
+    "name": "The Mirror Hall",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "Two fathers and two sons go fishing. They catch 3 fish. Each gets one. How?",
+      "answer": "grandfather father son",
+      "hint": "One is both a father and a son."
+    },
+    "tvPosition": { "top": "30%", "left": "12%", "width": "20%", "height": "25%", "transform": "rotate(-3deg)" },
+    "elements": []
+  },
+  {
+    "id": "room015",
+    "name": "The Silent Archive",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "Forward I am heavy, but backward I am not. What am I?",
+      "answer": "ton",
+      "hint": "Think about spelling."
+    },
+    "tvPosition": { "top": "18%", "left": "20%", "width": "21%", "height": "26%", "transform": "rotate(7deg)" },
+    "elements": []
+  },
+  {
+    "id": "room016",
+    "name": "The Ancient Abacus",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "A farmer has 17 sheep and all but 9 run away. How many are left?",
+      "answer": "9",
+      "hint": "All but 9 run away."
+    },
+    "tvPosition": { "top": "22%", "left": "10%", "width": "19%", "height": "24%", "transform": "rotate(-5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room017",
+    "name": "The Scribe’s Refuge",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "What has keys but can’t open locks?",
+      "answer": "piano",
+      "hint": "Produces music."
+    },
+    "tvPosition": { "top": "28%", "left": "5%", "width": "23%", "height": "28%", "transform": "rotate(0deg)" },
+    "elements": []
+  },
+  {
+    "id": "room018",
+    "name": "The Paradox Hall",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "I speak without a mouth and hear without ears. What am I?",
+      "answer": "echo",
+      "hint": "Common in caves."
+    },
+    "tvPosition": { "top": "10%", "left": "20%", "width": "18%", "height": "22%", "transform": "rotate(-10deg)" },
+    "elements": []
+  },
+  {
+    "id": "room019",
+    "name": "The Dripping Cavern",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "What runs but never walks, has a mouth but never talks?",
+      "answer": "river",
+      "hint": "Flows endlessly."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "21%", "height": "26%", "transform": "rotate(4deg)" },
+    "elements": []
+  },
+  {
+    "id": "room020",
+    "name": "The Hidden Study",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "I’m tall when I’m young and short when I’m old. What am I?",
+      "answer": "candle",
+      "hint": "Melts away."
+    },
+    "tvPosition": { "top": "32%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
+    "elements": []
+  }
 ]
