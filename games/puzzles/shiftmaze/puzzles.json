@@ -536,7 +536,7 @@
     },
     "tvPosition": { "top": "32%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
     "elements": []
-  }
+  },
    {
     "id": "room041",
     "name": "The Watcher’s Alcove",
@@ -1056,7 +1056,7 @@
     },
     "tvPosition": { "top": "32%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
     "elements": []
-  }
+  },
   {
     "id": "room081",
     "name": "The Hollow Bell",
