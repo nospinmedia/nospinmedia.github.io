@@ -341,7 +341,7 @@
                 score = gameState.score || 0;
                 // Check if currentPuzzleIndex is valid given allPuzzles length
                 if (gameState.currentPuzzleIndex !== undefined && gameState.currentPuzzleIndex >= 0 && gameState.currentPuzzleIndex < allPuzzles.length) {
-                     currentPuzzleIndex = gameState.currentPuzzleIndex;
+                    currentPuzzleIndex = gameState.currentPuzzleIndex;
                 } else {
                     currentPuzzleIndex = -1; // Reset if invalid index
                 }
@@ -588,9 +588,9 @@
                             loadRandomPuzzle();
                         }
                     } else if (currentPuzzleIndex !== -1 && allPuzzles[currentPuzzleIndex]) { // If a saved puzzle index exists and is valid
-                         loadPuzzle(allPuzzles[currentPuzzleIndex]);
-                         message.textContent = `Resumed game in room: ${allPuzzles[currentPuzzleIndex].id}`;
-                         message.style.color = '#0f0';
+                            loadPuzzle(allPuzzles[currentPuzzleIndex]);
+                            message.textContent = `Resumed game in room: ${allPuzzles[currentPuzzleIndex].id}`;
+                            message.style.color = '#0f0';
                     }
                     else { // Otherwise, load a new random puzzle (respecting completed ones)
                         loadRandomPuzzle();
