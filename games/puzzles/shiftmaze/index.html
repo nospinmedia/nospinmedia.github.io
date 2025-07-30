@@ -177,7 +177,7 @@
   <div class="torch-flame"></div>
   <img id="mouse" src="rat_transparent.gif" alt="mouse" />
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
-  <div id="versionTag">v3.3</div>
+  <div id="versionTag">v3.4</div>
   
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
@@ -201,7 +201,7 @@
 
       let html = "";
       for (let i = 0; i < topPadding; i++) html += "<div>&nbsp;</div>";
-      lines.forEach(line => html += `<div>${line}</div>`);  <!-- ✅ fixed template literal -->
+     lines.forEach(line => html += `<div>${line}</div>`); // ✅ fixed template literal
       for (let i = 0; i < bottomPadding; i++) html += "<div>&nbsp;</div>";
       return html;
     }
@@ -223,31 +223,33 @@
       });
 
     // ✅ Mouse with direction fix + random color tint
-    const mouse = document.getElementById('mouse');
-    const colors = [
-      'none', 'brightness(0.4)', 'sepia(1) saturate(3) hue-rotate(20deg)',
-      'brightness(2) saturate(0)', 'hue-rotate(90deg) saturate(2)'
-    ];
 
-    function runMouse() {
-      const screenWidth = window.innerWidth;
-      const goingRight = Math.random() > 0.5;
-      mouse.style.filter = `drop-shadow(2px 2px 2px rgba(0,0,0,0.6)) ${colors[Math.floor(Math.random()*colors.length)]}`;
+  const mouse = document.getElementById('mouse');
+  const colors = [
+    'none', 'brightness(0.4)', 'sepia(1) saturate(3) hue-rotate(20deg)',
+    'brightness(2) saturate(0)', 'hue-rotate(90deg) saturate(2)'
+  ];
 
-      if (goingRight) {
-        mouse.style.left = '-140px';
-        mouse.style.transform = "scaleX(1)"; // ✅ faces right
-        mouse.animate([{ left: '-140px' }, { left: screenWidth + 'px' }], { duration: 7000, fill: 'forwards' });
-      } else {
-        mouse.style.left = screenWidth + 'px';
-        mouse.style.transform = "scaleX(-1)"; // ✅ faces left
-        mouse.animate([{ left: screenWidth + 'px' }, { left: '-140px' }], { duration: 7000, fill: 'forwards' });
-      }
+  function runMouse() {
+    const screenWidth = window.innerWidth;
+    const goingRight = Math.random() > 0.5;
+    mouse.style.filter = `drop-shadow(2px 2px 2px rgba(0,0,0,0.6)) ${colors[Math.floor(Math.random()*colors.length)]}`;
 
-      setTimeout(runMouse, 15000 + Math.random()*4000);
-    }
+    if (goingRight) {
+  mouse.style.left = '-140px';
+  mouse.style.transform = "scaleX(1)"; // ✅ keep normal for right run
+  mouse.animate([{ left: '-140px' }, { left: screenWidth + 'px' }], { duration: 7000, fill: 'forwards' });
+} else {
+  mouse.style.left = screenWidth + 'px';
+  mouse.style.transform = "scaleX(-1)"; // ✅ flip for left run
+  mouse.animate([{ left: screenWidth + 'px' }, { left: '-140px' }], { duration: 7000, fill: 'forwards' });
+}
 
-    setTimeout(runMouse, 2000);
+    setTimeout(runMouse, 15000 + Math.random()*4000);
+  }
+
+  setTimeout(runMouse, 2000);
+
 
     const door = document.getElementById('door');
     door.addEventListener('click', () => {
