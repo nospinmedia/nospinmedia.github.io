@@ -22,13 +22,13 @@
     /* TV screen */
     #tv {
       position: absolute;
-      top: 24%; /* moved down */
+      top: 24%;
       left: 12%;
       width: 18%;
-      height: 22%; /* reduced height */
+      height: 22%;
       background: rgba(0, 0, 0, 0.85);
       border-radius: 5px;
-      transform: rotate(-2deg); /* slight tilt */
+      transform: rotate(-2deg);
       box-shadow: inset 0 0 15px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.7);
       border: 6px solid #4a3728;
       outline: 2px solid #6b5c4f;
@@ -38,7 +38,6 @@
       align-items: center;
       overflow: hidden;
     }
-
     #tv-content {
       width: 100%;
       height: 100%;
@@ -52,11 +51,7 @@
       color: #e0e0e0;
       text-align: center;
       padding: 1%;
-      position: relative;
-      z-index: 2;
     }
-
-    /* Glass reflection overlay */
     #tv::before {
       content: "";
       position: absolute;
@@ -69,7 +64,6 @@
       animation: lightSweep 12s infinite;
       z-index: 3;
     }
-
     @keyframes lightSweep {
       0% { left: -60%; }
       8% { left: 120%; }
@@ -108,25 +102,34 @@
       border-radius: 5px;
     }
 
-    /* Torch glow fixed inside */
+    /* Torch flame */
     .torch-flame {
-  position: absolute;
-  top: 25%;  /* moved slightly down */
-  left: 65%; /* closer to wall */
-  width: 3.8%; /* smaller size to fit */
-  height: 6.5%;
-  background: radial-gradient(circle, rgba(255,180,50,0.8) 0%, rgba(255,100,0,0.4) 60%, transparent 100%);
-  border-radius: 50%;
-  filter: blur(10px);
-  animation: flicker 0.25s infinite alternate;
-  pointer-events: none;
-  z-index: 1;
-}
-
-
+      position: absolute;
+      top: 25%;
+      left: 65%;
+      width: 3.8%;
+      height: 6.5%;
+      background: radial-gradient(circle, rgba(255,180,50,0.8) 0%, rgba(255,100,0,0.4) 60%, transparent 100%);
+      border-radius: 50%;
+      filter: blur(10px);
+      animation: flicker 0.25s infinite alternate;
+      pointer-events: none;
+      z-index: 1;
+    }
     @keyframes flicker {
       0% { opacity: 0.7; transform: scale(1); }
       100% { opacity: 1; transform: scale(1.1); }
+    }
+
+    /* Mouse */
+    #mouse {
+      position: absolute;
+      bottom: 5px;
+      left: -80px;
+      width: 50px;
+      height: auto;
+      z-index: 5;
+      filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5));
     }
 
     /* Exit button */
@@ -147,23 +150,7 @@
       z-index: 10;
     }
 
-    /* Mute button */
-    #muteBtn {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      padding: 8px;
-      background: rgba(0,0,0,0.7);
-      color: #0f0;
-      border: 2px solid #0f0;
-      border-radius: 5px;
-      font-size: 1.4em;
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(0,255,0,0.4);
-      z-index: 10;
-    }
-
-    /* Version tag */
+    /* Version */
     #versionTag {
       position: absolute;
       bottom: 10px;
@@ -181,16 +168,16 @@
   <div id="sign">ENTER IF YOU DARE</div>
   <div id="door"></div>
   <div class="torch-flame"></div>
+  <img id="mouse" src="rat.gif" alt="mouse" />
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
-  <div id="versionTag">v2.9</div>
-  
+  <div id="versionTag">v3.0</div>
+
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
 
   <script>
     const tvContent = document.getElementById('tv-content');
     let msgIndex = 0;
-
     const entryMessages = [
       "🎯 Ready to enter the ShiftMaze? Do you dare?",
       "Play more games and puzzles:\nnospin.media today!"
@@ -203,7 +190,6 @@
       const padding = Math.max(0, totalDisplayLines - lines.length);
       const topPadding = Math.floor(padding / 2);
       const bottomPadding = padding - topPadding;
-
       let html = "";
       for (let i = 0; i < topPadding; i++) html += "<div>&nbsp;</div>";
       lines.forEach(line => html += `<div>${line}</div>`);
@@ -221,29 +207,29 @@
           tvContent.innerHTML = formatMessage(allMessages[msgIndex]);
         }, 9000);
       })
-      .catch(err => {
-        console.error('Failed to load tv_messages.json', err);
+      .catch(() => {
         allMessages = entryMessages;
         tvContent.innerHTML = formatMessage(allMessages[0]);
       });
 
-    const door = document.getElementById('door');
-    door.addEventListener('click', () => {
-      window.location.href = "engine_v1.html";
-    });
+    // Mouse animation
+    const mouse = document.getElementById('mouse');
+    const colors = ['invert(0)', 'grayscale(1)', 'sepia(1) saturate(4) hue-rotate(20deg)', 'brightness(2)'];
+    mouse.style.filter += ` ${colors[Math.floor(Math.random()*colors.length)]}`;
 
-    const audio = document.getElementById('bgm');
-    const muteBtn = document.getElementById('muteBtn');
-    setTimeout(() => { if (audio.paused) muteBtn.textContent = "🔇"; }, 500);
-    muteBtn.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
-        audio.muted = false;
-        muteBtn.textContent = "🔊";
-      } else {
-        audio.muted = !audio.muted;
-        muteBtn.textContent = audio.muted ? "🔇" : "🔊";
-      }
+    function moveMouse() {
+      const screenWidth = window.innerWidth;
+      const newX = Math.random() * (screenWidth - 80);
+      const duration = 4000 + Math.random()*2000;
+      mouse.style.transition = `left ${duration}ms linear`;
+      mouse.style.left = `${newX}px`;
+      setTimeout(moveMouse, duration + 2000);
+    }
+    setTimeout(moveMouse, 1000);
+
+    // Door click
+    document.getElementById('door').addEventListener('click', () => {
+      window.location.href = "engine_v1.html";
     });
   </script>
 </body>
