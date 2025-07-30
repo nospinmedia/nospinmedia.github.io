@@ -44,6 +44,19 @@
         .then(res => res.text())
         .then(html => document.getElementById('site-header').innerHTML = html);
     }
+
+    function copyLink(url) {
+      navigator.clipboard.writeText(url);
+      alert("✅ Link copied: " + url);
+    }
+
+    async function shareLink(url) {
+      if (navigator.share) {
+        await navigator.share({ title: "No Spin Media Games", url: url });
+      } else {
+        alert("Sharing not supported on this device.");
+      }
+    }
   </script>
 </head>
 <body>
@@ -55,28 +68,43 @@
       <div class="main-header">
         <h1>Games 🎮</h1>
         <p>Welcome to the No Spin Media Games section. Select a category below:</p>
-        <div class="share-buttons">
-          <button id="shareBtn">🔗 Share with Friends</button>
-          <button id="copyBtn">📋 Copy Link</button>
-        </div>
       </div>
 
       <!-- Categories -->
       <div class="game-category">
         <h2>🕹️ Arcade</h2>
         <ul><li><a href="arcade/">View Arcade Games</a></li></ul>
+        <div class="share-buttons">
+          <button onclick="shareLink('https://nospin.media/games/arcade/')">🔗 Share with Friends</button>
+          <button onclick="copyLink('https://nospin.media/games/arcade/')">📋 Copy Link</button>
+        </div>
       </div>
+
       <div class="game-category">
         <h2>🎲 Board Games</h2>
         <ul><li><a href="board/">View Board Games</a></li></ul>
+        <div class="share-buttons">
+          <button onclick="shareLink('https://nospin.media/games/board/')">🔗 Share with Friends</button>
+          <button onclick="copyLink('https://nospin.media/games/board/')">📋 Copy Link</button>
+        </div>
       </div>
+
       <div class="game-category">
         <h2>🃏 Card Games</h2>
         <ul><li><a href="cards/">View Card Games</a></li></ul>
+        <div class="share-buttons">
+          <button onclick="shareLink('https://nospin.media/games/cards/')">🔗 Share with Friends</button>
+          <button onclick="copyLink('https://nospin.media/games/cards/')">📋 Copy Link</button>
+        </div>
       </div>
+
       <div class="game-category">
         <h2>💡 Puzzles</h2>
         <ul><li><a href="puzzles/">View Puzzles</a></li></ul>
+        <div class="share-buttons">
+          <button onclick="shareLink('https://nospin.media/games/puzzles/')">🔗 Share with Friends</button>
+          <button onclick="copyLink('https://nospin.media/games/puzzles/')">📋 Copy Link</button>
+        </div>
       </div>
     </div>
 
@@ -116,50 +144,5 @@
     © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
   </footer>
 
-  <script>
-    // ✅ Feedback form submit
-    document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const status = document.getElementById('formStatus');
-      status.textContent = "⏳ Sending...";
-
-      const name = document.getElementById('name').value || "Someone";
-      const email = document.getElementById('email').value;
-      const section = document.getElementById('subject').value;
-      const message = document.getElementById('message').value;
-
-      const friendlyMessage = `${message}`;
-
-      const data = {
-        name: name,
-        email: email,
-        subject: section,
-        message: friendlyMessage
-      };
-
-      try {
-        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-          method: 'POST',
-          headers: {'Content-Type':'text/plain'},
-          body: JSON.stringify(data)
-        });
-
-        let result = {};
-        try { result = await res.json(); } catch (err) { result = { status: "success" }; }
-
-        if (result.status === "success") {
-          status.textContent = "✅ Your feedback was sent, thank you!";
-          this.reset();
-        } else {
-          status.textContent = "❌ Error sending. Please try again.";
-        }
-        setTimeout(()=>{ status.textContent = ""; }, 5000);
-      } catch (err) {
-        console.error(err);
-        status.textContent = "❌ Failed to send! Check connection.";
-        setTimeout(()=>{ status.textContent = ""; }, 5000);
-      }
-    });
-  </script>
 </body>
 </html>
