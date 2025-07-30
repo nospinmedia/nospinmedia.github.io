@@ -5,82 +5,109 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ShiftMaze Entry</title>
   <style>
-    /* Full-page wall background */
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
     }
     body {
-      /* Large stone/brick wall background with slight overgrowth */
-      background: #000 url('wall.jpg') no-repeat center center;
-      background-size: cover;
+      background: #2c2c2c url('wall.jpg') center center / cover no-repeat;
       position: relative;
       overflow: hidden;
-      color: #fff;
       font-family: Arial, sans-serif;
+      color: #fff;
     }
-    /* TV screen element */
+
+    /* Vignette effect */
+    body::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      box-shadow: inset 0 0 200px rgba(0,0,0,0.7);
+      pointer-events: none;
+    }
+
+    /* Flat screen TV */
     #tv {
       position: absolute;
-      top: 10%;
+      top: 12%;
       left: 5%;
       width: 25%;
-      min-width: 200px;
-      max-width: 350px;
-      background: #222;
-      border: 8px solid #444;
-      border-radius: 6px;
-      padding: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.8);
+      min-width: 220px;
+      max-width: 380px;
+      background: #000;
+      color: #0ff;
+      border: 6px solid #333;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,255,255,0.4), 0 0 40px rgba(0,255,255,0.2);
       text-align: center;
       font-weight: bold;
+      font-size: 1.1em;
       z-index: 1;
     }
-    /* Center door element */
+
+    /* Door with stone frame */
     #door {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 15vw;
-      min-width: 100px;
-      max-width: 180px;
-      height: 30vh;
-      min-height: 150px;
-      max-height: 320px;
-      background: linear-gradient(135deg, #6b4e31, #8d6e47);
-      border: 4px solid #3e2a14;
-      border-radius: 2px;
+      width: 18vw;
+      min-width: 120px;
+      max-width: 200px;
+      height: 32vh;
+      min-height: 180px;
+      max-height: 340px;
+      background: linear-gradient(135deg, #7a5638, #5b3b24);
+      border: 5px solid #3b2a17;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+      border-radius: 3px;
       cursor: pointer;
       transform-origin: left center;
       transition: transform 1s ease;
-      z-index: 1;
+      z-index: 2;
     }
+
+    /* Stone door frame */
+    #door::before {
+      content: "";
+      position: absolute;
+      top: -10px; left: -10px;
+      width: calc(100% + 20px);
+      height: calc(100% + 20px);
+      background: #555;
+      border: 3px solid #2b2b2b;
+      z-index: -1;
+      border-radius: 4px;
+    }
+
     /* Door knob */
     #door::after {
       content: "";
       position: absolute;
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       top: 55%;
       right: 15%;
-      transform: translateY(-50%);
-      background: #333;
-      border: 2px solid #222;
+      background: #222;
+      border: 2px solid #111;
       border-radius: 50%;
     }
-    /* Door open animation (swing open effect) */
+
+    /* Open animation */
     #door.open {
-      transform: scaleX(0);
+      transform: perspective(800px) rotateY(-90deg);
     }
-    /* Exit button (top-right corner) */
+
+    /* Exit button */
     #exitBtn {
       position: absolute;
       top: 10px;
       right: 10px;
-      padding: 5px 10px;
-      background: rgba(0,0,0,0.5);
+      padding: 6px 12px;
+      background: rgba(0,0,0,0.6);
       color: #fff;
       text-decoration: none;
       border: 1px solid #fff;
@@ -88,13 +115,14 @@
       font-weight: bold;
       z-index: 10;
     }
-    /* Mute/Unmute button (top-left corner) */
+
+    /* Mute button */
     #muteBtn {
       position: absolute;
       top: 10px;
       left: 10px;
-      padding: 5px;
-      background: rgba(0,0,0,0.5);
+      padding: 6px;
+      background: rgba(0,0,0,0.6);
       color: #fff;
       border: none;
       border-radius: 4px;
@@ -105,71 +133,50 @@
   </style>
 </head>
 <body>
-  <!-- Rotating message TV screen -->
-  <div id="tv">Did you know No Spin Media has emoji puzzles?</div>
-
-  <!-- Center door element (click to enter) -->
+  <div id="tv">💡 Did you know No Spin Media has emoji puzzles?</div>
   <div id="door"></div>
-
-  <!-- Exit link to puzzles index -->
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
 
-  <!-- Background music audio (hidden) -->
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
-  <!-- Mute/Unmute toggle button -->
   <button id="muteBtn" type="button">🔊</button>
 
   <script>
-    // Rotating TV messages
+    // Rotating TV messages (slower: every 9s)
     const messages = [
-      "Did you know No Spin Media has emoji puzzles? 😊🧩",
-      "Ready to enter the ShiftMaze? 🎯",
-      "New puzzles added regularly! 🔄"
+      "💡 Did you know No Spin Media has emoji puzzles?",
+      "🎯 Ready to enter the ShiftMaze?",
+      "🧠 New puzzles added regularly!"
     ];
     let msgIndex = 0;
     const tv = document.getElementById('tv');
-    // Change message every 3 seconds
     setInterval(() => {
       msgIndex = (msgIndex + 1) % messages.length;
       tv.textContent = messages[msgIndex];
-    }, 3000);
+    }, 9000);
 
-    // Door click: animate open then redirect
+    // Door click
     const door = document.getElementById('door');
     door.addEventListener('click', () => {
       door.classList.add('open');
-      // Redirect after animation (1s)
       setTimeout(() => {
-        window.location.href = "engine_v1.html";
+        window.location.href = "https://nospin.media/games/shiftmaze/engine_v1.html";
       }, 1000);
     });
 
-    // Background music control
+    // Music control
     const audio = document.getElementById('bgm');
     const muteBtn = document.getElementById('muteBtn');
-    // Check if autoplay was blocked
     setTimeout(() => {
-      if (audio.paused) {
-        // If not playing, show muted icon as prompt
-        muteBtn.textContent = "🔇";
-      }
+      if (audio.paused) muteBtn.textContent = "🔇";
     }, 500);
-    // Toggle sound on button click
     muteBtn.addEventListener('click', () => {
       if (audio.paused) {
-        // Start playing if currently not running
         audio.play();
         audio.muted = false;
         muteBtn.textContent = "🔊";
       } else {
-        // Toggle mute state if already playing
-        if (audio.muted) {
-          audio.muted = false;
-          muteBtn.textContent = "🔊";
-        } else {
-          audio.muted = true;
-          muteBtn.textContent = "🔇";
-        }
+        audio.muted = !audio.muted;
+        muteBtn.textContent = audio.muted ? "🔇" : "🔊";
       }
     });
   </script>
