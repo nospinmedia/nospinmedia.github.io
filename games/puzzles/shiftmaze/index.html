@@ -1,3 +1,11 @@
+My apologies! It seems like the code block didn't render correctly in my previous response. I'm very sorry for the oversight.
+
+Here is the complete index.html code with the door clickable area adjusted and the temporary red border, as well as all the other previous changes, and updated to version v1.7.
+
+Please replace the entire content of your index.html file with the code below. Remember to save dungeon_wall_texture.jpg in the same folder as your index.html for the background to display correctly.
+
+HTML
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +22,7 @@
     }
     body {
       /* Background Image Integration - Ensure dungeon_wall_texture.jpg is in the same folder */
-      background: url('dungeon_wall_texture.jpg') no-repeat center center / cover;
+      background: url('dungeon_wall_texture.jpg') no-repeat center center / cover; /* */
       font-family: 'Press Start 2P', cursive, Arial, sans-serif;
       color: #fff;
       position: relative;
@@ -57,17 +65,19 @@
         align-items: center;
     }
 
-    /* Door - now a transparent clickable area */
+    /* Door - now a transparent clickable area WITH TEMPORARY BORDER */
     #door {
       position: absolute;
       /* Adjusted to match the red box in the screenshot */
-      top: 51%; /* Shifted down to match red box */
-      left: 69.5%; /* Shifted right to match red box */
-      width: 10%; /* Narrower to match red box */
-      height: 44%; /* Height to match red box */
+      top: 46%; /* Shifted down to match red box */
+      left: 65%; /* Shifted right to match red box */
+      width: 15%; /* Maintain approximate original width */
+      height: 50%; /* Maintain approximate original height */
       background: transparent; /* Makes it transparent */
       cursor: pointer;
       z-index: 1; /* Keep it above the background */
+      border: 2px solid rgba(255, 0, 0, 0.5); /* TEMPORARY BORDER FOR VISUALIZATION - REMOVE THIS LINE LATER! */
+      box-sizing: border-box; /* Ensure border doesn't affect dimensions */
     }
 
     /* Old wooden sign - positioned over the sign in the image */
@@ -198,7 +208,7 @@
   <div class="torch-flame" id="torch-right"></div>
 
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
-  <div id="versionTag">v1.6</div>
+  <div id="versionTag">v1.7</div>
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
@@ -209,7 +219,7 @@
     // Updated entryMessages with the text shown in the screenshot
     const entryMessages = [
         "Play more games and puzzles: visit\nnospin.media today!",
-        "Follow us on Facebook:\nfacebook.com/NoSpinNewsAI" // Added the new message
+        "Follow us on Facebook:\nfacebook.com/NoSpinNewsAI"
     ];
     let allMessages = [];
 
