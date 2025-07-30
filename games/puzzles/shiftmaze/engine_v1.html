@@ -130,18 +130,30 @@
       color: #f00; /* Red for wrong, green for correct */
     }
 
-    #score-display, #room-id-display {
+    /* Score and Room ID Styling */
+    #score-display {
       position: absolute;
-      top: 10px;
-      left: 10px;
-      background: rgba(0,0,0,0.7);
+      top: 15px; /* Adjust vertical position */
+      right: 150px; /* Aligned to the right */
+      background: none; /* No background, directly on wall */
       padding: 5px 10px;
       border-radius: 5px;
-      font-size: 0.9em;
+      font-size: 1.1em; /* Slightly larger */
+      color: #ffcc00; /* Gold color for score */
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
       z-index: 10;
     }
     #room-id-display {
-        left: 150px; /* Offset from score */
+        position: absolute;
+        top: 15px; /* Aligned with score */
+        right: 20px; /* Closer to the right edge */
+        background: none; /* No background */
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 1.1em; /* Slightly larger */
+        color: #fff; /* White for room ID */
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        z-index: 10;
         display: none; /* Hidden by default, show in debug mode */
     }
 
@@ -185,7 +197,7 @@
       width: 120px;
       z-index: 5;
       opacity: 0.9;
-      filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.6));
+      filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.6)); /* Base shadow */
       pointer-events: none;
     }
   </style>
@@ -206,7 +218,7 @@
   <div id="debug-input">
       Debug ID: <input type="text" id="debug-room-id-input" />
       <button id="load-debug-room">Load</button>
-      <span id="version-display">v1.0</span> </div>
+      <span id="version-display">v1.1</span> </div>
   <img id="mouse" src="rat_transparent.gif" alt="mouse" />
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
@@ -233,7 +245,7 @@
     let score = 0;
     const GAME_STATE_KEY = 'shiftmazeGameState';
     const DEBUG_MODE = true; // Set to true to enable debug features
-    const GAME_VERSION = '1.0'; // Define the game version
+    const GAME_VERSION = '1.1'; // Define the game version - INCREMENTED
 
     // --- TV Messages (can be separate JSON or hardcoded) ---
     const entryMessages = [
@@ -286,8 +298,8 @@
       // Apply TV position for the current room, or randomize if not specified
       const tvProps = puzzle.tvPosition || {};
       tv.style.top = tvProps.top || `${20 + Math.random() * 30}%`; // Random top 20-50%
-      // Ensure TV stays within the left 60% of the screen
-      tv.style.left = tvProps.left || `${Math.random() * 45}%`; // Random left 0-45% (to stay within left 60%)
+      // Ensure TV stays within the left 50% of the screen
+      tv.style.left = tvProps.left || `${Math.random() * 35}%`; // Random left 0-35% (to stay within left 50%)
       tv.style.width = tvProps.width || `${18 + Math.random() * 5}%`; // Random width 18-23%
       tv.style.height = tvProps.height || `${22 + Math.random() * 5}%`; // Random height 22-27%
       tv.style.transform = tvProps.transform || `rotate(${Math.random() * 20 - 10}deg)`; // Random angle -10 to 10 deg
@@ -344,14 +356,18 @@
     }
 
     // --- Running Mouse Logic ---
+    // Removed darker filter options; added brightness and invert to ensure lightness
     const colors = [
-      'none', 'brightness(0.4)', 'sepia(1) saturate(3) hue-rotate(20deg)',
-      'brightness(2) saturate(0)', 'hue-rotate(90deg) saturate(2)'
+      'brightness(1.5)',
+      'brightness(2)',
+      'invert(1) hue-rotate(180deg) brightness(1.5)', // Invert then lighten
+      'sepia(1) saturate(3) hue-rotate(50deg) brightness(1.2)' // Warm and bright
     ];
 
     function runMouse() {
       const screenWidth = window.innerWidth;
       const goingRight = Math.random() > 0.5;
+      // Apply a filter that ensures a lighter color
       mouse.style.filter = `drop-shadow(2px 2px 2px rgba(0,0,0,0.6)) ${colors[Math.floor(Math.random()*colors.length)]}`;
 
       if (goingRight) {
