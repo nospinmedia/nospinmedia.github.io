@@ -148,7 +148,7 @@
         #room-sign {
             position: absolute;
             top: 5%; /* Adjusted to be slightly lower, more centered with the door top */
-            left: 85%; /* ADJUSTED: Move it further right to better center over the door */
+            left: 85%; /* Adjusted to better center over the door */
             transform: translateX(-50%); /* Centering relative to its 'left' position */
             background: rgba(50, 25, 0, 0.7); /* Darker brown for sign */
             border: 4px ridge #8B4513; /* Woody/metal border */
@@ -270,7 +270,7 @@
     <div id="debug-input">
         Debug ID: <input type="text" id="debug-room-id-input" />
         <button id="load-debug-room">Load</button>
-        <span id="version-display">v1.5</span> </div>
+        <span id="version-display">v1.6</span> </div>
     <img id="mouse" src="rat_transparent.gif" alt="mouse" />
 
     <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
@@ -296,9 +296,10 @@
         let allPuzzles = [];
         let currentPuzzleIndex = -1;
         let score = 0;
+        let completedPuzzles = []; // NEW: Array to store IDs of completed puzzles
         const GAME_STATE_KEY = 'shiftmazeGameState';
         const DEBUG_MODE = true;
-        const GAME_VERSION = '1.5'; // Define the game version - INCREMENTED
+        const GAME_VERSION = '1.6'; // Define the game version - INCREMENTED
 
         // --- TV Messages (can be separate JSON or hardcoded) ---
         const entryMessages = [
@@ -326,7 +327,8 @@
         function saveGameState() {
             const gameState = {
                 currentPuzzleIndex: currentPuzzleIndex,
-                score: score
+                score: score,
+                completedPuzzles: completedPuzzles // NEW: Save completed puzzles
             };
             localStorage.setItem(GAME_STATE_KEY, JSON.stringify(gameState));
         }
@@ -336,6 +338,13 @@
             if (savedState) {
                 const gameState = JSON.parse(savedState);
                 score = gameState.score || 0;
+                // Check if currentPuzzleIndex is valid given allPuzzles length
+                if (gameState.currentPuzzleIndex !== undefined && gameState.currentPuzzleIndex >= 0 && gameState.currentPuzzleIndex < allPuzzles.length) {
+                     currentPuzzleIndex = gameState.currentPuzzleIndex;
+                } else {
+                    currentPuzzleIndex = -1; // Reset if invalid index
+                }
+                completedPuzzles = gameState.completedPuzzles || []; // NEW: Load completed puzzles
             }
             currentScoreDisplay.textContent = score;
         }
@@ -359,6 +368,7 @@
             tv.style.transform = tvProps.transform || `rotate(${Math.random() * 20 - 10}deg)`;
 
             document.body.style.backgroundImage = `url('${puzzle.background}')`;
+            saveGameState(); // Save state whenever a new puzzle is loaded
         }
 
         function loadRandomPuzzle() {
@@ -366,28 +376,69 @@
                 message.textContent = "No puzzles loaded!";
                 return;
             }
-            let randomIndex = Math.floor(Math.random() * allPuzzles.length);
-            if (allPuzzles.length > 1 && randomIndex === currentPuzzleIndex) {
-                randomIndex = (randomIndex + 1) % allPuzzles.length;
+
+            // Filter out completed puzzles
+            const availablePuzzles = allPuzzles.filter(p => !completedPuzzles.includes(p.id));
+
+            if (availablePuzzles.length === 0) {
+                // All puzzles completed!
+                message.textContent = "Congratulations! You've completed all puzzles! Starting over...";
+                message.style.color = '#0ff';
+                score = 0; // Reset score
+                completedPuzzles = []; // Reset completed puzzles
+                currentScoreDisplay.textContent = score;
+                saveGameState();
+                setTimeout(loadRandomPuzzle, 3000); // Start over after a delay
+                return;
             }
-            loadPuzzle(allPuzzles[randomIndex]);
-            saveGameState();
+
+            let randomIndex = Math.floor(Math.random() * availablePuzzles.length);
+            
+            // Get the actual puzzle object from allPuzzles based on the availablePuzzles selection
+            const puzzleToLoad = allPuzzles.find(p => p.id === availablePuzzles[randomIndex].id);
+
+            if (puzzleToLoad) {
+                loadPuzzle(puzzleToLoad);
+            } else {
+                console.error("Failed to find puzzle from available list:", availablePuzzles[randomIndex]);
+                // Fallback to loading a truly random one if something went wrong
+                loadPuzzle(allPuzzles[Math.floor(Math.random() * allPuzzles.length)]);
+            }
+            saveGameState(); // Save state after loading a random puzzle
         }
 
         function checkAnswer() {
             const userAnswer = puzzleInput.value.trim().toLowerCase();
-            const correctAnswer = allPuzzles[currentPuzzleIndex].puzzle.answer.toLowerCase();
+            const currentPuzzle = allPuzzles[currentPuzzleIndex];
+            const correctAnswer = currentPuzzle.puzzle.answer.toLowerCase();
 
             if (userAnswer === correctAnswer) {
                 message.textContent = "Correct! Moving to next room...";
-                message.style.color = '#0f0';
-                score += 10;
+                message.style.color = '#0f0'; // Green
+                score += 10; // Award points
                 currentScoreDisplay.textContent = score;
-                saveGameState();
-                setTimeout(loadRandomPuzzle, 1500);
+                
+                // NEW: Add puzzle ID to completed puzzles if not already there
+                if (!completedPuzzles.includes(currentPuzzle.id)) {
+                    completedPuzzles.push(currentPuzzle.id);
+                }
+                saveGameState(); // Save state after completing a puzzle
+
+                // Check if all puzzles are now completed
+                if (completedPuzzles.length === allPuzzles.length) {
+                    message.textContent = "Congratulations! You've completed all puzzles! Starting over...";
+                    message.style.color = '#0ff';
+                    score = 0;
+                    completedPuzzles = [];
+                    currentScoreDisplay.textContent = score;
+                    saveGameState();
+                    setTimeout(loadRandomPuzzle, 3000); // Start over after a delay
+                } else {
+                    setTimeout(loadRandomPuzzle, 1500); // Load new puzzle after a short delay
+                }
             } else {
                 message.textContent = "Incorrect. Try again!";
-                message.style.color = '#f00';
+                message.style.color = '#f00'; // Red
             }
         }
 
@@ -395,10 +446,10 @@
             const hint = allPuzzles[currentPuzzleIndex].puzzle.hint;
             if (hint) {
                 message.textContent = `Hint: ${hint}`;
-                message.style.color = '#ffcc00';
-                score = Math.max(0, score - 2);
+                message.style.color = '#ffcc00'; // Gold for hint
+                score = Math.max(0, score - 2); // Deduct points for hint
                 currentScoreDisplay.textContent = score;
-                saveGameState();
+                saveGameState(); // Save state after taking a hint
             } else {
                 message.textContent = "No hint available for this puzzle.";
                 message.style.color = '#fff';
@@ -510,9 +561,11 @@
                 .then(res => res.json())
                 .then(data => {
                     allPuzzles = data;
-                    loadGameState();
+                    loadGameState(); // Load score, currentPuzzleIndex, and completedPuzzles
+
                     const urlParams = new URLSearchParams(window.location.search);
                     const debugId = urlParams.get('debugId');
+
                     if (DEBUG_MODE && debugId) {
                         const debugPuzzle = allPuzzles.find(p => p.id === debugId);
                         if (debugPuzzle) {
@@ -524,7 +577,12 @@
                             message.style.color = '#f00';
                             loadRandomPuzzle();
                         }
-                    } else {
+                    } else if (currentPuzzleIndex !== -1 && allPuzzles[currentPuzzleIndex]) { // If a saved puzzle index exists and is valid
+                         loadPuzzle(allPuzzles[currentPuzzleIndex]);
+                         message.textContent = `Resumed game in room: ${allPuzzles[currentPuzzleIndex].id}`;
+                         message.style.color = '#0f0';
+                    }
+                    else { // Otherwise, load a new random puzzle (respecting completed ones)
                         loadRandomPuzzle();
                     }
 
