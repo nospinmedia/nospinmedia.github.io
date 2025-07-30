@@ -76,16 +76,17 @@
     /* Game UI Container - Main area for puzzles */
     #game-container {
       position: absolute;
-      top: 50%;
+      top: 80%; /* Moved lower */
       left: 50%;
       transform: translate(-50%, -50%);
       background: rgba(0, 0, 0, 0.7);
-      padding: 30px;
+      padding: 10px 30px; /* Thinner vertical padding */
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-      max-width: 60%; /* Adjust as needed */
+      max-width: 70%; /* Increased max-width */
       text-align: center;
       z-index: 5;
+      font-family: Arial, sans-serif; /* Cleaner font */
     }
 
     #puzzle-question {
@@ -275,7 +276,8 @@
       // Apply TV position for the current room, or randomize if not specified
       const tvProps = puzzle.tvPosition || {};
       tv.style.top = tvProps.top || `${20 + Math.random() * 30}%`; // Random top 20-50%
-      tv.style.left = tvProps.left || `${5 + Math.random() * 25}%`; // Adjusted: Random left 5-30%
+      // Ensure TV stays within the left 60% of the screen
+      tv.style.left = tvProps.left || `${Math.random() * 45}%`; // Random left 0-45% (to stay within left 60%)
       tv.style.width = tvProps.width || `${18 + Math.random() * 5}%`; // Random width 18-23%
       tv.style.height = tvProps.height || `${22 + Math.random() * 5}%`; // Random height 22-27%
       tv.style.transform = tvProps.transform || `rotate(${Math.random() * 20 - 10}deg)`; // Random angle -10 to 10 deg
