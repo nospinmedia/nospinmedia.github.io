@@ -6,7 +6,6 @@
   <title>ShiftMaze Entry</title>
   <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
   <style>
-
     html, body {
       height: 100%;
       margin: 0;
@@ -61,11 +60,11 @@
     /* Door - now a transparent clickable area WITH TEMPORARY BORDER */
     #door {
       position: absolute;
-      /* Further adjusted to match the red box in the latest screenshot */
-      top: 43%; /* Shifted up slightly */
-      left: 64%; /* Shifted further left slightly */
-      width: 18%; /* Adjusted width */
-      height: 53%; /* Adjusted height */
+      /* Adjusted to match the door in the background image, moved more right and up */
+      top: 37%; /* Moved further up */
+      left: 75%; /* Moved further right */
+      width: 17.5%; /* Original approximate width */
+      height: 56%; /* Original approximate height */
       background: transparent; /* Makes it transparent */
       cursor: pointer;
       z-index: 1; /* Keep it above the background */
@@ -192,7 +191,7 @@
       z-index: 10;
     }
 
-    </style>
+  </style>
 </head>
 <body>
   <div id="tv"><div id="tv-content"></div></div>
@@ -201,7 +200,7 @@
   <div class="torch-flame" id="torch-right"></div>
 
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
-  <div id="versionTag">v1.8</div>
+  <div id="versionTag">v1.9</div>
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
