@@ -134,7 +134,7 @@
     #score-display {
       position: absolute;
       top: 15px; /* Adjust vertical position */
-      right: 150px; /* Aligned to the right */
+      left: 20px; /* Aligned to the left */
       background: none; /* No background, directly on wall */
       padding: 5px 10px;
       border-radius: 5px;
@@ -143,19 +143,43 @@
       text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
       z-index: 10;
     }
+    
     #room-id-display {
         position: absolute;
-        top: 15px; /* Aligned with score */
-        right: 20px; /* Closer to the right edge */
-        background: none; /* No background */
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-size: 1.1em; /* Slightly larger */
-        color: #fff; /* White for room ID */
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        top: 12%; /* Position above the door */
+        right: 22%; /* Adjust to center above the door, roughly */
+        transform: translateX(50%); /* Centering trick */
+        background: rgba(50, 25, 0, 0.7); /* Darker brown for sign */
+        border: 4px ridge #8B4513; /* Woody/metal border */
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-family: 'Creepster', cursive; /* Old tyme castle font */
+        font-size: 2.2em; /* Larger font for visibility */
+        color: #fdd835; /* Gold/yellow for text */
+        text-shadow: 2px 2px 3px rgba(0,0,0,0.8);
+        white-space: nowrap; /* Prevent text wrap */
         z-index: 10;
         display: none; /* Hidden by default, show in debug mode */
     }
+    /* Simple pegs for the sign */
+    #room-id-display::before, #room-id-display::after {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: #5A2D0C; /* Dark brown for pegs */
+        border-radius: 50%;
+        top: -5px; /* Above the sign */
+        z-index: 11;
+        border: 1px solid #3d1f08;
+    }
+    #room-id-display::before {
+        left: 10px;
+    }
+    #room-id-display::after {
+        right: 10px;
+    }
+
 
     #debug-input {
         position: absolute;
@@ -218,7 +242,7 @@
   <div id="debug-input">
       Debug ID: <input type="text" id="debug-room-id-input" />
       <button id="load-debug-room">Load</button>
-      <span id="version-display">v1.1</span> </div>
+      <span id="version-display">v1.2</span> </div>
   <img id="mouse" src="rat_transparent.gif" alt="mouse" />
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
@@ -245,7 +269,7 @@
     let score = 0;
     const GAME_STATE_KEY = 'shiftmazeGameState';
     const DEBUG_MODE = true; // Set to true to enable debug features
-    const GAME_VERSION = '1.1'; // Define the game version - INCREMENTED
+    const GAME_VERSION = '1.2'; // Define the game version - INCREMENTED
 
     // --- TV Messages (can be separate JSON or hardcoded) ---
     const entryMessages = [
@@ -435,7 +459,7 @@
         versionDisplay.textContent = `v${GAME_VERSION}`;
 
         // Initialize TV messages
-        fetch('tv_messages.json') // Assuming tv_messages.json still exists
+        fetch('tv_messages.json')
             .then(res => res.json())
             .then(data => {
                 allTvMessages = [...entryMessages, ...data];
@@ -456,7 +480,7 @@
             });
 
         // Load puzzles and initial game state
-        fetch('puzzles.json') // Fetch the new puzzles.json
+        fetch('puzzles.json')
             .then(res => res.json())
             .then(data => {
                 allPuzzles = data;
