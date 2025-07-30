@@ -125,6 +125,27 @@
         border-top: 2px solid #eee;
       }
     }
+
+    /* 🌌 ShiftMaze special styling */
+    .shiftmaze-card {
+      background: linear-gradient(145deg, #111, #222);
+      color: #eee;
+    }
+    .shiftmaze-card h2 {
+      color: #00e676;
+    }
+    .shiftmaze-card p {
+      color: #ccc;
+    }
+    .shiftmaze-card a {
+      background: #00e676;
+      color: #111;
+      box-shadow: 0 0 12px rgba(0,230,118,0.4);
+    }
+    .shiftmaze-card a:hover {
+      background: #00c853;
+      box-shadow: 0 0 16px rgba(0,200,83,0.6);
+    }
   </style>
 </head>
 <body>
@@ -149,6 +170,14 @@
           <h2>Sudoku</h2>
           <p>Fill the grid with numbers 1–9 without repeating in rows, columns, or boxes.</p>
           <a href="sudoku/index.html">Play</a>
+        </div>
+
+        <!-- 🌌 ShiftMaze card -->
+        <div class="game-card shiftmaze-card">
+          <h2>ShiftMaze</h2>
+          <p>A never-ending labyrinth of rooms, puzzles, and hidden treasures. 
+             Each run is unique—can you escape the maze?</p>
+          <a href="../shiftmaze/engine_v1.html">Enter the Maze</a>
         </div>
       </div>
     </div>
