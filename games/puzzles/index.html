@@ -91,23 +91,17 @@
       margin-top: 1rem;
       text-align: center;
     }
-    .share-section input {
-      width: 100%;
-      padding: 0.3rem;
-      margin-top: 0.3rem;
-      text-align: center;
-    }
     .share-section button {
       margin-top: 0.3rem;
       padding: 0.4rem 1rem;
-      background: #007bff;
+      background: #0073e6;
       color: white;
       border: none;
       border-radius: 4px;
       cursor: pointer;
     }
     .share-section button:hover {
-      background: #0056b3;
+      background: #005bb5;
     }
 
     /* 🔢 Decorative Sudoku numbers */
@@ -134,25 +128,11 @@
       z-index: 0;
     }
 
-    /* 🌌 ShiftMaze special styling */
-    .shiftmaze-card {
-      background: linear-gradient(145deg, #111, #222);
-      color: #eee;
-    }
-    .shiftmaze-card h2 {
-      color: #00e676;
-    }
-    .shiftmaze-card p {
-      color: #ccc;
-    }
-    .shiftmaze-card a {
-      background: #00e676;
-      color: #111;
-      box-shadow: 0 0 12px rgba(0,230,118,0.4);
-    }
-    .shiftmaze-card a:hover {
-      background: #00c853;
-      box-shadow: 0 0 16px rgba(0,200,83,0.6);
+    /* 🌌 ShiftMaze card */
+    .shiftmaze-card img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
     }
 
     footer {
@@ -171,6 +151,19 @@
       }
     }
   </style>
+  <script>
+    function copyLink(url) {
+      navigator.clipboard.writeText(url);
+      alert("✅ Link copied: " + url);
+    }
+    async function shareLink(url) {
+      if (navigator.share) {
+        await navigator.share({ title: "No Spin Media Puzzles", url: url });
+      } else {
+        alert("Sharing not supported on this device.");
+      }
+    }
+  </script>
 </head>
 <body>
 
@@ -196,24 +189,43 @@
           <p>Fill the grid with numbers 1–9 without repeating in rows, columns, or boxes.</p>
           <a href="sudoku/index.html">Play</a>
           <div class="share-section">
-            <p>🔗 Share with friends:</p>
-            <input type="text" value="https://yoursite.com/games/puzzles/sudoku/index.html" readonly onclick="this.select()">
-            <button onclick="navigator.clipboard.writeText('https://yoursite.com/games/puzzles/sudoku/index.html')">Copy Link</button>
+            <button onclick="shareLink('https://nospin.media/games/puzzles/sudoku/index.html')">🔗 Share with Friends</button>
+            <button onclick="copyLink('https://nospin.media/games/puzzles/sudoku/index.html')">📋 Copy Link</button>
           </div>
         </div>
 
         <!-- 🌌 ShiftMaze -->
         <div class="game-card shiftmaze-card">
+          <img src="../../assets/maze_preview.jpg" alt="Maze Preview">
           <h2>ShiftMaze</h2>
           <p>A never-ending labyrinth of rooms, puzzles, and hidden treasures. 
              Each run is unique—can you escape the maze?</p>
           <a href="../shiftmaze/engine_v1.html">Enter the Maze</a>
           <div class="share-section">
-            <p>🔗 Share with friends:</p>
-            <input type="text" value="https://yoursite.com/games/shiftmaze/engine_v1.html" readonly onclick="this.select()">
-            <button onclick="navigator.clipboard.writeText('https://yoursite.com/games/shiftmaze/engine_v1.html')">Copy Link</button>
+            <button onclick="shareLink('https://nospin.media/games/shiftmaze/engine_v1.html')">🔗 Share with Friends</button>
+            <button onclick="copyLink('https://nospin.media/games/shiftmaze/engine_v1.html')">📋 Copy Link</button>
           </div>
         </div>
+      </div>
+
+      <!-- ✅ Comments Section -->
+      <div style="margin-top:2rem; background:#fff; padding:1rem; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+        <h2>💬 We value your feedback!</h2>
+        <p>We're working hard to improve ShiftMaze and other puzzles. 
+           Your comments and suggestions help shape the game.</p>
+        <form id="puzzleFeedback">
+          <input type="text" id="pf_name" name="name" placeholder="Your name" style="width:100%; padding:8px; margin:4px 0;">
+          <input type="email" id="pf_email" name="email" placeholder="you@email.com" required style="width:100%; padding:8px; margin:4px 0;">
+          <select id="pf_subject" name="subject" style="width:100%; padding:8px; margin:4px 0;">
+            <option value="Puzzles" selected>Puzzles (general)</option>
+            <option value="Sudoku">Sudoku</option>
+            <option value="MagaMaze">MagaMaze (ShiftMaze)</option>
+            <option value="Other">Other</option>
+          </select>
+          <textarea id="pf_message" name="message" rows="4" placeholder="Your feedback..." required style="width:100%; padding:8px; margin:4px 0;"></textarea>
+          <p id="pf_status" style="font-size:0.9em; color:green;"></p>
+          <button type="submit" style="background:#0073e6; color:white; border:none; padding:10px; width:100%; border-radius:4px; font-weight:bold;">Send Feedback</button>
+        </form>
       </div>
     </div>
 
@@ -230,5 +242,41 @@
     © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
   </footer>
 
+  <script>
+    document.getElementById('puzzleFeedback').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const status = document.getElementById('pf_status');
+      status.textContent = "⏳ Sending...";
+
+      const data = {
+        name: document.getElementById('pf_name').value || "Anonymous",
+        email: document.getElementById('pf_email').value,
+        subject: document.getElementById('pf_subject').value,
+        message: document.getElementById('pf_message').value
+      };
+
+      try {
+        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+          method: 'POST',
+          headers: {'Content-Type':'text/plain'},
+          body: JSON.stringify(data)
+        });
+
+        let result = {};
+        try { result = await res.json(); } catch (err) { result = { status: "success" }; }
+
+        if (result.status === "success") {
+          status.textContent = "✅ Thanks for your feedback!";
+          this.reset();
+        } else {
+          status.textContent = "❌ Error sending feedback.";
+        }
+        setTimeout(() => { status.textContent = ""; }, 5000);
+      } catch (err) {
+        status.textContent = "❌ Failed to send.";
+        setTimeout(() => { status.textContent = ""; }, 5000);
+      }
+    });
+  </script>
 </body>
 </html>
