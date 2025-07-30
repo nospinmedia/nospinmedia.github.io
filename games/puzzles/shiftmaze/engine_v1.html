@@ -3,174 +3,425 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ShiftMaze Entry</title>
+  <title>ShiftMaze: The Puzzle</title>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
   <style>
-    /* Full-page wall background */
+    /* Basic Layout */
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
+      overflow: hidden;
     }
     body {
-      /* Large stone/brick wall background with slight overgrowth */
-      background: #000 url('wall.jpg') no-repeat center center;
-      background-size: cover;
-      position: relative;
-      overflow: hidden;
+      background: url('dungeon_wall_texture.jpg') no-repeat center center / cover;
+      font-family: 'Press Start 2P', cursive, Arial, sans-serif;
       color: #fff;
-      font-family: Arial, sans-serif;
+      position: relative;
     }
-    /* TV screen element */
+
+    /* TV Screen (dynamic positioning) */
     #tv {
       position: absolute;
-      top: 10%;
-      left: 5%;
-      width: 25%;
-      min-width: 200px;
-      max-width: 350px;
-      background: #222;
-      border: 8px solid #444;
-      border-radius: 6px;
-      padding: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.8);
-      text-align: center;
-      font-weight: bold;
-      z-index: 1;
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 5px;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.7);
+      border: 6px solid #4a3728;
+      outline: 2px solid #6b5c4f;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      transition: all 1s ease-in-out; /* Smooth transition for position/angle changes */
     }
-    /* Center door element */
-    #door {
+
+    #tv-content {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'VT323', monospace;
+      font-size: 1.4vw;
+      line-height: 1.3;
+      color: #e0e0e0;
+      text-align: center;
+      padding: 1%;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* TV Reflection (as in your v2.6) */
+    #tv::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 80%);
+      transform: skewX(-20deg);
+      animation: lightSweep 12s infinite;
+      z-index: 3;
+    }
+
+    @keyframes lightSweep {
+      0% { left: -60%; }
+      8% { left: 120%; }
+      100% { left: 120%; }
+    }
+
+    /* Game UI Container - Main area for puzzles */
+    #game-container {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 15vw;
-      min-width: 100px;
-      max-width: 180px;
-      height: 30vh;
-      min-height: 150px;
-      max-height: 320px;
-      background: linear-gradient(135deg, #6b4e31, #8d6e47);
-      border: 4px solid #3e2a14;
-      border-radius: 2px;
-      cursor: pointer;
-      transform-origin: left center;
-      transition: transform 1s ease;
-      z-index: 1;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      max-width: 60%; /* Adjust as needed */
+      text-align: center;
+      z-index: 5;
     }
-    /* Door knob */
-    #door::after {
-      content: "";
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      top: 55%;
-      right: 15%;
-      transform: translateY(-50%);
-      background: #333;
-      border: 2px solid #222;
-      border-radius: 50%;
+
+    #puzzle-question {
+      font-size: 1.8vw;
+      margin-bottom: 20px;
     }
-    /* Door open animation (swing open effect) */
-    #door.open {
-      transform: scaleX(0);
-    }
-    /* Exit button (top-right corner) */
-    #exitBtn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      padding: 5px 10px;
-      background: rgba(0,0,0,0.5);
+
+    #puzzle-input {
+      padding: 10px;
+      width: 80%;
+      max-width: 300px;
+      font-size: 1.2em;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid #ffcc00;
       color: #fff;
-      text-decoration: none;
-      border: 1px solid #fff;
-      border-radius: 4px;
-      font-weight: bold;
-      z-index: 10;
+      border-radius: 5px;
+      text-align: center;
     }
-    /* Mute/Unmute button (top-left corner) */
-    #muteBtn {
+
+    #submit-btn, #hint-btn {
+      padding: 10px 20px;
+      margin: 15px 10px;
+      background: #4a3728;
+      color: #ffcc00;
+      border: 2px solid #ffcc00;
+      border-radius: 5px;
+      font-family: 'Press Start 2P', cursive;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    #submit-btn:hover, #hint-btn:hover {
+      background: #ffcc00;
+      color: #4a3728;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 1.1em;
+      color: #f00; /* Red for wrong, green for correct */
+    }
+
+    #score-display, #room-id-display {
       position: absolute;
       top: 10px;
       left: 10px;
-      padding: 5px;
-      background: rgba(0,0,0,0.5);
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      font-size: 1.2em;
-      cursor: pointer;
+      background: rgba(0,0,0,0.7);
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.9em;
       z-index: 10;
+    }
+    #room-id-display {
+        left: 150px; /* Offset from score */
+        display: none; /* Hidden by default, show in debug mode */
+    }
+
+    #debug-input {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        background: rgba(0,0,0,0.7);
+        padding: 5px;
+        border-radius: 5px;
+        z-index: 10;
+        display: none; /* Hidden by default */
+    }
+    #debug-input input {
+        background: rgba(255,255,255,0.1);
+        border: 1px solid #ffcc00;
+        color: #fff;
+        padding: 3px;
+        width: 80px;
+    }
+    #debug-input button {
+        background: #4a3728;
+        color: #ffcc00;
+        border: 1px solid #ffcc00;
+        border-radius: 3px;
+        cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <!-- Rotating message TV screen -->
-  <div id="tv">Did you know No Spin Media has emoji puzzles?</div>
+  <div id="tv"><div id="tv-content"></div></div>
 
-  <!-- Center door element (click to enter) -->
-  <div id="door"></div>
+  <div id="game-container">
+    <div id="puzzle-question"></div>
+    <input type="text" id="puzzle-input" placeholder="Your answer" />
+    <button id="submit-btn">Submit</button>
+    <button id="hint-btn">Hint</button>
+    <div id="message"></div>
+  </div>
 
-  <!-- Exit link to puzzles index -->
-  <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
+  <div id="score-display">Score: <span id="current-score">0</span></div>
+  <div id="room-id-display">Room ID: <span id="current-room-id"></span></div>
+  <div id="debug-input">
+      Debug ID: <input type="text" id="debug-room-id-input" />
+      <button id="load-debug-room">Load</button>
+  </div>
 
-  <!-- Background music audio (hidden) -->
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
-  <!-- Mute/Unmute toggle button -->
   <button id="muteBtn" type="button">🔊</button>
 
   <script>
-    // Rotating TV messages
-    const messages = [
-      "Did you know No Spin Media has emoji puzzles? 😊🧩",
-      "Ready to enter the ShiftMaze? 🎯",
-      "New puzzles added regularly! 🔄"
-    ];
-    let msgIndex = 0;
     const tv = document.getElementById('tv');
-    // Change message every 3 seconds
-    setInterval(() => {
-      msgIndex = (msgIndex + 1) % messages.length;
-      tv.textContent = messages[msgIndex];
-    }, 3000);
+    const tvContent = document.getElementById('tv-content');
+    const puzzleQuestion = document.getElementById('puzzle-question');
+    const puzzleInput = document.getElementById('puzzle-input');
+    const submitBtn = document.getElementById('submit-btn');
+    const hintBtn = document.getElementById('hint-btn');
+    const message = document.getElementById('message');
+    const currentScoreDisplay = document.getElementById('current-score');
+    const currentRoomIdDisplay = document.getElementById('current-room-id');
+    const debugInputDiv = document.getElementById('debug-input');
+    const debugRoomIdInput = document.getElementById('debug-room-id-input');
+    const loadDebugRoomBtn = document.getElementById('load-debug-room');
 
-    // Door click: animate open then redirect
-    const door = document.getElementById('door');
-    door.addEventListener('click', () => {
-      door.classList.add('open');
-      // Redirect after animation (1s)
-      setTimeout(() => {
-        window.location.href = "engine_v1.html";
-      }, 1000);
+    let allPuzzles = [];
+    let currentPuzzleIndex = -1;
+    let score = 0;
+    const GAME_STATE_KEY = 'shiftmazeGameState';
+    const DEBUG_MODE = true; // Set to true to enable debug features
+
+    // --- TV Messages (can be separate JSON or hardcoded) ---
+    const entryMessages = [
+        "Did you know? All content is AI-created at nospin.media!",
+        "Explore fun AI-generated games at nospin.media!"
+    ];
+    let allTvMessages = [];
+    let tvMsgIndex = 0;
+
+    function formatTvMessage(msg) {
+      const totalDisplayLines = 6; // Adjusted for TV size
+      const lines = msg.split("\n");
+      const padding = Math.max(0, totalDisplayLines - lines.length);
+      const topPadding = Math.floor(padding / 2);
+      const bottomPadding = padding - topPadding;
+
+      let html = "";
+      for (let i = 0; i < topPadding; i++) html += "<div>&nbsp;</div>";
+      lines.forEach(line => html += `<div>${line}</div>`);
+      for (let i = 0; i < bottomPadding; i++) html += "<div>&nbsp;</div>";
+      return html;
+    }
+
+    // --- Game State Management ---
+    function saveGameState() {
+      const gameState = {
+        currentPuzzleIndex: currentPuzzleIndex,
+        score: score,
+        // You can add more state here, e.g., solvedPuzzles: []
+      };
+      localStorage.setItem(GAME_STATE_KEY, JSON.stringify(gameState));
+    }
+
+    function loadGameState() {
+      const savedState = localStorage.getItem(GAME_STATE_KEY);
+      if (savedState) {
+        const gameState = JSON.parse(savedState);
+        score = gameState.score || 0;
+        // currentPuzzleIndex will be determined by loadRandomPuzzle, unless in debug mode
+      }
+      currentScoreDisplay.textContent = score;
+    }
+
+    // --- Puzzle Loading and Display ---
+    function loadPuzzle(puzzle) {
+      currentPuzzleIndex = allPuzzles.indexOf(puzzle); // Update index for state saving
+      puzzleQuestion.textContent = puzzle.puzzle.question;
+      puzzleInput.value = '';
+      message.textContent = '';
+      currentRoomIdDisplay.textContent = puzzle.id;
+
+      // Apply TV position for the current room, or randomize if not specified
+      const tvProps = puzzle.tvPosition || {};
+      tv.style.top = tvProps.top || `${20 + Math.random() * 30}%`; // Random top 20-50%
+      tv.style.left = tvProps.left || `${10 + Math.random() * 30}%`; // Random left 10-40%
+      tv.style.width = tvProps.width || `${18 + Math.random() * 5}%`; // Random width 18-23%
+      tv.style.height = tvProps.height || `${22 + Math.random() * 5}%`; // Random height 22-27%
+      tv.style.transform = tvProps.transform || `rotate(${Math.random() * 20 - 10}deg)`; // Random angle -10 to 10 deg
+
+      // Update background if specified (optional, assumes all use dungeon_wall_texture.jpg for now)
+      document.body.style.backgroundImage = `url('${puzzle.background}')`;
+
+      // Clear previous room-specific elements and add new ones (TBD: implementation for 'elements')
+    }
+
+    function loadRandomPuzzle() {
+      if (allPuzzles.length === 0) {
+        message.textContent = "No puzzles loaded!";
+        return;
+      }
+      let randomIndex = Math.floor(Math.random() * allPuzzles.length);
+      // Optional: Prevent loading the same puzzle twice in a row
+      if (allPuzzles.length > 1 && randomIndex === currentPuzzleIndex) {
+          randomIndex = (randomIndex + 1) % allPuzzles.length;
+      }
+      loadPuzzle(allPuzzles[randomIndex]);
+      saveGameState();
+    }
+
+    function checkAnswer() {
+      const userAnswer = puzzleInput.value.trim().toLowerCase();
+      const correctAnswer = allPuzzles[currentPuzzleIndex].puzzle.answer.toLowerCase();
+
+      if (userAnswer === correctAnswer) {
+        message.textContent = "Correct! Moving to next room...";
+        message.style.color = '#0f0'; // Green
+        score += 10; // Award points
+        currentScoreDisplay.textContent = score;
+        saveGameState();
+        setTimeout(loadRandomPuzzle, 1500); // Load new puzzle after a short delay
+      } else {
+        message.textContent = "Incorrect. Try again!";
+        message.style.color = '#f00'; // Red
+      }
+    }
+
+    function showHint() {
+        const hint = allPuzzles[currentPuzzleIndex].puzzle.hint;
+        if (hint) {
+            message.textContent = `Hint: ${hint}`;
+            message.style.color = '#ffcc00'; // Gold for hint
+            score = Math.max(0, score - 2); // Deduct points for hint
+            currentScoreDisplay.textContent = score;
+            saveGameState();
+        } else {
+            message.textContent = "No hint available for this puzzle.";
+            message.style.color = '#fff';
+        }
+    }
+
+    // --- Event Listeners ---
+    submitBtn.addEventListener('click', checkAnswer);
+    puzzleInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        checkAnswer();
+      }
+    });
+    hintBtn.addEventListener('click', showHint);
+
+    loadDebugRoomBtn.addEventListener('click', () => {
+        const debugId = debugRoomIdInput.value.trim();
+        const puzzleToLoad = allPuzzles.find(p => p.id === debugId);
+        if (puzzleToLoad) {
+            loadPuzzle(puzzleToLoad);
+            message.textContent = `Loaded room: ${debugId}`;
+            message.style.color = '#0ff';
+        } else {
+            message.textContent = `Room ID "${debugId}" not found.`;
+            message.style.color = '#f00';
+        }
     });
 
-    // Background music control
+    // --- Audio Control (copied from index.html) ---
     const audio = document.getElementById('bgm');
     const muteBtn = document.getElementById('muteBtn');
-    // Check if autoplay was blocked
+
     setTimeout(() => {
-      if (audio.paused) {
-        // If not playing, show muted icon as prompt
-        muteBtn.textContent = "🔇";
-      }
+        if (audio.paused && !audio.muted) {
+            muteBtn.textContent = "🔇";
+        }
     }, 500);
-    // Toggle sound on button click
+
     muteBtn.addEventListener('click', () => {
-      if (audio.paused) {
-        // Start playing if currently not running
-        audio.play();
+      if (audio.paused && !audio.muted) {
+        audio.play().catch(e => console.log("Autoplay blocked:", e));
         audio.muted = false;
         muteBtn.textContent = "🔊";
       } else {
-        // Toggle mute state if already playing
-        if (audio.muted) {
-          audio.muted = false;
-          muteBtn.textContent = "🔊";
-        } else {
-          audio.muted = true;
-          muteBtn.textContent = "🔇";
-        }
+        audio.muted = !audio.muted;
+        muteBtn.textContent = audio.muted ? "🔇" : "🔊";
       }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (audio.autoplay && audio.paused) {
+            muteBtn.textContent = "🔇";
+        }
+        // Initialize TV messages
+        fetch('tv_messages.json') // Assuming tv_messages.json still exists
+            .then(res => res.json())
+            .then(data => {
+                allTvMessages = [...entryMessages, ...data];
+                tvContent.innerHTML = formatTvMessage(allTvMessages[0]);
+                setInterval(() => {
+                    tvMsgIndex = (tvMsgIndex + 1) % allTvMessages.length;
+                    tvContent.innerHTML = formatTvMessage(allTvMessages[tvMsgIndex]);
+                }, 9000);
+            })
+            .catch(err => {
+                console.error('Failed to load tv_messages.json, using default messages.', err);
+                allTvMessages = entryMessages;
+                tvContent.innerHTML = formatTvMessage(allTvMessages[0]);
+                setInterval(() => {
+                    tvMsgIndex = (tvMsgIndex + 1) % allTvMessages.length;
+                    tvContent.innerHTML = formatTvMessage(allTvMessages[tvMsgIndex]);
+                }, 9000);
+            });
+
+        // Load puzzles and initial game state
+        fetch('puzzles.json') // Fetch the new puzzles.json
+            .then(res => res.json())
+            .then(data => {
+                allPuzzles = data;
+                loadGameState(); // Load score
+                // Determine initial puzzle: if debug mode is on and a specific ID is in URL, use that. Else, load random.
+                const urlParams = new URLSearchParams(window.location.search);
+                const debugId = urlParams.get('debugId');
+                if (DEBUG_MODE && debugId) {
+                    const debugPuzzle = allPuzzles.find(p => p.id === debugId);
+                    if (debugPuzzle) {
+                        loadPuzzle(debugPuzzle);
+                        message.textContent = `Debug mode: Loaded room ${debugId}`;
+                        message.style.color = '#0ff';
+                    } else {
+                        message.textContent = `Debug ID "${debugId}" not found. Loading random.`;
+                        message.style.color = '#f00';
+                        loadRandomPuzzle();
+                    }
+                } else {
+                    loadRandomPuzzle();
+                }
+
+                if (DEBUG_MODE) {
+                    debugInputDiv.style.display = 'block';
+                    document.getElementById('room-id-display').style.display = 'block';
+                }
+            })
+            .catch(err => {
+                console.error('Failed to load puzzles.json:', err);
+                message.textContent = "Error loading puzzles. Please check 'puzzles.json'.";
+                message.style.color = '#f00';
+            });
     });
   </script>
 </body>
