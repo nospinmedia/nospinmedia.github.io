@@ -110,18 +110,19 @@
 
     /* Torch glow fixed inside */
     .torch-flame {
-      position: absolute;
-      top: 28%;
-      left: 51%;
-      width: 3.5%;
-      height: 6%;
-      background: radial-gradient(circle, rgba(255,140,0,0.7) 0%, rgba(255,69,0,0.3) 60%, transparent 100%);
-      border-radius: 50%;
-      filter: blur(8px);
-      animation: flicker 0.3s infinite alternate;
-      pointer-events: none;
-      z-index: 1;
-    }
+  position: absolute;
+  top: 31%;  /* moved slightly down */
+  left: 50%; /* closer to wall */
+  width: 2.8%; /* smaller size to fit */
+  height: 5.5%;
+  background: radial-gradient(circle, rgba(255,180,50,0.8) 0%, rgba(255,100,0,0.4) 60%, transparent 100%);
+  border-radius: 50%;
+  filter: blur(10px);
+  animation: flicker 0.25s infinite alternate;
+  pointer-events: none;
+  z-index: 1;
+}
+
 
     @keyframes flicker {
       0% { opacity: 0.7; transform: scale(1); }
@@ -181,8 +182,8 @@
   <div id="door"></div>
   <div class="torch-flame"></div>
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
-  <div id="versionTag">v2.8</div>
-
+  <div id="versionTag">v2.9</div>
+   /* --------------------- Version tag --------------- */
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
 
