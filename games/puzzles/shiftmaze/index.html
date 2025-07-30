@@ -60,11 +60,11 @@
     /* Door - now a transparent clickable area */
     #door {
       position: absolute;
-      /* Adjusted positions to precisely line up with the door in the background image */
-      top: 41%; /* Start from top of the door frame in the image */
-      left: 66%; /* Shifted right */
-      width: 17.5%; /* Width of the door in the image */
-      height: 56%; /* Height of the door in the image */
+      /* Adjusted to match the red box in the screenshot */
+      top: 51%; /* Shifted down to match red box */
+      left: 69.5%; /* Shifted right to match red box */
+      width: 10%; /* Narrower to match red box */
+      height: 44%; /* Height to match red box */
       background: transparent; /* Makes it transparent */
       cursor: pointer;
       z-index: 1; /* Keep it above the background */
@@ -198,7 +198,7 @@
   <div class="torch-flame" id="torch-right"></div>
 
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
-  <div id="versionTag">v1.5</div>
+  <div id="versionTag">v1.6</div>
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
@@ -208,7 +208,8 @@
     let msgIndex = 0;
     // Updated entryMessages with the text shown in the screenshot
     const entryMessages = [
-        "Play more games and puzzles: visit\nnospin.media today!" // Updated based on latest screenshot
+        "Play more games and puzzles: visit\nnospin.media today!",
+        "Follow us on Facebook:\nfacebook.com/NoSpinNewsAI" // Added the new message
     ];
     let allMessages = [];
 
