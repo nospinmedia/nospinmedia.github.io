@@ -6,6 +6,7 @@
   <title>ShiftMaze Entry</title>
   <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
   <style>
+
     html, body {
       height: 100%;
       margin: 0;
@@ -60,23 +61,21 @@
     /* Door - now a transparent clickable area (border removed) */
     #door {
       position: absolute;
-      /* Adjusted to match the door in the background image, moved more right and up */
-      top: 37%; /* Moved further up */
-      left: 75%; /* Moved further right */
-      width: 17.5%; /* Original approximate width */
-      height: 56%; /* Original approximate height */
+      top: 37%;
+      left: 75%;
+      width: 17.5%;
+      height: 56%;
       background: transparent; /* Makes it transparent */
       cursor: pointer;
       z-index: 1; /* Keep it above the background */
-      /* border: 2px solid rgba(255, 0, 0, 0.5); -- TEMPORARY BORDER REMOVED */
       box-sizing: border-box; /* Ensure border doesn't affect dimensions */
     }
 
     /* Old wooden sign - positioned over the sign in the image */
     #sign {
       position: absolute;
-      top: 28%; /* Shifted up */
-      left: 77%; /* Shifted right to clear the torch */
+      top: 25%; /* Moved higher, above the door */
+      left: 84%; /* Centered horizontally above the door */
       transform: translateX(-50%) rotate(-4deg); /* Keep tilt */
       color: #e02c2c; /* Ominous red */
       font-family: 'Creepster', cursive; /* Spooky font */
@@ -103,13 +102,7 @@
         width: 5%; /* Adjust size of the glow area */
         height: 10%;
     }
-
-    #torch-right {
-        top: 31%; /* Position over the right torch flame */
-        left: 93.5%; /* Shifted right to prevent overlap with door */
-        width: 5%;
-        height: 10%;
-    }
+    /* #torch-right is removed as per request */
 
     @keyframes flicker {
       0% {
@@ -191,19 +184,18 @@
       z-index: 10;
     }
 
-  </style>
+    </style>
 </head>
 <body>
   <div id="tv"><div id="tv-content"></div></div>
   <div id="sign">ENTER IF YOU DARE</div>
   <div id="door"></div> <div class="torch-flame" id="torch-left"></div>
-  <div class="torch-flame" id="torch-right"></div>
-
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
-  <div id="versionTag">v2.0</div>
+  <div id="versionTag">v2.1</div>
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
+
 
   <script>
     const tvContent = document.getElementById('tv-content');
@@ -290,3 +282,4 @@
   </script>
 </body>
 </html>
+  
