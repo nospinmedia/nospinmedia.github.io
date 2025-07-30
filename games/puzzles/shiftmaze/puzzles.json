@@ -277,4 +277,264 @@
     "tvPosition": { "top": "32%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
     "elements": []
   }
+  {
+    "id": "room021",
+    "name": "The Hollow Keep",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I shave every day, but my beard stays the same. Who am I?",
+      "answer": "barber",
+      "hint": "Cuts hair for others."
+    },
+    "tvPosition": { "top": "20%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room022",
+    "name": "The Obsidian Table",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "What is the square root of 144?",
+      "answer": "12",
+      "hint": "12 × 12 = 144."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "18%", "height": "22%", "transform": "rotate(-8deg)" },
+    "elements": []
+  },
+  {
+    "id": "room023",
+    "name": "The Singing Cavern",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "The more you take from me, the more I leave behind. I am not footsteps. What am I?",
+      "answer": "memories",
+      "hint": "Carried in your mind."
+    },
+    "tvPosition": { "top": "15%", "left": "8%", "width": "22%", "height": "28%", "transform": "rotate(2deg)" },
+    "elements": []
+  },
+  {
+    "id": "room024",
+    "name": "The Crossroads",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "You see me once in a minute, twice in a moment, but never in a thousand years. What am I?",
+      "answer": "m",
+      "hint": "Think letters."
+    },
+    "tvPosition": { "top": "30%", "left": "12%", "width": "20%", "height": "25%", "transform": "rotate(-3deg)" },
+    "elements": []
+  },
+  {
+    "id": "room025",
+    "name": "The Forgotten Library",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "I am always spelled wrong. What am I?",
+      "answer": "wrong",
+      "hint": "It's in the question."
+    },
+    "tvPosition": { "top": "18%", "left": "20%", "width": "21%", "height": "26%", "transform": "rotate(7deg)" },
+    "elements": []
+  },
+  {
+    "id": "room026",
+    "name": "The Counting Hall",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "A clock shows 3:15. What is the angle between the hands?",
+      "answer": "7.5",
+      "hint": "Each minute is 0.5° for the hour hand."
+    },
+    "tvPosition": { "top": "22%", "left": "10%", "width": "19%", "height": "24%", "transform": "rotate(-5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room027",
+    "name": "The Iron Gate",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "What comes down but never goes up?",
+      "answer": "rain",
+      "hint": "Falls from clouds."
+    },
+    "tvPosition": { "top": "28%", "left": "5%", "width": "23%", "height": "28%", "transform": "rotate(0deg)" },
+    "elements": []
+  },
+  {
+    "id": "room028",
+    "name": "The Labyrinth Core",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "I am taken from a mine and locked up in a wooden case. I am never released, yet used by many. What am I?",
+      "answer": "pencil lead",
+      "hint": "Found in a common writing tool."
+    },
+    "tvPosition": { "top": "10%", "left": "20%", "width": "18%", "height": "22%", "transform": "rotate(-10deg)" },
+    "elements": []
+  },
+  {
+    "id": "room029",
+    "name": "The Whispering Hollow",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "What has a heart that doesn’t beat?",
+      "answer": "artichoke",
+      "hint": "A type of vegetable."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "21%", "height": "26%", "transform": "rotate(4deg)" },
+    "elements": []
+  },
+  {
+    "id": "room030",
+    "name": "The Wordsmith’s Forge",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "Unscramble: 'SILENT' to reveal a related word.",
+      "answer": "listen",
+      "hint": "An anagram."
+    },
+    "tvPosition": { "top": "32%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
+    "elements": []
+  },
+  {
+    "id": "room031",
+    "name": "The Phantom Staircase",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "The person who makes me, sells me. The one who buys me never uses me. What am I?",
+      "answer": "coffin",
+      "hint": "Final resting place."
+    },
+    "tvPosition": { "top": "20%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room032",
+    "name": "The Crystal Sphere",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "What is 15% of 200?",
+      "answer": "30",
+      "hint": "Find 10% first, then half of that."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "18%", "height": "22%", "transform": "rotate(-8deg)" },
+    "elements": []
+  },
+  {
+    "id": "room033",
+    "name": "The Lantern Room",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "I’m light as a feather, yet the strongest person can’t hold me long. What am I?",
+      "answer": "breath",
+      "hint": "Essential for life."
+    },
+    "tvPosition": { "top": "15%", "left": "8%", "width": "22%", "height": "28%", "transform": "rotate(2deg)" },
+    "elements": []
+  },
+  {
+    "id": "room034",
+    "name": "The Forked Path",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "You meet two guards: one always lies, one always tells the truth. What one question do you ask to find the safe door?",
+      "answer": "ask what the other would say",
+      "hint": "Classic logic puzzle."
+    },
+    "tvPosition": { "top": "30%", "left": "12%", "width": "20%", "height": "25%", "transform": "rotate(-3deg)" },
+    "elements": []
+  },
+  {
+    "id": "room035",
+    "name": "The Word Altar",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "What 7-letter word becomes longer when you add two letters?",
+      "answer": "longer",
+      "hint": "A play on words."
+    },
+    "tvPosition": { "top": "18%", "left": "20%", "width": "21%", "height": "26%", "transform": "rotate(7deg)" },
+    "elements": []
+  },
+  {
+    "id": "room036",
+    "name": "The Number Crypt",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "math",
+      "question": "What is the next number: 2, 4, 8, 16, ?",
+      "answer": "32",
+      "hint": "Powers of 2."
+    },
+    "tvPosition": { "top": "22%", "left": "10%", "width": "19%", "height": "24%", "transform": "rotate(-5deg)" },
+    "elements": []
+  },
+  {
+    "id": "room037",
+    "name": "The Cloaked Chamber",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "The more of me you see, the less you see. What am I?",
+      "answer": "darkness",
+      "hint": "Opposite of light."
+    },
+    "tvPosition": { "top": "28%", "left": "5%", "width": "23%", "height": "28%", "transform": "rotate(0deg)" },
+    "elements": []
+  },
+  {
+    "id": "room038",
+    "name": "The Balance Hall",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "logic",
+      "question": "You have 8 balls, one is heavier. How many weighings on a balance to find it?",
+      "answer": "2",
+      "hint": "Divide and compare."
+    },
+    "tvPosition": { "top": "10%", "left": "20%", "width": "18%", "height": "22%", "transform": "rotate(-10deg)" },
+    "elements": []
+  },
+  {
+    "id": "room039",
+    "name": "The Heart of Stone",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "riddle",
+      "question": "What invention lets you look through walls?",
+      "answer": "window",
+      "hint": "Common household item."
+    },
+    "tvPosition": { "top": "25%", "left": "15%", "width": "21%", "height": "26%", "transform": "rotate(4deg)" },
+    "elements": []
+  },
+  {
+    "id": "room040",
+    "name": "The Echo Library",
+    "background": "dungeon_wall_texture.jpg",
+    "puzzle": {
+      "type": "word",
+      "question": "What 5-letter word becomes shorter when you add two letters?",
+      "answer": "short",
+      "hint": "Another play on words."
+    },
+    "tvPosition": { "top": "32%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
+    "elements": []
+  }
 ]
