@@ -11,76 +11,63 @@
       padding: 0;
     }
     body {
-      background: #2c2c2c url('wall.jpg') center center / cover no-repeat;
-      position: relative;
-      overflow: hidden;
+      background: #222 url('stone_wall.jpg') center center / cover no-repeat;
       font-family: Arial, sans-serif;
       color: #fff;
+      overflow: hidden;
+      position: relative;
     }
 
-    /* Vignette effect */
+    /* Vignette for dungeon effect */
     body::after {
       content: "";
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      box-shadow: inset 0 0 200px rgba(0,0,0,0.7);
+      box-shadow: inset 0 0 200px rgba(0,0,0,0.8);
       pointer-events: none;
     }
 
-    /* Flat screen TV */
+    /* TV screen */
     #tv {
       position: absolute;
-      top: 12%;
+      top: 10%;
       left: 5%;
       width: 25%;
       min-width: 220px;
-      max-width: 380px;
+      max-width: 400px;
       background: #000;
       color: #0ff;
-      border: 6px solid #333;
+      border: 4px solid #333;
       border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 0 20px rgba(0,255,255,0.4), 0 0 40px rgba(0,255,255,0.2);
+      padding: 15px;
       text-align: center;
       font-weight: bold;
       font-size: 1.1em;
-      z-index: 1;
-    }
-
-    /* Door with stone frame */
-    #door {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 18vw;
-      min-width: 120px;
-      max-width: 200px;
-      height: 32vh;
-      min-height: 180px;
-      max-height: 340px;
-      background: linear-gradient(135deg, #7a5638, #5b3b24);
-      border: 5px solid #3b2a17;
-      box-shadow: 0 0 20px rgba(0,0,0,0.8);
-      border-radius: 3px;
-      cursor: pointer;
-      transform-origin: left center;
-      transition: transform 1s ease;
+      box-shadow: 0 0 20px rgba(0,255,255,0.4), inset 0 0 10px rgba(0,255,255,0.2);
       z-index: 2;
     }
 
-    /* Stone door frame */
-    #door::before {
-      content: "";
+    /* Door */
+    #door {
       position: absolute;
-      top: -10px; left: -10px;
-      width: calc(100% + 20px);
-      height: calc(100% + 20px);
-      background: #555;
-      border: 3px solid #2b2b2b;
-      z-index: -1;
-      border-radius: 4px;
+      top: 55%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 16vw;
+      min-width: 120px;
+      max-width: 220px;
+      height: 34vh;
+      min-height: 180px;
+      max-height: 360px;
+      background: linear-gradient(135deg, #7b5a3e, #5a3b25);
+      border: 5px solid #3e2a18;
+      border-radius: 3px;
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(0,0,0,0.8);
+      transition: transform 1s ease;
+      transform-origin: left center;
+      z-index: 1;
     }
 
     /* Door knob */
@@ -89,16 +76,34 @@
       position: absolute;
       width: 14px;
       height: 14px;
-      top: 55%;
-      right: 15%;
+      top: 50%;
+      right: 12%;
       background: #222;
       border: 2px solid #111;
       border-radius: 50%;
     }
 
-    /* Open animation */
+    /* Door open animation */
     #door.open {
       transform: perspective(800px) rotateY(-90deg);
+    }
+
+    /* Old wooden sign above door */
+    #sign {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      background: #5c3b1f;
+      color: #ff4444;
+      font-weight: bold;
+      font-size: 1.6em;
+      padding: 10px 20px;
+      border: 3px solid #3b2410;
+      border-radius: 4px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 0 12px rgba(0,0,0,0.6);
+      text-shadow: 2px 2px 4px #000;
+      z-index: 2;
     }
 
     /* Exit button */
@@ -109,9 +114,9 @@
       padding: 6px 12px;
       background: rgba(0,0,0,0.6);
       color: #fff;
-      text-decoration: none;
       border: 1px solid #fff;
       border-radius: 4px;
+      text-decoration: none;
       font-weight: bold;
       z-index: 10;
     }
@@ -133,7 +138,8 @@
   </style>
 </head>
 <body>
-  <div id="tv">💡 Did you know No Spin Media has emoji puzzles?</div>
+  <div id="tv">🎯 Ready to enter the ShiftMaze? Do you dare?</div>
+  <div id="sign">Enter if you dare</div>
   <div id="door"></div>
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
 
@@ -141,34 +147,37 @@
   <button id="muteBtn" type="button">🔊</button>
 
   <script>
-    // Rotating TV messages (slower: every 9s)
-    const messages = [
-      "💡 Did you know No Spin Media has emoji puzzles?",
-      "🎯 Ready to enter the ShiftMaze?",
-      "🧠 New puzzles added regularly!"
-    ];
-    let msgIndex = 0;
     const tv = document.getElementById('tv');
-    setInterval(() => {
-      msgIndex = (msgIndex + 1) % messages.length;
-      tv.textContent = messages[msgIndex];
-    }, 9000);
+    let msgIndex = 0;
 
-    // Door click
+    // Hard-coded entry-specific message
+    const entryMessages = ["🎯 Ready to enter the ShiftMaze? Do you dare?"];
+
+    // Fetch JSON messages and merge
+    fetch('tv_messages.json')
+      .then(res => res.json())
+      .then(data => {
+        const messages = [...entryMessages, ...data];
+        setInterval(() => {
+          msgIndex = (msgIndex + 1) % messages.length;
+          tv.textContent = messages[msgIndex];
+        }, 9000);
+      })
+      .catch(err => console.error('Failed to load tv_messages.json', err));
+
+    // Door click animation + redirect
     const door = document.getElementById('door');
     door.addEventListener('click', () => {
       door.classList.add('open');
       setTimeout(() => {
-        window.location.href = "https://nospin.media/games/shiftmaze/engine_v1.html";
+        window.location.href = "engine_v1.html";
       }, 1000);
     });
 
-    // Music control
+    // Music mute toggle
     const audio = document.getElementById('bgm');
     const muteBtn = document.getElementById('muteBtn');
-    setTimeout(() => {
-      if (audio.paused) muteBtn.textContent = "🔇";
-    }, 500);
+    setTimeout(() => { if (audio.paused) muteBtn.textContent = "🔇"; }, 500);
     muteBtn.addEventListener('click', () => {
       if (audio.paused) {
         audio.play();
