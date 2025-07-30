@@ -152,8 +152,10 @@
         background: rgba(0,0,0,0.7);
         padding: 5px;
         border-radius: 5px;
+        font-size: 0.9em; /* Match score/room ID font size */
         z-index: 10;
         display: none; /* Hidden by default */
+        color: #ffcc00; /* Highlight debug text */
     }
     #debug-input input {
         background: rgba(255,255,255,0.1);
@@ -161,6 +163,8 @@
         color: #fff;
         padding: 3px;
         width: 80px;
+        margin-left: 5px;
+        margin-right: 5px;
     }
     #debug-input button {
         background: #4a3728;
@@ -168,6 +172,10 @@
         border: 1px solid #ffcc00;
         border-radius: 3px;
         cursor: pointer;
+    }
+    #version-display {
+        margin-left: 10px; /* Space from debug input */
+        color: #ccc; /* Slightly muted color */
     }
 
     /* Mouse */
@@ -198,7 +206,7 @@
   <div id="debug-input">
       Debug ID: <input type="text" id="debug-room-id-input" />
       <button id="load-debug-room">Load</button>
-  </div>
+      <span id="version-display">v1.0</span> </div>
   <img id="mouse" src="rat_transparent.gif" alt="mouse" />
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
@@ -218,12 +226,14 @@
     const debugRoomIdInput = document.getElementById('debug-room-id-input');
     const loadDebugRoomBtn = document.getElementById('load-debug-room');
     const mouse = document.getElementById('mouse'); // Get the mouse element
+    const versionDisplay = document.getElementById('version-display'); // Get the version display element
 
     let allPuzzles = [];
     let currentPuzzleIndex = -1;
     let score = 0;
     const GAME_STATE_KEY = 'shiftmazeGameState';
     const DEBUG_MODE = true; // Set to true to enable debug features
+    const GAME_VERSION = '1.0'; // Define the game version
 
     // --- TV Messages (can be separate JSON or hardcoded) ---
     const entryMessages = [
@@ -405,6 +415,9 @@
         if (audio.autoplay && audio.paused) {
             muteBtn.textContent = "🔇";
         }
+        // Set the version display
+        versionDisplay.textContent = `v${GAME_VERSION}`;
+
         // Initialize TV messages
         fetch('tv_messages.json') // Assuming tv_messages.json still exists
             .then(res => res.json())
