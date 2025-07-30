@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -22,35 +22,23 @@
     /* TV screen */
     #tv {
       position: absolute;
-      top: 20%;
-      left: 11.5%;
-      width: 18.66%;
-      height: 26.66%;
+      top: 24%; /* moved down */
+      left: 12%;
+      width: 18%;
+      height: 22%; /* reduced height */
       background: rgba(0, 0, 0, 0.85);
       border-radius: 5px;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      overflow: hidden;
-      font-family: 'VT323', monospace;
-      font-size: 1.6vw;
-      line-height: 1.3;
-      color: #e0e0e0;
-      box-sizing: border-box;
-      padding: 1%;
+      transform: rotate(-2deg); /* slight tilt */
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.7);
       border: 6px solid #4a3728;
       outline: 2px solid #6b5c4f;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-      animation: tvFlicker 1.5s infinite alternate;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
     }
-    @keyframes tvFlicker {
-      0% { opacity: 1; }
-      50% { opacity: 0.96; }
-      100% { opacity: 1; }
-    }
+
     #tv-content {
       width: 100%;
       height: 100%;
@@ -58,6 +46,34 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      font-family: 'VT323', monospace;
+      font-size: 1.4vw;
+      line-height: 1.3;
+      color: #e0e0e0;
+      text-align: center;
+      padding: 1%;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Glass reflection overlay */
+    #tv::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 80%);
+      transform: skewX(-20deg);
+      animation: lightSweep 12s infinite;
+      z-index: 3;
+    }
+
+    @keyframes lightSweep {
+      0% { left: -60%; }
+      8% { left: 120%; }
+      100% { left: 120%; }
     }
 
     /* Door */
@@ -72,7 +88,7 @@
       z-index: 1;
     }
 
-    /* Old wooden sign */
+    /* Wooden sign */
     #sign {
       position: absolute;
       top: 5%;
@@ -91,44 +107,25 @@
       box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
       border-radius: 5px;
     }
-    /* Cracks and wear */
-    #sign::before, #sign::after {
-      content: "";
-      position: absolute;
-      background: rgba(0,0,0,0.4);
-      height: 2px;
-      width: 40%;
-      top: 30%;
-      left: 10%;
-      transform: rotate(-20deg);
-    }
-    #sign::after {
-      top: 60%;
-      left: 30%;
-      width: 30%;
-      transform: rotate(15deg);
-    }
 
-    /* Torch flame placeholder glow */
+    /* Torch glow fixed inside */
     .torch-flame {
       position: absolute;
+      top: 28%;
+      left: 51%;
+      width: 3.5%;
+      height: 6%;
+      background: radial-gradient(circle, rgba(255,140,0,0.7) 0%, rgba(255,69,0,0.3) 60%, transparent 100%);
       border-radius: 50%;
-      animation: flicker 0.8s infinite alternate;
+      filter: blur(8px);
+      animation: flicker 0.3s infinite alternate;
       pointer-events: none;
-      filter: blur(5px);
       z-index: 1;
     }
-    #torch-left {
-        top: 27%;
-        left: 50.5%;
-        width: 4%;
-        height: 8%;
-        background: radial-gradient(circle, rgba(255,180,50,0.8) 0%, rgba(255,80,0,0.3) 70%, transparent 100%);
-    }
+
     @keyframes flicker {
-      0% { opacity: 0.9; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.05); }
-      100% { opacity: 0.95; transform: scale(0.98); }
+      0% { opacity: 0.7; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.1); }
     }
 
     /* Exit button */
@@ -182,9 +179,9 @@
   <div id="tv"><div id="tv-content"></div></div>
   <div id="sign">ENTER IF YOU DARE</div>
   <div id="door"></div>
-  <div class="torch-flame" id="torch-left"></div>
+  <div class="torch-flame"></div>
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
-  <div id="versionTag">v2.7</div>
+  <div id="versionTag">v2.8</div>
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
@@ -194,12 +191,13 @@
     let msgIndex = 0;
 
     const entryMessages = [
-        "🎯 Ready to enter the ShiftMaze?\nDo you dare?"
+      "🎯 Ready to enter the ShiftMaze? Do you dare?",
+      "Play more games and puzzles:\nnospin.media today!"
     ];
     let allMessages = [];
 
     function formatMessage(msg) {
-      const totalDisplayLines = 8; // Now using 8 lines
+      const totalDisplayLines = 6;
       const lines = msg.split("\n");
       const padding = Math.max(0, totalDisplayLines - lines.length);
       const topPadding = Math.floor(padding / 2);
@@ -223,7 +221,7 @@
         }, 9000);
       })
       .catch(err => {
-        console.error('Failed to load tv_messages.json, using defaults.', err);
+        console.error('Failed to load tv_messages.json', err);
         allMessages = entryMessages;
         tvContent.innerHTML = formatMessage(allMessages[0]);
       });
