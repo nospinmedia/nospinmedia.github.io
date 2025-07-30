@@ -148,7 +148,7 @@
         #room-sign {
             position: absolute;
             top: 15%; /* Adjusted to be slightly lower, more centered with the door top */
-            left: 70%; /* Move it further right to be over the door */
+            left: 78%; /* ADJUSTED: Move it further right to better center over the door */
             transform: translateX(-50%); /* Centering relative to its 'left' position */
             background: rgba(50, 25, 0, 0.7); /* Darker brown for sign */
             border: 4px ridge #8B4513; /* Woody/metal border */
@@ -270,7 +270,7 @@
     <div id="debug-input">
         Debug ID: <input type="text" id="debug-room-id-input" />
         <button id="load-debug-room">Load</button>
-        <span id="version-display">v1.4</span> </div>
+        <span id="version-display">v1.5</span> </div>
     <img id="mouse" src="rat_transparent.gif" alt="mouse" />
 
     <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
@@ -285,20 +285,20 @@
         const hintBtn = document.getElementById('hint-btn');
         const message = document.getElementById('message');
         const currentScoreDisplay = document.getElementById('current-score');
-        const roomSign = document.getElementById('room-sign'); // NEW: Get the new sign div
-        const roomSignText = document.getElementById('room-sign-text'); // NEW: Get the span inside
+        const roomSign = document.getElementById('room-sign');
+        const roomSignText = document.getElementById('room-sign-text');
         const debugInputDiv = document.getElementById('debug-input');
         const debugRoomIdInput = document.getElementById('debug-room-id-input');
         const loadDebugRoomBtn = document.getElementById('load-debug-room');
-        const mouse = document.getElementById('mouse'); // Get the mouse element
-        const versionDisplay = document.getElementById('version-display'); // Get the version display element
+        const mouse = document.getElementById('mouse');
+        const versionDisplay = document.getElementById('version-display');
 
         let allPuzzles = [];
         let currentPuzzleIndex = -1;
         let score = 0;
         const GAME_STATE_KEY = 'shiftmazeGameState';
-        const DEBUG_MODE = true; // Set to true to enable debug features
-        const GAME_VERSION = '1.4'; // Define the game version - INCREMENTED
+        const DEBUG_MODE = true;
+        const GAME_VERSION = '1.5'; // Define the game version - INCREMENTED
 
         // --- TV Messages (can be separate JSON or hardcoded) ---
         const entryMessages = [
@@ -309,7 +309,7 @@
         let tvMsgIndex = 0;
 
         function formatTvMessage(msg) {
-            const totalDisplayLines = 6; // Adjusted for TV size
+            const totalDisplayLines = 6;
             const lines = msg.split("\n");
             const padding = Math.max(0, totalDisplayLines - lines.length);
             const topPadding = Math.floor(padding / 2);
@@ -342,29 +342,23 @@
 
         // --- Puzzle Loading and Display ---
         function loadPuzzle(puzzle) {
-            currentPuzzleIndex = allPuzzles.indexOf(puzzle); // Update index for state saving
+            currentPuzzleIndex = allPuzzles.indexOf(puzzle);
             puzzleQuestion.textContent = puzzle.puzzle.question;
             puzzleInput.value = '';
             message.textContent = '';
             
-            // Format Room ID: remove "room" and leading zeros
             const roomIdNumber = puzzle.id.replace('room', '').replace(/^0+/, '');
-            roomSignText.textContent = `ROOM: ${roomIdNumber} - ${puzzle.name.toUpperCase()}`; // NEW: Include room name and make it uppercase for consistency with font
-            roomSign.style.display = 'block'; // NEW: Make sure the sign is visible
+            roomSignText.textContent = `ROOM: ${roomIdNumber} - ${puzzle.name.toUpperCase()}`;
+            roomSign.style.display = 'block'; // Make sure the sign is visible
 
-            // Apply TV position for the current room, or randomize if not specified
             const tvProps = puzzle.tvPosition || {};
-            tv.style.top = tvProps.top || `${20 + Math.random() * 30}%`; // Random top 20-50%
-            // Ensure TV stays within the left 50% of the screen (0% to 35% of screen width)
-            tv.style.left = tvProps.left || `${Math.random() * 35}%`; // Random left 0-35% (to stay within left 50%)
-            tv.style.width = tvProps.width || `${18 + Math.random() * 5}%`; // Random width 18-23%
-            tv.style.height = tvProps.height || `${22 + Math.random() * 5}%`; // Random height 22-27%
-            tv.style.transform = tvProps.transform || `rotate(${Math.random() * 20 - 10}deg)`; // Random angle -10 to 10 deg
+            tv.style.top = tvProps.top || `${20 + Math.random() * 30}%`;
+            tv.style.left = tvProps.left || `${Math.random() * 35}%`;
+            tv.style.width = tvProps.width || `${18 + Math.random() * 5}%`;
+            tv.style.height = tvProps.height || `${22 + Math.random() * 5}%`;
+            tv.style.transform = tvProps.transform || `rotate(${Math.random() * 20 - 10}deg)`;
 
-            // Update background if specified (optional, assumes all use dungeon_wall_texture.jpg for now)
             document.body.style.backgroundImage = `url('${puzzle.background}')`;
-
-            // Clear previous room-specific elements and add new ones (TBD: implementation for 'elements')
         }
 
         function loadRandomPuzzle() {
@@ -373,7 +367,6 @@
                 return;
             }
             let randomIndex = Math.floor(Math.random() * allPuzzles.length);
-            // Optional: Prevent loading the same puzzle twice in a row
             if (allPuzzles.length > 1 && randomIndex === currentPuzzleIndex) {
                 randomIndex = (randomIndex + 1) % allPuzzles.length;
             }
@@ -387,14 +380,14 @@
 
             if (userAnswer === correctAnswer) {
                 message.textContent = "Correct! Moving to next room...";
-                message.style.color = '#0f0'; // Green
-                score += 10; // Award points
+                message.style.color = '#0f0';
+                score += 10;
                 currentScoreDisplay.textContent = score;
                 saveGameState();
-                setTimeout(loadRandomPuzzle, 1500); // Load new puzzle after a short delay
+                setTimeout(loadRandomPuzzle, 1500);
             } else {
                 message.textContent = "Incorrect. Try again!";
-                message.style.color = '#f00'; // Red
+                message.style.color = '#f00';
             }
         }
 
@@ -402,8 +395,8 @@
             const hint = allPuzzles[currentPuzzleIndex].puzzle.hint;
             if (hint) {
                 message.textContent = `Hint: ${hint}`;
-                message.style.color = '#ffcc00'; // Gold for hint
-                score = Math.max(0, score - 2); // Deduct points for hint
+                message.style.color = '#ffcc00';
+                score = Math.max(0, score - 2);
                 currentScoreDisplay.textContent = score;
                 saveGameState();
             } else {
@@ -413,31 +406,28 @@
         }
 
         // --- Running Mouse Logic ---
-        // Removed darker filter options; added brightness and invert to ensure lightness
         const colors = [
             'brightness(1.5)',
             'brightness(2)',
-            'invert(1) hue-rotate(180deg) brightness(1.5)', // Invert then lighten
-            'sepia(1) saturate(3) hue-rotate(50deg) brightness(1.2)' // Warm and bright
+            'invert(1) hue-rotate(180deg) brightness(1.5)',
+            'sepia(1) saturate(3) hue-rotate(50deg) brightness(1.2)'
         ];
 
         function runMouse() {
             const screenWidth = window.innerWidth;
             const goingRight = Math.random() > 0.5;
-            // Apply a filter that ensures a lighter color
             mouse.style.filter = `drop-shadow(2px 2px 2px rgba(0,0,0,0.6)) ${colors[Math.floor(Math.random()*colors.length)]}`;
 
             if (goingRight) {
                 mouse.style.left = '-140px';
-                mouse.style.transform = "scaleX(-1)"; // Normal for right run
+                mouse.style.transform = "scaleX(-1)";
                 mouse.animate([{ left: '-140px' }, { left: screenWidth + 'px' }], { duration: 7000, fill: 'forwards' });
             } else {
                 mouse.style.left = screenWidth + 'px';
-                mouse.style.transform = "scaleX(1)"; // Flip for left run
+                mouse.style.transform = "scaleX(1)";
                 mouse.animate([{ left: screenWidth + 'px' }, { left: '-140px' }], { duration: 7000, fill: 'forwards' });
             }
 
-            // Schedule next run after a random delay (between 15 to 19 seconds)
             setTimeout(runMouse, 15000 + Math.random()*4000);
         }
 
@@ -467,14 +457,12 @@
         const audio = document.getElementById('bgm');
         const muteBtn = document.getElementById('muteBtn');
 
-        // Attempt to play audio on user interaction or after a short delay
         document.addEventListener('click', () => {
             if (audio.paused && !audio.muted) {
                 audio.play().catch(e => console.log("Autoplay blocked, user interaction needed:", e));
             }
-        }, { once: true }); // Only run once to ensure immediate playback on first click
+        }, { once: true });
 
-        // Check audio state after a short timeout to handle potential autoplay blocks
         setTimeout(() => {
             if (audio.paused && !audio.muted) {
                 muteBtn.textContent = "🔇";
@@ -482,24 +470,22 @@
         }, 500);
 
         muteBtn.addEventListener('click', () => {
-            if (audio.paused && !audio.muted) { // If audio is paused but not explicitly muted (likely autoplay block)
+            if (audio.paused && !audio.muted) {
                 audio.play().catch(e => console.log("Autoplay blocked:", e));
-                audio.muted = false; // Ensure it's not muted
+                audio.muted = false;
                 muteBtn.textContent = "🔊";
             } else {
                 audio.muted = !audio.muted;
                 muteBtn.textContent = audio.muted ? "🔇" : "🔊";
-                if (!audio.muted && audio.paused) { // If unmuting and still paused (e.g., first interaction)
+                if (!audio.muted && audio.paused) {
                     audio.play().catch(e => console.log("Autoplay blocked on unmute:", e));
                 }
             }
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Set the version display
             versionDisplay.textContent = `v${GAME_VERSION}`;
 
-            // Initialize TV messages
             fetch('tv_messages.json')
                 .then(res => res.json())
                 .then(data => {
@@ -520,13 +506,11 @@
                     }, 9000);
                 });
 
-            // Load puzzles and initial game state
             fetch('puzzles.json')
                 .then(res => res.json())
                 .then(data => {
                     allPuzzles = data;
-                    loadGameState(); // Load score
-                    // Determine initial puzzle: if debug mode is on and a specific ID is in URL, use that. Else, load random.
+                    loadGameState();
                     const urlParams = new URLSearchParams(window.location.search);
                     const debugId = urlParams.get('debugId');
                     if (DEBUG_MODE && debugId) {
@@ -546,7 +530,7 @@
 
                     if (DEBUG_MODE) {
                         debugInputDiv.style.display = 'block';
-                        roomSign.style.display = 'block'; // NEW: Ensure the new sign is shown in debug mode
+                        roomSign.style.display = 'block';
                     }
                 })
                 .catch(err => {
@@ -555,7 +539,6 @@
                     message.style.color = '#f00';
                 });
 
-            // Start the mouse animation
             setTimeout(runMouse, 2000);
         });
     </script>
