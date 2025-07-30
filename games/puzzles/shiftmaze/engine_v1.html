@@ -134,11 +134,11 @@
     #score-display {
       position: absolute;
       top: 15px; /* Adjust vertical position */
-      left: 20px; /* Aligned to the left */
+      left: 60px; /* Moved right from 20px */
       background: none; /* No background, directly on wall */
       padding: 5px 10px;
       border-radius: 5px;
-      font-size: 1.1em; /* Slightly larger */
+      font-size: 1.2em; /* Slightly larger for visibility */
       color: #ffcc00; /* Gold color for score */
       text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
       z-index: 10;
@@ -238,11 +238,11 @@
   </div>
 
   <div id="score-display">Score: <span id="current-score">0</span></div>
-  <div id="room-id-display">Room ID: <span id="current-room-id"></span></div>
+  <div id="room-id-display">Room: <span id="current-room-id"></span></div>
   <div id="debug-input">
       Debug ID: <input type="text" id="debug-room-id-input" />
       <button id="load-debug-room">Load</button>
-      <span id="version-display">v1.2</span> </div>
+      <span id="version-display">v1.3</span> </div>
   <img id="mouse" src="rat_transparent.gif" alt="mouse" />
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
@@ -269,7 +269,7 @@
     let score = 0;
     const GAME_STATE_KEY = 'shiftmazeGameState';
     const DEBUG_MODE = true; // Set to true to enable debug features
-    const GAME_VERSION = '1.2'; // Define the game version - INCREMENTED
+    const GAME_VERSION = '1.3'; // Define the game version - INCREMENTED
 
     // --- TV Messages (can be separate JSON or hardcoded) ---
     const entryMessages = [
@@ -317,12 +317,15 @@
       puzzleQuestion.textContent = puzzle.puzzle.question;
       puzzleInput.value = '';
       message.textContent = '';
-      currentRoomIdDisplay.textContent = puzzle.id;
+      
+      // Format Room ID: remove "room" and leading zeros
+      const roomIdNumber = puzzle.id.replace('room', '').replace(/^0+/, '');
+      currentRoomIdDisplay.textContent = roomIdNumber;
 
       // Apply TV position for the current room, or randomize if not specified
       const tvProps = puzzle.tvPosition || {};
       tv.style.top = tvProps.top || `${20 + Math.random() * 30}%`; // Random top 20-50%
-      // Ensure TV stays within the left 50% of the screen
+      // Ensure TV stays within the left 50% of the screen (0% to 35% of screen width)
       tv.style.left = tvProps.left || `${Math.random() * 35}%`; // Random left 0-35% (to stay within left 50%)
       tv.style.width = tvProps.width || `${18 + Math.random() * 5}%`; // Random width 18-23%
       tv.style.height = tvProps.height || `${22 + Math.random() * 5}%`; // Random height 22-27%
