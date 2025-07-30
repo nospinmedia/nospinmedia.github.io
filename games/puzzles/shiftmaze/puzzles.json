@@ -1,280 +1,380 @@
-[
-  {
-    "id": "room001",
-    "name": "The Rusty Antechamber",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "riddle",
-      "question": "I have cities, but no houses; forests, but no trees; and water, but no fish. What am I?",
-      "answer": "map",
-      "hint": "You use me for navigation."
-    },
-    "tvPosition": { "top": "20%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(5deg)" },
-    "elements": [
-      {"type": "torch", "top": "30%", "left": "45%", "glow": true}
-    ]
-  },
-  {
-    "id": "room002",
-    "name": "The Echoing Cavern",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "math",
-      "question": "What is 7 times 8?",
-      "answer": "56",
-      "hint": "Basic multiplication."
-    },
-    "tvPosition": { "top": "25%", "left": "60%", "width": "18%", "height": "22%", "transform": "rotate(-8deg)" },
-    "elements": [
-      {"type": "torch", "top": "35%", "left": "70%", "glow": true},
-      {"type": "torch", "top": "35%", "left": "20%", "glow": true}
-    ]
-  },
-  {
-    "id": "room003",
-    "name": "The Cryptic Cell",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "riddle",
-      "question": "What has an eye, but cannot see?",
-      "answer": "needle",
-      "hint": "You use it for sewing."
-    },
-    "tvPosition": { "top": "15%", "left": "35%", "width": "22%", "height": "28%", "transform": "rotate(2deg)" },
-    "elements": [
-      {"type": "text", "content": "Beware the shadows.", "position": {"top": "85%", "left": "50%"}}
-    ]
-  },
-  {
-    "id": "room004",
-    "name": "The Sunken Alcove",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "logic",
-      "question": "What is always in front of you but can’t be seen?",
-      "answer": "future",
-      "hint": "Time-related concept."
-    },
-    "tvPosition": { "top": "30%", "left": "15%", "width": "20%", "height": "25%", "transform": "rotate(-3deg)" },
-    "elements": [
-      {"type": "torch", "top": "40%", "left": "50%", "glow": true}
-    ]
-  },
-  {
-    "id": "room005",
-    "name": "The Dusty Library",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "word",
-      "question": "What question can you never answer yes to?",
-      "answer": "are you asleep yet",
-      "hint": "Think about the act of answering."
-    },
-    "tvPosition": { "top": "18%", "left": "55%", "width": "21%", "height": "26%", "transform": "rotate(7deg)" },
-    "elements": [
-      {"type": "text", "content": "Read carefully.", "position": {"top": "10%", "left": "10%"}}
-    ]
-  },
-  {
-    "id": "room006",
-    "name": "The Tortured Hall",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "math",
-      "question": "If you have 5 apples and take away 2, how many do you have?",
-      "answer": "2",
-      "hint": "It's a trick question!"
-    },
-    "tvPosition": { "top": "22%", "left": "30%", "width": "19%", "height": "24%", "transform": "rotate(-5deg)" },
-    "elements": [
-      {"type": "torch", "top": "32%", "left": "25%", "glow": true},
-      {"type": "torch", "top": "32%", "left": "75%", "glow": true}
-    ]
-  },
-  {
-    "id": "room007",
-    "name": "The Whispering Walls",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "riddle",
-      "question": "What has to be broken before you can use it?",
-      "answer": "egg",
-      "hint": "Common in breakfast."
-    },
-    "tvPosition": { "top": "28%", "left": "12%", "width": "23%", "height": "28%", "transform": "rotate(0deg)" },
-    "elements": []
-  },
-  {
-    "id": "room008",
-    "name": "The Glimmering Grotto",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "logic",
-      "question": "What can you catch, but not throw?",
-      "answer": "cold",
-      "hint": "A common ailment."
-    },
-    "tvPosition": { "top": "10%", "left": "70%", "width": "18%", "height": "22%", "transform": "rotate(-10deg)" },
-    "elements": [
-      {"type": "text", "content": "A chill fills the air.", "position": {"top": "70%", "left": "20%"}}
-    ]
-  },
-  {
-    "id": "room009",
-    "name": "The Forgotten Chamber",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "riddle",
-      "question": "What is full of holes but still holds water?",
-      "answer": "sponge",
-      "hint": "Used for cleaning."
-    },
-    "tvPosition": { "top": "25%", "left": "40%", "width": "21%", "height": "26%", "transform": "rotate(4deg)" },
-    "elements": [
-      {"type": "torch", "top": "30%", "left": "60%", "glow": true}
-    ]
-  },
-  {
-    "id": "room010",
-    "name": "The Endless Corridor",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "word",
-      "question": "What is always coming, but never arrives?",
-      "answer": "tomorrow",
-      "hint": "Another time-related concept."
-    },
-    "tvPosition": { "top": "32%", "left": "25%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
-    "elements": []
-  }
- {
-    "id": "room011",
-    "name": "The Gilded Vault",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "riddle",
-      "question": "The more of me you take, the more you leave behind. What am I?",
-      "answer": "footsteps",
-      "hint": "You make these when walking."
-    },
-    "tvPosition": { "top": "20%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(5deg)" },
-    "elements": []
-  },
-  {
-    "id": "room012",
-    "name": "The Stone Lab",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "math",
-      "question": "What is (12 ÷ 3) + (5 × 2)?",
-      "answer": "14",
-      "hint": "Order of operations applies."
-    },
-    "tvPosition": { "top": "25%", "left": "15%", "width": "18%", "height": "22%", "transform": "rotate(-8deg)" },
-    "elements": []
-  },
-  {
-    "id": "room013",
-    "name": "The Shifting Passage",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "riddle",
-      "question": "The more you take away from me, the bigger I get. What am I?",
-      "answer": "hole",
-      "hint": "You might dig it."
-    },
-    "tvPosition": { "top": "15%", "left": "8%", "width": "22%", "height": "28%", "transform": "rotate(2deg)" },
-    "elements": []
-  },
-  {
-    "id": "room014",
-    "name": "The Mirror Hall",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "logic",
-      "question": "Two fathers and two sons go fishing. They catch 3 fish. Each gets one. How?",
-      "answer": "grandfather father son",
-      "hint": "One is both a father and a son."
-    },
-    "tvPosition": { "top": "30%", "left": "12%", "width": "20%", "height": "25%", "transform": "rotate(-3deg)" },
-    "elements": []
-  },
-  {
-    "id": "room015",
-    "name": "The Silent Archive",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "word",
-      "question": "Forward I am heavy, but backward I am not. What am I?",
-      "answer": "ton",
-      "hint": "Think about spelling."
-    },
-    "tvPosition": { "top": "18%", "left": "20%", "width": "21%", "height": "26%", "transform": "rotate(7deg)" },
-    "elements": []
-  },
-  {
-    "id": "room016",
-    "name": "The Ancient Abacus",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "math",
-      "question": "A farmer has 17 sheep and all but 9 run away. How many are left?",
-      "answer": "9",
-      "hint": "All but 9 run away."
-    },
-    "tvPosition": { "top": "22%", "left": "10%", "width": "19%", "height": "24%", "transform": "rotate(-5deg)" },
-    "elements": []
-  },
-  {
-    "id": "room017",
-    "name": "The Scribe’s Refuge",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "riddle",
-      "question": "What has keys but can’t open locks?",
-      "answer": "piano",
-      "hint": "Produces music."
-    },
-    "tvPosition": { "top": "28%", "left": "5%", "width": "23%", "height": "28%", "transform": "rotate(0deg)" },
-    "elements": []
-  },
-  {
-    "id": "room018",
-    "name": "The Paradox Hall",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "logic",
-      "question": "I speak without a mouth and hear without ears. What am I?",
-      "answer": "echo",
-      "hint": "Common in caves."
-    },
-    "tvPosition": { "top": "10%", "left": "20%", "width": "18%", "height": "22%", "transform": "rotate(-10deg)" },
-    "elements": []
-  },
-  {
-    "id": "room019",
-    "name": "The Dripping Cavern",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "riddle",
-      "question": "What runs but never walks, has a mouth but never talks?",
-      "answer": "river",
-      "hint": "Flows endlessly."
-    },
-    "tvPosition": { "top": "25%", "left": "15%", "width": "21%", "height": "26%", "transform": "rotate(4deg)" },
-    "elements": []
-  },
-  {
-    "id": "room020",
-    "name": "The Hidden Study",
-    "background": "dungeon_wall_texture.jpg",
-    "puzzle": {
-      "type": "word",
-      "question": "I’m tall when I’m young and short when I’m old. What am I?",
-      "answer": "candle",
-      "hint": "Melts away."
-    },
-    "tvPosition": { "top": "32%", "left": "10%", "width": "20%", "height": "25%", "transform": "rotate(-6deg)" },
-    "elements": []
-  }
-]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Dungeon Adventure</title>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <button id="exit-button" class="game-button">Exit Game</button>
+
+        <div id="room-background">
+            <img id="dungeon-door" src="path/to/your/door_image.png" alt="Dungeon Door">
+
+            <div id="room-sign" class="sign">
+                <p id="sign-name"></p>
+                <p id="sign-number"></p>
+            </div>
+
+            </div>
+
+        <div id="tv">
+            <div id="tv-screen">
+                <p id="puzzle-text"></p>
+                <p id="hint-text" class="hidden"></p>
+                <input type="text" id="answer-input" placeholder="Your answer">
+                <button id="submit-button" class="game-button">Submit</button>
+                <button id="hint-button" class="game-button">Hint</button>
+            </div>
+        </div>
+
+        <div id="message-area"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+body {
+    margin: 0;
+    overflow: hidden; /* Prevent scrolling */
+    background-color: #1a1a1a; /* Dark background for outside game area */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#game-container {
+    position: relative;
+    width: 100vw; /* Occupy full viewport width */
+    height: 100vh; /* Occupy full viewport height */
+    max-width: 1920px; /* Max width to prevent stretching on very wide screens */
+    max-height: 1080px; /* Max height for typical HD resolution */
+    aspect-ratio: 16 / 9; /* Maintain 16:9 aspect ratio */
+    background-color: #333; /* Default background if image not loaded */
+    overflow: hidden;
+    margin: auto; /* Center the game container */
+}
+
+#room-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Replace with the correct path to your dungeon wall texture */
+    background-image: url('dungeon_wall_texture.jpg');
+    background-size: cover; /* Cover the entire area */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat;
+}
+
+#dungeon-door {
+    position: absolute;
+    /* Adjust these values to position your door correctly based on your image */
+    bottom: 0; /* Or adjust based on the bottom of your image */
+    left: 50%;
+    transform: translateX(-50%); /* Center the door horizontally */
+    width: 25%; /* Adjust door size relative to game container width */
+    height: 60%; /* Adjust door size relative to game container height */
+    object-fit: contain; /* Ensure the image fits without cropping/stretching */
+    z-index: 1; /* Place door above background */
+}
+
+/* Sign above the door */
+.sign {
+    position: absolute;
+    background-color: #4a3c2f; /* Dark wood-like color */
+    border: 3px solid #2e241c;
+    border-radius: 8px; /* Slightly more rounded corners */
+    padding: 8px 15px;
+    text-align: center;
+    color: #f0e0c0; /* Light, parchment-like text color */
+    font-family: 'MedievalSharp', cursive; /* A medieval-style font */
+    line-height: 1.3; /* Spacing between lines */
+    z-index: 2; /* Place sign above door */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
+
+    /* Position sign relative to the door */
+    top: 25%; /* Adjust vertically, higher value moves it down */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    width: 250px; /* Fixed width for the sign */
+    max-width: 30%; /* Ensure it's not too wide on smaller screens */
+    box-sizing: border-box; /* Include padding/border in width */
+}
+
+#sign-name {
+    font-size: 1.4em; /* Larger for the name */
+    font-weight: bold;
+    margin-bottom: 5px; /* Space between name and number */
+    white-space: nowrap; /* Prevent name from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis if name is too long */
+}
+
+#sign-number {
+    font-size: 1em; /* Standard size for room number */
+    opacity: 0.9;
+}
+
+/* TV Display */
+#tv {
+    position: absolute;
+    border: 5px solid #333;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.7); /* Green glow */
+    background-color: black;
+    /* These values will be set dynamically by JavaScript from puzzles.json */
+    /* Example defaults, but JS will override: */
+    top: 20%;
+    left: 10%;
+    width: 20%;
+    height: 25%;
+    transform: rotate(5deg);
+    z-index: 10; /* Ensure TV is on top */
+    display: flex; /* Use flex for internal content alignment */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px; /* Padding inside the TV screen */
+    box-sizing: border-box; /* Include padding in dimensions */
+}
+
+#tv-screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: 'Press Start 2P', cursive; /* Pixel-style font */
+    font-size: 0.9em; /* Adjust font size for readability */
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5); /* Subtle text glow */
+}
+
+#puzzle-text, #hint-text {
+    text-align: center;
+    margin-bottom: 15px; /* Space between text elements */
+    padding: 0 5px; /* Small horizontal padding for text */
+}
+
+#answer-input {
+    padding: 8px 10px;
+    margin-bottom: 15px;
+    width: 90%; /* Occupy most of the TV width */
+    max-width: 250px;
+    background-color: #222; /* Darker input background */
+    color: #00ff00; /* Green text for input */
+    border: 2px solid #00ff00; /* Green border */
+    border-radius: 4px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+.game-button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #007bff; /* Blue button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.game-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.game-button:active {
+    background-color: #003f80; /* Even darker on click */
+    transform: translateY(0);
+}
+
+#exit-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #dc3545; /* Red for exit */
+    z-index: 100; /* Ensure it's on top of everything */
+}
+
+#exit-button:hover {
+    background-color: #c82333;
+}
+
+.hidden {
+    display: none;
+}
+
+// This will hold your parsed JSON data from puzzles.json
+let puzzlesData = [];
+// Variable to keep track of the current room ID
+let currentRoomId = 'room001'; // Start with the first room
+
+// --- Utility Functions ---
+
+// Function to extract room number from ID (e.g., "room001" -> "1")
+function getRoomNumberFromId(roomId) {
+    const match = roomId.match(/room(\d+)/);
+    return match ? parseInt(match[1]).toString() : 'N/A';
+}
+
+// --- Main Game Logic ---
+
+async function loadPuzzles() {
+    try {
+        const response = await fetch('puzzles.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        puzzlesData = await response.json();
+        console.log("Puzzles loaded:", puzzlesData);
+        // Display the initial room once puzzles are loaded
+        displayRoom(currentRoomId);
+    } catch (error) {
+        console.error("Error loading puzzles:", error);
+        document.getElementById('message-area').textContent = 'Error loading game data.';
+    }
+}
+
+function displayRoom(roomId) {
+    const room = puzzlesData.find(r => r.id === roomId);
+
+    if (room) {
+        currentRoomId = roomId; // Update current room tracker
+
+        // --- Update the Sign Above the Door ---
+        const signNameElement = document.getElementById('sign-name');
+        const signNumberElement = document.getElementById('sign-number');
+        if (signNameElement && signNumberElement) {
+            signNameElement.textContent = room.name;
+            signNumberElement.textContent = `Room: ${getRoomNumberFromId(room.id)}`;
+        } else {
+            console.warn("Sign elements (sign-name or sign-number) not found in HTML.");
+        }
+
+        // --- Update TV Content ---
+        const puzzleTextElement = document.getElementById('puzzle-text');
+        const hintTextElement = document.getElementById('hint-text');
+        const answerInputElement = document.getElementById('answer-input');
+
+        if (puzzleTextElement) {
+            puzzleTextElement.textContent = room.puzzle.question;
+        }
+        if (hintTextElement) {
+            hintTextElement.textContent = `Hint: ${room.puzzle.hint}`;
+            hintTextElement.classList.add('hidden'); // Hide hint by default
+        }
+        if (answerInputElement) {
+            answerInputElement.value = ''; // Clear previous answer
+        }
+
+        // --- Apply TV Position from JSON ---
+        const tvElement = document.getElementById('tv');
+        if (tvElement && room.tvPosition) {
+            tvElement.style.top = room.tvPosition.top;
+            tvElement.style.left = room.tvPosition.left;
+            tvElement.style.width = room.tvPosition.width;
+            tvElement.style.height = room.tvPosition.height;
+            tvElement.style.transform = room.tvPosition.transform;
+        } else if (tvElement) {
+            // Fallback for TV position if not defined in JSON
+            tvElement.style.top = '20%';
+            tvElement.style.left = '10%';
+            tvElement.style.width = '20%';
+            tvElement.style.height = '25%';
+            tvElement.style.transform = 'rotate(5deg)';
+            console.warn(`tvPosition not found for room ${roomId}, using default.`);
+        } else {
+            console.warn("TV element not found in HTML.");
+        }
+
+        // Clear previous message
+        document.getElementById('message-area').textContent = '';
+
+        // --- Update other room elements (torches, etc.) if you add them later ---
+        // This would involve dynamically creating/positioning elements based on room.elements array
+    } else {
+        console.error(`Room with ID ${roomId} not found in puzzlesData.`);
+        document.getElementById('message-area').textContent = `Error: Room "${roomId}" not found.`;
+    }
+}
+
+// --- Event Handlers ---
+
+function handleSubmit() {
+    const room = puzzlesData.find(r => r.id === currentRoomId);
+    if (!room) return;
+
+    const userAnswer = document.getElementById('answer-input').value.trim().toLowerCase();
+    const messageArea = document.getElementById('message-area');
+
+    if (userAnswer === room.puzzle.answer.toLowerCase()) {
+        messageArea.textContent = 'Correct! Moving to the next room...';
+        // Logic to move to the next room
+        const currentRoomIndex = puzzlesData.findIndex(r => r.id === currentRoomId);
+        if (currentRoomIndex !== -1 && currentRoomIndex < puzzlesData.length - 1) {
+            const nextRoomId = puzzlesData[currentRoomIndex + 1].id;
+            // A small delay before moving to the next room
+            setTimeout(() => displayRoom(nextRoomId), 1500);
+        } else {
+            messageArea.textContent = 'Congratulations! You have completed all rooms!';
+        }
+    } else {
+        messageArea.textContent = 'Incorrect, try again.';
+    }
+}
+
+function showHint() {
+    const hintTextElement = document.getElementById('hint-text');
+    if (hintTextElement) {
+        hintTextElement.classList.remove('hidden');
+    }
+}
+
+function exitGame() {
+    // Redirects to index.html (or reloads if index.html is the current game page)
+    window.location.href = 'index.html';
+}
+
+// --- Initialize Game ---
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Load puzzles when the DOM is fully loaded
+    loadPuzzles();
+
+    // Attach event listeners to buttons
+    const submitButton = document.getElementById('submit-button');
+    const hintButton = document.getElementById('hint-button');
+    const exitButton = document.getElementById('exit-button');
+    const answerInput = document.getElementById('answer-input'); // For 'Enter' key
+
+    if (submitButton) {
+        submitButton.addEventListener('click', handleSubmit);
+    }
+    if (hintButton) {
+        hintButton.addEventListener('click', showHint);
+    }
+    if (exitButton) {
+        exitButton.addEventListener('click', exitGame);
+    }
+    if (answerInput) {
+        answerInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                handleSubmit();
+            }
+        });
+    }
+});
+
