@@ -19,7 +19,7 @@
       position: relative;
     }
 
-    /* TV screen */
+    /* TV */
     #tv {
       position: absolute;
       top: 24%;
@@ -82,7 +82,7 @@
       z-index: 1;
     }
 
-    /* Wooden sign */
+    /* Sign */
     #sign {
       position: absolute;
       top: 2%;
@@ -93,7 +93,6 @@
       font-weight: bold;
       font-size: 3vw;
       text-shadow: 3px 3px 6px #000;
-      white-space: nowrap;
       z-index: 2;
       padding: 0.5% 1%;
       border: 3px solid #6b4c30;
@@ -102,7 +101,7 @@
       border-radius: 5px;
     }
 
-    /* Torch flame */
+    /* Torch */
     .torch-flame {
       position: absolute;
       top: 25%;
@@ -124,18 +123,15 @@
     /* Mouse */
     #mouse {
       position: absolute;
-      bottom: 5px;
-      left: -100px;
-      width: 75px;   /* increased size */
-      height: auto;
+      bottom: 8px;
+      width: 110px; /* slightly bigger */
       z-index: 5;
-      opacity: 0.7;  /* semi-transparent */
-      filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.5));
-      transform: scaleX(-1); /* default facing left */
-      transition: left 4s linear;
+      opacity: 0.85;
+      filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.6));
+      pointer-events: none;
     }
 
-    /* Exit button */
+    /* Exit */
     #exitBtn {
       position: absolute;
       top: 5px;
@@ -147,7 +143,7 @@
       border-radius: 5px;
       text-decoration: none;
       font-weight: bold;
-      font-family: 'Press Start 2P', cursive, Arial, sans-serif;
+      font-family: 'Press Start 2P', cursive;
       font-size: 0.9em;
       box-shadow: 0 0 10px rgba(255,204,0,0.4);
       z-index: 10;
@@ -161,7 +157,7 @@
       font-size: 0.85em;
       color: rgba(255,255,255,0.7);
       font-weight: bold;
-      font-family: 'Press Start 2P', cursive, Arial, sans-serif;
+      font-family: 'Press Start 2P', cursive;
       z-index: 10;
     }
   </style>
@@ -171,9 +167,9 @@
   <div id="sign">ENTER IF YOU DARE</div>
   <div id="door"></div>
   <div class="torch-flame"></div>
-  <img id="mouse" src="rat.gif" alt="mouse" />
+  <img id="mouse" src="rat_transparent.gif" alt="mouse" />
   <a id="exitBtn" href="/games/puzzles/index.html">Exit</a>
-  <div id="versionTag">v3.0</div>
+  <div id="versionTag">v3.1</div>
 
   <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
   <button id="muteBtn" type="button">🔊</button>
@@ -215,29 +211,27 @@
         tvContent.innerHTML = formatMessage(allMessages[0]);
       });
 
-    // Mouse animation
+    // Mouse run logic
     const mouse = document.getElementById('mouse');
-    const colors = ['invert(0)', 'grayscale(1)', 'sepia(1) saturate(4) hue-rotate(20deg)', 'brightness(2)'];
-    mouse.style.filter += ` ${colors[Math.floor(Math.random()*colors.length)]}`;
 
-    function moveMouse() {
+    function runMouse() {
       const screenWidth = window.innerWidth;
       const goingRight = Math.random() > 0.5;
-      const startX = goingRight ? -100 : screenWidth + 100;
-      const endX = goingRight ? screenWidth + 100 : -100;
 
-      mouse.style.left = `${startX}px`;
-      mouse.style.transform = goingRight ? "scaleX(1)" : "scaleX(-1)";
+      if (goingRight) {
+        mouse.style.left = '-120px';
+        mouse.style.transform = "scaleX(1)";
+        mouse.animate([{ left: '-120px' }, { left: screenWidth + 'px' }], { duration: 7000, fill: 'forwards' });
+      } else {
+        mouse.style.left = screenWidth + 'px';
+        mouse.style.transform = "scaleX(-1)";
+        mouse.animate([{ left: screenWidth + 'px' }, { left: '-120px' }], { duration: 7000, fill: 'forwards' });
+      }
 
-      setTimeout(() => {
-        mouse.style.transition = `left 5s linear`;
-        mouse.style.left = `${endX}px`;
-      }, 50);
-
-      setTimeout(moveMouse, 8000 + Math.random()*3000); // wait before next run
+      setTimeout(runMouse, 15000 + Math.random()*4000);
     }
 
-    setTimeout(moveMouse, 1000);
+    setTimeout(runMouse, 2000);
 
     // Door click
     document.getElementById('door').addEventListener('click', () => {
