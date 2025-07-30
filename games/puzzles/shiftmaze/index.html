@@ -71,10 +71,10 @@
       box-sizing: border-box; /* Ensure border doesn't affect dimensions */
     }
 
-    /* Old wooden sign - positioned over the sign in the image */
+   /* Old wooden sign - positioned over the sign in the image */
     #sign {
       position: absolute;
-      top: 25%; /* Moved higher, above the door */
+      top: 10%; /* Moved much higher, almost as high as Exit */
       left: 84%; /* Centered horizontally above the door */
       transform: translateX(-50%) rotate(-4deg); /* Keep tilt */
       color: #e02c2c; /* Ominous red */
@@ -97,12 +97,11 @@
     }
 
     #torch-left {
-        top: 31%; /* Position over the left torch flame */
-        left: 48.2%;
-        width: 5%; /* Adjust size of the glow area */
-        height: 10%;
+        top: 30%; /* Adjusted vertical position over the flame */
+        left: 50.5%; /* Adjusted horizontal position over the flame */
+        width: 4%; /* Slightly reduced size */
+        height: 8%; /* Slightly reduced size */
     }
-    /* #torch-right is removed as per request */
 
     @keyframes flicker {
       0% {
