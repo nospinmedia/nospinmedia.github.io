@@ -86,6 +86,30 @@
       box-shadow: 0 0 16px rgba(31,124,54,0.6);
     }
 
+    /* 🔗 Share section styling */
+    .share-section {
+      margin-top: 1rem;
+      text-align: center;
+    }
+    .share-section input {
+      width: 100%;
+      padding: 0.3rem;
+      margin-top: 0.3rem;
+      text-align: center;
+    }
+    .share-section button {
+      margin-top: 0.3rem;
+      padding: 0.4rem 1rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .share-section button:hover {
+      background: #0056b3;
+    }
+
     /* 🔢 Decorative Sudoku numbers */
     .sudoku-num {
       position: absolute;
@@ -110,22 +134,6 @@
       z-index: 0;
     }
 
-    footer {
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-      color: #666;
-    }
-    @media (max-width: 768px) {
-      .container { flex-direction: column; }
-      .sidebar {
-        margin-left: 0;
-        margin-top: 1rem;
-        border-left: none;
-        border-top: 2px solid #eee;
-      }
-    }
-
     /* 🌌 ShiftMaze special styling */
     .shiftmaze-card {
       background: linear-gradient(145deg, #111, #222);
@@ -146,6 +154,22 @@
       background: #00c853;
       box-shadow: 0 0 16px rgba(0,200,83,0.6);
     }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    @media (max-width: 768px) {
+      .container { flex-direction: column; }
+      .sidebar {
+        margin-left: 0;
+        margin-top: 1rem;
+        border-left: none;
+        border-top: 2px solid #eee;
+      }
+    }
   </style>
 </head>
 <body>
@@ -164,20 +188,31 @@
       <p>Test your brain with challenging puzzles:</p>
 
       <div class="game-list">
+        <!-- Sudoku -->
         <div class="game-card">
           <div class="sudoku-num num-top-left">5</div>
           <div class="sudoku-num num-bottom-right">9</div>
           <h2>Sudoku</h2>
           <p>Fill the grid with numbers 1–9 without repeating in rows, columns, or boxes.</p>
           <a href="sudoku/index.html">Play</a>
+          <div class="share-section">
+            <p>🔗 Share with friends:</p>
+            <input type="text" value="https://yoursite.com/games/puzzles/sudoku/index.html" readonly onclick="this.select()">
+            <button onclick="navigator.clipboard.writeText('https://yoursite.com/games/puzzles/sudoku/index.html')">Copy Link</button>
+          </div>
         </div>
 
-        <!-- 🌌 ShiftMaze card -->
+        <!-- 🌌 ShiftMaze -->
         <div class="game-card shiftmaze-card">
           <h2>ShiftMaze</h2>
           <p>A never-ending labyrinth of rooms, puzzles, and hidden treasures. 
              Each run is unique—can you escape the maze?</p>
           <a href="../shiftmaze/engine_v1.html">Enter the Maze</a>
+          <div class="share-section">
+            <p>🔗 Share with friends:</p>
+            <input type="text" value="https://yoursite.com/games/shiftmaze/engine_v1.html" readonly onclick="this.select()">
+            <button onclick="navigator.clipboard.writeText('https://yoursite.com/games/shiftmaze/engine_v1.html')">Copy Link</button>
+          </div>
         </div>
       </div>
     </div>
