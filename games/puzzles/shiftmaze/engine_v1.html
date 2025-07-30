@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,7 +107,7 @@
             text-align: center;
         }
 
-        #submit-btn, #hint-btn {
+        #submit-btn, #hint-btn, #exit-btn { /* Added #exit-btn */
             padding: 10px 20px;
             margin: 15px 10px;
             background: #4a3728;
@@ -119,7 +120,7 @@
             transition: background 0.3s ease, color 0.3s ease;
         }
 
-        #submit-btn:hover, #hint-btn:hover {
+        #submit-btn:hover, #hint-btn:hover, #exit-btn:hover { /* Added #exit-btn */
             background: #ffcc00;
             color: #4a3728;
         }
@@ -260,7 +261,7 @@
         <input type="text" id="puzzle-input" placeholder="Your answer" />
         <button id="submit-btn">Submit</button>
         <button id="hint-btn">Hint</button>
-        <div id="message"></div>
+        <button id="exit-btn">Exit Room</button> <div id="message"></div>
     </div>
 
     <div id="score-display">Score: <span id="current-score">0</span></div>
@@ -270,7 +271,7 @@
     <div id="debug-input">
         Debug ID: <input type="text" id="debug-room-id-input" />
         <button id="load-debug-room">Load</button>
-        <span id="version-display">v1.6</span> </div>
+        <span id="version-display">v1.8</span> </div>
     <img id="mouse" src="rat_transparent.gif" alt="mouse" />
 
     <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
@@ -283,6 +284,7 @@
         const puzzleInput = document.getElementById('puzzle-input');
         const submitBtn = document.getElementById('submit-btn');
         const hintBtn = document.getElementById('hint-btn');
+        const exitBtn = document.getElementById('exit-btn'); // NEW: Exit Button
         const message = document.getElementById('message');
         const currentScoreDisplay = document.getElementById('current-score');
         const roomSign = document.getElementById('room-sign');
@@ -296,10 +298,10 @@
         let allPuzzles = [];
         let currentPuzzleIndex = -1;
         let score = 0;
-        let completedPuzzles = []; // NEW: Array to store IDs of completed puzzles
+        let completedPuzzles = [];
         const GAME_STATE_KEY = 'shiftmazeGameState';
         const DEBUG_MODE = true;
-        const GAME_VERSION = '1.6'; // Define the game version - INCREMENTED
+        const GAME_VERSION = '1.8'; // Define the game version - INCREMENTED
 
         // --- TV Messages (can be separate JSON or hardcoded) ---
         const entryMessages = [
@@ -328,7 +330,7 @@
             const gameState = {
                 currentPuzzleIndex: currentPuzzleIndex,
                 score: score,
-                completedPuzzles: completedPuzzles // NEW: Save completed puzzles
+                completedPuzzles: completedPuzzles
             };
             localStorage.setItem(GAME_STATE_KEY, JSON.stringify(gameState));
         }
@@ -344,7 +346,7 @@
                 } else {
                     currentPuzzleIndex = -1; // Reset if invalid index
                 }
-                completedPuzzles = gameState.completedPuzzles || []; // NEW: Load completed puzzles
+                completedPuzzles = gameState.completedPuzzles || [];
             }
             currentScoreDisplay.textContent = score;
         }
@@ -404,7 +406,7 @@
                 // Fallback to loading a truly random one if something went wrong
                 loadPuzzle(allPuzzles[Math.floor(Math.random() * allPuzzles.length)]);
             }
-            saveGameState(); // Save state after loading a random puzzle
+            // saveGameState() is called inside loadPuzzle()
         }
 
         function checkAnswer() {
@@ -418,7 +420,7 @@
                 score += 10; // Award points
                 currentScoreDisplay.textContent = score;
                 
-                // NEW: Add puzzle ID to completed puzzles if not already there
+                // Add puzzle ID to completed puzzles if not already there
                 if (!completedPuzzles.includes(currentPuzzle.id)) {
                     completedPuzzles.push(currentPuzzle.id);
                 }
@@ -456,6 +458,26 @@
             }
         }
 
+        // NEW FUNCTION: Return to "Main Door" / Reset to a new random puzzle
+        function returnToMainDoor() {
+            currentPuzzleIndex = -1; // Indicate no specific puzzle is currently active
+            roomSign.style.display = 'none'; // Hide the room sign
+            message.textContent = "Returning to the main entrance...";
+            message.style.color = '#0ff';
+            // Set a generic background for the main door if desired, or let loadRandomPuzzle handle it
+            document.body.style.backgroundImage = `url('dungeon_wall_texture.jpg')`; // Default main background
+            
+            // Optionally, reset TV position to a default or random for "main" view
+            tv.style.top = '30%';
+            tv.style.left = '15%';
+            tv.style.width = '20%';
+            tv.style.height = '25%';
+            tv.style.transform = 'rotate(0deg)';
+
+            saveGameState();
+            setTimeout(loadRandomPuzzle, 1500); // Load a new random puzzle (not completed)
+        }
+
         // --- Running Mouse Logic ---
         const colors = [
             'brightness(1.5)',
@@ -490,6 +512,7 @@
             }
         });
         hintBtn.addEventListener('click', showHint);
+        exitBtn.addEventListener('click', returnToMainDoor); // NEW: Exit Button Event Listener
 
         loadDebugRoomBtn.addEventListener('click', () => {
             const debugId = debugRoomIdInput.value.trim();
