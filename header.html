@@ -28,6 +28,7 @@ header {
     margin: 0 !important;
     line-height: 1 !important;
     padding: 0 !important;
+    cursor: pointer; /* Indicates clickable */
 }
 
 /* Desktop nav */
@@ -110,12 +111,12 @@ header nav a {
 /* Fix for content cut-off */
 body {
     padding-top: 70px;
-    margin: 0; /* Ensure no default margin interferes */
+    margin: 0;
 }
 </style>
 
 <header>
-    <span class="header-logo-text">🧭 No Spin Media</span>
+    <a href="/index.html" class="header-logo-text">🧭 No Spin Media</a>
     <div class="hamburger-menu" id="hamburger">&#9776;</div>
     <nav id="desktop-nav">
         <a href="/index.html">Home</a>
@@ -144,8 +145,13 @@ body {
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('hamburger').addEventListener('click', function() {
-            document.getElementById('mobile-nav').classList.toggle('open');
-        });
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+
+        function toggleMobileNav() {
+            mobileNav.classList.toggle('open');
+        }
+
+        hamburger.addEventListener('click', toggleMobileNav);
     });
 </script>
