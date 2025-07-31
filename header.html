@@ -1,55 +1,132 @@
 <style>
 /* Reset basic spacing for the header element itself when it's rendered */
 header {
-  /* Ensure consistent box model */
-  box-sizing: border-box !important;
-  /* Basic layout and background */
-  background: #111 !important; /* Makes the bar black - FORCED! */
-  color: #fff !important; /* Forced white text */
-  display: flex !important; /* Enables flexbox for horizontal layout - FORCED! */
-  align-items: center !important; /* Vertically centers content within the header - FORCED! */
-  justify-content: space-between !important; /* Pushes logo left, nav right - FORCED! */
-  
-  /* Aggressive padding and height control to ensure it's a solid bar */
-  padding: 0.5rem 2rem !important; /* Reduced vertical padding, keep horizontal for content - FORCED! */
-  min-height: 70px !important; /* Set a minimum height for the bar itself, adjust if needed - FORCED! */
-  width: 100% !important; /* Ensure it spans the full width - FORCED! */
-  margin: 0 !important; /* Ensure no external margins push it - FORCED! */
-  top: 0 !important; /* Ensure it sticks to the very top if parent is positioned */
-  left: 0 !important; /* Ensure it sticks to the very left */
-  position: relative !important; /* Ensure it behaves normally in flow, or 'fixed' if desired to stick to viewport */
-  z-index: 1000 !important; /* Ensure it's on top of other content */
+    box-sizing: border-box !important;
+    background: #111 !important;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0.5rem 2rem !important;
+    min-height: 70px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    position: relative !important;
+    z-index: 1000 !important;
 }
 
 /* Style for the text logo */
 .header-logo-text {
-  font-family: Arial, sans-serif !important; /* Or your preferred clean, sans-serif font - FORCED! */
-  font-size: 2.8rem !important; /* INCREASED SIZE to fill the bar better - FORCED! */
-  font-weight: bold !important; /* FORCED! */
-  color: #fff !important; /* FORCED! */
-  letter-spacing: -0.05em !important; /* FORCED! */
-  white-space: nowrap !important; /* Ensures it stays on one line - FORCED! */
-  
-  /* Ensure no external margins push it away from the left or nav */
-  margin: 0 !important; /* FORCED! */
-  /* Critical for vertical alignment within the bar, forces text to occupy its height */
-  line-height: 1 !important; /* FORCED! */
-  /* Remove any inherent padding of the span itself */
-  padding: 0 !important; /* FORCED! */
+    font-family: Arial, sans-serif !important;
+    font-size: 2.8rem !important;
+    font-weight: bold !important;
+    color: #fff !important;
+    letter-spacing: -0.05em !important;
+    white-space: nowrap !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+    padding: 0 !important;
 }
 
-/* Styles for navigation links within the header */
+/* Styles for desktop navigation links within the header */
+header nav {
+    display: flex !important; /* Keep as flex for desktop layout */
+    align-items: center !important;
+}
+
 header nav a {
-  color: #fff !important; /* FORCED! */
-  margin-left: 20px !important; /* FORCED! */
-  text-decoration: none !important; /* FORCED! */
-  font-weight: bold !important; /* FORCED! */
+    color: #fff !important;
+    margin-left: 20px !important;
+    text-decoration: none !important;
+    font-weight: bold !important;
+}
+
+/* Hamburger menu icon styles */
+.hamburger-menu {
+    display: none; /* Hidden by default on desktop */
+    font-size: 2rem;
+    cursor: pointer;
+    color: #fff;
+    padding: 5px;
+}
+
+/* Mobile navigation menu container */
+.mobile-nav {
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    position: absolute; /* Position relative to header */
+    top: 70px; /* Below the header */
+    right: 0;
+    background: #222; /* Darker background for mobile menu */
+    width: 100%; /* Take full width */
+    max-width: 300px; /* Optional: limit width on larger phones/tablets */
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    padding: 1rem 0;
+    z-index: 999; /* Below header, but above other content */
+}
+
+.mobile-nav.open {
+    display: flex; /* Show when open */
+}
+
+.mobile-nav a {
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    border-bottom: 1px solid #333; /* Separator for links */
+    text-align: right; /* Align links to the right within the mobile menu */
+}
+
+.mobile-nav a:last-child {
+    border-bottom: none; /* No border on the last link */
+}
+
+.mobile-nav a:hover {
+    background: #333;
+}
+
+
+/* --- Mobile-Specific Styles (using a Media Query) --- */
+@media (max-width: 768px) {
+    header {
+        padding: 0.5rem 1rem !important; /* Adjust padding for smaller screens */
+        justify-content: space-between !important; /* Ensure logo and hamburger are spaced */
+    }
+
+    .header-logo-text {
+        font-size: 1.5rem !important; /* Reduce logo size for mobile */
+        flex-shrink: 0;
+    }
+
+    header nav {
+        display: none !important; /* Hide the desktop navigation on mobile */
+    }
+
+    .hamburger-menu {
+        display: block; /* Show hamburger icon on mobile */
+    }
 }
 </style>
 
 <header>
-  <span class="header-logo-text">🧭 No Spin Media</span>
-  <nav>
+    <span class="header-logo-text">🧭 No Spin Media</span>
+    <div class="hamburger-menu" id="hamburger">&#9776;</div> <nav id="desktop-nav">
+        <a href="/index.html">Home</a>
+        <a href="/news.html">News</a>
+        <a href="/emoji-puzzles.html">Emoji Puzzles</a>
+        <a href="/emoji-math.html">Emoji Math</a>
+        <a href="/ai-posts.html">AI Posts</a>
+        <a href="/games/index.html">Games</a>
+        <a href="/sponsor.html">Support</a>
+        <a href="/ai.html">Why AI?</a>
+        <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
+    </nav>
+</header>
+
+<div class="mobile-nav" id="mobile-nav">
     <a href="/index.html">Home</a>
     <a href="/news.html">News</a>
     <a href="/emoji-puzzles.html">Emoji Puzzles</a>
@@ -59,5 +136,30 @@ header nav a {
     <a href="/sponsor.html">Support</a>
     <a href="/ai.html">Why AI?</a>
     <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
-  </nav>
-</header>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+        const desktopNav = document.getElementById('desktop-nav'); // Reference to desktop nav for showing/hiding
+
+        hamburger.addEventListener('click', function() {
+            mobileNav.classList.toggle('open');
+        });
+
+        // Optional: Close mobile menu when a link is clicked
+        mobileNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('open');
+            });
+        });
+
+        // Optional: Close mobile menu if window is resized above mobile breakpoint
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                mobileNav.classList.remove('open');
+            }
+        });
+    });
+</script>
