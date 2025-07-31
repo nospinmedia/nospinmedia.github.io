@@ -96,7 +96,6 @@ header nav ul li a:hover {
     background-color: #007bff; /* Change color when active */
 }
 
-
 /* Mobile Navigation */
 .mobile-nav {
     display: none; /* Hidden by default */
@@ -137,6 +136,10 @@ header nav ul li a:hover {
     background-color: #555;
 }
 
+/* Add this to prevent body scrolling when mobile nav is open */
+body.mobile-nav-active {
+    overflow: hidden;
+}
 
 /* Main Content and Sidebar Layout */
 .container {
@@ -149,7 +152,10 @@ header nav ul li a:hover {
 }
 
 .main {
-    flex: 3; /* Main content takes ~75% width */
+    flex: 2; /* CHANGED: Main content takes a smaller proportion (e.g., 2 parts) */
+    display: grid; /* ADDED: Enable CSS Grid for main content */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* ADDED: Create responsive columns */
+    gap: 1rem; /* ADDED: Spacing between grid items (game categories) */
     padding: 1rem;
     background: #fff; /* Added for visual separation */
     border-radius: 8px; /* Added for consistency */
@@ -157,7 +163,7 @@ header nav ul li a:hover {
 }
 
 .sidebar {
-    flex: 1; /* Sidebar takes ~25% width */
+    flex: 1.5; /* CHANGED: Sidebar takes a larger proportion (e.g., 1.5 parts) */
     background: #fff;
     padding: 1rem;
     border-radius: 8px;
@@ -283,6 +289,15 @@ footer {
     .hamburger {
         display: flex; /* Show hamburger on mobile */
     }
+    /* ADDED: Ensure mobile nav covers full width if needed, and aligns to screen */
+    .mobile-nav {
+        width: 100%; /* Take full width on small screens */
+        left: -100vw; /* Use viewport width for off-screen positioning */
+    }
+    .mobile-nav.open {
+        left: 0; /* Slide in from left */
+    }
+
     .container {
         flex-direction: column; /* Stack main and sidebar */
         padding: 1rem; /* Less padding on small screens */
@@ -296,6 +311,7 @@ footer {
     }
     .main {
         order: 1; /* Main content first */
+        grid-template-columns: 1fr; /* ADDED: Force single column for games on mobile */
     }
     .sidebar {
         order: 2; /* Sidebar second */
