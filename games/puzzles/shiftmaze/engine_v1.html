@@ -237,7 +237,7 @@
         #mouse {
             position: absolute;
             bottom: 8px;
-            width: 120px;
+            /* width is now controlled by JS */
             z-index: 5;
             opacity: 0.9;
             filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.6)); /* Base shadow */
@@ -291,7 +291,7 @@
     <div id="debug-input">
         Debug ID: <input type="text" id="debug-room-id-input" />
         <button id="load-debug-room">Load</button>
-        <span id="version-display">v2.2</span> </div>
+        <span id="version-display">v2.3</span> </div>
     <img id="mouse" src="rat_transparent.gif" alt="mouse" />
 
     <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
@@ -323,7 +323,7 @@
         let completedPuzzles = [];
         const GAME_STATE_KEY = 'shiftmazeGameState';
         const DEBUG_MODE = true;
-        const GAME_VERSION = '2.2'; // Updated: Incremented game version
+        const GAME_VERSION = '2.3'; // Updated: Incremented game version
 
         // --- TV Messages (can be separate JSON or hardcoded) ---
         const entryMessages = [
@@ -331,7 +331,7 @@
             "Explore fun AI-generated games at nospin.media!"
         ];
         let allTvMessages = [];
-        let tvMsgIndex = 0;
+        let tvMsgInterval; // Variable to store the interval ID
 
         function formatTvMessage(msg) {
             const totalDisplayLines = 6;
@@ -345,6 +345,21 @@
             lines.forEach(line => html += `<div>${line}</div>`);
             for (let i = 0; i < bottomPadding; i++) html += "<div>&nbsp;</div>";
             return html;
+        }
+
+        function startTvMessageRotation() {
+            if (tvMsgInterval) clearInterval(tvMsgInterval); // Clear any existing interval
+
+            if (allTvMessages.length > 0) {
+                // Display initial random message
+                let randomIndex = Math.floor(Math.random() * allTvMessages.length);
+                tvContent.innerHTML = formatTvMessage(allTvMessages[randomIndex]);
+
+                tvMsgInterval = setInterval(() => {
+                    randomIndex = Math.floor(Math.random() * allTvMessages.length); // Get a new random index
+                    tvContent.innerHTML = formatTvMessage(allTvMessages[randomIndex]);
+                }, 9000);
+            }
         }
 
         // --- Game State Management ---
@@ -514,13 +529,17 @@
             const goingRight = Math.random() > 0.5;
             mouse.style.filter = `drop-shadow(2px 2px 2px rgba(0,0,0,0.6)) ${colors[Math.floor(Math.random()*colors.length)]}`;
 
+            // Calculate random size: from 120px up to 240px (100% bigger)
+            const randomSize = 120 + (Math.random() * 120); // 120 + (0 to 1 * 120) = 120 to 240
+            mouse.style.width = `${randomSize}px`;
+
             if (goingRight) {
                 mouse.style.left = '-140px';
-                mouse.style.transform = "scaleX(-1)";
+                mouse.style.transform = `scaleX(-1) translateY(-50%)`; // Keep Y center
                 mouse.animate([{ left: '-140px' }, { left: screenWidth + 'px' }], { duration: 7000, fill: 'forwards' });
             } else {
                 mouse.style.left = screenWidth + 'px';
-                mouse.style.transform = "scaleX(1)";
+                mouse.style.transform = `scaleX(1) translateY(-50%)`; // Keep Y center
                 mouse.animate([{ left: screenWidth + 'px' }, { left: '-140px' }], { duration: 7000, fill: 'forwards' });
             }
 
@@ -591,20 +610,12 @@
                 .then(res => res.json())
                 .then(data => {
                     allTvMessages = [...entryMessages, ...data];
-                    tvContent.innerHTML = formatTvMessage(allTvMessages[0]);
-                    setInterval(() => {
-                        tvMsgIndex = (tvMsgIndex + 1) % allTvMessages.length;
-                        tvContent.innerHTML = formatTvMessage(allTvMessages[tvMsgIndex]);
-                    }, 9000);
+                    startTvMessageRotation(); // Start random rotation
                 })
                 .catch(err => {
                     console.error('Failed to load tv_messages.json, using default messages.', err);
                     allTvMessages = entryMessages;
-                    tvContent.innerHTML = formatTvMessage(allTvMessages[0]);
-                    setInterval(() => {
-                        tvMsgIndex = (tvMsgIndex + 1) % allTvMessages.length;
-                        tvContent.innerHTML = formatTvMessage(allTvMessages[tvMsgIndex]);
-                    }, 9000);
+                    startTvMessageRotation(); // Start random rotation even with default messages
                 });
 
             fetch('puzzles.json')
@@ -648,7 +659,7 @@
                     message.style.color = '#f00';
                 });
 
-            setTimeout(runMouse, 2000);
+            runMouse(); // Start the first mouse run
         });
     </script>
 </body>
