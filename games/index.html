@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>No Spin Media Games</title>
-  <link rel="stylesheet" href="../style.css" /> </head>
+  <link rel="stylesheet" href="../style.css" />
+  
+  </head>
 <body>
 
   <div id="site-header"></div>
@@ -92,7 +94,8 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // ✅ Load header
-      fetch('../header.html') // This path is correct for header.html in the root
+      // This path is correct for header.html being in the parent (root) directory
+      fetch('../header.html')
         .then(res => res.text())
         .then(html => {
           document.getElementById('site-header').innerHTML = html;
@@ -182,22 +185,7 @@
         await navigator.share({ title: "No Spin Media Games", url: url });
       } else {
         alert("Sharing not supported on this device.");
-        // This part seems to be an accidental paste of service worker code.
-        // It should be removed if it's not meant to be there.
-        /*
-        (function() {
-          'use strict';
-          if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js', { scope: '/' })
-              .then(function(reg) {
-                console.log('Service Worker Registered!', reg);
-              })
-              .catch(function(err) {
-                console.log('Service Worker registration failed: ', err);
-              });
-          }
-        })();
-        */
+        // Removed extraneous service worker registration code.
       }
     }
   </script>
