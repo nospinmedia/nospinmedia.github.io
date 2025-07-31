@@ -2,43 +2,48 @@
 /* Reset basic spacing for the header element itself when it's rendered */
 header {
   /* Ensure consistent box model */
-  box-sizing: border-box;
+  box-sizing: border-box !important;
   /* Basic layout and background */
-  background: #111; /* Makes the bar black */
-  color: #fff;
-  display: flex; /* Enables flexbox for horizontal layout */
-  align-items: center; /* Vertically centers content within the header */
-  justify-content: space-between; /* Pushes logo left, nav right */
+  background: #111 !important; /* Makes the bar black - FORCED! */
+  color: #fff !important; /* Forced white text */
+  display: flex !important; /* Enables flexbox for horizontal layout - FORCED! */
+  align-items: center !important; /* Vertically centers content within the header - FORCED! */
+  justify-content: space-between !important; /* Pushes logo left, nav right - FORCED! */
   
   /* Aggressive padding and height control to ensure it's a solid bar */
-  padding: 0.5rem 2rem; /* Reduced vertical padding, keep horizontal for content */
-  min-height: 70px; /* Set a minimum height for the bar itself, adjust if needed */
-  width: 100%; /* Ensure it spans the full width */
+  padding: 0.5rem 2rem !important; /* Reduced vertical padding, keep horizontal for content - FORCED! */
+  min-height: 70px !important; /* Set a minimum height for the bar itself, adjust if needed - FORCED! */
+  width: 100% !important; /* Ensure it spans the full width - FORCED! */
+  margin: 0 !important; /* Ensure no external margins push it - FORCED! */
+  top: 0 !important; /* Ensure it sticks to the very top if parent is positioned */
+  left: 0 !important; /* Ensure it sticks to the very left */
+  position: relative !important; /* Ensure it behaves normally in flow, or 'fixed' if desired to stick to viewport */
+  z-index: 1000 !important; /* Ensure it's on top of other content */
 }
 
 /* Style for the text logo */
 .header-logo-text {
-  font-family: Arial, sans-serif; /* Or your preferred clean, sans-serif font */
-  font-size: 2.8rem; /* INCREASED SIZE to fill the bar better */
-  font-weight: bold;
-  color: #fff;
-  letter-spacing: -0.05em; /* Slightly tighter for larger text */
-  white-space: nowrap; /* Ensures it stays on one line */
+  font-family: Arial, sans-serif !important; /* Or your preferred clean, sans-serif font - FORCED! */
+  font-size: 2.8rem !important; /* INCREASED SIZE to fill the bar better - FORCED! */
+  font-weight: bold !important; /* FORCED! */
+  color: #fff !important; /* FORCED! */
+  letter-spacing: -0.05em !important; /* FORCED! */
+  white-space: nowrap !important; /* Ensures it stays on one line - FORCED! */
   
   /* Ensure no external margins push it away from the left or nav */
-  margin: 0; 
+  margin: 0 !important; /* FORCED! */
   /* Critical for vertical alignment within the bar, forces text to occupy its height */
-  line-height: 1; 
+  line-height: 1 !important; /* FORCED! */
   /* Remove any inherent padding of the span itself */
-  padding: 0; 
+  padding: 0 !important; /* FORCED! */
 }
 
 /* Styles for navigation links within the header */
 header nav a {
-  color: #fff;
-  margin-left: 20px;
-  text-decoration: none;
-  font-weight: bold;
+  color: #fff !important; /* FORCED! */
+  margin-left: 20px !important; /* FORCED! */
+  text-decoration: none !important; /* FORCED! */
+  font-weight: bold !important; /* FORCED! */
 }
 </style>
 
