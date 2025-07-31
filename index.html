@@ -1,229 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>No Spin Media</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f4f4;
-      color: #222;
-    }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>No Spin Media</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #222;
+    }
 
-    /* ✅ Header/Nav styling */
-    header {
-      background: #111;
-      color: #fff;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    header img {
-      max-height: 60px;
-    }
-    nav a {
-      color: #fff;
-      margin-left: 20px;
-      text-decoration: none;
-      font-weight: bold;
-    }
+    /* ✅ Header/Nav styling */
+    header {
+      background: #111;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header img {
+      max-height: 60px;
+    }
+    nav a {
+      color: #fff;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
 
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      padding: 2rem;
-    }
-    .main {
-      flex: 1 1 60%;
-      padding: 1rem;
-    }
-    .sidebar {
-      flex: 1 1 30%;
-      background: #fff;
-      padding: 1rem;
-      margin-top: 2rem;
-      border-left: 2px solid #eee;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    h1 {
-      font-size: 2rem;
-      margin-top: 0;
-    }
-    h2 {
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-    }
-    .button {
-      display: inline-block;
-      margin: 0.5rem 0;
-      padding: 0.6rem 1rem;
-      background: #333;
-      color: white;
-      text-decoration: none;
-      border-radius: 4px;
-    }
-    footer {
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-      color: #666;
-    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 2rem;
+    }
+    .main {
+      flex: 1 1 60%;
+      padding: 1rem;
+    }
+    .sidebar {
+      flex: 1 1 30%;
+      background: #fff;
+      padding: 1rem;
+      margin-top: 2rem;
+      border-left: 2px solid #eee;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    h1 {
+      font-size: 2rem;
+      margin-top: 0;
+    }
+    h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    .button {
+      display: inline-block;
+      margin: 0.5rem 0;
+      padding: 0.6rem 1rem;
+      background: #333;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
 
-    /* ✅ Feedback form styling */
-    #feedbackForm input, #feedbackForm textarea {
-      width: 100%;
-      padding: 8px;
-      margin: 6px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    #feedbackForm button {
-      background: #0073e6;
-      color: #fff;
-      border: none;
-      padding: 10px;
-      width: 100%;
-      font-weight: bold;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    #feedbackForm button:hover { background: #005bb5; }
-    #formStatus {
-      font-size: 0.9em;
-      color: green;
-      margin: 6px 0;
-      text-align: center;
-    }
+    /* ✅ Feedback form styling */
+    #feedbackForm input, #feedbackForm textarea {
+      width: 100%;
+      padding: 8px;
+      margin: 6px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    #feedbackForm button {
+      background: #0073e6;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #feedbackForm button:hover { background: #005bb5; }
+    #formStatus {
+      font-size: 0.9em;
+      color: green;
+      margin: 6px 0;
+      text-align: center;
+    }
 
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-      }
-      .sidebar {
-        margin-top: 1rem;
-        border-left: none;
-        border-top: 2px solid #eee;
-      }
-    }
-  </style>
-  <script>
-    window.onload = () => {
-      fetch('header.html')
-        .then(res => res.text())
-        .then(html => document.getElementById('site-header').innerHTML = html);
-    }
-  </script>
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .sidebar {
+        margin-top: 1rem;
+        border-left: none;
+        border-top: 2px solid #eee;
+      }
+    }
+  </style>
+  <script>
+    window.onload = () => {
+      fetch('header.html')
+        .then(res => res.text())
+        .then(html => document.getElementById('site-header').innerHTML = html);
+    }
+  </script>
 </head>
 <body>
 
-  <!-- ✅ Shared header -->
-  <div id="site-header"></div>
+    <div id="site-header"></div>
 
-  <div class="container">
-    <div class="main">
-      <h1>Because facts don’t need flavor.</h1>
-      <p>
-        No Spin Media is a mission-driven effort to bring back clarity and sanity to news and content online.  
-        We use AI to strip out hype, bias, and spin — leaving only what happened, not how someone feels about it.
-      </p>
+  <div class="container">
+    <div class="main">
+      <h1>Where Facts Meet Fun (Seriously!)</h1>
+      <p>
+        Welcome to No Spin Media – your refreshingly honest corner of the internet! We're here to cut through the noise and deliver content that's clear, engaging, and always rooted in facts. Think of us as your digital guide, making sure you get the real story, plus a whole lot of brain-tickling entertainment.
+      </p>
 
-      <h2>What We Stand For</h2>
-      <ul>
-        <li>✅ Honest, factual, bias-free summaries</li>
-        <li>✅ No ads that track you or manipulate content</li>
-        <li>✅ Fun, engaging, and thoughtful posts</li>
-        <li>✅ Fully AI-powered, but always mission-controlled</li>
-      </ul>
+      <h2>What Makes Us Awesome?</h2>
+      <ul>
+        <li>✅ **Pure Facts, Zero Spin:** Get the truth, unbiased and straightforward. No hype, no agenda, just what happened.</li>
+        <li>✅ **Your Content, Uninterrupted:** We're committed to delivering great content without letting ads track you or manipulate your experience. Our focus is on transparency and honesty, always.</li>
+        <li>✅ **Fun for Your Brain:** We believe learning and staying informed should be exciting! Dive into daily puzzles, intriguing trivia, and more.</li>
+        <li>✅ **Smart Tech, Human Heart:** Powered by cutting-edge AI for efficiency, but meticulously controlled by our mission to ensure accuracy and integrity.</li>
+      </ul>
 
-      <p>We're just getting started — more is coming soon:</p>
-      <ul>
-        <li>📰 <strong>News Digest:</strong> Rewritten world news, 100% spin-free</li>
-        <li>🧠 <strong>Fun Feed:</strong> Jokes, logic puzzles, daily trivia</li>
-        <li>🎂 <strong>Today in History & Birthdays:</strong> Facts that shaped the day</li>
-      </ul>
+      <p>Ready to explore? We've got something for everyone:</p>
+      <ul>
+        <li>📰 <strong>The Real Scoop:</strong> Concise, 100% spin-free world news to keep you truly informed.</li>
+        <li>🧠 <strong>Daily Brain Boosters:</strong> Engage your mind with jokes, fascinating logic puzzles, and fresh trivia.</li>
+        <li>🎂 <strong>This Day in History & Birthdays:</strong> Discover the facts and figures that shaped today, every day.</li>
+      </ul>
 
-      <p>
-        <a class="button" href="ai.html">Read: Why We Use AI</a>
-        <a class="button" href="sponsor.html">Support or Sponsor Us</a>
-      </p>
-    </div>
+      <p>
+        <a class="button" href="ai.html">Learn How We Use AI</a>
+        <a class="button" href="sponsor.html">Support Our Mission</a>
+      </p>
+    </div>
 
-    <div class="sidebar">
-      <h2>Support Us 💙</h2>
-      <p>Like what we're doing? Help keep No Spin Media running:</p>
-      <p><strong>Venmo:</strong><br/>
-        <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
-      </p>
+    <div class="sidebar">
+      <h2>Support Us 💙</h2>
+      <p>Like what we're doing? Help keep No Spin Media running:</p>
+      <p><strong>Venmo:</strong><br/>
+        <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+      </p>
 
-      <h2>Follow Us</h2>
-      <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
+      <h2>Follow Us</h2>
+      <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
 
-      <h2>We ❤️ Your Thoughts!</h2>
-      <p>Have an idea, suggestion, or just want to say hi?  
-      We read every single message you send. 😊</p>
+      <h2>We ❤️ Your Thoughts!</h2>
+      <p>Have an idea, suggestion, or just want to say hi? We read every single message you send. 😊</p>
+      <p>You can also reach us directly at: **nospinmedia.ai@gmail.com**</p>
 
-      <!-- ✅ Feedback Form -->
-      <form id="feedbackForm">
-        <input type="text" id="name" name="name" placeholder="Your first name">
-        <input type="email" id="email" name="email" placeholder="you@email.com" required>
-        <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
-        <p id="formStatus"></p>
-        <button type="submit">💬 Send Feedback</button>
-      </form>
-    </div>
-  </div>
 
-  <footer>
-    © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
-  </footer>
+            <form id="feedbackForm">
+        <input type="text" id="name" name="name" placeholder="Your first name">
+        <input type="email" id="email" name="email" placeholder="you@email.com" required>
+        <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
+        <p id="formStatus"></p>
+        <button type="submit">💬 Send Feedback</button>
+      </form>
+    </div>
+  </div>
 
-  <script>
-    // ✅ Feedback form submit
-    document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const status = document.getElementById('formStatus');
-      status.textContent = "⏳ Sending...";
+  <footer>
+    © 2025 No Spin Media. Independent. Truth-focused.
+  </footer>
 
-      const name = document.getElementById('name').value || "Someone";
-      const email = document.getElementById('email').value;
-      const message = document.getElementById('message').value;
+  <script>
+    // ✅ Feedback form submit
+    document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const status = document.getElementById('formStatus');
+      status.textContent = "⏳ Sending...";
 
-      const data = {
-        name: name,
-        email: email,
-        subject: "Main Page",
-        message: message
-      };
+      const name = document.getElementById('name').value || "Someone";
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
 
-      try {
-        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-          method: 'POST',
-          headers: {'Content-Type':'text/plain'},
-          body: JSON.stringify(data)
-        });
+      const data = {
+        name: name,
+        email: email,
+        subject: "Main Page",
+        message: message
+      };
 
-        let result = {};
-        try { result = await res.json(); } catch (err) { result = { status: "success" }; }
+      try {
+        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+          method: 'POST',
+          headers: {'Content-Type':'text/plain'},
+          body: JSON.stringify(data)
+        });
 
-        if (result.status === "success") {
-          status.textContent = "✅ Thanks! Your feedback was sent.";
-          this.reset();
-        } else {
-          status.textContent = "❌ Error sending. Please try again.";
-        }
-        setTimeout(()=>{ status.textContent = ""; }, 5000);
-      } catch (err) {
-        console.error(err);
-        status.textContent = "❌ Failed to send! Check connection.";
-        setTimeout(()=>{ status.textContent = ""; }, 5000);
-      }
-    });
-  </script>
+        let result = {};
+        try { result = await res.json(); } catch (err) { result = { status: "success" }; }
+
+        if (result.status === "success") {
+          status.textContent = "✅ Thanks! Your feedback was sent.";
+          this.reset();
+        } else {
+          status.textContent = "❌ Error sending. Please try again.";
+        }
+        setTimeout(()=>{ status.textContent = ""; }, 5000);
+      } catch (err) {
+        console.error(err);
+        status.textContent = "❌ Failed to send! Check connection.";
+        setTimeout(()=>{ status.textContent = ""; }, 5000);
+      }
+    });
+  </script>
 </body>
 </html>
