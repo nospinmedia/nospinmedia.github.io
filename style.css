@@ -6,7 +6,6 @@ body {
     background: #f4f4f4;
     color: #222;
     line-height: 1.6;
-    /* This padding-top is crucial for fixed header. Adjust if header height changes. */
     padding-top: 70px; /* Assuming your fixed header is around 70px tall */
 }
 
@@ -152,18 +151,28 @@ body.mobile-nav-active {
 }
 
 .main {
-    flex: 2; /* CHANGED: Main content takes a smaller proportion (e.g., 2 parts) */
-    display: grid; /* ADDED: Enable CSS Grid for main content */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* ADDED: Create responsive columns */
-    gap: 1rem; /* ADDED: Spacing between grid items (game categories) */
+    flex: 2; /* Main content takes a larger proportion */
     padding: 1rem;
     background: #fff; /* Added for visual separation */
     border-radius: 8px; /* Added for consistency */
     box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Added for consistency */
+    /* REMOVED display: grid and grid-template-columns here directly on .main
+       because #puzzle-container is the actual grid wrapper for the puzzles */
 }
 
+/* This is where the magic happens for the puzzles on Emoji Math */
+#puzzle-container {
+    display: grid; /* Make the container itself a grid */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Auto-fit columns, min 300px, max 1fr */
+    gap: 1rem; /* Spacing between individual puzzle cards */
+    /* Remove any specific width or margin that might center it */
+    width: 100%; /* Ensure it takes full width of its parent (.main) */
+    justify-content: start; /* Align grid items to the start (left) */
+}
+
+
 .sidebar {
-    flex: 1.5; /* CHANGED: Sidebar takes a larger proportion (e.g., 1.5 parts) */
+    flex: 1.5; /* Sidebar takes a smaller proportion */
     background: #fff;
     padding: 1rem;
     border-radius: 8px;
@@ -176,15 +185,14 @@ body.mobile-nav-active {
 
 /* Specific elements within main/sidebar that might need styling */
 h1 { font-size: 2rem; margin-top: 0; }
-h2 { font-size: 1.5rem; margin-top: 1.5rem; } /* Adjusted for consistency */
-p { margin-bottom: 1em; } /* Consistent paragraph spacing */
+h2 { font-size: 1.5rem; margin-top: 1.5rem; }
+p { margin-bottom: 1em; }
 
 /* Shared Puzzle/Math Card Styling */
 .puzzle-card {
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 15px; /* Increased padding */
-    margin: 15px 0;
+    padding: 15px;
     background: #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
@@ -194,7 +202,7 @@ h3.emoji {
     font-size: 3.5rem;
     text-align: center;
     margin: 0.5em 0;
-    white-space: pre-line; /* Allows line breaks if they exist in data */
+    white-space: pre-line;
 }
 
 /* Emoji Math Problem Styling (for Emoji Math page) */
@@ -209,20 +217,19 @@ h3.emoji-math-problem {
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
-
 .hint { font-style: italic; margin-top: 5px; }
 .answer { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; }
 .answer.show { max-height: 500px; opacity: 1; margin-top: 8px; }
 
 /* Input and Button Styling */
-.guess-input { margin-top: 8px; padding: 8px; width: 150px; border: 1px solid #ccc; border-radius: 4px; } /* Adjusted padding/width */
+.guess-input { margin-top: 8px; padding: 8px; width: 150px; border: 1px solid #ccc; border-radius: 4px; }
 .feedback { font-weight: bold; margin-top: 5px; }
 button {
     margin-top: 8px;
-    padding: 8px 15px; /* Increased padding */
+    padding: 8px 15px;
     font-size: 1em;
     cursor: pointer;
-    background: #007bff; /* Primary button color */
+    background: #007bff;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -233,7 +240,7 @@ button:hover {
 }
 .share-btn {
     margin-left: 10px;
-    background: #6c757d; /* Different color for share button */
+    background: #6c757d;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -251,10 +258,10 @@ button:hover {
     margin: 6px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box; /* Include padding/border in element's total width */
+    box-sizing: border-box;
 }
 #feedbackForm button {
-    background: #28a745; /* Green send button */
+    background: #28a745;
     color: #fff;
     border: none;
     padding: 10px;
@@ -274,11 +281,11 @@ button:hover {
 /* Footer Styling */
 footer {
     text-align: center;
-    padding: 1.5rem; /* Increased padding */
-    font-size: 0.85rem; /* Slightly smaller font */
+    padding: 1.5rem;
+    font-size: 0.85rem;
     color: #666;
-    margin-top: 2rem; /* Space from content above */
-    background: #eee; /* Light background for footer */
+    margin-top: 2rem;
+    background: #eee;
 }
 
 /* Responsive Adjustments */
@@ -289,7 +296,6 @@ footer {
     .hamburger {
         display: flex; /* Show hamburger on mobile */
     }
-    /* ADDED: Ensure mobile nav covers full width if needed, and aligns to screen */
     .mobile-nav {
         width: 100%; /* Take full width on small screens */
         left: -100vw; /* Use viewport width for off-screen positioning */
@@ -311,7 +317,11 @@ footer {
     }
     .main {
         order: 1; /* Main content first */
-        grid-template-columns: 1fr; /* ADDED: Force single column for games on mobile */
+    }
+    /* This ensures #puzzle-container stacks its items on mobile too */
+    #puzzle-container {
+        grid-template-columns: 1fr; /* Force single column for puzzles inside #puzzle-container on mobile */
+        gap: 1rem;
     }
     .sidebar {
         order: 2; /* Sidebar second */
@@ -325,13 +335,13 @@ footer {
 /* For screens smaller than 480px (extra small mobile) */
 @media (max-width: 480px) {
     .container {
-        padding: 0.5rem; /* Even less padding */
+        padding: 0.5rem;
     }
     h1 {
         font-size: 1.8rem;
     }
     h3.emoji, h3.emoji-math-problem {
-        font-size: min(3rem, 7vw); /* Adjust font size more aggressively */
+        font-size: min(3rem, 7vw);
     }
     .puzzle-card {
         padding: 10px;
