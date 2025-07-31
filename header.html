@@ -142,29 +142,26 @@ header nav a {
     document.addEventListener('DOMContentLoaded', function() {
         const hamburger = document.getElementById('hamburger');
         const mobileNav = document.getElementById('mobile-nav');
-        // const desktopNav = document.getElementById('desktop-nav'); // Not strictly needed for this specific issue
-
-        if (hamburger && mobileNav) { // Ensure elements exist before adding listeners
+        
+        if (hamburger && mobileNav) {
             hamburger.addEventListener('click', function() {
-                console.log('Hamburger clicked!'); // For debugging: check if this appears in console
+                console.log('Hamburger clicked!');
                 mobileNav.classList.toggle('open');
             });
 
-            // Optional: Close mobile menu when a link is clicked
             mobileNav.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', () => {
                     mobileNav.classList.remove('open');
                 });
             });
 
-            // Optional: Close mobile menu if window is resized above mobile breakpoint
             window.addEventListener('resize', function() {
                 if (window.innerWidth > 768) {
                     mobileNav.classList.remove('open');
                 }
             });
         } else {
-            console.error("Hamburger or mobile navigation element not found!"); // For debugging
+            console.error("Hamburger or mobile navigation element not found!");
         }
     });
 </script>
