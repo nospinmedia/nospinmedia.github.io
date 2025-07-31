@@ -143,6 +143,7 @@ body.mobile-nav-active {
 /* Main Content and Sidebar Layout */
 .container {
     display: flex;
+    justify-content: center; /* Center the overall container if it doesn't fill max-width */
     flex-wrap: wrap; /* Allows wrapping on smaller screens */
     padding: 2rem;
     max-width: 1200px; /* Max width for content area */
@@ -151,8 +152,9 @@ body.mobile-nav-active {
 }
 
 .main {
-    flex: 3; /* Main content takes a larger proportion (e.g., 3 parts) */
-    min-width: 450px; /* Ensures main content has enough space, preventing squishing */
+    flex: 1; /* Allows the main content to grow and shrink */
+    min-width: 500px; /* Crucial: Ensures main content is wide enough for puzzles */
+    max-width: 750px; /* Optional: Prevents main content from getting too wide on huge screens */
     padding: 1rem;
     background: #fff;
     border-radius: 8px;
@@ -162,23 +164,21 @@ body.mobile-nav-active {
 /* This is where the magic happens for the puzzles on Emoji Math */
 #puzzle-container {
     display: grid; /* Use grid for internal layout of puzzles */
-    /* Ensure only one column, puzzles take full width of puzzle-container */
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr; /* Force single column, puzzles take full width of puzzle-container */
     gap: 1rem; /* Spacing between individual puzzle cards */
     width: 100%; /* Make sure puzzle-container takes full width of its parent (.main) */
 }
 
 
 .sidebar {
-    flex: 1; /* Sidebar takes a smaller proportion (e.g., 1 part) */
-    min-width: 280px; /* Ensures sidebar has a minimum width */
+    flex: 0 0 300px; /* flex-grow:0, flex-shrink:0, flex-basis:300px; Fixed width for sidebar */
+    /* Alternatively, if you want it to flex a bit, use: flex: 1; min-width: 280px; max-width: 350px; */
     background: #fff;
     padding: 1rem;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     height: fit-content; /* Make sidebar only as tall as its content */
-    align-self: flex-start; /* Aligns sidebar to the top */
-    /* Removed border-left here, rely on gap and box-shadow for separation */
+    align-self: flex-start; /* Aligns sidebar to the top, preventing vertical stretch */
 }
 
 /* Specific elements within main/sidebar that might need styling */
@@ -310,8 +310,9 @@ footer {
     .main, .sidebar {
         flex: auto; /* Allow items to take full width */
         width: 100%; /* Ensure they take full width */
+        min-width: unset; /* Remove min-width when stacking */
+        max-width: unset; /* Remove max-width when stacking */
         margin-top: 1rem; /* Add margin when stacked */
-        /* Removed border-left/border-top for stacking, rely on spacing and shadows */
     }
     .main {
         order: 1; /* Main content first */
