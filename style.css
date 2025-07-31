@@ -1,50 +1,327 @@
+/* General Body and Layout */
 body {
-    font-family: "Segoe UI", sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: #fdfdfd;
+    background: #f4f4f4;
     color: #222;
+    line-height: 1.6;
+    /* This padding-top is crucial for fixed header. Adjust if header height changes. */
+    padding-top: 70px; /* Assuming your fixed header is around 70px tall */
 }
 
-/* REMOVE or comment out old .site-header, .logo, .tagline rules here */
-/*
-.site-header {
-    background-color: #ffffff;
-    padding: 1em 2em;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-}
-.logo { ... }
-.tagline { ... }
-*/
-
-main {
-    padding: 2em;
-    max-width: 800px;
-    margin: auto;
-}
-
-h2 {
-    color: #000;
+/* Header Styling (from header.html, but global styles should be here) */
+header {
+    background: #111;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed; /* Keep header visible when scrolling */
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Ensure header is above other content */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    min-height: 50px; /* Ensure a minimum height for the header */
 }
 
-.donate-button {
-    display: inline-block;
-    padding: 1em 2em;
-    background: #000;
+header .logo-container {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+header .logo {
+    height: 40px; /* Adjust logo size */
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+header nav ul li {
+    margin-left: 20px;
+}
+
+header nav ul li a {
     color: #fff;
     text-decoration: none;
     font-weight: bold;
-    margin-top: 2em;
-    border-radius: 5px;
+    transition: color 0.3s ease;
 }
 
+header nav ul li a:hover {
+    color: #007bff; /* Highlight on hover */
+}
+
+/* Hamburger Menu Icon */
+.hamburger {
+    display: none; /* Hidden by default on desktop */
+    flex-direction: column;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1001; /* Above mobile nav */
+}
+
+.hamburger .bar {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 4px 0;
+    transition: 0.4s;
+}
+
+/* Hamburger animation for active state */
+.hamburger.active .bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+    background-color: #007bff; /* Change color when active */
+}
+
+.hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+    background-color: #007bff; /* Change color when active */
+}
+
+
+/* Mobile Navigation */
+.mobile-nav {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: -100%; /* Off-screen by default */
+    width: 70%; /* Adjust as needed */
+    height: 100%;
+    background-color: #333;
+    padding-top: 70px; /* Space for header */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+    transition: left 0.3s ease-in-out;
+    z-index: 999; /* Below hamburger, above content */
+    overflow-y: auto; /* Enable scrolling for long menus */
+}
+
+.mobile-nav.open {
+    left: 0; /* Slide in */
+    display: block; /* Make sure it's visible when open */
+}
+
+.mobile-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-nav ul li a {
+    display: block;
+    padding: 15px 20px;
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 1px solid #444;
+    transition: background-color 0.3s ease;
+}
+
+.mobile-nav ul li a:hover {
+    background-color: #555;
+}
+
+
+/* Main Content and Sidebar Layout */
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+    padding: 2rem;
+    max-width: 1200px; /* Max width for content area */
+    margin: 0 auto; /* Centers the container */
+    gap: 2rem; /* Spacing between main and sidebar */
+}
+
+.main {
+    flex: 3; /* Main content takes ~75% width */
+    padding: 1rem;
+    background: #fff; /* Added for visual separation */
+    border-radius: 8px; /* Added for consistency */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Added for consistency */
+}
+
+.sidebar {
+    flex: 1; /* Sidebar takes ~25% width */
+    background: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    height: fit-content; /* Make sidebar only as tall as its content */
+    margin-top: 0; /* Ensure no extra top margin when side-by-side */
+    border-left: 2px solid #eee; /* Visual separation */
+    align-self: flex-start; /* Aligns sidebar to the top */
+}
+
+/* Specific elements within main/sidebar that might need styling */
+h1 { font-size: 2rem; margin-top: 0; }
+h2 { font-size: 1.5rem; margin-top: 1.5rem; } /* Adjusted for consistency */
+p { margin-bottom: 1em; } /* Consistent paragraph spacing */
+
+/* Shared Puzzle/Math Card Styling */
+.puzzle-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px; /* Increased padding */
+    margin: 15px 0;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Emoji Problem Styling (for Emoji Puzzles page) */
+h3.emoji {
+    font-size: 3.5rem;
+    text-align: center;
+    margin: 0.5em 0;
+    white-space: pre-line; /* Allows line breaks if they exist in data */
+}
+
+/* Emoji Math Problem Styling (for Emoji Math page) */
+h3.emoji-math-problem {
+    font-size: 3.5rem; /* Base size */
+    font-size: min(3.5rem, 5vw); /* Responsive: use 3.5rem or 5vw, whichever is smaller */
+    text-align: center;
+    margin: 0.5em 0;
+    white-space: nowrap; /* Keep on single line */
+    overflow-x: auto; /* Allow horizontal scrolling if too wide */
+    padding-bottom: 5px; /* Space for scrollbar */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+
+.hint { font-style: italic; margin-top: 5px; }
+.answer { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; }
+.answer.show { max-height: 500px; opacity: 1; margin-top: 8px; }
+
+/* Input and Button Styling */
+.guess-input { margin-top: 8px; padding: 8px; width: 150px; border: 1px solid #ccc; border-radius: 4px; } /* Adjusted padding/width */
+.feedback { font-weight: bold; margin-top: 5px; }
+button {
+    margin-top: 8px;
+    padding: 8px 15px; /* Increased padding */
+    font-size: 1em;
+    cursor: pointer;
+    background: #007bff; /* Primary button color */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+button:hover {
+    background: #0056b3;
+}
+.share-btn {
+    margin-left: 10px;
+    background: #6c757d; /* Different color for share button */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+.share-btn:hover {
+    background: #5a6268;
+}
+
+/* Feedback Form Styling */
+#feedbackForm input, #feedbackForm textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 6px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding/border in element's total width */
+}
+#feedbackForm button {
+    background: #28a745; /* Green send button */
+    color: #fff;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+}
+#feedbackForm button:hover { background: #218838; }
+#formStatus {
+    font-size: 0.9em;
+    color: green;
+    margin: 6px 0;
+    text-align: center;
+}
+
+/* Footer Styling */
 footer {
     text-align: center;
-    padding: 1em;
-    font-size: 0.9em;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
+    padding: 1.5rem; /* Increased padding */
+    font-size: 0.85rem; /* Slightly smaller font */
+    color: #666;
+    margin-top: 2rem; /* Space from content above */
+    background: #eee; /* Light background for footer */
 }
 
-/* Add any other general site styles you have (e.g., .container, .main, .sidebar, form styles etc.) */
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    header nav {
+        display: none; /* Hide desktop nav on mobile */
+    }
+    .hamburger {
+        display: flex; /* Show hamburger on mobile */
+    }
+    .container {
+        flex-direction: column; /* Stack main and sidebar */
+        padding: 1rem; /* Less padding on small screens */
+    }
+    .main, .sidebar {
+        flex: auto; /* Allow items to take full width */
+        width: 100%; /* Ensure they take full width */
+        margin-top: 1rem; /* Add margin when stacked */
+        border-left: none; /* Remove left border when stacked */
+        border-top: 2px solid #eee; /* Add top border for separation when stacked */
+    }
+    .main {
+        order: 1; /* Main content first */
+    }
+    .sidebar {
+        order: 2; /* Sidebar second */
+        margin-top: 2rem; /* More space above sidebar when stacked */
+    }
+    footer {
+        margin-top: 1rem; /* Less margin when stacked */
+    }
+}
+
+/* For screens smaller than 480px (extra small mobile) */
+@media (max-width: 480px) {
+    .container {
+        padding: 0.5rem; /* Even less padding */
+    }
+    h1 {
+        font-size: 1.8rem;
+    }
+    h3.emoji, h3.emoji-math-problem {
+        font-size: min(3rem, 7vw); /* Adjust font size more aggressively */
+    }
+    .puzzle-card {
+        padding: 10px;
+    }
+    button, .guess-input {
+        padding: 6px 12px;
+        font-size: 0.9em;
+    }
+}
