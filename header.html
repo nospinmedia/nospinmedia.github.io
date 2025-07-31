@@ -2,23 +2,26 @@
   header {
     background: #111;
     color: #fff;
-    padding: 1rem 2rem;
+    /* Adjust padding top/bottom to influence total bar height */
+    padding: 0.8rem 2rem; /* Reduced top/bottom padding slightly */
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: center; /* Vertically centers items in the header */
+    justify-content: space-between; /* Pushes logo left, nav right */
   }
-  /* REMOVED: header img { max-height: 60px; } */
-  /* NEW: Style for the text logo */
-  .header-logo-text {
-    font-family: Arial, sans-serif; /* You can change this font */
-    font-size: 1.8rem; /* Adjust this size as needed */
-    font-weight: bold;
-    color: #fff;
-    letter-spacing: -0.02em; /* Subtle tightening for crispness */
-    white-space: nowrap; /* Ensures it stays on one line */
-    /* Add any margin previously on the image if desired for spacing next to nav */
-    margin-right: 15px; 
-  }
+  
+  .header-logo-text {
+    font-family: Arial, sans-serif; /* You can change this font */
+    font-size: 2.5rem; /* SIGNIFICANTLY INCREASED SIZE to fill the bar */
+    font-weight: bold;
+    color: #fff;
+    letter-spacing: -0.04em; /* Slightly tighter for larger text */
+    white-space: nowrap; /* Ensures it stays on one line */
+    margin-right: 0; /* REMOVED margin-right to push it fully left */
+    /* Add line-height if the text appears too tall or too short in the bar */
+    line-height: 1; /* Helps text sit correctly within the space */
+    padding: 0; /* Ensure no extra padding pushing it away from the edge */
+  }
+
   header nav a {
     color: #fff;
     margin-left: 20px;
