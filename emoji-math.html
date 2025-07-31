@@ -49,110 +49,21 @@
         © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
     </footer>
 
-    <script>
+        <script>
         async function loadPuzzles() {
-            const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSoyPjj_QxgVJ-l8BAetRaMyY-Lg_YjyGHfX98XqacaOkdDj553orqlaoPRkwicEcZjZsAL7_4w4nRS/pub?output=csv';
-            const urlParams = new URLSearchParams(window.location.search);
-            const targetID = urlParams.get('id');
-
-            const response = await fetch(sheetURL);
-            const text = await response.text();
-
-            // Parse CSV safely
-            const rows = [];
-            let current = '', insideQuotes = false, row = [];
-            for (let i = 0; i < text.length; i++) {
-                const char = text[i];
-                if (char === '"' && text[i+1] === '"') { current += '"'; i++; continue; }
-                if (char === '"') { insideQuotes = !insideQuotes; continue; }
-                if (char === ',' && !insideQuotes) { row.push(current); current = ''; continue; }
-                if ((char === '\n' || char === '\r') && !insideQuotes) {
-                    if (current || row.length) { row.push(current); rows.push(row); row = []; current = ''; }
-                    continue;
-                }
-                current += char;
-            }
-            if (current || row.length) { row.push(current); rows.push(row); }
-
-            const data = rows.slice(1); // skip header
-
-            let puzzles = data.filter(r => (r[6] || '').toLowerCase().includes('yes'));
-
-            // If share mode
-            if (targetID) {
-                puzzles = puzzles.filter(r => r[7] && r[7].trim() === targetID);
-            } else {
-                puzzles = puzzles.reverse(); // newest first if no ID
-            }
-
-            const puzzleContainer = document.getElementById('puzzle-container');
-            puzzleContainer.innerHTML = ''; // Clear existing content before adding new
-            
-            puzzles.forEach(p => {
-                const postID = p[7];
-                const emojiPuzzle = (p[1] || '').replace(/Key Below.*/i, '').trim();
-                const cleanAnswerText = (p[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
-                const cleanHint = (p[5] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
-
-                const match = cleanAnswerText.match(/answer\s+is\s+(\d+)/i) ||
-                                cleanAnswerText.match(/Final\s+answer:\s+(\d+)/i) ||
-                                cleanAnswerText.match(/=\s*(\d+)/);
-                const numericAnswer = match ? parseInt(match[1]) : null;
-
-                const card = document.createElement('div');
-                card.className = 'puzzle-card';
-                card.innerHTML = `
-                    <h3 class="emoji-math-problem">${emojiPuzzle}</h3>
-                    <p class="hint">${cleanHint}</p>
-
-                    <input type="number" placeholder="Your answer..." class="guess-input" />
-                    <button onclick="checkGuess(this, ${numericAnswer})">Check</button>
-                    <p class="feedback"></p>
-
-                    <button onclick="toggleAnswer(this)">Show Answer</button>
-                    <button class="share-btn" onclick="sharePuzzle('${postID}')">Share</button>
-                    <p class="answer"><strong>Answer:</strong>\n${cleanAnswerText}</p>
-                `;
-                puzzleContainer.appendChild(card);
-            });
+            // ... (rest of loadPuzzles function) ...
         }
 
         function toggleAnswer(btn) {
-            const answerEl = btn.parentElement.querySelector('.answer');
-            if (answerEl.classList.contains('show')) {
-                answerEl.classList.remove('show');
-                btn.textContent = 'Show Answer';
-            } else {
-                answerEl.classList.add('show');
-                btn.textContent = 'Hide Answer';
-            }
+            // ... (rest of toggleAnswer function) ...
         }
 
         function checkGuess(btn, correct) {
-            const input = btn.previousElementSibling;
-            const feedback = btn.nextElementSibling;
-            const guess = parseInt(input.value);
-            if (isNaN(guess)) {
-                feedback.textContent = "❓ Enter a number first!";
-                feedback.style.color = "#d00";
-                return;
-            }
-            if (guess === correct) {
-                const messages = ["🎉 Correct! You cracked it!", "✅ Nailed it!", "🎯 Perfect!"];
-                feedback.textContent = messages[Math.floor(Math.random() * messages.length)];
-                feedback.style.color = "green";
-            } else {
-                const wrongs = ["😅 Not quite, try again!", "❌ Oops, that's not it.", "🤔 Close, but no!"];
-                feedback.textContent = wrongs[Math.floor(Math.random() * wrongs.length)];
-                feedback.style.color = "#d00";
-            }
+            // ... (rest of checkGuess function) ...
         }
 
         function sharePuzzle(postID) {
-            const url = `${window.location.origin}${window.location.pathname}?id=${postID}`;
-            navigator.clipboard.writeText(url).then(() => {
-                alert("🔗 Puzzle link copied to clipboard!");
-            });
+            // ... (rest of sharePuzzle function) ...
         }
 
         // Use DOMContentLoaded to ensure the div for the header exists before trying to fetch
@@ -170,6 +81,8 @@
                         function toggleMobileNav() {
                             mobileNav.classList.toggle('open');
                             hamburger.classList.toggle('active'); // Toggle color change
+                            // >>> ADD THIS LINE: To prevent body scrolling when nav is open
+                            document.body.classList.toggle('mobile-nav-active'); 
                             console.log('Hamburger toggled from emoji-math.html! Open:', mobileNav.classList.contains('open'));
                         }
 
@@ -189,6 +102,8 @@
                             link.addEventListener('click', () => {
                                 mobileNav.classList.remove('open');
                                 hamburger.classList.remove('active'); // Reset hamburger color
+                                // >>> ADD THIS LINE: To re-enable body scrolling when nav closes
+                                document.body.classList.remove('mobile-nav-active'); 
                             });
                         });
 
@@ -197,6 +112,8 @@
                             if (window.innerWidth > 768) {
                                 mobileNav.classList.remove('open');
                                 hamburger.classList.remove('active'); // Reset hamburger color
+                                // >>> ADD THIS LINE: To re-enable body scrolling if window is resized past mobile breakpoint
+                                document.body.classList.remove('mobile-nav-active'); 
                             }
                         });
                     } else {
@@ -210,48 +127,7 @@
                 .catch(err => console.error("Error loading header.html:", err));
 
             // Feedback form submit (kept separate from header loading as it's not dependent)
-            const feedbackForm = document.getElementById('feedbackForm');
-            if (feedbackForm) { // Check if the form exists before adding listener
-                feedbackForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    const status = document.getElementById('formStatus');
-                    status.textContent = "⏳ Sending...";
-
-                    const name = document.getElementById('name').value || "Someone";
-                    const email = document.getElementById('email').value;
-                    const message = document.getElementById('message').value;
-
-                    const data = {
-                        name: name,
-                        email: email,
-                        subject: "Emoji Math Feedback",
-                        message: message
-                    };
-
-                    try {
-                        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-                            method: 'POST',
-                            headers: {'Content-Type':'text/plain'},
-                            body: JSON.stringify(data)
-                        });
-
-                        let result = {};
-                        try { result = await res.json(); } catch (err) { result = { status: "success" }; }
-
-                        if (result.status === "success") {
-                            status.textContent = "✅ Thanks! Your feedback was sent.";
-                            this.reset();
-                        } else {
-                            status.textContent = "❌ Error sending. Please try again.";
-                        }
-                        setTimeout(()=>{ status.textContent = ""; }, 5000);
-                    } catch (err) {
-                        console.error(err);
-                        status.textContent = "❌ Failed to send! Check connection.";
-                        setTimeout(()=>{ status.textContent = ""; }, 5000);
-                    }
-                });
-            }
+            // ... (rest of feedback form code) ...
         });
     </script>
 </body>
