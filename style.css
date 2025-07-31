@@ -146,42 +146,39 @@ body.mobile-nav-active {
     flex-wrap: wrap; /* Allows wrapping on smaller screens */
     padding: 2rem;
     max-width: 1200px; /* Max width for content area */
-    margin: 0 auto; /* Centers the container */
+    margin: 20px auto; /* Centers the container and adds vertical margin */
     gap: 2rem; /* Spacing between main and sidebar */
 }
 
 .main {
-    flex: 2; /* Main content takes a larger proportion */
-    min-width: 300px; /* Ensure main content has a minimum width before stacking */
+    flex: 3; /* Main content takes a larger proportion (e.g., 3 parts) */
+    min-width: 450px; /* Ensures main content has enough space, preventing squishing */
     padding: 1rem;
-    background: #fff; /* Added for visual separation */
-    border-radius: 8px; /* Added for consistency */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Added for consistency */
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 /* This is where the magic happens for the puzzles on Emoji Math */
 #puzzle-container {
-    display: grid; /* Make the container itself a grid */
-    /* This rule makes sure that puzzles always fit in a single column
-       within the .main area, preventing them from becoming too small
-       when the .main area is narrower (e.g., next to the sidebar). */
+    display: grid; /* Use grid for internal layout of puzzles */
+    /* Ensure only one column, puzzles take full width of puzzle-container */
     grid-template-columns: 1fr; 
     gap: 1rem; /* Spacing between individual puzzle cards */
-    width: 100%; /* Ensure it takes full width of its parent (.main) */
+    width: 100%; /* Make sure puzzle-container takes full width of its parent (.main) */
 }
 
 
 .sidebar {
-    flex: 1.5; /* Sidebar takes a smaller proportion */
-    min-width: 280px; /* Ensure sidebar has a minimum width before stacking */
+    flex: 1; /* Sidebar takes a smaller proportion (e.g., 1 part) */
+    min-width: 280px; /* Ensures sidebar has a minimum width */
     background: #fff;
     padding: 1rem;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     height: fit-content; /* Make sidebar only as tall as its content */
-    margin-top: 0; /* Ensure no extra top margin when side-by-side */
-    border-left: 2px solid #eee; /* Visual separation */
     align-self: flex-start; /* Aligns sidebar to the top */
+    /* Removed border-left here, rely on gap and box-shadow for separation */
 }
 
 /* Specific elements within main/sidebar that might need styling */
@@ -196,7 +193,7 @@ p { margin-bottom: 1em; }
     padding: 15px;
     background: #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    /* No specific width needed here, as #puzzle-container's grid handles it */
+    /* No specific width needed here, as #puzzle-container's grid handles it by being 1fr */
 }
 
 /* Emoji Problem Styling (for Emoji Puzzles page) */
@@ -314,15 +311,13 @@ footer {
         flex: auto; /* Allow items to take full width */
         width: 100%; /* Ensure they take full width */
         margin-top: 1rem; /* Add margin when stacked */
-        border-left: none; /* Remove left border when stacked */
-        border-top: 2px solid #eee; /* Add top border for separation when stacked */
+        /* Removed border-left/border-top for stacking, rely on spacing and shadows */
     }
     .main {
         order: 1; /* Main content first */
     }
-    /* This ensures #puzzle-container stacks its items on mobile too */
     #puzzle-container {
-        grid-template-columns: 1fr; /* Force single column for puzzles inside #puzzle-container on mobile */
+        grid-template-columns: 1fr; /* Always single column for puzzles on mobile */
         gap: 1rem;
     }
     .sidebar {
