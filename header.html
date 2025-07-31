@@ -47,7 +47,7 @@ header nav a {
 .hamburger-menu {
     display: none; /* Hidden by default on desktop */
     font-size: 2rem;
-    cursor: pointer;
+    cursor: pointer; /* Add pointer cursor to indicate clickability */
     color: #fff;
     padding: 5px;
 }
@@ -57,7 +57,7 @@ header nav a {
     display: none; /* Hidden by default */
     flex-direction: column;
     position: absolute; /* Position relative to header */
-    top: 70px; /* Below the header */
+    top: 70px; /* Below the header (adjust if your header min-height changes) */
     right: 0;
     background: #222; /* Darker background for mobile menu */
     width: 100%; /* Take full width */
@@ -142,24 +142,29 @@ header nav a {
     document.addEventListener('DOMContentLoaded', function() {
         const hamburger = document.getElementById('hamburger');
         const mobileNav = document.getElementById('mobile-nav');
-        const desktopNav = document.getElementById('desktop-nav'); // Reference to desktop nav for showing/hiding
+        // const desktopNav = document.getElementById('desktop-nav'); // Not strictly needed for this specific issue
 
-        hamburger.addEventListener('click', function() {
-            mobileNav.classList.toggle('open');
-        });
-
-        // Optional: Close mobile menu when a link is clicked
-        mobileNav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileNav.classList.remove('open');
+        if (hamburger && mobileNav) { // Ensure elements exist before adding listeners
+            hamburger.addEventListener('click', function() {
+                console.log('Hamburger clicked!'); // For debugging: check if this appears in console
+                mobileNav.classList.toggle('open');
             });
-        });
 
-        // Optional: Close mobile menu if window is resized above mobile breakpoint
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
-                mobileNav.classList.remove('open');
-            }
-        });
+            // Optional: Close mobile menu when a link is clicked
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNav.classList.remove('open');
+                });
+            });
+
+            // Optional: Close mobile menu if window is resized above mobile breakpoint
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    mobileNav.classList.remove('open');
+                }
+            });
+        } else {
+            console.error("Hamburger or mobile navigation element not found!"); // For debugging
+        }
     });
 </script>
