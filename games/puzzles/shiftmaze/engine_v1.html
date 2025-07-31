@@ -292,7 +292,7 @@
     <div id="debug-input">
         Debug ID: <input type="text" id="debug-room-id-input" />
         <button id="load-debug-room">Load</button>
-        <span id="version-display">v2.4</span> </div>
+        <span id="version-display">v2.5</span> </div>
     <img id="mouse" src="rat_transparent.gif" alt="mouse" />
 
     <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
@@ -324,7 +324,7 @@
         let completedPuzzles = [];
         const GAME_STATE_KEY = 'shiftmazeGameState';
         const DEBUG_MODE = true;
-        const GAME_VERSION = '2.4'; // Updated: Incremented game version
+        const GAME_VERSION = '2.5'; // Updated: Incremented game version
 
         // --- TV Messages (can be separate JSON or hardcoded) ---
         const entryMessages = [
@@ -534,8 +534,8 @@
             const randomSize = 80 + (Math.random() * 160); // 80 + (0 to 1 * 160) = 80 to 240
             mouse.style.width = `${randomSize}px`;
 
-            // Calculate random vertical position (bottom percentage)
-            const randomBottom = 5 + (Math.random() * 15); // 5% to 20% from bottom
+            // Calculate random vertical position (bottom percentage) to keep it low
+            const randomBottom = 2 + (Math.random() * 8); // 2% to 10% from bottom
             mouse.style.bottom = `${randomBottom}%`;
 
             if (goingRight) {
