@@ -324,7 +324,7 @@
         let completedPuzzles = [];
         const GAME_STATE_KEY = 'shiftmazeGameState';
         const DEBUG_MODE = true;
-        const GAME_VERSION = '2.5'; // Updated: Incremented game version
+        const GAME_VERSION = '2.6'; // Updated: Incremented game version
 
         // --- TV Messages (can be separate JSON or hardcoded) ---
         const entryMessages = [
@@ -534,8 +534,8 @@
             const randomSize = 80 + (Math.random() * 160); // 80 + (0 to 1 * 160) = 80 to 240
             mouse.style.width = `${randomSize}px`;
 
-            // Calculate random vertical position (bottom percentage) to keep it low
-            const randomBottom = 0 + (Math.random() * 8); // 2% to 10% from bottom
+            // Calculate random vertical position (bottom percentage) to keep it very low
+            const randomBottom = Math.random() * 5; // 0% to 5% from bottom
             mouse.style.bottom = `${randomBottom}%`;
 
             if (goingRight) {
@@ -639,7 +639,7 @@
                             message.textContent = `Debug mode: Loaded room ${debugId}`;
                             message.style.color = '#0ff';
                         } else {
-                            message.textContent = `Debug ID "${debugId}" not found. Loading random.`;
+                            message.textContent = `Room ID "${debugId}" not found. Loading random.`;
                             message.style.color = '#f00';
                             loadRandomPuzzle();
                         }
