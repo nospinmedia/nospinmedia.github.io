@@ -14,32 +14,33 @@
             color: #222;
         }
 
-        /* REMOVED: Header/Nav styling from here, as it should be
-           handled by header.html itself or a global style.css.
-           (e.g., header { background: #111; ... } was here)
-        */
-
         .container {
             display: flex;
             flex-wrap: wrap; /* Allows wrapping on smaller screens */
             padding: 2rem;
-            max-width: 1200px; /* Added max-width for consistency */
+            max-width: 1200px; /* Consistent max-width for content */
             margin: 2rem auto; /* Center container with auto margins */
             gap: 2rem; /* Spacing between main and sidebar */
         }
+
         .main {
-            flex: 1 1 60%; /* Takes at least 60% width, can grow/shrink */
+            /* Make main content take full width */
+            flex: 1 1 100%; /* Changed to 100% basis */
             padding: 1rem;
         }
         .sidebar {
-            flex: 1 1 30%; /* Takes at least 30% width, can grow/shrink */
+            /* Make sidebar always appear below main content */
+            flex: 1 1 100%; /* Changed to 100% basis to take full line */
             background: #fff;
             padding: 1rem;
-            border-radius: 8px; /* Added border-radius for consistency */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Added box-shadow for consistency */
-            height: fit-content; /* Make sidebar only as tall as its content */
-            margin-top: 2rem; /* Consistent margin for when side-by-side */
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: fit-content;
+            /* Adjust margin based on new stacking, removed left border if it was specific for side-by-side */
+            margin-top: 2rem; /* Consistent margin between stacked elements */
+            border-left: none; /* Ensure no left border if it was for side-by-side layout */
         }
+
         h1 { font-size: 2rem; margin-top: 0; }
         h3.emoji { font-size: 3.5rem; text-align: center; margin: 0.5em 0; white-space: pre-line; }
         .puzzle-card { border: 1px solid #ccc; border-radius: 8px; padding: 10px; margin: 15px 0; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
@@ -83,6 +84,8 @@
             color: #666;
         }
 
+        /* Since main and sidebar are now always 100%, this media query isn't strictly needed for flex-direction,
+           but keeping it won't hurt if other responsive adjustments are desired later. */
         @media (max-width: 768px) {
             .container { flex-direction: column; }
             .sidebar { margin-top: 1rem; border-left: none; border-top: 2px solid #eee; }
@@ -224,7 +227,7 @@
                     };
 
                     try {
-                        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqLdRd9O42VLDBvt2XzkA67tjphJrs/exec', { // Corrected URL with proper ID
+                        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
                             method: 'POST',
                             headers: {'Content-Type':'text/plain'},
                             body: JSON.stringify(data)
