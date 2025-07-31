@@ -1,135 +1,154 @@
-<style>
-/* Header */
-header {
-    box-sizing: border-box !important;
-    background: #111 !important;
-    color: #fff !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 0.5rem 2rem !important;
-    min-height: 70px !important;
-    width: 100% !important;
-    margin: 0 !important;
-    top: 0 !important;
-    left: 0 !important;
-    position: fixed !important;
-    z-index: 1000 !important;
-}
-
-/* Logo */
-.header-logo-text {
-    font-family: Arial, sans-serif !important;
-    font-size: 2.8rem !important;
-    font-weight: bold !important;
-    color: #fff !important;
-    letter-spacing: -0.05em !important;
-    white-space: nowrap !important;
-    margin: 0 !important;
-    line-height: 1 !important;
-    padding: 0 !important;
-    cursor: pointer; /* Indicates clickable */
-    text-decoration: none !important; /* Remove underline */
-}
-
-.header-logo-text a {
-    color: inherit !important; /* Inherit text color */
-    text-decoration: none !important; /* Ensure no underline */
-}
-
-/* Desktop nav */
-header nav {
-    display: flex !important;
-    align-items: center !important;
-}
-
-header nav a {
-    color: #fff !important;
-    margin-left: 20px !important;
-    text-decoration: none !important;
-    font-weight: bold !important;
-}
-
-/* Hamburger */
-.hamburger-menu {
-    display: none;
-    font-size: 2rem;
-    cursor: pointer;
-    color: #fff;
-    padding: 5px;
-    z-index: 1001;
-    transition: color 0.3s; /* Smooth color transition */
-}
-
-.hamburger-menu.active {
-    color: #ff5733; /* Changes to orange when clicked/active */
-}
-
-/* Mobile nav */
-.mobile-nav {
-    display: none;
-    flex-direction: column;
-    position: fixed !important;
-    top: 70px;
-    right: 0;
-    background: #222;
-    width: 100%;
-    max-width: 300px;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-    padding: 1rem 0;
-    z-index: 1002 !important;
-}
-
-.mobile-nav.open {
-    display: flex;
-}
-
-.mobile-nav a {
-    color: #fff;
-    padding: 10px 20px;
-    text-decoration: none;
-    font-weight: bold;
-    border-bottom: 1px solid #333;
-    text-align: right;
-}
-
-.mobile-nav a:last-child {
-    border-bottom: none;
-}
-
-.mobile-nav a:hover {
-    background: #333;
-}
-
-/* Mobile breakpoint */
-@media (max-width: 768px) {
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures proper mobile scaling -->
+    <style>
+    /* Header */
     header {
-        padding: 0.5rem 1rem !important;
+        box-sizing: border-box !important;
+        background: #111 !important;
+        color: #fff !important;
+        display: flex !important;
+        align-items: center !important;
         justify-content: space-between !important;
+        padding: 0.5rem 2rem !important;
+        min-height: 70px !important;
+        width: 100% !important;
+        margin: 0 !important;
+        top: 0 !important;
+        left: 0 !important;
+        position: fixed !important;
+        z-index: 1000 !important;
     }
+
+    /* Logo */
     .header-logo-text {
-        font-size: 1.5rem !important;
-        flex-shrink: 0;
+        font-family: Arial, sans-serif !important;
+        font-size: 2.8rem !important;
+        font-weight: bold !important;
+        color: #fff !important;
+        letter-spacing: -0.05em !important;
+        white-space: nowrap !important;
+        margin: 0 !important;
+        line-height: 1 !important;
+        padding: 0 !important;
+        cursor: pointer; /* Indicates clickable */
+        text-decoration: none !important; /* Remove underline */
     }
+
+    .header-logo-text a {
+        color: inherit !important; /* Inherit text color */
+        text-decoration: none !important; /* Ensure no underline */
+    }
+
+    /* Desktop nav */
     header nav {
-        display: none !important;
+        display: flex !important;
+        align-items: center !important;
     }
+
+    header nav a {
+        color: #fff !important;
+        margin-left: 20px !important;
+        text-decoration: none !important;
+        font-weight: bold !important;
+    }
+
+    /* Hamburger */
     .hamburger-menu {
-        display: block;
+        display: none;
+        font-size: 2rem;
+        cursor: pointer;
+        color: #fff;
+        padding: 5px;
+        z-index: 1001;
+        transition: color 0.3s; /* Smooth color transition */
     }
-}
 
-/* Fix for content cut-off */
-body {
-    padding-top: 70px;
-    margin: 0;
-}
-</style>
+    .hamburger-menu.active {
+        color: #ff5733; /* Changes to orange when clicked/active */
+    }
 
-<header>
-    <a href="/index.html" class="header-logo-text">🧭 No Spin Media</a>
-    <div class="hamburger-menu" id="hamburger">&#9776;</div>
-    <nav id="desktop-nav">
+    /* Mobile nav */
+    .mobile-nav {
+        display: none;
+        flex-direction: column;
+        position: fixed !important;
+        top: 70px;
+        right: 0;
+        background: #222;
+        width: 100%;
+        max-width: 300px;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        padding: 1rem 0;
+        z-index: 1002 !important;
+    }
+
+    .mobile-nav.open {
+        display: flex;
+    }
+
+    .mobile-nav a {
+        color: #fff;
+        padding: 10px 20px;
+        text-decoration: none;
+        font-weight: bold;
+        border-bottom: 1px solid #333;
+        text-align: right;
+    }
+
+    .mobile-nav a:last-child {
+        border-bottom: none;
+    }
+
+    .mobile-nav a:hover {
+        background: #333;
+    }
+
+    /* Mobile breakpoint */
+    @media (max-width: 768px) {
+        header {
+            padding: 0.5rem 1rem !important;
+            justify-content: space-between !important;
+        }
+        .header-logo-text {
+            font-size: 1.5rem !important;
+            flex-shrink: 0;
+        }
+        header nav {
+            display: none !important;
+        }
+        .hamburger-menu {
+            display: block;
+        }
+    }
+
+    /* Fix for content cut-off */
+    body {
+        padding-top: 70px;
+        margin: 0;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/index.html" class="header-logo-text">🧭 No Spin Media</a>
+        <div class="hamburger-menu" id="hamburger">&#9776;</div>
+        <nav id="desktop-nav">
+            <a href="/index.html">Home</a>
+            <a href="/news.html">News</a>
+            <a href="/emoji-puzzles.html">Emoji Puzzles</a>
+            <a href="/emoji-math.html">Emoji Math</a>
+            <a href="/ai-posts.html">AI Posts</a>
+            <a href="/games/index.html">Games</a>
+            <a href="/sponsor.html">Support</a>
+            <a href="/ai.html">Why AI?</a>
+            <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
+        </nav>
+    </header>
+
+    <div class="mobile-nav" id="mobile-nav">
         <a href="/index.html">Home</a>
         <a href="/news.html">News</a>
         <a href="/emoji-puzzles.html">Emoji Puzzles</a>
@@ -139,41 +158,33 @@ body {
         <a href="/sponsor.html">Support</a>
         <a href="/ai.html">Why AI?</a>
         <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
-    </nav>
-</header>
+    </div>
 
-<div class="mobile-nav" id="mobile-nav">
-    <a href="/index.html">Home</a>
-    <a href="/news.html">News</a>
-    <a href="/emoji-puzzles.html">Emoji Puzzles</a>
-    <a href="/emoji-math.html">Emoji Math</a>
-    <a href="/ai-posts.html">AI Posts</a>
-    <a href="/games/index.html">Games</a>
-    <a href="/sponsor.html">Support</a>
-    <a href="/ai.html">Why AI?</a>
-    <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
-</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileNav = document.getElementById('mobile-nav');
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const hamburger = document.getElementById('hamburger');
-        const mobileNav = document.getElementById('mobile-nav');
+            if (!hamburger || !mobileNav) {
+                console.log('Error: Hamburger or mobile nav element not found!');
+                return; // Exit if elements are missing
+            }
 
-        if (!hamburger || !mobileNav) {
-            console.log('Error: Hamburger or mobile nav element not found!');
-            return;
-        }
+            function toggleMobileNav() {
+                mobileNav.classList.toggle('open');
+                hamburger.classList.toggle('active'); // Toggle color change
+                console.log('Toggled menu, open:', mobileNav.classList.contains('open'));
+            }
 
-        function toggleMobileNav() {
-            mobileNav.classList.toggle('open');
-            hamburger.classList.toggle('active'); // Toggle color change
-        }
+            hamburger.addEventListener('click', toggleMobileNav);
 
-        hamburger.addEventListener('click', toggleMobileNav);
-
-        // Test log to confirm event attachment
-        hamburger.addEventListener('click', function() {
-            console.log('Hamburger clicked!');
+            // Test touch event for mobile
+            hamburger.addEventListener('touchstart', function(e) {
+                e.preventDefault(); // Prevent default touch behavior
+                console.log('Touch detected!');
+                toggleMobileNav();
+            });
         });
-    });
-</script>
+    </script>
+</body>
+</html>
