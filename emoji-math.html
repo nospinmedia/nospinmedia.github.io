@@ -86,6 +86,8 @@
             }
 
             const puzzleContainer = document.getElementById('puzzle-container');
+            puzzleContainer.innerHTML = ''; // Clear existing content before adding new
+            
             puzzles.forEach(p => {
                 const postID = p[7];
                 const emojiPuzzle = (p[1] || '').replace(/Key Below.*/i, '').trim();
