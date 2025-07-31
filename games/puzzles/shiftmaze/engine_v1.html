@@ -87,39 +87,54 @@
             text-align: center;
             z-index: 5;
             font-family: Arial, sans-serif; /* Cleaner font */
+            display: flex; /* Added flexbox to arrange items */
+            flex-direction: column; /* Stack question, then controls */
+            align-items: center; /* Center items horizontally */
         }
 
         #puzzle-question {
-            font-size: 1.1vw; /* Adjusted: Smaller font size */
+            font-size: 0.9vw; /* Further reduced font size */
             margin-bottom: 20px;
-            max-width: 90%; /* Adjusted: Set max-width to allow wrapping and take less horizontal space */
-            margin-left: auto; /* Center the block within its parent */
-            margin-right: auto; /* Center the block within its parent */
+            max-width: 80%; /* Reduced max-width for more compact box */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* New row for input and buttons */
+        .controls-row {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            justify-content: center; /* Center items in the row */
+            align-items: center; /* Vertically align items in the row */
+            width: 100%; /* Take full width of parent */
+            margin-top: 10px; /* Space from question */
         }
 
         #puzzle-input {
             padding: 10px;
-            width: 80%;
-            max-width: 300px;
+            width: 50%; /* Adjusted width */
+            max-width: 200px; /* Adjusted max-width */
             font-size: 1.2em;
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid #ffcc00;
             color: #fff;
             border-radius: 5px;
             text-align: center;
+            margin: 5px; /* Added margin for spacing in the row */
         }
 
         #submit-btn, #hint-btn, #exit-btn, #skip-btn {
-            padding: 10px 20px;
-            margin: 15px 10px;
+            padding: 8px 15px; /* Slightly reduced padding */
+            margin: 5px; /* Adjusted margin for spacing in the row */
             background: #4a3728;
             color: #ffcc00;
             border: 2px solid #ffcc00;
             border-radius: 5px;
             font-family: 'Press Start 2P', cursive;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 0.75em; /* Reduced button font size by 25% */
             transition: background 0.3s ease, color 0.3s ease;
+            white-space: nowrap; /* Prevent text wrapping within buttons */
         }
 
         #submit-btn:hover, #hint-btn:hover, #exit-btn:hover, #skip-btn:hover {
@@ -260,11 +275,12 @@
 
     <div id="game-container">
         <div id="puzzle-question"></div>
-        <input type="text" id="puzzle-input" placeholder="Your answer" />
-        <button id="submit-btn">Submit</button>
-        <button id="hint-btn">Hint</button>
-        <button id="skip-btn">Skip</button>
-        <button id="exit-btn">Exit Room</button> 
+        <div class="controls-row"> <input type="text" id="puzzle-input" placeholder="Your answer" />
+            <button id="submit-btn">Submit</button>
+            <button id="hint-btn">Hint</button>
+            <button id="skip-btn">Skip</button>
+            <button id="exit-btn">Exit Room</button> 
+        </div>
         <div id="message"></div>
     </div>
 
@@ -275,7 +291,7 @@
     <div id="debug-input">
         Debug ID: <input type="text" id="debug-room-id-input" />
         <button id="load-debug-room">Load</button>
-        <span id="version-display">v2.1</span> </div>
+        <span id="version-display">v2.2</span> </div>
     <img id="mouse" src="rat_transparent.gif" alt="mouse" />
 
     <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
@@ -307,7 +323,7 @@
         let completedPuzzles = [];
         const GAME_STATE_KEY = 'shiftmazeGameState';
         const DEBUG_MODE = true;
-        const GAME_VERSION = '2.1'; // Updated: Incremented game version
+        const GAME_VERSION = '2.2'; // Updated: Incremented game version
 
         // --- TV Messages (can be separate JSON or hardcoded) ---
         const entryMessages = [
