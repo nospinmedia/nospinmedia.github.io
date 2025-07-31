@@ -292,7 +292,7 @@
     <div id="debug-input">
         Debug ID: <input type="text" id="debug-room-id-input" />
         <button id="load-debug-room">Load</button>
-        <span id="version-display">v2.5</span> </div>
+        <span id="version-display">v2.6</span> </div>
     <img id="mouse" src="rat_transparent.gif" alt="mouse" />
 
     <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
@@ -535,7 +535,7 @@
             mouse.style.width = `${randomSize}px`;
 
             // Calculate random vertical position (bottom percentage) to keep it low
-            const randomBottom = 2 + (Math.random() * 8); // 2% to 10% from bottom
+            const randomBottom = 0 + (Math.random() * 8); // 2% to 10% from bottom
             mouse.style.bottom = `${randomBottom}%`;
 
             if (goingRight) {
