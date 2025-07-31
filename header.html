@@ -2,8 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures proper mobile scaling -->
-    <style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <style>
     /* Header */
     header {
         box-sizing: border-box !important;
@@ -124,11 +123,11 @@
         }
     }
 
-    /* Fix for content cut-off */
-    body {
+    /* Fix for content cut-off - This part needs to be in your MAIN HTML files' <style> */
+    /* body {
         padding-top: 70px;
         margin: 0;
-    }
+    } */
     </style>
 </head>
 <body>
@@ -159,32 +158,5 @@
         <a href="/ai.html">Why AI?</a>
         <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const hamburger = document.getElementById('hamburger');
-            const mobileNav = document.getElementById('mobile-nav');
-
-            if (!hamburger || !mobileNav) {
-                console.log('Error: Hamburger or mobile nav element not found!');
-                return; // Exit if elements are missing
-            }
-
-            function toggleMobileNav() {
-                mobileNav.classList.toggle('open');
-                hamburger.classList.toggle('active'); // Toggle color change
-                console.log('Toggled menu, open:', mobileNav.classList.contains('open'));
-            }
-
-            hamburger.addEventListener('click', toggleMobileNav);
-
-            // Test touch event for mobile
-            hamburger.addEventListener('touchstart', function(e) {
-                e.preventDefault(); // Prevent default touch behavior
-                console.log('Touch detected!');
-                toggleMobileNav();
-            });
-        });
-    </script>
 </body>
 </html>
