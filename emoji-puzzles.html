@@ -108,13 +108,16 @@
             </p>
 
             <h2>We ❤️ Your Thoughts!</h2>
-            <p>Have an idea, suggestion, or just want to say hi? We read every single message you send. 😊</p>
+            <p>
+                Have an idea for a fun emoji puzzle? Want to send us general feedback or just say hi?
+                We read every single message and might even publish your puzzle! 😊
+            </p>
             <p>You can also reach us directly at: <strong>nospinmedia.ai@gmail.com</strong></p>
 
             <form id="feedbackForm">
                 <input type="text" id="name" name="name" placeholder="Your first name">
                 <input type="email" id="email" name="email" placeholder="you@email.com" required>
-                <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
+                <textarea id="message" name="message" rows="4" placeholder="Your feedback or puzzle idea..." required></textarea>
                 <p id="formStatus"></p>
                 <button type="submit">💬 Send Feedback</button>
             </form>
@@ -151,7 +154,7 @@
 
             const puzzles = data.filter(r => (r[6] || '').toLowerCase().includes('yes')).reverse();
 
-            const puzzleContainer = document.getElementById('puzzle-container'); // Renamed for clarity
+            const puzzleContainer = document.getElementById('puzzle-container');
             puzzles.forEach(r => {
                 const emoji = (r[1] || '').trim();
                 const answer = (r[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
@@ -169,7 +172,7 @@
                     <button onclick="toggleAnswer('answer-${id}', this)">Show Answer</button>
                     <p id="answer-${id}" class="answer"><strong>Answer:</strong> ${answer}</p>
                 `;
-                puzzleContainer.appendChild(puzzleDiv); // Appended to the correct container
+                puzzleContainer.appendChild(puzzleDiv);
             });
         }
 
