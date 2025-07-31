@@ -90,8 +90,11 @@
         }
 
         #puzzle-question {
-            font-size: 1.4vw; /* Reduced font size */
+            font-size: 1.1vw; /* Adjusted: Smaller font size */
             margin-bottom: 20px;
+            max-width: 90%; /* Adjusted: Set max-width to allow wrapping and take less horizontal space */
+            margin-left: auto; /* Center the block within its parent */
+            margin-right: auto; /* Center the block within its parent */
         }
 
         #puzzle-input {
@@ -106,7 +109,7 @@
             text-align: center;
         }
 
-        #submit-btn, #hint-btn, #exit-btn, #skip-btn { /* Added #skip-btn */
+        #submit-btn, #hint-btn, #exit-btn, #skip-btn {
             padding: 10px 20px;
             margin: 15px 10px;
             background: #4a3728;
@@ -119,7 +122,7 @@
             transition: background 0.3s ease, color 0.3s ease;
         }
 
-        #submit-btn:hover, #hint-btn:hover, #exit-btn:hover, #skip-btn:hover { /* Added #skip-btn */
+        #submit-btn:hover, #hint-btn:hover, #exit-btn:hover, #skip-btn:hover {
             background: #ffcc00;
             color: #4a3728;
         }
@@ -260,7 +263,8 @@
         <input type="text" id="puzzle-input" placeholder="Your answer" />
         <button id="submit-btn">Submit</button>
         <button id="hint-btn">Hint</button>
-        <button id="skip-btn">Skip</button> <button id="exit-btn">Exit Room</button> 
+        <button id="skip-btn">Skip</button>
+        <button id="exit-btn">Exit Room</button> 
         <div id="message"></div>
     </div>
 
@@ -271,7 +275,7 @@
     <div id="debug-input">
         Debug ID: <input type="text" id="debug-room-id-input" />
         <button id="load-debug-room">Load</button>
-        <span id="version-display">v2.0</span> </div>
+        <span id="version-display">v2.1</span> </div>
     <img id="mouse" src="rat_transparent.gif" alt="mouse" />
 
     <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
@@ -284,11 +288,11 @@
         const puzzleInput = document.getElementById('puzzle-input');
         const submitBtn = document.getElementById('submit-btn');
         const hintBtn = document.getElementById('hint-btn');
-        const skipBtn = document.getElementById('skip-btn'); // NEW: Skip Button Element
+        const skipBtn = document.getElementById('skip-btn');
         const exitBtn = document.getElementById('exit-btn');
         const message = document.getElementById('message');
         const currentScoreDisplay = document.getElementById('current-score');
-        const percentCompleteDisplay = document.getElementById('percent-complete'); // NEW: Percent Complete Display
+        const percentCompleteDisplay = document.getElementById('percent-complete');
         const roomSign = document.getElementById('room-sign');
         const roomSignText = document.getElementById('room-sign-text');
         const debugInputDiv = document.getElementById('debug-input');
@@ -303,7 +307,7 @@
         let completedPuzzles = [];
         const GAME_STATE_KEY = 'shiftmazeGameState';
         const DEBUG_MODE = true;
-        const GAME_VERSION = '2.0'; // Define the game version - INCREMENTED
+        const GAME_VERSION = '2.1'; // Updated: Incremented game version
 
         // --- TV Messages (can be separate JSON or hardcoded) ---
         const entryMessages = [
@@ -353,7 +357,6 @@
             updateScoreDisplay(); // Update score and percentage on load
         }
 
-        // NEW: Function to update score and completion percentage display
         function updateScoreDisplay() {
             currentScoreDisplay.textContent = score;
             if (allPuzzles.length > 0) {
@@ -472,7 +475,6 @@
             }
         }
 
-        // NEW: Function for skipping a puzzle
         function skipPuzzle() {
             message.textContent = "Puzzle skipped. Loading a new room...";
             message.style.color = '#fdd835'; // Yellow/Gold for skip message
@@ -517,15 +519,10 @@
             }
         });
         hintBtn.addEventListener('click', showHint);
-        skipBtn.addEventListener('click', skipPuzzle); // NEW: Skip button event listener
+        skipBtn.addEventListener('click', skipPuzzle);
         
-        // REVISED: Exit Button now navigates to index.html
         exitBtn.addEventListener('click', () => {
-            // This will navigate the browser to the specified URL
-            // Assuming index.html is in the same directory as this file (engine_v1.html)
             window.location.href = 'index.html'; 
-            // If index.html is in the parent directory, you'd use '../index.html'
-            // If it's a specific, fixed path, use the full URL: 'https://nospinmedia.github.io/games/puzzles/shiftmaze/index.html';
         });
 
         loadDebugRoomBtn.addEventListener('click', () => {
@@ -614,12 +611,12 @@
                             message.style.color = '#f00';
                             loadRandomPuzzle();
                         }
-                    } else if (currentPuzzleIndex !== -1 && allPuzzles[currentPuzzleIndex]) { // If a saved puzzle index exists and is valid
+                    } else if (currentPuzzleIndex !== -1 && allPuzzles[currentPuzzleIndex]) {
                                 loadPuzzle(allPuzzles[currentPuzzleIndex]);
                                 message.textContent = `Resumed game in room: ${allPuzzles[currentPuzzleIndex].id}`;
                                 message.style.color = '#0f0';
                     }
-                    else { // Otherwise, load a new random puzzle (respecting completed ones)
+                    else {
                         loadRandomPuzzle();
                     }
 
