@@ -1,5 +1,5 @@
 <style>
-/* Reset basic spacing for the header element itself when it's rendered */
+/* Header */
 header {
     box-sizing: border-box !important;
     background: #111 !important;
@@ -17,7 +17,7 @@ header {
     z-index: 1000 !important;
 }
 
-/* Style for the text logo */
+/* Logo */
 .header-logo-text {
     font-family: Arial, sans-serif !important;
     font-size: 2.8rem !important;
@@ -30,9 +30,9 @@ header {
     padding: 0 !important;
 }
 
-/* Styles for desktop navigation links within the header */
+/* Desktop nav */
 header nav {
-    display: flex !important; /* Keep as flex for desktop layout */
+    display: flex !important;
     align-items: center !important;
 }
 
@@ -43,32 +43,32 @@ header nav a {
     font-weight: bold !important;
 }
 
-/* Hamburger menu icon styles */
+/* Hamburger */
 .hamburger-menu {
-    display: none; /* Hidden by default on desktop */
+    display: none;
     font-size: 2rem;
-    cursor: pointer; /* Add pointer cursor to indicate clickability */
+    cursor: pointer;
     color: #fff;
     padding: 5px;
 }
 
-/* Mobile navigation menu container */
+/* Mobile nav */
 .mobile-nav {
-    display: none; /* Hidden by default */
+    display: none;
     flex-direction: column;
-    position: absolute; /* Position relative to header */
-    top: 70px; /* Below the header (adjust if your header min-height changes) */
+    position: absolute;
+    top: 70px;
     right: 0;
-    background: #222; /* Darker background for mobile menu */
-    width: 100%; /* Take full width */
-    max-width: 300px; /* Optional: limit width on larger phones/tablets */
+    background: #222;
+    width: 100%;
+    max-width: 300px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.2);
     padding: 1rem 0;
-    z-index: 999; /* Below header, but above other content */
+    z-index: 1002; /* ✅ Higher than header */
 }
 
 .mobile-nav.open {
-    display: flex; /* Show when open */
+    display: flex;
 }
 
 .mobile-nav a {
@@ -76,44 +76,41 @@ header nav a {
     padding: 10px 20px;
     text-decoration: none;
     font-weight: bold;
-    border-bottom: 1px solid #333; /* Separator for links */
-    text-align: right; /* Align links to the right within the mobile menu */
+    border-bottom: 1px solid #333;
+    text-align: right;
 }
 
 .mobile-nav a:last-child {
-    border-bottom: none; /* No border on the last link */
+    border-bottom: none;
 }
 
 .mobile-nav a:hover {
     background: #333;
 }
 
-
-/* --- Mobile-Specific Styles (using a Media Query) --- */
+/* Mobile breakpoint */
 @media (max-width: 768px) {
     header {
-        padding: 0.5rem 1rem !important; /* Adjust padding for smaller screens */
-        justify-content: space-between !important; /* Ensure logo and hamburger are spaced */
+        padding: 0.5rem 1rem !important;
+        justify-content: space-between !important;
     }
-
     .header-logo-text {
-        font-size: 1.5rem !important; /* Reduce logo size for mobile */
+        font-size: 1.5rem !important;
         flex-shrink: 0;
     }
-
     header nav {
-        display: none !important; /* Hide the desktop navigation on mobile */
+        display: none !important;
     }
-
     .hamburger-menu {
-        display: block; /* Show hamburger icon on mobile */
+        display: block;
     }
 }
 </style>
 
 <header>
     <span class="header-logo-text">🧭 No Spin Media</span>
-    <div class="hamburger-menu" id="hamburger">&#9776;</div> <nav id="desktop-nav">
+    <div class="hamburger-menu" id="hamburger">&#9776;</div>
+    <nav id="desktop-nav">
         <a href="/index.html">Home</a>
         <a href="/news.html">News</a>
         <a href="/emoji-puzzles.html">Emoji Puzzles</a>
@@ -139,29 +136,26 @@ header nav a {
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const hamburger = document.getElementById('hamburger');
-        const mobileNav = document.getElementById('mobile-nav');
-        
-        if (hamburger && mobileNav) {
-            hamburger.addEventListener('click', function() {
-                console.log('Hamburger clicked!');
-                mobileNav.classList.toggle('open');
-            });
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobile-nav');
 
-            mobileNav.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileNav.classList.remove('open');
-                });
-            });
+    if (hamburger && mobileNav) {
+        hamburger.addEventListener('click', function() {
+            mobileNav.classList.toggle('open');
+        });
 
-            window.addEventListener('resize', function() {
-                if (window.innerWidth > 768) {
-                    mobileNav.classList.remove('open');
-                }
+        mobileNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('open');
             });
-        } else {
-            console.error("Hamburger or mobile navigation element not found!");
-        }
-    });
+        });
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                mobileNav.classList.remove('open');
+            }
+        });
+    }
+});
 </script>
