@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>No Spin Media</title>
-    <link rel="stylesheet" href="style.css" /> 
+    <link rel="stylesheet" href="style.css" />
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,28 +12,24 @@
             padding: 0;
             background: #f4f4f4;
             color: #222;
+            /* CRITICAL: Add padding-top to body to prevent content from being hidden by the fixed header */
+            padding-top: 70px; /* This value must match your header's min-height */
         }
-
-        /* REMOVED: Header/Nav styling from here. 
-           It should now be entirely within header.html (with !important)
-           or in an external style.css that's consistently linked. 
-        */
 
         /* Main Container for Flexbox Layout */
         .container {
             display: flex; /* This is the key for side-by-side */
             flex-wrap: wrap; /* Allows wrapping on smaller screens */
             padding: 2rem;
-            /* Debugging borders - remove after fixing layout */
-            /* border: 2px dashed blue; */
+            max-width: 1200px; /* Center container with auto margins */
+            margin: 0 auto; /* Added margin auto to center the container */
+            gap: 2rem; /* Spacing between main and sidebar */
         }
 
         /* Main Content Area */
         .main {
             flex: 1 1 60%; /* Takes at least 60% width, can grow/shrink */
             padding: 1rem;
-            /* Debugging borders - remove after fixing layout */
-            /* border: 2px dashed red; */
             box-sizing: border-box; /* Include padding in width */
         }
 
@@ -46,9 +42,9 @@
             border-left: 2px solid #eee;
             border-radius: 6px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            /* Debugging borders - remove after fixing layout */
-            /* border: 2px dashed green; */
             box-sizing: border-box; /* Include padding in width */
+            /* Ensure sidebar doesn't overlap header on desktop if it's too tall */
+            align-self: flex-start; /* Aligns sidebar to the start of the cross-axis */
         }
 
         h1 {
@@ -113,15 +109,6 @@
             }
         }
     </style>
-    <script>
-        // Script to load header.html (ensure this file exists in the same directory or adjust path)
-        window.onload = () => {
-            fetch('header.html')
-                .then(res => res.text())
-                .then(html => document.getElementById('site-header').innerHTML = html)
-                .catch(err => console.error("Error loading header.html:", err)); // Added error handling
-        }
-    </script>
 </head>
 <body>
 
@@ -184,44 +171,98 @@
     </footer>
 
     <script>
-        // Feedback form submit
-        document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const status = document.getElementById('formStatus');
-            status.textContent = "⏳ Sending...";
+        // Use DOMContentLoaded to ensure the div for the header exists before trying to fetch
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('site-header').innerHTML = html;
 
-            const name = document.getElementById('name').value || "Someone";
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
+                    // --- IMPORTANT: Hamburger JavaScript MUST be here AFTER header is loaded ---
+                    const hamburger = document.getElementById('hamburger');
+                    const mobileNav = document.getElementById('mobile-nav');
 
-            const data = {
-                name: name,
-                email: email,
-                subject: "Main Page",
-                message: message
-            };
+                    if (hamburger && mobileNav) {
+                        function toggleMobileNav() {
+                            mobileNav.classList.toggle('open');
+                            hamburger.classList.toggle('active'); // Toggle color change
+                            console.log('Hamburger toggled from index.html! Open:', mobileNav.classList.contains('open'));
+                        }
 
-            try {
-                const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-                    method: 'POST',
-                    headers: {'Content-Type':'text/plain'},
-                    body: JSON.stringify(data)
+                        hamburger.addEventListener('click', toggleMobileNav);
+
+                        // Also listen for touchstart for better mobile responsiveness
+                        // Use { passive: false } to allow preventDefault() for touch events
+                        hamburger.addEventListener('touchstart', function(e) {
+                            e.preventDefault(); // Prevents potential default browser scroll/zoom
+                            console.log('Touch detected on hamburger from index.html!');
+                            toggleMobileNav();
+                        }, { passive: false });
+
+                        // Close mobile menu when a link is clicked
+                        mobileNav.querySelectorAll('a').forEach(link => {
+                            link.addEventListener('click', () => {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active'); // Reset hamburger color
+                            });
+                        });
+
+                        // Close mobile menu if window is resized above mobile breakpoint
+                        window.addEventListener('resize', function() {
+                            if (window.innerWidth > 768) {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active'); // Reset hamburger color
+                            }
+                        });
+                    } else {
+                        console.error("Critical: Hamburger or mobile navigation element not found after header load!");
+                    }
+                    // --- END IMPORTANT SECTION ---
+                })
+                .catch(err => console.error("Error loading header.html:", err));
+
+            // Feedback form submit (moved inside DOMContentLoaded as well for consistency)
+            const feedbackForm = document.getElementById('feedbackForm');
+            if (feedbackForm) { // Check if form exists
+                feedbackForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const status = document.getElementById('formStatus');
+                    status.textContent = "⏳ Sending...";
+
+                    const name = document.getElementById('name').value || "Someone";
+                    const email = document.getElementById('email').value;
+                    const message = document.getElementById('message').value;
+
+                    const data = {
+                        name: name,
+                        email: email,
+                        subject: "Main Page Feedback", // Changed subject for clarity
+                        message: message
+                    };
+
+                    try {
+                        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+                            method: 'POST',
+                            headers: {'Content-Type':'text/plain'},
+                            body: JSON.stringify(data)
+                        });
+
+                        let result = {};
+                        try { result = await res.json(); } catch (err) { result = { status: "success" }; }
+
+                        if (result.status === "success") {
+                            status.textContent = "✅ Thanks! Your feedback was sent.";
+                            this.reset();
+                        } else {
+                            status.textContent = "❌ Error sending. Please try again.";
+                        }
+                        setTimeout(()=>{ status.textContent = ""; }, 5000);
+                    } catch (err) {
+                        console.error(err);
+                        status.textContent = "❌ Failed to send! Check connection.";
+                        setTimeout(()=>{ status.textContent = ""; }, 5000);
+                    }
                 });
-
-                let result = {};
-                try { result = await res.json(); } catch (err) { result = { status: "success" }; }
-
-                if (result.status === "success") {
-                    status.textContent = "✅ Thanks! Your feedback was sent.";
-                    this.reset();
-                } else {
-                    status.textContent = "❌ Error sending. Please try again.";
-                }
-                setTimeout(()=>{ status.textContent = ""; }, 5000);
-            } catch (err) {
-                console.error(err);
-                status.textContent = "❌ Failed to send! Check connection.";
-                setTimeout(()=>{ status.textContent = ""; }, 5000);
             }
         });
     </script>
