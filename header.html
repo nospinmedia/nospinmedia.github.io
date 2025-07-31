@@ -1,46 +1,58 @@
 <style>
-  header {
-    background: #111;
-    color: #fff;
-    /* Adjust padding top/bottom to influence total bar height */
-    padding: 0.8rem 2rem; /* Reduced top/bottom padding slightly */
-    display: flex;
-    align-items: center; /* Vertically centers items in the header */
-    justify-content: space-between; /* Pushes logo left, nav right */
-  }
-  
-  .header-logo-text {
-    font-family: Arial, sans-serif; /* You can change this font */
-    font-size: 2.5rem; /* SIGNIFICANTLY INCREASED SIZE to fill the bar */
-    font-weight: bold;
-    color: #fff;
-    letter-spacing: -0.04em; /* Slightly tighter for larger text */
-    white-space: nowrap; /* Ensures it stays on one line */
-    margin-right: 0; /* REMOVED margin-right to push it fully left */
-    /* Add line-height if the text appears too tall or too short in the bar */
-    line-height: 1; /* Helps text sit correctly within the space */
-    padding: 0; /* Ensure no extra padding pushing it away from the edge */
-  }
+/* Reset basic spacing for the header element itself when it's rendered */
+header {
+  /* Ensure consistent box model */
+  box-sizing: border-box;
+  /* Basic layout and background */
+  background: #111; /* Makes the bar black */
+  color: #fff;
+  display: flex; /* Enables flexbox for horizontal layout */
+  align-items: center; /* Vertically centers content within the header */
+  justify-content: space-between; /* Pushes logo left, nav right */
+  
+  /* Aggressive padding and height control to ensure it's a solid bar */
+  padding: 0.5rem 2rem; /* Reduced vertical padding, keep horizontal for content */
+  min-height: 70px; /* Set a minimum height for the bar itself, adjust if needed */
+  width: 100%; /* Ensure it spans the full width */
+}
 
-  header nav a {
-    color: #fff;
-    margin-left: 20px;
-    text-decoration: none;
-    font-weight: bold;
-  }
+/* Style for the text logo */
+.header-logo-text {
+  font-family: Arial, sans-serif; /* Or your preferred clean, sans-serif font */
+  font-size: 2.8rem; /* INCREASED SIZE to fill the bar better */
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: -0.05em; /* Slightly tighter for larger text */
+  white-space: nowrap; /* Ensures it stays on one line */
+  
+  /* Ensure no external margins push it away from the left or nav */
+  margin: 0; 
+  /* Critical for vertical alignment within the bar, forces text to occupy its height */
+  line-height: 1; 
+  /* Remove any inherent padding of the span itself */
+  padding: 0; 
+}
+
+/* Styles for navigation links within the header */
+header nav a {
+  color: #fff;
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: bold;
+}
 </style>
 
 <header>
-    <span class="header-logo-text">🧭 No Spin Media</span>
-  <nav>
-    <a href="/index.html">Home</a>
-    <a href="/news.html">News</a>
-    <a href="/emoji-puzzles.html">Emoji Puzzles</a>
-    <a href="/emoji-math.html">Emoji Math</a>
-    <a href="/ai-posts.html">AI Posts</a>
-    <a href="/games/index.html">Games</a>
-    <a href="/sponsor.html">Support</a>
-    <a href="/ai.html">Why AI?</a>
-    <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
-  </nav>
+  <span class="header-logo-text">🧭 No Spin Media</span>
+  <nav>
+    <a href="/index.html">Home</a>
+    <a href="/news.html">News</a>
+    <a href="/emoji-puzzles.html">Emoji Puzzles</a>
+    <a href="/emoji-math.html">Emoji Math</a>
+    <a href="/ai-posts.html">AI Posts</a>
+    <a href="/games/index.html">Games</a>
+    <a href="/sponsor.html">Support</a>
+    <a href="/ai.html">Why AI?</a>
+    <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
+  </nav>
 </header>
