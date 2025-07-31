@@ -12,13 +12,15 @@
             padding: 0;
             background: #f4f4f4;
             color: #222;
+            /* CRITICAL: Add padding-top to body to prevent content from being hidden by the fixed header */
+            padding-top: 70px; /* This value must match your header's min-height */
         }
 
         /* Main Container for Flexbox Layout */
         .container {
             display: flex;
             max-width: 1200px;
-            margin: 2rem auto;
+            margin: 0 auto; /* Changed from 2rem auto for consistency with index.html */
             padding: 1rem;
             gap: 2rem; /* Spacing between main and sidebar */
             flex-wrap: wrap; /* Allows wrapping on smaller screens */
@@ -37,7 +39,9 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             height: fit-content; /* Make sidebar only as tall as its content */
-            margin-top: 2rem; /* Consistent margin as per index.html if needed, otherwise adjust */
+            margin-top: 0; /* Remove top margin when side-by-side to align with main content */
+            border-left: 2px solid #eee; /* Add left border for separation */
+            align-self: flex-start; /* Aligns sidebar to the start of the cross-axis */
         }
 
         .date-group { margin-bottom: 2rem; }
@@ -102,6 +106,47 @@
             }
         }
     </style>
+</head>
+<body>
+
+    <div id="site-header"></div>
+
+    <div class="container">
+        <div class="main">
+            <h1>News Stories</h1>
+            <div id="stories-container"></div>
+        </div>
+
+        <div class="sidebar">
+            <h2>Support Us 💙</h2>
+            <p>Like what we're doing? Help keep No Spin Media running:</p>
+            <p><strong>Venmo:</strong><br/>
+                <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+            </p>
+
+            <h2>Follow Us</h2>
+            <p>
+                📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
+            </p>
+
+            <h2>We ❤️ Your Thoughts!</h2>
+            <p>Have an idea, suggestion, or just want to say hi? We read every single message you send. 😊</p>
+            <p>You can also reach us directly at: <strong>nospinmedia.ai@gmail.com</strong></p>
+
+            <form id="feedbackForm">
+                <input type="text" id="name" name="name" placeholder="Your first name">
+                <input type="email" id="email" name="email" placeholder="you@email.com" required>
+                <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
+                <p id="formStatus"></p>
+                <button type="submit">💬 Send Feedback</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
+    </footer>
+
     <script>
         let storyId = null;
 
@@ -211,8 +256,8 @@
         function toggleSummary(btn) {
             const summaryEl = btn.nextElementSibling;
             summaryEl.classList.toggle('show');
-            btn.textContent = summaryEl.classList.contains('show') 
-                ? 'Hide Story' 
+            btn.textContent = summaryEl.classList.contains('show')
+                ? 'Hide Story'
                 : 'Show Story';
         }
 
@@ -223,19 +268,60 @@
             });
         }
 
-        // Script to load header.html and then stories
-        window.onload = () => {
+        // Use DOMContentLoaded to ensure the div for the header exists before trying to fetch
+        document.addEventListener('DOMContentLoaded', function() {
             fetch('header.html')
                 .then(res => res.text())
                 .then(html => {
                     document.getElementById('site-header').innerHTML = html;
-                    loadStories(); // Load stories AFTER header is loaded
-                })
-                .catch(err => console.error("Error loading header.html:", err)); // Added error handling
-        }
 
-        // Feedback form submit (copied from index.html, adjusted subject)
-        document.addEventListener('DOMContentLoaded', () => { // Use DOMContentLoaded for forms not loaded by fetch
+                    // --- IMPORTANT: Hamburger JavaScript MUST be here AFTER header is loaded ---
+                    const hamburger = document.getElementById('hamburger');
+                    const mobileNav = document.getElementById('mobile-nav');
+
+                    if (hamburger && mobileNav) {
+                        function toggleMobileNav() {
+                            mobileNav.classList.toggle('open');
+                            hamburger.classList.toggle('active'); // Toggle color change
+                            console.log('Hamburger toggled from news.html! Open:', mobileNav.classList.contains('open'));
+                        }
+
+                        hamburger.addEventListener('click', toggleMobileNav);
+
+                        // Also listen for touchstart for better mobile responsiveness
+                        // Use { passive: false } to allow preventDefault() for touch events
+                        hamburger.addEventListener('touchstart', function(e) {
+                            e.preventDefault(); // Prevents potential default browser scroll/zoom
+                            console.log('Touch detected on hamburger from news.html!');
+                            toggleMobileNav();
+                        }, { passive: false });
+
+                        // Close mobile menu when a link is clicked
+                        mobileNav.querySelectorAll('a').forEach(link => {
+                            link.addEventListener('click', () => {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active'); // Reset hamburger color
+                            });
+                        });
+
+                        // Close mobile menu if window is resized above mobile breakpoint
+                        window.addEventListener('resize', function() {
+                            if (window.innerWidth > 768) {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active'); // Reset hamburger color
+                            }
+                        });
+                    } else {
+                        console.error("Critical: Hamburger or mobile navigation element not found after header load!");
+                    }
+                    // --- END IMPORTANT SECTION ---
+
+                    // Load stories AFTER the header is fully loaded and its JS is set up
+                    loadStories();
+                })
+                .catch(err => console.error("Error loading header.html:", err));
+
+            // Feedback form submit (kept separate from header loading as it's not dependent)
             const feedbackForm = document.getElementById('feedbackForm');
             if (feedbackForm) { // Check if the form exists before adding listener
                 feedbackForm.addEventListener('submit', async function(e) {
@@ -250,7 +336,7 @@
                     const data = {
                         name: name,
                         email: email,
-                        subject: "News Page Feedback", // Subject changed to "News Page Feedback"
+                        subject: "News Page Feedback",
                         message: message
                     };
 
@@ -280,46 +366,5 @@
             }
         });
     </script>
-</head>
-<body>
-
-    <div id="site-header"></div>
-
-    <div class="container">
-        <div class="main">
-            <h1>News Stories</h1>
-            <div id="stories-container"></div>
-        </div>
-
-        <div class="sidebar">
-            <h2>Support Us 💙</h2>
-            <p>Like what we're doing? Help keep No Spin Media running:</p>
-            <p><strong>Venmo:</strong><br/>
-                <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
-            </p>
-
-            <h2>Follow Us</h2>
-            <p>
-                📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
-            </p>
-
-            <h2>We ❤️ Your Thoughts!</h2>
-            <p>Have an idea, suggestion, or just want to say hi? We read every single message you send. 😊</p>
-            <p>You can also reach us directly at: <strong>nospinmedia.ai@gmail.com</strong></p>
-
-            <form id="feedbackForm">
-                <input type="text" id="name" name="name" placeholder="Your first name">
-                <input type="email" id="email" name="email" placeholder="you@email.com" required>
-                <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
-                <p id="formStatus"></p>
-                <button type="submit">💬 Send Feedback</button>
-            </form>
-        </div>
-    </div>
-
-    <footer>
-        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
-    </footer>
-
 </body>
 </html>
