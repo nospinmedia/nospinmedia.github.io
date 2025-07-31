@@ -159,11 +159,21 @@ body {
         const hamburger = document.getElementById('hamburger');
         const mobileNav = document.getElementById('mobile-nav');
 
+        if (!hamburger || !mobileNav) {
+            console.log('Error: Hamburger or mobile nav element not found!');
+            return;
+        }
+
         function toggleMobileNav() {
             mobileNav.classList.toggle('open');
             hamburger.classList.toggle('active'); // Toggle color change
         }
 
         hamburger.addEventListener('click', toggleMobileNav);
+
+        // Test log to confirm event attachment
+        hamburger.addEventListener('click', function() {
+            console.log('Hamburger clicked!');
+        });
     });
 </script>
