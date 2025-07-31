@@ -29,6 +29,12 @@ header {
     line-height: 1 !important;
     padding: 0 !important;
     cursor: pointer; /* Indicates clickable */
+    text-decoration: none !important; /* Remove underline */
+}
+
+.header-logo-text a {
+    color: inherit !important; /* Inherit text color */
+    text-decoration: none !important; /* Ensure no underline */
 }
 
 /* Desktop nav */
@@ -52,6 +58,11 @@ header nav a {
     color: #fff;
     padding: 5px;
     z-index: 1001;
+    transition: color 0.3s; /* Smooth color transition */
+}
+
+.hamburger-menu.active {
+    color: #ff5733; /* Changes to orange when clicked/active */
 }
 
 /* Mobile nav */
@@ -150,6 +161,7 @@ body {
 
         function toggleMobileNav() {
             mobileNav.classList.toggle('open');
+            hamburger.classList.toggle('active'); // Toggle color change
         }
 
         hamburger.addEventListener('click', toggleMobileNav);
