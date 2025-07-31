@@ -12,6 +12,8 @@
             padding: 0;
             background: #f4f4f4;
             color: #222;
+            /* CRITICAL: Add padding-top to body to prevent content from being hidden by the fixed header */
+            padding-top: 70px; /* This value must match your header's min-height */
         }
 
         .container {
@@ -19,18 +21,18 @@
             flex-wrap: wrap; /* Allows wrapping on smaller screens */
             padding: 2rem;
             max-width: 1200px; /* Consistent max-width for content */
-            margin: 2rem auto; /* Center container with auto margins */
+            margin: 0 auto; /* Center container with auto margins, adjusted from 2rem auto */
             gap: 2rem; /* Spacing between main and sidebar */
         }
 
-          .main {
-            /* Make main content take approximately 2/3 width */
-            flex: 2; /* This allows it to take twice as much space as sibling flex items */
+        .main {
+            /* Increased flex to make main content wider (approx. 3/4 width) */
+            flex: 3;
             padding: 1rem;
         }
         .sidebar {
-            /* Make sidebar take approximately 1/3 width */
-            flex: 1; /* This allows it to take a proportional amount of space */
+            /* Decreased flex to make sidebar narrower (approx. 1/4 width) */
+            flex: 1;
             background: #fff;
             padding: 1rem;
             border-radius: 8px;
@@ -39,10 +41,23 @@
             /* Adjust margin and border for side-by-side layout */
             margin-top: 0; /* Remove top margin when side-by-side */
             border-left: 2px solid #eee; /* Re-add left border for separation */
+            align-self: flex-start; /* Aligns sidebar to the start of the cross-axis */
         }
         
         h1 { font-size: 2rem; margin-top: 0; }
-        h3.emoji { font-size: 3.5rem; text-align: center; margin: 0.5em 0; white-space: pre-line; }
+        
+        /* Apply to the emoji math problem specifically */
+        h3.emoji-math-problem {
+            font-size: 3.5rem; /* Base font size */
+            font-size: min(3.5rem, 5vw); /* Responsive font size: use 3.5rem or 5vw, whichever is smaller */
+            text-align: center;
+            margin: 0.5em 0;
+            white-space: nowrap; /* Prevent wrapping */
+            overflow-x: auto; /* Allow horizontal scrolling if content is too long */
+            padding-bottom: 5px; /* Add some padding if scrollbar appears */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        }
+
         .puzzle-card { border: 1px solid #ccc; border-radius: 8px; padding: 10px; margin: 15px 0; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .hint { font-style: italic; margin-top: 5px; }
         .answer { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; }
@@ -92,8 +107,56 @@
                 border-left: none; /* Remove left border when stacked */
                 border-top: 2px solid #eee; /* Add top border when stacked */
             }
+            /* Adjust padding on smaller screens if needed to reduce overall width */
+            .container {
+                padding: 1rem; 
+            }
         }
     </style>
+</head>
+<body>
+
+    <div id="site-header"></div>
+
+    <div class="container">
+        <div class="main">
+            <h1>No Spin Media Emoji Math</h1>
+            <div id="puzzle-container"></div>
+        </div>
+
+        <div class="sidebar">
+            <h2>Support Us 💙</h2>
+            <p>Like what we're doing? Help keep No Spin Media running:</p>
+            <p><strong>Venmo:</strong><br/>
+                <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+            </p>
+
+            <h2>Follow Us</h2>
+            <p>
+                📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
+            </p>
+
+            <h2>We ❤️ Your Thoughts!</h2>
+            <p>
+                Have an idea for a challenging emoji math puzzle? Want to send us general feedback or just say hi?
+                We read every single message and might even publish your puzzle! 😊
+            </p>
+            <p>You can also reach us directly at: <strong>nospinmedia.ai@gmail.com</strong></p>
+
+            <form id="feedbackForm">
+                <input type="text" id="name" name="name" placeholder="Your first name">
+                <input type="email" id="email" name="email" placeholder="you@email.com" required>
+                <textarea id="message" name="message" rows="4" placeholder="Your feedback or puzzle idea..." required></textarea>
+                <p id="formStatus"></p>
+                <button type="submit">💬 Send Feedback</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
+    </footer>
+
     <script>
         async function loadPuzzles() {
             const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSoyPjj_QxgVJ-l8BAetRaMyY-Lg_YjyGHfX98XqacaOkdDj553orqlaoPRkwicEcZjZsAL7_4w4nRS/pub?output=csv';
@@ -130,6 +193,7 @@
                 puzzles = puzzles.reverse(); // newest first if no ID
             }
 
+            const puzzleContainer = document.getElementById('puzzle-container');
             puzzles.forEach(p => {
                 const postID = p[7];
                 const emojiPuzzle = (p[1] || '').replace(/Key Below.*/i, '').trim();
@@ -138,14 +202,14 @@
 
                 // ✅ Fixed: extract numeric answer including "" format
                 const match = cleanAnswerText.match(/answer\s+is\s+(\d+)/i) ||
-                              cleanAnswerText.match(/Final\s+answer:\s+(\d+)/i) ||
-                              cleanAnswerText.match(/=\s*(\d+)/);
+                                cleanAnswerText.match(/Final\s+answer:\s+(\d+)/i) ||
+                                cleanAnswerText.match(/=\s*(\d+)/);
                 const numericAnswer = match ? parseInt(match[1]) : null;
 
                 const card = document.createElement('div');
                 card.className = 'puzzle-card';
                 card.innerHTML = `
-                    <h3 class="emoji">${emojiPuzzle}</h3>
+                    <h3 class="emoji-math-problem">${emojiPuzzle}</h3>
                     <p class="hint">${cleanHint}</p>
 
                     <input type="number" placeholder="Your answer..." class="guess-input" />
@@ -156,7 +220,7 @@
                     <button class="share-btn" onclick="sharePuzzle('${postID}')">Share</button>
                     <p class="answer"><strong>Answer:</strong>\n${cleanAnswerText}</p>
                 `;
-                document.getElementById('puzzle-container').appendChild(card);
+                puzzleContainer.appendChild(card);
             });
         }
 
@@ -198,21 +262,63 @@
             });
         }
 
-        // Script to load header.html and then puzzles
-        window.onload = () => {
+        // Use DOMContentLoaded to ensure the div for the header exists before trying to fetch
+        document.addEventListener('DOMContentLoaded', function() {
             fetch('header.html')
                 .then(res => res.text())
                 .then(html => {
                     document.getElementById('site-header').innerHTML = html;
-                    loadPuzzles(); // Load puzzles AFTER header is loaded
-                })
-                .catch(err => console.error("Error loading header.html:", err)); // Added error handling
-        }
 
-        // Feedback form submit
-        document.addEventListener('DOMContentLoaded', () => {
+                    // --- IMPORTANT: Hamburger JavaScript MUST be here AFTER header is loaded ---
+                    const hamburger = document.getElementById('hamburger');
+                    const mobileNav = document.getElementById('mobile-nav');
+
+                    if (hamburger && mobileNav) {
+                        function toggleMobileNav() {
+                            mobileNav.classList.toggle('open');
+                            hamburger.classList.toggle('active'); // Toggle color change
+                            console.log('Hamburger toggled from emoji-math.html! Open:', mobileNav.classList.contains('open'));
+                        }
+
+                        hamburger.addEventListener('click', toggleMobileNav);
+
+                        // Also listen for touchstart for better mobile responsiveness
+                        // Use { passive: false } to allow preventDefault() for touch events
+                        hamburger.addEventListener('touchstart', function(e) {
+                            e.preventDefault(); // Prevents potential default browser scroll/zoom
+                            console.log('Touch detected on hamburger from emoji-math.html!');
+                            toggleMobileNav();
+                        }, { passive: false });
+
+
+                        // Close mobile menu when a link is clicked
+                        mobileNav.querySelectorAll('a').forEach(link => {
+                            link.addEventListener('click', () => {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active'); // Reset hamburger color
+                            });
+                        });
+
+                        // Close mobile menu if window is resized above mobile breakpoint
+                        window.addEventListener('resize', function() {
+                            if (window.innerWidth > 768) {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active'); // Reset hamburger color
+                            }
+                        });
+                    } else {
+                        console.error("Critical: Hamburger or mobile navigation element not found after header load!");
+                    }
+                    // --- END IMPORTANT SECTION ---
+
+                    // Load puzzles AFTER the header is fully loaded and its JS is set up
+                    loadPuzzles();
+                })
+                .catch(err => console.error("Error loading header.html:", err));
+
+            // Feedback form submit (kept separate from header loading as it's not dependent)
             const feedbackForm = document.getElementById('feedbackForm');
-            if (feedbackForm) {
+            if (feedbackForm) { // Check if the form exists before adding listener
                 feedbackForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     const status = document.getElementById('formStatus');
@@ -230,7 +336,7 @@
                     };
 
                     try {
-                        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+                        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
                             method: 'POST',
                             headers: {'Content-Type':'text/plain'},
                             body: JSON.stringify(data)
@@ -255,46 +361,5 @@
             }
         });
     </script>
-</head>
-<body>
-
-    <div id="site-header"></div>
-
-    <div class="container">
-        <div class="main">
-            <h1>No Spin Media Emoji Math</h1>
-            <div id="puzzle-container"></div>
-        </div>
-
-        <div class="sidebar">
-            <h2>Support Us 💙</h2>
-            <p>Like what we're doing? Help keep No Spin Media running:</p>
-            <p><strong>Venmo:</strong><br/>
-                <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
-            </p>
-
-            <h2>Follow Us</h2>
-            <p>
-                📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
-            </p>
-
-            <h2>We ❤️ Your Thoughts!</h2>
-            <p>Have an idea, suggestion, or just want to say hi? We read every single message you send. 😊</p>
-            <p>You can also reach us directly at: <strong>nospinmedia.ai@gmail.com</strong></p>
-
-            <form id="feedbackForm">
-                <input type="text" id="name" name="name" placeholder="Your first name">
-                <input type="email" id="email" name="email" placeholder="you@email.com" required>
-                <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
-                <p id="formStatus"></p>
-                <button type="submit">💬 Send Feedback</button>
-            </form>
-        </div>
-    </div>
-
-    <footer>
-        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
-    </footer>
-
 </body>
 </html>
