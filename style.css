@@ -152,27 +152,28 @@ body.mobile-nav-active {
 
 .main {
     flex: 2; /* Main content takes a larger proportion */
+    min-width: 300px; /* Ensure main content has a minimum width before stacking */
     padding: 1rem;
     background: #fff; /* Added for visual separation */
     border-radius: 8px; /* Added for consistency */
     box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Added for consistency */
-    /* REMOVED display: grid and grid-template-columns here directly on .main
-       because #puzzle-container is the actual grid wrapper for the puzzles */
 }
 
 /* This is where the magic happens for the puzzles on Emoji Math */
 #puzzle-container {
     display: grid; /* Make the container itself a grid */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Auto-fit columns, min 300px, max 1fr */
+    /* This rule makes sure that puzzles always fit in a single column
+       within the .main area, preventing them from becoming too small
+       when the .main area is narrower (e.g., next to the sidebar). */
+    grid-template-columns: 1fr; 
     gap: 1rem; /* Spacing between individual puzzle cards */
-    /* Remove any specific width or margin that might center it */
     width: 100%; /* Ensure it takes full width of its parent (.main) */
-    justify-content: start; /* Align grid items to the start (left) */
 }
 
 
 .sidebar {
     flex: 1.5; /* Sidebar takes a smaller proportion */
+    min-width: 280px; /* Ensure sidebar has a minimum width before stacking */
     background: #fff;
     padding: 1rem;
     border-radius: 8px;
@@ -195,6 +196,7 @@ p { margin-bottom: 1em; }
     padding: 15px;
     background: #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    /* No specific width needed here, as #puzzle-container's grid handles it */
 }
 
 /* Emoji Problem Styling (for Emoji Puzzles page) */
@@ -222,7 +224,7 @@ h3.emoji-math-problem {
 .answer.show { max-height: 500px; opacity: 1; margin-top: 8px; }
 
 /* Input and Button Styling */
-.guess-input { margin-top: 8px; padding: 8px; width: 150px; border: 1px solid #ccc; border-radius: 4px; }
+.guess-input { margin-top: 8px; padding: 8px; width: calc(100% - 16px); /* Adjusted width for padding */ border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; /* Include padding in width */ }
 .feedback { font-weight: bold; margin-top: 5px; }
 button {
     margin-top: 8px;
