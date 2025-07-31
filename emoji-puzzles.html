@@ -12,19 +12,16 @@
             padding: 0;
             background: #f4f4f4;
             color: #222;
+            /* CRITICAL: Add padding-top to body to prevent content from being hidden by the fixed header */
+            padding-top: 70px; /* This value must match your header's min-height */
         }
-
-        /* REMOVED: Header/Nav styling from here, as it should be
-           handled by header.html itself or a global style.css.
-           (e.g., header { background: #111; ... } was here)
-        */
 
         .container {
             display: flex;
             flex-wrap: wrap; /* Allows wrapping on smaller screens */
             padding: 2rem;
             max-width: 1200px; /* Added max-width for consistency */
-            margin: 2rem auto; /* Center container with auto margins */
+            margin: 0 auto; /* Changed from 2rem auto for consistency with index.html */
             gap: 2rem; /* Spacing between main and sidebar */
         }
         .main {
@@ -38,7 +35,9 @@
             border-radius: 8px; /* Added border-radius for consistency */
             box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Added box-shadow for consistency */
             height: fit-content; /* Make sidebar only as tall as its content */
-            margin-top: 2rem; /* Consistent margin for when side-by-side */
+            margin-top: 0; /* Remove top margin when side-by-side to align with main content */
+            border-left: 2px solid #eee; /* Add left border for separation */
+            align-self: flex-start; /* Aligns sidebar to the start of the cross-axis */
         }
         h1 { font-size: 2rem; margin-top: 0; }
         h3.emoji { font-size: 3.5rem; text-align: center; margin: 0.5em 0; white-space: pre-line; }
@@ -85,121 +84,6 @@
             .sidebar { margin-top: 1rem; border-left: none; border-top: 2px solid #eee; }
         }
     </style>
-    <script>
-        async function loadPuzzles() {
-            const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQDM6kEONOWJyxyBsFMHPE1goO88H5HVvkDvRPiI14YXd11wEEaoVOCMCSAGdy5w0HHqpsR1Mcf5rpm/pub?output=csv';
-            const response = await fetch(sheetURL);
-            const text = await response.text();
-
-            // CSV parser respecting quotes/line breaks
-            const rows = [];
-            let current = '', insideQuotes = false, row = [];
-            for (let i = 0; i < text.length; i++) {
-                const char = text[i];
-                if (char === '"' && text[i+1] === '"') { current += '"'; i++; continue; }
-                if (char === '"') { insideQuotes = !insideQuotes; continue; }
-                if (char === ',' && !insideQuotes) { row.push(current); current = ''; continue; }
-                if ((char === '\n' || char === '\r') && !insideQuotes) {
-                    if (current || row.length) { row.push(current); rows.push(row); row = []; current = ''; }
-                    continue;
-                }
-                current += char;
-            }
-            if (current || row.length) { row.push(current); rows.push(row); }
-
-            const data = rows.slice(1); // skip header
-
-            const puzzles = data.filter(r => (r[6] || '').toLowerCase().includes('yes')).reverse();
-
-            puzzles.forEach(r => {
-                const emoji = (r[1] || '').trim();
-                const answer = (r[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
-                const category = (r[3] || '').trim();
-                const difficulty = (r[4] || '').trim();
-                const hint = (r[5] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
-                const id = r[0];
-
-                const puzzleDiv = document.createElement('div');
-                puzzleDiv.className = "puzzle-card";
-                puzzleDiv.innerHTML = `
-                    <h3 class="emoji">${emoji}</h3>
-                    <p><strong>Category:</strong> ${category} | <strong>Difficulty:</strong> ${difficulty}</p>
-                    <p class="hint"><strong>Hint:</strong> ${hint}</p>
-                    <button onclick="toggleAnswer('answer-${id}', this)">Show Answer</button>
-                    <p id="answer-${id}" class="answer"><strong>Answer:</strong> ${answer}</p>
-                `;
-                document.getElementById('puzzle-container').appendChild(puzzleDiv);
-            });
-        }
-
-        function toggleAnswer(id, btn) {
-            const answerEl = document.getElementById(id);
-            if (answerEl.classList.contains('show')) {
-                answerEl.classList.remove('show');
-                btn.textContent = 'Show Answer';
-            } else {
-                answerEl.classList.add('show');
-                btn.textContent = 'Hide Answer';
-            }
-        }
-
-        // Script to load header.html and then puzzles
-        window.onload = () => {
-            fetch('header.html')
-                .then(res => res.text())
-                .then(html => {
-                    document.getElementById('site-header').innerHTML = html;
-                    loadPuzzles(); // Load puzzles AFTER header is loaded
-                })
-                .catch(err => console.error("Error loading header.html:", err)); // Added error handling
-        }
-
-        // Feedback form submit (copied from index.html, adjusted subject)
-        document.addEventListener('DOMContentLoaded', () => { // Use DOMContentLoaded for forms not loaded by fetch
-            const feedbackForm = document.getElementById('feedbackForm');
-            if (feedbackForm) { // Check if the form exists before adding listener
-                feedbackForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    const status = document.getElementById('formStatus');
-                    status.textContent = "⏳ Sending...";
-
-                    const name = document.getElementById('name').value || "Someone";
-                    const email = document.getElementById('email').value;
-                    const message = document.getElementById('message').value;
-
-                    const data = {
-                        name: name,
-                        email: email,
-                        subject: "Emoji Puzzles Feedback", // Subject changed to "Emoji Puzzles Feedback"
-                        message: message
-                    };
-
-                    try {
-                        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-                            method: 'POST',
-                            headers: {'Content-Type':'text/plain'},
-                            body: JSON.stringify(data)
-                        });
-
-                        let result = {};
-                        try { result = await res.json(); } catch (err) { result = { status: "success" }; }
-
-                        if (result.status === "success") {
-                            status.textContent = "✅ Thanks! Your feedback was sent.";
-                            this.reset();
-                        } else {
-                            status.textContent = "❌ Error sending. Please try again.";
-                        }
-                        setTimeout(()=>{ status.textContent = ""; }, 5000);
-                    } catch (err) {
-                        console.error(err);
-                        status.textContent = "❌ Failed to send! Check connection.";
-                        setTimeout(()=>{ status.textContent = ""; }, 5000);
-                    }
-                });
-            }
-        });
-    </script>
 </head>
 <body>
 
@@ -241,5 +125,163 @@
         © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
     </footer>
 
+    <script>
+        async function loadPuzzles() {
+            const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQDM6kEONOWJyxyBsFMHPE1goO88H5HVvkDvRPiI14YXd11wEEaoVOCMCSAGdy5w0HHqpsR1Mcf5rpm/pub?output=csv';
+            const response = await fetch(sheetURL);
+            const text = await response.text();
+
+            // CSV parser respecting quotes/line breaks
+            const rows = [];
+            let current = '', insideQuotes = false, row = [];
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                if (char === '"' && text[i+1] === '"') { current += '"'; i++; continue; }
+                if (char === '"') { insideQuotes = !insideQuotes; continue; }
+                if (char === ',' && !insideQuotes) { row.push(current); current = ''; continue; }
+                if ((char === '\n' || char === '\r') && !insideQuotes) {
+                    if (current || row.length) { row.push(current); rows.push(row); row = []; current = ''; }
+                    continue;
+                }
+                current += char;
+            }
+            if (current || row.length) { row.push(current); rows.push(row); }
+
+            const data = rows.slice(1); // skip header
+
+            const puzzles = data.filter(r => (r[6] || '').toLowerCase().includes('yes')).reverse();
+
+            const puzzleContainer = document.getElementById('puzzle-container'); // Renamed for clarity
+            puzzles.forEach(r => {
+                const emoji = (r[1] || '').trim();
+                const answer = (r[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
+                const category = (r[3] || '').trim();
+                const difficulty = (r[4] || '').trim();
+                const hint = (r[5] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
+                const id = r[0];
+
+                const puzzleDiv = document.createElement('div');
+                puzzleDiv.className = "puzzle-card";
+                puzzleDiv.innerHTML = `
+                    <h3 class="emoji">${emoji}</h3>
+                    <p><strong>Category:</strong> ${category} | <strong>Difficulty:</strong> ${difficulty}</p>
+                    <p class="hint"><strong>Hint:</strong> ${hint}</p>
+                    <button onclick="toggleAnswer('answer-${id}', this)">Show Answer</button>
+                    <p id="answer-${id}" class="answer"><strong>Answer:</strong> ${answer}</p>
+                `;
+                puzzleContainer.appendChild(puzzleDiv); // Appended to the correct container
+            });
+        }
+
+        function toggleAnswer(id, btn) {
+            const answerEl = document.getElementById(id);
+            if (answerEl.classList.contains('show')) {
+                answerEl.classList.remove('show');
+                btn.textContent = 'Show Answer';
+            } else {
+                answerEl.classList.add('show');
+                btn.textContent = 'Hide Answer';
+            }
+        }
+
+        // Use DOMContentLoaded to ensure the div for the header exists before trying to fetch
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('site-header').innerHTML = html;
+
+                    // --- IMPORTANT: Hamburger JavaScript MUST be here AFTER header is loaded ---
+                    const hamburger = document.getElementById('hamburger');
+                    const mobileNav = document.getElementById('mobile-nav');
+
+                    if (hamburger && mobileNav) {
+                        function toggleMobileNav() {
+                            mobileNav.classList.toggle('open');
+                            hamburger.classList.toggle('active'); // Toggle color change
+                            console.log('Hamburger toggled from emoji-puzzles.html! Open:', mobileNav.classList.contains('open'));
+                        }
+
+                        hamburger.addEventListener('click', toggleMobileNav);
+
+                        // Also listen for touchstart for better mobile responsiveness
+                        // Use { passive: false } to allow preventDefault() for touch events
+                        hamburger.addEventListener('touchstart', function(e) {
+                            e.preventDefault(); // Prevents potential default browser scroll/zoom
+                            console.log('Touch detected on hamburger from emoji-puzzles.html!');
+                            toggleMobileNav();
+                        }, { passive: false });
+
+
+                        // Close mobile menu when a link is clicked
+                        mobileNav.querySelectorAll('a').forEach(link => {
+                            link.addEventListener('click', () => {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active'); // Reset hamburger color
+                            });
+                        });
+
+                        // Close mobile menu if window is resized above mobile breakpoint
+                        window.addEventListener('resize', function() {
+                            if (window.innerWidth > 768) {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active'); // Reset hamburger color
+                            }
+                        });
+                    } else {
+                        console.error("Critical: Hamburger or mobile navigation element not found after header load!");
+                    }
+                    // --- END IMPORTANT SECTION ---
+
+                    // Load puzzles AFTER the header is fully loaded and its JS is set up
+                    loadPuzzles();
+                })
+                .catch(err => console.error("Error loading header.html:", err));
+
+            // Feedback form submit (kept separate from header loading as it's not dependent)
+            const feedbackForm = document.getElementById('feedbackForm');
+            if (feedbackForm) { // Check if the form exists before adding listener
+                feedbackForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const status = document.getElementById('formStatus');
+                    status.textContent = "⏳ Sending...";
+
+                    const name = document.getElementById('name').value || "Someone";
+                    const email = document.getElementById('email').value;
+                    const message = document.getElementById('message').value;
+
+                    const data = {
+                        name: name,
+                        email: email,
+                        subject: "Emoji Puzzles Feedback",
+                        message: message
+                    };
+
+                    try {
+                        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+                            method: 'POST',
+                            headers: {'Content-Type':'text/plain'},
+                            body: JSON.stringify(data)
+                        });
+
+                        let result = {};
+                        try { result = await res.json(); } catch (err) { result = { status: "success" }; }
+
+                        if (result.status === "success") {
+                            status.textContent = "✅ Thanks! Your feedback was sent.";
+                            this.reset();
+                        } else {
+                            status.textContent = "❌ Error sending. Please try again.";
+                        }
+                        setTimeout(()=>{ status.textContent = ""; }, 5000);
+                    } catch (err) {
+                        console.error(err);
+                        status.textContent = "❌ Failed to send! Check connection.";
+                        setTimeout(()=>{ status.textContent = ""; }, 5000);
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
