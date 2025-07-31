@@ -5,115 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>No Spin Media Emoji Math</title>
     <link rel="stylesheet" href="style.css" />
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f4f4f4;
-            color: #222;
-            /* CRITICAL: Add padding-top to body to prevent content from being hidden by the fixed header */
-            padding-top: 70px; /* This value must match your header's min-height */
-        }
-
-        .container {
-            display: flex;
-            flex-wrap: wrap; /* Allows wrapping on smaller screens */
-            padding: 2rem;
-            max-width: 1200px; /* Consistent max-width for content */
-            margin: 0 auto; /* Center container with auto margins, adjusted from 2rem auto */
-            gap: 2rem; /* Spacing between main and sidebar */
-        }
-
-        .main {
-            /* Increased flex to make main content wider (approx. 3/4 width) */
-            flex: 3;
-            padding: 1rem;
-        }
-        .sidebar {
-            /* Decreased flex to make sidebar narrower (approx. 1/4 width) */
-            flex: 1;
-            background: #fff;
-            padding: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            height: fit-content;
-            /* Adjust margin and border for side-by-side layout */
-            margin-top: 0; /* Remove top margin when side-by-side */
-            border-left: 2px solid #eee; /* Re-add left border for separation */
-            align-self: flex-start; /* Aligns sidebar to the start of the cross-axis */
-        }
-        
-        h1 { font-size: 2rem; margin-top: 0; }
-        
-        /* Apply to the emoji math problem specifically */
-        h3.emoji-math-problem {
-            font-size: 3.5rem; /* Base font size */
-            font-size: min(3.5rem, 5vw); /* Responsive font size: use 3.5rem or 5vw, whichever is smaller */
-            text-align: center;
-            margin: 0.5em 0;
-            white-space: nowrap; /* Prevent wrapping */
-            overflow-x: auto; /* Allow horizontal scrolling if content is too long */
-            padding-bottom: 5px; /* Add some padding if scrollbar appears */
-            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-        }
-
-        .puzzle-card { border: 1px solid #ccc; border-radius: 8px; padding: 10px; margin: 15px 0; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .hint { font-style: italic; margin-top: 5px; }
-        .answer { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; }
-        .answer.show { max-height: 500px; opacity: 1; margin-top: 8px; }
-        .guess-input { margin-top: 8px; padding: 5px; width: 120px; }
-        .feedback { font-weight: bold; margin-top: 5px; }
-        button { margin-top: 8px; padding: 5px 10px; font-size: 1em; cursor: pointer; }
-        .share-btn { margin-left: 10px; background: #0073e6; color: #fff; border: none; border-radius: 4px; padding: 5px 8px; cursor: pointer; }
-
-        /* Feedback form styling */
-        #feedbackForm input, #feedbackForm textarea {
-            width: 100%;
-            padding: 8px;
-            margin: 6px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        #feedbackForm button {
-            background: #0073e6;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            width: 100%;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        #feedbackForm button:hover { background: #005bb5; }
-        #formStatus {
-            font-size: 0.9em;
-            color: green;
-            margin: 6px 0;
-            text-align: center;
-        }
-        footer {
-            text-align: center;
-            padding: 1rem;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        /* Responsive adjustments for smaller screens - keeps stacking behavior */
-        @media (max-width: 768px) {
-            .container { flex-direction: column; }
-            .sidebar {
-                margin-top: 1rem; /* Add margin when stacked */
-                border-left: none; /* Remove left border when stacked */
-                border-top: 2px solid #eee; /* Add top border when stacked */
-            }
-            /* Adjust padding on smaller screens if needed to reduce overall width */
-            .container {
-                padding: 1rem; 
-            }
-        }
-    </style>
-</head>
+    </head>
 <body>
 
     <div id="site-header"></div>
@@ -200,7 +92,6 @@
                 const cleanAnswerText = (p[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
                 const cleanHint = (p[5] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
 
-                // ✅ Fixed: extract numeric answer including "" format
                 const match = cleanAnswerText.match(/answer\s+is\s+(\d+)/i) ||
                                 cleanAnswerText.match(/Final\s+answer:\s+(\d+)/i) ||
                                 cleanAnswerText.match(/=\s*(\d+)/);
