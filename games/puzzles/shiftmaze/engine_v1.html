@@ -76,7 +76,7 @@
         /* Game UI Container - Main area for puzzles */
         #game-container {
             position: absolute;
-            top: 80%; /* Moved lower */
+            top: 70%; /* Adjusted: Moved up by 10% */
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0, 0, 0, 0.7);
@@ -236,12 +236,13 @@
         /* Mouse Styling */
         #mouse {
             position: absolute;
-            bottom: 8px;
-            /* width is now controlled by JS */
+            /* bottom is now controlled by JS for random path */
+            /* width is now controlled by JS for random size */
             z-index: 5;
             opacity: 0.9;
             filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.6)); /* Base shadow */
             pointer-events: none;
+            height: auto; /* Ensure height scales proportionally with width */
         }
 
         /* Mute Button Styling */
@@ -291,7 +292,7 @@
     <div id="debug-input">
         Debug ID: <input type="text" id="debug-room-id-input" />
         <button id="load-debug-room">Load</button>
-        <span id="version-display">v2.3</span> </div>
+        <span id="version-display">v2.4</span> </div>
     <img id="mouse" src="rat_transparent.gif" alt="mouse" />
 
     <audio id="bgm" src="ambient.mp3" loop autoplay></audio>
@@ -323,7 +324,7 @@
         let completedPuzzles = [];
         const GAME_STATE_KEY = 'shiftmazeGameState';
         const DEBUG_MODE = true;
-        const GAME_VERSION = '2.3'; // Updated: Incremented game version
+        const GAME_VERSION = '2.4'; // Updated: Incremented game version
 
         // --- TV Messages (can be separate JSON or hardcoded) ---
         const entryMessages = [
@@ -529,21 +530,25 @@
             const goingRight = Math.random() > 0.5;
             mouse.style.filter = `drop-shadow(2px 2px 2px rgba(0,0,0,0.6)) ${colors[Math.floor(Math.random()*colors.length)]}`;
 
-            // Calculate random size: from 120px up to 240px (100% bigger)
-            const randomSize = 120 + (Math.random() * 120); // 120 + (0 to 1 * 120) = 120 to 240
+            // Calculate random size: from 80px up to 240px
+            const randomSize = 80 + (Math.random() * 160); // 80 + (0 to 1 * 160) = 80 to 240
             mouse.style.width = `${randomSize}px`;
 
+            // Calculate random vertical position (bottom percentage)
+            const randomBottom = 5 + (Math.random() * 15); // 5% to 20% from bottom
+            mouse.style.bottom = `${randomBottom}%`;
+
             if (goingRight) {
-                mouse.style.left = '-140px';
-                mouse.style.transform = `scaleX(-1) translateY(-50%)`; // Keep Y center
+                mouse.style.left = '-140px'; // Start off-screen left
+                mouse.style.transform = "scaleX(-1)"; // Face right
                 mouse.animate([{ left: '-140px' }, { left: screenWidth + 'px' }], { duration: 7000, fill: 'forwards' });
             } else {
-                mouse.style.left = screenWidth + 'px';
-                mouse.style.transform = `scaleX(1) translateY(-50%)`; // Keep Y center
+                mouse.style.left = screenWidth + 'px'; // Start off-screen right
+                mouse.style.transform = "scaleX(1)"; // Face left
                 mouse.animate([{ left: screenWidth + 'px' }, { left: '-140px' }], { duration: 7000, fill: 'forwards' });
             }
 
-            setTimeout(runMouse, 15000 + Math.random()*4000);
+            setTimeout(runMouse, 15000 + Math.random()*4000); // Run again after a delay
         }
 
         // --- Event Listeners ---
