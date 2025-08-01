@@ -12,38 +12,49 @@
             padding: 0;
             background: #f4f4f4;
             color: #222;
-            padding-top: 70px; /* Prevent content from hiding under header */
         }
 
+        /* ✅ Container uses most of screen width */
         .container {
             display: flex;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: nowrap;
             padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 95%;
+            margin: 2rem auto;
             gap: 2rem;
+            box-sizing: border-box;
         }
 
+        /* ✅ Main puzzle area takes most of the space */
         .main {
-            flex: 1 1 65%;
+            flex: 1 1 auto;
+            min-width: 0;
             padding: 1rem;
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-sizing: border-box;
         }
 
+        /* ✅ Sidebar fixed width and pushed to the far right */
         .sidebar {
-            flex: 1 1 30%;
+            flex: 0 0 300px;
+            margin-left: auto;
             background: #fff;
             padding: 1rem;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: fit-content;
             align-self: flex-start;
+            box-sizing: border-box;
         }
 
         h1 { font-size: 2rem; margin-top: 0; }
         h3.emoji { font-size: 3.5rem; text-align: center; margin: 0.5em 0; white-space: pre-line; }
 
+        /* ✅ Puzzle card expands to fill main column */
         .puzzle-card {
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -51,19 +62,29 @@
             margin: 15px 0;
             background: #fff;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .hint { font-style: italic; margin-top: 5px; }
-        .answer { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; }
-        .answer.show { max-height: 500px; opacity: 1; margin-top: 8px; }
+
+        /* ✅ Smooth answer toggle */
+        .answer {
+            display: none;
+            margin-top: 8px;
+            background: #f9f9f9;
+            padding: 6px;
+            border-radius: 4px;
+            white-space: pre-line;
+        }
+        .answer.show { display: block; }
 
         .guess-input { margin-top: 8px; padding: 5px; width: 120px; }
         .feedback { font-weight: bold; margin-top: 5px; }
-
         button { margin-top: 8px; padding: 5px 10px; font-size: 1em; cursor: pointer; }
         .share-btn { margin-left: 10px; background: #0073e6; color: #fff; border: none; border-radius: 4px; padding: 5px 8px; cursor: pointer; }
 
-        /* Feedback form */
+        /* ✅ Feedback form styling */
         #feedbackForm input, #feedbackForm textarea {
             width: 100%;
             padding: 8px;
@@ -96,50 +117,21 @@
             color: #666;
         }
 
-        @media (max-width: 768px) {
-            .container { flex-direction: column; }
-            .main, .sidebar { flex: 1 1 100%; }
-            .sidebar { margin-top: 1rem; }
+        /* ✅ Responsive for mobile */
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                max-width: 100%;
+            }
+            .main, .sidebar {
+                width: 100%;
+                margin-left: 0;
+            }
+            .sidebar {
+                margin-top: 1rem;
+            }
         }
     </style>
-</head>
-<body>
-
-    <div id="site-header"></div>
-
-    <div class="container">
-        <div class="main">
-            <h1>No Spin Media Emoji Math</h1>
-            <div id="puzzle-container"></div>
-        </div>
-
-        <div class="sidebar">
-            <h2>Support Us 💙</h2>
-            <p>Like what we're doing? Help keep No Spin Media running:</p>
-            <p><strong>Venmo:</strong><br/>
-                <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
-            </p>
-
-            <h2>Follow Us</h2>
-            <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
-
-            <h2>We ❤️ Your Thoughts!</h2>
-            <p>Have an idea, suggestion, or just want to say hi? We read every single message you send. 😊</p>
-            <p>You can also reach us directly at: <strong>nospinmedia.ai@gmail.com</strong></p>
-
-            <form id="feedbackForm">
-                <input type="text" id="name" name="name" placeholder="Your first name">
-                <input type="email" id="email" name="email" placeholder="you@email.com" required>
-                <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
-                <p id="formStatus"></p>
-                <button type="submit">💬 Send Feedback</button>
-            </form>
-        </div>
-    </div>
-
-    <footer>
-        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
-    </footer>
 
     <script>
         async function loadPuzzles() {
@@ -205,13 +197,8 @@
 
         function toggleAnswer(btn) {
             const answerEl = btn.parentElement.querySelector('.answer');
-            if (answerEl.classList.contains('show')) {
-                answerEl.classList.remove('show');
-                btn.textContent = 'Show Answer';
-            } else {
-                answerEl.classList.add('show');
-                btn.textContent = 'Hide Answer';
-            }
+            answerEl.classList.toggle('show');
+            btn.textContent = answerEl.classList.contains('show') ? 'Hide Answer' : 'Show Answer';
         }
 
         function checkGuess(btn, correct) {
@@ -224,12 +211,10 @@
                 return;
             }
             if (guess === correct) {
-                const messages = ["🎉 Correct! You cracked it!", "✅ Nailed it!", "🎯 Perfect!"];
-                feedback.textContent = messages[Math.floor(Math.random() * messages.length)];
+                feedback.textContent = "🎉 Correct!";
                 feedback.style.color = "green";
             } else {
-                const wrongs = ["😅 Not quite, try again!", "❌ Oops, that's not it.", "🤔 Close, but no!"];
-                feedback.textContent = wrongs[Math.floor(Math.random() * wrongs.length)];
+                feedback.textContent = "❌ Try again!";
                 feedback.style.color = "#d00";
             }
         }
@@ -241,16 +226,16 @@
             });
         }
 
-        // Load header then puzzles
-        document.addEventListener('DOMContentLoaded', function() {
+        window.onload = () => {
             fetch('header.html')
                 .then(res => res.text())
                 .then(html => {
                     document.getElementById('site-header').innerHTML = html;
                     loadPuzzles();
                 });
+        };
 
-            // ✅ Feedback form submit (from working index version, subject changed)
+        document.addEventListener('DOMContentLoaded', () => {
             const feedbackForm = document.getElementById('feedbackForm');
             if (feedbackForm) {
                 feedbackForm.addEventListener('submit', async function(e) {
@@ -265,12 +250,12 @@
                     const data = {
                         name: name,
                         email: email,
-                        subject: "Emoji Math Feedback", // ✅ Different subject for math
+                        subject: "Emoji Math Feedback",
                         message: message
                     };
 
                     try {
-                        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+                        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
                             method: 'POST',
                             headers: {'Content-Type':'text/plain'},
                             body: JSON.stringify(data)
@@ -287,7 +272,6 @@
                         }
                         setTimeout(()=>{ status.textContent = ""; }, 5000);
                     } catch (err) {
-                        console.error(err);
                         status.textContent = "❌ Failed to send! Check connection.";
                         setTimeout(()=>{ status.textContent = ""; }, 5000);
                     }
@@ -295,5 +279,46 @@
             }
         });
     </script>
+</head>
+<body>
+
+    <div id="site-header"></div>
+
+    <div class="container">
+        <div class="main">
+            <h1>No Spin Media Emoji Math</h1>
+            <div id="puzzle-container"></div>
+        </div>
+
+        <div class="sidebar">
+            <h2>Support Us 💙</h2>
+            <p>Like what we're doing? Help keep No Spin Media running:</p>
+            <p><strong>Venmo:</strong><br/>
+                <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+            </p>
+
+            <h2>Follow Us</h2>
+            <p>
+                📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
+            </p>
+
+            <h2>We ❤️ Your Thoughts!</h2>
+            <p>Have an idea, suggestion, or just want to say hi? We read every single message you send. 😊</p>
+            <p>You can also reach us directly at: <strong>nospinmedia.ai@gmail.com</strong></p>
+
+            <form id="feedbackForm">
+                <input type="text" id="name" name="name" placeholder="Your first name">
+                <input type="email" id="email" name="email" placeholder="you@email.com" required>
+                <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
+                <p id="formStatus"></p>
+                <button type="submit">💬 Send Feedback</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
+    </footer>
+
 </body>
 </html>
