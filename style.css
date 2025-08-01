@@ -145,7 +145,7 @@ body.mobile-nav-active {
     justify-content: space-between;
     align-items: flex-start;
     padding: 2rem;
-    max-width: 1200px;
+    max-width: 1400px;           /* ✅ Wider container */
     margin: 20px auto;
     gap: 2rem;
     box-sizing: border-box;
@@ -153,10 +153,10 @@ body.mobile-nav-active {
 
 /* Main Section */
 .main {
-    flex: 1 1 0;
-    min-width: 0; /* ✅ Prevents overflow into sidebar */
-    max-width: calc(100% - 300px); /* ✅ Leaves space for sidebar */
-    padding: 1rem;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: calc(100% - 320px); /* ✅ Give more room next to sidebar */
+    padding: 1.5rem;               /* Slightly more padding */
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -167,7 +167,7 @@ body.mobile-nav-active {
 #puzzle-container {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.2rem;
     width: 100%;
 }
 
@@ -193,7 +193,6 @@ body.mobile-nav-active {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     max-width: 100%;
     box-sizing: border-box;
-    overflow: hidden; /* ✅ Contain emoji lines inside the card */
 }
 
 /* Emoji Math Problem */
@@ -202,8 +201,8 @@ h3.emoji-math-problem {
     text-align: center;
     margin: 0.5em 0;
     white-space: nowrap;
-    overflow-x: auto; /* ✅ Scroll horizontally if too wide */
-    max-width: 100%; /* ✅ Stay inside card */
+    overflow-x: auto;
+    max-width: 100%;
 }
 
 /* Feedback Styling */
@@ -213,7 +212,7 @@ h3.emoji-math-problem {
     font-weight: bold;
 }
 
-/* Answers Hidden by Default */
+/* Hide answers by default */
 .answer {
     display: none;
     margin-top: 8px;
@@ -226,10 +225,11 @@ h3.emoji-math-problem {
     display: block;
 }
 
-/* Responsive: stack sidebar below on smaller screens */
+/* Responsive: stack sidebar below main on small screens */
 @media (max-width: 900px) {
     .container {
         flex-direction: column;
+        max-width: 100%;
     }
     .main, .sidebar {
         max-width: 100%;
