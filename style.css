@@ -1,239 +1,192 @@
-/* General Body and Layout */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f4f4f4;
-    color: #222;
-    line-height: 1.6;
-    padding-top: 70px;
-    box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>No Spin Media Emoji Math</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-/* Header Styling */
-header {
-    background: #111;
-    color: #fff;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    min-height: 50px;
-}
+    <div id="site-header"></div>
 
-header .logo-container {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #fff;
-    font-size: 1.5em;
-    font-weight: bold;
-}
+    <div class="container">
+        <!-- ✅ Main puzzle area -->
+        <div class="main">
+            <h1>No Spin Media Emoji Math</h1>
+            <div id="puzzle-container"></div>
+        </div>
 
-header .logo {
-    height: 40px;
-    margin-right: 10px;
-    vertical-align: middle;
-}
+        <!-- ✅ Sidebar area -->
+        <div class="sidebar">
+            <h2>Support Us 💙</h2>
+            <p>Like what we're doing? Help keep No Spin Media running:</p>
+            <p><strong>Venmo:</strong><br/>
+                <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+            </p>
 
-header nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
+            <h2>Follow Us</h2>
+            <p>
+                📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
+            </p>
 
-header nav ul li {
-    margin-left: 20px;
-}
+            <h2>We ❤️ Your Thoughts!</h2>
+            <p>
+                Have an idea for a challenging emoji math puzzle? Want to send us general feedback or just say hi?
+                We read every single message and might even publish your puzzle! 😊
+            </p>
+            <p>You can also reach us directly at: <strong>nospinmedia.ai@gmail.com</strong></p>
 
-header nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
+            <form id="feedbackForm">
+                <input type="text" id="name" name="name" placeholder="Your first name">
+                <input type="email" id="email" name="email" placeholder="you@email.com" required>
+                <textarea id="message" name="message" rows="4" placeholder="Your feedback or puzzle idea..." required></textarea>
+                <p id="formStatus"></p>
+                <button type="submit">💬 Send Feedback</button>
+            </form>
+        </div>
+    </div>
 
-header nav ul li a:hover {
-    color: #007bff;
-}
+    <footer>
+        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
+    </footer>
 
-/* Hamburger Menu */
-.hamburger {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    padding: 10px;
-    z-index: 1001;
-}
+    <script>
+        async function loadPuzzles() {
+            const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSoyPjj_QxgVJ-l8BAetRaMyY-Lg_YjyGHfX98XqacaOkdDj553orqlaoPRkwicEcZjZsAL7_4w4nRS/pub?output=csv';
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetID = urlParams.get('id');
 
-.hamburger .bar {
-    width: 25px;
-    height: 3px;
-    background-color: #fff;
-    margin: 4px 0;
-    transition: 0.4s;
-}
+            try {
+                const response = await fetch(sheetURL);
+                if (!response.ok) {
+                    document.getElementById('puzzle-container').innerHTML = '<p style="color: red;">Failed to load puzzles.</p>';
+                    return;
+                }
+                const text = await response.text();
 
-.hamburger.active .bar:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-    background-color: #007bff;
-}
+                // CSV parsing
+                const rows = [];
+                let current = '', insideQuotes = false, row = [];
+                for (let i = 0; i < text.length; i++) {
+                    const char = text[i];
+                    if (char === '"' && text[i+1] === '"') { current += '"'; i++; continue; }
+                    if (char === '"') { insideQuotes = !insideQuotes; continue; }
+                    if (char === ',' && !insideQuotes) { row.push(current); current = ''; continue; }
+                    if ((char === '\n' || char === '\r') && !insideQuotes) {
+                        if (current || row.length) {
+                            row.push(current);
+                            if (row.some(cell => cell.trim() !== '')) rows.push(row);
+                            row = [];
+                            current = '';
+                        }
+                        continue;
+                    }
+                    current += char;
+                }
+                if (current || row.length) { 
+                    row.push(current); 
+                    if (row.some(cell => cell.trim() !== '')) rows.push(row);
+                }
 
-.hamburger.active .bar:nth-child(2) {
-    opacity: 0;
-}
+                const data = rows.slice(1);
+                let puzzles = data.filter(r => (r[6] || '').toLowerCase().includes('yes'));
+                if (targetID) puzzles = puzzles.filter(r => r[7] && r[7].trim() === targetID);
+                else puzzles = puzzles.reverse();
 
-.hamburger.active .bar:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-    background-color: #007bff;
-}
+                const puzzleContainer = document.getElementById('puzzle-container');
+                puzzleContainer.innerHTML = '';
+                
+                if (puzzles.length === 0) {
+                    puzzleContainer.innerHTML = '<p>No emoji math puzzles found.</p>';
+                    return;
+                }
 
-/* Mobile Navigation */
-.mobile-nav {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: -100%;
-    width: 70%;
-    height: 100%;
-    background-color: #333;
-    padding-top: 70px;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.3);
-    transition: left 0.3s ease-in-out;
-    z-index: 999;
-    overflow-y: auto;
-}
+                puzzles.forEach(p => {
+                    const postID = p[7];
+                    const emojiPuzzle = (p[1] || '').replace(/Key Below.*/i, '').trim();
+                    const cleanAnswerText = (p[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
+                    const cleanHint = (p[5] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
 
-.mobile-nav.open {
-    left: 0;
-    display: block;
-}
+                    const match = cleanAnswerText.match(/answer\s+is\s+(\d+)/i) ||
+                                  cleanAnswerText.match(/Final\s+answer:\s+(\d+)/i) ||
+                                  cleanAnswerText.match(/=\s*(\d+)/);
+                    const numericAnswer = match ? parseInt(match[1]) : null;
 
-.mobile-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+                    const card = document.createElement('div');
+                    card.className = 'puzzle-card';
+                    card.innerHTML = `
+                        <h3 class="emoji-math-problem">${emojiPuzzle}</h3>
+                        <p class="hint">${cleanHint}</p>
 
-.mobile-nav ul li a {
-    display: block;
-    padding: 15px 20px;
-    color: #fff;
-    text-decoration: none;
-    border-bottom: 1px solid #444;
-    transition: background-color 0.3s ease;
-}
+                        <input type="number" placeholder="Your answer..." class="guess-input" />
+                        <button onclick="checkGuess(this, ${numericAnswer})">Check</button>
+                        <p class="feedback"></p>
 
-.mobile-nav ul li a:hover {
-    background-color: #555;
-}
+                        <button onclick="toggleAnswer(this)">Show Answer</button>
+                        <button class="share-btn" onclick="sharePuzzle('${postID}')">Share</button>
+                        <p class="answer"><strong>Answer:</strong>\n${cleanAnswerText}</p>
+                    `;
+                    puzzleContainer.appendChild(card);
+                });
+            } catch (error) {
+                document.getElementById('puzzle-container').innerHTML = '<p style="color: red;">Error loading puzzles.</p>';
+            }
+        }
 
-body.mobile-nav-active {
-    overflow: hidden;
-}
+        function toggleAnswer(btn) {
+            const answerEl = btn.parentElement.querySelector('.answer');
+            answerEl.classList.toggle('show');
+            btn.textContent = answerEl.classList.contains('show') ? 'Hide Answer' : 'Show Answer';
+        }
 
-/* Container Layout */
-.container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 2rem;
-    max-width: 1700px;         /* ✅ Use more screen width */
-    margin: 20px auto;
-    gap: 3rem;                 /* ✅ More gap between main and sidebar */
-    box-sizing: border-box;
-}
+        function checkGuess(btn, correct) {
+            const input = btn.previousElementSibling;
+            const feedback = btn.nextElementSibling;
+            const guess = parseInt(input.value);
+            if (isNaN(guess)) {
+                feedback.textContent = "❓ Enter a number first!";
+                feedback.style.color = "#d00";
+                return;
+            }
+            if (guess === correct) {
+                feedback.textContent = "🎉 Correct!";
+                feedback.style.color = "green";
+            } else {
+                feedback.textContent = "❌ Try again!";
+                feedback.style.color = "#d00";
+            }
+        }
 
-/* Main Section */
-.main {
-    flex: 1 1 75%;             /* ✅ Take up more of the width */
-    min-width: 0;
-    padding: 2rem;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    box-sizing: border-box;
-}
+        function sharePuzzle(postID) {
+            const url = `${window.location.origin}${window.location.pathname}?id=${postID}`;
+            navigator.clipboard.writeText(url).then(() => {
+                alert("🔗 Puzzle link copied!");
+            });
+        }
 
-/* Puzzle Container */
-#puzzle-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    width: 100%;
-}
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('site-header').innerHTML = html;
 
-/* Puzzle Card */
-.puzzle-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    background: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    width: 100%;               /* ✅ Fill the main section */
-    box-sizing: border-box;
-}
+                    const hamburger = document.getElementById('hamburger');
+                    const mobileNav = document.getElementById('mobile-nav');
 
-/* Emoji Math Problem */
-h3.emoji-math-problem {
-    font-size: min(4rem, 5vw); /* ✅ Slightly larger for wide layout */
-    text-align: center;
-    margin: 0.5em 0;
-    white-space: nowrap;
-    max-width: 100%;
-    overflow-x: auto;
-}
+                    if (hamburger && mobileNav) {
+                        hamburger.addEventListener('click', function() {
+                            mobileNav.classList.toggle('open');
+                            hamburger.classList.toggle('active');
+                        });
+                    }
 
-/* Sidebar */
-.sidebar {
-    flex: 0 0 320px;           /* ✅ Slightly wider fixed sidebar */
-    margin-left: auto;
-    background: #fff;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    height: fit-content;
-    align-self: flex-start;
-    box-sizing: border-box;
-}
-
-/* Feedback Styling */
-.feedback {
-    margin-top: 8px;
-    min-height: 1.2em;
-    font-weight: bold;
-}
-
-/* Hide answers by default */
-.answer {
-    display: none;
-    margin-top: 8px;
-    background: #f9f9f9;
-    padding: 6px;
-    border-radius: 4px;
-}
-
-.answer.show {
-    display: block;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-    .container {
-        flex-direction: column;
-        max-width: 100%;
-    }
-    .main, .sidebar {
-        max-width: 100%;
-    }
-    .sidebar {
-        margin-left: 0;
-    }
-}
+                    loadPuzzles();
+                })
+                .catch(() => {
+                    document.getElementById('site-header').innerHTML = '<p style="color: red; text-align: center;">Error loading header.</p>';
+                });
+        });
+    </script>
+</body>
+</html>
