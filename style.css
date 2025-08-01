@@ -219,6 +219,96 @@ body.mobile-nav-active {
     background-color: #005bb5;
 }
 
+/* AI Posts Page Styles */
+.filter-bar {
+    margin-bottom: 1rem;
+}
+
+.filter-bar select {
+    padding: 6px 10px;
+    font-size: 1rem;
+}
+
+.date-group {
+    margin-bottom: 2rem;
+}
+
+.date-header {
+    background: #333;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.post-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 0.8rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-header h3 {
+    font-size: 1.3rem;
+    margin: 0;
+    flex: 1;
+}
+
+.post-type {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #555;
+    margin-top: 0.4rem;
+}
+
+.comment {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.4s ease;
+    white-space: pre-line;
+    margin-top: 0.5rem;
+}
+
+.comment.show {
+    max-height: 1000px;
+    opacity: 1;
+}
+
+button.toggle, button.share-btn {
+    margin-top: 0.6rem;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid #333;
+    background: #333;
+    color: #fff;
+}
+
+button.toggle:hover {
+    background: #555;
+}
+
+button.share-btn {
+    margin-left: 10px;
+    font-size: 0.8rem;
+    background: #0066cc;
+    border-color: #0066cc;
+}
+
+button.share-btn:hover {
+    background: #004c99;
+}
+
 /* Puzzle Container */
 #puzzle-container {
     display: grid;
