@@ -133,7 +133,7 @@
     }
 
     const formSubmitUrl = 'https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec';
-    
+    
     async function submitQuirkyFeedback(e) {
       e.preventDefault();
       const form = e.target;
@@ -174,7 +174,7 @@
         .then(html => {
           document.getElementById('site-header').innerHTML = html;
           loadPosts();
-          
+          
           const hamburger = document.getElementById('hamburger');
           const mobileNav = document.getElementById('mobile-nav');
 
@@ -193,7 +193,8 @@
               link.addEventListener('click', () => {
                 mobileNav.classList.remove('open');
                 hamburger.classList.remove('active');
-              });
+              }
+);
             });
 
             window.addEventListener('resize', function() {
@@ -203,7 +204,7 @@
               }
             });
           }
-          
+          
           const quirkyForm = document.getElementById('quirkyFeedbackForm');
           if (quirkyForm) {
             quirkyForm.addEventListener('submit', submitQuirkyFeedback);
@@ -238,10 +239,10 @@
       </p>
       <h2>Contact</h2>
       <p>📨 nospinmedia.ai@gmail.com</p>
-      
+      
       <form id="quirkyFeedbackForm" class="quirky-feedback-form">
-        <h3>Got a Quirky Idea? ✨</h3>
-        <p>Tell the AI what you'd like to see next!</p>
+        <h3>Want the AI to post something specific?</h3>
+        <p>Got an idea for a fun fact, puzzle, or story? Tell us! Let's get creative.</p>
         <textarea id="quirkyMessage" name="message" rows="4" placeholder="Maybe a game idea? Or a fun fact? Be weird!"></textarea>
         <p class="formStatus"></p>
         <button type="submit">Send your Spark!</button>
