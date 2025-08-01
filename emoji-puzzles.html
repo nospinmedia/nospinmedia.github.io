@@ -204,6 +204,31 @@
                 .then(html => {
                     document.getElementById('site-header').innerHTML = html;
                     loadPuzzles();
+
+                    // 🔥 Add mobile nav logic from index
+                    const hamburger = document.getElementById('hamburger');
+                    const mobileNav = document.getElementById('mobile-nav');
+
+                    if (hamburger && mobileNav) {
+                        hamburger.addEventListener('click', () => {
+                            mobileNav.classList.toggle('open');
+                            hamburger.classList.toggle('active');
+                        });
+
+                        mobileNav.querySelectorAll('a').forEach(link => {
+                            link.addEventListener('click', () => {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active');
+                            });
+                        });
+
+                        window.addEventListener('resize', function() {
+                            if (window.innerWidth > 768) {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active');
+                            }
+                        });
+                    }
                 });
 
             const feedbackForm = document.getElementById('feedbackForm');
