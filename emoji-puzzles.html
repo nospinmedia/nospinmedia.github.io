@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -12,42 +12,42 @@
             padding: 0;
             background: #f4f4f4;
             color: #222;
-            /* CRITICAL: Add padding-top to body to prevent content from being hidden by the fixed header */
-            padding-top: 70px; /* This value must match your header's min-height */
+            padding-top: 70px; /* Matches header height */
         }
 
         .container {
             display: flex;
-            flex-wrap: wrap; /* Allows wrapping on smaller screens */
+            flex-wrap: wrap;
             padding: 2rem;
-            max-width: 1200px; /* Added max-width for consistency */
-            margin: 0 auto; /* Changed from 2rem auto for consistency with index.html */
-            gap: 2rem; /* Spacing between main and sidebar */
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 2rem;
         }
         .main {
-            flex: 2; /* Main content takes more space */
+            flex: 2;
             padding: 1rem;
         }
         .sidebar {
-            flex: 1; /* Sidebar takes less space */
+            flex: 1;
             background: #fff;
             padding: 1rem;
-            border-radius: 8px; /* Added border-radius for consistency */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Added box-shadow for consistency */
-            height: fit-content; /* Make sidebar only as tall as its content */
-            margin-top: 0; /* Remove top margin when side-by-side to align with main content */
-            border-left: 2px solid #eee; /* Add left border for separation */
-            align-self: flex-start; /* Aligns sidebar to the start of the cross-axis */
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: fit-content;
+            margin-top: 0;
+            border-left: 2px solid #eee;
+            align-self: flex-start;
         }
         h1 { font-size: 2rem; margin-top: 0; }
         h3.emoji { font-size: 3.5rem; text-align: center; margin: 0.5em 0; white-space: pre-line; }
         .puzzle-card { border: 1px solid #ccc; border-radius: 8px; padding: 10px; margin: 15px 0; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         button { margin-top: 8px; padding: 5px 10px; font-size: 1em; cursor: pointer; }
-        .hint { font-style: italic; margin-top: 5px; }
+        .hint { display: none; font-style: italic; margin-top: 5px; }
+        .hint.show { display: block; }
         .answer { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; }
         .answer.show { max-height: 300px; opacity: 1; margin-top: 8px; }
 
-        /* Feedback form styling (copied from index.html) */
+        /* Feedback form styling */
         #feedbackForm input, #feedbackForm textarea {
             width: 100%;
             padding: 8px;
@@ -134,7 +134,6 @@
             const response = await fetch(sheetURL);
             const text = await response.text();
 
-            // CSV parser respecting quotes/line breaks
             const rows = [];
             let current = '', insideQuotes = false, row = [];
             for (let i = 0; i < text.length; i++) {
@@ -150,7 +149,7 @@
             }
             if (current || row.length) { row.push(current); rows.push(row); }
 
-            const data = rows.slice(1); // skip header
+            const data = rows.slice(1);
 
             const puzzles = data.filter(r => (r[6] || '').toLowerCase().includes('yes')).reverse();
 
@@ -168,12 +167,24 @@
                 puzzleDiv.innerHTML = `
                     <h3 class="emoji">${emoji}</h3>
                     <p><strong>Category:</strong> ${category} | <strong>Difficulty:</strong> ${difficulty}</p>
-                    <p class="hint"><strong>Hint:</strong> ${hint}</p>
+                    <button onclick="toggleHint('hint-${id}', this)">Show Hint</button>
+                    <p id="hint-${id}" class="hint"><strong>Hint:</strong> ${hint}</p>
                     <button onclick="toggleAnswer('answer-${id}', this)">Show Answer</button>
                     <p id="answer-${id}" class="answer"><strong>Answer:</strong> ${answer}</p>
                 `;
                 puzzleContainer.appendChild(puzzleDiv);
             });
+        }
+
+        function toggleHint(id, btn) {
+            const hintEl = document.getElementById(id);
+            if (hintEl.classList.contains('show')) {
+                hintEl.classList.remove('show');
+                btn.textContent = 'Show Hint';
+            } else {
+                hintEl.classList.add('show');
+                btn.textContent = 'Hide Hint';
+            }
         }
 
         function toggleAnswer(id, btn) {
@@ -187,63 +198,16 @@
             }
         }
 
-        // Use DOMContentLoaded to ensure the div for the header exists before trying to fetch
         document.addEventListener('DOMContentLoaded', function() {
             fetch('header.html')
                 .then(res => res.text())
                 .then(html => {
                     document.getElementById('site-header').innerHTML = html;
-
-                    // --- IMPORTANT: Hamburger JavaScript MUST be here AFTER header is loaded ---
-                    const hamburger = document.getElementById('hamburger');
-                    const mobileNav = document.getElementById('mobile-nav');
-
-                    if (hamburger && mobileNav) {
-                        function toggleMobileNav() {
-                            mobileNav.classList.toggle('open');
-                            hamburger.classList.toggle('active'); // Toggle color change
-                            console.log('Hamburger toggled from emoji-puzzles.html! Open:', mobileNav.classList.contains('open'));
-                        }
-
-                        hamburger.addEventListener('click', toggleMobileNav);
-
-                        // Also listen for touchstart for better mobile responsiveness
-                        // Use { passive: false } to allow preventDefault() for touch events
-                        hamburger.addEventListener('touchstart', function(e) {
-                            e.preventDefault(); // Prevents potential default browser scroll/zoom
-                            console.log('Touch detected on hamburger from emoji-puzzles.html!');
-                            toggleMobileNav();
-                        }, { passive: false });
-
-
-                        // Close mobile menu when a link is clicked
-                        mobileNav.querySelectorAll('a').forEach(link => {
-                            link.addEventListener('click', () => {
-                                mobileNav.classList.remove('open');
-                                hamburger.classList.remove('active'); // Reset hamburger color
-                            });
-                        });
-
-                        // Close mobile menu if window is resized above mobile breakpoint
-                        window.addEventListener('resize', function() {
-                            if (window.innerWidth > 768) {
-                                mobileNav.classList.remove('open');
-                                hamburger.classList.remove('active'); // Reset hamburger color
-                            }
-                        });
-                    } else {
-                        console.error("Critical: Hamburger or mobile navigation element not found after header load!");
-                    }
-                    // --- END IMPORTANT SECTION ---
-
-                    // Load puzzles AFTER the header is fully loaded and its JS is set up
                     loadPuzzles();
-                })
-                .catch(err => console.error("Error loading header.html:", err));
+                });
 
-            // Feedback form submit (kept separate from header loading as it's not dependent)
             const feedbackForm = document.getElementById('feedbackForm');
-            if (feedbackForm) { // Check if the form exists before adding listener
+            if (feedbackForm) {
                 feedbackForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     const status = document.getElementById('formStatus');
@@ -278,7 +242,6 @@
                         }
                         setTimeout(()=>{ status.textContent = ""; }, 5000);
                     } catch (err) {
-                        console.error(err);
                         status.textContent = "❌ Failed to send! Check connection.";
                         setTimeout(()=>{ status.textContent = ""; }, 5000);
                     }
