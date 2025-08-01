@@ -9,7 +9,7 @@ body {
     padding-top: 70px; /* Assuming your fixed header is around 70px tall */
 }
 
-/* Header Styling (from header.html, but global styles should be here) */
+/* Header Styling */
 header {
     background: #111;
     color: #fff;
@@ -17,13 +17,13 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: fixed; /* Keep header visible when scrolling */
+    position: fixed;
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 1000; /* Ensure header is above other content */
+    z-index: 1000;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    min-height: 50px; /* Ensure a minimum height for the header */
+    min-height: 50px;
 }
 
 header .logo-container {
@@ -36,7 +36,7 @@ header .logo-container {
 }
 
 header .logo {
-    height: 40px; /* Adjust logo size */
+    height: 40px;
     margin-right: 10px;
     vertical-align: middle;
 }
@@ -60,16 +60,16 @@ header nav ul li a {
 }
 
 header nav ul li a:hover {
-    color: #007bff; /* Highlight on hover */
+    color: #007bff;
 }
 
-/* Hamburger Menu Icon */
+/* Hamburger Menu */
 .hamburger {
-    display: none; /* Hidden by default on desktop */
+    display: none;
     flex-direction: column;
     cursor: pointer;
     padding: 10px;
-    z-index: 1001; /* Above mobile nav */
+    z-index: 1001;
 }
 
 .hamburger .bar {
@@ -80,10 +80,9 @@ header nav ul li a:hover {
     transition: 0.4s;
 }
 
-/* Hamburger animation for active state */
 .hamburger.active .bar:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
-    background-color: #007bff; /* Change color when active */
+    background-color: #007bff;
 }
 
 .hamburger.active .bar:nth-child(2) {
@@ -92,28 +91,28 @@ header nav ul li a:hover {
 
 .hamburger.active .bar:nth-child(3) {
     transform: translateY(-7px) rotate(-45deg);
-    background-color: #007bff; /* Change color when active */
+    background-color: #007bff;
 }
 
 /* Mobile Navigation */
 .mobile-nav {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
     top: 0;
-    left: -100%; /* Off-screen by default */
-    width: 70%; /* Adjust as needed */
+    left: -100%;
+    width: 70%;
     height: 100%;
     background-color: #333;
-    padding-top: 70px; /* Space for header */
+    padding-top: 70px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.3);
     transition: left 0.3s ease-in-out;
-    z-index: 999; /* Below hamburger, above content */
-    overflow-y: auto; /* Enable scrolling for long menus */
+    z-index: 999;
+    overflow-y: auto;
 }
 
 .mobile-nav.open {
-    left: 0; /* Slide in */
-    display: block; /* Make sure it's visible when open */
+    left: 0;
+    display: block;
 }
 
 .mobile-nav ul {
@@ -135,7 +134,6 @@ header nav ul li a:hover {
     background-color: #555;
 }
 
-/* Add this to prevent body scrolling when mobile nav is open */
 body.mobile-nav-active {
     overflow: hidden;
 }
@@ -143,18 +141,19 @@ body.mobile-nav-active {
 /* Main Content and Sidebar Layout */
 .container {
     display: flex;
-    justify-content: center; /* Center the overall container if it doesn't fill max-width */
-    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+    justify-content: space-between; /* ✅ Sidebar goes to the far right */
+    flex-wrap: wrap;
     padding: 2rem;
-    max-width: 1200px; /* Max width for content area */
-    margin: 20px auto; /* Centers the container and adds vertical margin */
-    gap: 2rem; /* Spacing between main and sidebar */
+    max-width: 1200px;
+    margin: 20px auto;
+    gap: 2rem;
 }
 
 .main {
-    flex: 2; /* Increased flexibility to take more space, allowing it to shift left */
-    min-width: 600px; /* Increased min-width to ensure enough space for math problems */
-    max-width: 800px; /* Prevents it from getting too wide */
+    flex: 2;
+    min-width: 600px;
+    max-width: 800px;
+    margin-left: 0; /* ✅ Math sticks to far left */
     padding: 1rem;
     background: #fff;
     border-radius: 8px;
@@ -162,51 +161,63 @@ body.mobile-nav-active {
 }
 
 #puzzle-container {
-    display: grid; /* Use grid for internal layout of puzzles */
-    grid-template-columns: 1fr; /* Force single column, puzzles take full width of puzzle-container */
-    gap: 1rem; /* Spacing between individual puzzle cards */
-    width: 100%; /* Make sure puzzle-container takes full width of its parent (.main) */
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 100%;
 }
 
 .sidebar {
-    flex: 0 0 280px; /* Reduced fixed width to give more space to .main */
+    flex: 0 0 280px;
+    margin-left: auto; /* ✅ Pushes sidebar to the far right */
     background: #fff;
     padding: 1rem;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    height: fit-content; /* Make sidebar only as tall as its content */
-    align-self: flex-start; /* Aligns sidebar to the top, preventing vertical stretch */
+    height: fit-content;
+    align-self: flex-start;
 }
 
-/* Specific elements within main/sidebar that might need styling */
+/* Specific elements */
 h1 { font-size: 2rem; margin-top: 0; }
 h2 { font-size: 1.5rem; margin-top: 1.5rem; }
 p { margin-bottom: 1em; }
 
-/* Shared Puzzle/Math Card Styling */
+/* Puzzle Card */
 .puzzle-card {
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 15px;
     background: #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    /* No specific width needed here, as #puzzle-container's grid handles it by being 1fr */
 }
 
-/* Emoji Problem Styling (for Emoji Puzzles page) */
-h3.emoji {
-    font-size: 3.5rem;
-    text-align: center;
-    margin: 0.5em 0;
-    white-space: pre-line;
-}
-
-/* Emoji Math Problem Styling (for Emoji Math page) */
+/* Emoji Math */
 h3.emoji-math-problem {
-    font-size: 3.5rem; /* Base size */
-    font-size: min(3.5rem, 5vw); /* Responsive: use 3.5rem or 5vw, whichever is smaller */
+    font-size: min(3.5rem, 5vw);
     text-align: center;
     margin: 0.5em 0;
-    white-space: nowrap; /* Keep on single line */
-    overflow-x: auto; /* Allow horizontal scrolling if too wide */
-    padding
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+/* ✅ Feedback styling */
+.feedback {
+    margin-top: 8px;
+    min-height: 1.2em; /* Reserve space even when empty */
+    font-weight: bold;
+}
+
+/* ✅ Hide answers by default */
+.answer {
+    display: none;
+    margin-top: 8px;
+    background: #f9f9f9;
+    padding: 6px;
+    border-radius: 4px;
+}
+
+.answer.show {
+    display: block;
+}
+
