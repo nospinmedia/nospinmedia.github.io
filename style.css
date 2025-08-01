@@ -144,21 +144,79 @@ body.mobile-nav-active {
     justify-content: space-between;
     align-items: flex-start;
     padding: 2rem;
-    max-width: 1700px;         /* ✅ Use more screen width */
+    max-width: 1700px;
     margin: 20px auto;
-    gap: 3rem;                 /* ✅ More gap between main and sidebar */
+    gap: 3rem;
     box-sizing: border-box;
 }
 
 /* Main Section */
 .main {
-    flex: 1 1 75%;             /* ✅ Take up more of the width */
+    flex: 1 1 75%;
     min-width: 0;
     padding: 2rem;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     box-sizing: border-box;
+}
+
+/* Games Page Grid Layout */
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.game-category {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.game-category h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #005bb5;
+}
+
+.game-category ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+.game-category ul li a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.game-category .share-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+}
+
+.game-category .share-buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.game-category .share-buttons button:hover {
+    background-color: #005bb5;
 }
 
 /* Puzzle Container */
@@ -176,13 +234,13 @@ body.mobile-nav-active {
     padding: 20px;
     background: #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    width: 100%;               /* ✅ Fill the main section */
+    width: 100%;
     box-sizing: border-box;
 }
 
 /* Emoji Math Problem */
 h3.emoji-math-problem {
-    font-size: min(4rem, 5vw); /* ✅ Slightly larger for wide layout */
+    font-size: min(4rem, 5vw);
     text-align: center;
     margin: 0.5em 0;
     white-space: nowrap;
@@ -192,16 +250,16 @@ h3.emoji-math-problem {
 
 /* Custom Layout for "Why AI?" page only */
 .ai-page-container .main {
-    flex: 1 1 80%; /* Give main content 80% width on this page */
+    flex: 1 1 80%;
 }
 
 .ai-page-container .sidebar {
-    flex: 0 0 250px; /* Reduce sidebar width on this page */
+    flex: 0 0 250px;
 }
 
 /* Sidebar */
 .sidebar {
-    flex: 0 0 320px;           /* ✅ Slightly wider fixed sidebar */
+    flex: 0 0 320px;
     margin-left: auto;
     background: #fff;
     padding: 1.5rem;
@@ -243,5 +301,12 @@ h3.emoji-math-problem {
     }
     .sidebar {
         margin-left: 0;
+    }
+}
+
+/* Responsive adjustments for the game grid */
+@media (max-width: 650px) {
+    .game-grid {
+        grid-template-columns: 1fr;
     }
 }
