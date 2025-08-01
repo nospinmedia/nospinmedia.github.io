@@ -145,17 +145,17 @@ body.mobile-nav-active {
     justify-content: space-between;
     align-items: flex-start;
     padding: 2rem;
-    max-width: 1500px;           /* ✅ Wider overall container */
+    max-width: 1700px;         /* ✅ Use more screen width */
     margin: 20px auto;
-    gap: 2rem;
+    gap: 3rem;                 /* ✅ More gap between main and sidebar */
     box-sizing: border-box;
 }
 
 /* Main Section */
 .main {
-    flex: 1;
+    flex: 1 1 75%;             /* ✅ Take up more of the width */
     min-width: 0;
-    padding: 1.5rem;
+    padding: 2rem;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -166,7 +166,7 @@ body.mobile-nav-active {
 #puzzle-container {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.2rem;
+    gap: 1.5rem;
     width: 100%;
 }
 
@@ -174,29 +174,29 @@ body.mobile-nav-active {
 .puzzle-card {
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 15px;
+    padding: 20px;
     background: #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    width: 100%;                /* ✅ Force card to fill full main width */
+    width: 100%;               /* ✅ Fill the main section */
     box-sizing: border-box;
-    overflow-x: auto;           /* ✅ Allow scroll if emoji line too long */
 }
 
 /* Emoji Math Problem */
 h3.emoji-math-problem {
-    font-size: min(3.5rem, 5vw);
+    font-size: min(4rem, 5vw); /* ✅ Slightly larger for wide layout */
     text-align: center;
     margin: 0.5em 0;
     white-space: nowrap;
-    max-width: 100%;            /* ✅ Stay inside card */
+    max-width: 100%;
+    overflow-x: auto;
 }
 
 /* Sidebar */
 .sidebar {
-    flex: 0 0 300px;             /* ✅ Fixed width sidebar */
+    flex: 0 0 320px;           /* ✅ Slightly wider fixed sidebar */
     margin-left: auto;
     background: #fff;
-    padding: 1rem;
+    padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     height: fit-content;
