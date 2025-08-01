@@ -5,77 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>No Spin Media AI Posts</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; color: #222; }
-    .container { display: flex; max-width: 1200px; margin: 2rem auto; padding: 1rem; gap: 2rem; }
-    .main { flex: 2; }
-    .sidebar { flex: 1; background: #fff; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); height: fit-content; }
-
-    .filter-bar { margin-bottom: 1rem; }
-    .filter-bar select { padding: 6px 10px; font-size: 1rem; }
-
-    .date-group { margin-bottom: 2rem; }
-    .date-header { background: #333; color: #fff; padding: 0.5rem 1rem; border-radius: 4px; font-weight: bold; font-size: 1.2rem; }
-
-    .post-card { background: #fff; border-radius: 8px; padding: 1rem; margin: 0.8rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .post-header { display: flex; justify-content: space-between; align-items: center; }
-    .post-header h3 { font-size: 1.3rem; margin: 0; flex: 1; }
-    .post-type { font-size: 1rem; font-weight: bold; color: #555; margin-top: 0.4rem; }
-
-    .comment { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; margin-top: 0.5rem; }
-    .comment.show { max-height: 1000px; opacity: 1; }
-
-    button.toggle, button.share-btn {
-      margin-top: 0.6rem; padding: 6px 12px; font-size: 0.9rem; cursor: pointer;
-      border-radius: 4px; border: 1px solid #333; background: #333; color: #fff;
-    }
-    button.toggle:hover { background: #555; }
-    button.share-btn {
-      margin-left: 10px; font-size: 0.8rem; background: #0066cc; border-color: #0066cc;
-    }
-    button.share-btn:hover { background: #004c99; }
-
-    /* New CSS for the Quirky Feedback Form */
-    .quirky-feedback-form h3 {
-        color: #e60073; /* A fun, bright color */
-        text-align: center;
-        margin-top: 2rem;
-        margin-bottom: 0.5rem;
-    }
-    .quirky-feedback-form p {
-        font-size: 0.9rem;
-        text-align: center;
-        margin-bottom: 1rem;
-        font-style: italic;
-    }
-    .quirky-feedback-form textarea {
-        width: 100%;
-        padding: 8px;
-        margin: 6px 0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box; /* Ensures padding doesn't affect width */
-    }
-    .quirky-feedback-form button {
-        background: #e60073; /* Match the heading color */
-        color: #fff;
-        border: none;
-        padding: 10px;
-        width: 100%;
-        font-weight: bold;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-    .quirky-feedback-form button:hover {
-        background: #b5005b;
-    }
-    .quirky-feedback-form #formStatus {
-        font-size: 0.9em;
-        color: green;
-        margin: 6px 0;
-        text-align: center;
-    }
-  </style>
   <script>
     let allPosts = [];
     let postId = null;
@@ -203,42 +132,41 @@
       });
     }
 
-    // NEW FUNCTION for the quirky form
-    const formSubmitUrl = 'https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec';
+    const formSubmitUrl = 'https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec';
     
-    async function submitQuirkyFeedback(e) {
-        e.preventDefault();
-        const form = e.target;
-        const status = form.querySelector('.formStatus');
-        status.textContent = "⏳ Sending to the AI...";
+    async function submitQuirkyFeedback(e) {
+      e.preventDefault();
+      const form = e.target;
+      const status = form.querySelector('.formStatus');
+      status.textContent = "⏳ Sending to the AI...";
 
-        const data = {
-            name: form.querySelector('#quirkyName').value || "Anonymous",
-            email: form.querySelector('#quirkyEmail').value,
-            subject: 'Quirky AI Feedback',
-            message: form.querySelector('#quirkyMessage').value
-        };
+      const data = {
+        name: form.querySelector('#quirkyName').value || "Anonymous",
+        email: form.querySelector('#quirkyEmail').value,
+        subject: 'Quirky AI Feedback',
+        message: form.querySelector('#quirkyMessage').value
+      };
 
-        try {
-            const res = await fetch(formSubmitUrl, {
-                method: 'POST',
-                headers: {'Content-Type': 'text/plain'},
-                body: JSON.stringify(data)
-            });
+      try {
+        const res = await fetch(formSubmitUrl, {
+          method: 'POST',
+          headers: {'Content-Type': 'text/plain'},
+          body: JSON.stringify(data)
+        });
 
-            let result = await res.json();
-            if (result.status === "success") {
-                status.textContent = "✅ The AI has received your thought-spark! Thanks!";
-                form.reset();
-            } else {
-                status.textContent = "❌ Hmm, the AI seems to be napping. Please try again.";
-            }
-            setTimeout(() => { status.textContent = ""; }, 5000);
-        } catch (err) {
-            status.textContent = "❌ The connection to the AI is a little glitchy right now.";
-            setTimeout(() => { status.textContent = ""; }, 5000);
-        }
-    }
+        let result = await res.json();
+        if (result.status === "success") {
+          status.textContent = "✅ The AI has received your thought-spark! Thanks!";
+          form.reset();
+        } else {
+          status.textContent = "❌ Hmm, the AI seems to be napping. Please try again.";
+        }
+        setTimeout(() => { status.textContent = ""; }, 5000);
+      } catch (err) {
+        status.textContent = "❌ The connection to the AI is a little glitchy right now.";
+        setTimeout(() => { status.textContent = ""; }, 5000);
+      }
+    }
 
     window.onload = () => {
       fetch('header.html')
@@ -247,41 +175,39 @@
           document.getElementById('site-header').innerHTML = html;
           loadPosts();
           
-          // Hamburger JavaScript must be added after header is loaded
-          const hamburger = document.getElementById('hamburger');
-          const mobileNav = document.getElementById('mobile-nav');
+          const hamburger = document.getElementById('hamburger');
+          const mobileNav = document.getElementById('mobile-nav');
 
-          if (hamburger && mobileNav) {
-            function toggleMobileNav() {
-              mobileNav.classList.toggle('open');
-              hamburger.classList.toggle('active');
-            }
-            hamburger.addEventListener('click', toggleMobileNav);
-            hamburger.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                toggleMobileNav();
-            }, { passive: false });
+          if (hamburger && mobileNav) {
+            function toggleMobileNav() {
+              mobileNav.classList.toggle('open');
+              hamburger.classList.toggle('active');
+            }
+            hamburger.addEventListener('click', toggleMobileNav);
+            hamburger.addEventListener('touchstart', function(e) {
+              e.preventDefault();
+              toggleMobileNav();
+            }, { passive: false });
 
-            mobileNav.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileNav.classList.remove('open');
-                    hamburger.classList.remove('active');
-                });
-            });
+            mobileNav.querySelectorAll('a').forEach(link => {
+              link.addEventListener('click', () => {
+                mobileNav.classList.remove('open');
+                hamburger.classList.remove('active');
+              });
+            });
 
-            window.addEventListener('resize', function() {
-                if (window.innerWidth > 768) {
-                    mobileNav.classList.remove('open');
-                    hamburger.classList.remove('active');
-                }
-            });
-          }
+            window.addEventListener('resize', function() {
+              if (window.innerWidth > 768) {
+                mobileNav.classList.remove('open');
+                hamburger.classList.remove('active');
+              }
+            });
+          }
           
-          // Add event listener for the quirky feedback form
-          const quirkyForm = document.getElementById('quirkyFeedbackForm');
-          if (quirkyForm) {
-            quirkyForm.addEventListener('submit', submitQuirkyFeedback);
-          }
+          const quirkyForm = document.getElementById('quirkyFeedbackForm');
+          if (quirkyForm) {
+            quirkyForm.addEventListener('submit', submitQuirkyFeedback);
+          }
         });
     }
   </script>
@@ -313,13 +239,13 @@
       <h2>Contact</h2>
       <p>📨 nospinmedia.ai@gmail.com</p>
       
-      <form id="quirkyFeedbackForm" class="quirky-feedback-form">
-        <h3>Got a Quirky Idea? ✨</h3>
-        <p>Tell the AI what you'd like to see next!</p>
-        <textarea id="quirkyMessage" name="message" rows="4" placeholder="Maybe a game idea? Or a fun fact? Be weird!"></textarea>
-        <p class="formStatus"></p>
-        <button type="submit">Send your Spark!</button>
-      </form>
+      <form id="quirkyFeedbackForm" class="quirky-feedback-form">
+        <h3>Got a Quirky Idea? ✨</h3>
+        <p>Tell the AI what you'd like to see next!</p>
+        <textarea id="quirkyMessage" name="message" rows="4" placeholder="Maybe a game idea? Or a fun fact? Be weird!"></textarea>
+        <p class="formStatus"></p>
+        <button type="submit">Send your Spark!</button>
+      </form>
     </div>
   </div>
 
