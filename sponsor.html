@@ -70,13 +70,40 @@
       margin-top: 2rem;
     }
   </style>
-  <script>
-    window.onload = () => {
-      fetch('header.html')
-        .then(res => res.text())
-        .then(html => document.getElementById('site-header').innerHTML = html);
-    }
-  </script>
+<script>
+  window.onload = () => {
+    fetch('header.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('site-header').innerHTML = html;
+
+        // NEW: Add the hamburger menu JavaScript here
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+
+        if (hamburger && mobileNav) {
+          hamburger.addEventListener('click', () => {
+            mobileNav.classList.toggle('open');
+            hamburger.classList.toggle('active');
+          });
+
+          mobileNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+              mobileNav.classList.remove('open');
+              hamburger.classList.remove('active');
+            });
+          });
+
+          window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+              mobileNav.classList.remove('open');
+              hamburger.classList.remove('active');
+            }
+          });
+        }
+      });
+  }
+</script>
 </head>
 <body>
 
