@@ -12,9 +12,9 @@
             padding: 0;
             background: #f4f4f4;
             color: #222;
+            padding-top: 70px; /* Match header height */
         }
 
-        /* ✅ Container uses most of screen width */
         .container {
             display: flex;
             justify-content: space-between;
@@ -27,7 +27,6 @@
             box-sizing: border-box;
         }
 
-        /* ✅ Main puzzle area takes most of the space */
         .main {
             flex: 1 1 auto;
             min-width: 0;
@@ -38,7 +37,6 @@
             box-sizing: border-box;
         }
 
-        /* ✅ Sidebar fixed width and pushed to the far right */
         .sidebar {
             flex: 0 0 300px;
             margin-left: auto;
@@ -54,7 +52,6 @@
         h1 { font-size: 2rem; margin-top: 0; }
         h3.emoji { font-size: 3.5rem; text-align: center; margin: 0.5em 0; white-space: pre-line; }
 
-        /* ✅ Puzzle card expands to fill main column */
         .puzzle-card {
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -68,7 +65,6 @@
 
         .hint { font-style: italic; margin-top: 5px; }
 
-        /* ✅ Smooth answer toggle */
         .answer {
             display: none;
             margin-top: 8px;
@@ -84,7 +80,6 @@
         button { margin-top: 8px; padding: 5px 10px; font-size: 1em; cursor: pointer; }
         .share-btn { margin-left: 10px; background: #0073e6; color: #fff; border: none; border-radius: 4px; padding: 5px 8px; cursor: pointer; }
 
-        /* ✅ Feedback form styling */
         #feedbackForm input, #feedbackForm textarea {
             width: 100%;
             padding: 8px;
@@ -117,7 +112,6 @@
             color: #666;
         }
 
-        /* ✅ Responsive for mobile */
         @media (max-width: 900px) {
             .container {
                 flex-direction: column;
@@ -226,16 +220,39 @@
             });
         }
 
-        window.onload = () => {
+        document.addEventListener('DOMContentLoaded', () => {
             fetch('header.html')
                 .then(res => res.text())
                 .then(html => {
                     document.getElementById('site-header').innerHTML = html;
                     loadPuzzles();
-                });
-        };
 
-        document.addEventListener('DOMContentLoaded', () => {
+                    // ✅ Add mobile nav logic from index/news
+                    const hamburger = document.getElementById('hamburger');
+                    const mobileNav = document.getElementById('mobile-nav');
+
+                    if (hamburger && mobileNav) {
+                        hamburger.addEventListener('click', () => {
+                            mobileNav.classList.toggle('open');
+                            hamburger.classList.toggle('active');
+                        });
+
+                        mobileNav.querySelectorAll('a').forEach(link => {
+                            link.addEventListener('click', () => {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active');
+                            });
+                        });
+
+                        window.addEventListener('resize', function() {
+                            if (window.innerWidth > 768) {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+
             const feedbackForm = document.getElementById('feedbackForm');
             if (feedbackForm) {
                 feedbackForm.addEventListener('submit', async function(e) {
