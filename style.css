@@ -7,6 +7,7 @@ body {
     color: #222;
     line-height: 1.6;
     padding-top: 70px; /* Assuming your fixed header is around 70px tall */
+    box-sizing: border-box;
 }
 
 /* Header Styling */
@@ -141,23 +142,27 @@ body.mobile-nav-active {
 /* Main Content and Sidebar Layout */
 .container {
     display: flex;
-    justify-content: space-between; /* ✅ Sidebar goes to the far right */
-    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: nowrap;          /* ✅ Keep columns side by side */
     padding: 2rem;
     max-width: 1200px;
     margin: 20px auto;
     gap: 2rem;
+    box-sizing: border-box;
 }
 
+/* Main content */
 .main {
-    flex: 2;
-    min-width: 600px;
+    flex: 1 1 65%;              /* ✅ Allow to shrink and grow */
+    min-width: 0;               /* ✅ Prevent overflow into sidebar */
     max-width: 800px;
-    margin-left: 0; /* ✅ Math sticks to far left */
+    margin-left: 0;
     padding: 1rem;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-sizing: border-box;
 }
 
 #puzzle-container {
@@ -167,15 +172,17 @@ body.mobile-nav-active {
     width: 100%;
 }
 
+/* Sidebar */
 .sidebar {
     flex: 0 0 280px;
-    margin-left: auto; /* ✅ Pushes sidebar to the far right */
+    margin-left: auto;
     background: #fff;
     padding: 1rem;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     height: fit-content;
     align-self: flex-start;
+    box-sizing: border-box;
 }
 
 /* Specific elements */
@@ -190,6 +197,8 @@ p { margin-bottom: 1em; }
     padding: 15px;
     background: #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* Emoji Math */
@@ -198,17 +207,18 @@ h3.emoji-math-problem {
     text-align: center;
     margin: 0.5em 0;
     white-space: nowrap;
-    overflow-x: auto;
+    overflow-x: auto;           /* ✅ Scroll horizontally if too wide */
+    max-width: 100%;            /* ✅ Keep inside main column */
 }
 
-/* ✅ Feedback styling */
+/* Feedback styling */
 .feedback {
     margin-top: 8px;
-    min-height: 1.2em; /* Reserve space even when empty */
+    min-height: 1.2em;          /* ✅ Reserve space even when empty */
     font-weight: bold;
 }
 
-/* ✅ Hide answers by default */
+/* Hide answers by default */
 .answer {
     display: none;
     margin-top: 8px;
@@ -221,3 +231,16 @@ h3.emoji-math-problem {
     display: block;
 }
 
+/* ✅ Responsive: Stack sidebar below main on small screens */
+@media (max-width: 900px) {
+    .container {
+        flex-wrap: wrap;
+    }
+    .main, .sidebar {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+    .sidebar {
+        margin-left: 0;
+    }
+}
