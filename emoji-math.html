@@ -5,6 +5,143 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>No Spin Media Emoji Math</title>
     <link rel="stylesheet" href="style.css" />
+    <style>
+        /* General Body and Layout */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #222;
+            line-height: 1.6;
+            padding-top: 70px; /* Space for fixed header */
+        }
+
+        /* Header Styling */
+        header {
+            background: #111;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            min-height: 50px;
+        }
+
+        /* Hamburger menu (from your header.html) */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .hamburger .bar {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            margin: 4px 0;
+            transition: 0.4s;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 70%;
+            height: 100%;
+            background-color: #333;
+            padding-top: 70px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+            transition: left 0.3s ease-in-out;
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.open {
+            left: 0;
+            display: block;
+        }
+
+        /* Container Layout */
+        .container {
+            display: flex;
+            justify-content: flex-start; /* ✅ Align everything to the left */
+            flex-wrap: wrap;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 20px auto 20px 0; /* ✅ Stick to left side */
+            gap: 2rem;
+        }
+
+        .main {
+            flex: 2;
+            min-width: 600px;
+            max-width: 800px;
+            margin-left: 0; /* ✅ No offset from the left */
+            padding: 1rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        #puzzle-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        .sidebar {
+            flex: 0 0 280px;
+            background: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: fit-content;
+            align-self: flex-start;
+        }
+
+        /* Puzzle Card */
+        .puzzle-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Emoji Math Problem */
+        h3.emoji-math-problem {
+            font-size: min(3.5rem, 5vw);
+            text-align: center;
+            margin: 0.5em 0;
+            white-space: nowrap;
+            overflow-x: auto;
+        }
+
+        /* ✅ Hide answers by default */
+        .answer {
+            display: none;
+            margin-top: 8px;
+            background: #f9f9f9;
+            padding: 6px;
+            border-radius: 4px;
+        }
+
+        .answer.show {
+            display: block;
+        }
+    </style>
 </head>
 <body>
 
@@ -24,24 +161,7 @@
             </p>
 
             <h2>Follow Us</h2>
-            <p>
-                📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
-            </p>
-
-            <h2>We ❤️ Your Thoughts!</h2>
-            <p>
-                Have an idea for a challenging emoji math puzzle? Want to send us general feedback or just say hi?
-                We read every single message and might even publish your puzzle! 😊
-            </p>
-            <p>You can also reach us directly at: <strong>nospinmedia.ai@gmail.com</strong></p>
-
-            <form id="feedbackForm">
-                <input type="text" id="name" name="name" placeholder="Your first name">
-                <input type="email" id="email" name="email" placeholder="you@email.com" required>
-                <textarea id="message" name="message" rows="4" placeholder="Your feedback or puzzle idea..." required></textarea>
-                <p id="formStatus"></p>
-                <button type="submit">💬 Send Feedback</button>
-            </form>
+            <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
         </div>
     </div>
 
@@ -57,14 +177,8 @@
 
             try {
                 const response = await fetch(sheetURL);
-                if (!response.ok) {
-                    console.error('Failed to fetch puzzles:', response.status, response.statusText);
-                    document.getElementById('puzzle-container').innerHTML = '<p style="color: red;">Failed to load puzzles. Please check the spreadsheet URL and publish settings.</p>';
-                    return;
-                }
                 const text = await response.text();
 
-                // Parse CSV safely
                 const rows = [];
                 let current = '', insideQuotes = false, row = [];
                 for (let i = 0; i < text.length; i++) {
@@ -73,62 +187,29 @@
                     if (char === '"') { insideQuotes = !insideQuotes; continue; }
                     if (char === ',' && !insideQuotes) { row.push(current); current = ''; continue; }
                     if ((char === '\n' || char === '\r') && !insideQuotes) {
-                        if (current || row.length) { // Only push if there's content or already cells
+                        if (current || row.length) {
                             row.push(current);
-                            // Clean up empty rows that might arise from trailing newlines
-                            if (row.some(cell => cell.trim() !== '')) { 
-                                rows.push(row);
-                            }
-                            row = [];
-                            current = '';
+                            if (row.some(cell => cell.trim() !== '')) rows.push(row);
+                            row = []; current = '';
                         }
                         continue;
                     }
                     current += char;
                 }
-                // Push the last row if it has content
-                if (current || row.length) { 
-                    row.push(current); 
-                    if (row.some(cell => cell.trim() !== '')) {
-                        rows.push(row);
-                    }
-                }
+                if (current || row.length) { row.push(current); if (row.some(cell => cell.trim() !== '')) rows.push(row); }
 
-                // Log raw parsed rows for debugging
-                // console.log("Parsed CSV Rows:", rows);
-
-                const data = rows.slice(1); // skip header row
-
-                // Log data after skipping header
-                // console.log("Data after header skip:", data);
-
-                let puzzles = data.filter(r => (r[6] || '').toLowerCase().includes('yes'));
-
-                // Log puzzles after 'yes' filter
-                // console.log("Puzzles after 'yes' filter (column G):", puzzles);
-
-                // If share mode
-                if (targetID) {
-                    puzzles = puzzles.filter(r => r[7] && r[7].trim() === targetID);
-                    // Log puzzles after targetID filter
-                    // console.log("Puzzles after targetID filter:", puzzles);
-                } else {
-                    puzzles = puzzles.reverse(); // newest first if no ID
-                }
+                let puzzles = rows.slice(1).filter(r => (r[6] || '').toLowerCase().includes('yes'));
+                if (targetID) puzzles = puzzles.filter(r => r[7] && r[7].trim() === targetID);
+                else puzzles = puzzles.reverse();
 
                 const puzzleContainer = document.getElementById('puzzle-container');
-                puzzleContainer.innerHTML = ''; // Clear existing content before adding new
-                
-                if (puzzles.length === 0) {
-                    puzzleContainer.innerHTML = '<p>No emoji math puzzles found. Please check your Google Sheet data and ensure puzzles are marked "yes" for publishing in column G.</p>';
-                    return;
-                }
+                puzzleContainer.innerHTML = '';
 
                 puzzles.forEach(p => {
                     const postID = p[7];
                     const emojiPuzzle = (p[1] || '').replace(/Key Below.*/i, '').trim();
                     const cleanAnswerText = (p[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
-                    const cleanHint = (p[5] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
+                    const cleanHint = (p[5] || '').trim();
 
                     const match = cleanAnswerText.match(/answer\s+is\s+(\d+)/i) ||
                                   cleanAnswerText.match(/Final\s+answer:\s+(\d+)/i) ||
@@ -147,13 +228,13 @@
 
                         <button onclick="toggleAnswer(this)">Show Answer</button>
                         <button class="share-btn" onclick="sharePuzzle('${postID}')">Share</button>
-                        <p class="answer"><strong>Answer:</strong>\n${cleanAnswerText}</p>
+                        <p class="answer"><strong>Answer:</strong> ${cleanAnswerText}</p>
                     `;
                     puzzleContainer.appendChild(card);
                 });
             } catch (error) {
-                console.error('Error loading or processing puzzles:', error);
-                document.getElementById('puzzle-container').innerHTML = '<p style="color: red;">An error occurred while loading puzzles. Please try again later.</p>';
+                console.error('Error loading puzzles:', error);
+                document.getElementById('puzzle-container').innerHTML = '<p style="color: red;">An error occurred while loading puzzles.</p>';
             }
         }
 
@@ -178,130 +259,26 @@
                 return;
             }
             if (guess === correct) {
-                const messages = ["🎉 Correct! You cracked it!", "✅ Nailed it!", "🎯 Perfect!"];
-                feedback.textContent = messages[Math.floor(Math.random() * messages.length)];
+                feedback.textContent = "🎉 Correct!";
                 feedback.style.color = "green";
             } else {
-                const wrongs = ["😅 Not quite, try again!", "❌ Oops, that's not it.", "🤔 Close, but no!"];
-                feedback.textContent = wrongs[Math.floor(Math.random() * wrongs.length)];
+                feedback.textContent = "❌ Try again!";
                 feedback.style.color = "#d00";
             }
         }
 
         function sharePuzzle(postID) {
             const url = `${window.location.origin}${window.location.pathname}?id=${postID}`;
-            navigator.clipboard.writeText(url).then(() => {
-                alert("🔗 Puzzle link copied to clipboard!");
-            }).catch(err => {
-                console.error("Failed to copy URL:", err);
-                alert("Could not copy link. Please copy it manually: " + url);
-            });
+            navigator.clipboard.writeText(url).then(() => alert("🔗 Puzzle link copied!"));
         }
 
-        // Use DOMContentLoaded to ensure the div for the header exists before trying to fetch
         document.addEventListener('DOMContentLoaded', function() {
             fetch('header.html')
                 .then(res => res.text())
                 .then(html => {
                     document.getElementById('site-header').innerHTML = html;
-
-                    // --- IMPORTANT: Hamburger JavaScript MUST be here AFTER header is loaded ---
-                    const hamburger = document.getElementById('hamburger');
-                    const mobileNav = document.getElementById('mobile-nav');
-
-                    if (hamburger && mobileNav) {
-                        function toggleMobileNav() {
-                            mobileNav.classList.toggle('open');
-                            hamburger.classList.toggle('active'); // Toggle color change
-                            document.body.classList.toggle('mobile-nav-active'); // To prevent body scrolling when nav is open
-                            console.log('Hamburger toggled from emoji-math.html! Open:', mobileNav.classList.contains('open'));
-                        }
-
-                        hamburger.addEventListener('click', toggleMobileNav);
-
-                        // Also listen for touchstart for better mobile responsiveness
-                        // Use { passive: false } to allow preventDefault() for touch events
-                        hamburger.addEventListener('touchstart', function(e) {
-                            e.preventDefault(); // Prevents potential default browser scroll/zoom
-                            console.log('Touch detected on hamburger from emoji-math.html!');
-                            toggleMobileNav();
-                        }, { passive: false });
-
-
-                        // Close mobile menu when a link is clicked
-                        mobileNav.querySelectorAll('a').forEach(link => {
-                            link.addEventListener('click', () => {
-                                mobileNav.classList.remove('open');
-                                hamburger.classList.remove('active'); // Reset hamburger color
-                                document.body.classList.remove('mobile-nav-active'); // To re-enable body scrolling when nav closes
-                            });
-                        });
-
-                        // Close mobile menu if window is resized above mobile breakpoint
-                        window.addEventListener('resize', function() {
-                            if (window.innerWidth > 768) {
-                                mobileNav.classList.remove('open');
-                                hamburger.classList.remove('active'); // Reset hamburger color
-                                document.body.classList.remove('mobile-nav-active'); // To re-enable body scrolling if window is resized past mobile breakpoint
-                            }
-                        });
-                    } else {
-                        console.error("Critical: Hamburger or mobile navigation element not found after header load!");
-                    }
-                    // --- END IMPORTANT SECTION ---
-
-                    // Load puzzles AFTER the header is fully loaded and its JS is set up
                     loadPuzzles();
-                })
-                .catch(err => {
-                    console.error("Error loading header.html:", err);
-                    document.getElementById('site-header').innerHTML = '<p style="color: red; text-align: center;">Error loading header content.</p>';
                 });
-
-            // Feedback form submit (kept separate from header loading as it's not dependent)
-            const feedbackForm = document.getElementById('feedbackForm');
-            if (feedbackForm) { // Check if the form exists before adding listener
-                feedbackForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    const status = document.getElementById('formStatus');
-                    status.textContent = "⏳ Sending...";
-
-                    const name = document.getElementById('name').value || "Someone";
-                    const email = document.getElementById('email').value;
-                    const message = document.getElementById('message').value;
-
-                    const data = {
-                        name: name,
-                        email: email,
-                        subject: "Emoji Math Feedback",
-                        message: message
-                    };
-
-                    try {
-                        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-                            method: 'POST',
-                            headers: {'Content-Type':'text/plain'},
-                            body: JSON.stringify(data)
-                        });
-
-                        let result = {};
-                        // Try to parse JSON, but gracefully handle non-JSON responses (e.g., redirect from Google Scripts)
-                        try { result = await res.json(); } catch (err) { result = { status: "success", message: "Non-JSON response, assuming success." }; }
-
-                        if (result.status === "success") {
-                            status.textContent = "✅ Thanks! Your feedback was sent.";
-                            this.reset();
-                        } else {
-                            status.textContent = "❌ Error sending. " + (result.message || "Please try again.");
-                        }
-                        setTimeout(()=>{ status.textContent = ""; }, 5000);
-                    } catch (err) {
-                        console.error(err);
-                        status.textContent = "❌ Failed to send! Check connection or script.";
-                        setTimeout(()=>{ status.textContent = ""; }, 5000);
-                    }
-                });
-            }
         });
     </script>
 </body>
