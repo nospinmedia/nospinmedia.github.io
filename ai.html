@@ -12,35 +12,60 @@
       padding: 0;
       background: #f7f7f7;
       color: #222;
-    }
-
-    /* ✅ Header/Nav styling */
-    header {
-      background: #111;
-      color: #fff;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    header img {
-      max-height: 60px;
-    }
-    nav a {
-      color: #fff;
-      margin-left: 20px;
-      text-decoration: none;
-      font-weight: bold;
+      padding-top: 70px; /* ✅ Push content below fixed header */
+      line-height: 1.6;
     }
 
     .container {
       max-width: 800px;
       margin: 2rem auto;
-      padding: 1rem;
+      padding: 1.5rem;
       background: white;
       border-radius: 8px;
       box-shadow: 0 0 8px rgba(0,0,0,0.05);
     }
+
+    h1 {
+      margin-top: 0;
+      font-size: 2rem;
+    }
+
+    /* ✅ Feedback form styling */
+    #feedbackForm {
+      margin-top: 2rem;
+      background: #f9f9f9;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    #feedbackForm h3 {
+      margin-top: 0;
+    }
+    #feedbackForm input, #feedbackForm textarea {
+      width: 100%;
+      padding: 8px;
+      margin: 6px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    #feedbackForm button {
+      background: #0073e6;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #feedbackForm button:hover { background: #005bb5; }
+    #formStatus {
+      font-size: 0.9em;
+      color: green;
+      margin: 6px 0;
+      text-align: center;
+    }
+
     footer {
       margin-top: 3rem;
       padding: 1rem;
@@ -49,16 +74,83 @@
       font-size: 0.9rem;
       color: #666;
     }
-    h1 {
-      margin-top: 0;
-    }
   </style>
   <script>
-    window.onload = () => {
+    document.addEventListener('DOMContentLoaded', function() {
       fetch('header.html')
         .then(res => res.text())
-        .then(html => document.getElementById('site-header').innerHTML = html);
-    }
+        .then(html => {
+          document.getElementById('site-header').innerHTML = html;
+
+          // ✅ Add mobile nav logic like Index/News
+          const hamburger = document.getElementById('hamburger');
+          const mobileNav = document.getElementById('mobile-nav');
+
+          if (hamburger && mobileNav) {
+            hamburger.addEventListener('click', () => {
+              mobileNav.classList.toggle('open');
+              hamburger.classList.toggle('active');
+            });
+
+            mobileNav.querySelectorAll('a').forEach(link => {
+              link.addEventListener('click', () => {
+                mobileNav.classList.remove('open');
+                hamburger.classList.remove('active');
+              });
+            });
+
+            window.addEventListener('resize', function() {
+              if (window.innerWidth > 768) {
+                mobileNav.classList.remove('open');
+                hamburger.classList.remove('active');
+              }
+            });
+          }
+        });
+
+      // ✅ Feedback form
+      const feedbackForm = document.getElementById('feedbackForm');
+      if (feedbackForm) {
+        feedbackForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          const status = document.getElementById('formStatus');
+          status.textContent = "⏳ Sending...";
+
+          const name = document.getElementById('name').value || "Someone";
+          const email = document.getElementById('email').value;
+          const message = document.getElementById('message').value;
+
+          const data = {
+            name: name,
+            email: email,
+            subject: "Why AI Feedback",
+            message: message
+          };
+
+          try {
+            const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+              method: 'POST',
+              headers: {'Content-Type':'text/plain'},
+              body: JSON.stringify(data)
+            });
+
+            let result = {};
+            try { result = await res.json(); } catch (err) { result = { status: "success" }; }
+
+            if (result.status === "success") {
+              status.textContent = "✅ Thanks! We love hearing your thoughts.";
+              this.reset();
+            } else {
+              status.textContent = "❌ Error sending. Please try again.";
+            }
+            setTimeout(()=>{ status.textContent = ""; }, 5000);
+          } catch (err) {
+            status.textContent = "❌ Failed to send! Check connection.";
+            setTimeout(()=>{ status.textContent = ""; }, 5000);
+          }
+        });
+      }
+    });
   </script>
 </head>
 <body>
@@ -67,37 +159,47 @@
   <div id="site-header"></div>
 
   <div class="container">
-  <h1>Why AI? Why No Spin?</h1>
-  <p>
-    In a world where media is too often shaped by outrage, tribal loyalty, or political profit,
-    we’ve chosen something different: clarity through code. No Spin Media uses AI not to sway your opinions,
-    but to empower your understanding — to find the facts and insights beneath the noise.
-  </p>
+    <h1>Why AI? Why No Spin?</h1>
+    <p>
+      In a world where media is too often shaped by outrage, tribal loyalty, or political profit,
+      we’ve chosen something different: clarity through code. No Spin Media uses AI not to sway your opinions,
+      but to empower your understanding — to find the facts and insights beneath the noise.
+    </p>
 
-  <p>
-    Our AI tools analyze real news stories from trusted sources and rewrite them in clear,
-    bias-free language. That means no loaded terms, no partisan framing, and no hidden agendas.
-    Just the core of the story — so you can decide what it means, without being told how to feel.
-  </p>
+    <p>
+      Our AI tools analyze real news stories from trusted sources and rewrite them in clear,
+      bias-free language. That means no loaded terms, no partisan framing, and no hidden agendas.
+      Just the core of the story — so you can decide what it means, without being told how to feel.
+    </p>
 
-  <p>
-    But AI isn't just for serious news. We also harness its power to craft engaging, educational experiences
-    and even a bit of fun! From fascinating facts and insightful deep-dives to brain-teasing puzzles and
-    lighthearted curiosities, our AI helps deliver content that sparks joy and knowledge, all while upholding
-    our commitment to accuracy and unbiased presentation.
-  </p>
+    <p>
+      But AI isn't just for serious news. We also harness its power to craft engaging, educational experiences
+      and even a bit of fun! From fascinating facts and insightful deep-dives to brain-teasing puzzles and
+      lighthearted curiosities, our AI helps deliver content that sparks joy and knowledge, all while upholding
+      our commitment to accuracy and unbiased presentation.
+    </p>
 
-  <p>
-    The future of information isn’t just louder — it’s smarter and more engaging. We believe AI can help
-    bring balance back to public dialogue and enrich everyday learning, if we use it right. We’re not here to
-    replace journalists. We’re here to remind everyone what information was always supposed to be: honest,
-    unfiltered, enriching, and focused on truth.
-  </p>
+    <p>
+      The future of information isn’t just louder — it’s smarter and more engaging. We believe AI can help
+      bring balance back to public dialogue and enrich everyday learning, if we use it right. We’re not here to
+      replace journalists. We’re here to remind everyone what information was always supposed to be: honest,
+      unfiltered, enriching, and focused on truth.
+    </p>
 
-  <p>
-    Thank you for joining us. There’s a better way — and it starts here.
-  </p>
-</div>
+    <p>
+      Thank you for joining us. There’s a better way — and it starts here.
+    </p>
+
+    <!-- ✅ Fun feedback form -->
+    <form id="feedbackForm">
+      <h3>🤖 Tell us what you *really* think about AI!</h3>
+      <input type="text" id="name" name="name" placeholder="Your first name">
+      <input type="email" id="email" name="email" placeholder="you@email.com" required>
+      <textarea id="message" name="message" rows="4" placeholder="Your thoughts... Be honest!"></textarea>
+      <p id="formStatus"></p>
+      <button type="submit">💬 Send Feedback</button>
+    </form>
+  </div>
 
   <footer>
     © 2025 No Spin Media. Independent. Ad-free. Truth-focused. | 
