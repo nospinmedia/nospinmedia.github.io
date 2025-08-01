@@ -139,13 +139,13 @@ body.mobile-nav-active {
     overflow: hidden;
 }
 
-/* Main Content and Sidebar Layout */
+/* Container Layout */
 .container {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     padding: 2rem;
-    max-width: 1400px;           /* ✅ Wider container */
+    max-width: 1500px;           /* ✅ Wider overall container */
     margin: 20px auto;
     gap: 2rem;
     box-sizing: border-box;
@@ -153,10 +153,9 @@ body.mobile-nav-active {
 
 /* Main Section */
 .main {
-    flex: 1 1 auto;
+    flex: 1;
     min-width: 0;
-    max-width: calc(100% - 320px); /* ✅ Give more room next to sidebar */
-    padding: 1.5rem;               /* Slightly more padding */
+    padding: 1.5rem;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -171,19 +170,6 @@ body.mobile-nav-active {
     width: 100%;
 }
 
-/* Sidebar */
-.sidebar {
-    flex: 0 0 280px;
-    margin-left: auto;
-    background: #fff;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    height: fit-content;
-    align-self: flex-start;
-    box-sizing: border-box;
-}
-
 /* Puzzle Card */
 .puzzle-card {
     border: 1px solid #ccc;
@@ -191,8 +177,9 @@ body.mobile-nav-active {
     padding: 15px;
     background: #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    max-width: 100%;
+    width: 100%;                /* ✅ Force card to fill full main width */
     box-sizing: border-box;
+    overflow-x: auto;           /* ✅ Allow scroll if emoji line too long */
 }
 
 /* Emoji Math Problem */
@@ -201,8 +188,20 @@ h3.emoji-math-problem {
     text-align: center;
     margin: 0.5em 0;
     white-space: nowrap;
-    overflow-x: auto;
-    max-width: 100%;
+    max-width: 100%;            /* ✅ Stay inside card */
+}
+
+/* Sidebar */
+.sidebar {
+    flex: 0 0 300px;             /* ✅ Fixed width sidebar */
+    margin-left: auto;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    height: fit-content;
+    align-self: flex-start;
+    box-sizing: border-box;
 }
 
 /* Feedback Styling */
@@ -225,7 +224,7 @@ h3.emoji-math-problem {
     display: block;
 }
 
-/* Responsive: stack sidebar below main on small screens */
+/* Responsive */
 @media (max-width: 900px) {
     .container {
         flex-direction: column;
