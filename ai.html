@@ -16,10 +16,11 @@
       line-height: 1.6;
     }
 
+    /* ✅ Centered container for desktop */
     .container {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 2rem auto;
-      padding: 1.5rem;
+      padding: 2rem;
       background: white;
       border-radius: 8px;
       box-shadow: 0 0 8px rgba(0,0,0,0.05);
@@ -28,6 +29,13 @@
     h1 {
       margin-top: 0;
       font-size: 2rem;
+      text-align: center;
+    }
+
+    /* ✅ Paragraphs properly spaced and normal width */
+    .container p {
+      margin-bottom: 1rem;
+      font-size: 1.05rem;
     }
 
     /* ✅ Feedback form styling */
@@ -40,6 +48,7 @@
     }
     #feedbackForm h3 {
       margin-top: 0;
+      text-align: center;
     }
     #feedbackForm input, #feedbackForm textarea {
       width: 100%;
@@ -74,6 +83,17 @@
       font-size: 0.9rem;
       color: #666;
     }
+
+    /* ✅ Mobile adjustments */
+    @media (max-width: 768px) {
+      .container {
+        margin: 1rem;
+        padding: 1rem;
+      }
+      h1 {
+        font-size: 1.6rem;
+      }
+    }
   </style>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -82,7 +102,7 @@
         .then(html => {
           document.getElementById('site-header').innerHTML = html;
 
-          // ✅ Add mobile nav logic like Index/News
+          // ✅ Mobile nav toggle
           const hamburger = document.getElementById('hamburger');
           const mobileNav = document.getElementById('mobile-nav');
 
