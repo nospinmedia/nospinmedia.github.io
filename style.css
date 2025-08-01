@@ -6,7 +6,7 @@ body {
     background: #f4f4f4;
     color: #222;
     line-height: 1.6;
-    padding-top: 70px; /* Assuming your fixed header is around 70px tall */
+    padding-top: 70px;
     box-sizing: border-box;
 }
 
@@ -142,9 +142,8 @@ body.mobile-nav-active {
 /* Main Content and Sidebar Layout */
 .container {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: flex-start;
-    flex-wrap: nowrap;          /* ✅ Keep columns side by side */
     padding: 2rem;
     max-width: 1200px;
     margin: 20px auto;
@@ -152,12 +151,11 @@ body.mobile-nav-active {
     box-sizing: border-box;
 }
 
-/* Main content */
+/* Main Section */
 .main {
-    flex: 1 1 65%;              /* ✅ Allow to shrink and grow */
-    min-width: 0;               /* ✅ Prevent overflow into sidebar */
-    max-width: 800px;
-    margin-left: 0;
+    flex: 1 1 0;
+    min-width: 0; /* ✅ Prevents overflow into sidebar */
+    max-width: calc(100% - 300px); /* ✅ Leaves space for sidebar */
     padding: 1rem;
     background: #fff;
     border-radius: 8px;
@@ -165,6 +163,7 @@ body.mobile-nav-active {
     box-sizing: border-box;
 }
 
+/* Puzzle Container */
 #puzzle-container {
     display: grid;
     grid-template-columns: 1fr;
@@ -185,11 +184,6 @@ body.mobile-nav-active {
     box-sizing: border-box;
 }
 
-/* Specific elements */
-h1 { font-size: 2rem; margin-top: 0; }
-h2 { font-size: 1.5rem; margin-top: 1.5rem; }
-p { margin-bottom: 1em; }
-
 /* Puzzle Card */
 .puzzle-card {
     border: 1px solid #ccc;
@@ -199,26 +193,27 @@ p { margin-bottom: 1em; }
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     max-width: 100%;
     box-sizing: border-box;
+    overflow: hidden; /* ✅ Contain emoji lines inside the card */
 }
 
-/* Emoji Math */
+/* Emoji Math Problem */
 h3.emoji-math-problem {
     font-size: min(3.5rem, 5vw);
     text-align: center;
     margin: 0.5em 0;
     white-space: nowrap;
-    overflow-x: auto;           /* ✅ Scroll horizontally if too wide */
-    max-width: 100%;            /* ✅ Keep inside main column */
+    overflow-x: auto; /* ✅ Scroll horizontally if too wide */
+    max-width: 100%; /* ✅ Stay inside card */
 }
 
-/* Feedback styling */
+/* Feedback Styling */
 .feedback {
     margin-top: 8px;
-    min-height: 1.2em;          /* ✅ Reserve space even when empty */
+    min-height: 1.2em;
     font-weight: bold;
 }
 
-/* Hide answers by default */
+/* Answers Hidden by Default */
 .answer {
     display: none;
     margin-top: 8px;
@@ -231,13 +226,12 @@ h3.emoji-math-problem {
     display: block;
 }
 
-/* ✅ Responsive: Stack sidebar below main on small screens */
+/* Responsive: stack sidebar below on smaller screens */
 @media (max-width: 900px) {
     .container {
-        flex-wrap: wrap;
+        flex-direction: column;
     }
     .main, .sidebar {
-        flex: 1 1 100%;
         max-width: 100%;
     }
     .sidebar {
