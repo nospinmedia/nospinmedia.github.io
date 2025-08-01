@@ -70,8 +70,7 @@
     }
 
     /* Mobile nav */
-    .mobile-nav {
-        display: none;
+   .mobile-nav {
         flex-direction: column;
         position: fixed !important;
         top: 70px;
@@ -82,10 +81,15 @@
         box-shadow: 0 5px 10px rgba(0,0,0,0.2);
         padding: 1rem 0;
         z-index: 1002 !important;
+
+        /* NEW: hidden off-screen to the right */
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
     }
 
     .mobile-nav.open {
-        display: flex;
+        /* NEW: slide into view */
+        transform: translateX(0);
     }
 
     .mobile-nav a {
@@ -97,13 +101,9 @@
         text-align: right;
     }
 
-    .mobile-nav a:last-child {
-        border-bottom: none;
-    }
-
-    .mobile-nav a:hover {
-        background: #333;
-    }
+    /* Remove old display toggle */
+    /* .mobile-nav { display: none; } */
+    /* .mobile-nav.open { display: flex; } */
 
     /* Mobile breakpoint */
     @media (max-width: 768px) {
@@ -121,14 +121,12 @@
         .hamburger-menu {
             display: block;
         }
+        .mobile-nav {
+            display: flex; /* Always flex, visibility is controlled by transform */
+            flex-direction: column;
+        }
     }
-
-    /* Fix for content cut-off - This part needs to be in your MAIN HTML files' <style> */
-    /* body {
-        padding-top: 70px;
-        margin: 0;
-    } */
-    </style>
+</style>
 </head>
 <body>
     <header>
