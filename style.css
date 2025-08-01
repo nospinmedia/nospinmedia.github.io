@@ -1,351 +1,111 @@
-/* General Body and Layout */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f4f4f4;
-    color: #222;
-    line-height: 1.6;
-    padding-top: 70px; /* Assuming your fixed header is around 70px tall */
-}
-
-/* Header Styling (from header.html, but global styles should be here) */
-header {
-    background: #111;
-    color: #fff;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed; /* Keep header visible when scrolling */
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000; /* Ensure header is above other content */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    min-height: 50px; /* Ensure a minimum height for the header */
-}
-
-header .logo-container {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #fff;
-    font-size: 1.5em;
-    font-weight: bold;
-}
-
-header .logo {
-    height: 40px; /* Adjust logo size */
-    margin-right: 10px;
-    vertical-align: middle;
-}
-
-header nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-header nav ul li {
-    margin-left: 20px;
-}
-
-header nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-header nav ul li a:hover {
-    color: #007bff; /* Highlight on hover */
-}
-
-/* Hamburger Menu Icon */
-.hamburger {
-    display: none; /* Hidden by default on desktop */
-    flex-direction: column;
-    cursor: pointer;
-    padding: 10px;
-    z-index: 1001; /* Above mobile nav */
-}
-
-.hamburger .bar {
-    width: 25px;
-    height: 3px;
-    background-color: #fff;
-    margin: 4px 0;
-    transition: 0.4s;
-}
-
-/* Hamburger animation for active state */
-.hamburger.active .bar:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-    background-color: #007bff; /* Change color when active */
-}
-
-.hamburger.active .bar:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.active .bar:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-    background-color: #007bff; /* Change color when active */
-}
-
-/* Mobile Navigation */
-.mobile-nav {
-    display: none; /* Hidden by default */
-    position: fixed;
-    top: 0;
-    left: -100%; /* Off-screen by default */
-    width: 70%; /* Adjust as needed */
-    height: 100%;
-    background-color: #333;
-    padding-top: 70px; /* Space for header */
-    box-shadow: 2px 0 5px rgba(0,0,0,0.3);
-    transition: left 0.3s ease-in-out;
-    z-index: 999; /* Below hamburger, above content */
-    overflow-y: auto; /* Enable scrolling for long menus */
-}
-
-.mobile-nav.open {
-    left: 0; /* Slide in */
-    display: block; /* Make sure it's visible when open */
-}
-
-.mobile-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.mobile-nav ul li a {
-    display: block;
-    padding: 15px 20px;
-    color: #fff;
-    text-decoration: none;
-    border-bottom: 1px solid #444;
-    transition: background-color 0.3s ease;
-}
-
-.mobile-nav ul li a:hover {
-    background-color: #555;
-}
-
-/* Add this to prevent body scrolling when mobile nav is open */
-body.mobile-nav-active {
-    overflow: hidden;
-}
-
-/* Main Content and Sidebar Layout */
 .container {
     display: flex;
-    justify-content: center; /* Center the overall container if it doesn't fill max-width */
-    flex-wrap: wrap; /* Allows wrapping on smaller screens */
-    padding: 2rem;
-    max-width: 1200px; /* Max width for content area */
-    margin: 20px auto; /* Centers the container and adds vertical margin */
-    gap: 2rem; /* Spacing between main and sidebar */
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 90px auto 20px auto; /* Adjusted margin-top to account for fixed header */
+    padding: 0 20px;
 }
 
 .main {
-    flex: 1; /* Allows the main content to grow and shrink */
-    min-width: 500px; /* Crucial: Ensures main content is wide enough for puzzles */
-    max-width: 750px; /* Optional: Prevents main content from getting too wide on huge screens */
-    padding: 1rem;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex: 2; /* Increased flexibility to take more space */
+    min-width: 0; /* Ensures it doesn't overflow */
+    padding-right: 20px; /* Added padding to separate from sidebar */
 }
-
-/* This is where the magic happens for the puzzles on Emoji Math */
-#puzzle-container {
-    display: grid; /* Use grid for internal layout of puzzles */
-    grid-template-columns: 1fr; /* Force single column, puzzles take full width of puzzle-container */
-    gap: 1rem; /* Spacing between individual puzzle cards */
-    width: 100%; /* Make sure puzzle-container takes full width of its parent (.main) */
-}
-
 
 .sidebar {
-    flex: 0 0 300px; /* flex-grow:0, flex-shrink:0, flex-basis:300px; Fixed width for sidebar */
-    /* Alternatively, if you want it to flex a bit, use: flex: 1; min-width: 280px; max-width: 350px; */
-    background: #fff;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    height: fit-content; /* Make sidebar only as tall as its content */
-    align-self: flex-start; /* Aligns sidebar to the top, preventing vertical stretch */
+    flex: 1; /* Keeps sidebar on the right but narrower */
+    min-width: 250px; /* Minimum width to ensure content fits */
+    background: #f9f9f9;
+    padding: 20px;
+    border-left: 1px solid #ddd;
 }
 
-/* Specific elements within main/sidebar that might need styling */
-h1 { font-size: 2rem; margin-top: 0; }
-h2 { font-size: 1.5rem; margin-top: 1.5rem; }
-p { margin-bottom: 1em; }
-
-/* Shared Puzzle/Math Card Styling */
 .puzzle-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 15px;
     background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+    border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    /* No specific width needed here, as #puzzle-container's grid handles it by being 1fr */
 }
 
-/* Emoji Problem Styling (for Emoji Puzzles page) */
-h3.emoji {
-    font-size: 3.5rem;
-    text-align: center;
-    margin: 0.5em 0;
-    white-space: pre-line;
+.emoji-math-problem {
+    font-size: 1.5em;
+    margin-bottom: 10px;
 }
 
-/* Emoji Math Problem Styling (for Emoji Math page) */
-h3.emoji-math-problem {
-    font-size: 3.5rem; /* Base size */
-    font-size: min(3.5rem, 5vw); /* Responsive: use 3.5rem or 5vw, whichever is smaller */
-    text-align: center;
-    margin: 0.5em 0;
-    white-space: nowrap; /* Keep on single line */
-    overflow-x: auto; /* Allow horizontal scrolling if too wide */
-    padding-bottom: 5px; /* Space for scrollbar */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+.hint {
+    color: #666;
+    margin-bottom: 10px;
 }
 
-.hint { font-style: italic; margin-top: 5px; }
-.answer { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; }
-.answer.show { max-height: 500px; opacity: 1; margin-top: 8px; }
+.guess-input {
+    padding: 5px;
+    margin-right: 10px;
+    width: 100px;
+}
 
-/* Input and Button Styling */
-.guess-input { margin-top: 8px; padding: 8px; width: calc(100% - 16px); /* Adjusted width for padding */ border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; /* Include padding in width */ }
-.feedback { font-weight: bold; margin-top: 5px; }
 button {
-    margin-top: 8px;
-    padding: 8px 15px;
-    font-size: 1em;
+    padding: 5px 10px;
+    margin-right: 10px;
     cursor: pointer;
-    background: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-button:hover {
-    background: #0056b3;
-}
-.share-btn {
-    margin-left: 10px;
-    background: #6c757d;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 15px;
-    cursor: pointer;
-}
-.share-btn:hover {
-    background: #5a6268;
 }
 
-/* Feedback Form Styling */
-#feedbackForm input, #feedbackForm textarea {
-    width: 100%;
-    padding: 8px;
-    margin: 6px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-#feedbackForm button {
-    background: #28a745;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    width: 100%;
+.feedback {
+    margin-top: 5px;
     font-weight: bold;
-    border-radius: 4px;
-    cursor: pointer;
-}
-#feedbackForm button:hover { background: #218838; }
-#formStatus {
-    font-size: 0.9em;
-    color: green;
-    margin: 6px 0;
-    text-align: center;
 }
 
-/* Footer Styling */
+.answer {
+    display: none;
+    margin-top: 10px;
+}
+
+.answer.show {
+    display: block;
+}
+
+.share-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.share-btn:hover {
+    background-color: #0056b3;
+}
+
+form input, form textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+#formStatus {
+    margin-top: 5px;
+    font-weight: bold;
+}
+
 footer {
     text-align: center;
-    padding: 1.5rem;
-    font-size: 0.85rem;
-    color: #666;
-    margin-top: 2rem;
-    background: #eee;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    header nav {
-        display: none; /* Hide desktop nav on mobile */
-    }
-    .hamburger {
-        display: flex; /* Show hamburger on mobile */
-    }
-    .mobile-nav {
-        width: 100%; /* Take full width on small screens */
-        left: -100vw; /* Use viewport width for off-screen positioning */
-    }
-    .mobile-nav.open {
-        left: 0; /* Slide in from left */
-    }
-
-    .container {
-        flex-direction: column; /* Stack main and sidebar */
-        padding: 1rem; /* Less padding on small screens */
-    }
-    .main, .sidebar {
-        flex: auto; /* Allow items to take full width */
-        width: 100%; /* Ensure they take full width */
-        min-width: unset; /* Remove min-width when stacking */
-        max-width: unset; /* Remove max-width when stacking */
-        margin-top: 1rem; /* Add margin when stacked */
-    }
-    .main {
-        order: 1; /* Main content first */
-    }
-    #puzzle-container {
-        grid-template-columns: 1fr; /* Always single column for puzzles on mobile */
-        gap: 1rem;
-    }
-    .sidebar {
-        order: 2; /* Sidebar second */
-        margin-top: 2rem; /* More space above sidebar when stacked */
-    }
-    footer {
-        margin-top: 1rem; /* Less margin when stacked */
-    }
-}
-
-/* For screens smaller than 480px (extra small mobile) */
-@media (max-width: 480px) {
-    .container {
-        padding: 0.5rem;
-    }
-    h1 {
-        font-size: 1.8rem;
-    }
-    h3.emoji, h3.emoji-math-problem {
-        font-size: min(3rem, 7vw);
-    }
-    .puzzle-card {
-        padding: 10px;
-    }
-    button, .guess-input {
-        padding: 6px 12px;
-        font-size: 0.9em;
-    }
+    padding: 10px;
+    background: #f1f1f1;
+    position: relative;
+    bottom: 0;
+    width: 100%;
 }
