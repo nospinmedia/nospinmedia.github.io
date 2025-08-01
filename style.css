@@ -190,6 +190,15 @@ h3.emoji-math-problem {
     overflow-x: auto;
 }
 
+/* Custom Layout for "Why AI?" page only */
+.ai-page-container .main {
+    flex: 1 1 80%; /* Give main content 80% width on this page */
+}
+
+.ai-page-container .sidebar {
+    flex: 0 0 250px; /* Reduce sidebar width on this page */
+}
+
 /* Sidebar */
 .sidebar {
     flex: 0 0 320px;           /* ✅ Slightly wider fixed sidebar */
