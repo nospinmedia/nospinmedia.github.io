@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tip Calculator | No Spin Utilities</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #222;
+      padding-top: 70px;
+    }
+
+    /* Layout */
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 2rem;
+    }
+
+    .main {
+      flex: 1 1 60%;
+      background: #fff;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-sizing: border-box;
+    }
+
+    .sidebar {
+      flex: 1 1 30%;
+      background: #fff;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-sizing: border-box;
+      align-self: flex-start;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-top: 0;
+    }
+
+    /* Tip Calculator Styling */
+    label {
+      display: block;
+      margin-top: 0.8rem;
+      font-weight: bold;
+    }
+
+    input[type="number"], input[type="email"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .checkbox-group {
+      margin-top: 1rem;
+    }
+
+    button {
+      background: #0073e6;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      margin-top: 1rem;
+      width: 100%;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #005bb5;
+    }
+
+    .result {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      background: #f9f9f9;
+      padding: 0.8rem;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+
+    .warning {
+      color: red;
+      font-weight: bold;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <div class="container">
+    <!-- Main Calculator -->
+    <div class="main">
+      <h1>💰 Tip Calculator</h1>
+      <p>Quickly calculate tips with rounding options and optional email receipts.</p>
+
+      <label>Bill Total (Pre-Tax or Post-Tax):</label>
+      <input type="number" id="billTotal" placeholder="Enter total">
+
+      <label>Tax Total (Optional):</label>
+      <input type="number" id="taxTotal" placeholder="Enter tax amount">
+
+      <label>Tip % (Default 20%):</label>
+      <input type="number" id="tipPercent" value="20">
+
+      <div class="checkbox-group">
+        <label><input type="checkbox" id="roundUp"> Round Up to Nearest $</label><br>
+        <label><input type="checkbox" id="roundDown"> Round Down to Nearest $</label><br>
+        <label><input type="checkbox" id="exactPercent"> Always Use Exact %</label><br>
+        <label><input type="checkbox" id="emailReceipt"> Email Me the Receipt</label>
+      </div>
+
+      <label>Your Email (Only if emailing receipt):</label>
+      <input type="email" id="userEmail" placeholder="you@email.com">
+
+      <button onclick="calculateTip()">Calculate Tip</button>
+
+      <div class="result" id="result"></div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h2>Support Our Utilities 💙</h2>
+      <p>Like these tools? Help keep No Spin Utilities running:</p>
+      <p><strong>Venmo:</strong><br/>
+        <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+      </p>
+
+      <h2>Follow Us</h2>
+      <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
+
+      <h2>We ❤️ Your Feedback!</h2>
+      <p>Have an idea for improving this tool? We read every suggestion. 😊</p>
+      <p>You can also reach us at: <strong>nospinmedia.ai@gmail.com</strong></p>
+
+      <form id="feedbackForm">
+        <input type="text" id="name" name="name" placeholder="Your first name">
+        <input type="email" id="email" name="email" placeholder="you@email.com" required>
+        <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
+        <p id="formStatus"></p>
+        <button type="submit">💬 Send Feedback</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
+  </footer>
+
+  <script>
+    // Load header
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('../header.html')
+        .then(res => res.text())
+        .then(html => document.getElementById('site-header').innerHTML = html);
+
+      // Feedback form submission
+      const feedbackForm = document.getElementById('feedbackForm');
+      feedbackForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const status = document.getElementById('formStatus');
+        status.textContent = "⏳ Sending...";
+
+        const name = document.getElementById('name').value || "Someone";
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+
+        const data = {
+          name: name,
+          email: email,
+          subject: "Tip Calculator Feedback",
+          message: message
+        };
+
+        try {
+          const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+            method: 'POST',
+            headers: {'Content-Type':'text/plain'},
+            body: JSON.stringify(data)
+          });
+
+          status.textContent = "✅ Thanks! Your feedback was sent.";
+          this.reset();
+          setTimeout(()=>{ status.textContent = ""; }, 5000);
+        } catch {
+          status.textContent = "❌ Failed to send! Check connection.";
+          setTimeout(()=>{ status.textContent = ""; }, 5000);
+        }
+      });
+    });
+
+    function calculateTip() {
+      const total = parseFloat(document.getElementById('billTotal').value) || 0;
+      const tax = parseFloat(document.getElementById('taxTotal').value) || 0;
+      const percent = parseFloat(document.getElementById('tipPercent').value) || 20;
+
+      let tip = (total - tax) * (percent / 100);
+      const roundUp = document.getElementById('roundUp').checked;
+      const roundDown = document.getElementById('roundDown').checked;
+
+      if (roundUp) tip = Math.ceil(tip);
+      if (roundDown) tip = Math.floor(tip);
+
+      const finalTotal = total + tip;
+      const exactPercent = (tip / (total - tax)) * 100;
+
+      let output = `Tip Amount: $${tip.toFixed(2)}<br>Total: $${finalTotal.toFixed(2)}<br>`;
+      output += `Exact Tip: ${exactPercent.toFixed(2)}%`;
+
+      document.getElementById('result').innerHTML = output;
+
+      if (document.getElementById('emailReceipt').checked) {
+        sendReceipt(finalTotal, tip, exactPercent);
+      }
+    }
+
+    async function sendReceipt(finalTotal, tip, percent) {
+      const email = document.getElementById('userEmail').value;
+      if (!email) {
+        alert("Please enter your email to receive the receipt.");
+        return;
+      }
+
+      const data = {
+        name: "Tip Calculator",
+        email: email,
+        subject: "Your Tip Calculator Receipt",
+        message: `Your meal total with tip: $${finalTotal.toFixed(2)}\nTip: $${tip.toFixed(2)} (${percent.toFixed(2)}%)`
+      };
+
+      await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+        method: 'POST',
+        headers: {'Content-Type':'text/plain'},
+        body: JSON.stringify(data)
+      });
+
+      alert("✅ Receipt sent to " + email);
+    }
+  </script>
+</body>
+</html>
