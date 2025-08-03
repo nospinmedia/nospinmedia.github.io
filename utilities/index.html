@@ -51,7 +51,7 @@
             margin-top: 0;
         }
 
-        /* Utility Cards - Matches Games Style */
+        /* Utility Cards */
         .utility-list {
             display: grid;
             grid-template-columns: 1fr;
@@ -65,6 +65,13 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             padding: 1.5rem;
             text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .utility-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
         .utility-item h2 {
@@ -149,14 +156,14 @@
             <h2>Available Tools</h2>
             <div class="utility-list">
                 <!-- Tip Calculator Card -->
-                <div class="utility-item">
+                <div class="utility-item" onclick="window.location.href='tip.html'">
                     <h2>💰 Tip Calculator</h2>
                     <p>
                         A privacy-first, offline-capable tip calculator with rounding options and email receipts.
                     </p>
                     <div class="share-buttons">
-                        <button onclick="shareUtility('Tip Calculator', 'tip-calculator-v1.1.html')">🔗 Share with Friends</button>
-                        <button onclick="copyLink('tip-calculator-v1.1.html')">📋 Copy Link</button>
+                        <button onclick="event.stopPropagation(); shareUtility('Tip Calculator', 'tip.html')">🔗 Share with Friends</button>
+                        <button onclick="event.stopPropagation(); copyLink('tip.html')">📋 Copy Link</button>
                     </div>
                 </div>
             </div>
@@ -265,7 +272,7 @@
             }
         });
 
-        // Share + Copy functions for all utilities
+        // Share + Copy functions
         function shareUtility(name, path) {
             const url = window.location.origin + '/utilities/' + path;
             if (navigator.share) {
