@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   <title>Tip Calculator | No Spin Utilities</title>
   <link rel="stylesheet" href="../style.css">
   <style>
@@ -14,7 +14,6 @@
       color: #222;
       padding-top: 70px;
     }
-
     .container {
       display: flex;
       flex-wrap: wrap;
@@ -23,7 +22,6 @@
       margin: 0 auto;
       gap: 2rem;
     }
-
     .main {
       flex: 1 1 60%;
       background: #fff;
@@ -31,7 +29,6 @@
       padding: 1.5rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
-
     .sidebar {
       flex: 1 1 30%;
       background: #fff;
@@ -40,14 +37,10 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
       align-self: flex-start;
     }
-
     h1 { font-size: 2rem; margin-top: 0; }
-
     .input-row { display: flex; gap: 1rem; }
     .input-col { flex: 1; }
-
     label { font-weight: bold; margin-top: 0.6rem; display: block; }
-
     input[type="number"], input[type="email"] {
       width: 100%;
       padding: 8px;
@@ -56,54 +49,30 @@
       border-radius: 4px;
       font-size: 16px;
     }
-
-    input.error {
-      border-color: red;
-    }
-
+    /* ✅ 2x2 checkbox grid */
     .checkbox-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.3rem 0.5rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4rem 1rem;
       margin-top: 0.8rem;
     }
-
     .checkbox-grid label {
       font-weight: normal;
       display: flex;
       align-items: center;
+      white-space: nowrap;
     }
-
-    .adjust-buttons {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
-    }
-    .adjust-buttons button {
-      flex: 1;
-      padding: 6px;
-      font-size: 0.9rem;
-    }
-
     button {
       background: #0073e6;
       color: #fff;
       border: none;
       padding: 10px;
       margin-top: 1rem;
-      width: 100%;
       font-weight: bold;
       border-radius: 4px;
       cursor: pointer;
     }
-
     button:hover { background: #005bb5; }
-
-    .clear-btn {
-      background: #cc0000;
-    }
-    .clear-btn:hover { background: #a00000; }
-
     .result {
       margin-top: 1rem;
       font-size: 1.1rem;
@@ -112,25 +81,18 @@
       border-radius: 6px;
       border: 1px solid #ddd;
     }
-
-    .share-buttons {
+    .button-row {
       display: flex;
       gap: 0.5rem;
-      margin-top: 0.8rem;
+      margin-top: 0.5rem;
     }
-
-    .share-buttons button {
-      flex: 1;
-      font-size: 0.95rem;
-    }
-
-    .version {
+    .clear-btn { background: #d9534f; }
+    .footer {
+      text-align: center;
+      margin-top: 1rem;
       font-size: 0.8rem;
-      text-align: right;
-      margin-top: 6px;
-      color: #666;
+      color: #555;
     }
-
     @media (max-width: 768px) {
       .container { flex-direction: column; }
     }
@@ -176,39 +138,37 @@
       <label>Your Email:</label>
       <input type="email" id="userEmail" placeholder="Enter email here to receive a receipt">
 
-      <div class="input-row">
-        <button onclick="calculateTip()">Calculate Tip</button>
-        <button onclick="completeTip()">✅ Complete & Email</button>
+      <div class="button-row">
+        <button style="flex:1" onclick="calculateTip()">Calculate Tip</button>
+        <button style="flex:1" onclick="completeTip()">✅ Complete & Email</button>
       </div>
 
-      <div class="adjust-buttons">
-        <button onclick="adjustTotal(0.5)">+ $0.50</button>
-        <button onclick="adjustTotal(-0.5)">- $0.50</button>
-        <button class="clear-btn" onclick="clearFields()">Clear</button>
+      <div class="button-row">
+        <button style="flex:1" onclick="adjustTotal(0.5)">+ $0.50</button>
+        <button style="flex:1" onclick="adjustTotal(-0.5)">- $0.50</button>
+        <button class="clear-btn" style="flex:1" onclick="clearFields()">Clear</button>
       </div>
 
       <div class="result" id="result"></div>
-      <div class="share-buttons">
-        <button onclick="copyLink()">📋 Copy Link</button>
-        <button onclick="shareFriends()">🔗 Share with Friends</button>
+      <div id="emailStatus" style="margin-top:6px;color:green;font-weight:bold;"></div>
+
+      <div class="button-row">
+        <button style="flex:1" onclick="copyLink()">📋 Copy Link</button>
+        <button style="flex:1" onclick="shareFriends()">🔗 Share with Friends</button>
       </div>
-      <div class="version">v3.2</div>
+
+      <div class="footer">© 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.<br><span style="font-size:0.75rem;color:#888;">v3.3</span></div>
     </div>
 
     <div class="sidebar">
       <h2>Support Our Utilities 💙</h2>
       <p>Like these tools? Help keep No Spin Utilities running:</p>
-      <p><strong>Venmo:</strong><br/>
-        <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
-      </p>
+      <p><strong>Venmo:</strong><br/><a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a></p>
 
       <h2>Follow Us</h2>
       <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
 
       <h2>We ❤️ Your Feedback!</h2>
-      <p>Have an idea for improving this tool? We read every suggestion. 😊</p>
-      <p>You can also reach us at: <strong>nospinmedia.ai@gmail.com</strong></p>
-
       <form id="feedbackForm">
         <input type="text" id="name" name="name" placeholder="Your first name">
         <input type="email" id="email" name="email" placeholder="you@email.com" required>
@@ -219,160 +179,95 @@
     </div>
   </div>
 
-  <footer>
-    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
-  </footer>
-
   <script>
-    // Load header
-    document.addEventListener('DOMContentLoaded', function() {
-      fetch('../header.html')
-        .then(res => res.text())
-        .then(html => document.getElementById('site-header').innerHTML = html);
-      loadSavedSettings();
+    // ✅ Mutual exclusion for Round Up / Down / Exact %
+    const roundUp = document.getElementById('roundUp');
+    const roundDown = document.getElementById('roundDown');
+    const exactPercent = document.getElementById('exactPercent');
+    [roundUp, roundDown, exactPercent].forEach(cb => {
+      cb.addEventListener('change', () => {
+        if (cb.checked) {
+          [roundUp, roundDown, exactPercent].forEach(other => {
+            if (other !== cb) other.checked = false;
+          });
+        }
+        saveSettings();
+      });
     });
 
-    function saveSettings() {
-      const email = document.getElementById('userEmail').value.trim();
+    // ✅ Save & load settings (email + checkboxes)
+    const userEmail = document.getElementById('userEmail');
+    const excludeTax = document.getElementById('excludeTax');
+    function saveSettings(){
       const settings = {
-        email: email,
-        roundUp: document.getElementById('roundUp').checked,
-        roundDown: document.getElementById('roundDown').checked,
-        exactPercent: document.getElementById('exactPercent').checked,
-        excludeTax: document.getElementById('excludeTax').checked
+        email: userEmail.value,
+        roundUp: roundUp.checked,
+        roundDown: roundDown.checked,
+        exactPercent: exactPercent.checked,
+        excludeTax: excludeTax.checked
       };
-      localStorage.setItem('tipSettings', JSON.stringify(settings));
+      localStorage.setItem('tipCalcSettings', JSON.stringify(settings));
     }
-
-    function loadSavedSettings() {
-      const saved = JSON.parse(localStorage.getItem('tipSettings') || '{}');
-      if (saved.email) document.getElementById('userEmail').value = saved.email;
-      document.getElementById('roundUp').checked = saved.roundUp || false;
-      document.getElementById('roundDown').checked = saved.roundDown || false;
-      document.getElementById('exactPercent').checked = saved.exactPercent || false;
-      document.getElementById('excludeTax').checked = saved.excludeTax || false;
+    function loadSettings(){
+      const saved = JSON.parse(localStorage.getItem('tipCalcSettings') || '{}');
+      if(saved.email) userEmail.value = saved.email;
+      if(saved.roundUp) roundUp.checked = true;
+      if(saved.roundDown) roundDown.checked = true;
+      if(saved.exactPercent) exactPercent.checked = true;
+      if(saved.excludeTax) excludeTax.checked = true;
     }
+    userEmail.addEventListener('input', saveSettings);
+    [roundUp, roundDown, exactPercent, excludeTax].forEach(cb => cb.addEventListener('change', saveSettings));
+    document.addEventListener('DOMContentLoaded', loadSettings);
 
+    // ✅ Show tax %
     function calculateValues() {
       const total = parseFloat(document.getElementById('billTotal').value) || 0;
       const taxInput = document.getElementById('taxTotal').value.trim();
       const tax = taxInput === "" ? null : parseFloat(taxInput) || 0;
       const percent = parseFloat(document.getElementById('tipPercent').value) || 20;
       const manualTip = parseFloat(document.getElementById('manualTip').value);
-      const excludeTax = document.getElementById('excludeTax').checked;
-      const base = (excludeTax && tax !== null) ? total - tax : total;
-
+      const base = (tax !== null && excludeTax.checked) ? total - tax : total;
       let tip = !isNaN(manualTip) ? manualTip : base * (percent / 100);
-      const roundUp = document.getElementById('roundUp').checked;
-      const roundDown = document.getElementById('roundDown').checked;
-
       let finalTotal = total + tip;
-
-      if (roundUp) finalTotal = Math.ceil(finalTotal);
-      if (roundDown) finalTotal = Math.floor(finalTotal);
-      if (roundUp || roundDown) tip = finalTotal - total;
-
+      if (roundUp.checked) finalTotal = Math.ceil(finalTotal);
+      if (roundDown.checked) finalTotal = Math.floor(finalTotal);
+      if (roundUp.checked || roundDown.checked) tip = finalTotal - total;
       const taxPercent = (tax !== null && total > 0) ? (tax / (total - tax) * 100) : null;
-      const simplePercent = Math.round((tip / base) * 100);
-      const exactPercent = (tip / base) * 100;
-
-      return { total, tax, tip, finalTotal, simplePercent, exactPercent, taxPercent, base };
+      return { total, tax, base, tip, finalTotal, taxPercent };
     }
 
     function calculateTip() {
-      saveSettings();
-      const { total, tax, tip, finalTotal, simplePercent, exactPercent, taxPercent, base } = calculateValues();
-      let result = "";
+      const { total, tax, base, tip, finalTotal, taxPercent } = calculateValues();
+      let output = '';
       if (tax !== null) {
-        result += `Meal Cost (Pre-Tax): $${base.toFixed(2)}<br>`;
-        result += `Tax: $${tax.toFixed(2)}${taxPercent !== null ? ` (You paid ${taxPercent.toFixed(2)}% in tax)` : ""}<br>`;
+        output += `Meal Cost (Pre-Tax): $${(total - tax).toFixed(2)}<br>`;
+        output += `Tax: $${tax.toFixed(2)}${taxPercent ? ` (You paid ${taxPercent.toFixed(2)}% in tax)` : ''}<br>`;
       }
-      result += `Tip Amount: $${tip.toFixed(2)} (${simplePercent}%)<br>`;
-      result += `Total: $${finalTotal.toFixed(2)} (Exact Tip: ${exactPercent.toFixed(2)}%)`;
-      document.getElementById('result').innerHTML = result;
-      document.getElementById('userEmail').classList.remove('error');
+      output += `Tip Amount: $${tip.toFixed(2)}<br>`;
+      output += `<br><strong>Total with Tip: $${finalTotal.toFixed(2)}</strong>`;
+      document.getElementById('result').innerHTML = output;
     }
 
-    async function completeTip() {
-      calculateTip();
-      const emailField = document.getElementById('userEmail');
-      const email = emailField.value.trim();
+    function completeTip() {
+      const { total, tax, base, tip, finalTotal, taxPercent } = calculateValues();
+      const email = userEmail.value.trim();
       if (!email) {
-        emailField.classList.add('error');
-        emailField.placeholder = "❌ Email required to send receipt";
+        userEmail.style.border = "2px solid red";
         return;
       }
-
-      const { total, tax, tip, finalTotal, simplePercent, exactPercent, taxPercent, base } = calculateValues();
-
-      let message = "";
-      if (tax !== null) {
-        message += `Meal Cost (Pre-Tax): $${base.toFixed(2)}\n`;
-        message += `Tax: $${tax.toFixed(2)}${taxPercent !== null ? ` (You paid ${taxPercent.toFixed(2)}% in tax)` : ""}\n`;
-      }
-      message += `Bill Total: $${total.toFixed(2)}\n`;
-      message += `Tip: $${tip.toFixed(2)} (${simplePercent}% - Exact: ${exactPercent.toFixed(2)}%)\n\n`;
-      message += `Total with Tip: $${finalTotal.toFixed(2)}\n\n`;
-
-      const taglines = [
-        "A little math, a lot of gratitude!",
-        "Thanks for using No Spin Utilities!",
-        "Smart tipping made easy!",
-        "You're making math fun again!",
-        "Cheers to accurate tips!",
-        "No Spin, just numbers!",
-        "Your server thanks you!",
-        "Keep sharing the fairness!",
-        "Balanced bills, happy meals!",
-        "We appreciate you using our tool!"
-      ];
-      const randomTagline = taglines[Math.floor(Math.random() * taglines.length)];
-
-      message += `Check out our other utilities:\nhttps://nospin.media/utilities/index.html\n\n${randomTagline}`;
-
-      const data = {
-        name: "No Spin Utilities",
-        email: email,
-        subject: "Your Tip Calculator Receipt",
-        message: message
-      };
-
-      try {
-        await fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
-          method: 'POST',
-          headers: {'Content-Type':'text/plain'},
-          body: JSON.stringify(data)
-        });
-      } catch (err) {
-        console.error("❌ Failed to send email:", err);
-      }
-    }
-
-    function adjustTotal(amount) {
-      const billField = document.getElementById('billTotal');
-      const current = parseFloat(billField.value) || 0;
-      billField.value = (current + amount).toFixed(2);
+      userEmail.style.border = "1px solid #ccc";
       calculateTip();
-    }
-
-    function clearFields() {
-      document.getElementById('billTotal').value = "";
-      document.getElementById('taxTotal').value = "";
-      document.getElementById('manualTip').value = "";
-      document.getElementById('result').innerHTML = "";
-    }
-
-    function copyLink() {
-      navigator.clipboard.writeText(window.location.href);
-      alert("✅ Link copied to clipboard!");
-    }
-
-    function shareFriends() {
-      if (navigator.share) {
-        navigator.share({ title: 'Tip Calculator', url: window.location.href });
-      } else {
-        alert("Sharing not supported on this device. Use Copy Link instead.");
+      let message = `Bill Total: $${total.toFixed(2)}\n`;
+      if (tax !== null) {
+        message += `Meal Cost (Pre-Tax): $${(total - tax).toFixed(2)}\n`;
+        message += `Tax: $${tax.toFixed(2)}${taxPercent ? ` (You paid ${taxPercent.toFixed(2)}% in tax)` : ''}\n`;
       }
+      message += `Tip: $${tip.toFixed(2)}\n\nTotal with Tip: $${finalTotal.toFixed(2)}\n\n`;
+      const data = { email: email, subject: "Your Tip Calculator Receipt", message: message };
+      fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
+        method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(data)
+      }).then(()=> document.getElementById('emailStatus').textContent = "✅ Receipt sent to " + email);
     }
   </script>
 </body>
