@@ -43,13 +43,8 @@
 
     h1 { font-size: 2rem; margin-top: 0; }
 
-    .input-row {
-      display: flex;
-      gap: 1rem;
-    }
-    .input-col {
-      flex: 1;
-    }
+    .input-row { display: flex; gap: 1rem; }
+    .input-col { flex: 1; }
 
     label { font-weight: bold; margin-top: 0.6rem; display: block; }
 
@@ -61,7 +56,6 @@
       border-radius: 4px;
     }
 
-    /* 2-wide checkbox layout */
     .checkbox-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -102,14 +96,18 @@
 
     .result {
       margin-top: 1rem;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       background: #f9f9f9;
       padding: 0.8rem;
       border-radius: 6px;
       border: 1px solid #ddd;
     }
 
-    .warning { color: red; font-weight: bold; }
+    .email-status {
+      color: green;
+      font-weight: bold;
+      margin-left: 8px;
+    }
 
     @media (max-width: 768px) {
       .container { flex-direction: column; }
@@ -196,11 +194,37 @@
   </footer>
 
   <script>
-    // Load header
     document.addEventListener('DOMContentLoaded', function() {
       fetch('../header.html')
         .then(res => res.text())
         .then(html => document.getElementById('site-header').innerHTML = html);
+
+      // Feedback form restore
+      const feedbackForm = document.getElementById('feedbackForm');
+      feedbackForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const status = document.getElementById('formStatus');
+        status.textContent = "⏳ Sending...";
+
+        const data = {
+          name: document.getElementById('name').value || "Someone",
+          email: document.getElementById('email').value,
+          subject: "Tip Calculator Feedback",
+          message: document.getElementById('message').value
+        };
+
+        try {
+          const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+            method: 'POST',
+            headers: {'Content-Type':'text/plain'},
+            body: JSON.stringify(data)
+          });
+          status.textContent = "✅ Feedback sent!";
+          this.reset();
+        } catch {
+          status.textContent = "❌ Error sending feedback.";
+        }
+      });
     });
 
     function getValues() {
@@ -216,14 +240,20 @@
       const base = tax !== null ? total - tax : total;
       let tip = manualTip !== null ? manualTip : base * (percent / 100);
 
+      const exact = document.getElementById('exactPercent').checked;
+      if (exact && manualTip === null) {
+        tip = base * (percent / 100); // exact percent override
+      }
+
       let finalTotal = total + tip;
       const roundUp = document.getElementById('roundUp').checked;
       const roundDown = document.getElementById('roundDown').checked;
 
-      if (roundUp) finalTotal = Math.ceil(finalTotal);
-      if (roundDown) finalTotal = Math.floor(finalTotal);
-
-      if ((roundUp || roundDown) && manualTip === null) tip = finalTotal - total;
+      if (!exact && manualTip === null) {
+        if (roundUp) finalTotal = Math.ceil(finalTotal);
+        if (roundDown) finalTotal = Math.floor(finalTotal);
+        if (roundUp || roundDown) tip = finalTotal - total;
+      }
 
       const simplePercent = Math.round((tip / base) * 100);
       const exactPercent = (tip / base) * 100;
@@ -234,7 +264,7 @@
     function calculateTip() {
       const { tip, finalTotal, simplePercent, exactPercent } = calculateValues();
       document.getElementById('result').innerHTML =
-        `Tip Amount: $${tip.toFixed(2)} (${simplePercent}%)<br>` +
+        `Tip Amount: $${tip.toFixed(2)} (${simplePercent}%)<span id="emailStatus"></span><br>` +
         `Total: $${finalTotal.toFixed(2)} (Exact Tip: ${exactPercent.toFixed(2)}%)`;
     }
 
@@ -243,38 +273,29 @@
       calculateTip(); // update screen first
 
       if (!document.getElementById('emailReceipt').checked) return;
-
       const email = document.getElementById('userEmail').value;
-      if (!email) {
-        alert("Please enter your email to receive the receipt.");
-        return;
-      }
+      if (!email) return;
 
-      let message = `
-        <strong>Your Tip Receipt</strong><br><br>
-        Bill Total: $${total.toFixed(2)}<br>
-      `;
-      if (tax !== null) message += `Tax: $${tax.toFixed(2)}<br>`;
-      message += `
-        Tip: $${tip.toFixed(2)} (${simplePercent}%)<br>
-        Total with Tip: $${finalTotal.toFixed(2)} (Exact Tip: ${exactPercent.toFixed(2)}%)<br><br>
-        <a href="https://nospin.media/utilities/index.html">Explore more tools or leave feedback</a>
-      `;
+      let message = `Your Tip Receipt\n\nBill Total: $${total.toFixed(2)}\n`;
+      if (tax !== null) message += `Tax: $${tax.toFixed(2)}\n`;
+      message += `Tip: $${tip.toFixed(2)} (${simplePercent}%)\n`;
+      message += `Total with Tip: $${finalTotal.toFixed(2)} (Exact Tip: ${exactPercent.toFixed(2)}%)\n\n`;
+      message += `Explore more tools or leave feedback:\nhttps://nospin.media/utilities/index.html`;
 
       const data = {
         name: "Tip Calculator",
         email: email,
         subject: "Your Tip Calculator Receipt",
-        html: message
+        message: message
       };
 
       await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
         method: 'POST',
-        headers: {'Content-Type':'application/json'},
+        headers: {'Content-Type':'text/plain'},
         body: JSON.stringify(data)
       });
 
-      alert("✅ Receipt sent to " + email);
+      document.getElementById('emailStatus').textContent = ` ✅ Email sent to ${email}`;
     }
 
     function adjustTotal(amount) {
