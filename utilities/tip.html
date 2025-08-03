@@ -15,7 +15,7 @@
     .input-col { flex: 1; }
     label { font-weight: bold; margin-top: 0.6rem; display: block; }
     input[type="number"], input[type="email"] { width: 100%; padding: 6px; margin-top: 4px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; }
-    .checkbox-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.3rem; margin-top: 0.8rem; }
+    .checkbox-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 0.8rem; }
     .checkbox-grid label { font-weight: normal; display: flex; align-items: center; }
     .button-row { display: flex; gap: 0.5rem; margin-top: 1rem; }
     .button-row button { flex: 1; }
@@ -49,10 +49,6 @@
           <label>Tax Total:</label>
           <input type="number" id="taxTotal" placeholder="Optional">
         </div>
-        <div class="input-col">
-          <label>Tax %:</label>
-          <input type="text" id="taxPercent" placeholder="Auto" disabled>
-        </div>
       </div>
 
       <div class="input-row">
@@ -71,11 +67,10 @@
         <label><input type="checkbox" id="roundDown"> Round Down</label>
         <label><input type="checkbox" id="exactPercent"> Exact %</label>
         <label><input type="checkbox" id="excludeTax"> Exclude Tax</label>
-        <label><input type="checkbox" id="emailReceipt"> Email Receipt</label>
       </div>
 
       <label>Your Email:</label>
-      <input type="email" id="userEmail" placeholder="you@email.com">
+      <input type="email" id="userEmail" placeholder="Enter email to receive receipt">
 
       <div class="button-row">
         <button onclick="calculateTip()">Calculate Tip</button>
@@ -91,7 +86,7 @@
       <div class="result" id="result"></div>
       <div id="emailStatus"></div>
       <div id="tagline"></div>
-      <div id="version">v3.0</div>
+      <div id="version">v3.1</div>
     </div>
 
     <div class="sidebar">
@@ -119,17 +114,12 @@
     document.addEventListener('DOMContentLoaded', function() {
       fetch('../header.html').then(res => res.text()).then(html => document.getElementById('site-header').innerHTML = html);
 
-      // Load saved settings
       const savedEmail = localStorage.getItem('userEmail');
-      if (savedEmail) { document.getElementById('userEmail').value = savedEmail; document.getElementById('emailReceipt').checked = true; }
+      if (savedEmail) document.getElementById('userEmail').value = savedEmail;
       document.getElementById('tipPercent').value = localStorage.getItem('tipPercent') || 20;
 
       ['roundUp','roundDown','exactPercent','excludeTax'].forEach(id => {
         if(localStorage.getItem(id)==='true') document.getElementById(id).checked = true;
-      });
-
-      document.getElementById('userEmail').addEventListener('input', () => {
-        if (document.getElementById('userEmail').value.trim() !== '') document.getElementById('emailReceipt').checked = true;
       });
 
       document.querySelectorAll('#roundUp,#roundDown,#exactPercent').forEach(cb=>{
@@ -172,11 +162,6 @@
       const excludeTax = document.getElementById('excludeTax').checked;
       const base = (excludeTax && tax!==null) ? total - tax : total;
 
-      if(tax!==null && total>0){
-        const taxPct = (tax/(total-tax))*100;
-        document.getElementById('taxPercent').value = taxPct.toFixed(2)+"%";
-      } else { document.getElementById('taxPercent').value = ""; }
-
       let tip = !isNaN(manualTip) ? manualTip : base * (percent / 100);
       let finalTotal = total + tip;
 
@@ -192,15 +177,23 @@
         localStorage.setItem(id, document.getElementById(id).checked);
       });
 
-      return { total, tax, base, tip, finalTotal, simplePercent, exactPercent, excludeTax };
+      return { total, tax, base, tip, finalTotal, simplePercent, exactPercent };
     }
 
     function calculateTip() {
-      const { total, tax, base, tip, finalTotal, simplePercent, exactPercent, excludeTax } = calculateValues();
+      const { total, tax, base, tip, finalTotal, simplePercent, exactPercent } = calculateValues();
+      if(total <= 0){
+        document.getElementById('result').innerHTML = "❌ Enter a Bill Total to calculate.";
+        return;
+      }
       let msg = '';
-      if(tax!==null){ msg += `Meal Cost (Pre-Tax): $${base.toFixed(2)}<br>`; msg += `Tax: $${tax.toFixed(2)} (${document.getElementById('taxPercent').value})<br>`; }
+      if(tax!==null){
+        msg += `Meal Cost (Pre-Tax): $${base.toFixed(2)}<br>`;
+        const taxPct = (tax/(total-tax))*100;
+        msg += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)<br>`;
+      }
       msg += `Bill Total: $${total.toFixed(2)}<br>`;
-      msg += `Tip: $${tip.toFixed(2)} (${simplePercent}% - Exact: ${exactPercent.toFixed(2)}%)<br><br>`;
+      msg += `Tip: $${tip.toFixed(2)} (${document.getElementById('tipPercent').value}% preferred, ${exactPercent.toFixed(2)}% actual)<br><br>`;
       msg += `<strong>Total with Tip: $${finalTotal.toFixed(2)}</strong>`;
       document.getElementById('result').innerHTML = msg;
       document.getElementById('emailStatus').textContent = "";
@@ -208,16 +201,30 @@
     }
 
     async function completeTip() {
-      const { total, tax, base, tip, finalTotal, simplePercent, exactPercent, excludeTax } = calculateValues();
+      const { total, tax, base, tip, finalTotal, simplePercent, exactPercent } = calculateValues();
+      if(total <= 0){
+        document.getElementById('result').innerHTML = "❌ Enter a Bill Total before sending.";
+        return;
+      }
       calculateTip();
-      if(!document.getElementById('emailReceipt').checked) return;
-      const email = document.getElementById('userEmail').value.trim();
-      if(!email){ document.getElementById('emailStatus').textContent="❌ Enter your email to receive receipt."; return; }
+      const emailField = document.getElementById('userEmail');
+      const email = emailField.value.trim();
+      if(!email){
+        emailField.style.border = '2px solid red';
+        document.getElementById('emailStatus').textContent="❌ Enter your email to receive receipt.";
+        return;
+      } else {
+        emailField.style.border = '';
+      }
 
       let message = '';
-      if(tax!==null){ message += `Meal Cost (Pre-Tax): $${base.toFixed(2)}\nTax: $${tax.toFixed(2)} (${document.getElementById('taxPercent').value})\n`; }
+      if(tax!==null){
+        const taxPct = (tax/(total-tax))*100;
+        message += `Meal Cost (Pre-Tax): $${base.toFixed(2)}\n`;
+        message += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)\n`;
+      }
       message += `Bill Total: $${total.toFixed(2)}\n`;
-      message += `Tip: $${tip.toFixed(2)} (${simplePercent}% - Exact: ${exactPercent.toFixed(2)}%)\n\n`;
+      message += `Tip: $${tip.toFixed(2)} (${document.getElementById('tipPercent').value}% preferred, ${exactPercent.toFixed(2)}% actual)\n\n`;
       message += `Total with Tip: $${finalTotal.toFixed(2)}\n\n`;
       message += getRandomTagline();
 
@@ -237,7 +244,6 @@
       document.getElementById('billTotal').value='';
       document.getElementById('taxTotal').value='';
       document.getElementById('manualTip').value='';
-      document.getElementById('taxPercent').value='';
       document.getElementById('result').innerHTML='';
       document.getElementById('emailStatus').textContent='';
       document.getElementById('tagline').textContent='';
