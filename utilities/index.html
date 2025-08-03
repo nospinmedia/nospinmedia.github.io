@@ -15,7 +15,7 @@
             padding-top: 70px; /* Match header height */
         }
 
-        /* Main Container for Flexbox Layout */
+        /* Main Container */
         .container {
             display: flex;
             flex-wrap: wrap;
@@ -25,24 +25,22 @@
             gap: 2rem;
         }
 
-        /* Main Content Area */
+        /* Main Section */
         .main {
             flex: 1 1 60%;
             padding: 1rem;
             background: #fff;
-            border-radius: 6px;
+            border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             box-sizing: border-box;
         }
 
-        /* Sidebar Content Area */
+        /* Sidebar */
         .sidebar {
             flex: 1 1 30%;
             background: #fff;
             padding: 1rem;
-            margin-top: 2rem;
-            border-left: 2px solid #eee;
-            border-radius: 6px;
+            border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             box-sizing: border-box;
             align-self: flex-start;
@@ -52,28 +50,57 @@
             font-size: 2rem;
             margin-top: 0;
         }
-        h2 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-        }
 
-        .utility-list .utility-item {
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 1rem;
+        /* Utility Cards - Matches Games Style */
+        .utility-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
             margin-top: 1rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        .utility-item a {
-            font-weight: bold;
-            font-size: 1.1rem;
+        .utility-item {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .utility-item h2 {
+            font-size: 1.6rem;
+            margin: 0.5rem 0;
             color: #0073e6;
-            text-decoration: none;
         }
 
-        /* Feedback form styling */
+        .utility-item p {
+            margin: 0.5rem 0 1rem 0;
+            color: #444;
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .share-buttons button {
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        .share-buttons button:hover {
+            background-color: #005bb5;
+        }
+
+        /* Feedback form */
         #feedbackForm input, #feedbackForm textarea {
             width: 100%;
             padding: 8px;
@@ -99,15 +126,10 @@
             text-align: center;
         }
 
-        /* Responsive adjustments */
+        /* Responsive */
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
-            }
-            .sidebar {
-                margin-top: 1rem;
-                border-left: none;
-                border-top: 2px solid #eee;
             }
         }
     </style>
@@ -126,11 +148,16 @@
 
             <h2>Available Tools</h2>
             <div class="utility-list">
+                <!-- Tip Calculator Card -->
                 <div class="utility-item">
-                    <a href="tip-calculator-v1.1.html">💰 Tip Calculator</a>
+                    <h2>💰 Tip Calculator</h2>
                     <p>
                         A privacy-first, offline-capable tip calculator with rounding options and email receipts.
                     </p>
+                    <div class="share-buttons">
+                        <button onclick="shareUtility('Tip Calculator', 'tip-calculator-v1.1.html')">🔗 Share with Friends</button>
+                        <button onclick="copyLink('tip-calculator-v1.1.html')">📋 Copy Link</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -237,6 +264,27 @@
                 });
             }
         });
+
+        // Share + Copy functions for all utilities
+        function shareUtility(name, path) {
+            const url = window.location.origin + '/utilities/' + path;
+            if (navigator.share) {
+                navigator.share({
+                    title: name,
+                    text: `Check out this handy ${name} from No Spin Utilities!`,
+                    url: url
+                });
+            } else {
+                alert("Sharing not supported on this device. Copy the link instead!");
+            }
+        }
+
+        function copyLink(path) {
+            const url = window.location.origin + '/utilities/' + path;
+            navigator.clipboard.writeText(url).then(() => {
+                alert("✅ Link copied to clipboard!");
+            });
+        }
     </script>
 </body>
 </html>
