@@ -122,7 +122,7 @@
 
       <div id="emailStatus"></div>
       <div id="tagline"></div>
-      <div id="version">v3.2</div>
+      <div id="version">v3.3</div>
     </div>
 
     <div class="sidebar">
@@ -189,32 +189,34 @@
       });
     });
 
-    function calculateValues() {
-      const total = parseFloat(document.getElementById('billTotal').value) || 0;
-      const taxInput = document.getElementById('taxTotal').value.trim();
-      const tax = taxInput==="" ? null : parseFloat(taxInput) || 0;
-      const percent = parseFloat(document.getElementById('tipPercent').value) || 20;
-      const manualTip = parseFloat(document.getElementById('manualTip').value);
-      const excludeTax = document.getElementById('excludeTax').checked;
-      const base = (excludeTax && tax!==null) ? total - tax : total;
+   function calculateValues() {
+  const total = parseFloat(document.getElementById('billTotal').value) || 0;
+  const taxInput = document.getElementById('taxTotal').value.trim();
+  const tax = taxInput==="" ? null : parseFloat(taxInput) || 0;
+  const percent = parseFloat(document.getElementById('tipPercent').value) || 20;
+  const manualTip = parseFloat(document.getElementById('manualTip').value);
+  const excludeTax = document.getElementById('excludeTax').checked;
 
-      let tip = !isNaN(manualTip) ? manualTip : base * (percent / 100);
-      let finalTotal = total + tip;
+  // ✅ Always calculate base as pre-tax meal cost if tax is entered
+  const base = (tax!==null) ? total - tax : total;
 
-      if(document.getElementById('roundUp').checked){ finalTotal=Math.ceil(finalTotal); tip=finalTotal-total; }
-      if(document.getElementById('roundDown').checked){ finalTotal=Math.floor(finalTotal); tip=finalTotal-total; }
+  let tip = !isNaN(manualTip) ? manualTip : base * (percent / 100);
+  let finalTotal = total + tip;
 
-      const simplePercent = Math.round((tip / base) * 100);
-      const exactPercent = (tip / base) * 100;
+  if(document.getElementById('roundUp').checked){ finalTotal=Math.ceil(finalTotal); tip=finalTotal-total; }
+  if(document.getElementById('roundDown').checked){ finalTotal=Math.floor(finalTotal); tip=finalTotal-total; }
 
-      localStorage.setItem('userEmail', document.getElementById('userEmail').value.trim());
-      localStorage.setItem('tipPercent', percent);
-      ['roundUp','roundDown','exactPercent','excludeTax'].forEach(id=>{
-        localStorage.setItem(id, document.getElementById(id).checked);
-      });
+  const simplePercent = Math.round((tip / base) * 100);
+  const exactPercent = (tip / base) * 100;
 
-      return { total, tax, base, tip, finalTotal, simplePercent, exactPercent };
-    }
+  localStorage.setItem('userEmail', document.getElementById('userEmail').value.trim());
+  localStorage.setItem('tipPercent', percent);
+  ['roundUp','roundDown','exactPercent','excludeTax'].forEach(id=>{
+    localStorage.setItem(id, document.getElementById(id).checked);
+  });
+
+  return { total, tax, base, tip, finalTotal, simplePercent, exactPercent };
+}
 
     function calculateTip() {
       const { total, tax, base, tip, finalTotal, simplePercent, exactPercent } = calculateValues();
@@ -223,12 +225,12 @@
         return;
       }
       let msg = '';
-      if(tax!==null){
-        msg += `Meal Cost (Pre-Tax): $${base.toFixed(2)}<br>`;
-        const taxPct = (tax/(total-tax))*100;
-        msg += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)<br>`;
-      }
-      msg += `Bill Total: $${total.toFixed(2)}<br>`;
+if(tax!==null){
+  msg += `Meal Cost (Pre-Tax): $${base.toFixed(2)}<br>`;
+  const taxPct = (tax/(total-tax))*100;
+  msg += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)<br>`;
+}
+msg += `Bill Total: $${total.toFixed(2)}<br>`;
       msg += `Tip: $${tip.toFixed(2)} (${document.getElementById('tipPercent').value}% preferred, ${exactPercent.toFixed(2)}% actual)<br><br>`;
       msg += `<strong>Total with Tip: $${finalTotal.toFixed(2)}</strong>`;
       document.getElementById('result').innerHTML = msg;
