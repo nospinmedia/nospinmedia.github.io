@@ -1,142 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>No Spin Utilities</title>
-  <link rel="stylesheet" href="../style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>No Spin Utilities</title>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #222;
+            padding-top: 70px; /* Match header height */
+        }
+
+        /* Main Container for Flexbox Layout */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 2rem;
+        }
+
+        /* Main Content Area */
+        .main {
+            flex: 1 1 60%;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+        }
+
+        /* Sidebar Content Area */
+        .sidebar {
+            flex: 1 1 30%;
+            background: #fff;
+            padding: 1rem;
+            margin-top: 2rem;
+            border-left: 2px solid #eee;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+            align-self: flex-start;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-top: 0;
+        }
+        h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .utility-list .utility-item {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .utility-item a {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #0073e6;
+            text-decoration: none;
+        }
+
+        /* Feedback form styling */
+        #feedbackForm input, #feedbackForm textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #feedbackForm button {
+            background: #0073e6;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #feedbackForm button:hover { background: #005bb5; }
+        #formStatus {
+            font-size: 0.9em;
+            color: green;
+            margin: 6px 0;
+            text-align: center;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                margin-top: 1rem;
+                border-left: none;
+                border-top: 2px solid #eee;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- ✅ Consistent Header -->
-  <div id="site-header"></div>
+    <div id="site-header"></div>
 
-  <div class="container">
-    <!-- Main Content -->
-    <div class="main">
-      <h1>🛠️ No Spin Utilities</h1>
-      <p>
-        Handy tools and quick apps from No Spin Media. These utilities are built to be
-        simple, privacy-first, and easy to use right on your device.
-      </p>
+    <div class="container">
+        <div class="main">
+            <h1>🛠️ No Spin Utilities</h1>
+            <p>
+                Welcome to No Spin Utilities – quick, privacy-friendly tools to make your day easier.
+                All utilities run directly in your browser with no data tracking.
+            </p>
 
-      <div class="utility-list">
-        <div class="utility-item">
-          <a href="tip-calculator-v1.1.html">💰 Tip Calculator</a>
-          <p>
-            A privacy-first, offline-capable tip calculator with rounding options,
-            manual tip entry, and email receipt features.
-          </p>
+            <h2>Available Tools</h2>
+            <div class="utility-list">
+                <div class="utility-item">
+                    <a href="tip-calculator-v1.1.html">💰 Tip Calculator</a>
+                    <p>
+                        A privacy-first, offline-capable tip calculator with rounding options and email receipts.
+                    </p>
+                </div>
+            </div>
         </div>
-        <!-- Future utilities will be added here -->
-      </div>
+
+        <div class="sidebar">
+            <h2>Support Our Utilities 💙</h2>
+            <p>Like these tools? Help keep No Spin Utilities running:</p>
+            <p><strong>Venmo:</strong><br/>
+                <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+            </p>
+
+            <h2>Follow Us</h2>
+            <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
+
+            <h2>We ❤️ Your Feedback!</h2>
+            <p>Have an idea for a new utility? We read every suggestion you send. 😊</p>
+            <p>You can also reach us at: <strong>nospinmedia.ai@gmail.com</strong></p>
+
+            <form id="feedbackForm">
+                <input type="text" id="name" name="name" placeholder="Your first name">
+                <input type="email" id="email" name="email" placeholder="you@email.com" required>
+                <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
+                <p id="formStatus"></p>
+                <button type="submit">💬 Send Feedback</button>
+            </form>
+        </div>
     </div>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <h2>Support Our Utilities 💙</h2>
-      <p>Like these tools? Help keep No Spin Utilities running and growing:</p>
-      <p><strong>Venmo:</strong><br/>
-        <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
-      </p>
+    <footer>
+        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
+    </footer>
 
-      <h2>Follow Us</h2>
-      <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('../header.html')
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('site-header').innerHTML = html;
 
-      <h2>We ❤️ Your Feedback!</h2>
-      <p>
-        Have an idea for a new utility or a feature you’d like to see? Let us know!
-        We read every suggestion you send.
-      </p>
-      <p>You can also reach us at: <strong>nospinmedia.ai@gmail.com</strong></p>
+                    const hamburger = document.getElementById('hamburger');
+                    const mobileNav = document.getElementById('mobile-nav');
 
-      <form id="feedbackForm">
-        <input type="text" id="name" name="name" placeholder="Your first name">
-        <input type="email" id="email" name="email" placeholder="you@email.com" required>
-        <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
-        <p id="formStatus"></p>
-        <button type="submit">💬 Send Feedback</button>
-      </form>
-    </div>
-  </div>
+                    if (hamburger && mobileNav) {
+                        function toggleMobileNav() {
+                            mobileNav.classList.toggle('open');
+                            hamburger.classList.toggle('active');
+                        }
 
-  <footer>
-    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
-  </footer>
+                        hamburger.addEventListener('click', toggleMobileNav);
+                        hamburger.addEventListener('touchstart', function(e) {
+                            e.preventDefault();
+                            toggleMobileNav();
+                        }, { passive: false });
 
-  <script>
-    // Load header
-    document.addEventListener('DOMContentLoaded', function() {
-      fetch('../header.html')
-        .then(res => res.text())
-        .then(html => {
-          document.getElementById('site-header').innerHTML = html;
+                        mobileNav.querySelectorAll('a').forEach(link => {
+                            link.addEventListener('click', () => {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active');
+                            });
+                        });
+                    }
+                });
 
-          // Reapply hamburger JS
-          const hamburger = document.getElementById('hamburger');
-          const mobileNav = document.getElementById('mobile-nav');
+            const feedbackForm = document.getElementById('feedbackForm');
+            if (feedbackForm) {
+                feedbackForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const status = document.getElementById('formStatus');
+                    status.textContent = "⏳ Sending...";
 
-          if (hamburger && mobileNav) {
-            mobileNav.classList.remove('open');
-            hamburger.classList.remove('active');
-            hamburger.addEventListener('click', () => {
-              mobileNav.classList.toggle('open');
-              hamburger.classList.toggle('active');
-            });
-            mobileNav.querySelectorAll('a').forEach(link => {
-              link.addEventListener('click', () => {
-                mobileNav.classList.remove('open');
-                hamburger.classList.remove('active');
-              });
-            });
-          }
-        })
-        .catch(err => console.error("Error loading header:", err));
+                    const name = document.getElementById('name').value || "Someone";
+                    const email = document.getElementById('email').value;
+                    const message = document.getElementById('message').value;
 
-      // Feedback form submission
-      const feedbackForm = document.getElementById('feedbackForm');
-      if (feedbackForm) {
-        feedbackForm.addEventListener('submit', async function(e) {
-          e.preventDefault();
-          const status = document.getElementById('formStatus');
-          status.textContent = "⏳ Sending...";
+                    const data = {
+                        name: name,
+                        email: email,
+                        subject: "Utilities Feedback",
+                        message: message
+                    };
 
-          const name = document.getElementById('name').value || "Someone";
-          const email = document.getElementById('email').value;
-          const message = document.getElementById('message').value;
+                    try {
+                        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+                            method: 'POST',
+                            headers: {'Content-Type':'text/plain'},
+                            body: JSON.stringify(data)
+                        });
 
-          const data = {
-            name: name,
-            email: email,
-            subject: "Utilities Feedback",
-            message: message
-          };
+                        let result = {};
+                        try { result = await res.json(); } catch (err) { result = { status: "success" }; }
 
-          try {
-            const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-              method: 'POST',
-              headers: {'Content-Type':'text/plain'},
-              body: JSON.stringify(data)
-            });
-
-            let result = {};
-            try { result = await res.json(); } catch (err) { result = { status: "success" }; }
-
-            if (result.status === "success") {
-              status.textContent = "✅ Thanks! Your feedback was sent.";
-              this.reset();
-            } else {
-              status.textContent = "❌ Error sending. Please try again.";
+                        if (result.status === "success") {
+                            status.textContent = "✅ Thanks! Your feedback was sent.";
+                            this.reset();
+                        } else {
+                            status.textContent = "❌ Error sending. Please try again.";
+                        }
+                        setTimeout(()=>{ status.textContent = ""; }, 5000);
+                    } catch (err) {
+                        console.error(err);
+                        status.textContent = "❌ Failed to send! Check connection.";
+                        setTimeout(()=>{ status.textContent = ""; }, 5000);
+                    }
+                });
             }
-            setTimeout(()=>{ status.textContent = ""; }, 5000);
-          } catch (err) {
-            console.error(err);
-            status.textContent = "❌ Failed to send! Check connection.";
-            setTimeout(()=>{ status.textContent = ""; }, 5000);
-          }
         });
-      }
-    });
-  </script>
+    </script>
 </body>
 </html>
