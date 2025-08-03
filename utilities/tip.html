@@ -163,6 +163,7 @@
       </div>
 
       <div class="result" id="result"></div>
+      <div id="emailStatus" style="margin-top:6px;color:green;font-weight:bold;"></div>
     </div>
 
     <div class="sidebar">
@@ -193,117 +194,87 @@
     © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
   </footer>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      fetch('../header.html')
-        .then(res => res.text())
-        .then(html => document.getElementById('site-header').innerHTML = html);
+ <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    fetch('../header.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('site-header').innerHTML = html);
+  });
 
-      // Feedback form restore
-      const feedbackForm = document.getElementById('feedbackForm');
-      feedbackForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const status = document.getElementById('formStatus');
-        status.textContent = "⏳ Sending...";
+ function calculateValues() {
+  const total = parseFloat(document.getElementById('billTotal').value) || 0;
+  const taxInput = document.getElementById('taxTotal').value.trim();
+  const tax = taxInput === "" ? null : parseFloat(taxInput) || 0;
+  const percent = parseFloat(document.getElementById('tipPercent').value) || 20;
+  const manualTip = parseFloat(document.getElementById('manualTip').value);
+  const base = tax !== null ? total - tax : total;
 
-        const data = {
-          name: document.getElementById('name').value || "Someone",
-          email: document.getElementById('email').value,
-          subject: "Tip Calculator Feedback",
-          message: document.getElementById('message').value
-        };
+  let tip = !isNaN(manualTip) ? manualTip : base * (percent / 100);
+  const roundUp = document.getElementById('roundUp').checked;
+  const roundDown = document.getElementById('roundDown').checked;
 
-        try {
-          const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-            method: 'POST',
-            headers: {'Content-Type':'text/plain'},
-            body: JSON.stringify(data)
-          });
-          status.textContent = "✅ Feedback sent!";
-          this.reset();
-        } catch {
-          status.textContent = "❌ Error sending feedback.";
-        }
-      });
-    });
+  let finalTotal = total + tip;
 
-    function getValues() {
-      const total = parseFloat(document.getElementById('billTotal').value) || 0;
-      const tax = document.getElementById('taxTotal').value !== "" ? parseFloat(document.getElementById('taxTotal').value) : null;
-      const percent = parseFloat(document.getElementById('tipPercent').value) || 20;
-      const manualTip = document.getElementById('manualTip').value !== "" ? parseFloat(document.getElementById('manualTip').value) : null;
-      return { total, tax, percent, manualTip };
+  if (roundUp) finalTotal = Math.ceil(finalTotal);
+  if (roundDown) finalTotal = Math.floor(finalTotal);
+  if (roundUp || roundDown) tip = finalTotal - total;
+
+  let simplePercent = (tip / base) * 100;
+  const exactPercent = (tip / base) * 100;
+
+  // ✅ Apply Exact % checkbox
+  if (!document.getElementById('exactPercent').checked) {
+    simplePercent = Math.round(simplePercent);
+  }
+
+  return { total, tax, tip, finalTotal, simplePercent, exactPercent };
+}
+
+
+  function calculateTip() {
+    const { tip, finalTotal, simplePercent, exactPercent } = calculateValues();
+    document.getElementById('result').innerHTML =
+      `Tip Amount: $${tip.toFixed(2)} (${simplePercent}%)<br>` +
+      `Total: $${finalTotal.toFixed(2)} (Exact Tip: ${exactPercent.toFixed(2)}%)`;
+    document.getElementById('emailStatus').textContent = ""; // clear email sent message
+  }
+
+  async function completeTip() {
+    const { total, tax, tip, finalTotal, simplePercent, exactPercent } = calculateValues();
+    calculateTip(); // update display
+
+    if (!document.getElementById('emailReceipt').checked) return;
+
+    const email = document.getElementById('userEmail').value.trim();
+    if (!email) {
+      document.getElementById('emailStatus').textContent = "❌ Enter your email to receive receipt.";
+      return;
     }
 
-    function calculateValues() {
-      const { total, tax, percent, manualTip } = getValues();
-      const base = tax !== null ? total - tax : total;
-      let tip = manualTip !== null ? manualTip : base * (percent / 100);
+    let message = `Bill Total: $${total.toFixed(2)}\n`;
+    if (tax !== null) message += `Tax: $${tax.toFixed(2)}\n`;
+    message += `Tip: $${tip.toFixed(2)} (${simplePercent}% - Exact: ${exactPercent.toFixed(2)}%)\n`;
+    message += `Total with Tip: $${finalTotal.toFixed(2)}\n\n`;
+    message += `Check out our other utilities:\nhttps://nospin.media/utilities/index.html`;
 
-      const exact = document.getElementById('exactPercent').checked;
-      if (exact && manualTip === null) {
-        tip = base * (percent / 100); // exact percent override
-      }
+    const data = {
+      name: "No Spin Utilities",
+      email: email,
+      subject: "Your Tip Calculator Receipt",
+      message: message
+    };
 
-      let finalTotal = total + tip;
-      const roundUp = document.getElementById('roundUp').checked;
-      const roundDown = document.getElementById('roundDown').checked;
-
-      if (!exact && manualTip === null) {
-        if (roundUp) finalTotal = Math.ceil(finalTotal);
-        if (roundDown) finalTotal = Math.floor(finalTotal);
-        if (roundUp || roundDown) tip = finalTotal - total;
-      }
-
-      const simplePercent = Math.round((tip / base) * 100);
-      const exactPercent = (tip / base) * 100;
-
-      return { total, tax, tip, finalTotal, simplePercent, exactPercent };
-    }
-
-    function calculateTip() {
-      const { tip, finalTotal, simplePercent, exactPercent } = calculateValues();
-      document.getElementById('result').innerHTML =
-        `Tip Amount: $${tip.toFixed(2)} (${simplePercent}%)<span id="emailStatus"></span><br>` +
-        `Total: $${finalTotal.toFixed(2)} (Exact Tip: ${exactPercent.toFixed(2)}%)`;
-    }
-
-    async function completeTip() {
-      const { total, tax, tip, finalTotal, simplePercent, exactPercent } = calculateValues();
-      calculateTip(); // update screen first
-
-      if (!document.getElementById('emailReceipt').checked) return;
-      const email = document.getElementById('userEmail').value;
-      if (!email) return;
-
-      let message = `Your Tip Receipt\n\nBill Total: $${total.toFixed(2)}\n`;
-      if (tax !== null) message += `Tax: $${tax.toFixed(2)}\n`;
-      message += `Tip: $${tip.toFixed(2)} (${simplePercent}%)\n`;
-      message += `Total with Tip: $${finalTotal.toFixed(2)} (Exact Tip: ${exactPercent.toFixed(2)}%)\n\n`;
-      message += `Explore more tools or leave feedback:\nhttps://nospin.media/utilities/index.html`;
-
-      const data = {
-        name: "Tip Calculator",
-        email: email,
-        subject: "Your Tip Calculator Receipt",
-        message: message
-      };
-
-      await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+    try {
+      await fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
         method: 'POST',
         headers: {'Content-Type':'text/plain'},
         body: JSON.stringify(data)
       });
-
-      document.getElementById('emailStatus').textContent = ` ✅ Email sent to ${email}`;
+      document.getElementById('emailStatus').textContent = "✅ Receipt sent to " + email;
+    } catch (err) {
+      document.getElementById('emailStatus').textContent = "❌ Failed to send email.";
     }
-
-    function adjustTotal(amount) {
-      const billInput = document.getElementById('billTotal');
-      let current = parseFloat(billInput.value) || 0;
-      billInput.value = (current + amount).toFixed(2);
-      calculateTip();
-    }
-  </script>
+  }
+</script>
 </body>
 </html>
