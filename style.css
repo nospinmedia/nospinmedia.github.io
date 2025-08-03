@@ -358,6 +358,32 @@ button.share-btn:hover {
     width: 100%;
 }
 
+.container {
+  display: flex;
+  flex-direction: column; /* ✅ Stack content vertically */
+  align-items: center;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.utility-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem; /* ✅ Add space before feedback */
+}
+
+.utility-item {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  text-align: center; /* ✅ Center link and text */
+}
+
+
 /* Puzzle Card */
 .puzzle-card {
     border: 1px solid #ccc;
