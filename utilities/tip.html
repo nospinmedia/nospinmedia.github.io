@@ -15,7 +15,6 @@
       padding-top: 70px;
     }
 
-    /* Layout */
     .container {
       display: flex;
       flex-wrap: wrap;
@@ -31,7 +30,6 @@
       border-radius: 8px;
       padding: 1.5rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      box-sizing: border-box;
     }
 
     .sidebar {
@@ -40,21 +38,12 @@
       border-radius: 8px;
       padding: 1.5rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      box-sizing: border-box;
       align-self: flex-start;
     }
 
-    h1 {
-      font-size: 2rem;
-      margin-top: 0;
-    }
+    h1 { font-size: 2rem; margin-top: 0; }
 
-    /* Tip Calculator Styling */
-    label {
-      display: block;
-      margin-top: 0.8rem;
-      font-weight: bold;
-    }
+    label { font-weight: bold; margin-top: 0.6rem; display: block; }
 
     input[type="number"], input[type="email"] {
       width: 100%;
@@ -62,11 +51,20 @@
       margin-top: 4px;
       border: 1px solid #ccc;
       border-radius: 4px;
-      box-sizing: border-box;
     }
 
-    .checkbox-group {
-      margin-top: 1rem;
+    /* 2-wide checkbox layout */
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.3rem 0.5rem;
+      margin-top: 0.8rem;
+    }
+
+    .checkbox-grid label {
+      font-weight: normal;
+      display: flex;
+      align-items: center;
     }
 
     button {
@@ -81,9 +79,7 @@
       cursor: pointer;
     }
 
-    button:hover {
-      background: #005bb5;
-    }
+    button:hover { background: #005bb5; }
 
     .result {
       margin-top: 1rem;
@@ -94,16 +90,10 @@
       border: 1px solid #ddd;
     }
 
-    .warning {
-      color: red;
-      font-weight: bold;
-    }
+    .warning { color: red; font-weight: bold; }
 
-    /* Responsive */
     @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-      }
+      .container { flex-direction: column; }
     }
   </style>
 </head>
@@ -111,7 +101,6 @@
   <div id="site-header"></div>
 
   <div class="container">
-    <!-- Main Calculator -->
     <div class="main">
       <h1>💰 Tip Calculator</h1>
       <p>Quickly calculate tips with rounding options and optional email receipts.</p>
@@ -125,22 +114,22 @@
       <label>Tip % (Default 20%):</label>
       <input type="number" id="tipPercent" value="20">
 
-      <div class="checkbox-group">
-        <label><input type="checkbox" id="roundUp"> Round Up to Nearest $</label><br>
-        <label><input type="checkbox" id="roundDown"> Round Down to Nearest $</label><br>
-        <label><input type="checkbox" id="exactPercent"> Always Use Exact %</label><br>
-        <label><input type="checkbox" id="emailReceipt"> Email Me the Receipt</label>
+      <div class="checkbox-grid">
+        <label><input type="checkbox" id="roundUp"> Round Up</label>
+        <label><input type="checkbox" id="roundDown"> Round Down</label>
+        <label><input type="checkbox" id="exactPercent"> Exact %</label>
+        <label><input type="checkbox" id="emailReceipt"> Email Receipt</label>
       </div>
 
-      <label>Your Email (Only if emailing receipt):</label>
+      <label>Your Email:</label>
       <input type="email" id="userEmail" placeholder="you@email.com">
 
       <button onclick="calculateTip()">Calculate Tip</button>
+      <button onclick="completeTip()">✅ Complete & Email</button>
 
       <div class="result" id="result"></div>
     </div>
 
-    <!-- Sidebar -->
     <div class="sidebar">
       <h2>Support Our Utilities 💙</h2>
       <p>Like these tools? Help keep No Spin Utilities running:</p>
@@ -175,79 +164,55 @@
       fetch('../header.html')
         .then(res => res.text())
         .then(html => document.getElementById('site-header').innerHTML = html);
-
-      // Feedback form submission
-      const feedbackForm = document.getElementById('feedbackForm');
-      feedbackForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const status = document.getElementById('formStatus');
-        status.textContent = "⏳ Sending...";
-
-        const name = document.getElementById('name').value || "Someone";
-        const email = document.getElementById('email').value;
-        const message = document.getElementById('message').value;
-
-        const data = {
-          name: name,
-          email: email,
-          subject: "Tip Calculator Feedback",
-          message: message
-        };
-
-        try {
-          const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-            method: 'POST',
-            headers: {'Content-Type':'text/plain'},
-            body: JSON.stringify(data)
-          });
-
-          status.textContent = "✅ Thanks! Your feedback was sent.";
-          this.reset();
-          setTimeout(()=>{ status.textContent = ""; }, 5000);
-        } catch {
-          status.textContent = "❌ Failed to send! Check connection.";
-          setTimeout(()=>{ status.textContent = ""; }, 5000);
-        }
-      });
     });
 
-    function calculateTip() {
+    function calculateValues() {
       const total = parseFloat(document.getElementById('billTotal').value) || 0;
       const tax = parseFloat(document.getElementById('taxTotal').value) || 0;
       const percent = parseFloat(document.getElementById('tipPercent').value) || 20;
+      const base = total - tax;
+      let tip = base * (percent / 100);
 
-      let tip = (total - tax) * (percent / 100);
       const roundUp = document.getElementById('roundUp').checked;
       const roundDown = document.getElementById('roundDown').checked;
 
-      if (roundUp) tip = Math.ceil(tip);
-      if (roundDown) tip = Math.floor(tip);
+      let finalTotal = total + tip;
 
-      const finalTotal = total + tip;
-      const exactPercent = (tip / (total - tax)) * 100;
+      if (roundUp) finalTotal = Math.ceil(finalTotal);
+      if (roundDown) finalTotal = Math.floor(finalTotal);
 
-      let output = `Tip Amount: $${tip.toFixed(2)}<br>Total: $${finalTotal.toFixed(2)}<br>`;
-      output += `Exact Tip: ${exactPercent.toFixed(2)}%`;
+      if (roundUp || roundDown) tip = finalTotal - total;
 
-      document.getElementById('result').innerHTML = output;
+      const simplePercent = Math.round((tip / base) * 100);
+      const exactPercent = (tip / base) * 100;
 
-      if (document.getElementById('emailReceipt').checked) {
-        sendReceipt(finalTotal, tip, exactPercent);
-      }
+      return { tip, finalTotal, simplePercent, exactPercent };
     }
 
-    async function sendReceipt(finalTotal, tip, percent) {
+    function calculateTip() {
+      const { tip, finalTotal, simplePercent, exactPercent } = calculateValues();
+      document.getElementById('result').innerHTML =
+        `Tip Amount: $${tip.toFixed(2)} (${simplePercent}%)<br>` +
+        `Total: $${finalTotal.toFixed(2)} (Exact Tip: ${exactPercent.toFixed(2)}%)`;
+    }
+
+    async function completeTip() {
+      calculateTip(); // show result first
+      if (!document.getElementById('emailReceipt').checked) return;
+
       const email = document.getElementById('userEmail').value;
       if (!email) {
         alert("Please enter your email to receive the receipt.");
         return;
       }
 
+      const { tip, finalTotal, exactPercent } = calculateValues();
+
       const data = {
         name: "Tip Calculator",
         email: email,
         subject: "Your Tip Calculator Receipt",
-        message: `Your meal total with tip: $${finalTotal.toFixed(2)}\nTip: $${tip.toFixed(2)} (${percent.toFixed(2)}%)`
+        message: `Your meal total with tip: $${finalTotal.toFixed(2)}\nTip: $${tip.toFixed(2)} (${exactPercent.toFixed(2)}%)`
       };
 
       await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
