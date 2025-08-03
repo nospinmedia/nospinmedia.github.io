@@ -88,7 +88,7 @@
       </div>
 
       <!-- Footer -->
-      <footer class="text-center mt-4 text-sm text-gray-500">© 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.<br><span class="text-xs text-gray-400">v3.4</span></footer>
+      <footer class="text-center mt-4 text-sm text-gray-500">© 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.<br><span class="text-xs text-gray-400">v3.5</span></footer>
     </div>
 
     <!-- Sidebar -->
@@ -180,25 +180,29 @@
       if (roundDown.checked) finalTotal = Math.floor(finalTotal);
       if (roundUp.checked || roundDown.checked) tip = finalTotal - total;
       const taxPercent = (tax !== null && (total - tax) > 0) ? (tax / (total - tax) * 100) : null;
-      return { total, tax, base, tip, finalTotal, taxPercent };
+      return { total, tax, base, tip, finalTotal, taxPercent, percent };
     }
 
     // Function to calculate and display the tip
     function calculateTip() {
-      const { total, tax, base, tip, finalTotal, taxPercent } = calculateValues();
+      const { total, tax, base, tip, finalTotal, taxPercent, percent } = calculateValues();
       let output = '';
       if (tax !== null) {
         output += `Meal Cost (Pre-Tax): $${(total - tax).toFixed(2)}<br>`;
         output += `Tax: $${tax.toFixed(2)}${taxPercent ? ` (${taxPercent.toFixed(2)}% in tax)` : ''}<br>`;
       }
-      output += `Tip Amount: $${tip.toFixed(2)}<br>`;
+      
+      const exactTipPercent = (base > 0) ? (tip / base) * 100 : 0;
+      
+      output += `Bill Total: $${total.toFixed(2)}<br>`;
+      output += `Tip: $${tip.toFixed(2)} (${percent}% preferred, ${exactTipPercent.toFixed(2)}% actual)<br>`;
       output += `<br><strong>Total with Tip: $${finalTotal.toFixed(2)}</strong>`;
       document.getElementById('result').innerHTML = output;
     }
 
     // Function to handle the "Complete & Email" action
     function completeTip() {
-      const { total, tax, base, tip, finalTotal, taxPercent } = calculateValues();
+      const { total, tax, base, tip, finalTotal, taxPercent, percent } = calculateValues();
       const email = userEmail.value.trim();
       if (!email) {
         userEmail.classList.add('border-red-500', 'border-2');
@@ -213,13 +217,11 @@
         message += `Tax: $${tax.toFixed(2)} (${taxPercent.toFixed(2)}%)\n`;
       }
       
-      // Note: "Bill Total" is now the pre-tax total, consistent with your example.
-      message += `Bill Total: $${(total - tax).toFixed(2)}\n`;
+      message += `Bill Total: $${total.toFixed(2)}\n`;
       
-      const percent = parseFloat(document.getElementById('tipPercent').value) || 20;
       const exactTipPercent = (base > 0) ? (tip / base) * 100 : 0;
       
-      message += `Tip: $${tip.toFixed(2)} (${percent}% - Exact: ${exactTipPercent.toFixed(2)}%)\n`;
+      message += `Tip: $${tip.toFixed(2)} (${percent}% preferred, ${exactTipPercent.toFixed(2)}% actual)\n`;
       message += `\nTotal with Tip: $${finalTotal.toFixed(2)}\n\n`;
       message += `Your support keeps our tools free & fun!\n\n`;
       message += `Check out our other utilities:\n`;
@@ -294,10 +296,43 @@
       }
     }
     
-    // Placeholder function for Share with Friends
+    // Function to handle the "Share with Friends" action
     function shareFriends() {
-      // Logic for sharing the link via social media or email
-      document.getElementById('emailStatus').textContent = "Share feature not fully implemented.";
+      const billTotal = document.getElementById('billTotal').value;
+      const taxTotal = document.getElementById('taxTotal').value;
+      const tipPercent = document.getElementById('tipPercent').value;
+      const manualTip = document.getElementById('manualTip').value;
+      const roundUp = document.getElementById('roundUp').checked;
+      const roundDown = document.getElementById('roundDown').checked;
+      const exactPercent = document.getElementById('exactPercent').checked;
+      const excludeTax = document.getElementById('excludeTax').checked;
+
+      const params = new URLSearchParams({
+        billTotal,
+        taxTotal,
+        tipPercent,
+        manualTip,
+        roundUp,
+        roundDown,
+        exactPercent,
+        excludeTax
+      });
+      const url = `${window.location.href.split('?')[0]}?${params.toString()}`;
+
+      const shareData = {
+        title: 'Tip Calculator',
+        text: 'I just used this great tip calculator from No Spin Utilities. Check it out!',
+        url: url,
+      };
+
+      if (navigator.share) {
+        navigator.share(shareData)
+          .then(() => document.getElementById('emailStatus').textContent = "✅ Shared successfully!")
+          .catch((error) => console.error('Error sharing:', error));
+      } else {
+        window.open(`mailto:?subject=${encodeURIComponent(shareData.title)}&body=${encodeURIComponent(shareData.text)}%0A%0A${encodeURIComponent(shareData.url)}`, '_blank');
+        document.getElementById('emailStatus').textContent = "✅ Opened email client for sharing.";
+      }
     }
 
     // Feedback form submission handler
@@ -348,7 +383,7 @@
             billTotalInput.value = parseFloat(billTotalInput.value).toFixed(2);
         }
     });
-
+    
   </script>
 </body>
 </html>
