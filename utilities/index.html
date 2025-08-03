@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No Spin Utilities</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #222;
+      padding-top: 70px; /* match header height */
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-top: 0;
+    }
+
+    .utility-list {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .utility-item {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .utility-item a {
+      text-decoration: none;
+      color: #0073e6;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    /* Feedback form */
+    #feedbackForm input, #feedbackForm textarea {
+      width: 100%;
+      padding: 8px;
+      margin: 6px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    #feedbackForm button {
+      background: #0073e6;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #feedbackForm button:hover { background: #005bb5; }
+    #formStatus {
+      font-size: 0.9em;
+      color: green;
+      margin: 6px 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Consistent Header -->
+  <div id="site-header"></div>
+
+  <div class="container">
+    <h1>🛠️ No Spin Utilities</h1>
+    <p style="text-align:center;">Handy tools and quick apps from No Spin Media.</p>
+
+    <div class="utility-list">
+      <div class="utility-item">
+        <a href="tip-calculator-v1.1.html">💰 Tip Calculator</a>
+        <p>A privacy-first, offline-capable tip calculator with rounding and email receipt options.</p>
+      </div>
+      <!-- Future tools can be added here -->
+    </div>
+
+    <h2>We ❤️ Your Feedback!</h2>
+    <p>Have an idea for a new utility? Let us know below.</p>
+    <form id="feedbackForm">
+      <input type="text" id="name" name="name" placeholder="Your first name">
+      <input type="email" id="email" name="email" placeholder="you@email.com" required>
+      <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
+      <p id="formStatus"></p>
+      <button type="submit">💬 Send Feedback</button>
+    </form>
+  </div>
+
+  <script>
+    // Load header
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('../header.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('site-header').innerHTML = html;
+
+          // Reapply hamburger JS
+          const hamburger = document.getElementById('hamburger');
+          const mobileNav = document.getElementById('mobile-nav');
+
+          if (hamburger && mobileNav) {
+            mobileNav.classList.remove('open');
+            hamburger.classList.remove('active');
+            hamburger.addEventListener('click', () => {
+              mobileNav.classList.toggle('open');
+              hamburger.classList.toggle('active');
+            });
+            mobileNav.querySelectorAll('a').forEach(link => {
+              link.addEventListener('click', () => {
+                mobileNav.classList.remove('open');
+                hamburger.classList.remove('active');
+              });
+            });
+          }
+        })
+        .catch(err => console.error("Error loading header:", err));
+
+      // Feedback form submission
+      const feedbackForm = document.getElementById('feedbackForm');
+      if (feedbackForm) {
+        feedbackForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          const status = document.getElementById('formStatus');
+          status.textContent = "⏳ Sending...";
+
+          const name = document.getElementById('name').value || "Someone";
+          const email = document.getElementById('email').value;
+          const message = document.getElementById('message').value;
+
+          const data = {
+            name: name,
+            email: email,
+            subject: "Utilities Feedback",
+            message: message
+          };
+
+          try {
+            const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+              method: 'POST',
+              headers: {'Content-Type':'text/plain'},
+              body: JSON.stringify(data)
+            });
+
+            let result = {};
+            try { result = await res.json(); } catch (err) { result = { status: "success" }; }
+
+            if (result.status === "success") {
+              status.textContent = "✅ Thanks! Your feedback was sent.";
+              this.reset();
+            } else {
+              status.textContent = "❌ Error sending. Please try again.";
+            }
+            setTimeout(()=>{ status.textContent = ""; }, 5000);
+          } catch (err) {
+            console.error(err);
+            status.textContent = "❌ Failed to send! Check connection.";
+            setTimeout(()=>{ status.textContent = ""; }, 5000);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
