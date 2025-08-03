@@ -29,6 +29,35 @@
     #tagline { margin-top: 0.5rem; text-align: center; font-size: 0.9rem; color: #555; }
     #emailStatus { margin-top: 6px; color: green; font-weight: bold; font-size: 0.9rem; }
     #version { position: absolute; bottom: 6px; right: 8px; font-size: 0.8rem; color: #999; }
+
+    /* Center footer */
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      color: #555;
+      font-size: 0.9rem;
+    }
+
+    /* Share buttons styling */
+    .share-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .share-buttons button {
+      flex: 1;
+      background: #0073e6;
+      color: #fff;
+      border: none;
+      padding: 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .share-buttons button:hover {
+      background: #005bb5;
+    }
+
     @media (max-width: 768px) { .container { flex-direction: column; } .button-row { flex-direction: column; } .adjust-buttons { flex-direction: column; } }
   </style>
 </head>
@@ -84,9 +113,16 @@
       </div>
 
       <div class="result" id="result"></div>
+
+      <!-- New Share Buttons -->
+      <div class="share-buttons">
+        <button onclick="copyLink()">Copy Link</button>
+        <button onclick="sharePage()">Share with Friends</button>
+      </div>
+
       <div id="emailStatus"></div>
       <div id="tagline"></div>
-      <div id="version">v3.1</div>
+      <div id="version">v3.2</div>
     </div>
 
     <div class="sidebar">
@@ -261,6 +297,25 @@
     }
 
     function showTagline(){ document.getElementById('tagline').textContent = getRandomTagline().split("\n")[0]; }
+
+    // New functions for sharing
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        alert("✅ Link copied to clipboard!");
+      });
+    }
+
+    function sharePage() {
+      if (navigator.share) {
+        navigator.share({
+          title: "Tip Calculator",
+          text: "Check out this Tip Calculator!",
+          url: window.location.href
+        });
+      } else {
+        copyLink();
+      }
+    }
   </script>
 </body>
 </html>
