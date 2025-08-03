@@ -33,6 +33,14 @@
       position: relative;
     }
 
+    .version {
+      position: absolute;
+      bottom: 8px;
+      right: 12px;
+      font-size: 0.8rem;
+      color: #888;
+    }
+
     .sidebar {
       flex: 1 1 30%;
       background: #fff;
@@ -55,11 +63,13 @@
       margin-top: 4px;
       border: 1px solid #ccc;
       border-radius: 4px;
+      font-size: 1rem;
     }
 
+    /* 3-wide checkbox layout */
     .checkbox-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 0.3rem 0.5rem;
       margin-top: 0.8rem;
     }
@@ -68,6 +78,7 @@
       font-weight: normal;
       display: flex;
       align-items: center;
+      font-size: 0.95rem;
     }
 
     .button-row {
@@ -81,28 +92,31 @@
       color: #fff;
       border: none;
       padding: 10px;
+      width: 100%;
       font-weight: bold;
       border-radius: 4px;
       cursor: pointer;
-      flex: 1;
     }
 
     button:hover { background: #005bb5; }
 
-    .clear-btn {
-      background: #999;
-    }
-    .clear-btn:hover { background: #777; }
-
-    .adjust-buttons {
+    .small-button-row {
       display: flex;
       gap: 0.5rem;
       margin-top: 0.5rem;
     }
-    .adjust-buttons button {
+
+    .small-button-row button {
       flex: 1;
-      padding: 6px;
+      padding: 8px;
       font-size: 0.9rem;
+    }
+
+    .clear-btn {
+      background: #cc0000;
+    }
+    .clear-btn:hover {
+      background: #990000;
     }
 
     .result {
@@ -114,16 +128,11 @@
       border: 1px solid #ddd;
     }
 
-    .version {
-      position: absolute;
-      bottom: 5px;
-      right: 10px;
-      font-size: 0.8rem;
-      color: #777;
-    }
-
     @media (max-width: 768px) {
       .container { flex-direction: column; }
+      .button-row { flex-direction: column; }
+      .small-button-row { flex-direction: column; }
+      .checkbox-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -162,28 +171,26 @@
         <label><input type="checkbox" id="roundDown"> Round Down</label>
         <label><input type="checkbox" id="exactPercent"> Exact %</label>
         <label><input type="checkbox" id="emailReceipt"> Email Receipt</label>
+        <label><input type="checkbox" id="excludeTax"> Exclude Tax</label>
       </div>
 
       <label>Your Email:</label>
       <input type="email" id="userEmail" placeholder="you@email.com">
 
-      <!-- Side-by-side buttons -->
       <div class="button-row">
         <button onclick="calculateTip()">Calculate Tip</button>
         <button onclick="completeTip()">✅ Complete & Email</button>
       </div>
 
-      <!-- Clear button -->
-      <button class="clear-btn" onclick="clearFields()">Clear</button>
-
-      <div class="adjust-buttons">
+      <div class="small-button-row">
         <button onclick="adjustTotal(0.5)">+ $0.50</button>
         <button onclick="adjustTotal(-0.5)">- $0.50</button>
+        <button class="clear-btn" onclick="clearForm()">Clear</button>
       </div>
 
       <div class="result" id="result"></div>
       <div id="emailStatus" style="margin-top:6px;color:green;font-weight:bold;"></div>
-      <div class="version">v1.5</div>
+      <div class="version">v1.6</div>
     </div>
 
     <div class="sidebar">
@@ -218,28 +225,17 @@
     document.addEventListener('DOMContentLoaded', function() {
       fetch('../header.html')
         .then(res => res.text())
-        .then(html => {
-          document.getElementById('site-header').innerHTML = html;
-          const hamburger = document.getElementById('hamburger');
-          const mobileNav = document.getElementById('mobile-nav');
-          if (hamburger && mobileNav) {
-            hamburger.addEventListener('click', () => {
-              mobileNav.classList.toggle('open');
-              hamburger.classList.toggle('active');
-            });
-          }
-        });
+        .then(html => document.getElementById('site-header').innerHTML = html);
 
-      // Auto-check email receipt when user types email
-      const emailField = document.getElementById('userEmail');
-      emailField.addEventListener('input', function() {
-        if (this.value.trim() !== "") {
-          document.getElementById('emailReceipt').checked = true;
-        }
-      });
+      // Restore saved defaults
+      const savedTip = localStorage.getItem('tipPercent');
+      if (savedTip) document.getElementById('tipPercent').value = savedTip;
 
-      // Restore defaults from localStorage
-      restoreDefaults();
+      const savedEmail = localStorage.getItem('userEmail');
+      if (savedEmail) document.getElementById('userEmail').value = savedEmail;
+
+      const savedExcludePref = localStorage.getItem('excludePref');
+      if (savedExcludePref !== null) document.getElementById('excludeTax').checked = savedExcludePref === 'true';
     });
 
     function calculateValues() {
@@ -248,7 +244,14 @@
       const tax = taxInput === "" ? null : parseFloat(taxInput) || 0;
       const percent = parseFloat(document.getElementById('tipPercent').value) || 20;
       const manualTip = parseFloat(document.getElementById('manualTip').value);
-      const base = tax !== null ? total - tax : total;
+      const excludeTax = document.getElementById('excludeTax').checked;
+
+      // Auto-check exclude tax if tax entered (unless user has manually unchecked)
+      if (tax !== null && localStorage.getItem('excludePref') === null) {
+        document.getElementById('excludeTax').checked = true;
+      }
+
+      const base = (excludeTax && tax !== null) ? total - tax : total;
 
       let tip = !isNaN(manualTip) ? manualTip : base * (percent / 100);
       const roundUp = document.getElementById('roundUp').checked;
@@ -263,23 +266,19 @@
       let simplePercent = (tip / base) * 100;
       const exactPercent = (tip / base) * 100;
 
-      if (!document.getElementById('exactPercent').checked) {
-        simplePercent = Math.round(simplePercent);
-      }
-
-      return { total, tax, tip, finalTotal, simplePercent, exactPercent };
+      return { total, tax, tip, finalTotal, simplePercent, exactPercent, base };
     }
 
     function calculateTip() {
       const { tip, finalTotal, simplePercent, exactPercent } = calculateValues();
       document.getElementById('result').innerHTML =
-        `Tip Amount: $${tip.toFixed(2)} (${simplePercent}%)<br>` +
+        `Tip Amount: $${tip.toFixed(2)} (${simplePercent.toFixed(0)}%)<br>` +
         `Total: $${finalTotal.toFixed(2)} (Exact Tip: ${exactPercent.toFixed(2)}%)`;
       document.getElementById('emailStatus').textContent = "";
     }
 
     async function completeTip() {
-      const { total, tax, tip, finalTotal, simplePercent, exactPercent } = calculateValues();
+      const { total, tax, tip, finalTotal, simplePercent, exactPercent, base } = calculateValues();
       calculateTip();
 
       if (!document.getElementById('emailReceipt').checked) return;
@@ -290,9 +289,18 @@
         return;
       }
 
-      let message = `Bill Total: $${total.toFixed(2)}\n`;
-      if (tax !== null) message += `Tax: $${tax.toFixed(2)}\n`;
-      message += `Tip: $${tip.toFixed(2)} (${simplePercent}% - Exact: ${exactPercent.toFixed(2)}%)\n`;
+      localStorage.setItem('tipPercent', document.getElementById('tipPercent').value);
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('excludePref', document.getElementById('excludeTax').checked);
+
+      let message = `Meal Total: $${(base).toFixed(2)}\n`;
+      if (tax !== null) {
+        message += `Tax: $${tax.toFixed(2)}\n`;
+        message += `Bill Total (with tax): $${total.toFixed(2)}\n`;
+      } else {
+        message += `Bill Total: $${total.toFixed(2)}\n`;
+      }
+      message += `Tip: $${tip.toFixed(2)} (${simplePercent.toFixed(0)}% - Exact: ${exactPercent.toFixed(2)}%)\n`;
       message += `Total with Tip: $${finalTotal.toFixed(2)}\n\n`;
       message += `Check out our other utilities:\nhttps://nospin.media/utilities/index.html`;
 
@@ -316,40 +324,26 @@
     }
 
     function adjustTotal(amount) {
-      const billField = document.getElementById('billTotal');
-      const current = parseFloat(billField.value) || 0;
-      billField.value = (current + amount).toFixed(2);
+      const billInput = document.getElementById('billTotal');
+      const current = parseFloat(billInput.value) || 0;
+      billInput.value = (current + amount).toFixed(2);
       calculateTip();
     }
 
-    function clearFields() {
+    function clearForm() {
       document.getElementById('billTotal').value = "";
       document.getElementById('taxTotal').value = "";
       document.getElementById('manualTip').value = "";
-      calculateTip();
-      saveDefaults();
+      document.getElementById('result').innerHTML = "";
+      document.getElementById('emailStatus').textContent = "";
     }
 
-    function saveDefaults() {
-      localStorage.setItem('tipDefaults', JSON.stringify({
-        email: document.getElementById('userEmail').value,
-        tipPercent: document.getElementById('tipPercent').value,
-        roundUp: document.getElementById('roundUp').checked,
-        roundDown: document.getElementById('roundDown').checked,
-        exactPercent: document.getElementById('exactPercent').checked,
-        emailReceipt: document.getElementById('emailReceipt').checked
-      }));
-    }
-
-    function restoreDefaults() {
-      const saved = JSON.parse(localStorage.getItem('tipDefaults') || '{}');
-      if (saved.email) document.getElementById('userEmail').value = saved.email;
-      if (saved.tipPercent) document.getElementById('tipPercent').value = saved.tipPercent;
-      document.getElementById('roundUp').checked = saved.roundUp || false;
-      document.getElementById('roundDown').checked = saved.roundDown || false;
-      document.getElementById('exactPercent').checked = saved.exactPercent || false;
-      document.getElementById('emailReceipt').checked = saved.emailReceipt || false;
-    }
+    // Auto-check Email Receipt when user types email
+    document.getElementById('userEmail').addEventListener('input', function() {
+      if (this.value.trim() !== "") {
+        document.getElementById('emailReceipt').checked = true;
+      }
+    });
   </script>
 </body>
 </html>
