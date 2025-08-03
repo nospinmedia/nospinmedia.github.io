@@ -2,7 +2,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
     /* Header */
     header {
         box-sizing: border-box !important;
@@ -32,13 +33,13 @@
         margin: 0 !important;
         line-height: 1 !important;
         padding: 0 !important;
-        cursor: pointer; /* Indicates clickable */
-        text-decoration: none !important; /* Remove underline */
+        cursor: pointer;
+        text-decoration: none !important;
     }
 
     .header-logo-text a {
-        color: inherit !important; /* Inherit text color */
-        text-decoration: none !important; /* Ensure no underline */
+        color: inherit !important;
+        text-decoration: none !important;
     }
 
     /* Desktop nav */
@@ -62,15 +63,15 @@
         color: #fff;
         padding: 5px;
         z-index: 1001;
-        transition: color 0.3s; /* Smooth color transition */
+        transition: color 0.3s;
     }
 
     .hamburger-menu.active {
-        color: #ff5733; /* Changes to orange when clicked/active */
+        color: #ff5733;
     }
 
     /* Mobile nav */
-   .mobile-nav {
+    .mobile-nav {
         flex-direction: column;
         position: fixed !important;
         top: 70px;
@@ -81,14 +82,11 @@
         box-shadow: 0 5px 10px rgba(0,0,0,0.2);
         padding: 1rem 0;
         z-index: 1002 !important;
-
-        /* NEW: hidden off-screen to the right */
         transform: translateX(100%);
         transition: transform 0.3s ease;
     }
 
     .mobile-nav.open {
-        /* NEW: slide into view */
         transform: translateX(0);
     }
 
@@ -101,11 +99,6 @@
         text-align: right;
     }
 
-    /* Remove old display toggle */
-    /* .mobile-nav { display: none; } */
-    /* .mobile-nav.open { display: flex; } */
-
-    /* Mobile breakpoint */
     @media (max-width: 768px) {
         header {
             padding: 0.5rem 1rem !important;
@@ -122,11 +115,11 @@
             display: block;
         }
         .mobile-nav {
-            display: flex; /* Always flex, visibility is controlled by transform */
+            display: flex;
             flex-direction: column;
         }
     }
-</style>
+    </style>
 </head>
 <body>
     <header>
@@ -139,6 +132,7 @@
             <a href="/emoji-math.html">Emoji Math</a>
             <a href="/ai-posts.html">AI Posts</a>
             <a href="/games/index.html">Games</a>
+            <a href="/utilities/index.html">Utilities</a> <!-- ✅ NEW Utilities Link -->
             <a href="/sponsor.html">Support</a>
             <a href="/ai.html">Why AI?</a>
             <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
@@ -152,27 +146,26 @@
         <a href="/emoji-math.html">Emoji Math</a>
         <a href="/ai-posts.html">AI Posts</a>
         <a href="/games/index.html">Games</a>
+        <a href="/utilities/index.html">Utilities</a> <!-- ✅ NEW Utilities Link -->
         <a href="/sponsor.html">Support</a>
         <a href="/ai.html">Why AI?</a>
         <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
     </div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobile-nav');
 
     if (hamburger && mobileNav) {
-        // Ensure closed at start
         mobileNav.classList.remove('open');
         hamburger.classList.remove('active');
 
-        // Toggle menu on click
         hamburger.addEventListener('click', () => {
             mobileNav.classList.toggle('open');
             hamburger.classList.toggle('active');
         });
 
-        // Close when a link is clicked
         mobileNav.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 mobileNav.classList.remove('open');
