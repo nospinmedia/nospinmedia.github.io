@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shopping List | No Spin Media</title>
   <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -40,7 +39,7 @@
       padding: 2rem;
       background: white;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
       display: flex;
       flex-wrap: wrap;
       gap: 2rem;
@@ -76,39 +75,23 @@
       background: #555;
     }
     .item-row {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
       align-items: center;
-      justify-content: space-between;
       gap: 0.5rem;
       margin: 0.25rem 0;
-      padding: 0.25rem 0.5rem;
-      border-bottom: 1px dashed #ddd;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid #eee;
+      font-size: 1rem;
     }
     .item-row label {
-      flex-grow: 1;
-      font-weight: 500;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
-    .item-row select, .item-row input[type="number"] {
-      width: auto;
-    }
     .item-row button {
-      background: transparent;
-      border: none;
-      font-size: 1.2rem;
-      color: #555;
-    }
-    .item-row button:hover {
+      background: none;
       color: red;
-    }
-    .category-group {
-      margin-top: 1.5rem;
-    }
-    .category-group h3 {
-      margin-bottom: 0.3rem;
-      border-bottom: 1px solid #ccc;
       font-size: 1.2rem;
     }
     .version {
@@ -118,19 +101,16 @@
       margin-top: 1rem;
     }
     @media print {
-      button, select, input[type="number"], .version, textarea, header, footer, #emailInput, #importBox, .sidebar {
+      button, select, input, textarea, header, footer, .sidebar, .version {
         display: none !important;
-      }
-      body {
-        background: white;
       }
       .container {
         box-shadow: none;
         padding: 1rem;
       }
       .item-row {
-        font-size: 1.1rem;
         display: block;
+        font-size: 1.1rem;
         padding: 0.2rem 0;
         border: none;
       }
@@ -146,7 +126,6 @@
       <a href="/games/index.html">Games</a>
     </nav>
   </header>
-
   <div class="container">
     <div class="main">
       <h1><span>🛒</span> Shopping List</h1>
@@ -183,9 +162,8 @@
       <button onclick="sendEmail()">📧 Send List to My Email</button>
       <p id="emailStatus" style="margin-top: 0.5rem; color: green;"></p>
 
-      <div class="version">Version V1.8</div>
+      <div class="version">Version V1.9</div>
     </div>
-
     <div class="sidebar">
       <h2>We ❤️ Your Feedback!</h2>
       <p>Have ideas for improving the shopping list? We’d love to hear from you.</p>
@@ -198,95 +176,10 @@
       </form>
     </div>
   </div>
-
   <footer style="text-align: center; padding: 1rem; font-size: 0.9rem;">
     📩 Feedback welcome at nospinmedia.ai@gmail.com — No cookies. No tracking.<br />
     — Powered by No Spin Media 🌐 https://nospin.media
   </footer>
-
-  <script>
-    function getRandomTagline() {
-      const tags = [
-        "Thanks for using No Spin Utilities!",
-        "Check out our other free tools at No Spin Media!",
-        "Your support keeps us spinning out great tools!",
-        "Made with ❤️ for everyday shoppers!",
-        "Simple. Honest. Helpful. No Spin."
-      ];
-      return tags[Math.floor(Math.random() * tags.length)];
-    }
-
-async function sendEmail() {
-  const email = document.getElementById('emailInput').value.trim();
-  const status = document.getElementById('emailStatus');
-  if (!email) {
-    status.style.color = 'red';
-    status.textContent = '❌ Please enter your email.';
-    return;
-  }
-
-  const items = Array.from(document.querySelectorAll('.item-row')).map(row => {
-    const name = row.querySelector('label span')?.textContent || 'Item';
-    const qty = row.querySelector('input[type="number"]')?.value || '1';
-    const cat = row.querySelector('select')?.value || 'Other';
-    return `- ${name} (x${qty}) [${cat}]`;
-  });
-
-  if (items.length === 0) {
-    status.style.color = 'red';
-    status.textContent = '❌ Your list is empty.';
-    return;
-  }
-
-  status.style.color = '#555';
-  status.textContent = '⏳ Sending...';
-
-  const message = `Your Shopping List:\n\n${items.join("\n")}\n\n${getRandomTagline()}\n\nMore tools: https://nospin.media/utilities/index.html`;
-
-  try {
-    const res = await fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
-      method: 'POST',
-      headers: {'Content-Type': 'text/plain'},
-      body: JSON.stringify({
-        name: 'No Spin Utilities',
-        email,
-        subject: 'Your Shopping List',
-        message
-      })
-    });
-    await res.json();
-    status.style.color = 'green';
-    status.textContent = '✅ Shopping list sent to ' + email;
-  } catch (err) {
-    status.style.color = 'red';
-    status.textContent = '❌ Failed to send your list.';
-  }
-}
-
-    document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const status = document.getElementById('formStatus');
-      status.textContent = "⏳ Sending...";
-      const data = {
-        name: document.getElementById('name').value || "Someone",
-        email: document.getElementById('email').value,
-        subject: "Shopping List Feedback",
-        message: document.getElementById('message').value
-      };
-      try {
-        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-          method: 'POST',
-          headers: {'Content-Type':'text/plain'},
-          body: JSON.stringify(data)
-        });
-        await res.json();
-        status.textContent = "✅ Thanks! Your feedback was sent.";
-        this.reset();
-        setTimeout(()=>{ status.textContent=""; }, 4000);
-      } catch(err) {
-        status.textContent = "❌ Failed to send!";
-      }
-    });
-  </script>
+  <script defer src="script.js"></script>
 </body>
 </html>
