@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping List | No Spin Utilities</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; color: #222; padding-top: 70px; }
+    header {
+      background: #111; color: #fff; display: flex; align-items: center; justify-content: space-between;
+      padding: 0.5rem 2rem; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+    }
+    .header-logo-text {
+      font-size: 2rem; font-weight: bold; color: #fff; text-decoration: none;
+    }
+    nav a {
+      color: #fff; margin-left: 20px; text-decoration: none; font-weight: bold;
+    }
+    .container {
+      max-width: 900px; margin: 2rem auto; padding: 1.5rem; background: white; border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    }
+    h1 { font-size: 2rem; margin-top: 0; }
+    .item-entry { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+    input[type="text"] {
+      flex: 2; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;
+    }
+    select {
+      flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;
+    }
+    button {
+      background: #0073e6; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;
+    }
+    button:hover { background: #005bb5; }
+    .category-group { margin-top: 1.5rem; }
+    .category-group h3 { margin-bottom: 0.5rem; border-bottom: 1px solid #ddd; }
+    ul { list-style: none; padding-left: 0; }
+    li { padding: 0.5rem 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+    .remove-btn { background: #d9534f; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; }
+    .remove-btn:hover { background: #b52b27; }
+    footer { text-align: center; margin-top: 3rem; color: #555; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/index.html" class="header-logo-text">🧭 No Spin Media</a>
+    <nav>
+      <a href="/index.html">Home</a>
+      <a href="/utilities/index.html">Utilities</a>
+      <a href="/games/index.html">Games</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1>🛒 Shopping List</h1>
+    <div class="item-entry">
+      <input type="text" id="itemInput" placeholder="e.g. Milk, Apples, Cereal">
+      <select id="categorySelect">
+        <option value="Produce">Produce</option>
+        <option value="Dairy">Dairy</option>
+        <option value="Frozen">Frozen</option>
+        <option value="Bread">Bread</option>
+        <option value="Cereal">Cereal</option>
+        <option value="Meat">Meat</option>
+        <option value="Seafood">Seafood</option>
+        <option value="Canned & Dry Goods">Canned & Dry Goods</option>
+        <option value="Snacks">Snacks</option>
+        <option value="Beverages">Beverages</option>
+        <option value="Health & Beauty">Health & Beauty</option>
+        <option value="Household">Household</option>
+        <option value="Other">Other</option>
+      </select>
+      <button onclick="addItem()">Add</button>
+    </div>
+
+    <div id="listContainer"></div>
+
+    <div style="margin-top:2rem">
+      <label><strong>Your Email:</strong></label><br>
+      <input type="email" id="userEmail" style="width:100%;padding:8px;margin:8px 0;border:1px solid #ccc;border-radius:4px;">
+      <button onclick="emailList()">📧 Send List to My Email</button>
+      <p id="emailStatus"></p>
+    </div>
+  </div>
+
+  <footer>
+    📩 Feedback welcome at nospinmedia.ai@gmail.com — No cookies. No tracking. <br>
+    — Powered by No Spin Media 🌐 https://nospin.media
+  </footer>
+
+  <script>
+    const defaultCategories = {
+      'milk': 'Dairy', 'cheese': 'Dairy', 'yogurt': 'Dairy',
+      'apples': 'Produce', 'bananas': 'Produce', 'lettuce': 'Produce',
+      'bread': 'Bread', 'rolls': 'Bread',
+      'cereal': 'Cereal',
+      'ice cream': 'Frozen', 'frozen pizza': 'Frozen',
+      'chicken': 'Meat', 'beef': 'Meat',
+      'fish': 'Seafood', 'salmon': 'Seafood',
+      'soda': 'Beverages', 'juice': 'Beverages',
+      'toothpaste': 'Health & Beauty', 'shampoo': 'Health & Beauty',
+      'detergent': 'Household'
+    };
+
+    const categories = [
+      "Produce", "Dairy", "Frozen", "Bread", "Cereal", "Meat", "Seafood",
+      "Canned & Dry Goods", "Snacks", "Beverages", "Health & Beauty", "Household", "Other"
+    ];
+
+    const items = [];
+
+    function addItem() {
+      const input = document.getElementById('itemInput');
+      const category = document.getElementById('categorySelect').value;
+      const name = input.value.trim();
+      if (!name) return;
+
+      const itemLower = name.toLowerCase();
+      const autoCategory = defaultCategories[itemLower] || category;
+
+      items.push({ name, category: autoCategory });
+      input.value = '';
+      renderList();
+    }
+
+    function removeItem(index) {
+      items.splice(index, 1);
+      renderList();
+    }
+
+    function renderList() {
+      const container = document.getElementById('listContainer');
+      container.innerHTML = '';
+
+      categories.forEach(cat => {
+        const catItems = items.filter(i => i.category === cat);
+        if (catItems.length > 0) {
+          const section = document.createElement('div');
+          section.className = 'category-group';
+          section.innerHTML = `<h3>${cat}</h3><ul>` +
+            catItems.map((item, idx) => `<li>${item.name}<button class='remove-btn' onclick='removeItem(${items.indexOf(item)})'>Remove</button></li>`).join('') +
+            '</ul>';
+          container.appendChild(section);
+        }
+      });
+    }
+
+    async function emailList() {
+      const email = document.getElementById('userEmail').value.trim();
+      const status = document.getElementById('emailStatus');
+      if (!email) {
+        status.textContent = "❌ Please enter your email address.";
+        return;
+      }
+
+      let message = '🛒 Your Shopping List:\n\n';
+      categories.forEach(cat => {
+        const catItems = items.filter(i => i.category === cat);
+        if (catItems.length > 0) {
+          message += `📂 ${cat}:\n` + catItems.map(i => `• ${i.name}`).join('\n') + '\n\n';
+        }
+      });
+      message += "\nVisit https://nospin.media/utilities/index.html for more tools!";
+
+      await fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ name: "Shopping List", email, subject: "Your Grocery List", message })
+      });
+      status.textContent = `✅ List sent to ${email}`;
+    }
+  </script>
+</body>
+</html>
