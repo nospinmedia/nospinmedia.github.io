@@ -123,7 +123,7 @@
 
       <div id="emailStatus"></div>
       <div id="tagline"></div>
-      <div id="version">v3.7</div>
+      <div id="version">v3.8</div>
     </div>
 
     <div class="sidebar">
@@ -265,16 +265,25 @@ msg += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% actual
       }
 
       let message = '';
-      if(tax!==null){
-        const taxPct = (tax/(total-tax))*100;
-        message += `Meal Cost (Pre-Tax): $${base.toFixed(2)}\n`;
-        message += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)\n`;
-      }
+let mealCost = (tax !== null && tax <= total) ? total - tax : total;
+
+if(tax !== null){
+  const taxPct = (tax / mealCost) * 100;
+  message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`;
+  message += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)\n`;
+} else {
+  message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`;
+}
+
       message += `Bill Total: $${total.toFixed(2)}\n`;
       const manualTip = parseFloat(document.getElementById('manualTip').value);
 const tipLabel = !isNaN(manualTip) ? "Manual Tip Entered" : `${document.getElementById('tipPercent').value}% preferred`;
 message += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% actual)\n\n`;
       message += `Total with Tip: $${finalTotal.toFixed(2)}\n\n`;
+      if (document.getElementById('excludeTax').checked) {
+  message += `(Tip calculated excluding tax)\n`;
+}
+
       message += getRandomTagline();
 
       await fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
