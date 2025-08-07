@@ -69,7 +69,6 @@ function addItem() {
   saveList();
 }
 
-// UPDATED renderList() for emojis and better layout
 function renderList() {
   const container = document.getElementById('shoppingList');
   container.innerHTML = "";
