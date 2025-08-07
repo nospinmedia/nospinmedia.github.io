@@ -15,6 +15,7 @@
     }
     .header-logo-text {
       font-size: 2rem; font-weight: bold; color: #fff; text-decoration: none;
+      margin-right: auto;
     }
     nav a {
       color: #fff; margin-left: 20px; text-decoration: none; font-weight: bold;
@@ -42,6 +43,7 @@
     .remove-btn { background: #d9534f; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; }
     .remove-btn:hover { background: #b52b27; }
     footer { text-align: center; margin-top: 3rem; color: #555; font-size: 0.9rem; }
+    .version { font-size: 0.85rem; color: #888; text-align: center; margin-top: 1rem; }
   </style>
 </head>
 <body>
@@ -88,6 +90,8 @@
     </div>
   </div>
 
+  <div class="version">Version: V1.1</div>
+
   <footer>
     📩 Feedback welcome at nospinmedia.ai@gmail.com — No cookies. No tracking. <br>
     — Powered by No Spin Media 🌐 https://nospin.media
@@ -114,7 +118,7 @@
       "Canned & Dry Goods", "Snacks", "Beverages", "Health & Beauty", "Household", "Other"
     ];
 
-    const items = [];
+    const items = JSON.parse(localStorage.getItem('shoppingItems') || '[]');
 
     function findCategory(name) {
       const text = name.toLowerCase();
@@ -128,22 +132,33 @@
 
     function addItem() {
       const input = document.getElementById('itemInput');
-      const name = input.value.trim();
-      if (!name) return;
+      const raw = input.value.trim();
+      if (!raw) return;
 
+      const name = raw.charAt(0).toUpperCase() + raw.slice(1).toLowerCase();
       const detected = findCategory(name);
-      items.push({ name, category: detected });
+      items.push({ name, category: detected, checked: false });
       input.value = '';
-      renderList();
+      saveAndRender();
     }
 
     function updateCategory(index, newCat) {
       items[index].category = newCat;
-      renderList();
+      saveAndRender();
+    }
+
+    function toggleCheck(index) {
+      items[index].checked = !items[index].checked;
+      saveAndRender();
     }
 
     function removeItem(index) {
       items.splice(index, 1);
+      saveAndRender();
+    }
+
+    function saveAndRender() {
+      localStorage.setItem('shoppingItems', JSON.stringify(items));
       renderList();
     }
 
@@ -160,7 +175,8 @@
           section.innerHTML = `<h3>${cat}</h3><ul>` +
             catItems.map((item) => `
               <li>
-                ${item.name}
+                <input type='checkbox' onchange='toggleCheck(${item.index})' ${item.checked ? 'checked' : ''}>
+                <span style='flex:1;${item.checked ? "text-decoration:line-through;color:#888;" : ""}'>${item.name}</span>
                 <select onchange="updateCategory(${item.index}, this.value)">
                   ${categories.map(c => `<option value="${c}" ${item.category === c ? 'selected' : ''}>${c}</option>`).join('')}
                 </select>
@@ -196,6 +212,8 @@
       });
       status.textContent = `✅ List sent to ${email}`;
     }
+
+    window.onload = renderList;
   </script>
 </body>
 </html>
