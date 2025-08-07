@@ -1,4 +1,4 @@
-// script.js — Shopping List Utility V1.5
+// script.js — Shopping List Utility V1.5.1
 
 let shoppingList = [];
 
@@ -25,6 +25,10 @@ function autoCategory(itemName) {
     }
   }
   return "Other";
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 function addItem() {
@@ -73,10 +77,6 @@ function renderList() {
     });
     container.appendChild(section);
   }
-}
-
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 function removeItem(index) {
@@ -131,15 +131,32 @@ function sendEmail() {
 }
 
 function importItems() {
-  const input = document.getElementById('importBox').value;
-  const lines = input.split(/\n+/).filter(line => line && !line.match(/Added|Show search|Edit|Delete/i));
-  for (const line of lines) {
-    const name = line.trim();
-    const category = autoCategory(name);
-    shoppingList.push({ name: capitalize(name), qty: 1, category });
+  const rawText = document.getElementById("importBox").value;
+  const lines = rawText.split("\n").map(line => line.trim()).filter(line => line);
+
+  const skipPhrases = [
+    "Add Item", "Show search result", "Edit", "Delete", "Added", "Edited", "Me Added", "John Added"
+  ];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    if (
+      skipPhrases.some(skip => line.includes(skip)) ||
+      /^\w+ Added \d+/.test(line) ||
+      /^Edited \d+/.test(line)
+    ) {
+      continue;
+    }
+
+    const itemName = capitalize(line);
+    const qty = 1;
+    const category = autoCategory(itemName);
+    shoppingList.push({ name: itemName, qty, category, checked: false });
   }
-  renderList();
+
   saveList();
+  renderList();
 }
 
 function saveList() {
