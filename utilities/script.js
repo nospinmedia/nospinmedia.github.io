@@ -1,4 +1,4 @@
-// script.js — Shopping List Utility V2.0
+// script.js — Shopping List Utility V2.1
 
 let shoppingList = [];
 
@@ -15,7 +15,7 @@ const keywordMap = [
   { keywords: ["chips", "crackers", "cookies", "snack", "popcorn", "pretzels", "goldfish", "granola bars", "oreos"], category: "Snacks" },
   { keywords: ["soda", "juice", "water", "coffee", "starbucks", "tea", "iced tea", "gatorade", "energy drink"], category: "Beverages" },
   { keywords: ["toothpaste", "soap", "shampoo", "deodorant", "mouthwash", "conditioner", "lotion", "hand sanitizer", "band-aids"], category: "Health & Beauty" },
-  { keywords: ["detergent", "cleaner", "bar keepers", "toilet paper", "paper towels", "dish soap", "sponges", "trash bags", "air freshener", "light bulbs"], category: "Household" },
+  { keywords: ["detergent", "cleaner", "bar keepers", "toilet paper", "dish soap", "sponges", "trash bags", "air freshener", "light bulbs"], category: "Household" },
   { keywords: ["medicine", "pain reliever", "allergy", "vitamins", "cold & flu"], category: "Pharmacy" }
 ];
 
@@ -52,7 +52,7 @@ function addItem() {
   saveList();
 }
 
-// UPDATED renderList() function for better layout and alignment
+// UPDATED renderList() for better layout
 function renderList() {
   const container = document.getElementById('shoppingList');
   container.innerHTML = "";
@@ -149,7 +149,7 @@ function printList() {
   win.print();
 }
 
-// UPDATED sendEmail() function with corrected payload and status messages
+// CORRECTED sendEmail() function for formatted email body
 async function sendEmail() {
   const email = document.getElementById('emailInput').value.trim();
   const emailStatus = document.getElementById('emailStatus');
@@ -164,11 +164,26 @@ async function sendEmail() {
     emailStatus.textContent = "⏳ Sending...";
   }
 
-  // CORRECTED PAYLOAD
+  const grouped = shoppingList.reduce((acc, item) => {
+    if (!acc[item.category]) acc[item.category] = [];
+    acc[item.category].push(item);
+    return acc;
+  }, {});
+
+  const sortedCategories = Object.keys(grouped).sort();
+  let emailBody = "Your Shopping List:\n\n";
+  for (const category of sortedCategories) {
+    emailBody += `--- ${category} ---\n`;
+    grouped[category].forEach(item => {
+      emailBody += `- ${item.name} (Qty: ${item.qty})\n`;
+    });
+    emailBody += "\n";
+  }
+
   const payload = {
     email: email,
     subject: "Your Shopping List",
-    message: shoppingList.map(i => `${i.name} (Qty: ${i.qty}) — ${i.category}`).join("\n")
+    message: emailBody
   };
 
   try {
@@ -186,6 +201,7 @@ async function sendEmail() {
     emailStatus.textContent = "❌ Failed to send email.";
   }
 }
+
 
 function importItems() {
   const rawText = document.getElementById("importBox").value;
