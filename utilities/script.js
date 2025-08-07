@@ -1,4 +1,4 @@
-// script.js — Shopping List Utility V1.5.2
+// script.js — Shopping List Utility V1.6
 
 let shoppingList = [];
 
@@ -67,16 +67,18 @@ function renderList() {
       const row = document.createElement('div');
       row.className = "item-row";
       row.innerHTML = `
-        <input type="checkbox" />
-        <span style="margin-left: 0.5rem; margin-right: 1rem;">${name}</span>
-        <small style="margin-right: 1rem;">Qty:</small>
-        <input type="number" value="${qty}" min="1" onchange="updateQty(${index}, this.value)" style="width: 50px; margin-right: 1rem;" />
-        <select onchange="updateCategory(${index}, this.value)" style="margin-right: 1rem;">
-          ${["Produce", "Dairy", "Frozen", "Bread", "Cereal", "Meat", "Seafood", "Snacks", "Household", "Health & Beauty", "Other"].map(opt =>
+        <label>
+          <input type="checkbox" />
+          <span style="margin-left: 0.5rem; font-weight: bold;">${name}</span>
+        </label>
+        <span style="margin-left: 1rem;">Qty: </span>
+        <input type="number" value="${qty}" min="1" onchange="updateQty(${index}, this.value)" style="width: 50px; margin-left: 0.5rem;" />
+        <select onchange="updateCategory(${index}, this.value)" style="margin-left: 1rem;">
+          ${["Produce", "Dairy", "Frozen", "Bread", "Cereal", "Meat", "Seafood", "Snacks", "Household", "Health & Beauty", "Other", "Beverages", "Canned & Dry Goods"].map(opt =>
             `<option value="${opt}" ${opt === grouped[category][0].category ? "selected" : ""}>${opt}</option>`
           ).join('')}
         </select>
-        <button onclick="removeItem(${index})">🗑️</button>
+        <button onclick="removeItem(${index})" style="margin-left: 1rem;">🗑️</button>
       `;
       section.appendChild(row);
     });
@@ -113,7 +115,26 @@ function exportCSV() {
 }
 
 function printList() {
-  window.print();
+  const win = window.open("", "PrintWindow");
+  const grouped = shoppingList.reduce((acc, item) => {
+    if (!acc[item.category]) acc[item.category] = [];
+    acc[item.category].push(item);
+    return acc;
+  }, {});
+
+  let html = '<html><head><title>Shopping List</title></head><body>';
+  html += '<h1>Shopping List</h1>';
+  for (const category in grouped) {
+    html += `<h3>${category}</h3><ul>`;
+    grouped[category].forEach(item => {
+      html += `<li>${item.name} (Qty: ${item.qty})</li>`;
+    });
+    html += '</ul>';
+  }
+  html += '</body></html>';
+  win.document.write(html);
+  win.document.close();
+  win.print();
 }
 
 function sendEmail() {
@@ -144,9 +165,7 @@ function importItems() {
       skipPhrases.some(skip => line.includes(skip)) ||
       /^\w+ Added \d+/.test(line) ||
       /^Edited \d+/.test(line)
-    ) {
-      continue;
-    }
+    ) continue;
 
     const itemName = capitalize(line);
     const existing = shoppingList.find(i => i.name.toLowerCase() === itemName.toLowerCase());
@@ -154,12 +173,20 @@ function importItems() {
       existing.qty += 1;
     } else {
       const category = autoCategory(itemName);
-      shoppingList.push({ name: itemName, qty: 1, category, checked: false });
+      shoppingList.push({ name: itemName, qty: 1, category });
     }
   }
 
   saveList();
   renderList();
+}
+
+function clearList() {
+  if (confirm("Are you sure you want to clear the list?")) {
+    shoppingList = [];
+    saveList();
+    renderList();
+  }
 }
 
 function saveList() {
