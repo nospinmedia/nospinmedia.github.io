@@ -11,12 +11,12 @@ const keywordMap = [
   { keywords: ["cereal", "cheerios", "corn flakes", "raisin bran", "oatmeal", "strawberry cereal", "frosted flakes", "lucky charms", "cinnamon toast crunch"], category: "Cereal" },
   { keywords: ["chicken", "beef", "pork", "steak", "ground turkey", "sausage", "bacon", "ham", "hot dogs", "deli meat"], category: "Meat" },
   { keywords: ["salmon", "shrimp", "fish", "tilapia", "tuna", "clams", "scallops", "crab", "lobster"], category: "Seafood" },
-  { keywords: ["beans", "rice", "pasta", "soup", "flour", "sugar", "salt", "pepper", "ketchup", "mustard", "mayo", "spaghetti sauce", "oil", "vinegar", "canned"], category: "Pantry & Dry Goods" },
   { keywords: ["chips", "crackers", "cookies", "snack", "popcorn", "pretzels", "goldfish", "granola bars", "oreos"], category: "Snacks" },
   { keywords: ["soda", "juice", "water", "coffee", "starbucks", "tea", "iced tea", "gatorade", "energy drink"], category: "Beverages" },
   { keywords: ["toothpaste", "soap", "shampoo", "deodorant", "mouthwash", "conditioner", "lotion", "hand sanitizer", "band-aids"], category: "Health & Beauty" },
-  { keywords: ["detergent", "cleaner", "bar keepers", "toilet paper", "dish soap", "sponges", "trash bags", "air freshener", "light bulbs"], category: "Household" },
-  { keywords: ["medicine", "pain reliever", "allergy", "vitamins", "cold & flu"], category: "Pharmacy" }
+  { keywords: ["medicine", "pain reliever", "allergy", "vitamins", "cold & flu"], category: "Pharmacy" },
+  { keywords: ["beans", "rice", "pasta", "soup", "flour", "sugar", "salt", "pepper", "ketchup", "mustard", "mayo", "spaghetti sauce", "oil", "vinegar", "canned"], category: "Pantry & Dry Goods" },
+  { keywords: ["detergent", "cleaner", "bar keepers", "toilet paper", "dish soap", "sponges", "trash bags", "air freshener", "light bulbs"], category: "Household" }
 ];
 
 const emojiMap = {
