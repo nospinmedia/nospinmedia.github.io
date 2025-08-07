@@ -216,10 +216,12 @@
       return tags[Math.floor(Math.random() * tags.length)];
     }
 
-    function sendEmail() {
+    async function sendEmail() {
       const email = document.getElementById('emailInput').value.trim();
+      const status = document.getElementById('emailStatus');
       if (!email) {
-        document.getElementById('emailStatus').textContent = '❌ Please enter your email.';
+        status.style.color = 'red';
+        status.textContent = '❌ Please enter your email.';
         return;
       }
 
@@ -231,26 +233,34 @@
       });
 
       if (items.length === 0) {
-        document.getElementById('emailStatus').textContent = '❌ Your list is empty.';
+        status.style.color = 'red';
+        status.textContent = '❌ Your list is empty.';
         return;
       }
 
+      status.style.color = '#555';
+      status.textContent = '⏳ Sending...';
+
       const message = `Your Shopping List:\n\n${items.join("\n")}\n\n${getRandomTagline()}\n\nMore tools: https://nospin.media/utilities/index.html`;
 
-      fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
-        method: 'POST',
-        headers: {'Content-Type':'text/plain'},
-        body: JSON.stringify({
-          name: 'No Spin Utilities',
-          email,
-          subject: 'Your Shopping List',
-          message
-        })
-      }).then(() => {
-        document.getElementById('emailStatus').textContent = '✅ Shopping list sent to ' + email;
-      }).catch(() => {
-        document.getElementById('emailStatus').textContent = '❌ Failed to send your list.';
-      });
+      try {
+        const res = await fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
+          method: 'POST',
+          headers: {'Content-Type':'text/plain'},
+          body: JSON.stringify({
+            name: 'No Spin Utilities',
+            email,
+            subject: 'Your Shopping List',
+            message
+          })
+        });
+        await res.json();
+        status.style.color = 'green';
+        status.textContent = '✅ Shopping list sent to ' + email;
+      } catch (err) {
+        status.style.color = 'red';
+        status.textContent = '❌ Failed to send your list.';
+      }
     }
 
     document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
