@@ -70,46 +70,46 @@ function addItem() {
 }
 
 function renderList() {
-  const container = document.getElementById('shoppingList');
-  container.innerHTML = "";
+  const container = document.getElementById('shoppingList');
+  container.innerHTML = "";
 
-  const grouped = shoppingList.reduce((acc, item, idx) => {
-    if (!acc[item.category]) acc[item.category] = [];
-    acc[item.category].push({ ...item, index: idx });
-    return acc;
-  }, {});
+  const grouped = shoppingList.reduce((acc, item, idx) => {
+    if (!acc[item.category]) acc[item.category] = [];
+    acc[item.category].push({ ...item, index: idx });
+    return acc;
+  }, {});
 
-  const sortedCategories = Object.keys(grouped).sort();
+  const sortedCategories = Object.keys(grouped).sort();
 
-  for (const category of sortedCategories) {
-    const emoji = emojiMap[category] || "";
-    const section = document.createElement('div');
-    section.innerHTML = `<h3>${emoji} ${category}</h3>`;
-    grouped[category].forEach(({ name, qty, index }) => {
-      const row = document.createElement('div');
-      row.className = "item-row";
-      row.innerHTML = `
-        <div class="item-name-col">
-          <label>
-            <input type="checkbox" />
-            <span style="font-weight: bold;">${name}</span>
-          </label>
-        </div>
-        <div class="item-controls-col">
-          <span class="qty-label">Qty:</span>
-          <input type="number" value="${qty}" min="1" onchange="updateQty(${index}, this.value)" />
-          <select onchange="updateCategory(${index}, this.value)">
-            ${[...sortedCategories, "Pantry & Dry Goods", "Pharmacy", "Produce", "Dairy", "Frozen", "Bread", "Cereal", "Meat", "Seafood", "Snacks", "Household", "Health & Beauty", "Other", "Beverages"].map(opt =>
-              `<option value="${opt}" ${opt === category ? "selected" : ""}>${opt}</option>`
-            ).join('')}
-          </select>
-        </div>
-        <button onclick="removeItem(${index})">🗑️</button>
-      `;
-      section.appendChild(row);
-    });
-    container.appendChild(section);
-  }
+  for (const category of sortedCategories) {
+    const emoji = emojiMap[category] || "";
+    const section = document.createElement('div');
+    section.innerHTML = `<h3>${emoji} ${category}</h3>`;
+    grouped[category].forEach(({ name, qty, index }) => {
+      const row = document.createElement('div');
+      row.className = "item-row";
+      row.innerHTML = `
+        <div class="item-name-col">
+          <label>
+            <input type="checkbox" />
+            <span style="font-weight: bold;">${name}</span>
+          </label>
+        </div>
+        <div class="item-controls-col">
+          <span class="qty-label">Qty:</span>
+          <input type="number" value="${qty}" min="1" onchange="updateQty(${index}, this.value)" />
+          <select onchange="updateCategory(${index}, this.value)">
+            ${Object.keys(emojiMap).sort().map(opt =>
+              `<option value="${opt}" ${opt === category ? "selected" : ""}>${opt}</option>`
+            ).join('')}
+          </select>
+        </div>
+        <button onclick="removeItem(${index})">🗑️</button>
+      `;
+      section.appendChild(row);
+    });
+    container.appendChild(section);
+  }
 }
 
 
