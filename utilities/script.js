@@ -15,7 +15,7 @@ const keywordMap = [
   { keywords: ["chips", "crackers", "cookies", "snack", "popcorn", "pretzels", "goldfish", "granola bars", "oreos"], category: "Snacks" },
   { keywords: ["soda", "juice", "water", "coffee", "starbucks", "tea", "iced tea", "gatorade", "energy drink"], category: "Beverages" },
   { keywords: ["toothpaste", "soap", "shampoo", "deodorant", "mouthwash", "conditioner", "lotion", "hand sanitizer", "band-aids"], category: "Health & Beauty" },
-  { keywords: ["detergent", "cleaner", "toilet paper", "dish soap", "sponges", "trash bags", "air freshener", "light bulbs", "bar keepers toilet"], category: "Household" },
+  { keywords: ["detergent", "cleaner", "toilet", "toilet paper", "dish soap", "sponges", "trash bags", "air freshener", "light bulbs", "bar keepers"], category: "Household" },
   { keywords: ["medicine", "pain reliever", "allergy", "vitamins", "cold & flu"], category: "Pharmacy" }
 ];
 
@@ -244,6 +244,9 @@ function importItems() {
     }
   }
   
+  // Clear the import box after importing
+  document.getElementById("importBox").value = "";
+
   saveList();
   renderList();
 }
