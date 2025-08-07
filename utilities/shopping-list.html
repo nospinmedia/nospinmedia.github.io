@@ -71,19 +71,21 @@
       background: #555;
     }
     .item-row {
-      display: flex;
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
       align-items: center;
-      margin-bottom: 0.3rem;
-      font-size: 1rem;
-      padding: 0.2rem 0;
+      gap: 0.5rem;
+      margin: 0.2rem 0;
+      padding: 0.2rem 0.5rem;
+      border-bottom: 1px dotted #ccc;
     }
-    .item-row label span {
-      font-weight: normal;
+    .category-group {
+      margin-top: 1.5rem;
     }
-    .item-row input[type="number"],
-    .item-row select,
-    .item-row button {
-      margin-left: 0.5rem;
+    .category-group h3 {
+      margin-bottom: 0.5rem;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 0.25rem;
     }
     .version {
       text-align: right;
@@ -93,6 +95,23 @@
     }
     textarea {
       font-family: monospace;
+    }
+    @media print {
+      button, select, input[type="number"], .version, textarea, header, footer, #emailInput, #importBox {
+        display: none !important;
+      }
+      body {
+        background: white;
+      }
+      .container {
+        box-shadow: none;
+        padding: 1rem;
+      }
+      .item-row {
+        font-size: 1.1rem;
+        grid-template-columns: auto auto;
+        border-bottom: none;
+      }
     }
   </style>
 </head>
@@ -140,7 +159,7 @@
     <input type="text" id="emailInput" placeholder="you@example.com" style="width: 100%;" />
     <button onclick="sendEmail()">📧 Send List to My Email</button>
 
-    <div class="version">Version V1.6</div>
+    <div class="version">Version V1.7</div>
   </div>
 
   <footer style="text-align: center; padding: 1rem; font-size: 0.9rem;">
