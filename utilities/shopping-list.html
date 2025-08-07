@@ -1,49 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shopping List | No Spin Utilities</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopping List | No Spin Media</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; color: #222; padding-top: 70px; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #222;
+    }
     header {
-      background: #111; color: #fff; display: flex; align-items: center; justify-content: space-between;
-      padding: 0.5rem 2rem; position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: #111;
+      color: #fff;
+      padding: 0.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 70px;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
     }
     .header-logo-text {
-      font-size: 2rem; font-weight: bold; color: #fff; text-decoration: none;
-    }
-    nav a {
-      color: #fff; margin-left: 20px; text-decoration: none; font-weight: bold;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
     }
     .container {
-      max-width: 900px; margin: 2rem auto; padding: 1.5rem; background: white; border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+      max-width: 800px;
+      margin: 5rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    h1 { font-size: 2rem; margin-top: 0; }
-    .item-entry { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
-    input[type="text"], textarea {
-      flex: 2; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;
+    h1 {
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem;
     }
-    textarea { width: 100%; height: 120px; margin-top: 0.5rem; }
-    select {
-      flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;
+    h1 span {
+      margin-right: 0.5rem;
+    }
+    input[type="text"], input[type="number"], select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin: 0.5rem 0.5rem 0.5rem 0;
     }
     button {
-      background: #0073e6; color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
     }
-    button:hover { background: #005bb5; }
-    .category-group { margin-top: 1.5rem; }
-    .category-group h3 { margin-bottom: 0.5rem; border-bottom: 1px solid #ddd; }
-    ul { list-style: none; padding-left: 0; }
-    li { padding: 0.5rem 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
-    .remove-btn { background: #d9534f; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; }
-    .remove-btn:hover { background: #b52b27; }
-    .version { font-size: 0.85rem; color: #888; text-align: center; margin-top: 1rem; }
-    @media print {
-      header, .item-entry, .version, .email-section, .import-box, footer, .button-row { display: none !important; }
-      input, select, button, textarea { display: none !important; }
-      body { background: white; color: #000; }
+    .item-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .item-row input[type="checkbox"] {
+      margin-right: 0.5rem;
+    }
+    .version {
+      text-align: right;
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 1rem;
     }
   </style>
 </head>
@@ -58,9 +88,10 @@
   </header>
 
   <div class="container">
-    <h1>🛒 Shopping List</h1>
-    <div class="item-entry">
-      <input type="text" id="itemInput" placeholder="e.g. Milk, Apples, Cereal">
+    <h1><span>🛒</span> Shopping List</h1>
+    <div>
+      <input type="text" id="itemInput" placeholder="e.g. Milk, Apples, Cereal" />
+      <input type="number" id="qtyInput" placeholder="Qty" min="1" style="width: 60px;" />
       <select id="categorySelect">
         <option value="Produce">Produce</option>
         <option value="Dairy">Dairy</option>
@@ -69,190 +100,32 @@
         <option value="Cereal">Cereal</option>
         <option value="Meat">Meat</option>
         <option value="Seafood">Seafood</option>
-        <option value="Canned & Dry Goods">Canned & Dry Goods</option>
         <option value="Snacks">Snacks</option>
-        <option value="Beverages">Beverages</option>
-        <option value="Health & Beauty">Health & Beauty</option>
         <option value="Household">Household</option>
+        <option value="Health & Beauty">Health & Beauty</option>
         <option value="Other">Other</option>
       </select>
       <button onclick="addItem()">Add</button>
     </div>
 
-    <div class="import-box">
-      <label><strong>📋 Amazon Import:</strong> Paste copied text from your Amazon Shopping List:</label>
-      <textarea id="importText" placeholder="Paste list here..."></textarea>
-      <button onclick="importFromText()">📥 Import Items</button>
-    </div>
+    <div id="shoppingList"></div>
 
-    <div class="button-row">
-      <button onclick="window.print()">🖨️ Print List</button>
-      <button onclick="exportList()">⬇️ Export CSV</button>
-    </div>
+    <h3 style="margin-top: 2rem;">Import from Amazon List</h3>
+    <textarea id="importBox" rows="6" style="width: 100%;"></textarea><br />
+    <button onclick="importItems()">📥 Import Items</button>
+    <button onclick="exportCSV()">⬇️ Export List</button>
+    <button onclick="printList()">🖨️ Print</button>
 
-    <div id="listContainer"></div>
+    <h3>Your Email:</h3>
+    <input type="text" id="emailInput" placeholder="you@example.com" style="width: 100%;" />
+    <button onclick="sendEmail()">📧 Send List to My Email</button>
 
-    <div class="email-section" style="margin-top:2rem">
-      <label><strong>Your Email:</strong></label><br>
-      <input type="email" id="userEmail" style="width:100%;padding:8px;margin:8px 0;border:1px solid #ccc;border-radius:4px;">
-      <button onclick="emailList()">📧 Send List to My Email</button>
-      <p id="emailStatus"></p>
-    </div>
+    <div class="version">Version V1.5</div>
   </div>
 
-  <div class="version">Version: V1.3</div>
-
-  <footer>
-    📩 Feedback welcome at nospinmedia.ai@gmail.com — No cookies. No tracking. <br>
+  <footer style="text-align: center; padding: 1rem; font-size: 0.9rem;">
+    📩 Feedback welcome at nospinmedia.ai@gmail.com — No cookies. No tracking.<br />
     — Powered by No Spin Media 🌐 https://nospin.media
   </footer>
-
-  <script>
-    const keywordMap = [
-      { keywords: ["milk", "cheese", "yogurt", "eggs"], category: "Dairy" },
-      { keywords: ["apple", "banana", "lettuce", "onion", "carrot", "grapes"], category: "Produce" },
-      { keywords: ["ice cream", "frozen", "pizza", "peas"], category: "Frozen" },
-      { keywords: ["bread", "buns", "rolls", "bagel", "english muffin"], category: "Bread" },
-      { keywords: ["cereal", "cheerios", "corn flakes", "raisin bran", "strawberry cereal"], category: "Cereal" },
-      { keywords: ["chicken", "beef", "pork", "steak"], category: "Meat" },
-      { keywords: ["salmon", "shrimp", "fish", "tilapia"], category: "Seafood" },
-      { keywords: ["beans", "rice", "pasta", "soup"], category: "Canned & Dry Goods" },
-      { keywords: ["chips", "crackers", "cookies", "snack"], category: "Snacks" },
-      { keywords: ["soda", "juice", "water", "coffee", "starbucks"], category: "Beverages" },
-      { keywords: ["toothpaste", "soap", "shampoo", "deodorant"], category: "Health & Beauty" },
-      { keywords: ["detergent", "cleaner", "bar keepers", "toilet paper"], category: "Household" }
-    ];
-
-    const categories = [
-      "Produce", "Dairy", "Frozen", "Bread", "Cereal", "Meat", "Seafood",
-      "Canned & Dry Goods", "Snacks", "Beverages", "Health & Beauty", "Household", "Other"
-    ];
-
-    const items = JSON.parse(localStorage.getItem('shoppingItems') || '[]');
-
-    function findCategory(name) {
-      const text = name.toLowerCase();
-      for (const group of keywordMap) {
-        for (const word of group.keywords) {
-          if (text.includes(word)) return group.category;
-        }
-      }
-      return "Other";
-    }
-
-    function addItem() {
-      const input = document.getElementById('itemInput');
-      const raw = input.value.trim();
-      if (!raw) return;
-      addNamedItem(raw);
-      input.value = '';
-    }
-
-    function addNamedItem(rawName) {
-      const name = rawName.charAt(0).toUpperCase() + rawName.slice(1).toLowerCase();
-      const detected = findCategory(name);
-      items.push({ name, category: detected, checked: false });
-      saveAndRender();
-    }
-
-    function importFromText() {
-      const raw = document.getElementById('importText').value;
-      const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-      const blocklist = [/^john added/i, /^me added/i, /^edited \d+ days ago/i, /^edit$/i, /^delete$/i, /^show search result$/i];
-      const validLines = lines.filter(line => !blocklist.some(r => r.test(line.toLowerCase())));
-
-      const unique = [...new Set(validLines.map(l => l.toLowerCase()))];
-      unique.forEach(raw => addNamedItem(raw));
-      document.getElementById('importText').value = '';
-    }
-
-    function updateCategory(index, newCat) {
-      items[index].category = newCat;
-      saveAndRender();
-    }
-
-    function toggleCheck(index) {
-      items[index].checked = !items[index].checked;
-      saveAndRender();
-    }
-
-    function removeItem(index) {
-      items.splice(index, 1);
-      saveAndRender();
-    }
-
-    function saveAndRender() {
-      localStorage.setItem('shoppingItems', JSON.stringify(items));
-      renderList();
-    }
-
-    function renderList() {
-      const container = document.getElementById('listContainer');
-      container.innerHTML = '';
-
-      categories.forEach(cat => {
-        const catItems = items.map((item, idx) => ({ ...item, index: idx }))
-                              .filter(i => i.category === cat);
-        if (catItems.length > 0) {
-          const section = document.createElement('div');
-          section.className = 'category-group';
-          section.innerHTML = `<h3>${cat}</h3><ul>` +
-            catItems.map((item) => `
-              <li>
-                <input type='checkbox' onchange='toggleCheck(${item.index})' ${item.checked ? 'checked' : ''}>
-                <span style='flex:1;${item.checked ? "text-decoration:line-through;color:#888;" : ""}'>${item.name}</span>
-                <select onchange="updateCategory(${item.index}, this.value)">
-                  ${categories.map(c => `<option value="${c}" ${item.category === c ? 'selected' : ''}>${c}</option>`).join('')}
-                </select>
-                <button class='remove-btn' onclick='removeItem(${item.index})'>Remove</button>
-              </li>`).join('') +
-            '</ul>';
-          container.appendChild(section);
-        }
-      });
-    }
-
-    async function emailList() {
-      const email = document.getElementById('userEmail').value.trim();
-      const status = document.getElementById('emailStatus');
-      if (!email) {
-        status.textContent = "❌ Please enter your email address.";
-        return;
-      }
-
-      let message = '🛒 Your Shopping List:\n\n';
-      categories.forEach(cat => {
-        const catItems = items.filter(i => i.category === cat);
-        if (catItems.length > 0) {
-          message += `📂 ${cat}:\n` + catItems.map(i => `• ${i.name}`).join('\n') + '\n\n';
-        }
-      });
-      message += "\nVisit https://nospin.media/utilities/index.html for more tools!";
-
-      await fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ name: "Shopping List", email, subject: "Your Grocery List", message })
-      });
-      status.textContent = `✅ List sent to ${email}`;
-    }
-
-    function exportList() {
-      const rows = ["Item,Category,Checked"];
-      items.forEach(i => {
-        rows.push(`"${i.name}","${i.category}","${i.checked ? 'Yes' : 'No'}"`);
-      });
-      const csv = rows.join("\n");
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'shopping-list.csv';
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    window.onload = renderList;
-  </script>
 </body>
 </html>
