@@ -123,7 +123,7 @@
 
       <div id="emailStatus"></div>
       <div id="tagline"></div>
-      <div id="version">v3.5</div>
+      <div id="version">v3.6</div>
     </div>
 
     <div class="sidebar">
@@ -203,7 +203,7 @@
   const excludeTax = document.getElementById('excludeTax').checked;
 
   // ✅ Always calculate base as pre-tax meal cost if tax is entered
-  const base = (tax!==null) ? total - tax : total;
+  const base = (excludeTax && tax !== null) ? total - tax : total;
 
   let tip = !isNaN(manualTip) ? manualTip : base * (percent / 100);
   let finalTotal = total + tip;
