@@ -123,7 +123,7 @@
 
       <div id="emailStatus"></div>
       <div id="tagline"></div>
-      <div id="version">v3.6</div>
+      <div id="version">v3.7</div>
     </div>
 
     <div class="sidebar">
@@ -230,13 +230,17 @@
         return;
       }
       let msg = '';
-if(tax!==null){
-  msg += `Meal Cost (Pre-Tax): $${base.toFixed(2)}<br>`;
-  const taxPct = (tax/(total-tax))*100;
+const mealCost = (tax !== null && tax <= total) ? total - tax : total;
+
+if (tax !== null) {
+  msg += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}<br>`;
+  const taxPct = (tax / mealCost) * 100;
   msg += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)<br>`;
 }
 msg += `Bill Total: $${total.toFixed(2)}<br>`;
-      msg += `Tip: $${tip.toFixed(2)} (${document.getElementById('tipPercent').value}% preferred, ${exactPercent.toFixed(2)}% actual)<br><br>`;
+      const manualTip = parseFloat(document.getElementById('manualTip').value);
+const tipLabel = !isNaN(manualTip) ? "Manual Tip Entered" : `${document.getElementById('tipPercent').value}% preferred`;
+msg += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% actual)<br><br>`;
       msg += `<strong>Total with Tip: $${finalTotal.toFixed(2)}</strong>`;
       document.getElementById('result').innerHTML = msg;
       document.getElementById('emailStatus').textContent = "";
@@ -267,7 +271,9 @@ msg += `Bill Total: $${total.toFixed(2)}<br>`;
         message += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)\n`;
       }
       message += `Bill Total: $${total.toFixed(2)}\n`;
-      message += `Tip: $${tip.toFixed(2)} (${document.getElementById('tipPercent').value}% preferred, ${exactPercent.toFixed(2)}% actual)\n\n`;
+      const manualTip = parseFloat(document.getElementById('manualTip').value);
+const tipLabel = !isNaN(manualTip) ? "Manual Tip Entered" : `${document.getElementById('tipPercent').value}% preferred`;
+message += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% actual)\n\n`;
       message += `Total with Tip: $${finalTotal.toFixed(2)}\n\n`;
       message += getRandomTagline();
 
