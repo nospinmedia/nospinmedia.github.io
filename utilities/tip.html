@@ -1,193 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shopping List | No Spin Media</title>
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <title>Tip Calculator | No Spin Utilities</title>
+  <link rel="stylesheet" href="../style.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f4f4;
-      color: #222;
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; color: #222; padding-top: 70px; }
+    .container { display: flex; flex-wrap: wrap; padding: 2rem; max-width: 1200px; margin: 0 auto; gap: 2rem; }
+    .main { flex: 1 1 60%; background: #fff; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: relative; }
+    .sidebar { flex: 1 1 30%; background: #fff; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); align-self: flex-start; }
+    h1 { font-size: 2rem; margin-top: 0; }
+    .input-row { display: flex; gap: 0.5rem; }
+    .input-col { flex: 1; }
+    label { font-weight: bold; margin-top: 0.6rem; display: block; }
+    input[type="number"], input[type="email"] { width: 100%; padding: 6px; margin-top: 4px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; }
+    .checkbox-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 0.8rem; }
+    .checkbox-grid label { font-weight: normal; display: flex; align-items: center; }
+    .button-row { display: flex; gap: 0.5rem; margin-top: 1rem; }
+    .button-row button { flex: 1; }
+    button { background: #0073e6; color: #fff; border: none; padding: 10px; font-weight: bold; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #005bb5; }
+    .adjust-buttons { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+    .adjust-buttons button { flex: 1; padding: 6px; font-size: 0.9rem; }
+    .clear-btn { background: #d9534f; }
+    .clear-btn:hover { background: #b52b27; }
+    .result { margin-top: 1rem; font-size: 1.1rem; background: #f9f9f9; padding: 0.8rem; border-radius: 6px; border: 1px solid #ddd; }
+    #tagline { margin-top: 0.5rem; text-align: center; font-size: 0.9rem; color: #555; }
+    #emailStatus { margin-top: 6px; color: green; font-weight: bold; font-size: 0.9rem; }
+    #version { position: absolute; bottom: 6px; right: 8px; font-size: 0.8rem; color: #999; }
+
+    /* Center footer */
+
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      color: #555;
+      font-size: 0.9rem;
     }
-    header {
-      background: #111;
+
+    /* Share buttons styling */
+    .share-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .share-buttons button {
+      flex: 1;
+      background: #0073e6;
       color: #fff;
-      padding: 0.5rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      min-height: 70px;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-    }
-    .header-logo-text {
-      font-size: 2rem;
-      font-weight: bold;
-      color: #fff;
-      text-decoration: none;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 5rem auto;
-      padding: 2rem;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-    }
-    .main { flex: 1 1 60%; }
-    .sidebar { flex: 1 1 30%; }
-    h1 {
-      margin-top: 0;
-      display: flex;
-      align-items: center;
-      font-size: 1.8rem;
-    }
-    h1 span {
-      margin-right: 0.5rem;
-    }
-    input[type="text"], input[type="number"], select, textarea {
-      padding: 0.4rem;
-      font-size: 1rem;
-      margin: 0.3rem 0.2rem;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-    button {
-      padding: 0.4rem 0.75rem;
-      font-size: 1rem;
-      border-radius: 4px;
       border: none;
-      background: #333;
-      color: #fff;
+      padding: 8px;
+      border-radius: 4px;
+      font-weight: bold;
       cursor: pointer;
     }
-    button:hover {
-      background: #555;
+    .share-buttons button:hover {
+      background: #005bb5;
     }
-    .item-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
-      margin: 0.25rem 0;
-      padding: 0.25rem 0.5rem;
-      border-bottom: 1px dashed #ddd;
-    }
-    .item-row label {
-      flex-grow: 1;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .item-row select, .item-row input[type="number"] {
-      width: auto;
-    }
-    .item-row button {
-      background: transparent;
-      border: none;
-      font-size: 1.2rem;
-      color: #555;
-    }
-    .item-row button:hover {
-      color: red;
-    }
-    .category-group {
-      margin-top: 1.5rem;
-    }
-    .category-group h3 {
-      margin-bottom: 0.3rem;
-      border-bottom: 1px solid #ccc;
-      font-size: 1.2rem;
-    }
-    .version {
-      text-align: right;
-      font-size: 0.85rem;
-      color: #888;
-      margin-top: 1rem;
-    }
-    @media print {
-      button, select, input[type="number"], .version, textarea, header, footer, #emailInput, #importBox, .sidebar {
-        display: none !important;
-      }
-      body {
-        background: white;
-      }
-      .container {
-        box-shadow: none;
-        padding: 1rem;
-      }
-      .item-row {
-        font-size: 1.1rem;
-        display: block;
-        padding: 0.2rem 0;
-        border: none;
-      }
-    }
+
+    @media (max-width: 768px) { .container { flex-direction: column; } .button-row { flex-direction: column; } .adjust-buttons { flex-direction: column; } }
   </style>
 </head>
 <body>
-  <header>
-    <a href="/index.html" class="header-logo-text">🧭 No Spin Media</a>
-    <nav>
-      <a href="/index.html">Home</a>
-      <a href="/utilities/index.html">Utilities</a>
-      <a href="/games/index.html">Games</a>
-    </nav>
-  </header>
+  <div id="site-header"></div>
 
   <div class="container">
     <div class="main">
-      <h1><span>🛒</span> Shopping List</h1>
-      <div>
-        <input type="text" id="itemInput" placeholder="e.g. Milk, Apples, Cereal" />
-        <input type="number" id="qtyInput" placeholder="Qty" min="1" style="width: 60px;" />
-        <select id="categorySelect">
-          <option value="Produce">Produce</option>
-          <option value="Dairy">Dairy</option>
-          <option value="Frozen">Frozen</option>
-          <option value="Bread">Bread</option>
-          <option value="Cereal">Cereal</option>
-          <option value="Meat">Meat</option>
-          <option value="Seafood">Seafood</option>
-          <option value="Snacks">Snacks</option>
-          <option value="Household">Household</option>
-          <option value="Health & Beauty">Health & Beauty</option>
-          <option value="Other">Other</option>
-        </select>
-        <button onclick="addItem()">Add</button>
-        <button onclick="clearList()">🧹 Clear All</button>
-        <button onclick="printList()">🖨️ Print</button>
+      <h1>💰 Tip Calculator</h1>
+      <p>Quickly calculate tips with rounding options, manual overrides, and optional email receipts.</p>
+
+      <div class="input-row">
+        <div class="input-col">
+          <label>Bill Total:</label>
+          <input type="number" id="billTotal" placeholder="Enter total + Tax">
+        </div>
+        <div class="input-col">
+          <label>Tax Total:</label>
+          <input type="number" id="taxTotal" placeholder="Optional">
+        </div>
       </div>
 
-      <div id="shoppingList"></div>
+      <div class="input-row">
+        <div class="input-col">
+          <label>Tip %:</label>
+          <input type="number" id="tipPercent" value="20">
+        </div>
+        <div class="input-col">
+          <label>Manual Tip:</label>
+          <input type="number" id="manualTip" placeholder="Optional">
+        </div>
+      </div>
 
-      <h3 style="margin-top: 2rem;">Import from Amazon List</h3>
-      <textarea id="importBox" rows="6" style="width: 100%;"></textarea><br />
-      <button onclick="importItems()">📥 Import Items</button>
-      <button onclick="exportCSV()">⬇️ Export List</button>
+      <div class="checkbox-grid">
+        <label><input type="checkbox" id="roundUp"> Round Up</label>
+        <label><input type="checkbox" id="roundDown"> Round Down</label>
+        <label><input type="checkbox" id="exactPercent"> Exact %</label>
+        <label><input type="checkbox" id="excludeTax"> Exclude Tax</label>
+      </div>
 
-      <h3>Your Email:</h3>
-      <input type="text" id="emailInput" placeholder="you@example.com" style="width: 100%;" />
-      <button onclick="sendEmail()">📧 Send List to My Email</button>
+      <label>Your Email:</label>
+      <input type="email" id="userEmail" placeholder="Enter email to receive receipt">
 
-      <div class="version">Version V1.8</div>
+      <div class="button-row">
+        <button onclick="calculateTip()">Calculate Tip</button>
+        <button onclick="completeTip()">✅ Complete & Email</button>
+      </div>
+
+      <div class="adjust-buttons">
+        <button onclick="adjustTotal(0.5)">+ $0.50</button>
+        <button onclick="adjustTotal(-0.5)">- $0.50</button>
+        <button class="clear-btn" onclick="clearFields()">Clear</button>
+      </div>
+
+      <div class="result" id="result"></div>
+
+      <!-- New Share Buttons -->
+      <div class="share-buttons">
+        <button onclick="copyLink()">Copy Link</button>
+        <button onclick="sharePage()">Share with Friends</button>
+      </div>
+
+      <div id="emailStatus"></div>
+      <div id="tagline"></div>
+      <div id="version">v3.6</div>
     </div>
 
     <div class="sidebar">
+      <h2>Support Our Utilities 💙</h2>
+      <p>Like these tools? Help keep No Spin Utilities running:</p>
+      <p><strong>Venmo:</strong><br/><a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a></p>
+      <h2>Follow Us</h2>
+      <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
       <h2>We ❤️ Your Feedback!</h2>
-      <p>Have ideas for improving the shopping list? We’d love to hear from you.</p>
+      <p>Have an idea for improving this tool? We read every suggestion. 😊</p>
+      <p>You can also reach us at: <strong>nospinmedia.ai@gmail.com</strong></p>
       <form id="feedbackForm">
         <input type="text" id="name" name="name" placeholder="Your first name">
         <input type="email" id="email" name="email" placeholder="you@email.com" required>
@@ -198,36 +145,184 @@
     </div>
   </div>
 
-  <footer style="text-align: center; padding: 1rem; font-size: 0.9rem;">
-    📩 Feedback welcome at nospinmedia.ai@gmail.com — No cookies. No tracking.<br />
-    — Powered by No Spin Media 🌐 https://nospin.media
-  </footer>
+<p style="font-size: 0.8rem; color: #888; text-align: center; max-width: 800px; margin: 2rem auto 0;">
+  🔒 <strong>We respect your privacy.</strong> This site does not use cookies, tracking technologies, or collect personal data.
+</p>
+
+  <footer>© 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.</footer>
 
   <script>
-    document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const status = document.getElementById('formStatus');
-      status.textContent = "⏳ Sending...";
-      const data = {
-        name: document.getElementById('name').value || "Someone",
-        email: document.getElementById('email').value,
-        subject: "Shopping List Feedback",
-        message: document.getElementById('message').value
-      };
-      try {
-        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-          method: 'POST',
-          headers: {'Content-Type':'text/plain'},
-          body: JSON.stringify(data)
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('../header.html').then(res => res.text()).then(html => document.getElementById('site-header').innerHTML = html);
+
+      const savedEmail = localStorage.getItem('userEmail');
+      if (savedEmail) document.getElementById('userEmail').value = savedEmail;
+      document.getElementById('tipPercent').value = localStorage.getItem('tipPercent') || 20;
+
+      ['roundUp','roundDown','exactPercent','excludeTax'].forEach(id => {
+        if(localStorage.getItem(id)==='true') document.getElementById(id).checked = true;
+      });
+
+      document.querySelectorAll('#roundUp,#roundDown,#exactPercent').forEach(cb=>{
+        cb.addEventListener('change', e=>{
+          if(e.target.checked){
+            ['roundUp','roundDown','exactPercent'].forEach(id=>{
+              if(id!==e.target.id) document.getElementById(id).checked = false;
+            });
+          }
         });
-        await res.json();
-        status.textContent = "✅ Thanks! Your feedback was sent.";
-        this.reset();
-        setTimeout(()=>{ status.textContent=""; }, 4000);
-      } catch(err) {
-        status.textContent = "❌ Failed to send!";
-      }
+      });
+
+      document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const status = document.getElementById('formStatus');
+        status.textContent = "⏳ Sending...";
+        const data = {
+          name: document.getElementById('name').value || "Someone",
+          email: document.getElementById('email').value,
+          subject: "Utilities Feedback",
+          message: document.getElementById('message').value
+        };
+        try {
+          const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+            method: 'POST', headers: {'Content-Type':'text/plain'}, body: JSON.stringify(data)
+          });
+          await res.json();
+          status.textContent = "✅ Thanks! Your feedback was sent."; this.reset();
+          setTimeout(()=>{ status.textContent=""; }, 4000);
+        } catch(err){ status.textContent = "❌ Failed to send!"; }
+      });
     });
+
+   function calculateValues() {
+  const total = parseFloat(document.getElementById('billTotal').value) || 0;
+  const taxInput = document.getElementById('taxTotal').value.trim();
+  const tax = taxInput==="" ? null : parseFloat(taxInput) || 0;
+  const percent = parseFloat(document.getElementById('tipPercent').value) || 20;
+  const manualTip = parseFloat(document.getElementById('manualTip').value);
+  const excludeTax = document.getElementById('excludeTax').checked;
+
+  // ✅ Always calculate base as pre-tax meal cost if tax is entered
+  const base = (excludeTax && tax !== null) ? total - tax : total;
+
+  let tip = !isNaN(manualTip) ? manualTip : base * (percent / 100);
+  let finalTotal = total + tip;
+
+  if(document.getElementById('roundUp').checked){ finalTotal=Math.ceil(finalTotal); tip=finalTotal-total; }
+  if(document.getElementById('roundDown').checked){ finalTotal=Math.floor(finalTotal); tip=finalTotal-total; }
+
+  const simplePercent = Math.round((tip / base) * 100);
+  const exactPercent = (tip / base) * 100;
+
+  localStorage.setItem('userEmail', document.getElementById('userEmail').value.trim());
+  localStorage.setItem('tipPercent', percent);
+  ['roundUp','roundDown','exactPercent','excludeTax'].forEach(id=>{
+    localStorage.setItem(id, document.getElementById(id).checked);
+  });
+
+  return { total, tax, base, tip, finalTotal, simplePercent, exactPercent };
+}
+
+    function calculateTip() {
+      const { total, tax, base, tip, finalTotal, simplePercent, exactPercent } = calculateValues();
+      if(total <= 0){
+        document.getElementById('result').innerHTML = "❌ Enter a Bill Total to calculate.";
+        return;
+      }
+      let msg = '';
+if(tax!==null){
+  msg += `Meal Cost (Pre-Tax): $${base.toFixed(2)}<br>`;
+  const taxPct = (tax/(total-tax))*100;
+  msg += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)<br>`;
+}
+msg += `Bill Total: $${total.toFixed(2)}<br>`;
+      msg += `Tip: $${tip.toFixed(2)} (${document.getElementById('tipPercent').value}% preferred, ${exactPercent.toFixed(2)}% actual)<br><br>`;
+      msg += `<strong>Total with Tip: $${finalTotal.toFixed(2)}</strong>`;
+      document.getElementById('result').innerHTML = msg;
+      document.getElementById('emailStatus').textContent = "";
+      showTagline();
+    }
+
+    async function completeTip() {
+      const { total, tax, base, tip, finalTotal, simplePercent, exactPercent } = calculateValues();
+      if(total <= 0){
+        document.getElementById('result').innerHTML = "❌ Enter a Bill Total before sending.";
+        return;
+      }
+      calculateTip();
+      const emailField = document.getElementById('userEmail');
+      const email = emailField.value.trim();
+      if(!email){
+        emailField.style.border = '2px solid red';
+        document.getElementById('emailStatus').textContent="❌ Enter your email to receive receipt.";
+        return;
+      } else {
+        emailField.style.border = '';
+      }
+
+      let message = '';
+      if(tax!==null){
+        const taxPct = (tax/(total-tax))*100;
+        message += `Meal Cost (Pre-Tax): $${base.toFixed(2)}\n`;
+        message += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)\n`;
+      }
+      message += `Bill Total: $${total.toFixed(2)}\n`;
+      message += `Tip: $${tip.toFixed(2)} (${document.getElementById('tipPercent').value}% preferred, ${exactPercent.toFixed(2)}% actual)\n\n`;
+      message += `Total with Tip: $${finalTotal.toFixed(2)}\n\n`;
+      message += getRandomTagline();
+
+      await fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
+        method: 'POST', headers: {'Content-Type':'text/plain'}, body: JSON.stringify({ name:"No Spin Utilities", email: email, subject:"Your Tip Calculator Receipt", message })
+      });
+      document.getElementById('emailStatus').textContent = "✅ Receipt sent to " + email;
+    }
+
+    function adjustTotal(amount) {
+      const bill = document.getElementById('billTotal');
+      bill.value = (parseFloat(bill.value)||0) + amount;
+      calculateTip();
+    }
+
+    function clearFields() {
+      document.getElementById('billTotal').value='';
+      document.getElementById('taxTotal').value='';
+      document.getElementById('manualTip').value='';
+      document.getElementById('result').innerHTML='';
+      document.getElementById('emailStatus').textContent='';
+      document.getElementById('tagline').textContent='';
+    }
+
+    function getRandomTagline(){
+      const tags=[
+        "Thank you for using No Spin Utilities!",
+        "If you enjoyed this, share it with friends!",
+        "Your support keeps our tools free & fun!",
+        "Check out our other utilities at No Spin Media!",
+        "Made with ❤️ for honest, simple tools."
+      ];
+      return tags[Math.floor(Math.random()*tags.length)] + "\n\nCheck out our other utilities:\nhttps://nospin.media/utilities/index.html";
+    }
+
+    function showTagline(){ document.getElementById('tagline').textContent = getRandomTagline().split("\n")[0]; }
+
+    // New functions for sharing
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        alert("✅ Link copied to clipboard!");
+      });
+    }
+
+    function sharePage() {
+      if (navigator.share) {
+        navigator.share({
+          title: "Tip Calculator",
+          text: "Check out this Tip Calculator!",
+          url: window.location.href
+        });
+      } else {
+        copyLink();
+      }
+    }
   </script>
 </body>
 </html>
