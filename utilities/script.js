@@ -1,4 +1,4 @@
-// script.js — Shopping List Utility V1.5.1
+// script.js — Shopping List Utility V1.5.2
 
 let shoppingList = [];
 
@@ -34,12 +34,16 @@ function capitalize(str) {
 function addItem() {
   const itemName = document.getElementById('itemInput').value.trim();
   let qty = parseInt(document.getElementById('qtyInput').value);
-  const category = document.getElementById('categorySelect').value;
   if (!itemName) return;
   if (!qty || qty < 1) qty = 1;
 
   const smartCategory = autoCategory(itemName);
-  shoppingList.push({ name: capitalize(itemName), qty, category: smartCategory });
+  const existing = shoppingList.find(i => i.name.toLowerCase() === itemName.toLowerCase());
+  if (existing) {
+    existing.qty += qty;
+  } else {
+    shoppingList.push({ name: capitalize(itemName), qty, category: smartCategory });
+  }
   document.getElementById('itemInput').value = "";
   document.getElementById('qtyInput').value = "";
   renderList();
@@ -64,9 +68,10 @@ function renderList() {
       row.className = "item-row";
       row.innerHTML = `
         <input type="checkbox" />
-        <span contenteditable="true" onblur="updateName(${index}, this.textContent)">${name}</span>
-        <input type="number" value="${qty}" min="1" onchange="updateQty(${index}, this.value)" style="width: 50px; margin-left: 6px;" />
-        <select onchange="updateCategory(${index}, this.value)">
+        <span style="margin-left: 0.5rem; margin-right: 1rem;">${name}</span>
+        <small style="margin-right: 1rem;">Qty:</small>
+        <input type="number" value="${qty}" min="1" onchange="updateQty(${index}, this.value)" style="width: 50px; margin-right: 1rem;" />
+        <select onchange="updateCategory(${index}, this.value)" style="margin-right: 1rem;">
           ${["Produce", "Dairy", "Frozen", "Bread", "Cereal", "Meat", "Seafood", "Snacks", "Household", "Health & Beauty", "Other"].map(opt =>
             `<option value="${opt}" ${opt === grouped[category][0].category ? "selected" : ""}>${opt}</option>`
           ).join('')}
@@ -87,11 +92,6 @@ function removeItem(index) {
 
 function updateQty(index, newQty) {
   shoppingList[index].qty = parseInt(newQty) || 1;
-  saveList();
-}
-
-function updateName(index, newName) {
-  shoppingList[index].name = capitalize(newName.trim());
   saveList();
 }
 
@@ -140,7 +140,6 @@ function importItems() {
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-
     if (
       skipPhrases.some(skip => line.includes(skip)) ||
       /^\w+ Added \d+/.test(line) ||
@@ -150,9 +149,13 @@ function importItems() {
     }
 
     const itemName = capitalize(line);
-    const qty = 1;
-    const category = autoCategory(itemName);
-    shoppingList.push({ name: itemName, qty, category, checked: false });
+    const existing = shoppingList.find(i => i.name.toLowerCase() === itemName.toLowerCase());
+    if (existing) {
+      existing.qty += 1;
+    } else {
+      const category = autoCategory(itemName);
+      shoppingList.push({ name: itemName, qty: 1, category, checked: false });
+    }
   }
 
   saveList();
