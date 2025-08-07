@@ -181,6 +181,7 @@
       <h3>Your Email:</h3>
       <input type="text" id="emailInput" placeholder="you@example.com" style="width: 100%;" />
       <button onclick="sendEmail()">📧 Send List to My Email</button>
+      <p id="emailStatus" style="margin-top: 0.5rem; color: green;"></p>
 
       <div class="version">Version V1.8</div>
     </div>
@@ -204,6 +205,54 @@
   </footer>
 
   <script>
+    function getRandomTagline() {
+      const tags = [
+        "Thanks for using No Spin Utilities!",
+        "Check out our other free tools at No Spin Media!",
+        "Your support keeps us spinning out great tools!",
+        "Made with ❤️ for everyday shoppers!",
+        "Simple. Honest. Helpful. No Spin."
+      ];
+      return tags[Math.floor(Math.random() * tags.length)];
+    }
+
+    function sendEmail() {
+      const email = document.getElementById('emailInput').value.trim();
+      if (!email) {
+        document.getElementById('emailStatus').textContent = '❌ Please enter your email.';
+        return;
+      }
+
+      const items = Array.from(document.querySelectorAll('.item-row')).map(row => {
+        const name = row.querySelector('label span')?.textContent || 'Item';
+        const qty = row.querySelector('input[type="number"]')?.value || '1';
+        const cat = row.querySelector('select')?.value || 'Other';
+        return `- ${name} (x${qty}) [${cat}]`;
+      });
+
+      if (items.length === 0) {
+        document.getElementById('emailStatus').textContent = '❌ Your list is empty.';
+        return;
+      }
+
+      const message = `Your Shopping List:\n\n${items.join("\n")}\n\n${getRandomTagline()}\n\nMore tools: https://nospin.media/utilities/index.html`;
+
+      fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
+        method: 'POST',
+        headers: {'Content-Type':'text/plain'},
+        body: JSON.stringify({
+          name: 'No Spin Utilities',
+          email,
+          subject: 'Your Shopping List',
+          message
+        })
+      }).then(() => {
+        document.getElementById('emailStatus').textContent = '✅ Shopping list sent to ' + email;
+      }).catch(() => {
+        document.getElementById('emailStatus').textContent = '❌ Failed to send your list.';
+      });
+    }
+
     document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const status = document.getElementById('formStatus');
