@@ -35,13 +35,18 @@
       text-decoration: none;
     }
     .container {
-      max-width: 800px;
+      max-width: 1200px;
       margin: 5rem auto;
       padding: 2rem;
       background: white;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
     }
+    .main { flex: 1 1 60%; }
+    .sidebar { flex: 1 1 30%; }
     h1 {
       margin-top: 0;
       display: flex;
@@ -51,7 +56,7 @@
     h1 span {
       margin-right: 0.5rem;
     }
-    input[type="text"], input[type="number"], select {
+    input[type="text"], input[type="number"], select, textarea {
       padding: 0.4rem;
       font-size: 1rem;
       margin: 0.3rem 0.2rem;
@@ -112,11 +117,8 @@
       color: #888;
       margin-top: 1rem;
     }
-    textarea {
-      font-family: monospace;
-    }
     @media print {
-      button, select, input[type="number"], .version, textarea, header, footer, #emailInput, #importBox {
+      button, select, input[type="number"], .version, textarea, header, footer, #emailInput, #importBox, .sidebar {
         display: none !important;
       }
       body {
@@ -146,45 +148,86 @@
   </header>
 
   <div class="container">
-    <h1><span>🛒</span> Shopping List</h1>
-    <div>
-      <input type="text" id="itemInput" placeholder="e.g. Milk, Apples, Cereal" />
-      <input type="number" id="qtyInput" placeholder="Qty" min="1" style="width: 60px;" />
-      <select id="categorySelect">
-        <option value="Produce">Produce</option>
-        <option value="Dairy">Dairy</option>
-        <option value="Frozen">Frozen</option>
-        <option value="Bread">Bread</option>
-        <option value="Cereal">Cereal</option>
-        <option value="Meat">Meat</option>
-        <option value="Seafood">Seafood</option>
-        <option value="Snacks">Snacks</option>
-        <option value="Household">Household</option>
-        <option value="Health & Beauty">Health & Beauty</option>
-        <option value="Other">Other</option>
-      </select>
-      <button onclick="addItem()">Add</button>
-      <button onclick="clearList()">🧹 Clear All</button>
-      <button onclick="printList()">🖨️ Print</button>
+    <div class="main">
+      <h1><span>🛒</span> Shopping List</h1>
+      <div>
+        <input type="text" id="itemInput" placeholder="e.g. Milk, Apples, Cereal" />
+        <input type="number" id="qtyInput" placeholder="Qty" min="1" style="width: 60px;" />
+        <select id="categorySelect">
+          <option value="Produce">Produce</option>
+          <option value="Dairy">Dairy</option>
+          <option value="Frozen">Frozen</option>
+          <option value="Bread">Bread</option>
+          <option value="Cereal">Cereal</option>
+          <option value="Meat">Meat</option>
+          <option value="Seafood">Seafood</option>
+          <option value="Snacks">Snacks</option>
+          <option value="Household">Household</option>
+          <option value="Health & Beauty">Health & Beauty</option>
+          <option value="Other">Other</option>
+        </select>
+        <button onclick="addItem()">Add</button>
+        <button onclick="clearList()">🧹 Clear All</button>
+        <button onclick="printList()">🖨️ Print</button>
+      </div>
+
+      <div id="shoppingList"></div>
+
+      <h3 style="margin-top: 2rem;">Import from Amazon List</h3>
+      <textarea id="importBox" rows="6" style="width: 100%;"></textarea><br />
+      <button onclick="importItems()">📥 Import Items</button>
+      <button onclick="exportCSV()">⬇️ Export List</button>
+
+      <h3>Your Email:</h3>
+      <input type="text" id="emailInput" placeholder="you@example.com" style="width: 100%;" />
+      <button onclick="sendEmail()">📧 Send List to My Email</button>
+
+      <div class="version">Version V1.8</div>
     </div>
 
-    <div id="shoppingList"></div>
-
-    <h3 style="margin-top: 2rem;">Import from Amazon List</h3>
-    <textarea id="importBox" rows="6" style="width: 100%;"></textarea><br />
-    <button onclick="importItems()">📥 Import Items</button>
-    <button onclick="exportCSV()">⬇️ Export List</button>
-
-    <h3>Your Email:</h3>
-    <input type="text" id="emailInput" placeholder="you@example.com" style="width: 100%;" />
-    <button onclick="sendEmail()">📧 Send List to My Email</button>
-
-    <div class="version">Version V1.8</div>
+    <div class="sidebar">
+      <h2>We ❤️ Your Feedback!</h2>
+      <p>Have ideas for improving the shopping list? We’d love to hear from you.</p>
+      <form id="feedbackForm">
+        <input type="text" id="name" name="name" placeholder="Your first name">
+        <input type="email" id="email" name="email" placeholder="you@email.com" required>
+        <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
+        <p id="formStatus"></p>
+        <button type="submit">💬 Send Feedback</button>
+      </form>
+    </div>
   </div>
 
   <footer style="text-align: center; padding: 1rem; font-size: 0.9rem;">
     📩 Feedback welcome at nospinmedia.ai@gmail.com — No cookies. No tracking.<br />
     — Powered by No Spin Media 🌐 https://nospin.media
   </footer>
+
+  <script>
+    document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const status = document.getElementById('formStatus');
+      status.textContent = "⏳ Sending...";
+      const data = {
+        name: document.getElementById('name').value || "Someone",
+        email: document.getElementById('email').value,
+        subject: "Shopping List Feedback",
+        message: document.getElementById('message').value
+      };
+      try {
+        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+          method: 'POST',
+          headers: {'Content-Type':'text/plain'},
+          body: JSON.stringify(data)
+        });
+        await res.json();
+        status.textContent = "✅ Thanks! Your feedback was sent.";
+        this.reset();
+        setTimeout(()=>{ status.textContent=""; }, 4000);
+      } catch(err) {
+        status.textContent = "❌ Failed to send!";
+      }
+    });
+  </script>
 </body>
 </html>
