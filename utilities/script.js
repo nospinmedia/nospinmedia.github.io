@@ -237,6 +237,7 @@ Here is the updated importItems function:
 JavaScript
 
 function importItems() {
+  console.log("Importing items...");
   const rawText = document.getElementById("importBox").value;
   const lines = rawText.split("\n").map(line => line.trim()).filter(line => line);
 
