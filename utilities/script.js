@@ -52,6 +52,7 @@ function addItem() {
   saveList();
 }
 
+// UPDATED renderList() function for better layout and alignment
 function renderList() {
   const container = document.getElementById('shoppingList');
   container.innerHTML = "";
@@ -72,24 +73,29 @@ function renderList() {
       const row = document.createElement('div');
       row.className = "item-row";
       row.innerHTML = `
-        <label>
-          <input type="checkbox" />
-          <span style="margin-left: 0.5rem; font-weight: bold;">${name}</span>
-        </label>
-        <span style="margin-left: 1rem;">Qty: </span>
-        <input type="number" value="${qty}" min="1" onchange="updateQty(${index}, this.value)" style="width: 50px; margin-left: 0.5rem;" />
-        <select onchange="updateCategory(${index}, this.value)" style="margin-left: 1rem;">
-          ${[...sortedCategories, "Produce", "Dairy", "Frozen", "Bread", "Cereal", "Meat", "Seafood", "Snacks", "Household", "Health & Beauty", "Other", "Beverages", "Pantry & Dry Goods", "Pharmacy"].map(opt =>
-            `<option value="${opt}" ${opt === category ? "selected" : ""}>${opt}</option>`
-          ).join('')}
-        </select>
-        <button onclick="removeItem(${index})" style="margin-left: 1rem;">🗑️</button>
+        <div class="item-name-col">
+          <label>
+            <input type="checkbox" />
+            <span style="font-weight: bold;">${name}</span>
+          </label>
+        </div>
+        <div class="item-controls-col">
+          <span class="qty-label">Qty:</span>
+          <input type="number" value="${qty}" min="1" onchange="updateQty(${index}, this.value)" />
+          <select onchange="updateCategory(${index}, this.value)">
+            ${[...sortedCategories, "Pantry & Dry Goods", "Pharmacy", "Produce", "Dairy", "Frozen", "Bread", "Cereal", "Meat", "Seafood", "Snacks", "Household", "Health & Beauty", "Other", "Beverages"].map(opt =>
+              `<option value="${opt}" ${opt === category ? "selected" : ""}>${opt}</option>`
+            ).join('')}
+          </select>
+        </div>
+        <button onclick="removeItem(${index})">🗑️</button>
       `;
       section.appendChild(row);
     });
     container.appendChild(section);
   }
 }
+
 
 function removeItem(index) {
   shoppingList.splice(index, 1);
@@ -143,7 +149,7 @@ function printList() {
   win.print();
 }
 
-// UPDATED sendEmail() function with status messages and correct URL
+// UPDATED sendEmail() function with corrected payload and status messages
 async function sendEmail() {
   const email = document.getElementById('emailInput').value.trim();
   const emailStatus = document.getElementById('emailStatus');
@@ -158,10 +164,11 @@ async function sendEmail() {
     emailStatus.textContent = "⏳ Sending...";
   }
 
+  // CORRECTED PAYLOAD
   const payload = {
-    to: email,
+    email: email,
     subject: "Your Shopping List",
-    body: shoppingList.map(i => `${i.name} (Qty: ${i.qty}) — ${i.category}`).join("\n")
+    message: shoppingList.map(i => `${i.name} (Qty: ${i.qty}) — ${i.category}`).join("\n")
   };
 
   try {
