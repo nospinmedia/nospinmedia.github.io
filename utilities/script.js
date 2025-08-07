@@ -1,4 +1,4 @@
-// script.js — Shopping List Utility V2.1
+// script.js — Shopping List Utility V2.2
 
 let shoppingList = [];
 
@@ -18,6 +18,23 @@ const keywordMap = [
   { keywords: ["detergent", "cleaner", "bar keepers", "toilet paper", "dish soap", "sponges", "trash bags", "air freshener", "light bulbs"], category: "Household" },
   { keywords: ["medicine", "pain reliever", "allergy", "vitamins", "cold & flu"], category: "Pharmacy" }
 ];
+
+const emojiMap = {
+  "Produce": "🍎",
+  "Dairy": "🧀",
+  "Frozen": "🧊",
+  "Bread": "🍞",
+  "Cereal": "🥣",
+  "Meat": "🥩",
+  "Seafood": "🦐",
+  "Pantry & Dry Goods": "🥫",
+  "Snacks": "🍿",
+  "Beverages": "🥤",
+  "Health & Beauty": "💄",
+  "Household": "🧺",
+  "Pharmacy": "💊",
+  "Other": "✨"
+};
 
 function autoCategory(itemName) {
   const name = itemName.toLowerCase();
@@ -52,7 +69,7 @@ function addItem() {
   saveList();
 }
 
-// UPDATED renderList() for better layout
+// UPDATED renderList() for emojis and better layout
 function renderList() {
   const container = document.getElementById('shoppingList');
   container.innerHTML = "";
@@ -63,12 +80,12 @@ function renderList() {
     return acc;
   }, {});
 
-  // Sort categories for consistent display
   const sortedCategories = Object.keys(grouped).sort();
 
   for (const category of sortedCategories) {
+    const emoji = emojiMap[category] || "";
     const section = document.createElement('div');
-    section.innerHTML = `<h3>${category}</h3>`;
+    section.innerHTML = `<h3>${emoji} ${category}</h3>`;
     grouped[category].forEach(({ name, qty, index }) => {
       const row = document.createElement('div');
       row.className = "item-row";
@@ -137,7 +154,7 @@ function printList() {
   html += '<h1>Shopping List</h1>';
   const sortedCategories = Object.keys(grouped).sort();
   for (const category of sortedCategories) {
-    html += `<h3>${category}</h3><ul>`;
+    html += `<h3>${emojiMap[category] || ''} ${category}</h3><ul>`;
     grouped[category].forEach(item => {
       html += `<li>${item.name} (Qty: ${item.qty})</li>`;
     });
@@ -149,7 +166,6 @@ function printList() {
   win.print();
 }
 
-// CORRECTED sendEmail() function for formatted email body
 async function sendEmail() {
   const email = document.getElementById('emailInput').value.trim();
   const emailStatus = document.getElementById('emailStatus');
@@ -173,7 +189,7 @@ async function sendEmail() {
   const sortedCategories = Object.keys(grouped).sort();
   let emailBody = "Your Shopping List:\n\n";
   for (const category of sortedCategories) {
-    emailBody += `--- ${category} ---\n`;
+    emailBody += `--- ${emojiMap[category] || ''} ${category} ---\n`;
     grouped[category].forEach(item => {
       emailBody += `- ${item.name} (Qty: ${item.qty})\n`;
     });
@@ -255,10 +271,8 @@ function loadList() {
 
 window.onload = loadList;
 
-// FEEDBACK FORM LOGIC ADDED HERE
+// FEEDBACK FORM LOGIC
 document.addEventListener('DOMContentLoaded', function() {
-  // Existing shopping list logic...
-  
   const feedbackForm = document.getElementById('feedbackForm');
   const formStatus = document.getElementById('formStatus');
   const feedbackUrl = 'https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec';
@@ -267,7 +281,7 @@ document.addEventListener('DOMContentLoaded', function() {
     feedbackForm.addEventListener('submit', async function(e) {
       e.preventDefault();
       formStatus.textContent = "⏳ Sending...";
-  
+      
       const data = {
         name: document.getElementById('name').value || "Someone",
         email: document.getElementById('email').value,
