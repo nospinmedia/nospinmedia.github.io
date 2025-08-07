@@ -22,9 +22,10 @@
     }
     h1 { font-size: 2rem; margin-top: 0; }
     .item-entry { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
-    input[type="text"] {
+    input[type="text"], textarea {
       flex: 2; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;
     }
+    textarea { width: 100%; height: 120px; margin-top: 0.5rem; }
     select {
       flex: 1; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;
     }
@@ -40,8 +41,8 @@
     .remove-btn:hover { background: #b52b27; }
     .version { font-size: 0.85rem; color: #888; text-align: center; margin-top: 1rem; }
     @media print {
-      header, .item-entry, .version, .email-section, footer, .button-row { display: none !important; }
-      input, select, button { display: none !important; }
+      header, .item-entry, .version, .email-section, .import-box, footer, .button-row { display: none !important; }
+      input, select, button, textarea { display: none !important; }
       body { background: white; color: #000; }
     }
   </style>
@@ -78,6 +79,12 @@
       <button onclick="addItem()">Add</button>
     </div>
 
+    <div class="import-box">
+      <label><strong>📋 Amazon Import:</strong> Paste copied text from your Amazon Shopping List:</label>
+      <textarea id="importText" placeholder="Paste list here..."></textarea>
+      <button onclick="importFromText()">📥 Import Items</button>
+    </div>
+
     <div class="button-row">
       <button onclick="window.print()">🖨️ Print List</button>
       <button onclick="exportList()">⬇️ Export CSV</button>
@@ -93,7 +100,7 @@
     </div>
   </div>
 
-  <div class="version">Version: V1.2</div>
+  <div class="version">Version: V1.3</div>
 
   <footer>
     📩 Feedback welcome at nospinmedia.ai@gmail.com — No cookies. No tracking. <br>
@@ -106,14 +113,14 @@
       { keywords: ["apple", "banana", "lettuce", "onion", "carrot", "grapes"], category: "Produce" },
       { keywords: ["ice cream", "frozen", "pizza", "peas"], category: "Frozen" },
       { keywords: ["bread", "buns", "rolls", "bagel", "english muffin"], category: "Bread" },
-      { keywords: ["cereal", "cheerios", "corn flakes", "raisin bran"], category: "Cereal" },
+      { keywords: ["cereal", "cheerios", "corn flakes", "raisin bran", "strawberry cereal"], category: "Cereal" },
       { keywords: ["chicken", "beef", "pork", "steak"], category: "Meat" },
       { keywords: ["salmon", "shrimp", "fish", "tilapia"], category: "Seafood" },
       { keywords: ["beans", "rice", "pasta", "soup"], category: "Canned & Dry Goods" },
       { keywords: ["chips", "crackers", "cookies", "snack"], category: "Snacks" },
-      { keywords: ["soda", "juice", "water", "coffee"], category: "Beverages" },
+      { keywords: ["soda", "juice", "water", "coffee", "starbucks"], category: "Beverages" },
       { keywords: ["toothpaste", "soap", "shampoo", "deodorant"], category: "Health & Beauty" },
-      { keywords: ["detergent", "cleaner", "paper towel", "toilet paper"], category: "Household" }
+      { keywords: ["detergent", "cleaner", "bar keepers", "toilet paper"], category: "Household" }
     ];
 
     const categories = [
@@ -137,12 +144,26 @@
       const input = document.getElementById('itemInput');
       const raw = input.value.trim();
       if (!raw) return;
+      addNamedItem(raw);
+      input.value = '';
+    }
 
-      const name = raw.charAt(0).toUpperCase() + raw.slice(1).toLowerCase();
+    function addNamedItem(rawName) {
+      const name = rawName.charAt(0).toUpperCase() + rawName.slice(1).toLowerCase();
       const detected = findCategory(name);
       items.push({ name, category: detected, checked: false });
-      input.value = '';
       saveAndRender();
+    }
+
+    function importFromText() {
+      const raw = document.getElementById('importText').value;
+      const lines = raw.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+      const blocklist = [/^john added/i, /^me added/i, /^edited \d+ days ago/i, /^edit$/i, /^delete$/i, /^show search result$/i];
+      const validLines = lines.filter(line => !blocklist.some(r => r.test(line.toLowerCase())));
+
+      const unique = [...new Set(validLines.map(l => l.toLowerCase()))];
+      unique.forEach(raw => addNamedItem(raw));
+      document.getElementById('importText').value = '';
     }
 
     function updateCategory(index, newCat) {
