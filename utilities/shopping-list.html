@@ -216,52 +216,52 @@
       return tags[Math.floor(Math.random() * tags.length)];
     }
 
-    async function sendEmail() {
-      const email = document.getElementById('emailInput').value.trim();
-      const status = document.getElementById('emailStatus');
-      if (!email) {
-        status.style.color = 'red';
-        status.textContent = '❌ Please enter your email.';
-        return;
-      }
+async function sendEmail() {
+  const email = document.getElementById('emailInput').value.trim();
+  const status = document.getElementById('emailStatus');
+  if (!email) {
+    status.style.color = 'red';
+    status.textContent = '❌ Please enter your email.';
+    return;
+  }
 
-      const items = Array.from(document.querySelectorAll('.item-row')).map(row => {
-        const name = row.querySelector('label span')?.textContent || 'Item';
-        const qty = row.querySelector('input[type="number"]')?.value || '1';
-        const cat = row.querySelector('select')?.value || 'Other';
-        return `- ${name} (x${qty}) [${cat}]`;
-      });
+  const items = Array.from(document.querySelectorAll('.item-row')).map(row => {
+    const name = row.querySelector('label span')?.textContent || 'Item';
+    const qty = row.querySelector('input[type="number"]')?.value || '1';
+    const cat = row.querySelector('select')?.value || 'Other';
+    return `- ${name} (x${qty}) [${cat}]`;
+  });
 
-      if (items.length === 0) {
-        status.style.color = 'red';
-        status.textContent = '❌ Your list is empty.';
-        return;
-      }
+  if (items.length === 0) {
+    status.style.color = 'red';
+    status.textContent = '❌ Your list is empty.';
+    return;
+  }
 
-      status.style.color = '#555';
-      status.textContent = '⏳ Sending...';
+  status.style.color = '#555';
+  status.textContent = '⏳ Sending...';
 
-      const message = `Your Shopping List:\n\n${items.join("\n")}\n\n${getRandomTagline()}\n\nMore tools: https://nospin.media/utilities/index.html`;
+  const message = `Your Shopping List:\n\n${items.join("\n")}\n\n${getRandomTagline()}\n\nMore tools: https://nospin.media/utilities/index.html`;
 
-      try {
-        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-          method: 'POST',
-          headers: {'Content-Type':'text/plain'},
-          body: JSON.stringify({
-            name: 'No Spin Utilities',
-            email,
-            subject: 'Your Shopping List',
-            message
-          })
-        });
-        await res.json();
-        status.style.color = 'green';
-        status.textContent = '✅ Shopping list sent to ' + email;
-      } catch (err) {
-        status.style.color = 'red';
-        status.textContent = '❌ Failed to send your list.';
-      }
-    }
+  try {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
+      method: 'POST',
+      headers: {'Content-Type': 'text/plain'},
+      body: JSON.stringify({
+        name: 'No Spin Utilities',
+        email,
+        subject: 'Your Shopping List',
+        message
+      })
+    });
+    await res.json();
+    status.style.color = 'green';
+    status.textContent = '✅ Shopping list sent to ' + email;
+  } catch (err) {
+    status.style.color = 'red';
+    status.textContent = '❌ Failed to send your list.';
+  }
+}
 
     document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
       e.preventDefault();
