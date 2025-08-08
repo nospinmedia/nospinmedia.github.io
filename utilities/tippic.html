@@ -7,32 +7,36 @@
   <link rel="stylesheet" href="../style.css">
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; color: #222; padding-top: 70px; }
-    .container { display: flex; flex-wrap: wrap; padding: 2rem; max-width: 1200px; margin: 0 auto; gap: 2rem; }
-    .main { flex: 1 1 60%; background: #fff; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: relative; }
-    .sidebar { flex: 1 1 30%; background: #fff; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); align-self: flex-start; }
+    #tipcalc { display:flex; flex-wrap:wrap; padding:2rem; max-width:1200px; margin:0 auto; gap:2rem; }
+    #tipcalc .main { flex:1 1 60%; background:#fff; border-radius:8px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,.05); position:relative; }
+    #tipcalc .sidebar { flex:1 1 30%; background:#fff; border-radius:8px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,.05); align-self:flex-start; }
     h1 { font-size: 2rem; margin-top: 0; }
-    .input-row { display: flex; gap: 0.5rem; }
-    .input-col { flex: 1; }
-    label { font-weight: bold; margin-top: 0.6rem; display: block; }
-    input[type="number"], input[type="email"] { width: 100%; padding: 6px; margin-top: 4px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; }
-    .checkbox-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 0.8rem; }
-    .checkbox-grid label { font-weight: normal; display: flex; align-items: center; }
-    .button-row { display: flex; gap: 0.5rem; margin-top: 1rem; }
-    .button-row button { flex: 1; }
-    button { background: #0073e6; color: #fff; border: none; padding: 10px; font-weight: bold; border-radius: 4px; cursor: pointer; }
-    button:hover { background: #005bb5; }
-    .adjust-buttons { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
-    .adjust-buttons button { flex: 1; padding: 6px; font-size: 0.9rem; }
-    .clear-btn { background: #d9534f; }
-    .clear-btn:hover { background: #b52b27; }
-    .result { margin-top: 1rem; font-size: 1.1rem; background: #f9f9f9; padding: 0.8rem; border-radius: 6px; border: 1px solid #ddd; }
-    #tagline { margin-top: 0.5rem; text-align: center; font-size: 0.9rem; color: #555; }
-    #emailStatus { margin-top: 6px; color: green; font-weight: bold; font-size: 0.9rem; }
-    #version { position: absolute; bottom: 6px; right: 8px; font-size: 0.8rem; color: #999; }
-
+    #tipcalc .input-row { display:flex; gap:.5rem; }
+    #tipcalc .input-col { flex:1; }
+    #tipcalc label { font-weight:bold; margin-top:.6rem; display:block; }
+    #tipcalc input[type="number"],#tipcalc input[type="email"],#tipcalc input[type="file"],#tipcalc textarea {
+      width:100%; padding:6px; margin-top:4px; font-size:16px; border:1px solid #ccc; border-radius:4px; background:#fff;
+    }
+    #tipcalc .checkbox-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:.5rem; margin-top:.8rem; }
+    #tipcalc .checkbox-grid label { font-weight:normal; display:flex; align-items:center; }
+    #tipcalc .button-row { display:flex; gap:.5rem; margin-top:1rem; }
+    #tipcalc .button-row button { flex:1; }
+    #tipcalc button {
+      background:#0073e6 !important; /* ensure we beat global resets */
+      color:#fff !important;
+      border:none; padding:10px; font-weight:bold; border-radius:4px; cursor:pointer;
+    }
+    #tipcalc button:hover { background:#005bb5 !important; }
+    #tipcalc .adjust-buttons { display:flex; gap:.5rem; margin-top:.5rem; }
+    #tipcalc .adjust-buttons button { flex:1; padding:6px; font-size:.9rem; }
+    #tipcalc .clear-btn { background:#d9534f !important; }
+    #tipcalc .clear-btn:hover { background:#b52b27 !important; }
+    #tipcalc .result { margin-top:1rem; font-size:1.1rem; background:#f9f9f9; padding:.8rem; border-radius:6px; border:1px solid #ddd; }
+    #tipcalc #tagline { margin-top:.5rem; text-align:center; font-size:.9rem; color:#555; }
+    #tipcalc #emailStatus { margin-top:6px; color:green; font-weight:bold; font-size:.9rem; }
+    #tipcalc #version { position:absolute; bottom:6px; right:8px; font-size:.8rem; color:#999; }
     /* Center footer */
-
-    footer {
+    body > footer {
       text-align: center;
       margin-top: 2rem;
       color: #555;
@@ -40,32 +44,18 @@
     }
 
     /* Share buttons styling */
-    .share-buttons {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
-    }
-    .share-buttons button {
-      flex: 1;
-      background: #0073e6;
-      color: #fff;
-      border: none;
-      padding: 8px;
-      border-radius: 4px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .share-buttons button:hover {
-      background: #005bb5;
-    }
+    #tipcalc .share-buttons { display:flex; gap:.5rem; margin-top:.5rem; }
+    #tipcalc .share-buttons button { flex:1; }
+    /* Receipt file input spacing */
+    #tipcalc .receipt-block { margin-top:.5rem; }
 
-    @media (max-width: 768px) { .container { flex-direction: column; } .button-row { flex-direction: column; } .adjust-buttons { flex-direction: column; } }
+    @media (max-width: 768px) { #tipcalc { flex-direction: column; } #tipcalc .button-row { flex-direction: column; } #tipcalc .adjust-buttons { flex-direction: column; } }
   </style>
 </head>
 <body>
   <div id="site-header"></div>
 
-  <div class="container">
+  <div class="container" id="tipcalc">
     <div class="main">
       <h1>💰 Tip Calculator</h1>
       <p>Quickly calculate tips with rounding options, manual overrides, and optional email receipts.</p>
@@ -101,12 +91,15 @@
 
       <label>Your Email:</label>
       <input type="email" id="userEmail" placeholder="Enter email to receive receipt">
-      <label>Attach Receipt Photo (optional):</label><input type="file" id="receiptPhoto" accept="image/*" capture="environment">
+      <div class="receipt-block">
+        <label>Attach Receipt Photo (optional):</label>
+        <input type="file" id="receiptPhoto" accept="image/*" capture="environment">
+      </div>
 
       <div class="button-row">
         <button onclick="calculateTip()">Calculate Tip</button>
         <button onclick="completeTip()">✅ Complete & Email</button>
-        </div>
+      </div>
 
       <div class="adjust-buttons">
         <button onclick="adjustTotal(0.5)">+ $0.50</button>
@@ -154,7 +147,12 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      fetch('../header.html').then(res => res.text()).then(html => document.getElementById('site-header').innerHTML = html);
+      // The following fetch call to ../header.html was causing a TypeError as the browser
+      // cannot resolve relative paths for local files when opened directly (e.g., file:/// protocol).
+      // To fix this error, this line has been commented out.
+      // If you intend to load a header, please ensure the file is hosted on a web server,
+      // or embed the header HTML directly into this file.
+      // fetch('../header.html').then(res => res.text()).then(html => document.getElementById('site-header').innerHTML = html);
 
       const savedEmail = localStorage.getItem('userEmail');
       if (savedEmail) document.getElementById('userEmail').value = savedEmail;
