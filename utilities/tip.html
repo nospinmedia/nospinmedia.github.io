@@ -31,7 +31,6 @@
     #version { position: absolute; bottom: 6px; right: 8px; font-size: 0.8rem; color: #999; }
 
     /* Center footer */
-
     footer {
       text-align: center;
       margin-top: 2rem;
@@ -111,7 +110,17 @@
         <button onclick="adjustTotal(0.5)">+ $0.50</button>
         <button onclick="adjustTotal(-0.5)">- $0.50</button>
         <button class="clear-btn" onclick="clearFields()">Clear</button>
+        <!-- ✅ New: Attach File button (same size/row) -->
+        <button onclick="openFilePicker()">📎 Attach File</button>
       </div>
+
+      <!-- ✅ Hidden file input (no layout change). One file, common safe types -->
+      <input
+        type="file"
+        id="attachmentInput"
+        style="display:none"
+        accept="image/*,application/pdf,text/plain,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      />
 
       <div class="result" id="result"></div>
 
@@ -123,7 +132,7 @@
 
       <div id="emailStatus"></div>
       <div id="tagline"></div>
-      <div id="version">v3.8</div>
+      <div id="version">v4.0</div>
     </div>
 
     <div class="sidebar">
@@ -152,6 +161,10 @@
   <footer>© 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.</footer>
 
   <script>
+    // ==== Attachment config (tiny, top-level) ====
+    const MAX_FILE_BYTES = 7 * 1024 * 1024; // 7 MB cap
+    let _attachment = null; // { filename, mimeType, base64 } or null
+
     document.addEventListener('DOMContentLoaded', function() {
       fetch('../header.html').then(res => res.text()).then(html => document.getElementById('site-header').innerHTML = html);
 
@@ -172,6 +185,10 @@
           }
         });
       });
+
+      // ✅ Wire the hidden file input
+      const fileInput = document.getElementById('attachmentInput');
+      fileInput.addEventListener('change', handleFileChange);
 
       document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -247,50 +264,84 @@ msg += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% actual
       showTagline();
     }
 
-    async function completeTip() {
-      const { total, tax, base, tip, finalTotal, simplePercent, exactPercent } = calculateValues();
-      if(total <= 0){
-        document.getElementById('result').innerHTML = "❌ Enter a Bill Total before sending.";
-        return;
-      }
-      calculateTip();
-      const emailField = document.getElementById('userEmail');
-      const email = emailField.value.trim();
-      if(!email){
-        emailField.style.border = '2px solid red';
-        document.getElementById('emailStatus').textContent="❌ Enter your email to receive receipt.";
-        return;
-      } else {
-        emailField.style.border = '';
-      }
+async function completeTip() {
+  const { total, tax, base, tip, finalTotal, simplePercent, exactPercent } = calculateValues();
+  if (total <= 0) {
+    document.getElementById('result').innerHTML = "❌ Enter a Bill Total before sending.";
+    return;
+  }
+  calculateTip();
 
-      let message = '';
-let mealCost = (tax !== null && tax <= total) ? total - tax : total;
+  const emailField = document.getElementById('userEmail');
+  const email = emailField.value.trim();
+  if (!email) {
+    emailField.style.border = '2px solid red';
+    document.getElementById('emailStatus').textContent = "❌ Enter your email to receive receipt.";
+    return;
+  } else {
+    emailField.style.border = '';
+  }
 
-if(tax !== null){
-  const taxPct = (tax / mealCost) * 100;
-  message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`;
-  message += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)\n`;
-} else {
-  message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`;
-}
+  let message = '';
+  let mealCost = (tax !== null && tax <= total) ? total - tax : total;
 
-      message += `Bill Total: $${total.toFixed(2)}\n`;
-      const manualTip = parseFloat(document.getElementById('manualTip').value);
-const tipLabel = !isNaN(manualTip) ? "Manual Tip Entered" : `${document.getElementById('tipPercent').value}% preferred`;
-message += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% actual)\n\n`;
-      message += `Total with Tip: $${finalTotal.toFixed(2)}\n\n`;
-      if (document.getElementById('excludeTax').checked) {
-  message += `(Tip calculated excluding tax)\n`;
-}
+  if (tax !== null) {
+    const taxPct = (tax / mealCost) * 100;
+    message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`;
+    message += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)\n`;
+  } else {
+    message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`;
+  }
 
-      message += getRandomTagline();
+  message += `Bill Total: $${total.toFixed(2)}\n`;
+  const manualTip = parseFloat(document.getElementById('manualTip').value);
+  const tipLabel = !isNaN(manualTip) ? "Manual Tip Entered" : `${document.getElementById('tipPercent').value}% preferred`;
+  message += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% actual)\n\n`;
+  message += `Total with Tip: $${finalTotal.toFixed(2)}\n\n`;
+  if (document.getElementById('excludeTax').checked) {
+    message += `(Tip calculated excluding tax)\n`;
+  }
+  message += getRandomTagline();
 
-      await fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
-        method: 'POST', headers: {'Content-Type':'text/plain'}, body: JSON.stringify({ name:"No Spin Utilities", email: email, subject:"Your Tip Calculator Receipt", message })
-      });
-      document.getElementById('emailStatus').textContent = "✅ Receipt sent to " + email;
+  // ✅ Build payload (legacy-compatible for images; future-proof for other files)
+  const payload = {
+    name: "No Spin Utilities",
+    email: email,
+    subject: "Your Tip Calculator Receipt",
+    message
+  };
+
+  if (_attachment) {
+    const isImage = (_attachment.mimeType || "").startsWith("image/");
+    if (isImage) {
+      payload.imageBase64 = _attachment.base64;   // data URL OK for current GAS
+      payload.filename    = _attachment.filename; // optional
+      payload.mimeType    = _attachment.mimeType; // optional
+    } else {
+      payload.attachments = [_attachment]; // works when server has the newer handler
+      const status = document.getElementById('emailStatus');
+      status.style.color = 'green';
+      status.textContent =
+        "ℹ️ Non-image file selected; sending. If it doesn't arrive, update server script.";
+      setTimeout(()=>{ status.textContent=''; }, 4000);
     }
+  }
+
+  // ✅ POST to the same app ID you already use
+  await fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(payload)
+  });
+
+  const confirmText = _attachment
+    ? `✅ Receipt sent to ${email} (with attachment)`
+    : `✅ Receipt sent to ${email}`;
+  const status = document.getElementById('emailStatus');
+  status.style.color = 'green';
+  status.textContent = confirmText;
+}
+
 
     function adjustTotal(amount) {
       const bill = document.getElementById('billTotal');
@@ -305,6 +356,7 @@ message += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% ac
       document.getElementById('result').innerHTML='';
       document.getElementById('emailStatus').textContent='';
       document.getElementById('tagline').textContent='';
+      _attachment = null; // clear any selected file
     }
 
     function getRandomTagline(){
@@ -337,6 +389,48 @@ message += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% ac
       } else {
         copyLink();
       }
+    }
+
+    // ==== Minimal new functions for file attach ====
+    function openFilePicker() {
+      document.getElementById('attachmentInput').click();
+    }
+
+    function handleFileChange(e) {
+      const file = e.target.files && e.target.files[0];
+      const status = document.getElementById('emailStatus');
+      if (!file) {
+        _attachment = null;
+        return;
+      }
+      // Size check
+      if (file.size > MAX_FILE_BYTES) {
+        _attachment = null;
+        status.style.color = 'red';
+        status.textContent = `❌ File too large. Max ${(MAX_FILE_BYTES/1024/1024).toFixed(0)} MB.`;
+        setTimeout(()=>{ status.textContent=''; status.style.color='green'; }, 4000);
+        e.target.value = '';
+        return;
+      }
+      // Read as Data URL (GAS handler supports data URLs or raw base64)
+      const reader = new FileReader();
+      reader.onload = () => {
+        _attachment = {
+          filename: file.name,
+          mimeType: file.type || 'application/octet-stream',
+          base64: reader.result // data URL; server extracts payload safely
+        };
+        status.style.color = 'green';
+        status.textContent = `📎 Attached: ${file.name}`;
+        setTimeout(()=>{ status.textContent=''; }, 3000);
+      };
+      reader.onerror = () => {
+        _attachment = null;
+        status.style.color = 'red';
+        status.textContent = '❌ Failed to read file.';
+        setTimeout(()=>{ status.textContent=''; status.style.color='green'; }, 4000);
+      };
+      reader.readAsDataURL(file);
     }
   </script>
 </body>
