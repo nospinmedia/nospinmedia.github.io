@@ -264,69 +264,84 @@ msg += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% actual
       showTagline();
     }
 
-    async function completeTip() {
-      const { total, tax, base, tip, finalTotal, simplePercent, exactPercent } = calculateValues();
-      if(total <= 0){
-        document.getElementById('result').innerHTML = "❌ Enter a Bill Total before sending.";
-        return;
-      }
-      calculateTip();
-      const emailField = document.getElementById('userEmail');
-      const email = emailField.value.trim();
-      if(!email){
-        emailField.style.border = '2px solid red';
-        document.getElementById('emailStatus').textContent="❌ Enter your email to receive receipt.";
-        return;
-      } else {
-        emailField.style.border = '';
-      }
+async function completeTip() {
+  const { total, tax, base, tip, finalTotal, simplePercent, exactPercent } = calculateValues();
+  if (total <= 0) {
+    document.getElementById('result').innerHTML = "❌ Enter a Bill Total before sending.";
+    return;
+  }
+  calculateTip();
 
-      let message = '';
-let mealCost = (tax !== null && tax <= total) ? total - tax : total;
+  const emailField = document.getElementById('userEmail');
+  const email = emailField.value.trim();
+  if (!email) {
+    emailField.style.border = '2px solid red';
+    document.getElementById('emailStatus').textContent = "❌ Enter your email to receive receipt.";
+    return;
+  } else {
+    emailField.style.border = '';
+  }
 
-if(tax !== null){
-  const taxPct = (tax / mealCost) * 100;
-  message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`;
-  message += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)\n`;
-} else {
-  message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`;
-}
+  let message = '';
+  let mealCost = (tax !== null && tax <= total) ? total - tax : total;
 
-      message += `Bill Total: $${total.toFixed(2)}\n`;
-      const manualTip = parseFloat(document.getElementById('manualTip').value);
-const tipLabel = !isNaN(manualTip) ? "Manual Tip Entered" : `${document.getElementById('tipPercent').value}% preferred`;
-message += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% actual)\n\n`;
-      message += `Total with Tip: $${finalTotal.toFixed(2)}\n\n`;
-      if (document.getElementById('excludeTax').checked) {
-  message += `(Tip calculated excluding tax)\n`;
-}
+  if (tax !== null) {
+    const taxPct = (tax / mealCost) * 100;
+    message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`;
+    message += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)\n`;
+  } else {
+    message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`;
+  }
 
-      message += getRandomTagline();
+  message += `Bill Total: $${total.toFixed(2)}\n`;
+  const manualTip = parseFloat(document.getElementById('manualTip').value);
+  const tipLabel = !isNaN(manualTip) ? "Manual Tip Entered" : `${document.getElementById('tipPercent').value}% preferred`;
+  message += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% actual)\n\n`;
+  message += `Total with Tip: $${finalTotal.toFixed(2)}\n\n`;
+  if (document.getElementById('excludeTax').checked) {
+    message += `(Tip calculated excluding tax)\n`;
+  }
+  message += getRandomTagline();
 
-      // ✅ Build payload using existing app ID, add attachment if present
-      const payload = {
-        name:"No Spin Utilities",
-        email: email,
-        subject:"Your Tip Calculator Receipt",
-        message
-      };
+  // ✅ Build payload (legacy-compatible for images; future-proof for other files)
+  const payload = {
+    name: "No Spin Utilities",
+    email: email,
+    subject: "Your Tip Calculator Receipt",
+    message
+  };
 
-      if (_attachment) {
-        // GAS accepts `attachments` array with {filename, mimeType, base64}
-        payload.attachments = [_attachment];
-      }
-
-      await fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
-        method: 'POST',
-        headers: {'Content-Type':'text/plain'},
-        body: JSON.stringify(payload)
-      });
-
-      const confirmText = _attachment
-        ? `✅ Receipt sent to ${email} (with attachment)`
-        : `✅ Receipt sent to ${email}`;
-      document.getElementById('emailStatus').textContent = confirmText;
+  if (_attachment) {
+    const isImage = (_attachment.mimeType || "").startsWith("image/");
+    if (isImage) {
+      payload.imageBase64 = _attachment.base64;   // data URL OK for current GAS
+      payload.filename    = _attachment.filename; // optional
+      payload.mimeType    = _attachment.mimeType; // optional
+    } else {
+      payload.attachments = [_attachment]; // works when server has the newer handler
+      const status = document.getElementById('emailStatus');
+      status.style.color = 'green';
+      status.textContent =
+        "ℹ️ Non-image file selected; sending. If it doesn't arrive, update server script.";
+      setTimeout(()=>{ status.textContent=''; }, 4000);
     }
+  }
+
+  // ✅ POST to the same app ID you already use
+  await fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(payload)
+  });
+
+  const confirmText = _attachment
+    ? `✅ Receipt sent to ${email} (with attachment)`
+    : `✅ Receipt sent to ${email}`;
+  const status = document.getElementById('emailStatus');
+  status.style.color = 'green';
+  status.textContent = confirmText;
+}
+
 
     function adjustTotal(amount) {
       const bill = document.getElementById('billTotal');
