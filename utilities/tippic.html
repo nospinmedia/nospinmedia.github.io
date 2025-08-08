@@ -7,7 +7,15 @@
   <link rel="stylesheet" href="../style.css">
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; color: #222; padding-top: 70px; }
-    #tipcalc { display:flex; flex-wrap:wrap; padding:2rem; max-width:1200px; margin:0 auto; gap:2rem; }
+    #tipcalc {
+      display:flex;
+      flex-wrap:wrap;
+      padding:2rem;
+      width: 95% !important; /* Added !important for width */
+      max-width:1200px !important; /* Added !important */
+      margin:0 auto !important; /* Added !important */
+      gap:2rem;
+    }
     #tipcalc .main { flex:1 1 60%; background:#fff; border-radius:8px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,.05); position:relative; }
     #tipcalc .sidebar { flex:1 1 30%; background:#fff; border-radius:8px; padding:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,.05); align-self:flex-start; }
     h1 { font-size: 2rem; margin-top: 0; }
