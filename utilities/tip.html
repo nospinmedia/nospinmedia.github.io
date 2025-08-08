@@ -132,7 +132,7 @@
 
       <div id="emailStatus"></div>
       <div id="tagline"></div>
-      <div id="version">v4.2</div>
+      <div id="version">v4.3</div>
     </div>
 
     <div class="sidebar">
@@ -166,21 +166,35 @@
     let _attachment = null; // { filename, mimeType, base64 } or null
 
     document.addEventListener('DOMContentLoaded', function() {
-     fetch('../header.html')
+ fetch('../header.html')
   .then(res => res.text())
   .then(html => {
-    document.getElementById('site-header').innerHTML = html;
-    // Execute any script tags in the loaded header
-    document.querySelectorAll('#site-header script').forEach(oldScript => {
-      const newScript = document.createElement('script');
-      if (oldScript.src) {
-        newScript.src = oldScript.src;
-      } else {
-        newScript.textContent = oldScript.textContent;
+    const host = document.getElementById('site-header');
+    host.innerHTML = html;
+
+    // Minimal, non-invasive wiring for common header variants
+    const toggle = host.querySelector('[data-menu-toggle], #menu-toggle, .menu-toggle, .hamburger, .hamburger-btn');
+    const menu   = host.querySelector('[data-menu], #mobile-menu, #nav-menu, .mobile-menu');
+
+    if (toggle && menu) {
+      // Start hidden if not already handled by your CSS
+      if (menu.hasAttribute('hidden') === false && getComputedStyle(menu).display !== 'none') {
+        menu.setAttribute('hidden', '');
       }
-      document.body.appendChild(newScript);
-      oldScript.remove();
-    });
+      toggle.addEventListener('click', () => {
+        const isHidden = menu.hasAttribute('hidden');
+        if (isHidden) {
+          menu.removeAttribute('hidden');
+          menu.classList.add('open');
+        } else {
+          menu.setAttribute('hidden', '');
+          menu.classList.remove('open');
+        }
+        toggle.setAttribute('aria-expanded', String(isHidden));
+      });
+    } else {
+      console.warn('Header menu elements not found in this page.');
+    }
   });
 
       const savedEmail = localStorage.getItem('userEmail');
