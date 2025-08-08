@@ -132,7 +132,7 @@
 
       <div id="emailStatus"></div>
       <div id="tagline"></div>
-      <div id="version">v4.1</div>
+      <div id="version">v4.2</div>
     </div>
 
     <div class="sidebar">
@@ -166,7 +166,22 @@
     let _attachment = null; // { filename, mimeType, base64 } or null
 
     document.addEventListener('DOMContentLoaded', function() {
-      fetch('../header.html').then(res => res.text()).then(html => document.getElementById('site-header').innerHTML = html);
+     fetch('../header.html')
+  .then(res => res.text())
+  .then(html => {
+    document.getElementById('site-header').innerHTML = html;
+    // Execute any script tags in the loaded header
+    document.querySelectorAll('#site-header script').forEach(oldScript => {
+      const newScript = document.createElement('script');
+      if (oldScript.src) {
+        newScript.src = oldScript.src;
+      } else {
+        newScript.textContent = oldScript.textContent;
+      }
+      document.body.appendChild(newScript);
+      oldScript.remove();
+    });
+  });
 
       const savedEmail = localStorage.getItem('userEmail');
       if (savedEmail) document.getElementById('userEmail').value = savedEmail;
