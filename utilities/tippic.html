@@ -147,12 +147,10 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // The following fetch call to ../header.html was causing a TypeError as the browser
-      // cannot resolve relative paths for local files when opened directly (e.g., file:/// protocol).
-      // To fix this error, this line has been commented out.
-      // If you intend to load a header, please ensure the file is hosted on a web server,
-      // or embed the header HTML directly into this file.
-      // fetch('../header.html').then(res => res.text()).then(html => document.getElementById('site-header').innerHTML = html);
+      // This fetch call is for dynamically loading the header.
+      // It requires the HTML file to be served from a web server for relative paths to work.
+      // If you are viewing the file locally (e.g., via file:/// protocol), this fetch will fail.
+      fetch('../header.html').then(res => res.text()).then(html => document.getElementById('site-header').innerHTML = html);
 
       const savedEmail = localStorage.getItem('userEmail');
       if (savedEmail) document.getElementById('userEmail').value = savedEmail;
