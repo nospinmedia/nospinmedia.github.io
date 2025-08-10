@@ -2,53 +2,88 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Install the Tip Calculator | No Spin Media</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tip Calculator — Help & Install | No Spin Media</title>
   <link rel="stylesheet" href="../style.css" />
   <style>
-    body{
-      font-family: Arial, sans-serif;
-      margin:0; padding:0; color:#222; background:#f4f4f4;
-      padding-top:70px; /* match fixed header height */
-      line-height:1.55;
-    }
-    .wrap{max-width:820px;margin:1.25rem auto;padding:0 1rem}
+    body{font-family:Arial, sans-serif;margin:0;padding:0;background:#f4f4f4;color:#222;padding-top:70px;line-height:1.55}
+    .wrap{max-width:860px;margin:1.25rem auto;padding:0 1rem}
     .card{background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.06);padding:1.2rem;margin-bottom:1rem}
-    h1{margin:.25rem 0 0;font-size:1.35rem}
-    h2{margin:0 0 .5rem;font-size:1.1rem}
-    ol{margin:.35rem 0 0 1.2rem}
-    .tip{font-size:.95rem;color:#666;margin-top:.6rem}
+    h1{margin:.25rem 0 0;font-size:1.6rem}
+    h2{margin:.1rem 0 .6rem;font-size:1.25rem}
+    h3{margin:.4rem 0 .4rem;font-size:1.05rem}
+    ul,ol{margin:.4rem 0 0 1.2rem}
+    .tip{font-size:.95rem;color:#666;margin-top:.4rem}
     .badge{display:inline-block;background:#eef;border-radius:999px;padding:.25rem .6rem;font-size:.85rem;color:#223}
     .cta{display:inline-block;border:1px solid #ccc;border-radius:10px;padding:.6rem .9rem;font-weight:600;text-decoration:none;color:#222;margin-top:.5rem}
     .cta.primary{border-color:#111;background:#111;color:#fff}
-    .hide{display:none}
     .row{display:flex;gap:1rem;flex-wrap:wrap}
-    .row .card{flex:1 1 300px}
+    .row .card{flex:1 1 320px}
+    .hide{display:none}
     .foot{font-size:.9rem;color:#666;margin:1rem 0}
-    .list ul{margin:.35rem 0 0 1.1rem}
+    input,textarea{width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;font-size:15px}
+    button{background:#0073e6;color:#fff;border:none;padding:10px;border-radius:6px;font-weight:700;cursor:pointer}
+    button:hover{background:#005bb5}
+    .success{color:green}
+    .error{color:#b32d2d}
   </style>
 </head>
 <body>
 
-  <!-- Shared header gets injected here -->
+  <!-- Shared header -->
   <div id="site-header"></div>
 
   <div class="wrap">
+
     <div class="card">
-      <h1>Install the Tip Calculator</h1>
-      <div class="tip">Optional, fast, and works offline. Nothing changes unless you tap “Install”.</div>
+      <h1>Tip Calculator — Help & Install</h1>
+      <p class="tip">Works offline for calculations. Email receipts send when you’re back online.</p>
+      <a class="cta primary" href="tip.html">Open the Tip Calculator</a>
     </div>
 
-    <div id="notice" class="card hide"></div>
+    <!-- Using the calculator -->
+    <section class="card">
+      <h2>How to Use</h2>
 
+      <h3>Inputs</h3>
+      <ul>
+        <li><strong>Bill Total</strong> — Full check amount.</li>
+        <li><strong>Tax Total (optional)</strong> — Enter the tax line; enables pre‑tax tipping with <em>Exclude Tax</em>.</li>
+        <li><strong>Tip %</strong> — Preferred tip percentage (used unless <em>Manual Tip</em> is filled).</li>
+        <li><strong>Manual Tip (optional)</strong> — Exact dollar tip; overrides Tip %.</li>
+      </ul>
+
+      <h3>Options</h3>
+      <ul>
+        <li><strong>Round Up / Round Down</strong> — Rounds the <em>final total</em> to a whole dollar then adjusts the tip. (Only one can be on.)</li>
+        <li><strong>Exact %</strong> — Displays the actual tip percent for your result (informational—doesn’t change the math).</li>
+        <li><strong>Exclude Tax</strong> — When Tax is entered, calculates tip on pre‑tax amount.</li>
+      </ul>
+
+      <h3>Email & Attachments</h3>
+      <ul>
+        <li><strong>Your Email</strong> — Address for the receipt. Saved locally for next time.</li>
+        <li><strong>✅ Complete & Email</strong> — Sends a receipt via our secure Apps Script when you have a connection.</li>
+        <li><strong>📎 Attach File</strong> — Optional attachment (images, PDFs, docs; up to <strong>7 MB</strong>) included with the email.</li>
+      </ul>
+
+      <h3>Quick Controls</h3>
+      <ul>
+        <li><strong>Calculate Tip</strong> — Shows totals on screen.</li>
+        <li><strong>+ $0.50 / – $0.50</strong> — Nudge the bill and recalc.</li>
+        <li><strong>Clear</strong> — Reset inputs.</li>
+        <li><strong>Copy Link / Share with Friends</strong> — Share this tool with others.</li>
+      </ul>
+    </section>
+
+    <!-- Install instructions -->
     <div class="row">
-      <!-- iPhone / iPad -->
       <section id="ios" class="card hide">
-        <h2>For iPhone / iPad (Safari)</h2>
+        <h2>Install on iPhone / iPad</h2>
         <div class="badge">Manual steps (Apple requires Safari)</div>
         <ol>
           <li>Open <strong>Safari</strong> on your iPhone or iPad.</li>
-          <li>Go to <strong>nospin.media/tip</strong>.</li>
+          <li>Tap <strong>Open the Tip Calculator</strong> above (or go to <strong>nospin.media/tip</strong>).</li>
           <li>Tap the <strong>Share</strong> button (square with ↑).</li>
           <li>Choose <strong>Add to Home Screen</strong>.</li>
           <li>Tap <strong>Add</strong>.</li>
@@ -57,43 +92,50 @@
         <a id="openSafari" class="cta" href="#">Open in Safari</a>
       </section>
 
-      <!-- Android -->
       <section id="android" class="card hide">
-        <h2>For Android</h2>
+        <h2>Install on Android</h2>
         <div class="badge">One‑tap prompt in Chrome/Edge</div>
         <ol>
           <li>Open <strong>Chrome</strong> on your phone.</li>
-          <li>Go to <strong>nospin.media/tip</strong>.</li>
+          <li>Tap <strong>Open the Tip Calculator</strong> above (or go to <strong>nospin.media/tip</strong>).</li>
           <li>Tap the <strong>⋮ menu</strong> (three dots, top‑right).</li>
           <li>Choose <strong>Install app</strong> (or <strong>Add to Home Screen</strong>).</li>
           <li>Confirm to add it.</li>
         </ol>
+        <p class="tip">Chrome may also show an install banner automatically at the bottom. If not, the ⋮ menu path above always works.</p>
         <button id="installBtn" class="cta primary hide">Install App</button>
-        <p class="tip">Chrome may also show an install banner at the bottom automatically. If not, the ⋮ menu option above always works.</p>
       </section>
     </div>
 
-    <div class="card list">
-      <h2>What happens when you install?</h2>
-      <ul>
-        <li>It appears on your home screen like an app.</li>
-        <li>Opens full‑screen and works offline (email receipts send when back online).</li>
-        <li>Nothing sneaky—this is 100% optional and user‑initiated.</li>
-      </ul>
-      <a class="cta" href="tip.html">Open the Tip Calculator</a>
-    </div>
+    <!-- Feedback -->
+    <section class="card">
+      <h2>Feedback</h2>
+      <p>Spotted something confusing, or want a feature? Tell us below. We read every note.</p>
+      <form id="feedbackForm">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
+          <input type="text" id="fbName" placeholder="Your first name">
+          <input type="email" id="fbEmail" placeholder="you@email.com" required>
+        </div>
+        <textarea id="fbMessage" rows="4" placeholder="Your feedback..." required></textarea>
+        <p id="fbStatus" class="tip"></p>
+        <button type="submit">💬 Send Feedback</button>
+      </form>
+      <p class="tip">Or email us: <strong>nospinmedia.ai@gmail.com</strong></p>
+    </section>
 
-    <div class="foot">Guide v1.3 • This page won’t change your device without your action.</div>
+    <div class="foot">Guide v1.4 • This page won’t change your device without your action.</div>
   </div>
 
   <script>
-    // Inject shared header and wire hamburger exactly like your utilities index
+    // Inject shared header and wire hamburger like your other Utilities pages
     document.addEventListener('DOMContentLoaded', async function () {
       try {
         const res = await fetch('../header.html');
         const html = await res.text();
-        document.getElementById('site-header').innerHTML = html;
+        const host = document.getElementById('site-header');
+        host.innerHTML = html;
 
+        // Your header IDs
         const hamburger = document.getElementById('hamburger');
         const mobileNav = document.getElementById('mobile-nav');
 
@@ -103,30 +145,19 @@
             hamburger.classList.toggle('active');
           }
           hamburger.addEventListener('click', toggleMobileNav);
-          hamburger.addEventListener('touchstart', function (e) {
-            e.preventDefault();
-            toggleMobileNav();
-          }, { passive: false });
+          hamburger.addEventListener('touchstart', e => { e.preventDefault(); toggleMobileNav(); }, { passive:false });
 
-          mobileNav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
+          mobileNav.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
               mobileNav.classList.remove('open');
               hamburger.classList.remove('active');
             });
           });
-
-          // ✅ Auto‑open hamburger on phone view
-          if (window.matchMedia('(max-width: 768px)').matches) {
-            mobileNav.classList.add('open');
-            hamburger.classList.add('active');
-          }
         }
-      } catch (e) {
-        console.error('Header load failed:', e);
-      }
+      } catch(e){ console.error('Header load failed:', e); }
     });
 
-    // ---- Device/browser detection + Android install prompt ----
+    // Device/browser detection + Android install prompt
     (function(){
       const ua = navigator.userAgent || "";
       const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -134,54 +165,65 @@
       const isAndroid = /Android/i.test(ua);
       const isChromeLike = /Chrome\/|CriOS\//.test(ua);
 
-      const notice = document.getElementById("notice");
-      const iosBox = document.getElementById("ios");
-      const androidBox = document.getElementById("android");
-      const installBtn = document.getElementById("installBtn");
-      const openSafari = document.getElementById("openSafari");
+      const iosBox = document.getElementById('ios');
+      const androidBox = document.getElementById('android');
+      const openSafari = document.getElementById('openSafari');
+      const installBtn = document.getElementById('installBtn');
 
-      if (isIOS){
-        iosBox.classList.remove("hide");
-        if (!isSafari){
-          notice.classList.remove("hide");
-          notice.innerHTML = `
-            <div style="display:flex;align-items:center;gap:.5rem">
-              <strong>Heads up:</strong>
-              <span>On iPhone, Apple only allows “Add to Home Screen” in <em>Safari</em>.</span>
-            </div>`;
-        }
-      } else if (isAndroid){
-        androidBox.classList.remove("hide");
-      } else {
-        iosBox.classList.remove("hide");
-        androidBox.classList.remove("hide");
-      }
+      if (isIOS){ iosBox.classList.remove('hide'); }
+      else if (isAndroid){ androidBox.classList.remove('hide'); }
+      else { iosBox.classList.remove('hide'); androidBox.classList.remove('hide'); }
 
-      // Open this page in Safari (best‑effort; still user‑initiated)
-      openSafari?.addEventListener("click", (e)=>{
+      openSafari?.addEventListener('click', (e)=>{
         e.preventDefault();
-        const url = location.href.replace(/^http:/, "https:");
+        const url = location.href.replace(/^http:/, 'https:');
         location.href = url;
       });
 
-      // Show Android "Install App" button when allowed
       let deferredPrompt = null;
-      window.addEventListener("beforeinstallprompt", (e) => {
+      window.addEventListener('beforeinstallprompt', e => {
         if (isAndroid && isChromeLike){
           e.preventDefault();
           deferredPrompt = e;
-          installBtn?.classList.remove("hide");
+          installBtn?.classList.remove('hide');
         }
       });
-
-      installBtn?.addEventListener("click", async ()=>{
+      installBtn?.addEventListener('click', async ()=>{
         if (!deferredPrompt) return;
         deferredPrompt.prompt();
         await deferredPrompt.userChoice;
         deferredPrompt = null;
-        installBtn.classList.add("hide");
+        installBtn.classList.add('hide');
       });
     })();
+
+    // Feedback form (uses your existing GAS endpoint)
+    document.getElementById('feedbackForm').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const status = document.getElementById('fbStatus');
+      status.textContent = '⏳ Sending...';
+      const data = {
+        name: document.getElementById('fbName').value || 'Someone',
+        email: document.getElementById('fbEmail').value,
+        subject: 'Tip Help/Install Feedback',
+        message: document.getElementById('fbMessage').value
+      };
+      try{
+        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+          method:'POST',
+          headers:{'Content-Type':'text/plain'},
+          body: JSON.stringify(data)
+        });
+        try{ await res.json(); }catch{}
+        status.textContent = '✅ Thanks! Your feedback was sent.';
+        status.className = 'tip success';
+        this.reset();
+        setTimeout(()=>{ status.textContent=''; status.className='tip'; }, 4000);
+      }catch(err){
+        status.textContent = '❌ Failed to send. Please try again.';
+        status.className = 'tip error';
+      }
+    });
   </script>
 </body>
 </html>
