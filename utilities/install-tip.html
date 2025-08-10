@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Install the Tip Calculator</title>
+  <meta name="color-scheme" content="light dark">
+  <style>
+    :root { --bg:#f7f7f7; --card:#fff; --text:#222; --muted:#666; --brand:#111; }
+    @media (prefers-color-scheme: dark){
+      :root { --bg:#111; --card:#1a1a1a; --text:#eee; --muted:#aaa; --brand:#fff; }
+    }
+    body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.5}
+    header{position:sticky;top:0;background:#111;color:#fff;padding:.8rem 1rem;display:flex;align-items:center;gap:.75rem}
+    header img{height:28px}
+    .wrap{max-width:720px;margin:1.25rem auto;padding:0 1rem}
+    .card{background:var(--card);border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.06);padding:1.25rem;margin-bottom:1rem}
+    h1{margin:.25rem 0 0;font-size:1.35rem}
+    h2{margin:0 0 .5rem;font-size:1.1rem}
+    ol{margin:.25rem 0 0 1.2rem}
+    .tip{font-size:.95rem;color:var(--muted);margin-top:.6rem}
+    .badge{display:inline-block;background:#eef;border-radius:999px;padding:.25rem .6rem;font-size:.85rem;color:#223}
+    .cta{display:inline-block;border:1px solid #ccc;border-radius:10px;padding:.6rem .9rem;font-weight:600;text-decoration:none;color:var(--text);margin-top:.5rem}
+    .cta.primary{border-color:#111;background:#111;color:#fff}
+    .hide{display:none}
+    .row{display:flex;gap:1rem;flex-wrap:wrap}
+    .row .card{flex:1 1 280px}
+    .foot{font-size:.9rem;color:var(--muted);margin-top:1rem}
+    .center{display:flex;align-items:center;gap:.5rem}
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="No Spin Media" onerror="this.style.display='none'">
+    <div>
+      <div style="font-weight:700">Install Tip Calculator</div>
+      <div style="font-size:.9rem;opacity:.8">Optional. Fast. Works offline.</div>
+    </div>
+  </header>
+
+  <div class="wrap">
+
+    <!-- Smart notices injected by JS -->
+    <div id="notice" class="card hide"></div>
+
+    <div class="row">
+      <!-- iPhone / iPad steps -->
+      <section id="ios" class="card hide">
+        <h2>For iPhone / iPad (Safari)</h2>
+        <div class="badge">Manual steps (Apple requires Safari)</div>
+        <ol>
+          <li>Open <strong>Safari</strong> on your iPhone or iPad.</li>
+          <li>Go to <strong>nospin.media/tip</strong>.</li>
+          <li>Tap the <strong>Share</strong> button (square with ↑).</li>
+          <li>Choose <strong>Add to Home Screen</strong>.</li>
+          <li>Tap <strong>Add</strong>.</li>
+        </ol>
+        <p class="tip">If you’re in another browser, tap the button below to open this page in Safari first, then follow the steps.</p>
+        <a id="openSafari" class="cta" href="#">Open in Safari</a>
+      </section>
+
+      <!-- Android steps -->
+      <section id="android" class="card hide">
+        <h2>For Android</h2>
+        <div class="badge">One‑tap prompt in Chrome/Edge</div>
+        <ol>
+          <li>Open <strong>Chrome</strong> on your phone.</li>
+          <li>Go to <strong>nospin.media/tip</strong>.</li>
+          <li>Tap <strong>Install app</strong> (or <strong>Add to Home Screen</strong>).</li>
+          <li>Confirm to add it.</li>
+        </ol>
+        <button id="installBtn" class="cta primary hide">Install App</button>
+        <p class="tip">If you don’t see an Install option, you can still add it via Chrome’s ⋮ menu.</p>
+      </section>
+    </div>
+
+    <div class="card">
+      <h2>What happens when you install?</h2>
+      <ul>
+        <li>It appears on your home screen like an app.</li>
+        <li>Opens full‑screen and works offline (email receipts send when back online).</li>
+        <li>Nothing sneaky—this is 100% optional and user‑initiated.</li>
+      </ul>
+      <a class="cta" href="./index.html">Open the Tip Calculator</a>
+    </div>
+
+    <div class="foot">Guide v1.0 • This page won’t change your device without your action.</div>
+  </div>
+
+  <script>
+    (function(){
+      const ua = navigator.userAgent || "";
+      const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+      const isAndroid = /Android/i.test(ua);
+      const isChrome = /Chrome\/|CriOS\//.test(ua);
+      const notice = document.getElementById("notice");
+      const iosBox = document.getElementById("ios");
+      const androidBox = document.getElementById("android");
+      const installBtn = document.getElementById("installBtn");
+      const openSafari = document.getElementById("openSafari");
+
+      // Show appropriate sections
+      if (isIOS){
+        iosBox.classList.remove("hide");
+        // Gentle nudge if not in Safari
+        if (!isSafari){
+          notice.classList.remove("hide");
+          notice.innerHTML = `
+            <div class="center">
+              <strong>Heads up:</strong>
+              <span>On iPhone, Apple requires using <em>Safari</em> to add apps to the Home Screen.</span>
+            </div>`;
+        }
+      } else if (isAndroid){
+        androidBox.classList.remove("hide");
+      } else {
+        // Desktop fallback: show both briefly
+        iosBox.classList.remove("hide");
+        androidBox.classList.remove("hide");
+      }
+
+      // Open this guide in Safari (best-effort; user stays in control)
+      openSafari?.addEventListener("click", (e)=>{
+        e.preventDefault();
+        // Attempt to open via apple scheme; fall back to https
+        const url = location.href.replace(/^http:/, "https:");
+        // iOS won’t let us force Safari if a default browser is set, but this is a clean attempt:
+        location.href = url; // User will still confirm if needed; no auto-install ever happens.
+      });
+
+      // Android PWA install button (transparent, user‑initiated)
+      let deferredPrompt = null;
+      window.addEventListener("beforeinstallprompt", (e) => {
+        // Only show on Android/Chrome-like
+        if (isAndroid && isChrome){
+          e.preventDefault();
+          deferredPrompt = e;
+          installBtn.classList.remove("hide");
+        }
+      });
+
+      installBtn?.addEventListener("click", async ()=>{
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice; // 'accepted' or 'dismissed'
+        deferredPrompt = null;
+        installBtn.classList.add("hide");
+      });
+    })();
+  </script>
+</body>
+</html>
