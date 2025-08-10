@@ -106,7 +106,7 @@
 
       <div id="emailStatus"></div>
       <div id="tagline"></div>
-      <div id="version">v4.6</div>
+      <div id="version">v4.7</div>
     </div>
 
     <div class="sidebar">
@@ -142,41 +142,55 @@
 
     // ==== Header loader (unchanged) ====
 document.addEventListener('DOMContentLoaded', function() {
-  fetch('../header.html')
-    .then(res => res.text())
-    .then(html => {
-      const host = document.getElementById('site-header');
-      host.innerHTML = html;
+fetch('../header.html')
+  .then(res => res.text())
+  .then(html => {
+    const host = document.getElementById('site-header');
+    host.innerHTML = html;
 
-      const toggle = host.querySelector('[data-menu-toggle], #menu-toggle, .menu-toggle, .hamburger, .hamburger-btn');
-      const menu   = host.querySelector('[data-menu], #mobile-menu, #nav-menu, .mobile-menu');
+    // Try a broad set of common selectors, including your originals
+    const toggle = host.querySelector(
+      '[data-menu-toggle], #menu-toggle, .menu-toggle, .hamburger, .hamburger-btn, #hamburger'
+    );
+    const menu = host.querySelector(
+      '[data-menu], #mobile-menu, #nav-menu, .mobile-menu, #mobile-nav'
+    );
 
-      if (toggle && menu) {
-        if (!menu.hasAttribute('hidden') && getComputedStyle(menu).display !== 'none') {
-          menu.setAttribute('hidden', '');
-        }
+    // Helpful diagnostics while we’re fixing this
+    console.log('Header toggle found?', !!toggle);
+    console.log('Header menu found?', !!menu);
 
-        const toggleMenu = (e) => {
-          e.preventDefault();
-          const isHidden = menu.hasAttribute('hidden');
-          if (isHidden) { 
-            menu.removeAttribute('hidden'); 
-            menu.classList.add('open'); 
-          } else { 
-            menu.setAttribute('hidden', ''); 
-            menu.classList.remove('open'); 
-          }
-          toggle.setAttribute('aria-expanded', String(isHidden));
-        };
+    if (toggle && menu) {
+      if (!menu.hasAttribute('hidden') && getComputedStyle(menu).display !== 'none') {
+        menu.setAttribute('hidden', '');
+      }
 
-        // Bind to both click and touch for reliability
+      const toggleMenu = (e) => {
+        e.preventDefault();
+        const isHidden = menu.hasAttribute('hidden');
+        if (isHidden) { menu.removeAttribute('hidden'); menu.classList.add('open'); }
+        else { menu.setAttribute('hidden', ''); menu.classList.remove('open'); }
+        toggle.setAttribute('aria-expanded', String(isHidden));
+      };
+
+      // Bind once, guard against double-binding
+      if (!toggle.dataset.bound) {
         toggle.addEventListener('click', toggleMenu);
         toggle.addEventListener('touchstart', toggleMenu, { passive: false });
-
-      } else {
-        console.warn('Header menu elements not found in this page.');
+        toggle.dataset.bound = '1';
       }
-    });
+
+      // Close menu when a link is tapped
+      menu.addEventListener('click', (ev) => {
+        if (!ev.target.closest('a')) return;
+        menu.setAttribute('hidden','');
+        menu.classList.remove('open');
+        toggle.setAttribute('aria-expanded','false');
+      });
+    } else {
+      console.warn('Header menu elements not found on this page.');
+    }
+  });
 
       // Prefill & restore choices
       const savedEmail = localStorage.getItem('userEmail');
