@@ -1,228 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Tip Calculator — Help & Install | No Spin Media</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Tip Calculator — Help & Install | No Spin Utilities</title>
   <link rel="stylesheet" href="../style.css" />
   <style>
-    body{font-family:Arial, sans-serif;margin:0;padding:0;background:#f4f4f4;color:#222;padding-top:70px;line-height:1.55}
-    .wrap{max-width:860px;margin:1.25rem auto;padding:0 1rem}
-    .card{background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.06);padding:1.2rem;margin-bottom:1rem}
-    h1{margin:.25rem 0 0;font-size:1.6rem}
-    h2{margin:.1rem 0 .6rem;font-size:1.25rem}
-    h3{margin:.4rem 0 .4rem;font-size:1.05rem}
-    ul,ol{margin:.4rem 0 0 1.2rem}
-    .tip{font-size:.95rem;color:#666;margin-top:.4rem}
-    .badge{display:inline-block;background:#eef;border-radius:999px;padding:.25rem .6rem;font-size:.85rem;color:#223}
-    .cta{display:inline-block;border:1px solid #ccc;border-radius:10px;padding:.6rem .9rem;font-weight:600;text-decoration:none;color:#222;margin-top:.5rem}
-    .cta.primary{border-color:#111;background:#111;color:#fff}
-    .row{display:flex;gap:1rem;flex-wrap:wrap}
-    .row .card{flex:1 1 320px}
-    .hide{display:none}
-    .foot{font-size:.9rem;color:#666;margin:1rem 0}
-    input,textarea{width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;font-size:15px}
-    button{background:#0073e6;color:#fff;border:none;padding:10px;border-radius:6px;font-weight:700;cursor:pointer}
-    button:hover{background:#005bb5}
-    .success{color:green}
-    .error{color:#b32d2d}
+    /* Layout & theming (scoped, gentle) */
+    :root {
+      --nsu-bg: #f6f7fb;
+      --nsu-card: #ffffff;
+      --nsu-text: #1f2937;
+      --nsu-sub: #4b5563;
+      --nsu-accent: #2563eb;
+      --nsu-accent-2: #0ea5e9;
+      --nsu-ok: #16a34a;
+      --nsu-warn: #ef4444;
+      --nsu-ring: rgba(37, 99, 235, 0.15);
+    }
+    body { background: var(--nsu-bg); color: var(--nsu-text); margin:0; padding:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; padding-top: 70px; }
+    #site-header { position: relative; z-index: 2000; }
+
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    .hero {
+      background: radial-gradient(1200px 500px at 20% -10%, #eaf2ff 0%, rgba(234,242,255,0) 60%),
+                  linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      border: 1px solid #e5e7eb; border-radius: 16px; padding: 24px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+    .title { display:flex; align-items:center; gap:12px; margin:0 0 8px 0; font-size: clamp(20px, 3vw, 28px); }
+    .subtitle { color: var(--nsu-sub); margin: 0 0 14px 0; }
+    .badge {
+      display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px;
+      background: #edf5ff; color:#1e40af; font-weight:600; font-size: 13px; border:1px solid #dbeafe;
+    }
+
+    .grid { display:grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+    .card { background: var(--nsu-card); border:1px solid #e5e7eb; border-radius:14px; padding:18px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+    .card h2 { margin: 0 0 10px 0; font-size: 18px; }
+    .card p { margin: 8px 0; color: var(--nsu-sub); }
+    .card ul { margin: 10px 0 0 0; padding-left: 18px; }
+    .card li { margin: 6px 0; }
+
+    .btn-row { display:flex; flex-wrap:wrap; gap:10px; margin-top: 14px; }
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      background: var(--nsu-accent); color:#fff; border:none; padding:10px 14px; border-radius:10px;
+      font-weight:700; cursor:pointer; text-decoration:none;
+      box-shadow: 0 2px 10px rgba(37,99,235,0.25);
+    }
+    .btn:hover { background:#1d4ed8; }
+    .btn.secondary { background:#0ea5e9; }
+    .btn.ghost { background:#fff; color:var(--nsu-accent); border:1px solid #dbeafe; box-shadow:none; }
+
+    .kicker { margin-top: 6px; color: var(--nsu-sub); font-size: 14px; }
+
+    .section { margin-top: 20px; }
+    .section h3 { margin: 0 0 8px 0; font-size: 16px; }
+    .pill { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius: 999px; background:#f1f5f9; color:#0f172a; font-weight:600; font-size:13px; border:1px solid #e2e8f0; }
+
+    .steps ol { margin: 10px 0 0 0; padding-left: 20px; }
+    .steps li { margin: 8px 0; }
+
+    .note { background:#f8fafc; border:1px dashed #cbd5e1; padding:10px; border-radius:10px; font-size:14px; color:#334155; }
+
+    .install { display:grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 10px; }
+    @media (max-width: 900px) { .install { grid-template-columns: 1fr; } }
+
+    /* Feedback card */
+    .feedback .row { display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+    @media (max-width: 700px) { .feedback .row { grid-template-columns: 1fr; } }
+    .feedback input, .feedback textarea {
+      width:100%; padding:10px 12px; font-size:16px; border:1px solid #d1d5db; border-radius:10px;
+      outline:none; transition: box-shadow .12s, border-color .12s; background:#fff;
+    }
+    .feedback input:focus, .feedback textarea:focus {
+      border-color: var(--nsu-accent); box-shadow: 0 0 0 4px var(--nsu-ring);
+    }
+    .feedback textarea { min-height: 110px; resize: vertical; }
+    .status { margin-top: 8px; font-weight:700; font-size:14px; }
+    .ok { color: var(--nsu-ok); }
+    .err { color: var(--nsu-warn); }
+
+    footer { text-align:center; color:#6b7280; font-size: 13px; margin: 24px 0 18px; }
+    .mini { font-size:12px; color:#64748b; }
+
+    .topgap { height: 8px; }
   </style>
 </head>
 <body>
-
-  <!-- Shared header -->
   <div id="site-header"></div>
 
-  <div class="wrap">
+  <main class="wrap">
+    <section class="hero">
+      <div class="title">📒 Tip Calculator — Help & Install</div>
+      <div class="subtitle">Works offline for calculations. Email receipts send once you’re back online.</div>
+      <span class="badge">🛜 Offline‑friendly • 🔒 No tracking • ⚡ Fast</span>
 
-    <div class="card">
-      <h1>Tip Calculator — Help & Install</h1>
-      <p class="tip">Works offline for calculations. Email receipts send when you’re back online.</p>
-      <a class="cta primary" href="tip.html">Open the Tip Calculator</a>
-    </div>
-
-    <!-- Using the calculator -->
-    <section class="card">
-      <h2>How to Use</h2>
-
-      <h3>Inputs</h3>
-      <ul>
-        <li><strong>Bill Total</strong> — Full check amount.</li>
-        <li><strong>Tax Total (optional)</strong> — Enter the tax line; enables pre‑tax tipping with <em>Exclude Tax</em>.</li>
-        <li><strong>Tip %</strong> — Preferred tip percentage (used unless <em>Manual Tip</em> is filled).</li>
-        <li><strong>Manual Tip (optional)</strong> — Exact dollar tip; overrides Tip %.</li>
-      </ul>
-
-      <h3>Options</h3>
-      <ul>
-        <li><strong>Round Up / Round Down</strong> — Rounds the <em>final total</em> to a whole dollar then adjusts the tip. (Only one can be on.)</li>
-        <li><strong>Exact %</strong> — Displays the actual tip percent for your result (informational—doesn’t change the math).</li>
-        <li><strong>Exclude Tax</strong> — When Tax is entered, calculates tip on pre‑tax amount.</li>
-      </ul>
-
-      <h3>Email & Attachments</h3>
-      <ul>
-        <li><strong>Your Email</strong> — Address for the receipt. Saved locally for next time.</li>
-        <li><strong>✅ Complete & Email</strong> — Sends a receipt via our secure Apps Script when you have a connection.</li>
-        <li><strong>📎 Attach File</strong> — Optional attachment (images, PDFs, docs; up to <strong>7 MB</strong>) included with the email.</li>
-      </ul>
-
-      <h3>Quick Controls</h3>
-      <ul>
-        <li><strong>Calculate Tip</strong> — Shows totals on screen.</li>
-        <li><strong>+ $0.50 / – $0.50</strong> — Nudge the bill and recalc.</li>
-        <li><strong>Clear</strong> — Reset inputs.</li>
-        <li><strong>Copy Link / Share with Friends</strong> — Share this tool with others.</li>
-      </ul>
+      <div class="btn-row">
+        <a class="btn" href="tip.html">🚀 Open the Tip Calculator</a>
+        <a class="btn ghost" href="#feedback">💬 Give Feedback</a>
+      </div>
+      <div class="kicker mini">Psst… add it to your Home Screen for a 1‑tap app experience (see below).</div>
     </section>
 
-    <!-- Install instructions -->
-    <div class="row">
-      <section id="ios" class="card hide">
-        <h2>Install on iPhone / iPad</h2>
-        <div class="badge">Manual steps (Apple requires Safari)</div>
-        <ol>
-          <li>Open <strong>Safari</strong> on your iPhone or iPad.</li>
-          <li>Tap <strong>Open the Tip Calculator</strong> above (or go to <strong>nospin.media/tip</strong>).</li>
-          <li>Tap the <strong>Share</strong> button (square with ↑).</li>
-          <li>Choose <strong>Add to Home Screen</strong>.</li>
-          <li>Tap <strong>Add</strong>.</li>
-        </ol>
-        <p class="tip">If you’re in another browser, first open this page in Safari, then follow the steps.</p>
-        <a id="openSafari" class="cta" href="#">Open in Safari</a>
-      </section>
+    <!-- How to Use -->
+    <section class="grid section">
+      <div class="card">
+        <h2>🧭 How to Use</h2>
+        <div class="section">
+          <h3>Inputs</h3>
+          <ul>
+            <li><strong>Bill Total</strong> — Enter the full check amount.</li>
+            <li><strong>Tax Total</strong> (optional) — If you enter the tax line, you can tip on the pre‑tax amount with <em>Exclude Tax</em>.</li>
+            <li><strong>Tip %</strong> — Your preferred percentage (used unless <em>Manual Tip</em> is filled).</li>
+            <li><strong>Manual Tip</strong> (optional) — Exact dollar tip; overrides <em>Tip %</em>.</li>
+          </ul>
+        </div>
 
-      <section id="android" class="card hide">
-        <h2>Install on Android</h2>
-        <div class="badge">One‑tap prompt in Chrome/Edge</div>
-        <ol>
-          <li>Open <strong>Chrome</strong> on your phone.</li>
-          <li>Tap <strong>Open the Tip Calculator</strong> above (or go to <strong>nospin.media/tip</strong>).</li>
-          <li>Tap the <strong>⋮ menu</strong> (three dots, top‑right).</li>
-          <li>Choose <strong>Install app</strong> (or <strong>Add to Home Screen</strong>).</li>
-          <li>Confirm to add it.</li>
-        </ol>
-        <p class="tip">Chrome may also show an install banner automatically at the bottom. If not, the ⋮ menu path above always works.</p>
-        <button id="installBtn" class="cta primary hide">Install App</button>
-      </section>
-    </div>
+        <div class="section">
+          <h3>Options</h3>
+          <ul>
+            <li><strong>Round Up / Round Down</strong> — Rounds the <em>final total</em> to a whole dollar and adjusts the tip to match. (Only one can be on.)</li>
+            <li><strong>Exact %</strong> — Shows the true percentage you’re tipping after any rounding. <em>Informational only—doesn’t change the math.</em></li>
+            <li><strong>Exclude Tax</strong> — When <em>Tax Total</em> is entered, calculates the tip on the pre‑tax amount.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>Email & Attachments</h3>
+          <ul>
+            <li><strong>Your Email</strong> — Where your receipt goes (saved locally for next time).</li>
+            <li><strong>✅ Complete &amp; Email</strong> — Sends a receipt via our secure Google Apps Script when you have a connection.</li>
+            <li><strong>📎 Attach File</strong> — Optional image/PDF/doc attachment (up to 7 MB) included with your email.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h3>Quick Controls</h3>
+          <ul>
+            <li><strong>Calculate Tip</strong> — Shows totals on screen.</li>
+            <li><strong>+ $0.50 / – $0.50</strong> — Nudge the total and recalc instantly.</li>
+            <li><strong>Clear</strong> — Reset inputs.</li>
+            <li><strong>Copy Link / Share with Friends</strong> — Spread the love.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🧩 Tips & Behavior</h2>
+        <ul>
+          <li><span class="pill">ℹ️ Manual Tip overrides Tip %</span></li>
+          <li><span class="pill">🎯 Rounding adjusts the tip to hit a whole‑dollar total</span></li>
+          <li><span class="pill">📊 “Exact %” is just a readout of the real % after rounding</span></li>
+          <li><span class="pill">🧮 “Exclude Tax” uses your pre‑tax base (when tax is entered)</span></li>
+          <li><span class="pill">💾 Your email & preferences are saved locally</span></li>
+        </ul>
+        <div class="topgap"></div>
+        <div class="note">Having trouble? Tap <strong>Calculate Tip</strong> once to reset rounding, then use the +/− nudges for fine‑tuning. Your emailed receipt always reflects what’s on screen.</div>
+
+        <div class="btn-row" style="margin-top:12px;">
+          <a class="btn secondary" href="tip.html">↩️ Back to Calculator</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Install -->
+    <section class="section card">
+      <h2>📲 Install to Home Screen</h2>
+      <div class="install">
+        <div class="steps">
+          <h3>🍏 iPhone / iPad (Safari)</h3>
+          <ol>
+            <li>Open <strong>Safari</strong> on your device.</li>
+            <li>Open the calculator: <a href="tip.html">Open Tip Calculator</a>.</li>
+            <li>Tap the <strong>Share</strong> button (square with ↑).</li>
+            <li>Choose <strong>Add to Home Screen</strong>.</li>
+            <li>Tap <strong>Add</strong>.</li>
+          </ol>
+          <div class="note" style="margin-top:10px;">Using another browser? Open this page in Safari first, then follow the steps.</div>
+          <div class="btn-row" style="margin-top:10px;">
+            <a class="btn ghost" href="tip.html">🧭 Open in Safari</a>
+          </div>
+        </div>
+
+        <div class="steps">
+          <h3>🤖 Android (Chrome / Edge)</h3>
+          <ol>
+            <li>Open <strong>Chrome</strong> (or <strong>Edge</strong>).</li>
+            <li>Open the calculator: <a href="tip.html">Open Tip Calculator</a>.</li>
+            <li>Tap the <strong>⋮</strong> menu (top‑right).</li>
+            <li>Choose <strong>Install app</strong> (or <strong>Add to Home Screen</strong>).</li>
+            <li>Confirm to add.</li>
+          </ol>
+          <div class="note" style="margin-top:10px;">Chrome may also show an install banner automatically. If not, the <strong>⋮</strong> menu path above always works.</div>
+        </div>
+      </div>
+    </section>
 
     <!-- Feedback -->
-    <section class="card">
-      <h2>Feedback</h2>
-      <p>Spotted something confusing, or want a feature? Tell us below. We read every note.</p>
-      <form id="feedbackForm">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem">
-          <input type="text" id="fbName" placeholder="Your first name">
-          <input type="email" id="fbEmail" placeholder="you@email.com" required>
+    <section id="feedback" class="section card feedback">
+      <h2>💌 We’d love your feedback!</h2>
+      <p>Spotted something confusing? Got an idea you’d love to see? Tell us below—we read every note and reply when we can. Thanks for helping make No Spin Utilities better for everyone! 🙏</p>
+
+      <form id="feedbackForm" style="margin-top:10px;">
+        <div class="row">
+          <div><input type="text" id="name" name="name" placeholder="Your first name (optional)" /></div>
+          <div><input type="email" id="email" name="email" placeholder="you@email.com (for a reply)" required /></div>
         </div>
-        <textarea id="fbMessage" rows="4" placeholder="Your feedback..." required></textarea>
-        <p id="fbStatus" class="tip"></p>
-        <button type="submit">💬 Send Feedback</button>
+        <div style="margin-top:10px;">
+          <textarea id="message" name="message" placeholder="Your feedback, ideas, or bug report…" required></textarea>
+        </div>
+        <div class="btn-row" style="margin-top:10px;">
+          <button type="submit" class="btn">💬 Send Feedback</button>
+          <a class="btn ghost" href="mailto:nospinmedia.ai@gmail.com">✉️ Email Us Directly</a>
+        </div>
+        <p id="formStatus" class="status" aria-live="polite"></p>
+        <p class="mini">Privacy: No cookies. No tracking. Just your message, securely delivered.</p>
       </form>
-      <p class="tip">Or email us: <strong>nospinmedia.ai@gmail.com</strong></p>
     </section>
 
-    <div class="foot">Guide v1.4 • This page won’t change your device without your action.</div>
-  </div>
+    <footer>
+      © 2025 No Spin Media. Independent. Truth‑focused. <br/>
+      <span class="mini">Seriously factual, surprisingly fun.</span><br/>
+      <span class="mini">Guide v1.5</span>
+    </footer>
+  </main>
 
   <script>
-    // Inject shared header and wire hamburger like your other Utilities pages
-    document.addEventListener('DOMContentLoaded', async function () {
-      try {
-        const res = await fetch('../header.html');
-        const html = await res.text();
-        const host = document.getElementById('site-header');
-        host.innerHTML = html;
+    // ===== Header loader (same robust pattern as on Tip page) =====
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('../header.html')
+        .then(res => res.text())
+        .then(html => {
+          const host = document.getElementById('site-header');
+          host.innerHTML = html;
 
-        // Your header IDs
-        const hamburger = document.getElementById('hamburger');
-        const mobileNav = document.getElementById('mobile-nav');
+          const toggle = host.querySelector(
+            '[data-menu-toggle], #menu-toggle, .menu-toggle, .hamburger, .hamburger-btn, #hamburger'
+          );
+          const menu = host.querySelector(
+            '[data-menu], #mobile-menu, #nav-menu, .mobile-menu, #mobile-nav'
+          );
 
-        if (hamburger && mobileNav) {
-          function toggleMobileNav() {
-            mobileNav.classList.toggle('open');
-            hamburger.classList.toggle('active');
-          }
-          hamburger.addEventListener('click', toggleMobileNav);
-          hamburger.addEventListener('touchstart', e => { e.preventDefault(); toggleMobileNav(); }, { passive:false });
-
-          mobileNav.querySelectorAll('a').forEach(a => {
-            a.addEventListener('click', () => {
-              mobileNav.classList.remove('open');
-              hamburger.classList.remove('active');
+          if (toggle && menu) {
+            if (!menu.hasAttribute('hidden') && getComputedStyle(menu).display !== 'none') {
+              menu.setAttribute('hidden', '');
+            }
+            const toggleMenu = (e) => {
+              e.preventDefault();
+              const isHidden = menu.hasAttribute('hidden');
+              if (isHidden) { menu.removeAttribute('hidden'); menu.classList.add('open'); }
+              else { menu.setAttribute('hidden', ''); menu.classList.remove('open'); }
+              toggle.setAttribute('aria-expanded', String(isHidden));
+            };
+            if (!toggle.dataset.bound) {
+              toggle.addEventListener('click', toggleMenu);
+              toggle.addEventListener('touchstart', toggleMenu, { passive: false });
+              toggle.dataset.bound = '1';
+            }
+            menu.addEventListener('click', (ev) => {
+              if (!ev.target.closest('a')) return;
+              menu.setAttribute('hidden','');
+              menu.classList.remove('open');
+              toggle.setAttribute('aria-expanded','false');
             });
-          });
-        }
-      } catch(e){ console.error('Header load failed:', e); }
-    });
-
-    // Device/browser detection + Android install prompt
-    (function(){
-      const ua = navigator.userAgent || "";
-      const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-      const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
-      const isAndroid = /Android/i.test(ua);
-      const isChromeLike = /Chrome\/|CriOS\//.test(ua);
-
-      const iosBox = document.getElementById('ios');
-      const androidBox = document.getElementById('android');
-      const openSafari = document.getElementById('openSafari');
-      const installBtn = document.getElementById('installBtn');
-
-      if (isIOS){ iosBox.classList.remove('hide'); }
-      else if (isAndroid){ androidBox.classList.remove('hide'); }
-      else { iosBox.classList.remove('hide'); androidBox.classList.remove('hide'); }
-
-      openSafari?.addEventListener('click', (e)=>{
-        e.preventDefault();
-        const url = location.href.replace(/^http:/, 'https:');
-        location.href = url;
-      });
-
-      let deferredPrompt = null;
-      window.addEventListener('beforeinstallprompt', e => {
-        if (isAndroid && isChromeLike){
-          e.preventDefault();
-          deferredPrompt = e;
-          installBtn?.classList.remove('hide');
-        }
-      });
-      installBtn?.addEventListener('click', async ()=>{
-        if (!deferredPrompt) return;
-        deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        installBtn.classList.add('hide');
-      });
-    })();
-
-    // Feedback form (uses your existing GAS endpoint)
-    document.getElementById('feedbackForm').addEventListener('submit', async function(e){
-      e.preventDefault();
-      const status = document.getElementById('fbStatus');
-      status.textContent = '⏳ Sending...';
-      const data = {
-        name: document.getElementById('fbName').value || 'Someone',
-        email: document.getElementById('fbEmail').value,
-        subject: 'Tip Help/Install Feedback',
-        message: document.getElementById('fbMessage').value
-      };
-      try{
-        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-          method:'POST',
-          headers:{'Content-Type':'text/plain'},
-          body: JSON.stringify(data)
+          }
         });
-        try{ await res.json(); }catch{}
-        status.textContent = '✅ Thanks! Your feedback was sent.';
-        status.className = 'tip success';
-        this.reset();
-        setTimeout(()=>{ status.textContent=''; status.className='tip'; }, 4000);
-      }catch(err){
-        status.textContent = '❌ Failed to send. Please try again.';
-        status.className = 'tip error';
-      }
+
+      // ===== Feedback form (same endpoint you use elsewhere) =====
+      const form = document.getElementById('feedbackForm');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const status = document.getElementById('formStatus');
+        status.textContent = "⏳ Sending…";
+        status.className = "status";
+
+        const data = {
+          name: document.getElementById('name').value || "Someone",
+          email: document.getElementById('email').value,
+          subject: "Tip Help Page Feedback",
+          message: document.getElementById('message').value
+        };
+
+        try {
+          const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify(data)
+          });
+          try { await res.json(); } catch {}
+          status.textContent = "✅ Thanks! Your feedback was sent.";
+          status.className = "status ok";
+          form.reset();
+          setTimeout(()=>{ status.textContent = ""; status.className = "status"; }, 4000);
+        } catch (err) {
+          status.textContent = "❌ Failed to send. Please try again, or email us directly.";
+          status.className = "status err";
+        }
+      });
     });
   </script>
 </body>
