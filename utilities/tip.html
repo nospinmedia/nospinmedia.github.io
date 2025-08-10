@@ -6,6 +6,7 @@
   <title>Tip Calculator | No Spin Utilities</title>
   <link rel="stylesheet" href="../style.css">
   <style>
+    #site-header { position: relative; z-index: 2000; }
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; color: #222; padding-top: 70px; }
     .container { display: flex; flex-wrap: wrap; padding: 2rem; max-width: 1200px; margin: 0 auto; gap: 2rem; }
     .main { flex: 1 1 60%; background: #fff; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: relative; }
@@ -105,7 +106,7 @@
 
       <div id="emailStatus"></div>
       <div id="tagline"></div>
-      <div id="version">v4.5</div>
+      <div id="version">v4.6</div>
     </div>
 
     <div class="sidebar">
@@ -140,30 +141,42 @@
     let POST_ADJUST = false;                // after +/- nudges, ignore rounding until next Calculate
 
     // ==== Header loader (unchanged) ====
-    document.addEventListener('DOMContentLoaded', function() {
-      fetch('../header.html')
-        .then(res => res.text())
-        .then(html => {
-          const host = document.getElementById('site-header');
-          host.innerHTML = html;
+document.addEventListener('DOMContentLoaded', function() {
+  fetch('../header.html')
+    .then(res => res.text())
+    .then(html => {
+      const host = document.getElementById('site-header');
+      host.innerHTML = html;
 
-          const toggle = host.querySelector('[data-menu-toggle], #menu-toggle, .menu-toggle, .hamburger, .hamburger-btn');
-          const menu   = host.querySelector('[data-menu], #mobile-menu, #nav-menu, .mobile-menu');
+      const toggle = host.querySelector('[data-menu-toggle], #menu-toggle, .menu-toggle, .hamburger, .hamburger-btn');
+      const menu   = host.querySelector('[data-menu], #mobile-menu, #nav-menu, .mobile-menu');
 
-          if (toggle && menu) {
-            if (menu.hasAttribute('hidden') === false && getComputedStyle(menu).display !== 'none') {
-              menu.setAttribute('hidden', '');
-            }
-            toggle.addEventListener('click', () => {
-              const isHidden = menu.hasAttribute('hidden');
-              if (isHidden) { menu.removeAttribute('hidden'); menu.classList.add('open'); }
-              else { menu.setAttribute('hidden', ''); menu.classList.remove('open'); }
-              toggle.setAttribute('aria-expanded', String(isHidden));
-            });
-          } else {
-            console.warn('Header menu elements not found in this page.');
+      if (toggle && menu) {
+        if (!menu.hasAttribute('hidden') && getComputedStyle(menu).display !== 'none') {
+          menu.setAttribute('hidden', '');
+        }
+
+        const toggleMenu = (e) => {
+          e.preventDefault();
+          const isHidden = menu.hasAttribute('hidden');
+          if (isHidden) { 
+            menu.removeAttribute('hidden'); 
+            menu.classList.add('open'); 
+          } else { 
+            menu.setAttribute('hidden', ''); 
+            menu.classList.remove('open'); 
           }
-        });
+          toggle.setAttribute('aria-expanded', String(isHidden));
+        };
+
+        // Bind to both click and touch for reliability
+        toggle.addEventListener('click', toggleMenu);
+        toggle.addEventListener('touchstart', toggleMenu, { passive: false });
+
+      } else {
+        console.warn('Header menu elements not found in this page.');
+      }
+    });
 
       // Prefill & restore choices
       const savedEmail = localStorage.getItem('userEmail');
