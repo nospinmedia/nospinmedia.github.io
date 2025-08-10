@@ -2,75 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Install the Tip Calculator | No Spin Media</title>
-
-  <!-- Use your site styles if present; inline styles provide fallback -->
-  <link rel="stylesheet" href="style.css" />
-
+  <link rel="stylesheet" href="../style.css" />
   <style>
-    :root { --bg:#f7f7f7; --card:#fff; --text:#222; --muted:#666; --brand:#111; }
-    @media (prefers-color-scheme: dark){
-      :root { --bg:#111; --card:#1a1a1a; --text:#eee; --muted:#aaa; --brand:#fff; }
+    body{
+      font-family: Arial, sans-serif;
+      margin:0; padding:0; color:#222; background:#f4f4f4;
+      padding-top:70px; /* match fixed header height */
+      line-height:1.55;
     }
-    body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
-    /* Header (matches site look; works even if style.css missing) */
-    header{
-      background:#111;color:#fff;position:sticky;top:0;z-index:10;
-      display:flex;align-items:center;justify-content:space-between;
-      padding:.6rem 1rem;min-height:70px
-    }
-    .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:#fff}
-    .brand img{height:36px}
-    nav a{color:#fff;text-decoration:none;margin-left:18px;font-weight:600;white-space:nowrap}
-    nav{overflow:auto;white-space:nowrap}
-    /* Page body */
     .wrap{max-width:820px;margin:1.25rem auto;padding:0 1rem}
-    .card{background:var(--card);border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.06);padding:1.2rem;margin-bottom:1rem}
+    .card{background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.06);padding:1.2rem;margin-bottom:1rem}
     h1{margin:.25rem 0 0;font-size:1.35rem}
     h2{margin:0 0 .5rem;font-size:1.1rem}
     ol{margin:.35rem 0 0 1.2rem}
-    .tip{font-size:.95rem;color:var(--muted);margin-top:.6rem}
+    .tip{font-size:.95rem;color:#666;margin-top:.6rem}
     .badge{display:inline-block;background:#eef;border-radius:999px;padding:.25rem .6rem;font-size:.85rem;color:#223}
-    .cta{display:inline-block;border:1px solid #ccc;border-radius:10px;padding:.6rem .9rem;font-weight:600;text-decoration:none;color:var(--text);margin-top:.5rem}
+    .cta{display:inline-block;border:1px solid #ccc;border-radius:10px;padding:.6rem .9rem;font-weight:600;text-decoration:none;color:#222;margin-top:.5rem}
     .cta.primary{border-color:#111;background:#111;color:#fff}
     .hide{display:none}
     .row{display:flex;gap:1rem;flex-wrap:wrap}
     .row .card{flex:1 1 300px}
-    .foot{font-size:.9rem;color:var(--muted);margin-top:1rem}
-    .center{display:flex;align-items:center;gap:.5rem}
+    .foot{font-size:.9rem;color:#666;margin:1rem 0}
     .list ul{margin:.35rem 0 0 1.1rem}
   </style>
 </head>
 <body>
-  <!-- Header with logo + nav -->
-  <header>
-    <a class="brand" href="/"><img src="logo.png" alt="No Spin Media" onerror="this.style.display='none'"><span>No Spin Media</span></a>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/news.html">News</a>
-      <a href="/emoji-puzzles.html">Emoji Puzzles</a>
-      <a href="/emoji-math.html">Emoji Math</a>
-      <a href="/ai-posts.html">AI Posts</a>
-      <a href="/games.html">Games</a>
-      <a href="/utilities.html">Utilities</a>
-      <a href="/support.html">Support</a>
-      <a href="/ai.html">Why AI?</a>
-      <a href="https://www.facebook.com/NoSpinNewsAI">Facebook</a>
-    </nav>
-  </header>
+
+  <!-- Shared header gets injected here -->
+  <div id="site-header"></div>
 
   <div class="wrap">
     <div class="card">
       <h1>Install the Tip Calculator</h1>
-      <div class="tip">Optional, fast, and works offline. No changes happen unless you tap “Install” on your phone.</div>
+      <div class="tip">Optional, fast, and works offline. Nothing changes unless you tap “Install”.</div>
     </div>
 
-    <!-- Smart notices injected by JS -->
     <div id="notice" class="card hide"></div>
 
     <div class="row">
-      <!-- iPhone / iPad steps -->
+      <!-- iPhone / iPad -->
       <section id="ios" class="card hide">
         <h2>For iPhone / iPad (Safari)</h2>
         <div class="badge">Manual steps (Apple requires Safari)</div>
@@ -85,7 +57,7 @@
         <a id="openSafari" class="cta" href="#">Open in Safari</a>
       </section>
 
-      <!-- Android steps -->
+      <!-- Android -->
       <section id="android" class="card hide">
         <h2>For Android</h2>
         <div class="badge">One‑tap prompt in Chrome/Edge</div>
@@ -97,7 +69,7 @@
           <li>Confirm to add it.</li>
         </ol>
         <button id="installBtn" class="cta primary hide">Install App</button>
-        <p class="tip">Sometimes Chrome also shows an install banner automatically at the bottom. If you don’t see either, the menu option above always works.</p>
+        <p class="tip">Chrome may also show an install banner at the bottom automatically. If not, the ⋮ menu option above always works.</p>
       </section>
     </div>
 
@@ -108,32 +80,72 @@
         <li>Opens full‑screen and works offline (email receipts send when back online).</li>
         <li>Nothing sneaky—this is 100% optional and user‑initiated.</li>
       </ul>
-      <a class="cta" href="https://nospin.media/utilities/tip.html">Open the Tip Calculator</a>
+      <a class="cta" href="tip.html">Open the Tip Calculator</a>
     </div>
 
-    <div class="foot">Guide v1.1 • This page won’t change your device without your action.</div>
+    <div class="foot">Guide v1.3 • This page won’t change your device without your action.</div>
   </div>
 
   <script>
+    // Inject shared header and wire hamburger exactly like your utilities index
+    document.addEventListener('DOMContentLoaded', async function () {
+      try {
+        const res = await fetch('../header.html');
+        const html = await res.text();
+        document.getElementById('site-header').innerHTML = html;
+
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+
+        if (hamburger && mobileNav) {
+          function toggleMobileNav() {
+            mobileNav.classList.toggle('open');
+            hamburger.classList.toggle('active');
+          }
+          hamburger.addEventListener('click', toggleMobileNav);
+          hamburger.addEventListener('touchstart', function (e) {
+            e.preventDefault();
+            toggleMobileNav();
+          }, { passive: false });
+
+          mobileNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+              mobileNav.classList.remove('open');
+              hamburger.classList.remove('active');
+            });
+          });
+
+          // ✅ Auto‑open hamburger on phone view
+          if (window.matchMedia('(max-width: 768px)').matches) {
+            mobileNav.classList.add('open');
+            hamburger.classList.add('active');
+          }
+        }
+      } catch (e) {
+        console.error('Header load failed:', e);
+      }
+    });
+
+    // ---- Device/browser detection + Android install prompt ----
     (function(){
       const ua = navigator.userAgent || "";
       const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
       const isAndroid = /Android/i.test(ua);
-      const isChromeLike = /Chrome\/|CriOS\//.test(ua); // Chrome or Chrome-based
+      const isChromeLike = /Chrome\/|CriOS\//.test(ua);
+
       const notice = document.getElementById("notice");
       const iosBox = document.getElementById("ios");
       const androidBox = document.getElementById("android");
       const installBtn = document.getElementById("installBtn");
       const openSafari = document.getElementById("openSafari");
 
-      // Show appropriate sections
       if (isIOS){
         iosBox.classList.remove("hide");
         if (!isSafari){
           notice.classList.remove("hide");
           notice.innerHTML = `
-            <div class="center">
+            <div style="display:flex;align-items:center;gap:.5rem">
               <strong>Heads up:</strong>
               <span>On iPhone, Apple only allows “Add to Home Screen” in <em>Safari</em>.</span>
             </div>`;
@@ -141,25 +153,24 @@
       } else if (isAndroid){
         androidBox.classList.remove("hide");
       } else {
-        // Desktop fallback: show both
         iosBox.classList.remove("hide");
         androidBox.classList.remove("hide");
       }
 
-      // Open this guide in Safari (best-effort; still user-controlled)
+      // Open this page in Safari (best‑effort; still user‑initiated)
       openSafari?.addEventListener("click", (e)=>{
         e.preventDefault();
         const url = location.href.replace(/^http:/, "https:");
         location.href = url;
       });
 
-      // Android PWA install button (transparent, user‑initiated)
+      // Show Android "Install App" button when allowed
       let deferredPrompt = null;
       window.addEventListener("beforeinstallprompt", (e) => {
         if (isAndroid && isChromeLike){
           e.preventDefault();
           deferredPrompt = e;
-          installBtn.classList.remove("hide");
+          installBtn?.classList.remove("hide");
         }
       });
 
