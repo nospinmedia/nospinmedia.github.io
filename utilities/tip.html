@@ -29,35 +29,10 @@
     #tagline { margin-top: 0.5rem; text-align: center; font-size: 0.9rem; color: #555; }
     #emailStatus { margin-top: 6px; color: green; font-weight: bold; font-size: 0.9rem; }
     #version { position: absolute; bottom: 6px; right: 8px; font-size: 0.8rem; color: #999; }
-
-    /* Center footer */
-    footer {
-      text-align: center;
-      margin-top: 2rem;
-      color: #555;
-      font-size: 0.9rem;
-    }
-
-    /* Share buttons styling */
-    .share-buttons {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
-    }
-    .share-buttons button {
-      flex: 1;
-      background: #0073e6;
-      color: #fff;
-      border: none;
-      padding: 8px;
-      border-radius: 4px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .share-buttons button:hover {
-      background: #005bb5;
-    }
-
+    footer { text-align: center; margin-top: 2rem; color: #555; font-size: 0.9rem; }
+    .share-buttons { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+    .share-buttons button { flex: 1; background: #0073e6; color: #fff; border: none; padding: 8px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+    .share-buttons button:hover { background: #005bb5; }
     @media (max-width: 768px) { .container { flex-direction: column; } .button-row { flex-direction: column; } .adjust-buttons { flex-direction: column; } }
   </style>
 </head>
@@ -72,22 +47,22 @@
       <div class="input-row">
         <div class="input-col">
           <label>Bill Total:</label>
-          <input type="number" id="billTotal" placeholder="Enter total + Tax">
+          <input type="number" step="0.01" inputmode="decimal" id="billTotal" placeholder="Enter total + Tax">
         </div>
         <div class="input-col">
           <label>Tax Total:</label>
-          <input type="number" id="taxTotal" placeholder="Optional">
+          <input type="number" step="0.01" inputmode="decimal" id="taxTotal" placeholder="Optional">
         </div>
       </div>
 
       <div class="input-row">
         <div class="input-col">
           <label>Tip %:</label>
-          <input type="number" id="tipPercent" value="20">
+          <input type="number" step="0.01" inputmode="decimal" id="tipPercent" value="20">
         </div>
         <div class="input-col">
           <label>Manual Tip:</label>
-          <input type="number" id="manualTip" placeholder="Optional">
+          <input type="number" step="0.01" inputmode="decimal" id="manualTip" placeholder="Optional">
         </div>
       </div>
 
@@ -102,7 +77,7 @@
       <input type="email" id="userEmail" placeholder="Enter email to receive receipt">
 
       <div class="button-row">
-        <button onclick="calculateTip()">Calculate Tip</button>
+        <button onclick="calculateTip(true)">Calculate Tip</button>
         <button onclick="completeTip()">✅ Complete & Email</button>
       </div>
 
@@ -114,7 +89,6 @@
         <button onclick="openFilePicker()">📎 Attach File</button>
       </div>
 
-      <!-- ✅ Hidden file input (no layout change). One file, common safe types -->
       <input
         type="file"
         id="attachmentInput"
@@ -124,7 +98,6 @@
 
       <div class="result" id="result"></div>
 
-      <!-- New Share Buttons -->
       <div class="share-buttons">
         <button onclick="copyLink()">Copy Link</button>
         <button onclick="sharePage()">Share with Friends</button>
@@ -132,7 +105,7 @@
 
       <div id="emailStatus"></div>
       <div id="tagline"></div>
-      <div id="version">v4.4</div>
+      <div id="version">v4.5</div>
     </div>
 
     <div class="sidebar">
@@ -154,71 +127,68 @@
     </div>
   </div>
 
-<p style="font-size: 0.8rem; color: #888; text-align: center; max-width: 800px; margin: 2rem auto 0;">
-  🔒 <strong>We respect your privacy.</strong> This site does not use cookies, tracking technologies, or collect personal data.
-</p>
+  <p style="font-size: 0.8rem; color: #888; text-align: center; max-width: 800px; margin: 2rem auto 0;">
+    🔒 <strong>We respect your privacy.</strong> This site does not use cookies, tracking technologies, or collect personal data.
+  </p>
 
   <footer>© 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.</footer>
 
   <script>
-    // ==== Attachment config (tiny, top-level) ====
+    // ==== Config / globals ====
     const MAX_FILE_BYTES = 7 * 1024 * 1024; // 7 MB cap
-    let _attachment = null; // { filename, mimeType, base64 } or null
+    let _attachment = null;                 // { filename, mimeType, base64 } or null
+    let POST_ADJUST = false;                // after +/- nudges, ignore rounding until next Calculate
 
+    // ==== Header loader (unchanged) ====
     document.addEventListener('DOMContentLoaded', function() {
- fetch('../header.html')
-  .then(res => res.text())
-  .then(html => {
-    const host = document.getElementById('site-header');
-    host.innerHTML = html;
+      fetch('../header.html')
+        .then(res => res.text())
+        .then(html => {
+          const host = document.getElementById('site-header');
+          host.innerHTML = html;
 
-    // Minimal, non-invasive wiring for common header variants
-    const toggle = host.querySelector('[data-menu-toggle], #menu-toggle, .menu-toggle, .hamburger, .hamburger-btn');
-    const menu   = host.querySelector('[data-menu], #mobile-menu, #nav-menu, .mobile-menu');
+          const toggle = host.querySelector('[data-menu-toggle], #menu-toggle, .menu-toggle, .hamburger, .hamburger-btn');
+          const menu   = host.querySelector('[data-menu], #mobile-menu, #nav-menu, .mobile-menu');
 
-    if (toggle && menu) {
-      // Start hidden if not already handled by your CSS
-      if (menu.hasAttribute('hidden') === false && getComputedStyle(menu).display !== 'none') {
-        menu.setAttribute('hidden', '');
-      }
-      toggle.addEventListener('click', () => {
-        const isHidden = menu.hasAttribute('hidden');
-        if (isHidden) {
-          menu.removeAttribute('hidden');
-          menu.classList.add('open');
-        } else {
-          menu.setAttribute('hidden', '');
-          menu.classList.remove('open');
-        }
-        toggle.setAttribute('aria-expanded', String(isHidden));
-      });
-    } else {
-      console.warn('Header menu elements not found in this page.');
-    }
-  });
+          if (toggle && menu) {
+            if (menu.hasAttribute('hidden') === false && getComputedStyle(menu).display !== 'none') {
+              menu.setAttribute('hidden', '');
+            }
+            toggle.addEventListener('click', () => {
+              const isHidden = menu.hasAttribute('hidden');
+              if (isHidden) { menu.removeAttribute('hidden'); menu.classList.add('open'); }
+              else { menu.setAttribute('hidden', ''); menu.classList.remove('open'); }
+              toggle.setAttribute('aria-expanded', String(isHidden));
+            });
+          } else {
+            console.warn('Header menu elements not found in this page.');
+          }
+        });
 
+      // Prefill & restore choices
       const savedEmail = localStorage.getItem('userEmail');
       if (savedEmail) document.getElementById('userEmail').value = savedEmail;
       document.getElementById('tipPercent').value = localStorage.getItem('tipPercent') || 20;
 
       ['roundUp','roundDown','exactPercent','excludeTax'].forEach(id => {
-        if(localStorage.getItem(id)==='true') document.getElementById(id).checked = true;
+        if (localStorage.getItem(id) === 'true') document.getElementById(id).checked = true;
       });
 
-      document.querySelectorAll('#roundUp,#roundDown,#exactPercent').forEach(cb=>{
-        cb.addEventListener('change', e=>{
-          if(e.target.checked){
-            ['roundUp','roundDown','exactPercent'].forEach(id=>{
-              if(id!==e.target.id) document.getElementById(id).checked = false;
+      // Enforce exclusivity among Exact% / Round Up / Round Down
+      document.querySelectorAll('#roundUp,#roundDown,#exactPercent').forEach(cb => {
+        cb.addEventListener('change', e => {
+          if (e.target.checked) {
+            ['roundUp','roundDown','exactPercent'].forEach(id => {
+              if (id !== e.target.id) document.getElementById(id).checked = false;
             });
           }
         });
       });
 
-      // ✅ Wire the hidden file input
-      const fileInput = document.getElementById('attachmentInput');
-      fileInput.addEventListener('change', handleFileChange);
+      // File input
+      document.getElementById('attachmentInput').addEventListener('change', handleFileChange);
 
+      // Feedback form (unchanged endpoint)
       document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const status = document.getElementById('formStatus');
@@ -231,166 +201,118 @@
         };
         try {
           const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-            method: 'POST', headers: {'Content-Type':'text/plain'}, body: JSON.stringify(data)
+            method: 'POST',
+            headers: {'Content-Type':'text/plain'},
+            body: JSON.stringify(data)
           });
-          await res.json();
+          try { await res.json(); } catch {}
           status.textContent = "✅ Thanks! Your feedback was sent."; this.reset();
           setTimeout(()=>{ status.textContent=""; }, 4000);
-        } catch(err){ status.textContent = "❌ Failed to send!"; }
+        } catch(err) {
+          status.textContent = "❌ Failed to send!";
+        }
       });
     });
 
-   function calculateValues() {
-  const total = parseFloat(document.getElementById('billTotal').value) || 0;
-  const taxInput = document.getElementById('taxTotal').value.trim();
-  const tax = taxInput==="" ? null : parseFloat(taxInput) || 0;
-  const percent = parseFloat(document.getElementById('tipPercent').value) || 20;
-  const manualTip = parseFloat(document.getElementById('manualTip').value);
-  const excludeTax = document.getElementById('excludeTax').checked;
+    // ==== Core math ====
+    function calculateValues() {
+      const total = parseFloat(document.getElementById('billTotal').value) || 0;
+      const taxInput = document.getElementById('taxTotal').value.trim();
+      const tax = (taxInput === "") ? null : (parseFloat(taxInput) || 0);
+      const percent = parseFloat(document.getElementById('tipPercent').value) || 20;
+      const manualTip = parseFloat(document.getElementById('manualTip').value);
+      const excludeTax = document.getElementById('excludeTax').checked;
 
-  // ✅ Always calculate base as pre-tax meal cost if tax is entered
-  const base = (excludeTax && tax !== null) ? total - tax : total;
+      // Base = pre-tax when Exclude Tax is on and a tax value exists
+      const base = (excludeTax && tax !== null) ? total - tax : total;
 
-  let tip = !isNaN(manualTip) ? manualTip : base * (percent / 100);
-  let finalTotal = total + tip;
+      let tip = !isNaN(manualTip) ? manualTip : base * (percent / 100);
+      let finalTotal = total + tip;
 
-  if(document.getElementById('roundUp').checked){ finalTotal=Math.ceil(finalTotal); tip=finalTotal-total; }
-  if(document.getElementById('roundDown').checked){ finalTotal=Math.floor(finalTotal); tip=finalTotal-total; }
+      // Apply rounding only when not in post-adjust mode
+      const useRounding =
+        !POST_ADJUST &&
+        (document.getElementById('roundUp').checked || document.getElementById('roundDown').checked);
 
-  const simplePercent = Math.round((tip / base) * 100);
-  const exactPercent = (tip / base) * 100;
+      if (useRounding) {
+        if (document.getElementById('roundUp').checked) {
+          finalTotal = Math.ceil(finalTotal);
+          tip = finalTotal - total;
+        }
+        if (document.getElementById('roundDown').checked) {
+          finalTotal = Math.floor(finalTotal);
+          tip = finalTotal - total;
+        }
+      }
 
-  localStorage.setItem('userEmail', document.getElementById('userEmail').value.trim());
-  localStorage.setItem('tipPercent', percent);
-  ['roundUp','roundDown','exactPercent','excludeTax'].forEach(id=>{
-    localStorage.setItem(id, document.getElementById(id).checked);
-  });
+      const simplePercent = Math.round((tip / base) * 100);
+      const exactPercent = (tip / base) * 100;
 
-  return { total, tax, base, tip, finalTotal, simplePercent, exactPercent };
-}
+      // Persist preferences
+      localStorage.setItem('userEmail', document.getElementById('userEmail').value.trim());
+      localStorage.setItem('tipPercent', percent);
+      ['roundUp','roundDown','exactPercent','excludeTax'].forEach(id=>{
+        localStorage.setItem(id, document.getElementById(id).checked);
+      });
 
-    function calculateTip() {
-      const { total, tax, base, tip, finalTotal, simplePercent, exactPercent } = calculateValues();
-      if(total <= 0){
+      return { total, tax, base, tip, finalTotal, simplePercent, exactPercent };
+    }
+
+    function calculateTip(reset = false) {
+      if (reset) {
+        POST_ADJUST = false;                              // return to rounding behavior
+        document.getElementById('manualTip').value = '';  // back to % mode
+      }
+
+      const { total, tax, base, tip, finalTotal, exactPercent } = calculateValues();
+      if (total <= 0) {
         document.getElementById('result').innerHTML = "❌ Enter a Bill Total to calculate.";
         return;
       }
-      let msg = '';
-const mealCost = (tax !== null && tax <= total) ? total - tax : total;
 
-if (tax !== null) {
-  msg += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}<br>`;
-  const taxPct = (tax / mealCost) * 100;
-  msg += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)<br>`;
-}
-msg += `Bill Total: $${total.toFixed(2)}<br>`;
+      let msg = '';
+      const mealCost = (tax !== null && tax <= total) ? total - tax : total;
+
+      if (tax !== null) {
+        msg += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}<br>`;
+        const taxPct = (tax / mealCost) * 100;
+        msg += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)<br>`;
+      }
+      msg += `Bill Total: $${total.toFixed(2)}<br>`;
+
       const manualTip = parseFloat(document.getElementById('manualTip').value);
-const tipLabel = !isNaN(manualTip) ? "Manual Tip Entered" : `${document.getElementById('tipPercent').value}% preferred`;
-msg += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% actual)<br><br>`;
+      const tipLabel = !isNaN(manualTip) ? "Manual Tip Entered" : `${document.getElementById('tipPercent').value}% preferred`;
+      msg += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% actual)<br><br>`;
       msg += `<strong>Total with Tip: $${finalTotal.toFixed(2)}</strong>`;
+
       document.getElementById('result').innerHTML = msg;
       document.getElementById('emailStatus').textContent = "";
       showTagline();
     }
 
-async function completeTip() {
-  const { total, tax, base, tip, finalTotal, simplePercent, exactPercent } = calculateValues();
-  if (total <= 0) {
-    document.getElementById('result').innerHTML = "❌ Enter a Bill Total before sending.";
-    return;
-  }
-  calculateTip();
-
-  const emailField = document.getElementById('userEmail');
-  const email = emailField.value.trim();
-  if (!email) {
-    emailField.style.border = '2px solid red';
-    document.getElementById('emailStatus').textContent = "❌ Enter your email to receive receipt.";
-    return;
-  } else {
-    emailField.style.border = '';
-  }
-
-  let message = '';
-  let mealCost = (tax !== null && tax <= total) ? total - tax : total;
-
-  if (tax !== null) {
-    const taxPct = (tax / mealCost) * 100;
-    message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`;
-    message += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)\n`;
-  } else {
-    message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`;
-  }
-
-  message += `Bill Total: $${total.toFixed(2)}\n`;
-  const manualTip = parseFloat(document.getElementById('manualTip').value);
-  const tipLabel = !isNaN(manualTip) ? "Manual Tip Entered" : `${document.getElementById('tipPercent').value}% preferred`;
-  message += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% actual)\n\n`;
-  message += `Total with Tip: $${finalTotal.toFixed(2)}\n\n`;
-  if (document.getElementById('excludeTax').checked) {
-    message += `(Tip calculated excluding tax)\n`;
-  }
-  message += getRandomTagline();
-
-  // ✅ Build payload (legacy-compatible for images; future-proof for other files)
-  const payload = {
-    name: "No Spin Utilities",
-    email: email,
-    subject: "Your Tip Calculator Receipt",
-    message
-  };
-
-  if (_attachment) {
-    const isImage = (_attachment.mimeType || "").startsWith("image/");
-    if (isImage) {
-      payload.imageBase64 = _attachment.base64;   // data URL OK for current GAS
-      payload.filename    = _attachment.filename; // optional
-      payload.mimeType    = _attachment.mimeType; // optional
-    } else {
-      payload.attachments = [_attachment]; // works when server has the newer handler
-      const status = document.getElementById('emailStatus');
-      status.style.color = 'green';
-      status.textContent =
-        "ℹ️ Non-image file selected; sending. If it doesn't arrive, update server script.";
-      setTimeout(()=>{ status.textContent=''; }, 4000);
-    }
-  }
-
-  // ✅ POST to the same app ID you already use
-  await fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify(payload)
-  });
-
-  const confirmText = _attachment
-    ? `✅ Receipt sent to ${email} (with attachment)`
-    : `✅ Receipt sent to ${email}`;
-  const status = document.getElementById('emailStatus');
-  status.style.color = 'green';
-  status.textContent = confirmText;
-}
-
-
+    // Adjust final total by +/- amount, update manual tip, and ignore rounding until next Calculate
     function adjustTotal(amount) {
-      const billField = document.getElementById('billTotal');
-      const currentBill = parseFloat(billField.value) || 0;
-      billField.value = (currentBill + amount).toFixed(2);
-    
-      // Also recalc values & refresh display
-      const { finalTotal } = calculateValues();
-      calculateTip(); // updates the results box to reflect new total
+      const vals = calculateValues();
+      if (vals.total <= 0) {
+        document.getElementById('result').innerHTML = "❌ Enter a Bill Total first.";
+        return;
+      }
+      POST_ADJUST = true;
+      const newFinal = Math.max(0, vals.finalTotal + amount);
+      const newTip = Math.max(0, newFinal - vals.total);
+      document.getElementById('manualTip').value = newTip.toFixed(2);
+      calculateTip(false);
     }
-
 
     function clearFields() {
+      POST_ADJUST = false;
       document.getElementById('billTotal').value='';
       document.getElementById('taxTotal').value='';
       document.getElementById('manualTip').value='';
       document.getElementById('result').innerHTML='';
       document.getElementById('emailStatus').textContent='';
       document.getElementById('tagline').textContent='';
-      _attachment = null; // clear any selected file
+      _attachment = null;
     }
 
     function getRandomTagline(){
@@ -406,38 +328,26 @@ async function completeTip() {
 
     function showTagline(){ document.getElementById('tagline').textContent = getRandomTagline().split("\n")[0]; }
 
-    // New functions for sharing
+    // ==== Share helpers ====
     function copyLink() {
       navigator.clipboard.writeText(window.location.href).then(() => {
         alert("✅ Link copied to clipboard!");
       });
     }
-
     function sharePage() {
       if (navigator.share) {
-        navigator.share({
-          title: "Tip Calculator",
-          text: "Check out this Tip Calculator!",
-          url: window.location.href
-        });
+        navigator.share({ title: "Tip Calculator", text: "Check out this Tip Calculator!", url: window.location.href });
       } else {
         copyLink();
       }
     }
 
-    // ==== Minimal new functions for file attach ====
-    function openFilePicker() {
-      document.getElementById('attachmentInput').click();
-    }
-
+    // ==== File attach ====
+    function openFilePicker() { document.getElementById('attachmentInput').click(); }
     function handleFileChange(e) {
       const file = e.target.files && e.target.files[0];
       const status = document.getElementById('emailStatus');
-      if (!file) {
-        _attachment = null;
-        return;
-      }
-      // Size check
+      if (!file) { _attachment = null; return; }
       if (file.size > MAX_FILE_BYTES) {
         _attachment = null;
         status.style.color = 'red';
@@ -446,14 +356,9 @@ async function completeTip() {
         e.target.value = '';
         return;
       }
-      // Read as Data URL (GAS handler supports data URLs or raw base64)
       const reader = new FileReader();
       reader.onload = () => {
-        _attachment = {
-          filename: file.name,
-          mimeType: file.type || 'application/octet-stream',
-          base64: reader.result // data URL; server extracts payload safely
-        };
+        _attachment = { filename: file.name, mimeType: file.type || 'application/octet-stream', base64: reader.result };
         status.style.color = 'green';
         status.textContent = `📎 Attached: ${file.name}`;
         setTimeout(()=>{ status.textContent=''; }, 3000);
@@ -465,6 +370,73 @@ async function completeTip() {
         setTimeout(()=>{ status.textContent=''; status.style.color='green'; }, 4000);
       };
       reader.readAsDataURL(file);
+    }
+
+    // ==== Email (unchanged endpoint) ====
+    async function completeTip() {
+      const { total, tax, base, tip, finalTotal, exactPercent } = calculateValues();
+      if (total <= 0) {
+        document.getElementById('result').innerHTML = "❌ Enter a Bill Total before sending.";
+        return;
+      }
+      calculateTip(false); // keep current on-screen state
+
+      const emailField = document.getElementById('userEmail');
+      const email = emailField.value.trim();
+      if (!email) {
+        emailField.style.border = '2px solid red';
+        document.getElementById('emailStatus').textContent = "❌ Enter your email to receive receipt.";
+        return;
+      } else {
+        emailField.style.border = '';
+      }
+
+      let message = '';
+      const mealCost = (tax !== null && tax <= total) ? total - tax : total;
+
+      if (tax !== null) {
+        const taxPct = (tax / mealCost) * 100;
+        message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`;
+        message += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)\n`;
+      } else {
+        message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`;
+      }
+
+      const manualTip = parseFloat(document.getElementById('manualTip').value);
+      const tipLabel = !isNaN(manualTip) ? "Manual Tip Entered" : `${document.getElementById('tipPercent').value}% preferred`;
+      message += `Bill Total: $${total.toFixed(2)}\n`;
+      message += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% actual)\n\n`;
+      message += `Total with Tip: $${finalTotal.toFixed(2)}\n\n`;
+      if (document.getElementById('excludeTax').checked) message += `(Tip calculated excluding tax)\n`;
+      message += getRandomTagline();
+
+      const payload = { name: "No Spin Utilities", email, subject: "Your Tip Calculator Receipt", message };
+
+      if (_attachment) {
+        const isImage = (_attachment.mimeType || "").startsWith("image/");
+        if (isImage) {
+          payload.imageBase64 = _attachment.base64;
+          payload.filename = _attachment.filename;
+          payload.mimeType = _attachment.mimeType;
+        } else {
+          payload.attachments = [_attachment];
+          const status = document.getElementById('emailStatus');
+          status.style.color = 'green';
+          status.textContent = "ℹ️ Non-image file selected; sending. If it doesn't arrive, update server script.";
+          setTimeout(()=>{ status.textContent=''; }, 4000);
+        }
+      }
+
+      await fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+      });
+
+      const confirmText = _attachment ? `✅ Receipt sent to ${email} (with attachment)` : `✅ Receipt sent to ${email}`;
+      const status = document.getElementById('emailStatus');
+      status.style.color = 'green';
+      status.textContent = confirmText;
     }
   </script>
 </body>
