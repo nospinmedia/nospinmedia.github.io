@@ -110,7 +110,7 @@
         <button onclick="adjustTotal(0.5)">+ $0.50</button>
         <button onclick="adjustTotal(-0.5)">- $0.50</button>
         <button class="clear-btn" onclick="clearFields()">Clear</button>
-        <!-- ✅ New: Attach File button (same size/row) -->
+        <button onclick="window.location.href='install-tip.html'">❓ Help & Install</button>
         <button onclick="openFilePicker()">📎 Attach File</button>
       </div>
 
@@ -132,7 +132,7 @@
 
       <div id="emailStatus"></div>
       <div id="tagline"></div>
-      <div id="version">v4.3</div>
+      <div id="version">v4.4</div>
     </div>
 
     <div class="sidebar">
@@ -373,10 +373,15 @@ async function completeTip() {
 
 
     function adjustTotal(amount) {
-      const bill = document.getElementById('billTotal');
-      bill.value = (parseFloat(bill.value)||0) + amount;
-      calculateTip();
+      const billField = document.getElementById('billTotal');
+      const currentBill = parseFloat(billField.value) || 0;
+      billField.value = (currentBill + amount).toFixed(2);
+    
+      // Also recalc values & refresh display
+      const { finalTotal } = calculateValues();
+      calculateTip(); // updates the results box to reflect new total
     }
+
 
     function clearFields() {
       document.getElementById('billTotal').value='';
