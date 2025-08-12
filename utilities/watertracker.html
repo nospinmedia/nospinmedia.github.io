@@ -168,7 +168,7 @@
 
     <footer>
       <div class="row">
-        <div>v1.1 · Works offline · Built for quick taps</div>
+        <div>v1.2 · Works offline · Built for quick taps</div>
         <div class="spacer"></div>
         <div class="muted">Tip: Add to your phone home screen for an app‑like feel.</div>
       </div>
@@ -506,8 +506,7 @@
 
     lines.push('END:VCALENDAR');
 
-    const blob = new Blob([lines.join('
-')],{type:'text/calendar'});
+    const blob = new Blob([lines.join('\n')],{type:'text/calendar'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href=url; a.download='water-reminders.ics'; a.click();
