@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Water Tracker — No Spin Utilities</title>
+  <meta name="description" content="Track daily water intake offline. Data stays on your device.">
+  <style>
+    :root{
+      --bg:#0b0f15;--panel:#121826;--muted:#91a4b6;--text:#e8eef7;--accent:#35c2ff;--accent2:#67f0b3;--danger:#ff6b6b;
+      --card:#0f1522;--ring:rgba(53,194,255,.4);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,'Helvetica Neue',Arial,'Noto Sans',sans-serif}
+    .wrap{max-width:920px;margin:0 auto;padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+    h1{font-size:20px;margin:0;letter-spacing:.2px}
+    .badge{font-size:12px;color:#0b1220;background:var(--accent);padding:2px 8px;border-radius:999px;font-weight:700}
+
+    .grid{display:grid;gap:16px}
+    @media(min-width:760px){.grid{grid-template-columns:2fr 1fr}}
+
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .muted{color:var(--muted)}
+    .mono{font-variant-numeric:tabular-nums;}
+    .pill{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);padding:10px 14px;border-radius:999px}
+    .btn{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);border-radius:12px;padding:12px 14px;font-weight:700;color:var(--text);cursor:pointer;transition:transform .03s ease,border-color .2s ease;}
+    .btn:hover{border-color:var(--ring)}
+    .btn:active{transform:translateY(1px)}
+    .btn.accent{background:linear-gradient(180deg,rgba(53,194,255,.25),rgba(53,194,255,.1));border-color:var(--ring)}
+    .btn.ghost{background:transparent}
+    .btn.danger{background:linear-gradient(180deg,rgba(255,107,107,.2),rgba(255,107,107,.08));border-color:rgba(255,107,107,.4)}
+    .btn.small{padding:8px 10px;border-radius:10px;font-size:13px}
+
+    .inputs{display:flex;gap:8px;flex-wrap:wrap}
+    input, select{background:#0d1320;border:1px solid rgba(255,255,255,.1);color:var(--text);padding:10px 12px;border-radius:10px;outline:none}
+    input:focus, select:focus{border-color:var(--ring);box-shadow:0 0 0 3px rgba(53,194,255,.12)}
+    label{font-size:13px;color:var(--muted)}
+
+    .progress{height:16px;background:#0c1220;border:1px solid rgba(255,255,255,.08);border-radius:999px;overflow:hidden;position:relative}
+    .bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .35s ease}
+    .goaltext{font-size:13px}
+
+    .history{max-height:280px;overflow:auto;border-radius:10px;border:1px solid rgba(255,255,255,.08)}
+    table{width:100%;border-collapse:collapse;font-size:14px}
+    th, td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.06)}
+    th{text-align:left;color:var(--muted);position:sticky;top:0;background:var(--card)}
+    tr:hover td{background:rgba(255,255,255,.02)}
+
+    footer{margin-top:24px;color:var(--muted);font-size:12px}
+    .spacer{flex:1}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>💧 Water Tracker <span class="badge">Local‑only</span></h1>
+      <div class="row">
+        <button class="btn small ghost" id="unitToggle" title="Toggle units">Switch to mL</button>
+        <button class="btn small" id="exportBtn" title="Export CSV">Export CSV</button>
+        <button class="btn small danger" id="resetTodayBtn" title="Clear today">Reset Today</button>
+      </div>
+    </header>
+
+    <!-- NOTICES -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="row" style="align-items:flex-start;gap:16px">
+        <div class="muted" style="font-size:14px">
+          ▶ Data is saved only on this device. It will <b>not</b> sync between your phone and computer unless you export/import a backup or add events to your calendar using the Reminders tool below.
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- LEFT: Today -->
+      <section class="card">
+        <div class="row" style="justify-content:space-between;align-items:flex-end">
+          <div>
+            <div class="muted">Today</div>
+            <div class="row" style="gap:12px;align-items:baseline">
+              <div style="font-size:40px;font-weight:800" class="mono" id="todayTotal">0</div>
+              <div class="muted" id="unitLabel">oz</div>
+            </div>
+          </div>
+          <div class="goaltext" id="goalText">Goal: <span class="mono" id="goalVal">64</span> oz</div>
+        </div>
+
+        <div class="progress" style="margin:12px 0 8px">
+          <div class="bar" id="bar"></div>
+        </div>
+        <div class="muted" id="progressNote">0% of goal</div>
+
+        <div class="row" style="margin-top:14px">
+          <button class="btn accent" data-add="8">+8</button>
+          <button class="btn" data-add="12">+12</button>
+          <button class="btn" data-add="16">+16</button>
+          <div class="inputs">
+            <label>
+              Custom
+              <input id="customAmt" type="number" inputmode="decimal" min="0" step="1" placeholder="8" style="width:90px" />
+            </label>
+            <button class="btn" id="addCustom">Add</button>
+            <button class="btn ghost" id="undoBtn" title="Undo last">Undo</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Settings -->
+      <aside class="card">
+        <div style="font-weight:700;margin-bottom:8px">Settings</div>
+        <div class="inputs" style="margin-bottom:10px">
+          <label>Daily goal
+            <input id="goalInput" type="number" min="1" step="1" value="64" style="width:120px">
+          </label>
+          <label>Default buttons (comma‑sep)
+            <input id="buttonsInput" type="text" value="8,12,16" placeholder="e.g., 6,10,14" style="width:180px">
+          </label>
+          <label>Start of day
+            <select id="dayStart">
+              <option value="0">12:00 AM</option>
+              <option value="4">4:00 AM</option>
+              <option value="5">5:00 AM</option>
+              <option value="6" selected>6:00 AM</option>
+            </select>
+          </label>
+        </div>
+        <div class="row" style="flex-wrap:wrap;gap:8px">
+          <button class="btn" id="saveSettings">Save</button>
+          <button class="btn ghost" id="exportJsonBtn" title="Backup data to a file">Export Backup</button>
+          <label class="btn ghost" for="importJsonInput" title="Restore from backup" style="cursor:pointer">Import Backup
+            <input id="importJsonInput" type="file" accept="application/json" style="display:none">
+          </label>
+          <div class="muted" id="saveNote"></div>
+        </div>
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,.08);margin:14px 0">
+        <div style="font-weight:700;margin-bottom:8px">Reminders</div>
+        <div class="muted" style="font-size:13px;margin-bottom:8px">Optional local pings while this page is open, plus a downloadable calendar file for phone/watch alerts.</div>
+        <div id="reminderList" class="inputs" style="display:grid;grid-template-columns:repeat(2,minmax(120px,1fr));gap:8px"></div>
+        <div class="row" style="margin-top:8px;gap:8px;flex-wrap:wrap">
+          <button class="btn small" id="addTimeBtn">Add time</button>
+          <button class="btn small ghost" id="clearTimesBtn">Clear times</button>
+          <button class="btn small" id="enableNotifBtn">Enable Notifications</button>
+          <button class="btn small ghost" id="testNotifBtn">Test</button>
+          <button class="btn small" id="exportIcsBtn" title="Create calendar (.ics) with daily reminder times">Export .ics</button>
+        </div>
+        <div class="muted" id="reminderNote" style="margin-top:8px;font-size:12px"></div>
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,.08);margin:14px 0">
+        <div class="muted" style="font-size:13px">Data is stored only in your browser (LocalStorage). No cloud, no cookies. Use <b>Export Backup</b> to move data to another device.</div>
+      </aside>
+    </div>
+
+    <section class="card" style="margin-top:16px">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <div style="font-weight:700">History (last 14 days)</div>
+        <div class="row">
+          <button class="btn small ghost" id="trimBtn" title="Keep only 30 days">Trim to 30 days</button>
+        </div>
+      </div>
+      <div class="history">
+        <table id="histTable">
+          <thead><tr><th>Date</th><th>Total</th><th>Entries</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer>
+      <div class="row">
+        <div>v1.0 · Works offline · Built for quick taps</div>
+        <div class="spacer"></div>
+        <div class="muted">Tip: Add to your phone home screen for an app‑like feel.</div>
+      </div>
+    </footer>
+  </div>
+
+<script>
+(function(){
+  const $ = sel => document.querySelector(sel);
+  const todayTotalEl = $('#todayTotal');
+  const goalText = $('#goalText');
+  const goalVal = $('#goalVal');
+  const bar = $('#bar');
+  const progressNote = $('#progressNote');
+  const unitToggle = $('#unitToggle');
+  const unitLabel = $('#unitLabel');
+  const resetTodayBtn = $('#resetTodayBtn');
+  const addButtons = Array.from(document.querySelectorAll('[data-add]'));
+  const customAmt = $('#customAmt');
+  const addCustom = $('#addCustom');
+  const undoBtn = $('#undoBtn');
+  const goalInput = $('#goalInput');
+  const buttonsInput = $('#buttonsInput');
+  const dayStartSel = $('#dayStart');
+  const saveSettings = $('#saveSettings');
+  const saveNote = $('#saveNote');
+  const histTable = $('#histTable tbody');
+  const exportBtn = $('#exportBtn');
+  const trimBtn = $('#trimBtn');
+
+  // ----- State & Storage -----
+  const LS_KEY = 'water.tracker.v1';
+  const LS_KEY_BACKUP_VERSION = 1;
+  const state = load() || defaultState();
+
+  function defaultState(){
+    return {
+      settings:{ unit:'oz', goal:64, buttons:[8,12,16], dayStartHour:6 },
+      reminders:{ times:[] },
+      log:{}
+    };
+  }
+  function load(){ try{ return JSON.parse(localStorage.getItem(LS_KEY)); }catch{ return null; } }
+  function save(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+
+  function localDateKey(d=new Date()){
+    // Day rollover after a chosen hour (e.g., 6am)
+    const ds = state.settings.dayStartHour||0;
+    const dt = new Date(d);
+    const hour = dt.getHours();
+    if(hour < ds){ // treat before dayStart as previous day
+      dt.setDate(dt.getDate()-1);
+    }
+    return dt.toISOString().slice(0,10);
+  }
+
+  function ensureToday(){
+    const key = localDateKey();
+    if(!state.log[key]) state.log[key] = { entries:[], total:0 };
+    return key;
+  }
+
+  // ----- Rendering -----
+  function render(){
+    const key = ensureToday();
+    const today = state.log[key];
+    const unit = state.settings.unit;
+    const goal = state.settings.goal;
+
+    // Units
+    unitLabel.textContent = unit;
+    goalVal.textContent = goal;
+    goalText.innerHTML = `Goal: <span class=\"mono\" id=\"goalVal\">${goal}</span> ${unit}`;
+
+    // Today total
+    todayTotalEl.textContent = fmtNum(today.total);
+
+    // Progress
+    const pct = Math.min(100, goal ? (today.total/goal)*100 : 0);
+    bar.style.width = pct + '%';
+    progressNote.textContent = `${Math.round(pct)}% of goal`;
+
+    // Buttons
+    const btnVals = state.settings.buttons;
+    addButtons.forEach((b,i)=>{ if(btnVals[i]!=null){ b.dataset.add = btnVals[i]; b.textContent = `+${btnVals[i]}`;} });
+
+    // History (last 14 days)
+    const rows = Object.entries(state.log)
+      .sort((a,b)=>a[0]<b[0]?1:-1)
+      .slice(0,14)
+      .map(([date, obj])=>`<tr><td>${date}</td><td class=\"mono\">${fmtNum(obj.total)} ${unit}</td><td class=\"mono\">${obj.entries.join(', ')||'—'}</td></tr>`)
+      .join('');
+    histTable.innerHTML = rows || '<tr><td colspan=\"3\" class=\"muted\">No history yet</td></tr>';
+
+    // Settings inputs
+    goalInput.value = goal;
+    buttonsInput.value = btnVals.join(',');
+    dayStartSel.value = String(state.settings.dayStartHour||0);
+
+    // Unit toggle text
+    unitToggle.textContent = unit === 'oz' ? 'Switch to mL' : 'Switch to oz';
+
+    // Reminders UI
+    renderReminders();
+  }
+
+    // Unit toggle text
+    unitToggle.textContent = unit === 'oz' ? 'Switch to mL' : 'Switch to oz';
+  }
+
+  function fmtNum(n){ return (Math.round((n+Number.EPSILON)*100)/100).toString(); }
+
+  // ----- Mutations -----
+  function add(amount){
+    amount = Number(amount)||0;
+    if(amount<=0) return;
+    const key = ensureToday();
+    const t = state.log[key];
+    t.entries.push(amount);
+    t.total = (t.total || 0) + amount;
+    save();
+    render();
+  }
+  function undo(){
+    const key = ensureToday();
+    const t = state.log[key];
+    const last = t.entries.pop();
+    if(last!=null){ t.total = Math.max(0, (t.total||0) - Number(last)); save(); render(); }
+  }
+  function resetToday(){
+    const key = ensureToday();
+    state.log[key] = { entries:[], total:0 };
+    save();
+    render();
+  }
+
+  // ----- Settings -----
+  function savePrefs(){
+    const goal = Math.max(1, Number(goalInput.value)||64);
+    const buttons = buttonsInput.value
+      .split(',')
+      .map(s=>Number(s.trim()))
+      .filter(n=>!Number.isNaN(n) && n>0)
+      .slice(0,3);
+    if(buttons.length===0) buttons.push(8,12,16);
+    const dayStartHour = Number(dayStartSel.value)||0;
+
+    state.settings.goal = goal;
+    state.settings.buttons = buttons;
+    state.settings.dayStartHour = dayStartHour;
+    save();
+    render();
+    flash(saveNote,'Saved ✓');
+  }
+
+  function toggleUnits(){
+    const prev = state.settings.unit;
+    const next = prev === 'oz' ? 'mL' : 'oz';
+    // Convert existing data between units
+    const factor = prev==='oz' ? 29.5735 : (1/29.5735);
+    for(const k in state.log){
+      const day = state.log[k];
+      day.entries = day.entries.map(v=>+fmtNum(v*factor));
+      day.total = +fmtNum(day.entries.reduce((a,b)=>a+b,0));
+    }
+    state.settings.unit = next;
+    // Convert settings too
+    state.settings.goal = +fmtNum(state.settings.goal*factor);
+    state.settings.buttons = state.settings.buttons.map(v=>+fmtNum(v*factor));
+    save();
+    render();
+  }
+
+  // ----- Export / Trim -----
+  function exportCSV(){
+    const unit = state.settings.unit;
+    const rows = [['date','total_'+unit,'entries_'+unit]];
+    const keys = Object.keys(state.log).sort();
+    keys.forEach(k=>{
+      const d = state.log[k];
+      rows.push([k, d.total, d.entries.join(' ')])
+    });
+    const csv = rows.map(r=>r.map(cell=>`"${String(cell).replaceAll('"','""')}"`).join(',')).join('\n');
+    const blob = new Blob([csv],{type:'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href=url; a.download='water-tracker.csv'; a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function trimDays(maxDays=30){
+    const keys = Object.keys(state.log).sort();
+    const toDelete = Math.max(0, keys.length - maxDays);
+    for(let i=0;i<toDelete;i++){ delete state.log[keys[i]]; }
+    save();
+    render();
+  }
+
+  // ----- Helpers -----
+  function flash(el, text){ el.textContent=text; el.style.opacity=1; setTimeout(()=>{ el.style.opacity=.6; el.textContent=''; }, 1500); }
+
+  // ----- Events -----
+  addButtons.forEach(btn=> btn.addEventListener('click', ()=> add(btn.dataset.add)) );
+  addCustom.addEventListener('click', ()=> add(customAmt.value||customAmt.placeholder||8));
+  customAmt.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ addCustom.click(); }});
+  undoBtn.addEventListener('click', undo);
+  resetTodayBtn.addEventListener('click', ()=>{ if(confirm('Clear today\'s entries?')) resetToday(); });
+  saveSettings.addEventListener('click', savePrefs);
+  unitToggle.addEventListener('click', toggleUnits);
+  exportBtn.addEventListener('click', exportCSV);
+  trimBtn.addEventListener('click', ()=> trimDays(30));
+
+  // Reminders events
+  document.getElementById('addTimeBtn').addEventListener('click', addReminderTime);
+  document.getElementById('clearTimesBtn').addEventListener('click', ()=>{ state.reminders.times = []; save(); renderReminders(); });
+  document.getElementById('enableNotifBtn').addEventListener('click', requestNotifPerm);
+  document.getElementById('testNotifBtn').addEventListener('click', ()=> notify('Water reminder','Time to take a sip.'));
+  document.getElementById('exportIcsBtn').addEventListener('click', exportICS);
+  document.getElementById('exportJsonBtn').addEventListener('click', exportBackupJSON);
+  document.getElementById('importJsonInput').addEventListener('change', importBackupJSON);
+
+  // Start reminder ticker
+  startReminderTicker();
+
+  // First render
+  render();
+
+  // ===== Reminders logic =====
+  function renderReminders(){
+    const box = document.getElementById('reminderList');
+    box.innerHTML = '';
+    const times = state.reminders.times || [];
+    times.sort();
+    times.forEach((t,idx)=>{
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.style.gap = '8px';
+      row.innerHTML = `
+        <input type=\"time\" value=\"${t}\" data-idx=\"${idx}\" style=\"width:130px\">
+        <button class=\"btn small ghost\" data-del=\"${idx}\">Remove</button>
+      `;
+      box.appendChild(row);
+    });
+    // Add listeners
+    box.querySelectorAll('input[type=\"time\"]').forEach(inp=>{
+      inp.addEventListener('change', (e)=>{
+        const i = Number(e.target.dataset.idx);
+        state.reminders.times[i] = e.target.value;
+        save();
+      });
+    });
+    box.querySelectorAll('[data-del]').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        const i = Number(e.target.dataset.del);
+        state.reminders.times.splice(i,1);
+        save();
+        renderReminders();
+      });
+    });
+    document.getElementById('reminderNote').textContent = `${times.length} daily time(s) set.`;
+  }
+
+  function addReminderTime(){
+    (state.reminders.times = state.reminders.times || []).push('08:00');
+    save();
+    renderReminders();
+  }
+
+  function requestNotifPerm(){
+    if(!('Notification' in window)) { alert('Notifications not supported in this browser.'); return; }
+    Notification.requestPermission().then(p=>{
+      document.getElementById('reminderNote').textContent = `Notification permission: ${p}`;
+    });
+  }
+
+  const firedToday = new Set();
+  function startReminderTicker(){
+    setInterval(()=>{
+      const now = new Date();
+      const key = localDateKey(now);
+      // Reset bucket at start of each new day
+      if(!firedToday.has(key+':init')){ firedToday.clear(); firedToday.add(key+':init'); }
+      const hh = String(now.getHours()).padStart(2,'0');
+      const mm = String(now.getMinutes()).padStart(2,'0');
+      const cur = `${hh}:${mm}`;
+      (state.reminders.times||[]).forEach(t=>{
+        const stamp = key+':'+t;
+        if(t===cur && !firedToday.has(stamp)){
+          firedToday.add(stamp);
+          notify('Water reminder', 'Time to drink water.');
+        }
+      });
+    }, 30*1000); // check twice a minute
+  }
+
+  function notify(title, body){
+    try{
+      if('Notification' in window && Notification.permission==='granted'){
+        new Notification(title,{ body });
+      } else {
+        // Fallback inline toast
+        const div = document.createElement('div');
+        div.textContent = `${title} — ${body}`;
+        div.style.position='fixed';div.style.bottom='16px';div.style.right='16px';div.style.background='rgba(0,0,0,.8)';div.style.color='#fff';div.style.padding='10px 14px';div.style.borderRadius='10px';div.style.zIndex='9999';
+        document.body.appendChild(div);
+        setTimeout(()=> div.remove(), 4000);
+      }
+    }catch(e){ console.warn(e); }
+  }
+
+  // ===== Calendar export (.ics) =====
+  function exportICS(){
+    const times = (state.reminders.times||[]).slice().sort();
+    if(times.length===0){ alert('No times set. Add at least one time.'); return; }
+    const uidBase = 'water-tracker-'+Math.random().toString(36).slice(2);
+    const now = new Date();
+    const dtstamp = toICSDate(now);
+
+    let ics = 'BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//No Spin Utilities//Water Tracker//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+';
+    times.forEach((t,i)=>{
+      const [H,M] = t.split(':').map(n=>Number(n));
+      const start = new Date();
+      start.setHours(H,M,0,0);
+      ics += 'BEGIN:VEVENT
+';
+      ics += `UID:${uidBase}-${i}@nospin.media
+`;
+      ics += `DTSTAMP:${dtstamp}
+`;
+      ics += `SUMMARY:Water reminder
+`;
+      ics += `DESCRIPTION:Time to drink water.
+`;
+      ics += `DTSTART:${toICSDate(start)}
+`;
+      ics += `RRULE:FREQ=DAILY
+`;
+      ics += 'END:VEVENT
+';
+    });
+    ics += 'END:VCALENDAR';
+
+    const blob = new Blob([ics],{type:'text/calendar'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href=url; a.download='water-reminders.ics'; a.click();
+    URL.revokeObjectURL(url);
+  }
+  function toICSDate(d){
+    const pad=n=>String(n).padStart(2,'0');
+    const y=d.getFullYear(); const m=pad(d.getMonth()+1); const day=pad(d.getDate());
+    const hh=pad(d.getHours()); const mm=pad(d.getMinutes()); const ss=pad(d.getSeconds());
+    return `${y}${m}${day}T${hh}${mm}${ss}`; // floating (local) time
+  }
+
+  // ===== Backup import/export =====
+  function exportBackupJSON(){
+    const payload = {
+      version: LS_KEY_BACKUP_VERSION,
+      exported_at: new Date().toISOString(),
+      data: state
+    };
+    const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'water-tracker-backup.json'; a.click();
+    URL.revokeObjectURL(url);
+  }
+  function importBackupJSON(evt){
+    const f = evt.target.files && evt.target.files[0];
+    if(!f) return;
+    const reader = new FileReader();
+    reader.onload = (e)=>{
+      try{
+        const obj = JSON.parse(e.target.result);
+        if(!obj || !obj.data) throw new Error('Invalid backup');
+        localStorage.setItem(LS_KEY, JSON.stringify(obj.data));
+        Object.assign(state, obj.data);
+        render();
+        alert('Backup imported.');
+      }catch(err){ alert('Import failed: '+err.message); }
+    };
+    reader.readAsText(f);
+  }
+
+})();
+</script>
+</body>
+</html>
