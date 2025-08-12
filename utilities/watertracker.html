@@ -168,7 +168,7 @@
 
     <footer>
       <div class="row">
-        <div>v1.0 · Works offline · Built for quick taps</div>
+        <div>v1.1 · Works offline · Built for quick taps</div>
         <div class="spacer"></div>
         <div class="muted">Tip: Add to your phone home screen for an app‑like feel.</div>
       </div>
@@ -215,15 +215,14 @@
   function save(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
 
   function localDateKey(d=new Date()){
-    // Day rollover after a chosen hour (e.g., 6am)
+    // Day rollover after a chosen hour (e.g., 6am). Use LOCAL date (avoid UTC shift).
     const ds = state.settings.dayStartHour||0;
     const dt = new Date(d);
-    const hour = dt.getHours();
-    if(hour < ds){ // treat before dayStart as previous day
-      dt.setDate(dt.getDate()-1);
-    }
-    return dt.toISOString().slice(0,10);
+    if(dt.getHours() < ds){ dt.setDate(dt.getDate()-1); }
+    const pad=n=>String(n).padStart(2,'0');
+    return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())}`;
   }
+
 
   function ensureToday(){
     const key = localDateKey();
@@ -273,10 +272,6 @@
 
     // Reminders UI
     renderReminders();
-  }
-
-    // Unit toggle text
-    unitToggle.textContent = unit === 'oz' ? 'Switch to mL' : 'Switch to oz';
   }
 
   function fmtNum(n){ return (Math.round((n+Number.EPSILON)*100)/100).toString(); }
@@ -487,36 +482,32 @@
     const now = new Date();
     const dtstamp = toICSDate(now);
 
-    let ics = 'BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//No Spin Utilities//Water Tracker//EN
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-';
+    const lines = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//No Spin Utilities//Water Tracker//EN',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH'
+    ];
+
     times.forEach((t,i)=>{
       const [H,M] = t.split(':').map(n=>Number(n));
       const start = new Date();
       start.setHours(H,M,0,0);
-      ics += 'BEGIN:VEVENT
-';
-      ics += `UID:${uidBase}-${i}@nospin.media
-`;
-      ics += `DTSTAMP:${dtstamp}
-`;
-      ics += `SUMMARY:Water reminder
-`;
-      ics += `DESCRIPTION:Time to drink water.
-`;
-      ics += `DTSTART:${toICSDate(start)}
-`;
-      ics += `RRULE:FREQ=DAILY
-`;
-      ics += 'END:VEVENT
-';
+      lines.push('BEGIN:VEVENT');
+      lines.push(`UID:${uidBase}-${i}@nospin.media`);
+      lines.push(`DTSTAMP:${dtstamp}`);
+      lines.push('SUMMARY:Water reminder');
+      lines.push('DESCRIPTION:Time to drink water.');
+      lines.push(`DTSTART:${toICSDate(start)}`);
+      lines.push('RRULE:FREQ=DAILY');
+      lines.push('END:VEVENT');
     });
-    ics += 'END:VCALENDAR';
 
-    const blob = new Blob([ics],{type:'text/calendar'});
+    lines.push('END:VCALENDAR');
+
+    const blob = new Blob([lines.join('
+')],{type:'text/calendar'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href=url; a.download='water-reminders.ics'; a.click();
