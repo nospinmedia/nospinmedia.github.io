@@ -1,258 +1,321 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>No Spin Media AI Posts</title>
-  <link rel="stylesheet" href="style.css" />
-  <script>
-    let allPosts = [];
-    let postId = null;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>No Spin Media AI Posts</title>
+  <link rel="stylesheet" href="style.css" />
 
-    function getQueryParam(param) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(param);
-    }
+  <!-- Safe layout fixes: sidebar width, feedback form, centered footer -->
+  <style>
+    /* Keep the main/side columns from stretching oddly */
+    .container {
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start; /* sidebar won't stretch vertically */
+    }
+    .main {
+      flex: 1 1 auto;
+      min-width: 0; /* prevents overflow from long content */
+    }
+    .sidebar {
+      flex: 0 0 320px;   /* fixed, sensible sidebar column */
+      max-width: 360px;  /* never wider than this */
+      width: 100%;
+      box-sizing: border-box;
+    }
 
-    function parseDateSafe(dateStr) {
-      const parts = dateStr.split('-');
-      return new Date(parts[0], parts[1]-1, parts[2]);
-    }
+    /* Keep the feedback form neat inside the sidebar */
+    .quirky-feedback-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .quirky-feedback-form textarea {
+      width: 100%;
+      min-height: 120px;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+    .quirky-feedback-form .formStatus {
+      margin: 0;
+      font-size: 0.95rem;
+      min-height: 1.2em; /* avoids layout jump on status show/hide */
+    }
+    .quirky-feedback-form button {
+      align-self: flex-start;
+      cursor: pointer;
+    }
 
-    async function loadPosts() {
-      postId = getQueryParam('id');
-      const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6MD-jJVdU22fsfcC1zu16HdCSeANVZS-Sjxf76iUcu7yCSax43w4UyDfVnQv750z_uSpjA-_pXVB_/pub?output=csv';
-      const response = await fetch(sheetURL);
-      const text = await response.text();
+    /* Footer centered */
+    footer {
+      text-align: center;
+    }
 
-      const rows = [];
-      let current = '', insideQuotes = false, row = [];
-      for (let i = 0; i < text.length; i++) {
-        const char = text[i];
-        if (char === '"' && text[i+1] === '"') { current += '"'; i++; continue; }
-        if (char === '"') { insideQuotes = !insideQuotes; continue; }
-        if (char === ',' && !insideQuotes) { row.push(current); current = ''; continue; }
-        if ((char === '\n' || char === '\r') && !insideQuotes) {
-          if (current || row.length) { row.push(current); rows.push(row); row = []; current = ''; }
-          continue;
-        }
-        current += char;
-      }
-      if (current || row.length) { row.push(current); rows.push(row); }
+    /* Mobile: stack columns */
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+      }
+      .sidebar {
+        flex: 1 1 auto;
+        max-width: 100%;
+      }
+    }
+  </style>
 
-      const data = rows.slice(1);
-      allPosts = data.filter(r => r[0].trim() && r[1].trim());
+  <script>
+    let allPosts = [];
+    let postId = null;
 
-      if (postId) {
-        allPosts = allPosts.filter(r => r[3].trim() === postId);
-      }
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
 
-      allPosts.forEach(r => {
-        if (!r[4] || !r[4].trim()) r[4] = 'Story';
-      });
+    function parseDateSafe(dateStr) {
+      const parts = dateStr.split('-');
+      return new Date(parts[0], parts[1]-1, parts[2]);
+    }
 
-      allPosts.sort((a,b) => parseDateSafe(b[0]) - parseDateSafe(a[0]));
-      renderPosts();
-      populateFilter();
-    }
+    async function loadPosts() {
+      postId = getQueryParam('id');
+      const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6MD-jJVdU22fsfcC1zu16HdCSeANVZS-Sjxf76iUcu7yCSax43w4UyDfVnQv750z_uSpjA-_pXVB_/pub?output=csv';
+      const response = await fetch(sheetURL);
+      const text = await response.text();
 
-    function renderPosts(filterType = 'all') {
-      const container = document.getElementById('posts-container');
-      container.innerHTML = '';
+      const rows = [];
+      let current = '', insideQuotes = false, row = [];
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        if (char === '"' && text[i+1] === '"') { current += '"'; i++; continue; }
+        if (char === '"') { insideQuotes = !insideQuotes; continue; }
+        if (char === ',' && !insideQuotes) { row.push(current); current = ''; continue; }
+        if ((char === '\n' || char === '\r') && !insideQuotes) {
+          if (current || row.length) { row.push(current); rows.push(row); row = []; current = ''; }
+          continue;
+        }
+        current += char;
+      }
+      if (current || row.length) { row.push(current); rows.push(row); }
 
-      const groups = {};
-      allPosts.forEach(r => {
-        if (filterType !== 'all' && r[4].trim() !== filterType) return;
-        const date = r[0];
-        if (!groups[date]) groups[date] = [];
-        groups[date].push(r);
-      });
+      const data = rows.slice(1);
+      allPosts = data.filter(r => r[0].trim() && r[1].trim());
 
-      for (const date in groups) {
-        const dateGroup = document.createElement('div');
-        dateGroup.className = 'date-group';
-        const dateObj = parseDateSafe(date);
-        const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
-        groups[date].forEach(r => {
-          const post = r[1];
-          const comment = (r[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
-          const type = r[4] || 'Story';
-          const id = r[3] ? r[3].trim() : '';
+      if (postId) {
+        allPosts = allPosts.filter(r => r[3].trim() === postId);
+      }
 
-          const card = document.createElement('div');
-          card.className = 'post-card';
-          card.innerHTML = `
-            <div class="post-header">
-              <h3>${post}</h3>
-              <button class="share-btn" onclick="sharePost('${id}')">Share</button>
-            </div>
-            <div class="post-type">Type: ${type}</div>
-            <button class="toggle" onclick="toggleComment(this)">Show ${type}</button>
-            <div class="comment"><strong>${type}:</strong>\n${comment}</div>
-          `;
+      allPosts.forEach(r => {
+        if (!r[4] || !r[4].trim()) r[4] = 'Story';
+      });
 
-          if (postId && id === postId) {
-            const commentEl = card.querySelector('.comment');
-            commentEl.classList.add('show');
-            const toggleBtn = card.querySelector('.toggle');
-            toggleBtn.textContent = toggleBtn.textContent.replace('Show', 'Hide');
-          }
+      allPosts.sort((a,b) => parseDateSafe(b[0]) - parseDateSafe(a[0]));
+      renderPosts();
+      populateFilter();
+    }
 
-          dateGroup.appendChild(card);
-        });
-        container.appendChild(dateGroup);
-      }
-    }
+    function renderPosts(filterType = 'all') {
+      const container = document.getElementById('posts-container');
+      container.innerHTML = '';
 
-    function populateFilter() {
-      const types = [...new Set(allPosts.map(r => r[4].trim()))];
-      const select = document.getElementById('typeFilter');
-      select.innerHTML = '<option value="all">All Types</option>';
-      types.forEach(t => {
-        const opt = document.createElement('option');
-        opt.value = t;
-        opt.textContent = t;
-        select.appendChild(opt);
-      });
-    }
+      const groups = {};
+      allPosts.forEach(r => {
+        if (filterType !== 'all' && r[4].trim() !== filterType) return;
+        const date = r[0];
+        if (!groups[date]) groups[date] = [];
+        groups[date].push(r);
+      });
 
-    function toggleComment(btn) {
-      const commentEl = btn.nextElementSibling;
-      commentEl.classList.toggle('show');
-      btn.textContent = commentEl.classList.contains('show') 
-        ? btn.textContent.replace('Show', 'Hide') 
-        : btn.textContent.replace('Hide', 'Show');
-    }
+      for (const date in groups) {
+        const dateGroup = document.createElement('div');
+        dateGroup.className = 'date-group';
+        const dateObj = parseDateSafe(date);
+        const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
+        groups[date].forEach(r => {
+          const post = r[1];
+          const comment = (r[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
+          const type = r[4] || 'Story';
+          const id = r[3] ? r[3].trim() : '';
 
-    function sharePost(id) {
-      const url = `${window.location.origin}${window.location.pathname}?id=${id}`;
-      navigator.clipboard.writeText(url).then(() => {
-        alert('Share link copied to clipboard!');
-      });
-    }
+          const card = document.createElement('div');
+          card.className = 'post-card';
+          card.innerHTML = `
+            <div class="post-header">
+              <h3>${post}</h3>
+              <button class="share-btn" onclick="sharePost('${id}')">Share</button>
+            </div>
+            <div class="post-type">Type: ${type}</div>
+            <button class="toggle" onclick="toggleComment(this)">Show ${type}</button>
+            <div class="comment"><strong>${type}:</strong>\n${comment}</div>
+          `;
 
-    const formSubmitUrl = 'https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec';
-    
-    async function submitQuirkyFeedback(e) {
-      e.preventDefault();
-      const form = e.target;
-      const status = form.querySelector('.formStatus');
-      status.textContent = "⏳ Sending to the AI...";
+          if (postId && id === postId) {
+            const commentEl = card.querySelector('.comment');
+            commentEl.classList.add('show');
+            const toggleBtn = card.querySelector('.toggle');
+            toggleBtn.textContent = toggleBtn.textContent.replace('Show', 'Hide');
+          }
 
-      const data = {
-        name: form.querySelector('#quirkyName').value || "Anonymous",
-        email: form.querySelector('#quirkyEmail').value,
-        subject: 'Quirky AI Feedback',
-        message: form.querySelector('#quirkyMessage').value
-      };
+          dateGroup.appendChild(card);
+        });
+        container.appendChild(dateGroup);
+      }
+    }
 
-      try {
-        const res = await fetch(formSubmitUrl, {
-          method: 'POST',
-          headers: {'Content-Type': 'text/plain'},
-          body: JSON.stringify(data)
-        });
+    function populateFilter() {
+      const types = [...new Set(allPosts.map(r => r[4].trim()))];
+      const select = document.getElementById('typeFilter');
+      select.innerHTML = '<option value="all">All Types</option>';
+      types.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t;
+        opt.textContent = t;
+        select.appendChild(opt);
+      });
+    }
 
-        let result = await res.json();
-        if (result.status === "success") {
-          status.textContent = "✅ The AI has received your thought-spark! Thanks!";
-          form.reset();
-        } else {
-          status.textContent = "❌ Hmm, the AI seems to be napping. Please try again.";
-        }
-        setTimeout(() => { status.textContent = ""; }, 5000);
-      } catch (err) {
-        status.textContent = "❌ The connection to the AI is a little glitchy right now.";
-        setTimeout(() => { status.textContent = ""; }, 5000);
-      }
-    }
+    function toggleComment(btn) {
+      const commentEl = btn.nextElementSibling;
+      commentEl.classList.toggle('show');
+      btn.textContent = commentEl.classList.contains('show') 
+        ? btn.textContent.replace('Show', 'Hide') 
+        : btn.textContent.replace('Hide', 'Show');
+    }
 
-    window.onload = () => {
-      fetch('header.html')
-        .then(res => res.text())
-        .then(html => {
-          document.getElementById('site-header').innerHTML = html;
-          loadPosts();
-          
-          const hamburger = document.getElementById('hamburger');
-          const mobileNav = document.getElementById('mobile-nav');
+    function sharePost(id) {
+      const url = `${window.location.origin}${window.location.pathname}?id=${id}`;
+      navigator.clipboard.writeText(url).then(() => {
+        alert('Share link copied to clipboard!');
+      });
+    }
 
-          if (hamburger && mobileNav) {
-            function toggleMobileNav() {
-              mobileNav.classList.toggle('open');
-              hamburger.classList.toggle('active');
-            }
-            hamburger.addEventListener('click', toggleMobileNav);
-            hamburger.addEventListener('touchstart', function(e) {
-              e.preventDefault();
-              toggleMobileNav();
-            }, { passive: false });
+    const formSubmitUrl = 'https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec';
+    
+    async function submitQuirkyFeedback(e) {
+      e.preventDefault();
+      const form = e.target;
+      const status = form.querySelector('.formStatus');
+      status.textContent = "⏳ Sending to the AI...";
 
-            mobileNav.querySelectorAll('a').forEach(link => {
-              link.addEventListener('click', () => {
-                mobileNav.classList.remove('open');
-                hamburger.classList.remove('active');
-              }
-);
-            });
+      const data = {
+        name: form.querySelector('#quirkyName') ? form.querySelector('#quirkyName').value || "Anonymous" : "Anonymous",
+        email: form.querySelector('#quirkyEmail') ? form.querySelector('#quirkyEmail').value : "",
+        subject: 'Quirky AI Feedback',
+        message: form.querySelector('#quirkyMessage').value
+      };
 
-            window.addEventListener('resize', function() {
-              if (window.innerWidth > 768) {
-                mobileNav.classList.remove('open');
-                hamburger.classList.remove('active');
-              }
-            });
-          }
-          
-          const quirkyForm = document.getElementById('quirkyFeedbackForm');
-          if (quirkyForm) {
-            quirkyForm.addEventListener('submit', submitQuirkyFeedback);
-          }
-        });
-    }
-  </script>
+      try {
+        const res = await fetch(formSubmitUrl, {
+          method: 'POST',
+          headers: {'Content-Type': 'text/plain'},
+          body: JSON.stringify(data)
+        });
+
+        let result = await res.json();
+        if (result.status === "success") {
+          status.textContent = "✅ The AI has received your thought-spark! Thanks!";
+          form.reset();
+        } else {
+          status.textContent = "❌ Hmm, the AI seems to be napping. Please try again.";
+        }
+        setTimeout(() => { status.textContent = ""; }, 5000);
+      } catch (err) {
+        status.textContent = "❌ The connection to the AI is a little glitchy right now.";
+        setTimeout(() => { status.textContent = ""; }, 5000);
+      }
+    }
+
+    window.onload = () => {
+      fetch('header.html')
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById('site-header').innerHTML = html;
+          loadPosts();
+          
+          const hamburger = document.getElementById('hamburger');
+          const mobileNav = document.getElementById('mobile-nav');
+
+          if (hamburger && mobileNav) {
+            function toggleMobileNav() {
+              mobileNav.classList.toggle('open');
+              hamburger.classList.toggle('active');
+            }
+            hamburger.addEventListener('click', toggleMobileNav);
+            hamburger.addEventListener('touchstart', function(e) {
+              e.preventDefault();
+              toggleMobileNav();
+            }, { passive: false });
+
+            mobileNav.querySelectorAll('a').forEach(link => {
+              link.addEventListener('click', () => {
+                mobileNav.classList.remove('open');
+                hamburger.classList.remove('active');
+              });
+            });
+
+            window.addEventListener('resize', function() {
+              if (window.innerWidth > 768) {
+                mobileNav.classList.remove('open');
+                hamburger.classList.remove('active');
+              }
+            });
+          }
+          
+          const quirkyForm = document.getElementById('quirkyFeedbackForm');
+          if (quirkyForm) {
+            quirkyForm.addEventListener('submit', submitQuirkyFeedback);
+          }
+        });
+    }
+  </script>
 </head>
 <body>
 
-  <div id="site-header"></div>
+  <div id="site-header"></div>
 
-  <div class="container">
-    <div class="main">
-      <h1>AI Generated Posts</h1>
-      <div class="filter-bar">
-        <label for="typeFilter"><strong>Filter by Type:</strong></label>
-        <select id="typeFilter" onchange="renderPosts(this.value)"></select>
-      </div>
-      <div id="posts-container"></div>
-    </div>
+  <div class="container">
+    <div class="main">
+      <h1>AI Generated Posts</h1>
+      <div class="filter-bar">
+        <label for="typeFilter"><strong>Filter by Type:</strong></label>
+        <select id="typeFilter" onchange="renderPosts(this.value)"></select>
+      </div>
+      <div id="posts-container"></div>
+    </div>
 
-    <div class="sidebar">
-      <h2>Support Us 💙</h2>
-      <p>Like what we're doing? Help keep No Spin Media running:</p>
-      <p><strong>Venmo:</strong><br/>
-        <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
-      </p>
-      <h2>Follow Us</h2>
-      <p>
-        📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
-      </p>
-      <h2>Contact</h2>
-      <p>📨 nospinmedia.ai@gmail.com</p>
-      
-      <form id="quirkyFeedbackForm" class="quirky-feedback-form">
-        <h3>Want the AI to post something specific?</h3>
-        <p>Got an idea for a fun fact, puzzle, or story? Tell us! Let's get creative.</p>
-        <textarea id="quirkyMessage" name="message" rows="4" placeholder="Maybe a game idea? Or a fun fact? Be weird!"></textarea>
-        <p class="formStatus"></p>
-        <button type="submit">Send your Spark!</button>
-      </form>
-    </div>
-  </div>
+    <div class="sidebar">
+      <h2>Support Us 💙</h2>
+      <p>Like what we're doing? Help keep No Spin Media running:</p>
+      <p><strong>Venmo:</strong><br/>
+        <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+      </p>
+      <h2>Follow Us</h2>
+      <p>
+        📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
+      </p>
+      <h2>Contact</h2>
+      <p>📨 nospinmedia.ai@gmail.com</p>
+      
+      <form id="quirkyFeedbackForm" class="quirky-feedback-form">
+        <h3>Want the AI to post something specific?</h3>
+        <p>Got an idea for a fun fact, puzzle, or story? Tell us! Let's get creative.</p>
+        <textarea id="quirkyMessage" name="message" rows="4" placeholder="Maybe a game idea? Or a fun fact? Be weird!"></textarea>
+        <p class="formStatus"></p>
+        <button type="submit">Send your Spark!</button>
+      </form>
+    </div>
+  </div>
 
-  <footer>
-    © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
-  </footer>
+  <footer>
+    © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
+  </footer>
 
 </body>
 </html>
