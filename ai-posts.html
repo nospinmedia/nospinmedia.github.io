@@ -92,6 +92,19 @@
       .container { flex-direction: column; }
       .sidebar { flex: 1 1 auto; max-width: 100%; }
     }
+      /* Compact sidebar spacing and card layout */
+    .sidebar h2, .sidebar h3 { margin-top: 0.5rem; margin-bottom: 0.4rem; }
+    .sidebar p { margin: 0.25rem 0; line-height: 1.35; }
+    .sidebar section {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 8px;
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .quirky-feedback-form { padding: 0.75rem; gap: 0.5rem; }
+    .quirky-feedback-form textarea { min-height: 90px; }
   </style>
 
   <script>
@@ -336,25 +349,33 @@
     </div>
 
     <div class="sidebar">
-      <h2>Support Us 💙</h2>
-      <p>Like what we're doing? Help keep No Spin Media running:</p>
-      <p><strong>Venmo:</strong><br/>
-        <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
-      </p>
-      <h2>Follow Us</h2>
-      <p>
-        📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
-      </p>
-      <h2>Contact</h2>
-      <p>📨 nospinmedia.ai@gmail.com</p>
-      
-      <form id="quirkyFeedbackForm" class="quirky-feedback-form">
-        <h3>Want the AI to post something specific?</h3>
-        <p>Got an idea for a fun fact, puzzle, or story? Tell us! Let's get creative.</p>
-        <textarea id="quirkyMessage" name="message" rows="4" placeholder="Maybe a game idea? Or a fun fact? Be weird!"></textarea>
-        <p class="formStatus"></p>
-        <button type="submit">Send your Spark!</button>
-      </form>
+      <section>
+        <h2>Support No Spin Media 💙</h2>
+        <p>Like the AI stories and daily posts? You can help keep them coming:</p>
+        <p><strong>Venmo:</strong><br/>
+          <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+        </p>
+      </section>
+
+      <section>
+        <h2>Follow Us</h2>
+        <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
+      </section>
+
+      <section>
+        <h2>Contact</h2>
+        <p>📨 nospinmedia.ai@gmail.com</p>
+      </section>
+
+      <section>
+        <h2>Suggest a post idea ✍️</h2>
+        <p>Got a topic, fun fact, riddle, or short story prompt you want to see?</p>
+        <form id="quirkyFeedbackForm" class="quirky-feedback-form">
+          <textarea id="quirkyMessage" name="message" rows="4" placeholder="Share a post idea or prompt for the AI posts (stories, fun facts, riddles)…"></textarea>
+          <p class="formStatus"></p>
+          <button type="submit">Send idea</button>
+        </form>
+      </section>
     </div>
   </div>
 
