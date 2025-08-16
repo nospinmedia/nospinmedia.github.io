@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,13 +6,18 @@
   <title>No Spin Media AI Posts</title>
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Safe layout fixes: sidebar width, feedback form, centered footer -->
+  <!-- Responsive + overflow-safe layout; removes hidden/max-height caps on long posts -->
   <style>
+    :root { --header-h: 70px; }
+    body { padding-top: var(--header-h); }
+
     /* Keep the main/side columns from stretching oddly */
     .container {
       display: flex;
       gap: 2rem;
       align-items: flex-start; /* sidebar won't stretch vertically */
+      box-sizing: border-box;
+      padding: 1rem;
     }
     .main {
       flex: 1 1 auto;
@@ -24,6 +29,33 @@
       width: 100%;
       box-sizing: border-box;
     }
+
+    /* Post cards should wrap long words and never overflow */
+    .post-card { min-width: 0; }
+    .post-header h3 {
+      margin: 0 0 .25rem 0;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    /* Collapsible comment panel: JS sets max-height inline to scrollHeight for smooth open/close */
+    .comment {
+      box-sizing: border-box;
+      overflow: hidden;
+      max-height: 0;           /* collapsed by default */
+      transition: max-height .35s ease;
+      white-space: pre-wrap;    /* preserve line breaks from CSV */
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      padding: 0 .25rem;       /* padding applied when open via :not([style*="max-height: 0"]) trick below */
+      border-left: 3px solid rgba(0,0,0,0.06);
+      margin-top: .5rem;
+    }
+    /* When open (JS sets max-height), add a little top/bottom padding visually */
+    .comment.show { padding: .5rem .25rem; }
+
+    .post-type { font-size: .9rem; opacity: .75; margin-bottom: .25rem; }
+    .toggle { cursor: pointer; }
 
     /* Keep the feedback form neat inside the sidebar */
     .quirky-feedback-form {
@@ -53,19 +85,12 @@
     }
 
     /* Footer centered */
-    footer {
-      text-align: center;
-    }
+    footer { text-align: center; padding: 1.25rem 0; }
 
     /* Mobile: stack columns */
     @media (max-width: 900px) {
-      .container {
-        flex-direction: column;
-      }
-      .sidebar {
-        flex: 1 1 auto;
-        max-width: 100%;
-      }
+      .container { flex-direction: column; }
+      .sidebar { flex: 1 1 auto; max-width: 100%; }
     }
   </style>
 
@@ -108,7 +133,7 @@
       allPosts = data.filter(r => r[0].trim() && r[1].trim());
 
       if (postId) {
-        allPosts = allPosts.filter(r => r[3].trim() === postId);
+        allPosts = allPosts.filter(r => (r[3] || '').trim() === postId);
       }
 
       allPosts.forEach(r => {
@@ -159,6 +184,8 @@
           if (postId && id === postId) {
             const commentEl = card.querySelector('.comment');
             commentEl.classList.add('show');
+            // Set height to full content so nothing is cut off
+            commentEl.style.maxHeight = commentEl.scrollHeight + 'px';
             const toggleBtn = card.querySelector('.toggle');
             toggleBtn.textContent = toggleBtn.textContent.replace('Show', 'Hide');
           }
@@ -167,6 +194,9 @@
         });
         container.appendChild(dateGroup);
       }
+
+      // Adjust open panels after first render for correct heights
+      requestAnimationFrame(resizeOpenComments);
     }
 
     function populateFilter() {
@@ -183,10 +213,23 @@
 
     function toggleComment(btn) {
       const commentEl = btn.nextElementSibling;
+      const opening = !commentEl.classList.contains('show');
       commentEl.classList.toggle('show');
-      btn.textContent = commentEl.classList.contains('show') 
-        ? btn.textContent.replace('Show', 'Hide') 
-        : btn.textContent.replace('Hide', 'Show');
+      if (opening) {
+        // Expand smoothly to full height so long content isn't truncated
+        commentEl.style.maxHeight = commentEl.scrollHeight + 'px';
+        btn.textContent = btn.textContent.replace('Show', 'Hide');
+      } else {
+        // Collapse
+        commentEl.style.maxHeight = '0px';
+        btn.textContent = btn.textContent.replace('Hide', 'Show');
+      }
+    }
+
+    function resizeOpenComments() {
+      document.querySelectorAll('.comment.show').forEach(el => {
+        el.style.maxHeight = el.scrollHeight + 'px';
+      });
     }
 
     function sharePost(id) {
@@ -265,6 +308,8 @@
                 mobileNav.classList.remove('open');
                 hamburger.classList.remove('active');
               }
+              // Keep open comments sized correctly on viewport changes
+              resizeOpenComments();
             });
           }
           
