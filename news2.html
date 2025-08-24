@@ -148,221 +148,106 @@
     </footer>
 
     <script>
-        let storyId = null;
+    let storyId = null;
 
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    function formatDateLabel(dateStr) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr || 'Undated';
+        const [y,m,d] = dateStr.split('-');
+        const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        const fakeDate = new Date(Number(y), Number(m)-1, Number(d));
+        return `${weekdays[fakeDate.getDay()]}, ${months[Number(m)-1]} ${Number(d)}, ${y}`;
+    }
+
+    async function loadStories() {
+        storyId = getQueryParam('id');
+
+        const apiURL = 'http://nospinmedia.tplinkdns.com:9090/news';
+        const response = await fetch(apiURL);
+        let stories = await response.json();
+
+        // Only keep one if share link is given (?id=xxx)
+        if (storyId) {
+            stories = stories.filter(r => (r.original_url || '').trim() === storyId);
         }
 
-        function formatDateLabel(dateStr) {
-            if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr || 'Undated';
-            const [y,m,d] = dateStr.split('-');
-            const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-            const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-            const fakeDate = new Date(Number(y), Number(m)-1, Number(d)); // local date, no UTC shift
-            return `${weekdays[fakeDate.getDay()]}, ${months[Number(m)-1]} ${Number(d)}, ${y}`;
-        }
+        // Sort by date descending
+        stories.sort((a,b) => (a.date < b.date ? 1 : -1));
 
-        async function loadStories() {
-            storyId = getQueryParam('id');
-
-          const apiURL = 'http://nospinmedia.tplinkdns.com:9090/news';  // your DDNS
-          const response = await fetch(apiURL);
-          const stories = await response.json();
-
-
-            // CSV parser
-            const rows = [];
-            let current = '', insideQuotes = false, row = [];
-            for (let i = 0; i < text.length; i++) {
-                const char = text[i];
-                if (char === '"' && text[i+1] === '"') { current += '"'; i++; continue; }
-                if (char === '"') { insideQuotes = !insideQuotes; continue; }
-                if (char === ',' && !insideQuotes) { row.push(current); current = ''; continue; }
-                if ((char === '\n' || char === '\r') && !insideQuotes) {
-                    if (current || row.length) { row.push(current); rows.push(row); row = []; current = ''; }
-                    continue;
-                }
-                current += char;
-            }
-            if (current || row.length) { row.push(current); rows.push(row); }
-
-            const data = rows.slice(1);
-
-            // ✅ Only include rows marked Yes in column G
-            let stories = data.filter(r => r[6] && r[6].trim().toLowerCase() === 'yes');
-
-            // ✅ Filter for share mode
-            if (storyId) {
-                stories = stories.filter(r => (r[2] || '').trim() === storyId);
-            }
-
-            // ✅ Sort using raw text YYYY-MM-DD to avoid UTC offset
-            stories.sort((a,b) => {
-                const da = (a[0] || '').trim();
-                const db = (b[0] || '').trim();
-                if (da < db) return 1;
-                if (da > db) return -1;
-                return 0;
-            });
-
-              // Group by date
-              const groups = {};
-              stories.forEach(r => {
-                  const date = r.date || 'Undated';
-                  if (!groups[date]) groups[date] = [];
-                  groups[date].push(r);
-              });
-
-            const container = document.getElementById('stories-container');
-            for (const date in groups) {
-                const dateGroup = document.createElement('div');
-                dateGroup.className = 'date-group';
-                const formattedDate = formatDateLabel(date);
-                dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
-
-                  groups[date].forEach(r => {
-                      const card = document.createElement('div');
-                      card.className = 'story-card';
-                      card.innerHTML = `
-                          <h3>${r.headline}
-                              <button class="share-btn" onclick="shareStory('${r.original_url}')">Share</button>
-                          </h3>
-                          <div class="bias">Bias: ${r.bias}</div>
-                          <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
-                          <div class="summary">${r.summary}</div>
-                      `;
-                      dateGroup.appendChild(card);
-                  });
-
-                    // ✅ Auto-open summary if in share mode
-                    if (storyId && storyID === storyId) {
-                        const summaryEl = card.querySelector('.summary');
-                        summaryEl.classList.add('show');
-                        const toggleBtn = card.querySelector('.toggle');
-                        toggleBtn.textContent = 'Hide Story';
-                    }
-
-                    dateGroup.appendChild(card);
-                });
-
-                container.appendChild(dateGroup);
-            }
-        }
-
-        function toggleSummary(btn) {
-            const summaryEl = btn.nextElementSibling;
-            summaryEl.classList.toggle('show');
-            btn.textContent = summaryEl.classList.contains('show')
-                ? 'Hide Story'
-                : 'Show Story';
-        }
-
-        function shareStory(id) {
-            const url = `${window.location.origin}${window.location.pathname}?id=${id}`;
-            navigator.clipboard.writeText(url).then(() => {
-                alert('Share link copied to clipboard!');
-            });
-        }
-
-        // Use DOMContentLoaded to ensure the div for the header exists before trying to fetch
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('header.html')
-                .then(res => res.text())
-                .then(html => {
-                    document.getElementById('site-header').innerHTML = html;
-
-                    // --- IMPORTANT: Hamburger JavaScript MUST be here AFTER header is loaded ---
-                    const hamburger = document.getElementById('hamburger');
-                    const mobileNav = document.getElementById('mobile-nav');
-
-                    if (hamburger && mobileNav) {
-                        function toggleMobileNav() {
-                            mobileNav.classList.toggle('open');
-                            hamburger.classList.toggle('active'); // Toggle color change
-                            console.log('Hamburger toggled from news.html! Open:', mobileNav.classList.contains('open'));
-                        }
-
-                        hamburger.addEventListener('click', toggleMobileNav);
-
-                        // Also listen for touchstart for better mobile responsiveness
-                        // Use { passive: false } to allow preventDefault() for touch events
-                        hamburger.addEventListener('touchstart', function(e) {
-                            e.preventDefault(); // Prevents potential default browser scroll/zoom
-                            console.log('Touch detected on hamburger from news.html!');
-                            toggleMobileNav();
-                        }, { passive: false });
-
-                        // Close mobile menu when a link is clicked
-                        mobileNav.querySelectorAll('a').forEach(link => {
-                            link.addEventListener('click', () => {
-                                mobileNav.classList.remove('open');
-                                hamburger.classList.remove('active'); // Reset hamburger color
-                            });
-                        });
-
-                        // Close mobile menu if window is resized above mobile breakpoint
-                        window.addEventListener('resize', function() {
-                            if (window.innerWidth > 768) {
-                                mobileNav.classList.remove('open');
-                                hamburger.classList.remove('active'); // Reset hamburger color
-                            }
-                        });
-                    } else {
-                        console.error("Critical: Hamburger or mobile navigation element not found after header load!");
-                    }
-                    // --- END IMPORTANT SECTION ---
-
-                    // Load stories AFTER the header is fully loaded and its JS is set up
-                    loadStories();
-                })
-                .catch(err => console.error("Error loading header.html:", err));
-
-            // Feedback form submit (kept separate from header loading as it's not dependent)
-            const feedbackForm = document.getElementById('feedbackForm');
-            if (feedbackForm) { // Check if the form exists before adding listener
-                feedbackForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    const status = document.getElementById('formStatus');
-                    status.textContent = "⏳ Sending...";
-
-                    const name = document.getElementById('name').value || "Someone";
-                    const email = document.getElementById('email').value;
-                    const message = document.getElementById('message').value;
-
-                    const data = {
-                        name: name,
-                        email: email,
-                        subject: "News Page Feedback",
-                        message: message
-                    };
-
-                    try {
-                        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-                            method: 'POST',
-                            headers: {'Content-Type':'text/plain'},
-                            body: JSON.stringify(data)
-                        });
-
-                        let result = {};
-                        try { result = await res.json(); } catch (err) { result = { status: "success" }; }
-
-                        if (result.status === "success") {
-                            status.textContent = "✅ Thanks! Your feedback was sent.";
-                            this.reset();
-                        } else {
-                            status.textContent = "❌ Error sending. Please try again.";
-                        }
-                        setTimeout(()=>{ status.textContent = ""; }, 5000);
-                    } catch (err) {
-                        console.error(err);
-                        status.textContent = "❌ Failed to send! Check connection.";
-                        setTimeout(()=>{ status.textContent = ""; }, 5000);
-                    }
-                });
-            }
+        // Group by date
+        const groups = {};
+        stories.forEach(r => {
+            const date = r.date || 'Undated';
+            if (!groups[date]) groups[date] = [];
+            groups[date].push(r);
         });
-    </script>
+
+        // Render
+        const container = document.getElementById('stories-container');
+        container.innerHTML = ""; // clear old content
+        for (const date in groups) {
+            const dateGroup = document.createElement('div');
+            dateGroup.className = 'date-group';
+            const formattedDate = formatDateLabel(date);
+            dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
+
+            groups[date].forEach(r => {
+                const card = document.createElement('div');
+                card.className = 'story-card';
+                card.innerHTML = `
+                    <h3>${r.headline}
+                        <button class="share-btn" onclick="shareStory('${r.original_url}')">Share</button>
+                    </h3>
+                    <div class="bias">Bias: ${r.bias}</div>
+                    <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
+                    <div class="summary">${r.summary}</div>
+                `;
+
+                // Auto-open if shared
+                if (storyId && r.original_url === storyId) {
+                    const summaryEl = card.querySelector('.summary');
+                    summaryEl.classList.add('show');
+                    const toggleBtn = card.querySelector('.toggle');
+                    toggleBtn.textContent = 'Hide Story';
+                }
+
+                dateGroup.appendChild(card);
+            });
+
+            container.appendChild(dateGroup);
+        }
+    }
+
+    function toggleSummary(btn) {
+        const summaryEl = btn.nextElementSibling;
+        summaryEl.classList.toggle('show');
+        btn.textContent = summaryEl.classList.contains('show')
+            ? 'Hide Story'
+            : 'Show Story';
+    }
+
+    function shareStory(id) {
+        const url = `${window.location.origin}${window.location.pathname}?id=${id}`;
+        navigator.clipboard.writeText(url).then(() => {
+            alert('Share link copied to clipboard!');
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('header.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('site-header').innerHTML = html;
+                loadStories();
+            })
+            .catch(err => console.error("Error loading header.html:", err));
+    });
+</script>
+
 </body>
 </html>
