@@ -167,7 +167,7 @@
     async function loadStories() {
         storyId = getQueryParam('id');
 
-        const apiURL = 'http://nospinmedia.tplinkdns.com:9090/news';
+        const apiURL = 'https://data.nospin.media/news';
         const response = await fetch(apiURL);
         let stories = await response.json();
 
