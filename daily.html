@@ -51,7 +51,7 @@
         .story-card h3 { font-size: 1.3rem; margin: 0; display: flex; justify-content: space-between; align-items: center; }
         .bias { font-size: 0.9rem; font-weight: bold; color: #666; margin-top: 0.3rem; }
 
-        .summary { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; margin-top: 0.5rem; }
+        .summary { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: normal; margin-top: 0.5rem; }
         .summary.show { max-height: 1000px; opacity: 1; }
 
         button.toggle, button.share-btn {
@@ -176,6 +176,13 @@
         return `${weekdays[fakeDate.getDay()]}, ${months[Number(m)-1]} ${Number(d)}, ${y}`;
     }
 
+    function formatCommentText(text) {
+        if (!text) return "";
+        let formatted = text.replace(/\n/g, "<br>");
+        formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+        return formatted;
+    }
+
     async function loadStories() {
         storyId = getQueryParam('id');
 
@@ -192,21 +199,17 @@
 
         let stories = allPosts;
 
-        // If shared link (?id=xxx)
         if (storyId) {
             stories = stories.filter(r => (r.fb_post_id || '').trim() === storyId);
         }
 
-        // Apply filter + search
         stories = stories.filter(r =>
             (!filterType || r.post_type.toLowerCase() === filterType) &&
             (!search || r.headline_text.toLowerCase().includes(search) || r.comment_text.toLowerCase().includes(search))
         );
 
-        // Sort by date
         stories.sort((a,b) => (a.post_date < b.post_date ? 1 : -1));
 
-        // Group by date
         const groups = {};
         stories.forEach(r => {
             const date = r.post_date || 'Undated';
@@ -232,7 +235,7 @@
                     </h3>
                     <div class="bias">Type: ${r.post_type}</div>
                     <button class="toggle" onclick="toggleSummary(this)">Show Post</button>
-                    <div class="summary">${r.comment_text}</div>
+                    <div class="summary">${formatCommentText(r.comment_text)}</div>
                 `;
 
                 if (storyId && r.fb_post_id === storyId) {
@@ -270,6 +273,15 @@
             .then(html => {
                 document.getElementById('site-header').innerHTML = html;
                 loadStories();
+
+                // 🔧 Fix mobile hamburger
+                const hamburger = document.querySelector('.hamburger');
+                const navMenu = document.querySelector('.nav-menu');
+                if (hamburger && navMenu) {
+                    hamburger.addEventListener('click', () => {
+                        navMenu.classList.toggle('open');
+                    });
+                }
             })
             .catch(err => console.error("Error loading header.html:", err));
 
