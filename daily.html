@@ -1,324 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>No Spin Media Daily Posts</title>
-    <link rel="stylesheet" href="style.css" />
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f4f4f4;
-            color: #222;
-            padding-top: 70px; /* match header height */
-        }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>No Spin Media Daily Posts</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #222;
+            padding-top: 70px; /* match header height */
+        }
 
-        .container {
-            display: flex;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
 
-        .main { flex: 2; }
-        .sidebar {
-            flex: 1;
-            background: #fff;
-            padding: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            height: fit-content;
-            margin-top: 0;
-            border-left: 2px solid #eee;
-            align-self: flex-start;
-        }
+        .main { flex: 2; }
+        .sidebar {
+            flex: 1;
+            background: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: fit-content;
+            margin-top: 0;
+            border-left: 2px solid #eee;
+            align-self: flex-start;
+        }
 
-        .controls { margin-bottom: 1rem; }
+        .controls { margin-bottom: 1rem; }
 
-        .date-group { margin-bottom: 2rem; }
-        .date-header {
-            background: #333; color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-weight: bold; font-size: 1.2rem;
-        }
+        .date-group { margin-bottom: 2rem; }
+        .date-header {
+            background: #333; color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: bold; font-size: 1.2rem;
+        }
 
-        .story-card {
-            background: #fff;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 0.8rem 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .story-card h3 {
-            font-size: 1.3rem;
-            margin: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .bias { font-size: 0.9rem; font-weight: bold; color: #666; margin-top: 0.3rem; }
+        .story-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.8rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .story-card h3 {
+            font-size: 1.3rem;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .bias { font-size: 0.9rem; font-weight: bold; color: #666; margin-top: 0.3rem; }
 
-        .summary {
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
-            transition: all 0.4s ease;
-            white-space: normal;
-            margin-top: 0.5rem;
-        }
-        .summary.show { max-height: 1000px; opacity: 1; }
+        .summary {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s ease;
+            white-space: normal;
+            margin-top: 0.5rem;
+        }
+        .summary.show { max-height: 1000px; opacity: 1; }
 
-        button.toggle, button.share-btn {
-            margin-top: 0.6rem; padding: 6px 12px; font-size: 0.9rem; cursor: pointer;
-            border-radius: 4px; border: 1px solid #333; background: #333; color: #fff;
-        }
-        button.toggle:hover, button.share-btn:hover { background: #555; }
-        button.share-btn {
-            margin-left: 10px; font-size: 0.8rem;
-            background: #0066cc; border-color: #0066cc;
-        }
-        button.share-btn:hover { background: #004c99; }
+        button.toggle, button.share-btn {
+            margin-top: 0.6rem; padding: 6px 12px; font-size: 0.9rem; cursor: pointer;
+            border-radius: 4px; border: 1px solid #333; background: #333; color: #fff;
+        }
+        button.toggle:hover, button.share-btn:hover { background: #555; }
+        button.share-btn {
+            margin-left: 10px; font-size: 0.8rem;
+            background: #0066cc; border-color: #0066cc;
+        }
+        button.share-btn:hover { background: #004c99; }
 
-        #feedbackForm input, #feedbackForm textarea {
-            width: 100%; padding: 8px; margin: 6px 0;
-            border: 1px solid #ccc; border-radius: 4px;
-        }
-        #feedbackForm button {
-            background: #0073e6; color: #fff;
-            border: none; padding: 10px; width: 100%;
-            font-weight: bold; border-radius: 4px; cursor: pointer;
-        }
-        #feedbackForm button:hover { background: #005bb5; }
-        #formStatus {
-            font-size: 0.9em; margin: 6px 0; text-align: center;
-        }
+        #feedbackForm input, #feedbackForm textarea {
+            width: 100%; padding: 8px; margin: 6px 0;
+            border: 1px solid #ccc; border-radius: 4px;
+        }
+        #feedbackForm button {
+            background: #0073e6; color: #fff;
+            border: none; padding: 10px; width: 100%;
+            font-weight: bold; border-radius: 4px; cursor: pointer;
+        }
+        #feedbackForm button:hover { background: #005bb5; }
+        #formStatus {
+            font-size: 0.9em; margin: 6px 0; text-align: center;
+        }
 
-        footer {
-            text-align: center;
-            padding: 1rem; font-size: 0.9rem; color: #666;
-        }
+        footer {
+            text-align: center;
+            padding: 1rem; font-size: 0.9rem; color: #666;
+        }
 
-        @media (max-width: 768px) {
-            .container { flex-direction: column; }
-            .sidebar {
-                margin-top: 1rem;
-                border-left: none;
-                border-top: 2px solid #eee;
-            }
-            .nav-links { display: none; flex-direction: column; }
-            .nav-links.open { display: flex; }
-        }
-    </style>
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+            .sidebar {
+                margin-top: 1rem;
+                border-left: none;
+                border-top: 2px solid #eee;
+            }
+            .nav-links { display: none; flex-direction: column; }
+            .nav-links.open { display: flex; }
+        }
+    </style>
 </head>
 <body>
 
-    <div id="site-header"></div>
+    <div id="site-header"></div>
 
-    <div class="container">
-        <div class="main">
-            <h1>Daily Posts</h1>
+    <div class="container">
+        <div class="main">
+            <h1>Daily Posts</h1>
 
-            <div class="controls">
-                <label for="typeFilter">Filter by type:</label>
-                <select id="typeFilter">
-                    <option value="">All</option>
-                    <option value="movie">Movies</option>
-                    <option value="tv_show">TV Shows</option>
-                    <option value="birthday">Birthdays</option>
-                    <option value="history">History</option>
-                    <option value="invention">Inventions</option>
-                </select>
-                <input id="searchBox" type="text" placeholder="Search posts..." />
-            </div>
+            <div class="controls">
+                <label for="typeFilter">Filter by type:</label>
+                <select id="typeFilter">
+                    <option value="">All</option>
+                    <option value="movie">Movies</option>
+                    <option value="tv_show">TV Shows</option>
+                    <option value="birthday">Birthdays</option>
+                    <option value="history">History</option>
+                    <option value="invention">Inventions</option>
+                </select>
+                <input id="searchBox" type="text" placeholder="Search posts..." />
+            </div>
 
-            <div id="stories-container"></div>
-        </div>
+            <div id="stories-container"></div>
+        </div>
 
-        <div class="sidebar">
-            <h2>Support Us 💙</h2>
-            <p>Like what we're doing? Help keep No Spin Media running:</p>
-            <p><strong>Venmo:</strong><br/>
-                <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
-            </p>
+        <div class="sidebar">
+            <h2>Support Us 💙</h2>
+            <p>Like what we're doing? Help keep No Spin Media running:</p>
+            <p><strong>Venmo:</strong><br/>
+                <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+            </p>
 
-            <h2>Follow Us</h2>
-            <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
+            <h2>Follow Us</h2>
+            <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
 
-            <h2>We ❤️ Your Thoughts!</h2>
-            <p>Have an idea, suggestion, or just want to say hi? We read every single message you send. 😊</p>
-            <p>You can also reach us directly at: <strong>nospinmedia.ai@gmail.com</strong></p>
+            <h2>We ❤️ Your Thoughts!</h2>
+            <p>Have an idea, suggestion, or just want to say hi? We read every single message you send. 😊</p>
+            <p>You can also reach us directly at: <strong>nospinmedia.ai@gmail.com</strong></p>
 
-            <form id="feedbackForm">
-                <input type="text" id="name" name="name" placeholder="Your first name">
-                <input type="email" id="email" name="email" placeholder="you@email.com" required>
-                <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
-                <p id="formStatus"></p>
-                <button type="submit">💬 Send Feedback</button>
-            </form>
-        </div>
-    </div>
+            <form id="feedbackForm">
+                <input type="text" id="name" name="name" placeholder="Your first name">
+                <input type="email" id="email" name="email" placeholder="you@email.com" required>
+                <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
+                <p id="formStatus"></p>
+                <button type="submit">💬 Send Feedback</button>
+            </form>
+        </div>
+    </div>
 
-    <footer>
-        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
-    </footer>
+    <footer>
+        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
+    </footer>
 
-    <script>
-    let storyId = null;
-    let allPosts = [];
+    <script>
+    let storyId = null;
+    let allPosts = [];
 
-    function getQueryParam(param) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-    }
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
 
-    function formatDateLabel(dateStr) {
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr || 'Undated';
-        const [y,m,d] = dateStr.split('-');
-        const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-        const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-        const fakeDate = new Date(Number(y), Number(m)-1, Number(d));
-        return `${weekdays[fakeDate.getDay()]}, ${months[Number(m)-1]} ${Number(d)}, ${y}`;
-    }
+    function formatDateLabel(dateStr) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr || 'Undated';
+        const [y,m,d] = dateStr.split('-');
+        const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        const fakeDate = new Date(Number(y), Number(m)-1, Number(d));
+        return `${weekdays[fakeDate.getDay()]}, ${months[Number(m)-1]} ${Number(d)}, ${y}`;
+    }
 
-    function formatCommentText(text) {
-        if (!text) return "";
-        return text
-            .replace(/\\n/g, "<br>")
-            .replace(/\n/g, "<br>")
-            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-    }
+    function formatCommentText(text) {
+        if (!text) return "";
+        return text
+            .replace(/\\n/g, "<br>")
+            .replace(/\n/g, "<br>")
+            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    }
 
-    async function loadStories() {
-        storyId = getQueryParam('id');
-        const apiURL = 'https://data.nospin.media/daily_posts';
-        const response = await fetch(apiURL);
-        allPosts = await response.json();
-        renderStories();
-    }
+    async function loadStories() {
+        storyId = getQueryParam('id');
+        const apiURL = 'https://data.nospin.media/daily_posts';
+        const response = await fetch(apiURL);
+        allPosts = await response.json();
+        renderStories();
+    }
 
-    function renderStories() {
-        const filterType = document.getElementById('typeFilter').value.toLowerCase();
-        const search = document.getElementById('searchBox').value.toLowerCase();
+    function renderStories() {
+        const filterType = document.getElementById('typeFilter').value.toLowerCase();
+        const search = document.getElementById('searchBox').value.toLowerCase();
 
-        let stories = allPosts;
-        if (storyId) stories = stories.filter(r => (r.fb_post_id || '').trim() === storyId);
+        let stories = allPosts;
+        if (storyId) stories = stories.filter(r => (r.fb_post_id || '').trim() === storyId);
 
-        stories = stories.filter(r =>
-            (!filterType || r.post_type.toLowerCase() === filterType) &&
-            (!search || r.headline_text.toLowerCase().includes(search) || r.comment_text.toLowerCase().includes(search))
-        );
+        stories = stories.filter(r =>
+            (!filterType || r.post_type.toLowerCase() === filterType) &&
+            (!search || r.headline_text.toLowerCase().includes(search) || r.comment_text.toLowerCase().includes(search))
+        );
 
-        stories.sort((a,b) => (a.post_date < b.post_date ? 1 : -1));
+        stories.sort((a,b) => (a.post_date < b.post_date ? 1 : -1));
 
-        const groups = {};
-        stories.forEach(r => {
-            const date = r.post_date || 'Undated';
-            if (!groups[date]) groups[date] = [];
-            groups[date].push(r);
-        });
+        const groups = {};
+        stories.forEach(r => {
+            const date = r.post_date || 'Undated';
+            if (!groups[date]) groups[date] = [];
+            groups[date].push(r);
+        });
 
-        const container = document.getElementById('stories-container');
-        container.innerHTML = "";
+        const container = document.getElementById('stories-container');
+        container.innerHTML = "";
 
-        for (const date in groups) {
-            const dateGroup = document.createElement('div');
-            dateGroup.className = 'date-group';
-            dateGroup.innerHTML = `<div class="date-header">${formatDateLabel(date)}</div>`;
+        for (const date in groups) {
+            const dateGroup = document.createElement('div');
+            dateGroup.className = 'date-group';
+            dateGroup.innerHTML = `<div class="date-header">${formatDateLabel(date)}</div>`;
 
-            groups[date].forEach(r => {
-                const card = document.createElement('div');
-                card.className = 'story-card';
-                card.innerHTML = `
-                    <h3>${r.headline_text}
-                        <button class="share-btn" onclick="shareStory('${r.fb_post_id}')">Share</button>
-                    </h3>
-                    <div class="bias">Type: ${r.post_type}</div>
-                    <button class="toggle" onclick="toggleSummary(this)">Show Post</button>
-                    <div class="summary"></div>
-                `;
-                card.querySelector('.summary').innerHTML = formatCommentText(r.comment_text);
+            groups[date].forEach(r => {
+                const card = document.createElement('div');
+                card.className = 'story-card';
+                card.innerHTML = `
+                    <h3>${r.headline_text}
+                        <button class="share-btn" onclick="shareStory('${r.fb_post_id}')">Share</button>
+                    </h3>
+                    <div class="bias">Type: ${r.post_type}</div>
+                    <button class="toggle" onclick="toggleSummary(this)">Show Post</button>
+                    <div class="summary"></div>
+                `;
+                card.querySelector('.summary').innerHTML = formatCommentText(r.comment_text);
 
-                if (storyId && r.fb_post_id === storyId) {
-                    const summaryEl = card.querySelector('.summary');
-                    summaryEl.classList.add('show');
-                    card.querySelector('.toggle').textContent = 'Hide Post';
-                }
-                dateGroup.appendChild(card);
-            });
-            container.appendChild(dateGroup);
-        }
-    }
+                if (storyId && r.fb_post_id === storyId) {
+                    const summaryEl = card.querySelector('.summary');
+                    summaryEl.classList.add('show');
+                    card.querySelector('.toggle').textContent = 'Hide Post';
+                }
+                dateGroup.appendChild(card);
+            });
+            container.appendChild(dateGroup);
+        }
+    }
 
-    function toggleSummary(btn) {
-        const summaryEl = btn.nextElementSibling;
-        summaryEl.classList.toggle('show');
-        btn.textContent = summaryEl.classList.contains('show') ? 'Hide Post' : 'Show Post';
-    }
+    function toggleSummary(btn) {
+        const summaryEl = btn.nextElementSibling;
+        summaryEl.classList.toggle('show');
+        btn.textContent = summaryEl.classList.contains('show') ? 'Hide Post' : 'Show Post';
+    }
 
-    function shareStory(id) {
-        const url = `${window.location.origin}${window.location.pathname}?id=${id}`;
-        navigator.clipboard.writeText(url).then(() => { alert('Share link copied to clipboard!'); });
-    }
+    function shareStory(id) {
+        const url = `${window.location.origin}${window.location.pathname}?id=${id}`;
+        navigator.clipboard.writeText(url).then(() => { alert('Share link copied to clipboard!'); });
+    }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        fetch('header.html')
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById('site-header').innerHTML = html;
-                loadStories();
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('header.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('site-header').innerHTML = html;
+                loadStories();
 
-                // 🔧 Mobile hamburger fix
-                const hamburger = document.querySelector('#site-header .hamburger');
-                const navMenu = document.querySelector('#site-header .nav-links');
-                if (hamburger && navMenu) {
-                    hamburger.addEventListener('click', () => {
-                        navMenu.classList.toggle('open');
-                    });
-                }
-            });
+                // 🔧 Mobile hamburger fix
+                const hamburger = document.querySelector('#site-header .hamburger');
+                const navMenu = document.querySelector('#site-header .nav-links');
+                if (hamburger && navMenu) {
+                    hamburger.addEventListener('click', () => {
+                        navMenu.classList.toggle('open');
+                    });
+                }
+            });
 
-        document.getElementById('typeFilter').addEventListener('change', renderStories);
-        document.getElementById('searchBox').addEventListener('input', renderStories);
+        document.getElementById('typeFilter').addEventListener('change', renderStories);
+        document.getElementById('searchBox').addEventListener('input', renderStories);
 
-// 🔧 Feedback form submit
-const feedbackForm = document.getElementById('feedbackForm');
-if (feedbackForm) {
-    feedbackForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const message = document.getElementById('message').value.trim();
-        const formStatus = document.getElementById('formStatus');
-        formStatus.style.color = "black";
-        formStatus.textContent = "Sending...";
+        // 🔧 Feedback form submit
+        const feedbackForm = document.getElementById('feedbackForm');
+        if (feedbackForm) {
+            feedbackForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const message = document.getElementById('message').value.trim();
+                const formStatus = document.getElementById('formStatus');
+                formStatus.style.color = "black";
+                formStatus.textContent = "Sending...";
 
-        try {
-            const res = await fetch("https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec", {
-                method: "POST",
-                **headers: { "Content-Type": "text/plain" },**
-                body: JSON.stringify({ name, email, message, section: "Daily Posts" })
-            });
-            if (res.ok) {
-                formStatus.style.color = "green";
-                formStatus.textContent = "✅ Thanks for your feedback!";
-                feedbackForm.reset();
-            } else {
-                formStatus.style.color = "red";
-                formStatus.textContent = "❌ Error sending feedback.";
-            }
-        } catch (err) {
-            formStatus.style.color = "red";
-            formStatus.textContent = "❌ Could not connect.";
-        }
-    });
-}
-    });
-    </script>
+                try {
+                    const res = await fetch("YOUR_FEEDBACK_ENDPOINT_HERE", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ name, email, message, section: "Daily Posts" })
+                    });
+                    if (res.ok) {
+                        formStatus.style.color = "green";
+                        formStatus.textContent = "✅ Thanks for your feedback!";
+                        feedbackForm.reset();
+                    } else {
+                        formStatus.style.color = "red";
+                        formStatus.textContent = "❌ Error sending feedback.";
+                    }
+                } catch (err) {
+                    formStatus.style.color = "red";
+                    formStatus.textContent = "❌ Could not connect.";
+                }
+            });
+        }
+    });
+    </script>
 
 </body>
 </html>
