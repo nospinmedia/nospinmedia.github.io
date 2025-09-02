@@ -285,38 +285,38 @@
         document.getElementById('typeFilter').addEventListener('change', renderStories);
         document.getElementById('searchBox').addEventListener('input', renderStories);
 
-        // 🔧 Feedback form submit
-        const feedbackForm = document.getElementById('feedbackForm');
-        if (feedbackForm) {
-            feedbackForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const name = document.getElementById('name').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const message = document.getElementById('message').value.trim();
-                const formStatus = document.getElementById('formStatus');
-                formStatus.style.color = "black";
-                formStatus.textContent = "Sending...";
+// 🔧 Feedback form submit
+const feedbackForm = document.getElementById('feedbackForm');
+if (feedbackForm) {
+    feedbackForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
+        const formStatus = document.getElementById('formStatus');
+        formStatus.style.color = "black";
+        formStatus.textContent = "Sending...";
 
-            try {
-                const res = await fetch("https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec", {
-                    method: "POST",
-                    headers: { "Content-Type": "text/plain" },
-                    body: JSON.stringify({ name, email, message, section: "Daily Posts" })
-                });
-                if (res.ok) {
-                    formStatus.style.color = "green";
-                    formStatus.textContent = "✅ Thanks for your feedback!";
-                    feedbackForm.reset();
-                } else {
-                    formStatus.style.color = "red";
-                    formStatus.textContent = "❌ Error sending feedback.";
-                }
-            } catch (err) {
-                formStatus.style.color = "red";
-                formStatus.textContent = "❌ Could not connect.";
-            }
+        try {
+            const res = await fetch("https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec", {
+                method: "POST",
+                headers: { "Content-Type": "text/plain" },
+                body: JSON.stringify({ name, email, message, subject: "Daily Posts Feedback" }) // This line is updated
             });
+            if (res.ok) {
+                formStatus.style.color = "green";
+                formStatus.textContent = "✅ Thanks for your feedback!";
+                feedbackForm.reset();
+            } else {
+                formStatus.style.color = "red";
+                formStatus.textContent = "❌ Error sending feedback.";
+            }
+        } catch (err) {
+            formStatus.style.color = "red";
+            formStatus.textContent = "❌ Could not connect.";
         }
+    });
+}
     });
     </script>
 
