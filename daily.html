@@ -176,12 +176,14 @@
         return `${weekdays[fakeDate.getDay()]}, ${months[Number(m)-1]} ${Number(d)}, ${y}`;
     }
 
-    function formatCommentText(text) {
-        if (!text) return "";
-        let formatted = text.replace(/\n/g, "<br>");
-        formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-        return formatted;
-    }
+        function formatCommentText(text) {
+            if (!text) return "";
+            let formatted = text
+                .replace(/\\n/g, "<br>")                // handle escaped "\n"
+                .replace(/\n/g, "<br>")                 // handle real newlines
+                .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+            return formatted;
+        }
 
     async function loadStories() {
         storyId = getQueryParam('id');
@@ -273,10 +275,10 @@
             .then(html => {
                 document.getElementById('site-header').innerHTML = html;
                 loadStories();
-
-                // 🔧 Fix mobile hamburger
-                const hamburger = document.querySelector('.hamburger');
-                const navMenu = document.querySelector('.nav-menu');
+            
+                // 🔧 Mobile hamburger fix
+                const hamburger = document.querySelector('#site-header .hamburger');
+                const navMenu = document.querySelector('#site-header nav, #site-header .nav-links');
                 if (hamburger && navMenu) {
                     hamburger.addEventListener('click', () => {
                         navMenu.classList.toggle('open');
