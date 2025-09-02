@@ -24,10 +24,7 @@
             flex-wrap: wrap;
         }
 
-        .main {
-            flex: 2;
-        }
-
+        .main { flex: 2; }
         .sidebar {
             flex: 1;
             background: #fff;
@@ -40,18 +37,40 @@
             align-self: flex-start;
         }
 
-        .controls {
-            margin-bottom: 1rem;
-        }
+        .controls { margin-bottom: 1rem; }
 
         .date-group { margin-bottom: 2rem; }
-        .date-header { background: #333; color: #fff; padding: 0.5rem 1rem; border-radius: 4px; font-weight: bold; font-size: 1.2rem; }
+        .date-header {
+            background: #333; color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: bold; font-size: 1.2rem;
+        }
 
-        .story-card { background: #fff; border-radius: 8px; padding: 1rem; margin: 0.8rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .story-card h3 { font-size: 1.3rem; margin: 0; display: flex; justify-content: space-between; align-items: center; }
+        .story-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.8rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .story-card h3 {
+            font-size: 1.3rem;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
         .bias { font-size: 0.9rem; font-weight: bold; color: #666; margin-top: 0.3rem; }
 
-        .summary { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: normal; margin-top: 0.5rem; }
+        .summary {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s ease;
+            white-space: normal;
+            margin-top: 0.5rem;
+        }
         .summary.show { max-height: 1000px; opacity: 1; }
 
         button.toggle, button.share-btn {
@@ -59,38 +78,29 @@
             border-radius: 4px; border: 1px solid #333; background: #333; color: #fff;
         }
         button.toggle:hover, button.share-btn:hover { background: #555; }
-        button.share-btn { margin-left: 10px; font-size: 0.8rem; background: #0066cc; border-color: #0066cc; }
+        button.share-btn {
+            margin-left: 10px; font-size: 0.8rem;
+            background: #0066cc; border-color: #0066cc;
+        }
         button.share-btn:hover { background: #004c99; }
 
         #feedbackForm input, #feedbackForm textarea {
-            width: 100%;
-            padding: 8px;
-            margin: 6px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            width: 100%; padding: 8px; margin: 6px 0;
+            border: 1px solid #ccc; border-radius: 4px;
         }
         #feedbackForm button {
-            background: #0073e6;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            width: 100%;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
+            background: #0073e6; color: #fff;
+            border: none; padding: 10px; width: 100%;
+            font-weight: bold; border-radius: 4px; cursor: pointer;
         }
         #feedbackForm button:hover { background: #005bb5; }
         #formStatus {
-            font-size: 0.9em;
-            color: green;
-            margin: 6px 0;
-            text-align: center;
+            font-size: 0.9em; margin: 6px 0; text-align: center;
         }
+
         footer {
             text-align: center;
-            padding: 1rem;
-            font-size: 0.9rem;
-            color: #666;
+            padding: 1rem; font-size: 0.9rem; color: #666;
         }
 
         @media (max-width: 768px) {
@@ -100,6 +110,8 @@
                 border-left: none;
                 border-top: 2px solid #eee;
             }
+            .nav-links { display: none; flex-direction: column; }
+            .nav-links.open { display: flex; }
         }
     </style>
 </head>
@@ -121,7 +133,6 @@
                     <option value="history">History</option>
                     <option value="invention">Inventions</option>
                 </select>
-
                 <input id="searchBox" type="text" placeholder="Search posts..." />
             </div>
 
@@ -136,9 +147,7 @@
             </p>
 
             <h2>Follow Us</h2>
-            <p>
-                📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a>
-            </p>
+            <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
 
             <h2>We ❤️ Your Thoughts!</h2>
             <p>Have an idea, suggestion, or just want to say hi? We read every single message you send. 😊</p>
@@ -176,22 +185,19 @@
         return `${weekdays[fakeDate.getDay()]}, ${months[Number(m)-1]} ${Number(d)}, ${y}`;
     }
 
-        function formatCommentText(text) {
-            if (!text) return "";
-            let formatted = text
-                .replace(/\\n/g, "<br>")                // handle escaped "\n"
-                .replace(/\n/g, "<br>")                 // handle real newlines
-                .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-            return formatted;
-        }
+    function formatCommentText(text) {
+        if (!text) return "";
+        return text
+            .replace(/\\n/g, "<br>")
+            .replace(/\n/g, "<br>")
+            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    }
 
     async function loadStories() {
         storyId = getQueryParam('id');
-
         const apiURL = 'https://data.nospin.media/daily_posts';
         const response = await fetch(apiURL);
         allPosts = await response.json();
-
         renderStories();
     }
 
@@ -200,10 +206,7 @@
         const search = document.getElementById('searchBox').value.toLowerCase();
 
         let stories = allPosts;
-
-        if (storyId) {
-            stories = stories.filter(r => (r.fb_post_id || '').trim() === storyId);
-        }
+        if (storyId) stories = stories.filter(r => (r.fb_post_id || '').trim() === storyId);
 
         stories = stories.filter(r =>
             (!filterType || r.post_type.toLowerCase() === filterType) &&
@@ -225,8 +228,7 @@
         for (const date in groups) {
             const dateGroup = document.createElement('div');
             dateGroup.className = 'date-group';
-            const formattedDate = formatDateLabel(date);
-            dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
+            dateGroup.innerHTML = `<div class="date-header">${formatDateLabel(date)}</div>`;
 
             groups[date].forEach(r => {
                 const card = document.createElement('div');
@@ -237,19 +239,17 @@
                     </h3>
                     <div class="bias">Type: ${r.post_type}</div>
                     <button class="toggle" onclick="toggleSummary(this)">Show Post</button>
-                    <div class="summary">${formatCommentText(r.comment_text)}</div>
+                    <div class="summary"></div>
                 `;
+                card.querySelector('.summary').innerHTML = formatCommentText(r.comment_text);
 
                 if (storyId && r.fb_post_id === storyId) {
                     const summaryEl = card.querySelector('.summary');
                     summaryEl.classList.add('show');
-                    const toggleBtn = card.querySelector('.toggle');
-                    toggleBtn.textContent = 'Hide Post';
+                    card.querySelector('.toggle').textContent = 'Hide Post';
                 }
-
                 dateGroup.appendChild(card);
             });
-
             container.appendChild(dateGroup);
         }
     }
@@ -257,16 +257,12 @@
     function toggleSummary(btn) {
         const summaryEl = btn.nextElementSibling;
         summaryEl.classList.toggle('show');
-        btn.textContent = summaryEl.classList.contains('show')
-            ? 'Hide Post'
-            : 'Show Post';
+        btn.textContent = summaryEl.classList.contains('show') ? 'Hide Post' : 'Show Post';
     }
 
     function shareStory(id) {
         const url = `${window.location.origin}${window.location.pathname}?id=${id}`;
-        navigator.clipboard.writeText(url).then(() => {
-            alert('Share link copied to clipboard!');
-        });
+        navigator.clipboard.writeText(url).then(() => { alert('Share link copied to clipboard!'); });
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -275,20 +271,52 @@
             .then(html => {
                 document.getElementById('site-header').innerHTML = html;
                 loadStories();
-            
+
                 // 🔧 Mobile hamburger fix
                 const hamburger = document.querySelector('#site-header .hamburger');
-                const navMenu = document.querySelector('#site-header nav, #site-header .nav-links');
+                const navMenu = document.querySelector('#site-header .nav-links');
                 if (hamburger && navMenu) {
                     hamburger.addEventListener('click', () => {
                         navMenu.classList.toggle('open');
                     });
                 }
-            })
-            .catch(err => console.error("Error loading header.html:", err));
+            });
 
         document.getElementById('typeFilter').addEventListener('change', renderStories);
         document.getElementById('searchBox').addEventListener('input', renderStories);
+
+        // 🔧 Feedback form submit
+        const feedbackForm = document.getElementById('feedbackForm');
+        if (feedbackForm) {
+            feedbackForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const message = document.getElementById('message').value.trim();
+                const formStatus = document.getElementById('formStatus');
+                formStatus.style.color = "black";
+                formStatus.textContent = "Sending...";
+
+                try {
+                    const res = await fetch("YOUR_FEEDBACK_ENDPOINT_HERE", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ name, email, message, section: "Daily Posts" })
+                    });
+                    if (res.ok) {
+                        formStatus.style.color = "green";
+                        formStatus.textContent = "✅ Thanks for your feedback!";
+                        feedbackForm.reset();
+                    } else {
+                        formStatus.style.color = "red";
+                        formStatus.textContent = "❌ Error sending feedback.";
+                    }
+                } catch (err) {
+                    formStatus.style.color = "red";
+                    formStatus.textContent = "❌ Could not connect.";
+                }
+            });
+        }
     });
     </script>
 
