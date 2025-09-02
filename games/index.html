@@ -1,159 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>No Spin Media Games</title>
-    <link rel="stylesheet" href="../style.css" />
-    </head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>No Spin Media Games</title>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #222;
+            padding-top: 70px; /* Match header height */
+        }
+
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .main {
+            flex: 2;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        .sidebar {
+            flex: 1;
+            background: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: fit-content;
+            margin-top: 0;
+            border-left: 2px solid #eee;
+            align-self: flex-start;
+        }
+
+        /* This styles the input and button inside the form */
+        #feedbackForm input, #feedbackForm textarea, #feedbackForm select {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #feedbackForm button {
+            background: #0073e6;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #feedbackForm button:hover { background: #005bb5; }
+        #formStatus {
+            font-size: 0.9em;
+            color: green;
+            margin: 6px 0;
+            text-align: center;
+        }
+
+        /* Existing styles below */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .game-category {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .game-category h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .game-category ul {
+            padding: 0;
+            list-style: none;
+        }
+        .game-category a {
+            text-decoration: none;
+            color: #0073e6;
+            font-weight: bold;
+            display: block;
+            margin: 10px 0;
+        }
+        .share-buttons button {
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                margin-top: 1rem;
+                border-left: none;
+                border-top: 2px solid #eee;
+            }
+        }
+    </style>
+</head>
 <body>
-    <div id="site-header"></div>
-    <div class="container">
-        <div class="main">
-            <div class="main-header">
-                <h1>Games 🎮</h1>
-                <p>Welcome to the No Spin Media Games section. Select a category below:</p>
-            </div>
-            <div class="game-grid">
-                <div class="game-category">
-                    <h2>🕹️ Arcade</h2>
-                    <ul><li><a href="arcade/">View Arcade Games</a></li></ul>
-                    <div class="share-buttons">
-                        <button onclick="shareLink('https://nospin.media/games/arcade/')">🔗 Share with Friends</button>
-                        <button onclick="copyLink('https://nospin.media/games/arcade/')">📋 Copy Link</button>
-                    </div>
-                </div>
-                <div class="game-category">
-                    <h2>🎲 Board Games</h2>
-                    <ul><li><a href="board/">View Board Games</a></li></ul>
-                    <div class="share-buttons">
-                        <button onclick="shareLink('https://nospin.media/games/board/')">🔗 Share with Friends</button>
-                        <button onclick="copyLink('https://nospin.media/games/board/')">📋 Copy Link</button>
-                    </div>
-                </div>
-                <div class="game-category">
-                    <h2>🃏 Card Games</h2>
-                    <ul><li><a href="cards/">View Card Games</a></li></ul>
-                    <div class="share-buttons">
-                        <button onclick="shareLink('https://nospin.media/games/cards/')">🔗 Share with Friends</button>
-                        <button onclick="copyLink('https://nospin.media/games/cards/')">📋 Copy Link</button>
-                    </div>
-                </div>
-                <div class="game-category">
-                    <h2>💡 Puzzles</h2>
-                    <ul><li><a href="puzzles/">View Puzzles</a></li></ul>
-                    <div class="share-buttons">
-                        <button onclick="shareLink('https://nospin.media/games/puzzles/')">🔗 Share with Friends</button>
-                        <button onclick="copyLink('https://nospin.media/games/puzzles/')">📋 Copy Link</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="sidebar">
-            <h2>Support Us 💙</h2>
-            <p>Like what we're doing? Help keep No Spin Media running:</p>
-            <p><strong>Venmo:</strong><br/><a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a></p>
-            <h2>Follow Us</h2>
-            <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
-            <h2>Contact</h2>
-            <p>📨 nospinmedia.ai@gmail.com</p>
-            <h2>We ❤️ Feedback!</h2>
-            <p>We love comments, ideas, and suggestions. Tell us what you think!</p>
-            <form id="feedbackForm">
-                <input type="text" id="name" name="name" placeholder="Your first name">
-                <input type="email" id="email" name="email" placeholder="you@email.com" required>
-                <select id="subject" name="subject">
-                    <option value="Games" selected>Games (default)</option>
-                    <option value="Arcade">Arcade</option>
-                    <option value="Board Games">Board Games</option>
-                    <option value="Card Games">Card Games</option>
-                    <option value="Puzzles">Puzzles</option>
-                    <option value="Other">Other</option>
-                </select>
-                <textarea id="message" name="message" rows="5" placeholder="Your feedback..." required></textarea>
-                <p id="formStatus"></p>
-                <button type="submit">Send Feedback</button>
-            </form>
-        </div>
-    </div>
-    <footer>
-        © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
-    </footer>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            fetch('../header.html')
-                .then(res => res.text())
-                .then(html => {
-                    document.getElementById('site-header').innerHTML = html;
-                    const hamburger = document.getElementById('hamburger');
-                    const mobileNav = document.getElementById('mobile-nav');
-                    if (hamburger && mobileNav) {
-                        function toggleMobileNav() {
-                            mobileNav.classList.toggle('open');
-                            hamburger.classList.toggle('active');
-                        }
-                        hamburger.addEventListener('click', toggleMobileNav);
-                        hamburger.addEventListener('touchstart', function(e) {
-                            e.preventDefault();
-                            toggleMobileNav();
-                        }, { passive: false });
-                        mobileNav.querySelectorAll('a').forEach(link => {
-                            link.addEventListener('click', () => {
-                                mobileNav.classList.remove('open');
-                                hamburger.classList.remove('active');
-                            });
-                        });
-                        window.addEventListener('resize', function() {
-                            if (window.innerWidth > 768) {
-                                mobileNav.classList.remove('open');
-                                hamburger.classList.remove('active');
-                            }
-                        });
-                    }
-                })
-                .catch(err => console.error("Error loading header.html:", err));
-            document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const status = document.getElementById('formStatus');
-                status.textContent = "⏳ Sending...";
-                const name = document.getElementById('name').value || "Someone";
-                const email = document.getElementById('email').value;
-                const section = document.getElementById('subject').value;
-                const message = document.getElementById('message').value;
-                const data = { name, email, subject: section, message };
-                try {
-                    const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'text/plain' },
-                        body: JSON.stringify(data)
-                    });
-                    let result = {};
-                    try { result = await res.json(); } catch (err) { result = { status: "success" }; }
-                    if (result.status === "success") {
-                        status.textContent = "✅ Your feedback was sent, thank you!";
-                        this.reset();
-                    } else {
-                        status.textContent = "❌ Error sending. Please try again.";
-                    }
-                    setTimeout(() => { status.textContent = ""; }, 5000);
-                } catch (err) {
-                    console.error(err);
-                    status.textContent = "❌ Failed to send! Check connection.";
-                    setTimeout(() => { status.textContent = ""; }, 5000);
-                }
-            });
-        });
-        function copyLink(url) {
-            navigator.clipboard.writeText(url);
-            alert("✅ Link copied: " + url);
-        }
-        async function shareLink(url) {
-            if (navigator.share) {
-                await navigator.share({ title: "No Spin Media Games", url: url });
-            } else {
-                alert("Sharing not supported on this device.");
-            }
-        }
-    </script>
+    <div id="site-header"></div>
+    <div class="container">
+        <div class="main">
+            <div class="main-header">
+                <h1>Games 🎮</h1>
+                <p>Welcome to the No Spin Media Games section. Select a category below:</p>
+            </div>
+            <div class="game-grid">
+                <div class="game-category">
+                    <h2>🕹️ Arcade</h2>
+                    <ul><li><a href="arcade/">View Arcade Games</a></li></ul>
+                    <div class="share-buttons">
+                        <button onclick="shareLink('https://nospin.media/games/arcade/')">🔗 Share with Friends</button>
+                        <button onclick="copyLink('https://nospin.media/games/arcade/')">📋 Copy Link</button>
+                    </div>
+                </div>
+                <div class="game-category">
+                    <h2>🎲 Board Games</h2>
+                    <ul><li><a href="board/">View Board Games</a></li></ul>
+                    <div class="share-buttons">
+                        <button onclick="shareLink('https://nospin.media/games/board/')">🔗 Share with Friends</button>
+                        <button onclick="copyLink('https://nospin.media/games/board/')">📋 Copy Link</button>
+                    </div>
+                </div>
+                <div class="game-category">
+                    <h2>🃏 Card Games</h2>
+                    <ul><li><a href="cards/">View Card Games</a></li></ul>
+                    <div class="share-buttons">
+                        <button onclick="shareLink('https://nospin.media/games/cards/')">🔗 Share with Friends</button>
+                        <button onclick="copyLink('https://nospin.media/games/cards/')">📋 Copy Link</button>
+                    </div>
+                </div>
+                <div class="game-category">
+                    <h2>💡 Puzzles</h2>
+                    <ul><li><a href="puzzles/">View Puzzles</a></li></ul>
+                    <div class="share-buttons">
+                        <button onclick="shareLink('https://nospin.media/games/puzzles/')">🔗 Share with Friends</button>
+                        <button onclick="copyLink('https://nospin.media/games/puzzles/')">📋 Copy Link</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <h2>Support Us 💙</h2>
+            <p>Like what we're doing? Help keep No Spin Media running:</p>
+            <p><strong>Venmo:</strong><br/><a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a></p>
+            <h2>Follow Us</h2>
+            <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
+            <h2>We ❤️ Your Thoughts!</h2>
+            <p>Have an idea, suggestion, or just want to say hi? We read every single message you send. 😊</p>
+            <p>You can also reach us directly at: <strong>nospinmedia.ai@gmail.com</strong></p>
+            <form id="feedbackForm">
+                <input type="text" id="name" name="name" placeholder="Your first name">
+                <input type="email" id="email" name="email" placeholder="you@email.com" required>
+                <select id="subject" name="subject">
+                    <option value="Games" selected>Games (default)</option>
+                    <option value="Arcade">Arcade</option>
+                    <option value="Board Games">Board Games</option>
+                    <option value="Card Games">Card Games</option>
+                    <option value="Puzzles">Puzzles</option>
+                    <option value="Other">Other</option>
+                </select>
+                <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
+                <p id="formStatus"></p>
+                <button type="submit">💬 Send Feedback</button>
+            </form>
+        </div>
+    </div>
+    <footer>
+        © 2025 No Spin Media. Independent. Ad-free. Truth-focused.
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('../header.html')
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('site-header').innerHTML = html;
+                    const hamburger = document.getElementById('hamburger');
+                    const mobileNav = document.getElementById('mobile-nav');
+                    if (hamburger && mobileNav) {
+                        function toggleMobileNav() {
+                            mobileNav.classList.toggle('open');
+                            hamburger.classList.toggle('active');
+                        }
+                        hamburger.addEventListener('click', toggleMobileNav);
+                        hamburger.addEventListener('touchstart', function(e) {
+                            e.preventDefault();
+                            toggleMobileNav();
+                        }, { passive: false });
+                        mobileNav.querySelectorAll('a').forEach(link => {
+                            link.addEventListener('click', () => {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active');
+                            });
+                        });
+                        window.addEventListener('resize', function() {
+                            if (window.innerWidth > 768) {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active');
+                            }
+                        });
+                    }
+                })
+                .catch(err => console.error("Error loading header.html:", err));
+            document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const status = document.getElementById('formStatus');
+                status.textContent = "⏳ Sending...";
+                const name = document.getElementById('name').value || "Someone";
+                const email = document.getElementById('email').value;
+                const section = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+                const data = { name, email, subject: section, message };
+                try {
+                    const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain' },
+                        body: JSON.stringify(data)
+                    });
+                    let result = {};
+                    try { result = await res.json(); } catch (err) { result = { status: "success" }; }
+                    if (result.status === "success") {
+                        status.textContent = "✅ Your feedback was sent, thank you!";
+                        this.reset();
+                    } else {
+                        status.textContent = "❌ Error sending. Please try again.";
+                    }
+                    setTimeout(() => { status.textContent = ""; }, 5000);
+                } catch (err) {
+                    console.error(err);
+                    status.textContent = "❌ Failed to send! Check connection.";
+                    setTimeout(() => { status.textContent = ""; }, 5000);
+                }
+            });
+        });
+        function copyLink(url) {
+            navigator.clipboard.writeText(url);
+            alert("✅ Link copied: " + url);
+        }
+        async function shareLink(url) {
+            if (navigator.share) {
+                await navigator.share({ title: "No Spin Media Games", url: url });
+            } else {
+                alert("Sharing not supported on this device.");
+            }
+        }
+    </script>
 </body>
 </html>
