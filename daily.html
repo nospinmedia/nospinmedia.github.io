@@ -300,7 +300,7 @@ if (feedbackForm) {
         try {
             const res = await fetch("https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec", {
                 method: "POST",
-                headers: { "Content-Type": "text/plain" },
+                **headers: { "Content-Type": "text/plain" },**
                 body: JSON.stringify({ name, email, message, section: "Daily Posts" })
             });
             if (res.ok) {
