@@ -144,33 +144,43 @@ async function loadPuzzles() {
     }
 
 
-    puzzles.forEach(p => {
-        const postID = p.fb_puzzle_id;
+puzzles.forEach(p => {
+    const postID = p.fb_puzzle_id;
         const emojiPuzzle = (p.emoji_puzzle || '').replace(/Key Below.*/i, '').trim();
-        const cleanAnswerText = (p.answer || '').trim();
-        const cleanHint = (p.hint || '').trim();
-
+    
+        // Replace \n with actual line breaks
+        const cleanAnswerText = (p.answer || '')
+            .replace(/— Powered by[\s\S]*/i, '')
+            .replace(/\\n/g, '\n')
+            .trim();
+    
+        const cleanHint = (p.hint || '')
+            .replace(/— Powered by[\s\S]*/i, '')
+            .replace(/\\n/g, '\n')
+            .trim();
+    
         const match = cleanAnswerText.match(/answer\s+is\s+(\d+)/i) ||
                       cleanAnswerText.match(/Final\s+answer:\s+(\d+)/i) ||
                       cleanAnswerText.match(/=\s*(\d+)/);
         const numericAnswer = match ? parseInt(match[1]) : null;
-
+    
         const card = document.createElement('div');
         card.className = 'puzzle-card';
         card.innerHTML = `
             <h3 class="emoji">${emojiPuzzle}</h3>
             <p class="hint">${cleanHint}</p>
-
+    
             <input type="number" placeholder="Your answer..." class="guess-input" />
             <button onclick="checkGuess(this, ${numericAnswer})">Check</button>
             <p class="feedback"></p>
-
+    
             <button onclick="toggleAnswer(this)">Show Answer</button>
             <button class="share-btn" onclick="sharePuzzle('${postID}')">Share</button>
             <p class="answer"><strong>Answer:</strong>\n${cleanAnswerText}</p>
         `;
         document.getElementById('puzzle-container').appendChild(card);
     });
+
 }
 
         function toggleAnswer(btn) {
