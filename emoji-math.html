@@ -141,8 +141,8 @@ async function loadPuzzles() {
         puzzles = puzzles.filter(p => p.fb_puzzle_id && p.fb_puzzle_id === targetID);
     } else {
         puzzles = puzzles.filter(p => p.used && p.used.toLowerCase() === 'yes');
-        puzzles = puzzles.reverse(); // latest last → show recent first
     }
+
 
     puzzles.forEach(p => {
         const postID = p.fb_puzzle_id;
