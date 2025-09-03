@@ -128,66 +128,50 @@
     </style>
 
     <script>
-        async function loadPuzzles() {
-            const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSoyPjj_QxgVJ-l8BAetRaMyY-Lg_YjyGHfX98XqacaOkdDj553orqlaoPRkwicEcZjZsAL7_4w4nRS/pub?output=csv';
-            const urlParams = new URLSearchParams(window.location.search);
-            const targetID = urlParams.get('id');
+async function loadPuzzles() {
+    const apiURL = 'https://data.nospin.media/emoji';
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetID = urlParams.get('id');
 
-            const response = await fetch(sheetURL);
-            const text = await response.text();
+    const response = await fetch(apiURL);
+    let puzzles = await response.json();
 
-            const rows = [];
-            let current = '', insideQuotes = false, row = [];
-            for (let i = 0; i < text.length; i++) {
-                const char = text[i];
-                if (char === '"' && text[i+1] === '"') { current += '"'; i++; continue; }
-                if (char === '"') { insideQuotes = !insideQuotes; continue; }
-                if (char === ',' && !insideQuotes) { row.push(current); current = ''; continue; }
-                if ((char === '\n' || char === '\r') && !insideQuotes) {
-                    if (current || row.length) { row.push(current); rows.push(row); row = []; current = ''; }
-                    continue;
-                }
-                current += char;
-            }
-            if (current || row.length) { row.push(current); rows.push(row); }
+    // If share link (?id=xxx) → filter by fb_puzzle_id
+    if (targetID) {
+        puzzles = puzzles.filter(p => p.fb_puzzle_id && p.fb_puzzle_id === targetID);
+    } else {
+        puzzles = puzzles.filter(p => p.used && p.used.toLowerCase() === 'yes');
+        puzzles = puzzles.reverse(); // latest last → show recent first
+    }
 
-            const data = rows.slice(1);
-            let puzzles = data.filter(r => (r[6] || '').toLowerCase().includes('yes'));
+    puzzles.forEach(p => {
+        const postID = p.fb_puzzle_id;
+        const emojiPuzzle = (p.emoji_puzzle || '').replace(/Key Below.*/i, '').trim();
+        const cleanAnswerText = (p.answer || '').trim();
+        const cleanHint = (p.hint || '').trim();
 
-            if (targetID) {
-                puzzles = puzzles.filter(r => r[7] && r[7].trim() === targetID);
-            } else {
-                puzzles = puzzles.reverse();
-            }
+        const match = cleanAnswerText.match(/answer\s+is\s+(\d+)/i) ||
+                      cleanAnswerText.match(/Final\s+answer:\s+(\d+)/i) ||
+                      cleanAnswerText.match(/=\s*(\d+)/);
+        const numericAnswer = match ? parseInt(match[1]) : null;
 
-            puzzles.forEach(p => {
-                const postID = p[7];
-                const emojiPuzzle = (p[1] || '').replace(/Key Below.*/i, '').trim();
-                const cleanAnswerText = (p[2] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
-                const cleanHint = (p[5] || '').replace(/— Powered by No Spin Media[\s\S]*/i, '').trim();
+        const card = document.createElement('div');
+        card.className = 'puzzle-card';
+        card.innerHTML = `
+            <h3 class="emoji">${emojiPuzzle}</h3>
+            <p class="hint">${cleanHint}</p>
 
-                const match = cleanAnswerText.match(/answer\s+is\s+(\d+)/i) ||
-                              cleanAnswerText.match(/Final\s+answer:\s+(\d+)/i) ||
-                              cleanAnswerText.match(/=\s*(\d+)/);
-                const numericAnswer = match ? parseInt(match[1]) : null;
+            <input type="number" placeholder="Your answer..." class="guess-input" />
+            <button onclick="checkGuess(this, ${numericAnswer})">Check</button>
+            <p class="feedback"></p>
 
-                const card = document.createElement('div');
-                card.className = 'puzzle-card';
-                card.innerHTML = `
-                    <h3 class="emoji">${emojiPuzzle}</h3>
-                    <p class="hint">${cleanHint}</p>
-
-                    <input type="number" placeholder="Your answer..." class="guess-input" />
-                    <button onclick="checkGuess(this, ${numericAnswer})">Check</button>
-                    <p class="feedback"></p>
-
-                    <button onclick="toggleAnswer(this)">Show Answer</button>
-                    <button class="share-btn" onclick="sharePuzzle('${postID}')">Share</button>
-                    <p class="answer"><strong>Answer:</strong>\n${cleanAnswerText}</p>
-                `;
-                document.getElementById('puzzle-container').appendChild(card);
-            });
-        }
+            <button onclick="toggleAnswer(this)">Show Answer</button>
+            <button class="share-btn" onclick="sharePuzzle('${postID}')">Share</button>
+            <p class="answer"><strong>Answer:</strong>\n${cleanAnswerText}</p>
+        `;
+        document.getElementById('puzzle-container').appendChild(card);
+    });
+}
 
         function toggleAnswer(btn) {
             const answerEl = btn.parentElement.querySelector('.answer');
