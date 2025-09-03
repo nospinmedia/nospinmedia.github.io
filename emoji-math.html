@@ -151,13 +151,16 @@ puzzles.forEach(p => {
         // Replace \n with actual line breaks
         const cleanAnswerText = (p.answer || '')
             .replace(/— Powered by[\s\S]*/i, '')
-            .replace(/\\n/g, '\n')
+            .replace(/\\n/g, '\n')   // handle literal "\n"
+            .replace(/\r?\n/g, '<br>') // convert real newlines to <br>
             .trim();
-    
+        
         const cleanHint = (p.hint || '')
             .replace(/— Powered by[\s\S]*/i, '')
             .replace(/\\n/g, '\n')
+            .replace(/\r?\n/g, '<br>')
             .trim();
+
     
         const match = cleanAnswerText.match(/answer\s+is\s+(\d+)/i) ||
                       cleanAnswerText.match(/Final\s+answer:\s+(\d+)/i) ||
@@ -169,15 +172,16 @@ puzzles.forEach(p => {
         card.innerHTML = `
             <h3 class="emoji">${emojiPuzzle}</h3>
             <p class="hint">${cleanHint}</p>
-    
+        
             <input type="number" placeholder="Your answer..." class="guess-input" />
             <button onclick="checkGuess(this, ${numericAnswer})">Check</button>
             <p class="feedback"></p>
-    
+        
             <button onclick="toggleAnswer(this)">Show Answer</button>
             <button class="share-btn" onclick="sharePuzzle('${postID}')">Share</button>
-            <p class="answer"><strong>Answer:</strong>\n${cleanAnswerText}</p>
+            <p class="answer"><strong>Answer:</strong><br>${cleanAnswerText}</p>
         `;
+
         document.getElementById('puzzle-container').appendChild(card);
     });
 
