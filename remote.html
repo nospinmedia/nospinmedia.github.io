@@ -94,15 +94,24 @@
   </main>
 
   <script>
-    const FEEDBACK_WEBHOOK = "YOUR_FEEDBACK_WEBHOOK_URL"; // same endpoint as Tip Calculator
-    let password = sessionStorage.getItem("nsmPassword");
+    const FEEDBACK_WEBHOOK = "YOUR_FEEDBACK_WEBHOOK_URL"; // same as Tip Calculator
+    let passwordHash = sessionStorage.getItem("nsmPasswordHash");
 
-    // Prompt for password once per session
-    if (!password) {
-      password = prompt("Enter NSM Remote Password:");
-      if (password) {
-        sessionStorage.setItem("nsmPassword", password);
+    // Prompt for password once per session and hash it
+    async function promptPassword() {
+      const pwd = prompt("Enter NSM Remote Password:");
+      if (pwd) {
+        const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(pwd));
+        const hashHex = Array.from(new Uint8Array(hashBuffer))
+          .map(b => b.toString(16).padStart(2, "0"))
+          .join("");
+        sessionStorage.setItem("nsmPasswordHash", hashHex);
+        passwordHash = hashHex;
       }
+    }
+
+    if (!passwordHash) {
+      promptPassword();
     }
 
     async function sendEmailLog(command, result) {
@@ -125,12 +134,17 @@
     }
 
     async function sendCommand(command, extra={}) {
+      if (!passwordHash) {
+        await promptPassword();
+        if (!passwordHash) return;
+      }
+
       document.getElementById("statusMsg").textContent = "⏳ Sending command...";
       try {
         const resp = await fetch("https://data.nospin.media/remote", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ command, password, ...extra })
+          body: JSON.stringify({ command, password: passwordHash, ...extra })
         });
         const data = await resp.json();
         if (resp.ok) {
@@ -139,6 +153,10 @@
         } else {
           document.getElementById("statusMsg").textContent = "⚠️ " + data.message;
           sendEmailLog(command, data.message);
+          if (resp.status === 403) {
+            sessionStorage.removeItem("nsmPasswordHash");
+            passwordHash = null;
+          }
         }
       } catch (err) {
         document.getElementById("statusMsg").textContent = "❌ Failed to contact server.";
