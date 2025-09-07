@@ -88,31 +88,71 @@
     <button class="btn" onclick="sendCommand('backup-weekly')">🗄️ Run Weekly Backup</button>
     <button class="btn" onclick="sendCommand('logs')">📜 Fetch Logs</button>
     <button class="btn" onclick="sendCommand('tokens')">🔑 Check Tokens</button>
-    <button class="btn" onclick="sendCommand('restart')">♻️ Restart NSM Services</button>
+    <button class="btn" onclick="confirmRestart()">♻️ Restart NSM Services</button>
 
     <p id="statusMsg">Select a command above.</p>
   </main>
 
   <script>
-    async function sendCommand(command) {
+    const FEEDBACK_WEBHOOK = "YOUR_FEEDBACK_WEBHOOK_URL"; // same endpoint as Tip Calculator
+    let password = sessionStorage.getItem("nsmPassword");
+
+    // Prompt for password once per session
+    if (!password) {
+      password = prompt("Enter NSM Remote Password:");
+      if (password) {
+        sessionStorage.setItem("nsmPassword", password);
+      }
+    }
+
+    async function sendEmailLog(command, result) {
+      try {
+        await fetch(FEEDBACK_WEBHOOK, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            subject: "NSM Remote Command Triggered",
+            body: `
+              <b>Command:</b> ${command}<br>
+              <b>Result:</b> ${result}<br>
+              <b>Time:</b> ${new Date().toLocaleString()}
+            `
+          })
+        });
+      } catch (err) {
+        console.error("❌ Failed to send email log:", err);
+      }
+    }
+
+    async function sendCommand(command, extra={}) {
       document.getElementById("statusMsg").textContent = "⏳ Sending command...";
       try {
         const resp = await fetch("https://data.nospin.media/remote", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ command })
+          body: JSON.stringify({ command, password, ...extra })
         });
         const data = await resp.json();
         if (resp.ok) {
           document.getElementById("statusMsg").textContent = "✅ " + data.message;
+          sendEmailLog(command, data.message);
         } else {
           document.getElementById("statusMsg").textContent = "⚠️ " + data.message;
+          sendEmailLog(command, data.message);
         }
       } catch (err) {
         document.getElementById("statusMsg").textContent = "❌ Failed to contact server.";
+        sendEmailLog(command, "❌ Failed to contact server");
+      }
+    }
+
+    function confirmRestart() {
+      if (confirm("⚠️ Are you sure you want to restart NSM services?")) {
+        if (confirm("⚠️ REALLY sure? This will restart all NSM services.")) {
+          sendCommand("restart");
+        }
       }
     }
   </script>
 </body>
 </html>
-
