@@ -1,1 +1,118 @@
-test
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No Spin Media Remote Commands</title>
+  <style>
+    /* === No Spin Media Header === */
+    header {
+      box-sizing: border-box;
+      background: #111;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 2rem;
+      min-height: 70px;
+      width: 100%;
+      margin: 0;
+      top: 0;
+      left: 0;
+      position: fixed;
+      z-index: 1000;
+    }
+    .header-logo-text {
+      font-family: Arial, sans-serif;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
+      margin: 0;
+      line-height: 1;
+    }
+    .header-logo-text:hover { color: #ddd; }
+
+    body {
+      margin: 0;
+      padding-top: 80px; /* keep content below header */
+      background: #f4f4f4;
+      font-family: Arial, sans-serif;
+    }
+
+    main {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1rem;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.75rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #0078d7;
+      color: #fff;
+    }
+    .btn:hover { background: #005a9e; }
+
+    #statusMsg {
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/index.html" class="header-logo-text">🧭 No Spin Media</a>
+  </header>
+
+  <main>
+    <h1>Remote Server Commands</h1>
+
+    <button class="btn" onclick="sendCommand('status')">📧 Email System Status</button>
+    <button class="btn" onclick="sendCommand('backup-daily')">💾 Run Daily Backup</button>
+    <button class="btn" onclick="sendCommand('backup-weekly')">🗄️ Run Weekly Backup</button>
+    <button class="btn" onclick="sendCommand('logs')">📜 Fetch Logs</button>
+    <button class="btn" onclick="sendCommand('tokens')">🔑 Check Tokens</button>
+    <button class="btn" onclick="sendCommand('restart')">♻️ Restart NSM Services</button>
+
+    <p id="statusMsg">Select a command above.</p>
+  </main>
+
+  <script>
+    async function sendCommand(command) {
+      document.getElementById("statusMsg").textContent = "⏳ Sending command...";
+      try {
+        const resp = await fetch("https://data.nospin.media/remote", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ command })
+        });
+        const data = await resp.json();
+        if (resp.ok) {
+          document.getElementById("statusMsg").textContent = "✅ " + data.message;
+        } else {
+          document.getElementById("statusMsg").textContent = "⚠️ " + data.message;
+        }
+      } catch (err) {
+        document.getElementById("statusMsg").textContent = "❌ Failed to contact server.";
+      }
+    }
+  </script>
+</body>
+</html>
+
