@@ -125,38 +125,9 @@
 
             <div class="controls">
                 <label for="typeFilter">Filter by type:</label>
-<!-- START dynamic dropdown -->
-<select id="typeFilter">
-  <option value="all">All</option>
-</select>
-
-<script>
-  // Replace this with however you load your posts from server
-  // For example, if you already have postsData[] available:
-  const postsData = window.postsData || [];
-
-  const select = document.getElementById("typeFilter");
-
-  // Extract unique types
-  const types = [...new Set(postsData.map(p => p.type))];
-
-  // Helper to format types (strip underscores + capitalize words)
-  function formatType(type) {
-    return type
-      .split("_")
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  }
-
-  // Append types dynamically
-  types.forEach(type => {
-    const opt = document.createElement("option");
-    opt.value = type;
-    opt.textContent = formatType(type);
-    select.appendChild(opt);
-  });
-</script>
-<!-- END dynamic dropdown -->
+                <select id="typeFilter">
+                  <option value="all">All</option>
+                </select>
                 <input id="searchBox" type="text" placeholder="Search posts..." />
             </div>
 
@@ -217,11 +188,30 @@
             .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
     }
 
+    function formatType(type) {
+        return type
+            .split("_")
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+    }
+
     async function loadStories() {
         storyId = getQueryParam('id');
         const apiURL = 'https://data.nospin.media/daily_posts';
         const response = await fetch(apiURL);
         allPosts = await response.json();
+
+        // Build dynamic dropdown
+        const select = document.getElementById("typeFilter");
+        select.innerHTML = '<option value="all">All</option>';
+        const types = [...new Set(allPosts.map(p => p.post_type))];
+        types.forEach(type => {
+            const opt = document.createElement("option");
+            opt.value = type;
+            opt.textContent = formatType(type);
+            select.appendChild(opt);
+        });
+
         renderStories();
     }
 
@@ -233,7 +223,7 @@
         if (storyId) stories = stories.filter(r => (r.fb_post_id || '').trim() === storyId);
 
         stories = stories.filter(r =>
-            (!filterType || r.post_type.toLowerCase() === filterType) &&
+            (!filterType || filterType === "all" || r.post_type.toLowerCase() === filterType) &&
             (!search || r.headline_text.toLowerCase().includes(search) || r.comment_text.toLowerCase().includes(search))
         );
 
@@ -261,7 +251,7 @@
                     <h3>${r.headline_text}
                         <button class="share-btn" onclick="shareStory('${r.fb_post_id}')">Share</button>
                     </h3>
-                    <div class="bias">Type: ${r.post_type}</div>
+                    <div class="bias">Type: ${formatType(r.post_type)}</div>
                     <button class="toggle" onclick="toggleSummary(this)">Show Post</button>
                     <div class="summary"></div>
                 `;
@@ -309,38 +299,38 @@
         document.getElementById('typeFilter').addEventListener('change', renderStories);
         document.getElementById('searchBox').addEventListener('input', renderStories);
 
-// 🔧 Feedback form submit
-const feedbackForm = document.getElementById('feedbackForm');
-if (feedbackForm) {
-    feedbackForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const message = document.getElementById('message').value.trim();
-        const formStatus = document.getElementById('formStatus');
-        formStatus.style.color = "black";
-        formStatus.textContent = "Sending...";
+        // 🔧 Feedback form submit (unchanged)
+        const feedbackForm = document.getElementById('feedbackForm');
+        if (feedbackForm) {
+            feedbackForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const message = document.getElementById('message').value.trim();
+                const formStatus = document.getElementById('formStatus');
+                formStatus.style.color = "black";
+                formStatus.textContent = "Sending...";
 
-        try {
-            const res = await fetch("https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec", {
-                method: "POST",
-                headers: { "Content-Type": "text/plain" },
-                body: JSON.stringify({ name, email, message, subject: "Daily Posts Feedback" }) // This line is updated
+                try {
+                    const res = await fetch("https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec", {
+                        method: "POST",
+                        headers: { "Content-Type": "text/plain" },
+                        body: JSON.stringify({ name, email, message, subject: "Daily Posts Feedback" })
+                    });
+                    if (res.ok) {
+                        formStatus.style.color = "green";
+                        formStatus.textContent = "✅ Thanks for your feedback!";
+                        feedbackForm.reset();
+                    } else {
+                        formStatus.style.color = "red";
+                        formStatus.textContent = "❌ Error sending feedback.";
+                    }
+                } catch (err) {
+                    formStatus.style.color = "red";
+                    formStatus.textContent = "❌ Could not connect.";
+                }
             });
-            if (res.ok) {
-                formStatus.style.color = "green";
-                formStatus.textContent = "✅ Thanks for your feedback!";
-                feedbackForm.reset();
-            } else {
-                formStatus.style.color = "red";
-                formStatus.textContent = "❌ Error sending feedback.";
-            }
-        } catch (err) {
-            formStatus.style.color = "red";
-            formStatus.textContent = "❌ Could not connect.";
         }
-    });
-}
     });
     </script>
 
