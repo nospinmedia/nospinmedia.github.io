@@ -125,14 +125,38 @@
 
             <div class="controls">
                 <label for="typeFilter">Filter by type:</label>
-                <select id="typeFilter">
-                    <option value="">All</option>
-                    <option value="movie">Movies</option>
-                    <option value="tv_show">TV Shows</option>
-                    <option value="birthday">Birthdays</option>
-                    <option value="history">History</option>
-                    <option value="invention">Inventions</option>
-                </select>
+<!-- START dynamic dropdown -->
+<select id="typeFilter">
+  <option value="all">All</option>
+</select>
+
+<script>
+  // Replace this with however you load your posts from server
+  // For example, if you already have postsData[] available:
+  const postsData = window.postsData || [];
+
+  const select = document.getElementById("typeFilter");
+
+  // Extract unique types
+  const types = [...new Set(postsData.map(p => p.type))];
+
+  // Helper to format types (strip underscores + capitalize words)
+  function formatType(type) {
+    return type
+      .split("_")
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  }
+
+  // Append types dynamically
+  types.forEach(type => {
+    const opt = document.createElement("option");
+    opt.value = type;
+    opt.textContent = formatType(type);
+    select.appendChild(opt);
+  });
+</script>
+<!-- END dynamic dropdown -->
                 <input id="searchBox" type="text" placeholder="Search posts..." />
             </div>
 
