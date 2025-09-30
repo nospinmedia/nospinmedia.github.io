@@ -1,0 +1,1 @@
+reddit/images/sudoku_puzzle.png
