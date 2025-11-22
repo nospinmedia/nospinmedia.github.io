@@ -1,18 +1,18 @@
 async function loadStories() {
     storyId = getQueryParam('id');
 
-    // 🔥 USE UNPUBLISHED ENDPOINT
-    const apiURL = 'https://data.nospin.media/unpublished';
+    // 🔥 Use unpublished endpoint
+    const apiURL = "https://data.nospin.media/unpublished";
     const response = await fetch(apiURL);
     let stories = await response.json();
 
-    // ---- POSTING SLOTS (EST) ----
+    // ---- Posting slots (EST) ----
     const slots = [
         "00:30", "06:15", "08:45", "10:15", "11:45",
         "13:15", "15:45", "17:15", "18:30", "20:45"
     ];
 
-    // ---- FIND NEXT AVAILABLE SLOT ----
+    // ---- Get next available slot ----
     function nextSlotFrom(now) {
         const est = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
         const today = est.toISOString().split("T")[0];
@@ -22,13 +22,13 @@ async function loadStories() {
             if (dt > est) return dt;
         }
 
-        // If all passed, use tomorrow's first slot
+        // All today's slots passed → first slot tomorrow
         const tomorrow = new Date(est.getTime() + 86400000);
         const tStr = tomorrow.toISOString().split("T")[0];
         return new Date(`${tStr}T${slots[0]}:00-05:00`);
     }
 
-    // ---- ASSIGN SLOTS TO STORIES ----
+    // ---- Assign each story a scheduled slot ----
     let currentSlot = nextSlotFrom(new Date());
 
     for (let i = 0; i < stories.length; i++) {
@@ -36,8 +36,8 @@ async function loadStories() {
 
         const estDate = new Date(currentSlot.toLocaleString("en-US", { timeZone: "America/New_York" }));
         let slotIndex = slots.indexOf(estDate.toISOString().substring(11, 16));
-
         slotIndex++;
+
         if (slotIndex >= slots.length) {
             const tomorrow = new Date(estDate.getTime() + 86400000);
             const tStr = tomorrow.toISOString().split("T")[0];
@@ -48,7 +48,7 @@ async function loadStories() {
         }
     }
 
-    // ---- GROUP BY SCHEDULED DATE ----
+    // ---- Group stories by scheduled date ----
     const groups = {};
     stories.forEach(r => {
         const d = r.scheduled.split("T")[0];
@@ -56,37 +56,37 @@ async function loadStories() {
         groups[d].push(r);
     });
 
-    // ---- RENDER OUTPUT EXACTLY LIKE ORIGINAL PAGE ----
-    const container = document.getElementById('stories-container');
+    // ---- Render EXACTLY like published page ----
+    const container = document.getElementById("stories-container");
     container.innerHTML = "";
 
-    for (const date in groups) {
+    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
+    for (const date in groups) {
         const dt = new Date(date + "T00:00:00");
-        const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-        const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
         const label = `${weekdays[dt.getDay()]}, ${months[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`;
 
-        const dateGroup = document.createElement('div');
-        dateGroup.className = 'date-group';
+        const dateGroup = document.createElement("div");
+        dateGroup.className = "date-group";
         dateGroup.innerHTML = `<div class="date-header">${label}</div>`;
 
-        groups[date].forEach(r => {
-            const sched = new Date(r.scheduled);
-            const schedTime = sched.toLocaleTimeString("en-US", {
+        groups[date].forEach(story => {
+            const sched = new Date(story.scheduled);
+            const timeLabel = sched.toLocaleTimeString("en-US", {
                 timeZone: "America/New_York",
                 hour: "numeric",
                 minute: "2-digit"
             });
 
-            const card = document.createElement('div');
-            card.className = 'story-card';
+            const card = document.createElement("div");
+            card.className = "story-card";
             card.innerHTML = `
-                <h3>${r.headline}</h3>
-                <div class="bias">Scheduled: <strong>${schedTime} EST</strong></div>
-                <div class="bias">Bias: ${r.bias}</div>
+                <h3>${story.headline}</h3>
+                <div class="bias">Scheduled: <strong>${timeLabel} EST</strong></div>
+                <div class="bias">Bias: ${story.bias}</div>
                 <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
-                <div class="summary">${r.summary}</div>
+                <div class="summary">${story.summary}</div>
             `;
 
             dateGroup.appendChild(card);
