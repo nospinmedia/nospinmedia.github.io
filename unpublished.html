@@ -295,7 +295,18 @@ function toggleSummary(btn) {
         : 'Show Story';
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+/* LOAD HEADER + THEN LOAD STORIES (required!) */
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('header.html')
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById('site-header').innerHTML = html;
+            loadStories();   // ← THIS is what loads your unpublished posts
+        })
+        .catch(err => console.error("Error loading header.html:", err));
+});
+    
+    document.addEventListener("DOMContentLoaded", () => {
     const feedbackForm = document.getElementById('feedbackForm');
 
     if (feedbackForm) {
