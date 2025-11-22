@@ -248,37 +248,50 @@ async function loadStories() {
 
     let currentSlot = nextSlotFrom(new Date());
 
-    // ---- ASSIGN SLOTS ----
-    for (let i = 0; i < stories.length; i++) {
-        stories[i].scheduled = currentSlot.toISOString();
+// ---- ASSIGN SLOTS (SAFE VERSION, NEVER BREAKS) ----
+let slotPointer = 0;  
 
-        // Convert assigned slot into EST local HM string
-        const estDate = new Date(
-            currentSlot.toLocaleString("en-US", { timeZone: "America/New_York" })
-        );
+// First find the next slot pointer
+(function initSlotPointer() {
+    const estNow = new Date(
+        new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
+    );
+    const today = estNow.toISOString().split("T")[0];
 
-        // ⬇️ FIX: Extract hour:minute in EST (24-hour) so it matches slots[]
-        const currentHm = estDate.toLocaleTimeString("en-US", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-            timeZone: "America/New_York"
-        });
-
-        let slotIndex = slots.indexOf(currentHm);
-        slotIndex++;
-
-        if (slotIndex >= slots.length) {
-            // Next day, first slot
-            const tomorrow = new Date(estDate.getTime() + 86400000);
-            const tStr = tomorrow.toISOString().split("T")[0];
-            currentSlot = new Date(`${tStr}T${slots[0]}:00-05:00`);
-        } else {
-            // Same day, next slot
-            const tStr = estDate.toISOString().split("T")[0];
-            currentSlot = new Date(`${tStr}T${slots[slotIndex]}:00-05:00`);
+    for (let i = 0; i < slots.length; i++) {
+        const dt = new Date(`${today}T${slots[i]}:00-05:00`);
+        if (dt > estNow) {
+            slotPointer = i;
+            return;
         }
     }
+
+    // If we got here, all slots today are past — start at tomorrow slot 0
+    slotPointer = 0;
+})();
+
+let currentDay = new Date(
+    new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
+);
+
+for (let i = 0; i < stories.length; i++) {
+    // Build the scheduled datetime
+    const dateStr = currentDay.toISOString().split("T")[0];
+    const slotStr = slots[slotPointer];
+
+    const scheduled = new Date(`${dateStr}T${slotStr}:00-05:00`);
+    stories[i].scheduled = scheduled.toISOString();
+
+    // Move pointer forward
+    slotPointer++;
+    if (slotPointer >= slots.length) {
+        slotPointer = 0;
+
+        // Move to next day
+        const next = new Date(currentDay.getTime() + 86400000);
+        currentDay = next;
+    }
+}
 
     // ---- GROUP BY DATE ----
     const groups = {};
