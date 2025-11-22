@@ -176,19 +176,22 @@ function formatDateLabel(dateStr) {
 async function loadStories() {
     storyId = getQueryParam('id');
 
-    // 🔥 Use unpublished endpoint
+    // 🔥 Use unpublished posts
     const apiURL = "https://data.nospin.media/unpublished";
     const response = await fetch(apiURL);
     let stories = await response.json();
 
-    // ---- Posting slots (EST) ----
+    // ---- POST SLOTS (EST) ----
     const slots = [
         "00:30", "06:15", "08:45", "10:15", "11:45",
         "13:15", "15:45", "17:15", "18:30", "20:45"
     ];
 
+    // ---- FIND NEXT AVAILABLE SLOT ----
     function nextSlotFrom(now) {
-        const est = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
+        const est = new Date(
+            now.toLocaleString("en-US", { timeZone: "America/New_York" })
+        );
         const today = est.toISOString().split("T")[0];
 
         for (let s of slots) {
@@ -196,6 +199,7 @@ async function loadStories() {
             if (dt > est) return dt;
         }
 
+        // Tomorrow, first slot
         const tomorrow = new Date(est.getTime() + 86400000);
         const tStr = tomorrow.toISOString().split("T")[0];
         return new Date(`${tStr}T${slots[0]}:00-05:00`);
@@ -203,24 +207,39 @@ async function loadStories() {
 
     let currentSlot = nextSlotFrom(new Date());
 
+    // ---- ASSIGN SLOTS ----
     for (let i = 0; i < stories.length; i++) {
         stories[i].scheduled = currentSlot.toISOString();
 
-        const estDate = new Date(currentSlot.toLocaleString("en-US", { timeZone: "America/New_York" }));
-        let slotIndex = slots.indexOf(estDate.toISOString().substring(11, 16));
+        // Convert assigned slot into EST local HM string
+        const estDate = new Date(
+            currentSlot.toLocaleString("en-US", { timeZone: "America/New_York" })
+        );
+
+        // ⬇️ FIX: Extract hour:minute in EST (24-hour) so it matches slots[]
+        const currentHm = estDate.toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+            timeZone: "America/New_York"
+        });
+
+        let slotIndex = slots.indexOf(currentHm);
         slotIndex++;
 
         if (slotIndex >= slots.length) {
+            // Next day, first slot
             const tomorrow = new Date(estDate.getTime() + 86400000);
             const tStr = tomorrow.toISOString().split("T")[0];
             currentSlot = new Date(`${tStr}T${slots[0]}:00-05:00`);
         } else {
+            // Same day, next slot
             const tStr = estDate.toISOString().split("T")[0];
             currentSlot = new Date(`${tStr}T${slots[slotIndex]}:00-05:00`);
         }
     }
 
-    // Group by scheduled date
+    // ---- GROUP BY DATE ----
     const groups = {};
     stories.forEach(r => {
         const d = r.scheduled.split("T")[0];
@@ -228,44 +247,45 @@ async function loadStories() {
         groups[d].push(r);
     });
 
-    // Render
-    const container = document.getElementById('stories-container');
+    // ---- RENDER ----
+    const container = document.getElementById("stories-container");
     container.innerHTML = "";
+
+    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
     for (const date in groups) {
         const dt = new Date(date + "T00:00:00");
-        const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-        const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        const label = `${weekdays[dt.getDay()]}, ${months[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`;
 
-        const formattedDate = `${weekdays[dt.getDay()]}, ${months[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`;
-        const dateGroup = document.createElement('div');
-        dateGroup.className = 'date-group';
-        dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
+        const dateGroup = document.createElement("div");
+        dateGroup.className = "date-group";
+        dateGroup.innerHTML = `<div class="date-header">${label}</div>`;
 
-        groups[date].forEach(r => {
-            const sched = new Date(r.scheduled);
+        groups[date].forEach(story => {
+            const sched = new Date(story.scheduled);
             const timeLabel = sched.toLocaleTimeString("en-US", {
                 timeZone: "America/New_York",
                 hour: "numeric",
                 minute: "2-digit"
             });
 
-            const card = document.createElement('div');
-            card.className = 'story-card';
+            const card = document.createElement("div");
+            card.className = "story-card";
             card.innerHTML = `
-                <h3>${r.headline}</h3>
+                <h3>${story.headline}</h3>
                 <div class="bias">Scheduled: <strong>${timeLabel} EST</strong></div>
-                <div class="bias">Bias: ${r.bias}</div>
+                <div class="bias">Bias: ${story.bias}</div>
                 <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
-                <div class="summary">${r.summary}</div>
+                <div class="summary">${story.summary}</div>
             `;
-
             dateGroup.appendChild(card);
         });
 
         container.appendChild(dateGroup);
     }
 }
+
 
 function toggleSummary(btn) {
     const summaryEl = btn.nextElementSibling;
@@ -275,15 +295,47 @@ function toggleSummary(btn) {
         : 'Show Story';
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('header.html')
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById('site-header').innerHTML = html;
-            loadStories();
-        })
-        .catch(err => console.error("Error loading header:", err));
+document.addEventListener("DOMContentLoaded", () => {
+    const feedbackForm = document.getElementById('feedbackForm');
+
+    if (feedbackForm) {
+        feedbackForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const formStatus = document.getElementById('formStatus');
+
+            formStatus.style.color = "black";
+            formStatus.textContent = "Sending...";
+
+            try {
+                const res = await fetch(
+                    "https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec",
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "text/plain" },
+                        body: JSON.stringify({ name, email, message, subject: "News Feedback" })
+                    }
+                );
+
+                if (res.ok) {
+                    formStatus.style.color = "green";
+                    formStatus.textContent = "✅ Thanks for your feedback!";
+                    feedbackForm.reset();
+                } else {
+                    formStatus.style.color = "red";
+                    formStatus.textContent = "❌ Error sending feedback.";
+                }
+            } catch (err) {
+                formStatus.style.color = "red";
+                formStatus.textContent = "❌ Could not connect.";
+            }
+        });
+    }
 });
+
 </script>
 
 </body>
