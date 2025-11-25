@@ -201,7 +201,7 @@ button[type="submit"]:hover {
 </div>
 
 <footer>
-    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V1.7
+    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V1.8
 </footer>
 
 <script>
@@ -358,8 +358,12 @@ for (let i = 0; i < stories.length; i++) {
                 minute: "2-digit"
             });
 
+// ... inside loadStories() ...
+
 const card = document.createElement("div");
 card.className = "story-card";
+
+// 🔥 MODIFY THE BUTTON LINE BELOW
 card.innerHTML = `
     <h3>${story.headline}</h3>
     <div class="bias">Scheduled: <strong>${timeLabel} EST</strong></div>
@@ -368,7 +372,7 @@ card.innerHTML = `
     <div class="button-row">
         <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
 
-        <button class="share-btn" onclick="sendReview('${story.headline.replace(/'/g, "\\'")}')">
+        <button class="share-btn" onclick="sendReview('${story.headline.replace(/'/g, "\\'").replace(/\n/g, " ")}')">
             ✏️ Review / Comment
         </button>
     </div>
