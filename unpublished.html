@@ -201,7 +201,7 @@ button[type="submit"]:hover {
 </div>
 
 <footer>
-    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V1.8
+    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V1.9
 </footer>
 
 <script>
@@ -262,71 +262,66 @@ async function loadStories() {
         "13:15", "15:45", "17:15", "18:30", "20:45"
     ];
 
-    // ---- FIND NEXT AVAILABLE SLOT ----
-    function nextSlotFrom(now) {
-        const est = new Date(
-            now.toLocaleString("en-US", { timeZone: "America/New_York" })
-        );
-        const today = est.toISOString().split("T")[0];
+    // ---- ASSIGN SLOTS (SAFE VERSION, NEVER BREAKS) ----
+    let slotPointer = 0;
 
-        for (let s of slots) {
-            const dt = new Date(`${today}T${s}:00-05:00`);
-            if (dt > est) return dt;
+    // First find the next slot pointer
+    (function initSlotPointer() {
+        const estNow = new Date(
+            new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
+        );
+        const today = estNow.toISOString().split("T")[0];
+
+        for (let i = 0; i < slots.length; i++) {
+            const dt = new Date(`${today}T${slots[i]}:00-05:00`);
+            if (dt > estNow) {
+                slotPointer = i;
+                return;
+            }
         }
 
-        // Tomorrow, first slot
-        const tomorrow = new Date(est.getTime() + 86400000);
-        const tStr = tomorrow.toISOString().split("T")[0];
-        return new Date(`${tStr}T${slots[0]}:00-05:00`);
-    }
+        // If we got here, all slots today are past — start at tomorrow slot 0
+        slotPointer = 0;
+    })();
 
-    let currentSlot = nextSlotFrom(new Date());
-
-// ---- ASSIGN SLOTS (SAFE VERSION, NEVER BREAKS) ----
-let slotPointer = 0;  
-
-// First find the next slot pointer
-(function initSlotPointer() {
-    const estNow = new Date(
+    let currentDay = new Date(
         new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
     );
-    const today = estNow.toISOString().split("T")[0];
-
-    for (let i = 0; i < slots.length; i++) {
-        const dt = new Date(`${today}T${slots[i]}:00-05:00`);
-        if (dt > estNow) {
-            slotPointer = i;
-            return;
+    
+    // ADJUST currentDay if initSlotPointer determined the first post is tomorrow
+    if (slotPointer === 0) {
+        // We need to check if *any* post today was valid.
+        // If the pointer reset to 0, it means all slots today were missed,
+        // OR the current time is before the 00:30 slot.
+        // Since the user is always running this when the day is in progress, 
+        // we assume if slotPointer is 0, the next post is tomorrow.
+        const tomorrowCheck = new Date(`${currentDay.toISOString().split("T")[0]}T${slots[slots.length-1]}:00-05:00`);
+        if (new Date() > tomorrowCheck) { // Check if we are past the last slot of today
+             currentDay = new Date(currentDay.getTime() + 86400000); // Advance to tomorrow
         }
     }
 
-    // If we got here, all slots today are past — start at tomorrow slot 0
-    slotPointer = 0;
-})();
 
-let currentDay = new Date(
-    new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
-);
+    for (let i = 0; i < stories.length; i++) {
+        // Build the scheduled datetime
+        const dateStr = currentDay.toISOString().split("T")[0];
+        const slotStr = slots[slotPointer];
 
-for (let i = 0; i < stories.length; i++) {
-    // Build the scheduled datetime
-    const dateStr = currentDay.toISOString().split("T")[0];
-    const slotStr = slots[slotPointer];
+        const scheduled = new Date(`${dateStr}T${slotStr}:00-05:00`);
+        stories[i].scheduled = scheduled.toISOString();
 
-    const scheduled = new Date(`${dateStr}T${slotStr}:00-05:00`);
-    stories[i].scheduled = scheduled.toISOString();
+        // 🔥 FIX APPLIED HERE: Advance day *before* the next iteration
+        slotPointer++;
+        if (slotPointer >= slots.length) {
+            slotPointer = 0;
 
-    // Move pointer forward
-    slotPointer++;
-    if (slotPointer >= slots.length) {
-        slotPointer = 0;
-
-        // Move to next day
-        const next = new Date(currentDay.getTime() + 86400000);
-        currentDay = next;
+            // Move to next day (86400000 ms in a day)
+            const next = new Date(currentDay.getTime() + 86400000);
+            currentDay = next;
+        }
     }
-}
 
+    // [The rest of the loadStories function remains unchanged]
     // ---- GROUP BY DATE ----
     const groups = {};
     stories.forEach(r => {
