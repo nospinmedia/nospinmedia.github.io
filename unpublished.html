@@ -201,7 +201,7 @@ button[type="submit"]:hover {
 </div>
 
 <footer>
-    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V1.6
+    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V1.7
 </footer>
 
 <script>
@@ -230,18 +230,10 @@ function getQueryParam(param) {
 
 function sendReview(title) {
     const messageBox = document.getElementById('message');
+    if (!messageBox) return;
 
-    // Pre-fill
+    // Pre-fill only — do NOT scroll or focus
     messageBox.value = `Story Title:\n${title}\n\nYour notes:\n`;
-
-    // Scroll into view smoothly
-    messageBox.scrollIntoView({ behavior: "smooth", block: "center" });
-
-    // Put cursor at end after short delay (ensures scroll completes)
-    setTimeout(() => {
-        messageBox.focus();
-        messageBox.selectionStart = messageBox.selectionEnd = messageBox.value.length;
-    }, 300);
 }
 
 // 🔥 REQUIRED FIX
@@ -402,6 +394,7 @@ function toggleSummary(btn) {
 }
 
 window.toggleSummary = toggleSummary;
+window.sendReview = sendReview;
 
 /* LOAD HEADER + THEN LOAD STORIES (required!) */
 document.addEventListener('DOMContentLoaded', function() {
