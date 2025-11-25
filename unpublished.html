@@ -205,8 +205,8 @@ function convertRedditMarkdown(text) {
     // Bold: **text**
     text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
 
-    // Italic: *text*
-    text = text.replace(/(?<!\*)\*(?!\*)(.*?)\*(?<!\*)/g, "<em>$1</em>");
+    // Italic: *text* (but skip **bold**)
+    text = text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g, "<em>$1</em>");
 
     // Line breaks already preserved via white-space: pre-line
 
