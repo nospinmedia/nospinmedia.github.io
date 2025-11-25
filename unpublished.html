@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="robots" content="noindex, nofollow">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>No Spin Media News Stories</title>
@@ -197,6 +198,21 @@ button[type="submit"]:hover {
 </footer>
 
 <script>
+
+function convertRedditMarkdown(text) {
+    if (!text) return "";
+
+    // Bold: **text**
+    text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+    // Italic: *text*
+    text = text.replace(/(?<!\*)\*(?!\*)(.*?)\*(?<!\*)/g, "<em>$1</em>");
+
+    // Line breaks already preserved via white-space: pre-line
+
+    return text;
+}
+    
 /* IDENTICAL PAGE — only loadStories() is modified */
 let storyId = null;
 
@@ -331,7 +347,7 @@ for (let i = 0; i < stories.length; i++) {
                 <div class="bias">Scheduled: <strong>${timeLabel} EST</strong></div>
                 <div class="bias">Bias: ${story.bias}</div>
                 <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
-                <div class="summary">${story.summary}</div>
+               <div class="summary">${convertRedditMarkdown(story.summary)}</div>
             `;
             dateGroup.appendChild(card);
         });
