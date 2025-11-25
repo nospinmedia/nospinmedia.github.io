@@ -27,7 +27,14 @@ textarea {
     font-size: 1rem;
     box-sizing: border-box;
 }
+.button-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+    align-items: center;
+}
 
+        
 button[type="submit"] {
     background: #0073e6;
     color: #fff;
@@ -194,7 +201,7 @@ button[type="submit"]:hover {
 </div>
 
 <footer>
-    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
+    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V1.1
 </footer>
 
 <script>
@@ -221,7 +228,15 @@ function getQueryParam(param) {
     return urlParams.get(param);
 }
 
-function formatDateLabel(dateStr) {
+function sendReview(title) {
+    const email = "nospinmedia.ai@gmail.com";
+    const subject = encodeURIComponent("Story Review Comment");
+    const body = encodeURIComponent(`Story Title:\n${title}\n\nYour notes:\n`);
+
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+}
+
+    function formatDateLabel(dateStr) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr || 'Undated';
     const [y,m,d] = dateStr.split('-');
     const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -347,14 +362,17 @@ card.innerHTML = `
     <div class="bias">Scheduled: <strong>${timeLabel} EST</strong></div>
     <div class="bias">Bias: ${story.bias}</div>
 
-    <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
+    <div class="button-row">
+        <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
+
+        <button class="share-btn" onclick="sendReview('${story.headline.replace(/'/g, "\\'")}')">
+            ✏️ Review / Comment
+        </button>
+    </div>
 
     <div class="summary">${convertRedditMarkdown(story.summary)}</div>
-
-    <button class="share-btn" onclick="sendReview('${story.headline.replace(/'/g, "\\'")}')">
-        ✏️ Review / Comment
-    </button>
 `;
+
 dateGroup.appendChild(card);
 });
 
