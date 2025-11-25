@@ -201,7 +201,7 @@ button[type="submit"]:hover {
 </div>
 
 <footer>
-    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V1.3
+    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V1.4
 </footer>
 
 <script>
@@ -389,13 +389,17 @@ container.appendChild(dateGroup);
 }
 
 
-    function toggleSummary(btn) {
-    const summaryEl = btn.nextElementSibling;
-    summaryEl.classList.toggle('show');
-    btn.textContent = summaryEl.classList.contains('show')
-        ? 'Hide Story'
-        : 'Show Story';
+function toggleSummary(btn) {
+    const card = btn.closest(".story-card");
+    const summaryEl = card.querySelector(".summary");
+
+    summaryEl.classList.toggle("show");
+
+    btn.textContent = summaryEl.classList.contains("show")
+        ? "Hide Story"
+        : "Show Story";
 }
+
 
 /* LOAD HEADER + THEN LOAD STORIES (required!) */
 document.addEventListener('DOMContentLoaded', function() {
