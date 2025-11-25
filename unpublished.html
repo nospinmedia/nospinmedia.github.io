@@ -201,7 +201,7 @@ button[type="submit"]:hover {
 </div>
 
 <footer>
-    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V2.0
+    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V2.1
 </footer>
 
 <script>
@@ -262,48 +262,49 @@ async function loadStories() {
         "13:15", "15:45", "17:15", "18:30", "20:45"
     ];
 
-    // ---- ASSIGN SLOTS (SAFE VERSION, NEVER BREAKS) ----
+    // ---- ASSIGN SLOTS ----
     let slotPointer = 0;
-    let isDayAdvanced = false; // Flag to track if we need to advance the day immediately
+    let startDateEST = new Date(); // Start with the current time (which is EST from toLocaleString)
 
-    // First find the next slot pointer
-    (function initSlotPointer() {
+    // 1. First find the next slot pointer and the correct starting day
+    (function initSlotPointerAndDay() {
         const estNow = new Date(
             new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
         );
         const today = estNow.toISOString().split("T")[0];
+        let foundNextSlot = false;
 
         for (let i = 0; i < slots.length; i++) {
-            const dt = new Date(`${today}T${slots[i]}:00-05:00`);
+            // Create EST date object for the current slot time today
+            const dt = new Date(`${today}T${slots[i]}:00-05:00`); 
+            
             if (dt > estNow) {
                 slotPointer = i;
-                return;
+                startDateEST = dt; // Set the starting date/time to the next available slot time
+                foundNextSlot = true;
+                break;
             }
         }
 
-        // If we got here, all slots today are past — start at tomorrow slot 0
-        slotPointer = 0;
-        isDayAdvanced = true; // Set flag to advance day
+        if (!foundNextSlot) {
+            // If all slots today are past, start at tomorrow's first slot (00:30)
+            slotPointer = 0;
+            const tomorrow = new Date(estNow.getTime() + 86400000);
+            const tStr = tomorrow.toISOString().split("T")[0];
+            startDateEST = new Date(`${tStr}T${slots[0]}:00-05:00`);
+        }
     })();
-
-    let currentDay = new Date(
-        new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
-    );
-
-    // If the flag is set, advance the day immediately before scheduling starts.
-    if (isDayAdvanced) {
-         currentDay = new Date(currentDay.getTime() + 86400000); 
-    }
     
-    // Reset time to start of the day for clean date operations
-    currentDay.setHours(0, 0, 0, 0);
-
+    // Use the determined start date from initSlotPointerAndDay
+    let currentDay = startDateEST;
 
     for (let i = 0; i < stories.length; i++) {
-        // Build the scheduled datetime
-        const dateStr = currentDay.toISOString().split("T")[0];
+        // Correctly get the YYYY-MM-DD date string using the EST date part.
+        // We use toLocaleString and slice to avoid UTC/ISO string conversion issues.
+        const dateStr = currentDay.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
         const slotStr = slots[slotPointer];
 
+        // Ensure the post time is created using the current date string and time slot in EST
         const scheduled = new Date(`${dateStr}T${slotStr}:00-05:00`);
         stories[i].scheduled = scheduled.toISOString();
 
@@ -312,18 +313,24 @@ async function loadStories() {
         if (slotPointer >= slots.length) {
             slotPointer = 0;
 
-            // Move to next day (86400000 ms in a day)
-            const next = new Date(currentDay.getTime() + 86400000);
-            currentDay = next;
+            // Move currentDay to the next day's 00:30 slot for the next iteration's calculation
+            const nextDayTime = currentDay.getTime() + 86400000; // Advance by a full day (24 hours)
+            const next = new Date(nextDayTime);
+            
+            // Re-set currentDay to the new day's 00:30 slot time, 
+            // ensuring it has the correct date for the next post.
+            const nextDateStr = next.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+            currentDay = new Date(`${nextDateStr}T${slots[0]}:00-05:00`);
         }
     }
 
     // ---- GROUP BY DATE ----
     const groups = {};
     stories.forEach(r => {
-        const d = r.scheduled.split("T")[0];
-        if (!groups[d]) groups[d] = [];
-        groups[d].push(r);
+        // Safely extract the date string using EST timezone
+        const date = new Date(r.scheduled).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+        if (!groups[date]) groups[date] = [];
+        groups[date].push(r);
     });
 
     // ---- RENDER ----
@@ -334,8 +341,11 @@ async function loadStories() {
     const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
     for (const date in groups) {
-        // Ensure date object for labeling is correct
-        const dt = new Date(date + "T12:00:00Z"); 
+        // Create a date object to display the full date label. Use 12:00:00 EST for safety.
+        const [y, m, d] = date.split('-');
+        const dt = new Date(Number(y), Number(m) - 1, Number(d), 12, 0, 0); 
+        
+        // This time, we rely on formatDateLabel to handle the date object for display purposes
         const label = `${weekdays[dt.getDay()]}, ${months[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`;
 
         const dateGroup = document.createElement("div");
