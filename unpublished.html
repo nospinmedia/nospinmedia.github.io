@@ -340,24 +340,38 @@ for (let i = 0; i < stories.length; i++) {
                 minute: "2-digit"
             });
 
-            const card = document.createElement("div");
-            card.className = "story-card";
-            card.innerHTML = `
-                <h3>${story.headline}</h3>
-                <div class="bias">Scheduled: <strong>${timeLabel} EST</strong></div>
-                <div class="bias">Bias: ${story.bias}</div>
-                <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
-               <div class="summary">${convertRedditMarkdown(story.summary)}</div>
-            `;
-            dateGroup.appendChild(card);
-        });
+const card = document.createElement("div");
+card.className = "story-card";
+card.innerHTML = `
+    <h3>${story.headline}</h3>
+    <div class="bias">Scheduled: <strong>${timeLabel} EST</strong></div>
+    <div class="bias">Bias: ${story.bias}</div>
 
-        container.appendChild(dateGroup);
-    }
+    <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
+
+    <div class="summary">${convertRedditMarkdown(story.summary)}</div>
+
+    <button class="share-btn" onclick="sendReview('${story.headline.replace(/'/g, "\\'")}')">
+        ✏️ Review / Comment
+    </button>
+`;
+dateGroup.appendChild(card);
+});
+
+container.appendChild(dateGroup);
+}
 }
 
+function sendReview(title) {
+    const email = "nospinmedia.ai@gmail.com";  // Where review comments should go
+    const subject = encodeURIComponent("Story Review Comment");
+    const body = encodeURIComponent(`Story Title:\n${title}\n\nYour notes:\n`);
+    
+    const mailtoLink = `mailto:${email}?subject=${subject}&body=${body}`;
+    window.location.href = mailtoLink;
+}
 
-function toggleSummary(btn) {
+    function toggleSummary(btn) {
     const summaryEl = btn.nextElementSibling;
     summaryEl.classList.toggle('show');
     btn.textContent = summaryEl.classList.contains('show')
