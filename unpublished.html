@@ -201,7 +201,7 @@ button[type="submit"]:hover {
 </div>
 
 <footer>
-    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V1.1
+    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V1.2
 </footer>
 
 <script>
@@ -229,11 +229,19 @@ function getQueryParam(param) {
 }
 
 function sendReview(title) {
-    const email = "nospinmedia.ai@gmail.com";
-    const subject = encodeURIComponent("Story Review Comment");
-    const body = encodeURIComponent(`Story Title:\n${title}\n\nYour notes:\n`);
+    const messageBox = document.getElementById('message');
 
-    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    // Pre-fill
+    messageBox.value = `Story Title:\n${title}\n\nYour notes:\n`;
+
+    // Scroll into view smoothly
+    messageBox.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    // Put cursor at end after short delay (ensures scroll completes)
+    setTimeout(() => {
+        messageBox.focus();
+        messageBox.selectionStart = messageBox.selectionEnd = messageBox.value.length;
+    }, 300);
 }
 
     function formatDateLabel(dateStr) {
@@ -380,14 +388,6 @@ container.appendChild(dateGroup);
 }
 }
 
-function sendReview(title) {
-    const email = "nospinmedia.ai@gmail.com";  // Where review comments should go
-    const subject = encodeURIComponent("Story Review Comment");
-    const body = encodeURIComponent(`Story Title:\n${title}\n\nYour notes:\n`);
-    
-    const mailtoLink = `mailto:${email}?subject=${subject}&body=${body}`;
-    window.location.href = mailtoLink;
-}
 
     function toggleSummary(btn) {
     const summaryEl = btn.nextElementSibling;
