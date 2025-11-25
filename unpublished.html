@@ -201,7 +201,7 @@ button[type="submit"]:hover {
 </div>
 
 <footer>
-    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V1.2
+    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V1.3
 </footer>
 
 <script>
@@ -399,22 +399,25 @@ container.appendChild(dateGroup);
 
 /* LOAD HEADER + THEN LOAD STORIES (required!) */
 document.addEventListener('DOMContentLoaded', function() {
+
+    // Load header first
     fetch('header.html')
         .then(res => res.text())
         .then(html => {
             document.getElementById('site-header').innerHTML = html;
-            loadStories();   // ← THIS is what loads your unpublished posts
+
+            // Load stories AFTER header is inserted
+            loadStories();
         })
         .catch(err => console.error("Error loading header.html:", err));
-});
-    
-    document.addEventListener("DOMContentLoaded", () => {
+
+    // Feedback form
     const feedbackForm = document.getElementById('feedbackForm');
 
     if (feedbackForm) {
         feedbackForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
             const name = document.getElementById('name').value.trim();
             const email = document.getElementById('email').value.trim();
             const message = document.getElementById('message').value.trim();
@@ -429,7 +432,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     {
                         method: "POST",
                         headers: { "Content-Type": "text/plain" },
-                        body: JSON.stringify({ name, email, message, subject: "Unpublished News Feedback" })
+                        body: JSON.stringify({
+                            name,
+                            email,
+                            message,
+                            subject: "Unpublished News Feedback"
+                        })
                     }
                 );
 
@@ -447,8 +455,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-});
 
+});
 </script>
 
 </body>
