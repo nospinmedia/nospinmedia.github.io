@@ -201,7 +201,7 @@ button[type="submit"]:hover {
 </div>
 
 <footer>
-    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V1.4
+    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V1.5
 </footer>
 
 <script>
@@ -243,6 +243,9 @@ function sendReview(title) {
         messageBox.selectionStart = messageBox.selectionEnd = messageBox.value.length;
     }, 300);
 }
+
+// 🔥 REQUIRED FIX
+window.sendReview = sendReview;
 
     function formatDateLabel(dateStr) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr || 'Undated';
@@ -399,7 +402,7 @@ function toggleSummary(btn) {
         ? "Hide Story"
         : "Show Story";
 }
-
+window.toggleSummary = toggleSummary;
 
 /* LOAD HEADER + THEN LOAD STORIES (required!) */
 document.addEventListener('DOMContentLoaded', function() {
