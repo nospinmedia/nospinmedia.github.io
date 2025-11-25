@@ -341,14 +341,6 @@ for (let i = 0; i < stories.length; i++) {
 }
 
 
-function toggleSummary(btn) {
-    const summaryEl = btn.nextElementSibling;
-    summaryEl.classList.toggle('show');
-    btn.textContent = summaryEl.classList.contains('show')
-        ? 'Hide Story'
-        : 'Show Story';
-}
-
 /* LOAD HEADER + THEN LOAD STORIES (required!) */
 document.addEventListener('DOMContentLoaded', function() {
     fetch('header.html')
@@ -400,6 +392,34 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+</script>
+<script>
+// Convert Reddit-style markdown (**bold**, *italics*, `code`) to HTML
+function convertMarkdown(text) {
+    return text
+        // Bold: **text**
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        // Italics: *text*
+        .replace(/\*(.*?)\*/g, "<em>$1</em>")
+        // Inline code: `text`
+        .replace(/`(.*?)`/g, "<code>$1</code>");
+}
+
+// Correct toggleSummary — applies markdown just once
+function toggleSummary(btn) {
+    const summaryEl = btn.nextElementSibling;
+
+    if (!summaryEl.dataset.converted) {
+        summaryEl.innerHTML = convertMarkdown(summaryEl.textContent);
+        summaryEl.dataset.converted = "true";
+    }
+
+    summaryEl.classList.toggle('show');
+    btn.textContent = summaryEl.classList.contains('show')
+        ? 'Hide Story'
+        : 'Show Story';
+}
 
 </script>
 
