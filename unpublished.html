@@ -201,7 +201,7 @@ button[type="submit"]:hover {
 </div>
 
 <footer>
-    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V1.9
+    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V2.0
 </footer>
 
 <script>
@@ -264,6 +264,7 @@ async function loadStories() {
 
     // ---- ASSIGN SLOTS (SAFE VERSION, NEVER BREAKS) ----
     let slotPointer = 0;
+    let isDayAdvanced = false; // Flag to track if we need to advance the day immediately
 
     // First find the next slot pointer
     (function initSlotPointer() {
@@ -282,24 +283,20 @@ async function loadStories() {
 
         // If we got here, all slots today are past — start at tomorrow slot 0
         slotPointer = 0;
+        isDayAdvanced = true; // Set flag to advance day
     })();
 
     let currentDay = new Date(
         new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
     );
-    
-    // ADJUST currentDay if initSlotPointer determined the first post is tomorrow
-    if (slotPointer === 0) {
-        // We need to check if *any* post today was valid.
-        // If the pointer reset to 0, it means all slots today were missed,
-        // OR the current time is before the 00:30 slot.
-        // Since the user is always running this when the day is in progress, 
-        // we assume if slotPointer is 0, the next post is tomorrow.
-        const tomorrowCheck = new Date(`${currentDay.toISOString().split("T")[0]}T${slots[slots.length-1]}:00-05:00`);
-        if (new Date() > tomorrowCheck) { // Check if we are past the last slot of today
-             currentDay = new Date(currentDay.getTime() + 86400000); // Advance to tomorrow
-        }
+
+    // If the flag is set, advance the day immediately before scheduling starts.
+    if (isDayAdvanced) {
+         currentDay = new Date(currentDay.getTime() + 86400000); 
     }
+    
+    // Reset time to start of the day for clean date operations
+    currentDay.setHours(0, 0, 0, 0);
 
 
     for (let i = 0; i < stories.length; i++) {
@@ -310,7 +307,7 @@ async function loadStories() {
         const scheduled = new Date(`${dateStr}T${slotStr}:00-05:00`);
         stories[i].scheduled = scheduled.toISOString();
 
-        // 🔥 FIX APPLIED HERE: Advance day *before* the next iteration
+        // Move pointer forward
         slotPointer++;
         if (slotPointer >= slots.length) {
             slotPointer = 0;
@@ -321,7 +318,6 @@ async function loadStories() {
         }
     }
 
-    // [The rest of the loadStories function remains unchanged]
     // ---- GROUP BY DATE ----
     const groups = {};
     stories.forEach(r => {
@@ -338,7 +334,8 @@ async function loadStories() {
     const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
     for (const date in groups) {
-        const dt = new Date(date + "T00:00:00");
+        // Ensure date object for labeling is correct
+        const dt = new Date(date + "T12:00:00Z"); 
         const label = `${weekdays[dt.getDay()]}, ${months[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`;
 
         const dateGroup = document.createElement("div");
@@ -353,33 +350,30 @@ async function loadStories() {
                 minute: "2-digit"
             });
 
-// ... inside loadStories() ...
+            const card = document.createElement("div");
+            card.className = "story-card";
 
-const card = document.createElement("div");
-card.className = "story-card";
+            card.innerHTML = `
+                <h3>${story.headline}</h3>
+                <div class="bias">Scheduled: <strong>${timeLabel} EST</strong></div>
+                <div class="bias">Bias: ${story.bias}</div>
 
-// 🔥 MODIFY THE BUTTON LINE BELOW
-card.innerHTML = `
-    <h3>${story.headline}</h3>
-    <div class="bias">Scheduled: <strong>${timeLabel} EST</strong></div>
-    <div class="bias">Bias: ${story.bias}</div>
+                <div class="button-row">
+                    <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
 
-    <div class="button-row">
-        <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
+                    <button class="share-btn" onclick="sendReview('${story.headline.replace(/'/g, "\\'").replace(/\n/g, " ")}')">
+                        ✏️ Review / Comment
+                    </button>
+                </div>
 
-        <button class="share-btn" onclick="sendReview('${story.headline.replace(/'/g, "\\'").replace(/\n/g, " ")}')">
-            ✏️ Review / Comment
-        </button>
-    </div>
+                <div class="summary">${convertRedditMarkdown(story.summary)}</div>
+            `;
 
-    <div class="summary">${convertRedditMarkdown(story.summary)}</div>
-`;
+            dateGroup.appendChild(card);
+        });
 
-dateGroup.appendChild(card);
-});
-
-container.appendChild(dateGroup);
-}
+        container.appendChild(dateGroup);
+    }
 }
 function toggleSummary(btn) {
     const card = btn.closest(".story-card");
