@@ -201,7 +201,7 @@ button[type="submit"]:hover {
 </div>
 
 <footer>
-    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V2.1
+    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V2.2
 </footer>
 
 <script>
@@ -251,10 +251,15 @@ window.sendReview = sendReview;
 async function loadStories() {
     storyId = getQueryParam('id');
 
-    // 🔥 Use unpublished posts
-    const apiURL = "https://data.nospin.media/unpublished";
-    const response = await fetch(apiURL);
-    let stories = await response.json();
+// 🔥 Use unpublished posts
+    const apiURL = "https://data.nospin.media/unpublished";
+    const response = await fetch(apiURL);
+    let stories = await response.json();
+
+    // ⭐ FIX 1: Ensure stories are sorted by the 'order' field (1, 2, 3...)
+    stories.sort((a, b) => {
+        return parseInt(a.order) - parseInt(b.order);
+    });
 
     // ---- POST SLOTS (EST) ----
     const slots = [
@@ -286,13 +291,14 @@ async function loadStories() {
             }
         }
 
-        if (!foundNextSlot) {
-            // If all slots today are past, start at tomorrow's first slot (00:30)
-            slotPointer = 0;
-            const tomorrow = new Date(estNow.getTime() + 86400000);
-            const tStr = tomorrow.toISOString().split("T")[0];
-            startDateEST = new Date(`${tStr}T${slots[0]}:00-05:00`);
-        }
+if (!foundNextSlot) {
+            // If all slots today are past, start at tomorrow's first slot (00:30)
+            slotPointer = 0;
+            const tomorrow = new Date(estNow.getTime() + 86400000);
+            // ⭐ FIX 2: Use toLocaleDateString to safely get tomorrow's date string in EST
+            const tStr = tomorrow.toLocaleDateString('en-CA', { timeZone: 'America/New_York' }); 
+            startDateEST = new Date(`${tStr}T${slots[0]}:00-05:00`);
+        }
     })();
     
     // Use the determined start date from initSlotPointerAndDay
