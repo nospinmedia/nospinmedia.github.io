@@ -201,7 +201,7 @@ button[type="submit"]:hover {
 </div>
 
 <footer>
-    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V2.2
+    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V2.3
 </footer>
 
 <script>
@@ -256,10 +256,13 @@ async function loadStories() {
     const response = await fetch(apiURL);
     let stories = await response.json();
 
-    // ⭐ FIX 1: Ensure stories are sorted by the 'order' field (1, 2, 3...)
+// ⭐ FIX 1: Ensure stories are sorted by the 'order' field (1, 2, 3...)
     stories.sort((a, b) => {
         return parseInt(a.order) - parseInt(b.order);
     });
+
+    // ⭐ FINAL FIX 3: Filter out any empty records (where headline is null or undefined)
+    stories = stories.filter(story => story.headline);
 
     // ---- POST SLOTS (EST) ----
     const slots = [
