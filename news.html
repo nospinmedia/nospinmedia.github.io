@@ -147,7 +147,22 @@
         © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
     </footer>
 
-    <script>
+  <script>
+    // 1. ADD THE MARKDOWN CONVERSION FUNCTION
+    function convertRedditMarkdown(text) {
+        if (!text) return "";
+
+        // Bold: **text**
+        text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+        // Italic: *text* (but skip **bold**)
+        text = text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g, "<em>$1</em>");
+
+        // Line breaks already preserved via white-space: pre-line
+
+        return text;
+    }
+    
     let storyId = null;
 
     function getQueryParam(param) {
@@ -205,7 +220,7 @@
                     </h3>
                     <div class="bias">Bias: ${r.bias}</div>
                     <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
-                    <div class="summary">${r.summary}</div>
+                    <div class="summary">${convertRedditMarkdown(r.summary)}</div> 
                 `;
 
                 // Auto-open if shared
@@ -260,10 +275,13 @@ if (feedbackForm) {
         formStatus.textContent = "Sending...";
 
         try {
-            const res = await fetch("https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec", {
+            // Using saved Google Apps Script URL for Feedback Form Submission
+            const feedbackUrl = "https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec";
+            
+            const res = await fetch(feedbackUrl, {
                 method: "POST",
                 headers: { "Content-Type": "text/plain" },
-                body: JSON.stringify({ name, email, message, subject: "News Feedback" }) // This line is updated
+                body: JSON.stringify({ name, email, message, subject: "News Feedback" }) 
             });
             if (res.ok) {
                 formStatus.style.color = "green";
@@ -280,6 +298,5 @@ if (feedbackForm) {
     });
 }
     </script>
-
 </body>
 </html>
