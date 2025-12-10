@@ -261,7 +261,12 @@ async function loadStories() {
     const response = await fetch(apiURL);
     let stories = await response.json();
 
-// ⭐ FIX 1: Ensure stories are sorted by the 'order' field (1, 2, 3...)
+// ⭐ Filter to single story when using ?id=xxx
+if (storyId) {
+    stories = stories.filter(r => String(r.url).trim() === String(storyId).trim());
+}
+
+    // ⭐ FIX 1: Ensure stories are sorted by the 'order' field (1, 2, 3...)
     stories.sort((a, b) => {
         return parseInt(a.order) - parseInt(b.order);
     });
