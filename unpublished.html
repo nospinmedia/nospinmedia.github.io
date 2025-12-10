@@ -403,6 +403,17 @@ if (!foundNextSlot) {
                 <div class="summary">${convertRedditMarkdown(story.summary)}</div>
             `;
 
+            // ⭐ Auto-expand story if share link (?id=xxx) is used
+            if (storyId && String(story.url).trim() === String(storyId).trim()) {
+                const summaryEl = card.querySelector('.summary');
+                const toggleBtn = card.querySelector('.toggle');
+            
+                if (summaryEl && toggleBtn) {
+                    summaryEl.classList.add('show');
+                    toggleBtn.textContent = "Hide Story";
+                }
+            }
+
             dateGroup.appendChild(card);
         });
 
