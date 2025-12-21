@@ -206,7 +206,7 @@ button[type="submit"]:hover {
 </div>
 
 <footer>
-    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V2.5
+    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V2.6
 </footer>
 
 <script>
@@ -247,14 +247,17 @@ function convertRedditMarkdown(text) {
     );
 
     // 10) Normalize spacing (avoid giant gaps)
+    text = text.replace(/\\n/g, "\n");
     text = text.replace(/\n{3,}/g, "\n\n");
 
     return text.trim();
 }
 </script>
     
+<script>
 /* IDENTICAL PAGE — only loadStories() is modified */
 let storyId = null;
+</script>
 
 function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
@@ -460,7 +463,6 @@ function toggleSummary(btn) {
 }
 
 window.toggleSummary = toggleSummary;
-window.sendReview = sendReview;
 
 /* LOAD HEADER + THEN LOAD STORIES (required!) */
 document.addEventListener('DOMContentLoaded', function() {
