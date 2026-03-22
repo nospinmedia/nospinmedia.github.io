@@ -195,7 +195,7 @@
     async function loadStories() {
         storyId = getQueryParam('id');
 
-        const apiURL = "https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=*&used=eq.true&order=url.desc&limit=50";
+        const apiURL = "https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=*&used=eq.true&order=date.desc&limit=100";
         
         const response = await fetch(apiURL, {
             headers: {
