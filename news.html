@@ -157,7 +157,7 @@
     </div>
 
     <footer>
-        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. v1.2
+        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. v1.3
     </footer>
 
   <script>
@@ -195,12 +195,15 @@
     async function loadStories() {
         storyId = getQueryParam('id');
 
-        const apiURL = "https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=*&used=eq.true&order=url.desc&limit=100";
+        const apiURL = "https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=*&used=eq.true&order=url.desc&limit=50";
+        
         const response = await fetch(apiURL, {
             headers: {
                 apikey: "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB"
             }
         });
+
+let stories = await response.json();
 
 let stories = await response.json();
 
