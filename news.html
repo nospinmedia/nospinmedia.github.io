@@ -162,20 +162,21 @@
 
   <script>
     // 1. ADD THE MARKDOWN CONVERSION FUNCTION
-    function convertRedditMarkdown(text) {
-        if (!text) return "";
-
-        // Bold: **text**
-        text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-
-        // Italic: *text* (but skip **bold**)
-        text = text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g, "<em>$1</em>");
-
-        // Line breaks already preserved via white-space: pre-line
-
-        return text;
-    }
-    
+        function convertRedditMarkdown(text) {
+            if (!text) return "";
+        
+            // Convert escaped newline characters into real ones
+            text = text.replace(/\\n\\n/g, "\n\n");
+            text = text.replace(/\\n/g, "\n");
+        
+            // Bold
+            text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+        
+            // Italic
+            text = text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g, "<em>$1</em>");
+        
+            return text;
+        }
     let storyId = null;
 
     function getQueryParam(param) {
