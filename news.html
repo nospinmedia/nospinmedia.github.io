@@ -205,8 +205,6 @@
 
 let stories = await response.json();
 
-let stories = await response.json();
-
         // Only keep one if share link is given (?id=xxx)
         if (storyId) {
             stories = stories.filter(r => (r.original_url || '').trim() === storyId);
