@@ -197,14 +197,8 @@
 
     async function loadStories() {
         storyId = getQueryParam('id');
-        const apiURL =
-"https://dckmflnbprhmaqysuued.supabase.co/rest/v1/daily_posts?select=*&order=id.desc&limit=100";
+        const apiURL = https://dckmflnbprhmaqysuued.supabase.co/rest/v1/daily_posts?select=*&order=id.desc&limit=100&apikey=sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB";
 
-const response = await fetch(apiURL, {
-  headers: {
-    apikey: "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB"
-  }
-});
         const response = await fetch(apiURL);
         allPosts = await response.json();
 
