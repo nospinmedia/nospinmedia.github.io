@@ -197,7 +197,14 @@
 
     async function loadStories() {
         storyId = getQueryParam('id');
-        const apiURL = 'https://data.nospin.media/daily_posts';
+        const apiURL =
+"https://dckmflnbprhmaqysuued.supabase.co/rest/v1/daily_posts?select=*&order=id.desc&limit=100";
+
+const response = await fetch(apiURL, {
+  headers: {
+    apikey: "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB"
+  }
+});
         const response = await fetch(apiURL);
         allPosts = await response.json();
 
