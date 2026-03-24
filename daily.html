@@ -230,8 +230,6 @@
             (!search || r.headline_text.toLowerCase().includes(search) || r.comment_text.toLowerCase().includes(search))
         );
 
-        stories.sort((a,b) => (a.post_date < b.post_date ? 1 : -1));
-
         const groups = {};
         stories.forEach(r => {
             const date = r.post_date || 'Undated';
