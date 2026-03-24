@@ -157,7 +157,7 @@
     </div>
 
     <footer>
-        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. v1.3
+        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. v1.4
     </footer>
 
   <script>
@@ -211,13 +211,12 @@ let stories = await response.json();
             stories = stories.filter(r => (r.original_url || '').trim() === storyId);
         }
 
-        // Sort by date descending
-        stories.sort((a,b) => (a.date < b.date ? 1 : -1));
-
         // Group by date
         const groups = {};
         stories.forEach(r => {
-            const date = r.date || 'Undated';
+            const date = new Date(r.posted_at).toLocaleDateString("en-CA", {
+    timeZone: "America/New_York"
+});
             if (!groups[date]) groups[date] = [];
             groups[date].push(r);
         });
