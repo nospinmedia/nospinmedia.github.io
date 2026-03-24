@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>No Spin Media News Stories</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #222;
+            /* CRITICAL: Add padding-top to body to prevent content from being hidden by the fixed header */
+            padding-top: 70px; /* This value must match your header's min-height */
+        }
+
+        /* Main Container for Flexbox Layout */
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto; /* Changed from 2rem auto for consistency with index.html */
+            padding: 1rem;
+            gap: 2rem; /* Spacing between main and sidebar */
+            flex-wrap: wrap; /* Allows wrapping on smaller screens */
+        }
+
+        /* Main Content Area */
+        .main {
+            flex: 2; /* Takes more space than sidebar */
+        }
+
+        /* Sidebar Content Area */
+        .sidebar {
+            flex: 1; /* Takes less space */
+            background: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: fit-content; /* Make sidebar only as tall as its content */
+            margin-top: 0; /* Remove top margin when side-by-side to align with main content */
+            border-left: 2px solid #eee; /* Add left border for separation */
+            align-self: flex-start; /* Aligns sidebar to the start of the cross-axis */
+        }
+
+        .date-group { margin-bottom: 2rem; }
+        .date-header { background: #333; color: #fff; padding: 0.5rem 1rem; border-radius: 4px; font-weight: bold; font-size: 1.2rem; }
+
+        .story-card { background: #fff; border-radius: 8px; padding: 1rem; margin: 0.8rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .story-card h3 { font-size: 1.3rem; margin: 0; display: flex; justify-content: space-between; align-items: center; }
+        .bias { font-size: 0.9rem; font-weight: bold; color: #666; margin-top: 0.3rem; }
+
+        .summary { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease; white-space: pre-line; margin-top: 0.5rem; }
+        .summary.show { max-height: 9999px; opacity: 1; }
+
+        button.toggle, button.share-btn {
+            margin-top: 0.6rem; padding: 6px 12px; font-size: 0.9rem; cursor: pointer;
+            border-radius: 4px; border: 1px solid #333; background: #333; color: #fff;
+        }
+        button.toggle:hover, button.share-btn:hover { background: #555; }
+        button.share-btn { margin-left: 10px; font-size: 0.8rem; background: #0066cc; border-color: #0066cc; }
+        button.share-btn:hover { background: #004c99; }
+
+        /* Feedback form styling (copied from index.html) */
+        #feedbackForm input, #feedbackForm textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #feedbackForm button {
+            background: #0073e6;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #feedbackForm button:hover { background: #005bb5; }
+        #formStatus {
+            font-size: 0.9em;
+            color: green;
+            margin: 6px 0;
+            text-align: center;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Responsive adjustments for smaller screens (copied from index.html) */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column; /* Stack vertically on small screens */
+            }
+            .sidebar {
+                margin-top: 1rem;
+                border-left: none; /* Remove left border when stacked */
+                border-top: 2px solid #eee; /* Add top border when stacked */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="site-header"></div>
+
+    <div class="container">
+        <div class="main">
+            <h1>News Stories</h1>
+            <div id="stories-container"></div>
+        </div>
+
+        <div class="sidebar">
+            <h2>Support Us 💙</h2>
+            <p>Like what we're doing? Help keep No Spin Media running:</p>
+            <p><strong>Venmo:</strong><br/>
+                <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+            </p>
+
+<h2>Follow Us</h2>
+
+<p>
+    📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">
+        facebook.com/NoSpinNewsAI
+    </a>
+</p>
+
+<p>
+    🔺 <a href="https://reddit.com/r/NoSpinMedia" target="_blank">
+        reddit.com/r/NoSpinMedia
+    </a>
+</p>
+<p>
+    🟦 <a href="https://bsky.app/profile/nospinmedia.bsky.social" target="_blank">
+        nospinmedia.bsky.social
+    </a>
+</p>
+        <h2>We ❤️ Your Thoughts!</h2>
+            <p>Have an idea, suggestion, or just want to say hi? We read every single message you send. 😊</p>
+            <p>You can also reach us directly at: <strong>nospinmedia.ai@gmail.com</strong></p>
+
+            <form id="feedbackForm">
+                <input type="text" id="name" name="name" placeholder="Your first name">
+                <input type="email" id="email" name="email" placeholder="you@email.com" required>
+                <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
+                <p id="formStatus"></p>
+                <button type="submit">💬 Send Feedback</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. v1.0
+    </footer>
+
+  <script>
+    // 1. ADD THE MARKDOWN CONVERSION FUNCTION
+        function convertRedditMarkdown(text) {
+            if (!text) return "";
+        
+            // Convert escaped newline characters into real ones
+            text = text.replace(/\\n\\n/g, "\n\n");
+            text = text.replace(/\\n/g, "\n");
+        
+            // Bold
+            text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+        
+            // Italic
+            text = text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g, "<em>$1</em>");
+        
+            return text;
+        }
+    let storyId = null;
+
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    function formatDateLabel(dateStr) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr || 'Undated';
+        const [y,m,d] = dateStr.split('-');
+        const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        const fakeDate = new Date(Number(y), Number(m)-1, Number(d));
+        return `${weekdays[fakeDate.getDay()]}, ${months[Number(m)-1]} ${Number(d)}, ${y}`;
+    }
+
+    async function loadStories() {
+        storyId = getQueryParam('id');
+
+        const apiURL = "https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_ne?select=id,headline,summary,bias,original_url,posted_at&used=eq.true&order=posted_at.desc&limit=100";
+        
+        const response = await fetch(apiURL, {
+            headers: {
+                apikey: "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB"
+            }
+        });
+
+let stories = await response.json();
+
+        // Only keep one if share link is given (?id=xxx)
+        if (storyId) {
+            stories = stories.filter(r => (r.original_url || '').trim() === storyId);
+        }
+
+        // Group by date
+        const groups = {};
+        stories.forEach(r => {
+            const date = new Date(r.posted_at).toLocaleDateString("en-CA", {
+    timeZone: "America/New_York"
+});
+            if (!groups[date]) groups[date] = [];
+            groups[date].push(r);
+        });
+
+        // Render
+        const container = document.getElementById('stories-container');
+        container.innerHTML = ""; // clear old content
+        for (const date in groups) {
+            const dateGroup = document.createElement('div');
+            dateGroup.className = 'date-group';
+            const formattedDate = formatDateLabel(date);
+            dateGroup.innerHTML = `<div class="date-header">${formattedDate}</div>`;
+
+            groups[date].forEach(r => {
+                const card = document.createElement('div');
+                card.className = 'story-card';
+                card.innerHTML = `
+                    <h3>${r.headline}
+                        <button class="share-btn" onclick="shareStory('${r.original_url}')">Share</button>
+                    </h3>
+                    <div class="bias">Bias: ${r.bias}</div>
+                    <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
+                    <div class="summary">${convertRedditMarkdown(r.summary)}</div> 
+                `;
+
+                // Auto-open if shared
+                if (storyId && r.original_url === storyId) {
+                    const summaryEl = card.querySelector('.summary');
+                    summaryEl.classList.add('show');
+                    const toggleBtn = card.querySelector('.toggle');
+                    toggleBtn.textContent = 'Hide Story';
+                }
+
+                dateGroup.appendChild(card);
+            });
+
+            container.appendChild(dateGroup);
+        }
+    }
+
+    function toggleSummary(btn) {
+        const summaryEl = btn.nextElementSibling;
+        summaryEl.classList.toggle('show');
+        btn.textContent = summaryEl.classList.contains('show')
+            ? 'Hide Story'
+            : 'Show Story';
+    }
+
+    function shareStory(id) {
+        const url = `${window.location.origin}${window.location.pathname}?id=${id}`;
+        navigator.clipboard.writeText(url).then(() => {
+            alert('Share link copied to clipboard!');
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('header.html')
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('site-header').innerHTML = html;
+                loadStories();
+            })
+            .catch(err => console.error("Error loading header.html:", err));
+    });
+// 🔧 Feedback form submit
+const feedbackForm = document.getElementById('feedbackForm');
+if (feedbackForm) {
+    feedbackForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
+        const formStatus = document.getElementById('formStatus');
+        formStatus.style.color = "black";
+        formStatus.textContent = "Sending...";
+
+        try {
+            // Using saved Google Apps Script URL for Feedback Form Submission
+            const feedbackUrl = "https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec";
+            
+            const res = await fetch(feedbackUrl, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain" },
+                body: JSON.stringify({ name, email, message, subject: "News Feedback" }) 
+            });
+            if (res.ok) {
+                formStatus.style.color = "green";
+                formStatus.textContent = "✅ Thanks for your feedback!";
+                feedbackForm.reset();
+            } else {
+                formStatus.style.color = "red";
+                formStatus.textContent = "❌ Error sending feedback.";
+            }
+        } catch (err) {
+            formStatus.style.color = "red";
+            formStatus.textContent = "❌ Could not connect.";
+        }
+    });
+}
+    </script>
+</body>
+</html>
