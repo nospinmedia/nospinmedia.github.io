@@ -149,27 +149,28 @@
         </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+function initHamburger() {
+
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobile-nav');
 
-    if (hamburger && mobileNav) {
-        mobileNav.classList.remove('open');
-        hamburger.classList.remove('active');
+    if (!hamburger || !mobileNav) return;
 
-        hamburger.addEventListener('click', () => {
-            mobileNav.classList.toggle('open');
-            hamburger.classList.toggle('active');
-        });
+    hamburger.onclick = () => {
+        mobileNav.classList.toggle('open');
+        hamburger.classList.toggle('active');
+    };
 
-        mobileNav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileNav.classList.remove('open');
-                hamburger.classList.remove('active');
-            });
-        });
-    }
-});
+    mobileNav.querySelectorAll('a').forEach(link => {
+        link.onclick = () => {
+            mobileNav.classList.remove('open');
+            hamburger.classList.remove('active');
+        };
+    });
+
+}
+
+initHamburger();
 </script>
 
 </body>
