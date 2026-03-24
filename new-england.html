@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>No Spin Media News Stories</title>
+    <title>No Spin Media New England News Stories</title>
     <link rel="stylesheet" href="style.css" />
     <style>
         body {
@@ -113,7 +113,7 @@
 
     <div class="container">
         <div class="main">
-            <h1>News Stories</h1>
+            <h1>New England News Stories</h1>
             <div id="stories-container"></div>
         </div>
 
@@ -157,7 +157,7 @@
     </div>
 
     <footer>
-        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. v1.0
+        © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. v1.1
     </footer>
 
   <script>
@@ -300,7 +300,7 @@ if (feedbackForm) {
             const res = await fetch(feedbackUrl, {
                 method: "POST",
                 headers: { "Content-Type": "text/plain" },
-                body: JSON.stringify({ name, email, message, subject: "News Feedback" }) 
+                body: JSON.stringify({ name, email, message, subject: "New England News Feedback" }) 
             });
             if (res.ok) {
                 formStatus.style.color = "green";
