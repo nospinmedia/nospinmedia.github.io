@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>No Spin Media</title>
+    <link rel="stylesheet" href="style.css" />
+    
+    <!-- Google AdSense -->
+    <script async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053277983719011"
+    crossorigin="anonymous"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #222;
+            /* CRITICAL: Add padding-top to body to prevent content from being hidden by the fixed header */
+            padding-top: 70px; /* This value must match your header's min-height */
+        }
+
+        /* Main Container for Flexbox Layout */
+        .container {
+            display: flex; /* This is the key for side-by-side */
+            flex-wrap: wrap; /* Allows wrapping on smaller screens */
+            padding: 2rem;
+            max-width: 1200px; /* Center container with auto margins */
+            margin: 0 auto; /* Added margin auto to center the container */
+            gap: 2rem; /* Spacing between main and sidebar */
+        }
+
+        /* Main Content Area */
+        .main {
+            flex: 1 1 60%; /* Takes at least 60% width, can grow/shrink */
+            padding: 1rem;
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        /* Sidebar Content Area */
+        .sidebar {
+            flex: 1 1 30%; /* Takes at least 30% width, can grow/shrink */
+            background: #fff;
+            padding: 1rem;
+            margin-top: 2rem; /* Matches your original margin */
+            border-left: 2px solid #eee;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-sizing: border-box; /* Include padding in width */
+            /* Ensure sidebar doesn't overlap header on desktop if it's too tall */
+            align-self: flex-start; /* Aligns sidebar to the start of the cross-axis */
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-top: 0;
+        }
+        h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        .button {
+            display: inline-block;
+            margin: 0.5rem 0;
+            padding: 0.6rem 1rem;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Feedback form styling */
+        #feedbackForm input, #feedbackForm textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #feedbackForm button {
+            background: #0073e6;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #feedbackForm button:hover { background: #005bb5; }
+        #formStatus {
+            font-size: 0.9em;
+            color: green;
+            margin: 6px 0;
+            text-align: center;
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column; /* Stack vertically on small screens */
+            }
+            .sidebar {
+                margin-top: 1rem;
+                border-left: none;
+                border-top: 2px solid #eee;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="site-header"></div>
+
+    <div class="container">
+        <div class="main">
+
+<h1>Independent News. Clear Facts. No Spin.</h1>
+
+<p>
+<strong>🧭 No Spin Media</strong> is an independent news platform focused on delivering verified information without political bias, editorial spin, or sensationalism. Our goal is simple: provide clear, factual reporting so readers can understand what is happening and why it matters.
+</p>
+
+<p>
+We combine modern technology with careful editorial oversight to produce concise, readable news summaries based on reporting from reputable sources. Every story is written to prioritize accuracy, transparency, and context.
+</p>
+
+<h2>What You'll Find Here</h2>
+
+<ul>
+<li>📰 <strong>National & Global News</strong> – Clear summaries of major developments in politics, policy, technology, and world events.</li>
+
+<li>📍 <strong>New England Coverage</strong> – Regional reporting focused on issues, policy decisions, and stories affecting communities across the Northeast.</li>
+
+<li>📅 <strong>Daily Posts</strong> – Historical moments, cultural milestones, and notable events connected to today's date.</li>
+
+<li>🛠 <strong>Helpful Utilities</strong> – Simple tools and resources designed to make everyday tasks easier.</li>
+</ul>
+
+<h2>Our Approach</h2>
+
+<ul>
+<li>✔ <strong>Fact-First Reporting</strong> – Stories are written from verified information and reputable journalism.</li>
+
+<li>✔ <strong>No Editorial Spin</strong> – Our goal is clarity and context, not persuasion.</li>
+
+<li>✔ <strong>Technology With Oversight</strong> – Modern tools help us process information efficiently, while editorial controls ensure accuracy and integrity.</li>
+</ul>
+
+<p>
+Whether you're catching up on major headlines or exploring daily historical context, No Spin Media is designed to make staying informed straightforward and reliable.
+</p>
+
+<p>
+<a class="button" href="news.html">Read the News</a>
+<a class="button" href="new-england.html">New England Coverage</a>
+<a class="button" href="daily.html">Today's Posts</a>
+<a class="button" href="sponsor.html">Support Our Work</a>
+</p>
+
+</div>
+
+        <div class="sidebar">
+            <h2>Support Us 💙</h2>
+            <p>Like what we're doing? Help keep No Spin Media running:</p>
+            <p><strong>Venmo:</strong><br/>
+                <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+            </p>
+
+<h2>Follow Us</h2>
+
+<p>
+    📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">
+        facebook.com/NoSpinNewsAI
+    </a>
+</p>
+
+<p>
+    🔺 <a href="https://reddit.com/r/NoSpinMedia" target="_blank">
+        reddit.com/r/NoSpinMedia
+    </a>
+</p>
+<p>
+    🟦 <a href="https://bsky.app/profile/nospinmedia.bsky.social" target="_blank">
+        nospinmedia.bsky.social
+    </a>
+</p>
+        <h2>We ❤️ Your Thoughts!</h2>
+            <p>Have an idea, suggestion, or just want to say hi? We read every single message you send. 😊</p>
+            <p>You can also reach us directly at: <strong>nospinmedia.ai@gmail.com</strong></p>
+
+            <form id="feedbackForm">
+                <input type="text" id="name" name="name" placeholder="Your first name">
+                <input type="email" id="email" name="email" placeholder="you@email.com" required>
+                <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
+                <p id="formStatus"></p>
+                <button type="submit">💬 Send Feedback</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
+    </footer>
+
+    <script>
+        // Use DOMContentLoaded to ensure the div for the header exists before trying to fetch
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('site-header').innerHTML = html;
+
+                    // --- IMPORTANT: Hamburger JavaScript MUST be here AFTER header is loaded ---
+                    const hamburger = document.getElementById('hamburger');
+                    const mobileNav = document.getElementById('mobile-nav');
+
+                    if (hamburger && mobileNav) {
+                        function toggleMobileNav() {
+                            mobileNav.classList.toggle('open');
+                            hamburger.classList.toggle('active'); // Toggle color change
+                            console.log('Hamburger toggled from index.html! Open:', mobileNav.classList.contains('open'));
+                        }
+
+                        hamburger.addEventListener('click', toggleMobileNav);
+
+                        // Also listen for touchstart for better mobile responsiveness
+                        // Use { passive: false } to allow preventDefault() for touch events
+                        hamburger.addEventListener('touchstart', function(e) {
+                            e.preventDefault(); // Prevents potential default browser scroll/zoom
+                            console.log('Touch detected on hamburger from index.html!');
+                            toggleMobileNav();
+                        }, { passive: false });
+
+                        // Close mobile menu when a link is clicked
+                        mobileNav.querySelectorAll('a').forEach(link => {
+                            link.addEventListener('click', () => {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active'); // Reset hamburger color
+                            });
+                        });
+
+                        // Close mobile menu if window is resized above mobile breakpoint
+                        window.addEventListener('resize', function() {
+                            if (window.innerWidth > 768) {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active'); // Reset hamburger color
+                            }
+                        });
+                    } else {
+                        console.error("Critical: Hamburger or mobile navigation element not found after header load!");
+                    }
+                    // --- END IMPORTANT SECTION ---
+                })
+                .catch(err => console.error("Error loading header.html:", err));
+
+            // Feedback form submit (moved inside DOMContentLoaded as well for consistency)
+            const feedbackForm = document.getElementById('feedbackForm');
+            if (feedbackForm) { // Check if form exists
+                feedbackForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const status = document.getElementById('formStatus');
+                    status.textContent = "⏳ Sending...";
+
+                    const name = document.getElementById('name').value || "Someone";
+                    const email = document.getElementById('email').value;
+                    const message = document.getElementById('message').value;
+
+                    const data = {
+                        name: name,
+                        email: email,
+                        subject: "Main Page Feedback", // Changed subject for clarity
+                        message: message
+                    };
+
+                    try {
+                        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+                            method: 'POST',
+                            headers: {'Content-Type':'text/plain'},
+                            body: JSON.stringify(data)
+                        });
+
+                        let result = {};
+                        try { result = await res.json(); } catch (err) { result = { status: "success" }; }
+
+                        if (result.status === "success") {
+                            status.textContent = "✅ Thanks! Your feedback was sent.";
+                            this.reset();
+                        } else {
+                            status.textContent = "❌ Error sending. Please try again.";
+                        }
+                        setTimeout(()=>{ status.textContent = ""; }, 5000);
+                    } catch (err) {
+                        console.error(err);
+                        status.textContent = "❌ Failed to send! Check connection.";
+                        setTimeout(()=>{ status.textContent = ""; }, 5000);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
