@@ -224,15 +224,30 @@ Explore more stories in r/NoSpinMedia
 
 }
 
-document.addEventListener("DOMContentLoaded",function(){
+document.addEventListener("DOMContentLoaded", function() {
+  fetch("header.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("site-header").innerHTML = html;
 
-fetch("header.html")
-.then(res=>res.text())
-.then(html=>{
-document.getElementById("site-header").innerHTML=html;
-loadStory();
-});
+      // Hamburger init
+      const hamburger = document.getElementById("hamburger");
+      const mobileNav = document.getElementById("mobile-nav");
+      if (hamburger && mobileNav) {
+        hamburger.onclick = () => {
+          mobileNav.classList.toggle("open");
+          hamburger.classList.toggle("active");
+        };
+        mobileNav.querySelectorAll("a").forEach(link => {
+          link.onclick = () => {
+            mobileNav.classList.remove("open");
+            hamburger.classList.remove("active");
+          };
+        });
+      }
 
+      loadStory();
+    });
 });
 
 </script>
