@@ -183,11 +183,12 @@ container.appendChild(card);
 document.addEventListener("DOMContentLoaded",function(){
 
 fetch("header.html")
-.then(res=>res.text())
-.then(html=>{
-document.getElementById("site-header").innerHTML=html;
-loadStories();
-});
+  .then(res => res.text())
+  .then(html => {
+    document.getElementById("site-header").innerHTML = html;
+    if (typeof initHamburger === "function") initHamburger();
+    loadStories();
+  });
 
 });
 
