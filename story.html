@@ -170,9 +170,26 @@ month:"long",
 day:"numeric"
 });
 
-let redditLink="";
-if(s.reddit_post_id){
-redditLink=`https://reddit.com/comments/${s.reddit_post_id}`;
+let redditLink = "";
+
+if (s.reddit_post_id) {
+
+  try {
+
+    const parsed = JSON.parse(s.reddit_post_id);
+
+    const redirectStep = parsed.jquery.find(step =>
+      step[2] === "attr" && step[3] && step[3][0] && step[3][0].startsWith("https://reddit.com")
+    );
+
+    if (redirectStep) {
+      redditLink = redirectStep[3][0];
+    }
+
+  } catch (e) {
+    console.warn("Reddit link parse failed");
+  }
+
 }
 
 document.getElementById("story-container").innerHTML=`
@@ -193,9 +210,11 @@ ${paragraphs}
 
 <div class="story-links">
 
-${s.original_url ? `<a href="${s.original_url}" target="_blank">Original source</a>` : ""}
+${redditLink ? `<a href="${redditLink}" target="_blank">Discuss this story on Reddit</a>` : ""}
 
-${redditLink ? `<a href="${redditLink}" target="_blank">Discuss on Reddit</a>` : ""}
+<a href="https://reddit.com/r/NoSpinMedia" target="_blank">
+Visit our Reddit community
+</a>
 
 </div>
 
