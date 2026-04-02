@@ -127,7 +127,7 @@ return text;
 
 async function loadStories(){
 
-const apiURL="https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=headline,summary,posted_at&used=eq.true&order=posted_at.desc&limit=20";
+const apiURL="https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=20";
 
 const res=await fetch(apiURL,{
 headers:{apikey:"sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB"}
@@ -158,14 +158,16 @@ card.className="story-card";
 card.innerHTML=`
 
 <h3>
-<a href="#" class="headline-link">${s.headline}</a>
+<a href="news.html?story=${s.url}" class="headline-link">
+${s.headline}
+</a>
 </h3>
 
 <div class="story-date">${date}</div>
 
 <div class="story-summary">${firstParagraph}</div>
 
-<a class="story-link" href="#" title="Full story page will be added later">
+<a class="story-link" href="news.html?story=${s.url}">
 Read full story →
 </a>
 
