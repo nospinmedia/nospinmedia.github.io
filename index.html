@@ -10,7 +10,85 @@
 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053277983719011"
 crossorigin="anonymous"></script>
 
-<style>
+<script>
+
+function convertRedditMarkdown(text){
+
+if(!text) return "";
+
+text=text.replace(/\\n\\n/g,"\n\n");
+text=text.replace(/\\n/g,"\n");
+
+text=text.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>");
+text=text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,"<em>$1</em>");
+
+return text;
+
+}
+
+async function loadStories(){
+
+const apiURL="https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=headline,summary,posted_at&used=eq.true&order=posted_at.desc&limit=10";
+
+const res=await fetch(apiURL,{
+headers:{apikey:"sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB"}
+});
+
+const stories=await res.json();
+
+const container=document.getElementById("news-container");
+
+container.innerHTML="";
+
+stories.forEach(s=>{
+
+let cleanText=convertRedditMarkdown(s.summary);
+
+let firstParagraph=cleanText.split("\n\n")[0];
+
+const date=new Date(s.posted_at).toLocaleDateString("en-US",{
+year:"numeric",
+month:"long",
+day:"numeric"
+});
+
+const card=document.createElement("div");
+
+card.className="story-card";
+
+card.innerHTML=`
+
+<h3>${s.headline}</h3>
+
+<div class="story-date">${date}</div>
+
+<div class="story-summary">${firstParagraph}</div>
+
+<a class="story-link" href="#" title="Full story page will be added later">
+Read full story →
+</a>
+
+`;
+
+container.appendChild(card);
+
+});
+
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+
+fetch("header.html")
+.then(res=>res.text())
+.then(html=>{
+document.getElementById("site-header").innerHTML=html;
+loadStories();
+});
+
+});
+
+</script>
+  <style>
 
 body{
 font-family:Arial,sans-serif;
@@ -23,66 +101,68 @@ padding-top:70px;
 
 .container{
 display:flex;
-flex-wrap:wrap;
-padding:2rem;
-max-width:1200px;
+max-width:1400px;
 margin:0 auto;
+padding:1.5rem;
 gap:2rem;
 }
 
+.left-ad,
+.right-ad{
+flex:1;
+min-width:160px;
+}
+
 .main{
-flex:1 1 65%;
-padding:1rem;
+flex:3;
+max-width:850px;
+margin:0 auto;
 }
 
-.sidebar{
-flex:1 1 30%;
+.story-card{
 background:#fff;
-padding:1rem;
-margin-top:2rem;
-border-left:2px solid #eee;
+padding:1.4rem;
+margin-bottom:1.2rem;
 border-radius:6px;
-box-shadow:0 2px 8px rgba(0,0,0,0.05);
-align-self:flex-start;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
 }
 
-h1{
-font-size:2rem;
-margin-top:0;
-}
-
-.latest-card{
-background:#fff;
-padding:1.3rem;
-margin-bottom:1rem;
-border-radius:6px;
-box-shadow:0 2px 8px rgba(0,0,0,0.08);
-}
-
-.latest-card h3{
+.story-card h3{
 margin:0 0 8px 0;
-font-size:1.25rem;
+font-size:1.35rem;
+line-height:1.4;
 }
 
-.latest-meta{
+.story-date{
 font-size:.85rem;
-color:#666;
-margin-bottom:8px;
-}
-
-.latest-summary{
-line-height:1.5;
+color:#777;
 margin-bottom:10px;
 }
 
-.read-link{
+.story-summary{
+line-height:1.6;
+font-size:1rem;
+}
+
+.story-link{
+display:inline-block;
+margin-top:10px;
 font-weight:bold;
 text-decoration:none;
 color:#0066cc;
 }
 
-.read-link:hover{
+.story-link:hover{
 text-decoration:underline;
+}
+
+.ad-box{
+background:#eaeaea;
+border-radius:6px;
+padding:1rem;
+text-align:center;
+font-size:.9rem;
+color:#777;
 }
 
 footer{
@@ -92,46 +172,20 @@ font-size:.9rem;
 color:#666;
 }
 
-#feedbackForm input,
-#feedbackForm textarea{
-width:100%;
-padding:8px;
-margin:6px 0;
-border:1px solid #ccc;
-border-radius:4px;
-}
-
-#feedbackForm button{
-background:#0073e6;
-color:#fff;
-border:none;
-padding:10px;
-width:100%;
-font-weight:bold;
-border-radius:4px;
-cursor:pointer;
-}
-
-#feedbackForm button:hover{
-background:#005bb5;
-}
-
-#formStatus{
-font-size:.9em;
-margin:6px 0;
-text-align:center;
-}
-
-@media(max-width:768px){
+@media(max-width:900px){
 
 .container{
 flex-direction:column;
 }
 
-.sidebar{
-margin-top:1rem;
-border-left:none;
-border-top:2px solid #eee;
+.left-ad,
+.right-ad{
+order:2;
+}
+
+.main{
+order:1;
+max-width:100%;
 }
 
 }
@@ -145,180 +199,26 @@ border-top:2px solid #eee;
 
 <div class="container">
 
+<div class="left-ad">
+<div class="ad-box">Ad Space</div>
+</div>
+
 <div class="main">
 
 <h1>Latest News</h1>
 
-<div id="latest-news"></div>
+<div id="news-container"></div>
 
 </div>
 
-<div class="sidebar">
-
-<h2>Support Us 💙</h2>
-
-<p>Like what we're doing? Help keep No Spin Media running:</p>
-
-<p><strong>Venmo:</strong><br>
-<a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
-</p>
-
-<h2>Follow Us</h2>
-
-<p>
-📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">
-facebook.com/NoSpinNewsAI
-</a>
-</p>
-
-<p>
-🔺 <a href="https://reddit.com/r/NoSpinMedia" target="_blank">
-reddit.com/r/NoSpinMedia
-</a>
-</p>
-
-<p>
-🟦 <a href="https://bsky.app/profile/nospinmedia.bsky.social" target="_blank">
-nospinmedia.bsky.social
-</a>
-</p>
-
-<h2>We ❤️ Your Thoughts!</h2>
-
-<p>
-Have an idea, suggestion, or just want to say hi? We read every message you send.
-</p>
-
-<p>
-Contact: <strong>nospinmedia.ai@gmail.com</strong>
-</p>
-
-<form id="feedbackForm">
-
-<input type="text" id="name" placeholder="Your first name">
-
-<input type="email" id="email" placeholder="you@email.com" required>
-
-<textarea id="message" rows="4" placeholder="Your feedback..." required></textarea>
-
-<p id="formStatus"></p>
-
-<button type="submit">💬 Send Feedback</button>
-
-</form>
-
+<div class="right-ad">
+<div class="ad-box">Ad Space</div>
 </div>
 
 </div>
 
 <footer>
-
 © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
 Seriously factual, surprisingly fun.
-
 </footer>
-
-<script>
-
-async function loadLatestStories(){
-
-const apiURL="https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=headline,summary,original_url,posted_at&used=eq.true&order=posted_at.desc&limit=10";
-
-const res=await fetch(apiURL,{
-headers:{
-apikey:"sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB"
-}
-});
-
-const stories=await res.json();
-
-const container=document.getElementById("latest-news");
-
-container.innerHTML="";
-
-stories.forEach(s=>{
-
-const card=document.createElement("div");
-
-card.className="latest-card";
-
-const date=new Date(s.posted_at).toLocaleDateString("en-US",{
-year:"numeric",
-month:"long",
-day:"numeric"
-});
-
-const firstParagraph=s.summary.split("\n\n")[0];
-
-card.innerHTML=`
-<h3>${s.headline}</h3>
-<div class="latest-meta">${date}</div>
-<div class="latest-summary">${firstParagraph}</div>
-<a class="read-link" href="${s.original_url}" target="_blank">Read full story →</a>
-`;
-
-container.appendChild(card);
-
-});
-
-}
-
-document.addEventListener('DOMContentLoaded',function(){
-
-fetch('header.html')
-.then(res=>res.text())
-.then(html=>{
-document.getElementById('site-header').innerHTML=html;
-loadLatestStories();
-})
-.catch(err=>console.error(err));
-
-const feedbackForm=document.getElementById('feedbackForm');
-
-if(feedbackForm){
-
-feedbackForm.addEventListener('submit',async function(e){
-
-e.preventDefault();
-
-const status=document.getElementById('formStatus');
-
-status.textContent="Sending...";
-
-const data={
-name:document.getElementById('name').value||"Someone",
-email:document.getElementById('email').value,
-subject:"Main Page Feedback",
-message:document.getElementById('message').value
-};
-
-try{
-
-const res=await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec',{
-method:'POST',
-headers:{'Content-Type':'text/plain'},
-body:JSON.stringify(data)
-});
-
-status.textContent="Thanks! Your feedback was sent.";
-
-this.reset();
-
-setTimeout(()=>{status.textContent=""},5000);
-
-}catch(err){
-
-status.textContent="Failed to send.";
-
-}
-
-});
-
-}
-
-});
-
-</script>
-
-</body>
 </html>
