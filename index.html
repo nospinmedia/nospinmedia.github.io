@@ -152,13 +152,14 @@ day:"numeric"
 });
 
 const card=document.createElement("div");
-
 card.className="story-card";
+card.style.cursor="pointer";
+card.onclick=()=>{window.location=`story.html?story=${s.url}`};
 
 card.innerHTML=`
 
 <h3>
-<a href="news.html?story=${s.url}" class="headline-link">
+<a href="story.html?story=${s.url}" class="headline-link">
 ${s.headline}
 </a>
 </h3>
@@ -167,7 +168,7 @@ ${s.headline}
 
 <div class="story-summary">${firstParagraph}</div>
 
-<a class="story-link" href="news.html?story=${s.url}">
+<a class="story-link" href="story.html?story=${s.url}">
 Read full story →
 </a>
 
