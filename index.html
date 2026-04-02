@@ -10,15 +10,7 @@
 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053277983719011"
 crossorigin="anonymous"></script>
 
-  .headline-link{
-color:#222;
-text-decoration:none;
-}
-
-.headline-link:hover{
-text-decoration:underline;
-}
-  
+ 
 <script>
 
 function convertRedditMarkdown(text){
@@ -35,7 +27,16 @@ return text;
 
 }
 
-async function loadStories(){
+  .headline-link{
+color:#222;
+text-decoration:none;
+}
+
+.headline-link:hover{
+text-decoration:underline;
+}
+  
+  async function loadStories(){
 
 const apiURL="https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=headline,summary,posted_at&used=eq.true&order=posted_at.desc&limit=20";
 
@@ -112,7 +113,7 @@ padding-top:70px;
 
 .container{
 display:flex;
-max-width:1400px;
+max-width:1600px;
 margin:0 auto;
 padding:1.5rem;
 gap:2rem;
@@ -195,8 +196,9 @@ order:2;
 }
 
 .main{
-order:1;
-max-width:100%;
+flex:5;
+max-width:1200px;
+margin:0 auto;
 }
 
 }
@@ -210,9 +212,7 @@ max-width:100%;
 
 <div class="container">
 
-<div class="left-ad">
-<div class="ad-box">Ad Space</div>
-</div>
+<div class="left-ad"></div>
 
 <div class="main">
 
@@ -222,14 +222,11 @@ max-width:100%;
 
 </div>
 
-<div class="right-ad">
-<div class="ad-box">Ad Space</div>
-</div>
+<div class="right-ad"></div>
 
 </div>
 
 <footer>
 © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
-Seriously factual, surprisingly fun.
 </footer>
 </html>
