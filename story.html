@@ -173,23 +173,22 @@ day:"numeric"
 let redditLink = "";
 
 if (s.reddit_post_id) {
-
   try {
 
     const parsed = JSON.parse(s.reddit_post_id);
 
-    const redirectStep = parsed.jquery.find(step =>
-      step[2] === "attr" && step[3] && step[3][0] && step[3][0].startsWith("https://reddit.com")
-    );
-
-    if (redirectStep) {
-      redditLink = redirectStep[3][0];
+    if (
+      parsed.jquery &&
+      parsed.jquery[10] &&
+      parsed.jquery[10][3] &&
+      parsed.jquery[10][3][0]
+    ) {
+      redditLink = parsed.jquery[10][3][0];
     }
 
-  } catch (e) {
-    console.warn("Reddit link parse failed");
+  } catch(e) {
+    console.warn("Could not parse reddit_post_id");
   }
-
 }
 
 document.getElementById("story-container").innerHTML=`
@@ -210,13 +209,14 @@ ${paragraphs}
 
 <div class="story-links">
 
-${redditLink ? `<a href="${redditLink}" target="_blank">Discuss this story on Reddit</a>` : ""}
+${redditLink ? `
+<a href="${redditLink}">
+Join the discussion on Reddit
+</a>` : ""}
 
 <a href="https://reddit.com/r/NoSpinMedia" target="_blank">
-Visit our Reddit community
+Browse more discussions in r/NoSpinMedia
 </a>
-
-</div>
 
 </div>
 
