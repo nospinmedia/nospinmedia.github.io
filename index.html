@@ -4,13 +4,111 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>No Spin Media</title>
+
 <link rel="stylesheet" href="style.css"/>
 
 <script async
 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053277983719011"
 crossorigin="anonymous"></script>
 
- 
+<style>
+
+body{
+font-family:Arial,sans-serif;
+margin:0;
+padding:0;
+background:#f4f4f4;
+color:#222;
+padding-top:70px;
+}
+
+.container{
+display:flex;
+max-width:1600px;
+margin:0 auto;
+padding:1.5rem;
+gap:2rem;
+}
+
+.left-ad,
+.right-ad{
+flex:1;
+min-width:160px;
+}
+
+.main{
+flex:5;
+max-width:1200px;
+margin:0 auto;
+}
+
+.story-card{
+background:#fff;
+padding:1.4rem;
+margin-bottom:1.2rem;
+border-radius:6px;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+.story-card h3{
+margin:0 0 8px 0;
+font-size:1.5rem;
+line-height:1.4;
+}
+
+.story-date{
+font-size:.85rem;
+color:#777;
+margin-bottom:10px;
+}
+
+.story-summary{
+line-height:1.6;
+font-size:1rem;
+}
+
+.story-link{
+display:inline-block;
+margin-top:10px;
+font-weight:bold;
+text-decoration:none;
+color:#0066cc;
+}
+
+.story-link:hover{
+text-decoration:underline;
+}
+
+.headline-link{
+color:#222;
+text-decoration:none;
+}
+
+.headline-link:hover{
+text-decoration:underline;
+}
+
+footer{
+text-align:center;
+padding:1rem;
+font-size:.9rem;
+color:#666;
+}
+
+@media(max-width:900px){
+
+.container{
+flex-direction:column;
+}
+
+.main{
+max-width:100%;
+}
+
+}
+
+</style>
+
 <script>
 
 function convertRedditMarkdown(text){
@@ -27,16 +125,7 @@ return text;
 
 }
 
-  .headline-link{
-color:#222;
-text-decoration:none;
-}
-
-.headline-link:hover{
-text-decoration:underline;
-}
-  
-  async function loadStories(){
+async function loadStories(){
 
 const apiURL="https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=headline,summary,posted_at&used=eq.true&order=posted_at.desc&limit=20";
 
@@ -100,110 +189,7 @@ loadStories();
 });
 
 </script>
-  <style>
 
-body{
-font-family:Arial,sans-serif;
-margin:0;
-padding:0;
-background:#f4f4f4;
-color:#222;
-padding-top:70px;
-}
-
-.container{
-display:flex;
-max-width:1600px;
-margin:0 auto;
-padding:1.5rem;
-gap:2rem;
-}
-
-.left-ad,
-.right-ad{
-flex:1;
-min-width:160px;
-}
-
-.main {
-flex:4;
-max-width:1100px;
-margin:0 auto;
-}
-
-.story-card{
-background:#fff;
-padding:1.4rem;
-margin-bottom:1.2rem;
-border-radius:6px;
-box-shadow:0 2px 10px rgba(0,0,0,0.08);
-}
-
-.story-card h3{
-margin:0 0 8px 0;
-font-size:1.5rem;
-line-height:1.4;
-}
-
-.story-date{
-font-size:.85rem;
-color:#777;
-margin-bottom:10px;
-}
-
-.story-summary{
-line-height:1.6;
-font-size:1rem;
-}
-
-.story-link{
-display:inline-block;
-margin-top:10px;
-font-weight:bold;
-text-decoration:none;
-color:#0066cc;
-}
-
-.story-link:hover{
-text-decoration:underline;
-}
-
-.ad-box{
-background:#eaeaea;
-border-radius:6px;
-padding:1rem;
-text-align:center;
-font-size:.9rem;
-color:#777;
-}
-
-footer{
-text-align:center;
-padding:1rem;
-font-size:.9rem;
-color:#666;
-}
-
-@media(max-width:900px){
-
-.container{
-flex-direction:column;
-}
-
-.left-ad,
-.right-ad{
-order:2;
-}
-
-.main{
-flex:5;
-max-width:1200px;
-margin:0 auto;
-}
-
-}
-
-</style>
 </head>
 
 <body>
