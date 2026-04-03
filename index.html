@@ -33,10 +33,6 @@ color:#222;
 padding-top:70px;
 }
 
-.affiliate-box iframe{
-max-width:260px;
-}
-  
 .container{
 display:flex;
 max-width:1600px;
@@ -75,12 +71,6 @@ text-transform:uppercase;
 letter-spacing:.05em;
 border-bottom:2px solid #0066cc;
 padding-bottom:6px;
-}
-
-.affiliate-box iframe,
-.affiliate-box script{
-width:100% !important;
-max-width:100% !important;
 }
 
 .story-card{
@@ -208,6 +198,24 @@ const gearLinks = {
   default:    [{text:"Emergency preparedness kit", k:"emergency+preparedness+kit"},{text:"First aid kit", k:"first+aid+kit"},{text:"Emergency weather radio", k:"emergency+weather+radio"}]
 };
 
+function detectCategory(headlines){
+  const counts = {};
+  headlines.forEach(h => {
+    const chars = [...h];
+    for(let i = 0; i < Math.min(3, chars.length); i++){
+      const ch = chars[i];
+      const twoChar = chars[i] + (chars[i+1] || "");
+      const cat = emojiMap[twoChar] || emojiMap[ch];
+      if(cat){
+        counts[cat] = (counts[cat] || 0) + 1;
+        break;
+      }
+    }
+  });
+  if(Object.keys(counts).length === 0) return "default";
+  return Object.entries(counts).sort((a,b) => b[1]-a[1])[0][0];
+}
+
 function buildSidebars(headlines){
   const cat = detectCategory(headlines);
   const tag = "nospinmedia-20";
@@ -264,7 +272,6 @@ async function loadStories(){
 
   const stories=await res.json();
 
-  /* Build sidebars from top 3 headlines */
   const top3 = stories.slice(0,3).map(s => s.headline || "");
   buildSidebars(top3);
 
@@ -363,6 +370,5 @@ document.addEventListener("DOMContentLoaded", function() {
 © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
 </footer>
 
-<script src="https://z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US"></script>
 </body>
 </html>
