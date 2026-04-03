@@ -246,6 +246,15 @@ function passesMonthOnlyFilter(postedAt, month){
     return String(d.getMonth() + 1).padStart(2, "0") === month;
 }
 
+async function loadRecent(){
+    const res = await fetch(`${SUPABASE_URL}/news_posts?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=3`, {
+        headers:{ apikey: SUPABASE_KEY }
+    });
+    const stories = await res.json();
+    document.getElementById("results-info").textContent = "Recent stories — use filters above to search the full archive.";
+    displayStories(stories, "news_posts");
+}
+    
 async function searchArchive(){
     const database = document.getElementById("database").value;
     const month = document.getElementById("month").value;
@@ -424,6 +433,8 @@ document.addEventListener("DOMContentLoaded", function() {
             searchArchive();
         }
     });
+
+    loadRecent();
 });
 </script>
 
