@@ -195,7 +195,7 @@ async function loadStories(){
 
       <div class="card-footer">
         <a class="story-link" href="story.html?story=${s.url}">Read full story →</a>
-        <button class="share-btn" onclick="event.stopPropagation(); shareStory('${s.url}', '${safeHeadline}', this)">🔗 Share this story</button>
+        <button class="share-btn" onclick="event.stopPropagation(); shareStory('${s.original_url}', '${safeHeadline}', this)">🔗 Share this story</button>
       </div>
 
     `;
