@@ -142,20 +142,12 @@ function convertRedditMarkdown(text){
 
 function shareStory(url, headline, btn){
   const shareUrl = `${window.location.origin}/story.html?story=${encodeURIComponent(url)}`;
-  if(navigator.share){
-    navigator.share({
-      title: "No Spin Media",
-      text: headline,
-      url: shareUrl
-    }).catch(()=>{});
-  } else {
-    navigator.clipboard.writeText(shareUrl).then(()=>{
-      btn.textContent = "✓ Copied!";
-      setTimeout(()=> btn.textContent = "🔗 Share this story", 2000);
-    }).catch(()=>{
-      alert("Share URL: " + shareUrl);
-    });
-  }
+  navigator.clipboard.writeText(shareUrl).then(()=>{
+    btn.textContent = "✓ Copied!";
+    setTimeout(()=> btn.textContent = "🔗 Share this story", 2000);
+  }).catch(()=>{
+    alert("Copied: " + shareUrl);
+  });
 }
 
 async function loadStories(){
