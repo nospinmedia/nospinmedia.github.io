@@ -194,11 +194,12 @@ card.onclick=(e)=>{ if(e.target.closest(".share-btn")) return; window.location=`
 
 card.innerHTML=`
 
+<button class="share-btn" onclick="event.stopPropagation(); shareStory('${s.url}', '${s.headline.replace(/'/g,"\\'")}', this)">🔗 Share</button>
+
 <h3>
 <a href="story.html?story=${s.url}" class="headline-link">
 ${s.headline}
 </a>
-<button class="share-btn" onclick="event.stopPropagation(); shareStory('${s.url}', '${s.headline.replace(/'/g,"\\'")}', this)">🔗 Share</button>
 </h3>
 
 <div class="story-date">${date}</div>
