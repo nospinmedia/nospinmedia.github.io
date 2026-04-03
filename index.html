@@ -13,31 +13,6 @@ crossorigin="anonymous"></script>
 
 <style>
 
-.story-card {
-  position: relative;
-}
-
-.story-card h3 {
-  padding-right: 120px;
-}
-
-.share-btn {
-  position: absolute;
-  top: 1.2rem;
-  right: 1.2rem;
-  background: #0066cc;
-  color: #fff;
-  border: none;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: .82rem;
-  font-weight: bold;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.share-btn:hover { background: #004ea8; }
-  
 body{
 font-family:Arial,sans-serif;
 margin:0;
@@ -73,6 +48,7 @@ padding:1.4rem;
 margin-bottom:1.2rem;
 border-radius:6px;
 box-shadow:0 2px 10px rgba(0,0,0,0.08);
+cursor:pointer;
 }
 
 .story-card h3{
@@ -92,15 +68,34 @@ line-height:1.6;
 font-size:1rem;
 }
 
+.card-footer{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:12px;
+}
+
 .story-link{
-display:inline-block;
-margin-top:10px;
 font-weight:bold;
 text-decoration:none;
 color:#0066cc;
 }
 
 .story-link:hover{
+text-decoration:underline;
+}
+
+.share-btn{
+background:none;
+border:none;
+color:#0066cc;
+font-weight:bold;
+font-size:1rem;
+cursor:pointer;
+padding:0;
+}
+
+.share-btn:hover{
 text-decoration:underline;
 }
 
@@ -137,84 +132,83 @@ max-width:100%;
 <script>
 
 function convertRedditMarkdown(text){
-
-if(!text) return "";
-
-text=text.replace(/\\n\\n/g,"\n\n");
-text=text.replace(/\\n/g,"\n");
-
-text=text.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>");
-text=text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,"<em>$1</em>");
-
-return text;
-
+  if(!text) return "";
+  text=text.replace(/\\n\\n/g,"\n\n");
+  text=text.replace(/\\n/g,"\n");
+  text=text.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>");
+  text=text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,"<em>$1</em>");
+  return text;
 }
 
-function shareStory(url, headline, btn) {
+function shareStory(url, headline, btn){
   const shareUrl = `${window.location.origin}/story.html?story=${encodeURIComponent(url)}`;
-  if (navigator.share) {
-    navigator.share({ title: "No Spin Media", text: headline, url: shareUrl }).catch(()=>{});
+  if(navigator.share){
+    navigator.share({
+      title: "No Spin Media",
+      text: headline,
+      url: shareUrl
+    }).catch(()=>{});
   } else {
-    navigator.clipboard.writeText(shareUrl).then(() => {
+    navigator.clipboard.writeText(shareUrl).then(()=>{
       btn.textContent = "✓ Copied!";
-      setTimeout(() => btn.textContent = "🔗 Share", 2000);
+      setTimeout(()=> btn.textContent = "🔗 Share this story", 2000);
     });
   }
 }
+
 async function loadStories(){
 
-const apiURL="https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=20";
+  const apiURL="https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=20";
 
-const res=await fetch(apiURL,{
-headers:{apikey:"sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB"}
-});
+  const res=await fetch(apiURL,{
+    headers:{apikey:"sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB"}
+  });
 
-const stories=await res.json();
+  const stories=await res.json();
 
-const container=document.getElementById("news-container");
+  const container=document.getElementById("news-container");
+  container.innerHTML="";
 
-container.innerHTML="";
+  stories.forEach(s=>{
 
-stories.forEach(s=>{
+    let cleanText=convertRedditMarkdown(s.summary);
+    let firstParagraph=cleanText.split("\n\n")[0];
 
-let cleanText=convertRedditMarkdown(s.summary);
+    const date=new Date(s.posted_at).toLocaleDateString("en-US",{
+      year:"numeric",
+      month:"long",
+      day:"numeric"
+    });
 
-let firstParagraph=cleanText.split("\n\n")[0];
+    const card=document.createElement("div");
+    card.className="story-card";
+    card.onclick=(e)=>{
+      if(e.target.closest(".share-btn")) return;
+      window.location=`story.html?story=${s.url}`;
+    };
 
-const date=new Date(s.posted_at).toLocaleDateString("en-US",{
-year:"numeric",
-month:"long",
-day:"numeric"
-});
+    const safeHeadline=(s.headline||"").replace(/'/g,"\\'");
 
-const card=document.createElement("div");
-card.className="story-card";
-card.style.cursor="pointer";
-card.onclick=(e)=>{ if(e.target.closest(".share-btn")) return; window.location=`story.html?story=${s.url}`; };
+    card.innerHTML=`
 
-card.innerHTML=`
+      <h3>
+        <a href="story.html?story=${s.url}" class="headline-link">${s.headline}</a>
+      </h3>
 
-<button class="share-btn" onclick="event.stopPropagation(); shareStory('${s.url}', '${s.headline.replace(/'/g,"\\'")}', this)">🔗 Share</button>
+      <div class="story-date">${date}</div>
 
-<h3>
-<a href="story.html?story=${s.url}" class="headline-link">
-${s.headline}
-</a>
-</h3>
+      <div class="story-summary">${firstParagraph}</div>
 
-<div class="story-date">${date}</div>
+      <div class="card-footer">
+        <a class="story-link" href="story.html?story=${s.url}">Read full story →</a>
+        <button class="share-btn" onclick="event.stopPropagation(); shareStory('${s.url}', '${safeHeadline}', this)">🔗 Share this story</button>
+      </div>
 
-<div class="story-summary">${firstParagraph}</div>
+    `;
 
-<a class="story-link" href="story.html?story=${s.url}">
-Read full story →
-</a>
+    container.appendChild(card);
 
-`;
-
-container.appendChild(card);
-
-});
+  });
 
 }
 
@@ -224,7 +218,6 @@ document.addEventListener("DOMContentLoaded", function() {
     .then(html => {
       document.getElementById("site-header").innerHTML = html;
 
-      // Init hamburger directly here — don't rely on header.html's script
       const hamburger = document.getElementById("hamburger");
       const mobileNav = document.getElementById("mobile-nav");
 
