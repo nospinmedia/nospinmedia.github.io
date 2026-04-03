@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>No Spin Media</title>
 
+<meta property="og:site_name" content="No Spin Media">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://nospin.media/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:title" content="No Spin Media">
+<meta property="og:description" content="Independent news. Clear facts. No spin. Verified reporting from reputable sources.">
+<meta property="og:url" content="https://nospin.media">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nospin.media/preview.png">
+
 <link rel="stylesheet" href="style.css"/>
 
 <script async
@@ -33,13 +44,39 @@ gap:2rem;
 .left-ad,
 .right-ad{
 flex:1;
-min-width:160px;
+min-width:200px;
+max-width:260px;
 }
 
 .main{
 flex:5;
 max-width:1200px;
 margin:0 auto;
+}
+
+.affiliate-box{
+background:#fff;
+padding:12px;
+border-radius:6px;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+margin-bottom:16px;
+}
+
+.affiliate-box h4{
+margin:0 0 10px 0;
+font-size:.85rem;
+font-weight:bold;
+color:#555;
+text-transform:uppercase;
+letter-spacing:.05em;
+border-bottom:2px solid #0066cc;
+padding-bottom:6px;
+}
+
+.affiliate-box iframe,
+.affiliate-box script{
+width:100% !important;
+max-width:100% !important;
 }
 
 .story-card{
@@ -87,20 +124,6 @@ color:#0066cc;
 text-decoration:underline;
 }
 
-.share-btn{
-background:none;
-border:none;
-color:#0066cc;
-font-weight:bold;
-font-size:1rem;
-cursor:pointer;
-padding:0;
-}
-
-.share-btn:hover{
-text-decoration:underline;
-}
-
 .headline-link{
 color:#222;
 text-decoration:none;
@@ -118,20 +141,144 @@ color:#666;
 }
 
 @media(max-width:900px){
-
 .container{
 flex-direction:column;
 }
-
+.left-ad,
+.right-ad{
+max-width:100%;
+}
 .main{
 max-width:100%;
 }
-
 }
 
 </style>
 
 <script>
+
+/* ── Emoji → category map ── */
+const emojiMap = {
+  "🚀": "space",
+  "🌙": "space",
+  "🔭": "space",
+  "✈️": "military",
+  "🪖": "military",
+  "⚔️": "military",
+  "🛫": "military",
+  "🛢️": "energy",
+  "⛽": "energy",
+  "🔥": "energy",
+  "⚖️": "politics",
+  "🏛️": "politics",
+  "🗳️": "politics",
+  "💊": "health",
+  "🧠": "health",
+  "🦦": "health",
+  "🤖": "technology",
+  "📱": "technology",
+  "💵": "economy",
+  "📉": "economy",
+  "🏦": "economy"
+};
+
+/* ── Category → Amazon keywords ── */
+const bookKeywords = {
+  space:      "space exploration books",
+  military:   "military aviation books",
+  energy:     "oil geopolitics books",
+  politics:   "political history books",
+  health:     "medical science books",
+  technology: "artificial intelligence books",
+  economy:    "economics financial books",
+  default:    "world history books"
+};
+
+const gearKeywords = {
+  space:      "telescope astronomy",
+  military:   "emergency preparedness gear",
+  energy:     "emergency weather radio",
+  politics:   "emergency preparedness kit",
+  health:     "first aid kit emergency",
+  technology: "home electronics gadgets",
+  economy:    "emergency preparedness kit",
+  default:    "emergency preparedness kit"
+};
+
+function detectCategory(headlines){
+  const counts = {};
+  headlines.forEach(h => {
+    /* grab first emoji — may be 1 or 2 codepoints */
+    const chars = [...h];
+    for(let i = 0; i < Math.min(3, chars.length); i++){
+      const ch = chars[i];
+      /* handle multi-codepoint emoji like ✈️ */
+      const twoChar = chars[i] + (chars[i+1] || "");
+      const cat = emojiMap[twoChar] || emojiMap[ch];
+      if(cat){
+        counts[cat] = (counts[cat] || 0) + 1;
+        break;
+      }
+    }
+  });
+  if(Object.keys(counts).length === 0) return "default";
+  return Object.entries(counts).sort((a,b) => b[1]-a[1])[0][0];
+}
+
+function injectAmazonWidget(containerId, keyword, category){
+  const el = document.getElementById(containerId);
+  if(!el) return;
+
+  /* Clear and inject fresh script tags */
+  el.innerHTML = "";
+
+  const s1 = document.createElement("script");
+  s1.type = "text/javascript";
+  s1.text = `
+    amzn_assoc_placement = "${containerId}";
+    amzn_assoc_tracking_id = "nospinmedia-20";
+    amzn_assoc_ad_mode = "search";
+    amzn_assoc_ad_type = "smart";
+    amzn_assoc_marketplace = "amazon";
+    amzn_assoc_region = "US";
+    amzn_assoc_default_search_phrase = "${keyword}";
+    amzn_assoc_default_category = "${category}";
+    amzn_assoc_linkid = "nsm_${containerId}";
+  `;
+  el.appendChild(s1);
+
+  const s2 = document.createElement("script");
+  s2.src = "//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US";
+  s2.async = true;
+  el.appendChild(s2);
+}
+
+function buildSidebars(headlines){
+  const cat = detectCategory(headlines);
+
+  const bookKw  = bookKeywords[cat]  || bookKeywords.default;
+  const gearKw  = gearKeywords[cat]  || gearKeywords.default;
+
+  /* Left — books */
+  const leftBox = document.getElementById("left-ad");
+  leftBox.innerHTML = `
+    <div class="affiliate-box">
+      <h4>📚 Recommended Reading</h4>
+      <div id="amzn-books"></div>
+    </div>
+  `;
+  injectAmazonWidget("amzn-books", bookKw, "Books");
+
+  /* Right — gear */
+  const rightBox = document.getElementById("right-ad");
+  rightBox.innerHTML = `
+    <div class="affiliate-box">
+      <h4>🛒 Related Items</h4>
+      <div id="amzn-gear"></div>
+    </div>
+  `;
+  injectAmazonWidget("amzn-gear", gearKw, "All");
+}
 
 function convertRedditMarkdown(text){
   if(!text) return "";
@@ -147,9 +294,7 @@ async function shareStory(url, headline, btn) {
   try {
     await navigator.clipboard.writeText(fullUrl);
     btn.innerHTML = "✅ Copied!";
-setTimeout(() => {
-  btn.innerHTML = "🔗 Share this story";
-}, 2000);
+    setTimeout(() => { btn.innerHTML = "🔗 Share this story"; }, 2000);
   } catch (err) {
     alert("Could not copy link. Please copy it manually from the address bar.");
   }
@@ -164,6 +309,10 @@ async function loadStories(){
   });
 
   const stories=await res.json();
+
+  /* Build sidebars from top 3 headlines */
+  const top3 = stories.slice(0,3).map(s => s.headline || "");
+  buildSidebars(top3);
 
   const container=document.getElementById("news-container");
   container.innerHTML="";
@@ -182,27 +331,22 @@ async function loadStories(){
     const card=document.createElement("div");
     card.className="story-card";
     card.onclick=(e)=>{
-      if(e.target.closest(".share-btn")) return;
+      if(e.target.closest(".story-link")) return;
       window.location=`story.html?story=${s.url}`;
     };
 
     const safeHeadline=(s.headline||"").replace(/'/g,"\\'").replace(/\n/g," ").replace(/\r/g,"");
 
     card.innerHTML=`
-
       <h3>
         <a href="story.html?story=${s.url}" class="headline-link">${s.headline}</a>
       </h3>
-
       <div class="story-date">${date}</div>
-
       <div class="story-summary">${firstParagraph}</div>
-
       <div class="card-footer">
         <a class="story-link" href="story.html?story=${s.url}">Read full story →</a>
         <a class="story-link" onclick="event.stopPropagation(); shareStory('${s.url}', '${safeHeadline}', this)" style="cursor:pointer;">🔗 Share this story</a>
       </div>
-
     `;
 
     container.appendChild(card);
@@ -247,7 +391,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <div class="container">
 
-<div class="left-ad"></div>
+<div class="left-ad" id="left-ad"></div>
 
 <div class="main">
 
@@ -257,7 +401,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </div>
 
-<div class="right-ad"></div>
+<div class="right-ad" id="right-ad"></div>
 
 </div>
 
