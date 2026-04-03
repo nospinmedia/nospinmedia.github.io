@@ -33,6 +33,10 @@ color:#222;
 padding-top:70px;
 }
 
+.affiliate-box iframe{
+max-width:260px;
+}
+  
 .container{
 display:flex;
 max-width:1600px;
@@ -229,7 +233,6 @@ function injectAmazonWidget(containerId, keyword, category){
   const el = document.getElementById(containerId);
   if(!el) return;
 
-  /* Clear and inject fresh script tags */
   el.innerHTML = "";
 
   const s1 = document.createElement("script");
@@ -243,14 +246,8 @@ function injectAmazonWidget(containerId, keyword, category){
     amzn_assoc_region = "US";
     amzn_assoc_default_search_phrase = "${keyword}";
     amzn_assoc_default_category = "${category}";
-    amzn_assoc_linkid = "nsm_${containerId}";
   `;
   el.appendChild(s1);
-
-  const s2 = document.createElement("script");
-  s2.src = "//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US";
-  s2.async = true;
-  el.appendChild(s2);
 }
 
 function buildSidebars(headlines){
@@ -383,6 +380,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </script>
 
+<script async src="https://z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US"></script>
 </head>
 
 <body>
