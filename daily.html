@@ -125,7 +125,12 @@ display:none;
 .post-content.show{
 display:block;
 }
-
+.post-preview{
+line-height:1.6;
+font-size:1rem;
+color:#444;
+margin-top:8px;
+}
 .card-footer{
 display:flex;
 justify-content:space-between;
@@ -250,9 +255,10 @@ function renderPosts(posts, autoExpand){
       card.innerHTML = `
         <h3>${p.headline_text || "Untitled"}</h3>
         <span class="post-type">${typeLabel}</span>
+        <div class="post-preview">${contentHtml.split("<br>")[0]}</div>
         <div class="post-content${expanded ? " show" : ""}">${contentHtml}</div>
         <div class="card-footer">
-          <a class="story-link toggle-link">Show post ▼</a>
+          <a class="story-link toggle-link">${expanded ? "Hide post ▲" : "Read more ▼"}</a>
           <a class="story-link share-link">🔗 Share this post</a>
         </div>
       `;
