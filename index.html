@@ -235,9 +235,9 @@ function injectAmazonWidget(containerId, keyword, category){
 
   el.innerHTML = "";
 
-  const s1 = document.createElement("script");
-  s1.type = "text/javascript";
-  s1.text = `
+  const config = document.createElement("script");
+  config.type = "text/javascript";
+  config.innerHTML = `
     amzn_assoc_placement = "${containerId}";
     amzn_assoc_tracking_id = "nospinmedia-20";
     amzn_assoc_ad_mode = "search";
@@ -247,7 +247,12 @@ function injectAmazonWidget(containerId, keyword, category){
     amzn_assoc_default_search_phrase = "${keyword}";
     amzn_assoc_default_category = "${category}";
   `;
-  el.appendChild(s1);
+  el.appendChild(config);
+
+  const engine = document.createElement("script");
+  engine.src = "https://z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US";
+  engine.async = true;
+  el.appendChild(engine);
 }
 
 function buildSidebars(headlines){
