@@ -145,11 +145,9 @@ async function shareStory(url, headline, btn) {
   try {
     await navigator.clipboard.writeText(fullUrl);
     btn.innerHTML = "✅ Copied!";
-    btn.style.color = "#28a745";
-    setTimeout(() => {
-      btn.innerHTML = "🔗 Share this story";
-      btn.style.color = "#0066cc";
-    }, 2000);
+setTimeout(() => {
+  btn.innerHTML = "🔗 Share this story";
+}, 2000);
   } catch (err) {
     alert("Could not copy link. Please copy it manually from the address bar.");
   }
