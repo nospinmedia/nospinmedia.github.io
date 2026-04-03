@@ -152,6 +152,8 @@ function shareStory(url, headline, btn){
     navigator.clipboard.writeText(shareUrl).then(()=>{
       btn.textContent = "✓ Copied!";
       setTimeout(()=> btn.textContent = "🔗 Share this story", 2000);
+    }).catch(()=>{
+      alert("Share URL: " + shareUrl);
     });
   }
 }
