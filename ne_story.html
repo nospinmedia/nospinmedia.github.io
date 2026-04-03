@@ -5,7 +5,16 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>No Spin Media – New England</title>
-
+<meta property="og:site_name" content="No Spin Media">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://nospin.media/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:title" content="No Spin Media – New England">
+<meta property="og:description" content="Independent news. Clear facts. No spin. Verified reporting from reputable sources.">
+<meta property="og:url" content="https://nospin.media/ne_story.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nospin.media/preview.png">
 <link rel="stylesheet" href="style.css"/>
 
 <script async
@@ -121,6 +130,14 @@ max-width:100%;
 
 <script>
 
+function shareStory(){
+  const shareUrl = window.location.href;
+  navigator.clipboard.writeText(shareUrl).then(()=>{
+    document.getElementById("share-btn").innerHTML = "✅ Copied!";
+    setTimeout(()=> document.getElementById("share-btn").innerHTML = "🔗 Share this story", 2000);
+  });
+}
+  
 function convertRedditMarkdown(text){
 
 if(!text) return "";
@@ -218,6 +235,8 @@ Join the discussion on Reddit
 <a href="https://www.reddit.com/r/NewEnglandContext/" target="_blank" rel="noopener">
 Explore more stories in r/NewEnglandContext
 </a>
+
+<button id="share-btn" onclick="shareStory()" style="background:none;border:none;color:#0066cc;font-weight:bold;font-size:1rem;cursor:pointer;padding:0;">🔗 Share this story</button>
 
 </div>
 
