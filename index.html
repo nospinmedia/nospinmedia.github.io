@@ -13,6 +13,31 @@ crossorigin="anonymous"></script>
 
 <style>
 
+.story-card {
+  position: relative;
+}
+
+.story-card h3 {
+  padding-right: 120px;
+}
+
+.share-btn {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  background: #0066cc;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: .82rem;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.share-btn:hover { background: #004ea8; }
+  
 body{
 font-family:Arial,sans-serif;
 margin:0;
@@ -125,6 +150,17 @@ return text;
 
 }
 
+function shareStory(url, headline, btn) {
+  const shareUrl = `${window.location.origin}/story.html?story=${encodeURIComponent(url)}`;
+  if (navigator.share) {
+    navigator.share({ title: "No Spin Media", text: headline, url: shareUrl }).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      btn.textContent = "✓ Copied!";
+      setTimeout(() => btn.textContent = "🔗 Share", 2000);
+    });
+  }
+}
 async function loadStories(){
 
 const apiURL="https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=20";
@@ -154,7 +190,7 @@ day:"numeric"
 const card=document.createElement("div");
 card.className="story-card";
 card.style.cursor="pointer";
-card.onclick=()=>{window.location=`story.html?story=${s.url}`};
+card.onclick=(e)=>{ if(e.target.closest(".share-btn")) return; window.location=`story.html?story=${s.url}`; };
 
 card.innerHTML=`
 
@@ -162,6 +198,7 @@ card.innerHTML=`
 <a href="story.html?story=${s.url}" class="headline-link">
 ${s.headline}
 </a>
+<button class="share-btn" onclick="event.stopPropagation(); shareStory('${s.url}', '${s.headline.replace(/'/g,"\\'")}', this)">🔗 Share</button>
 </h3>
 
 <div class="story-date">${date}</div>
