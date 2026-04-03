@@ -141,13 +141,7 @@ function convertRedditMarkdown(text){
 }
 
 function shareStory(url, headline, btn){
-  const shareUrl = `${window.location.origin}/story.html?story=${encodeURIComponent(url)}`;
-  navigator.clipboard.writeText(shareUrl).then(()=>{
-    btn.textContent = "✓ Copied!";
-    setTimeout(()=> btn.textContent = "🔗 Share this story", 2000);
-  }).catch(()=>{
-    alert("Copied: " + shareUrl);
-  });
+  alert("fired: " + url);
 }
 
 async function loadStories(){
@@ -195,7 +189,7 @@ async function loadStories(){
 
       <div class="card-footer">
         <a class="story-link" href="story.html?story=${s.url}">Read full story →</a>
-        <button class="share-btn" onclick="event.stopPropagation(); shareStory('${s.original_url}', '${safeHeadline}', this)">🔗 Share this story</button>
+        <button class="share-btn" onclick="event.stopPropagation(); shareStory('${s.url}', '${safeHeadline}', this)">🔗 Share this story</button>
       </div>
 
     `;
