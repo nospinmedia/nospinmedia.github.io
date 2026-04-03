@@ -440,11 +440,12 @@ document.addEventListener("DOMContentLoaded", function() {
     <div class="main">
 
         <h1>🧭 NSM Archive</h1>
+<p style="color:#666; margin:-0.5rem 0 1rem 0; font-size:1rem;">Search the No Spin Media archive by topic, keyword, or date.</p>
 
         <div class="archive-search">
             <select id="database">
-                <option value="news_posts">Main News</option>
-                <option value="news_ne">New England</option>
+                <option value="news_posts">📰 Main News</option>
+                <option value="news_ne">📍 New England</option>
             </select>
 
             <select id="month">
@@ -472,7 +473,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             <input type="text" id="keywords" placeholder="Keywords"/>
 
-            <button type="button" onclick="searchArchive()">Search</button>
+            <button type="button" onclick="searchArchive()">🔎 Search Archive</button>
         </div>
 
         <div id="results-info" class="results-info"></div>
