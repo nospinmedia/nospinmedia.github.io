@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -15,269 +14,417 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
 crossorigin="anonymous"></script>
 
 <style>
-
 body{
-font-family:Arial,sans-serif;
-margin:0;
-padding:0;
-background:#f4f4f4;
-color:#222;
-padding-top:70px;
+    font-family:Arial,sans-serif;
+    margin:0;
+    padding:0;
+    background:#f4f4f4;
+    color:#222;
+    padding-top:70px;
 }
 
 .container{
-display:flex;
-max-width:1600px;
-margin:0 auto;
-padding:1.5rem;
-gap:2rem;
+    display:flex;
+    max-width:1600px;
+    margin:0 auto;
+    padding:1.5rem;
+    gap:2rem;
 }
 
 .left-ad,
 .right-ad{
-flex:1;
-min-width:160px;
+    flex:1;
+    min-width:160px;
 }
 
 .main{
-flex:5;
-max-width:1200px;
-margin:0 auto;
-}
-
-.story-card{
-background:#fff;
-padding:1.4rem;
-margin-bottom:1.2rem;
-border-radius:6px;
-box-shadow:0 2px 10px rgba(0,0,0,0.08);
-cursor:pointer;
-}
-
-.story-card h3{
-margin:0 0 8px 0;
-font-size:1.5rem;
-line-height:1.4;
-}
-
-.story-date{
-font-size:.85rem;
-color:#777;
-margin-bottom:10px;
-}
-
-.story-summary{
-line-height:1.6;
-font-size:1rem;
-}
-
-.card-footer{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-top:12px;
-}
-
-.story-link{
-font-weight:bold;
-text-decoration:none;
-color:#0066cc;
-}
-
-.story-link:hover{
-text-decoration:underline;
-}
-
-.headline-link{
-color:#222;
-text-decoration:none;
-}
-
-.headline-link:hover{
-text-decoration:underline;
+    flex:5;
+    max-width:1200px;
+    margin:0 auto;
 }
 
 .archive-search{
-background:#fff;
-padding:16px;
-border-radius:6px;
-box-shadow:0 2px 10px rgba(0,0,0,0.08);
-margin-bottom:20px;
-display:flex;
-flex-wrap:wrap;
-gap:10px;
+    background:#fff;
+    padding:1rem;
+    margin-bottom:1.2rem;
+    border-radius:8px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
 }
 
 .archive-search select,
 .archive-search input{
-padding:8px;
-font-size:14px;
+    padding:10px;
+    font-size:1rem;
+    border:1px solid #ccc;
+    border-radius:6px;
+    background:#fff;
+}
+
+.archive-search input{
+    flex:1;
+    min-width:220px;
 }
 
 .archive-search button{
-padding:8px 16px;
-cursor:pointer;
-background:#333;
-color:#fff;
-border:none;
-border-radius:4px;
+    padding:10px 16px;
+    font-size:1rem;
+    border:none;
+    border-radius:6px;
+    background:#333;
+    color:#fff;
+    cursor:pointer;
 }
 
 .archive-search button:hover{
-background:#555;
+    background:#555;
+}
+
+.results-info{
+    margin:0 0 1rem 0;
+    color:#666;
+    font-size:.95rem;
+}
+
+.story-card{
+    background:#fff;
+    padding:1.4rem;
+    margin-bottom:1.2rem;
+    border-radius:6px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+    cursor:pointer;
+}
+
+.story-card h3{
+    margin:0 0 8px 0;
+    font-size:1.5rem;
+    line-height:1.4;
+}
+
+.story-date{
+    font-size:.85rem;
+    color:#777;
+    margin-bottom:10px;
+}
+
+.story-summary{
+    line-height:1.6;
+    font-size:1rem;
+}
+
+.card-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-top:12px;
+    flex-wrap:wrap;
+}
+
+.story-link{
+    font-weight:bold;
+    text-decoration:none;
+    color:#0066cc;
+}
+
+.story-link:hover{
+    text-decoration:underline;
+}
+
+.share-btn{
+    background:none;
+    border:none;
+    color:#0066cc;
+    font-weight:bold;
+    font-size:1rem;
+    cursor:pointer;
+    padding:0;
+}
+
+.share-btn:hover{
+    text-decoration:underline;
+}
+
+.headline-link{
+    color:#222;
+    text-decoration:none;
+}
+
+.headline-link:hover{
+    text-decoration:underline;
 }
 
 footer{
-text-align:center;
-padding:1rem;
-font-size:.9rem;
-color:#666;
+    text-align:center;
+    padding:1rem;
+    font-size:.9rem;
+    color:#666;
 }
 
 @media(max-width:900px){
+    .container{
+        flex-direction:column;
+    }
 
-.container{
-flex-direction:column;
+    .main{
+        max-width:100%;
+    }
 }
-
-.main{
-max-width:100%;
-}
-
-}
-
 </style>
 
 <script>
+const SUPABASE_URL = "https://dckmflnbprhmaqysuued.supabase.co/rest/v1";
+const SUPABASE_KEY = "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB";
 
 function convertRedditMarkdown(text){
-if(!text) return "";
+    if(!text) return "";
 
-text=text.replace(/\\n\\n/g,"\n\n");
-text=text.replace(/\\n/g,"\n");
+    text = text.replace(/\\n\\n/g,"\n\n");
+    text = text.replace(/\\n/g,"\n");
+    text = text.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>");
+    text = text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,"<em>$1</em>");
 
-text=text.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>");
-text=text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,"<em>$1</em>");
+    return text;
+}
 
-return text;
+function escapeHtml(text){
+    if(text == null) return "";
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function getStoryPage(database){
+    return database === "news_ne" ? "ne_story.html" : "story.html";
+}
+
+function buildDateFilters(params, year, month){
+    // No date filters at all
+    if(!year && !month) return;
+
+    // Year only
+    if(year && !month){
+        params.append("posted_at", `gte.${year}-01-01T00:00:00`);
+        params.append("posted_at", `lt.${Number(year)+1}-01-01T00:00:00`);
+        return;
+    }
+
+    // Month + year
+    if(year && month){
+        const start = `${year}-${month}-01T00:00:00`;
+
+        let nextYear = Number(year);
+        let nextMonth = Number(month) + 1;
+
+        if(nextMonth === 13){
+            nextMonth = 1;
+            nextYear += 1;
+        }
+
+        const nextMonthStr = String(nextMonth).padStart(2, "0");
+        const end = `${nextYear}-${nextMonthStr}-01T00:00:00`;
+
+        params.append("posted_at", `gte.${start}`);
+        params.append("posted_at", `lt.${end}`);
+        return;
+    }
+
+    // Month only: search across all years by month number
+    // Supabase/PostgREST does not make this pretty, so use all returned rows and filter client-side.
+    // We flag this by storing a custom marker.
+    params.append("_month_only", month);
+}
+
+function passesMonthOnlyFilter(postedAt, month){
+    if(!month) return true;
+    if(!postedAt) return false;
+    const d = new Date(postedAt);
+    if(Number.isNaN(d.getTime())) return false;
+    return String(d.getMonth() + 1).padStart(2, "0") === month;
 }
 
 async function searchArchive(){
+    const database = document.getElementById("database").value;
+    const month = document.getElementById("month").value;
+    const year = document.getElementById("year").value;
+    const keywordsRaw = document.getElementById("keywords").value.trim();
+    const container = document.getElementById("news-container");
+    const resultsInfo = document.getElementById("results-info");
 
-const database=document.getElementById("database").value;
-const month=document.getElementById("month").value;
-const year=document.getElementById("year").value;
-const keywords=document.getElementById("keywords").value;
+    container.innerHTML = "<p>Searching...</p>";
+    resultsInfo.textContent = "";
 
-let query=`https://dckmflnbprhmaqysuued.supabase.co/rest/v1/${database}?select=headline,summary,posted_at,url&used=eq.true`;
+    const params = new URLSearchParams();
+    params.set("select", "headline,summary,posted_at,url");
+    params.append("used", "eq.true");
+    params.append("order", "posted_at.desc");
+    params.append("limit", "200");
 
-if(year){
-query+=`&posted_at=gte.${year}-01-01&posted_at=lte.${year}-12-31`;
+    buildDateFilters(params, year, month);
+
+    const monthOnly = params.get("_month_only");
+    if(monthOnly){
+        params.delete("_month_only");
+    }
+
+    if(keywordsRaw){
+        const safeKeywords = keywordsRaw.replace(/,/g, " ").replace(/\s+/g, " ").trim();
+        params.append("or", `(headline.ilike.*${safeKeywords}*,summary.ilike.*${safeKeywords}*)`);
+    }
+
+    const queryUrl = `${SUPABASE_URL}/${database}?${params.toString()}`;
+
+    try{
+        const res = await fetch(queryUrl, {
+            headers: {
+                apikey: SUPABASE_KEY
+            }
+        });
+
+        if(!res.ok){
+            throw new Error(`Supabase returned ${res.status}`);
+        }
+
+        let stories = await res.json();
+
+        if(monthOnly){
+            stories = stories.filter(s => passesMonthOnlyFilter(s.posted_at, monthOnly));
+        }
+
+        displayStories(stories, database);
+
+        const pieces = [];
+        pieces.push(`${stories.length} result${stories.length === 1 ? "" : "s"}`);
+
+        if(database === "news_ne"){
+            pieces.push("New England");
+        } else {
+            pieces.push("Main News");
+        }
+
+        if(month){
+            const monthName = document.querySelector(`#month option[value="${month}"]`)?.textContent || month;
+            pieces.push(monthName);
+        }
+
+        if(year){
+            pieces.push(year);
+        }
+
+        if(keywordsRaw){
+            pieces.push(`"${keywordsRaw}"`);
+        }
+
+        resultsInfo.textContent = pieces.join(" • ");
+    } catch(err){
+        console.error(err);
+        container.innerHTML = "<p>Search failed. Check the browser console for details.</p>";
+    }
 }
 
-if(month){
-query+=`&posted_at=like.${year}-${month}%`;
+function displayStories(stories, database){
+    const container = document.getElementById("news-container");
+    const storyPage = getStoryPage(database);
+
+    container.innerHTML = "";
+
+    if(!stories || stories.length === 0){
+        container.innerHTML = "<p>No stories found.</p>";
+        return;
+    }
+
+    stories.forEach(s => {
+        const cleanText = convertRedditMarkdown(s.summary || "");
+        const firstParagraph = cleanText.split("\n\n")[0];
+        const safeHeadline = escapeHtml((s.headline || "").replace(/\n/g, " ").replace(/\r/g, ""));
+        const date = s.posted_at
+            ? new Date(s.posted_at).toLocaleDateString("en-US", {
+                year:"numeric",
+                month:"long",
+                day:"numeric"
+              })
+            : "";
+
+        const card = document.createElement("div");
+        card.className = "story-card";
+
+        card.onclick = (e) => {
+            if(e.target.closest(".share-btn")) return;
+            if(e.target.closest(".story-link")) return;
+            if(e.target.closest(".headline-link")) return;
+            window.location = `${storyPage}?story=${encodeURIComponent(s.url)}`;
+        };
+
+        card.innerHTML = `
+            <h3>
+                <a href="${storyPage}?story=${encodeURIComponent(s.url)}" class="headline-link">${safeHeadline}</a>
+            </h3>
+
+            <div class="story-date">${date}</div>
+
+            <div class="story-summary">${firstParagraph}</div>
+
+            <div class="card-footer">
+                <a class="story-link" href="${storyPage}?story=${encodeURIComponent(s.url)}">Read full story →</a>
+                <button class="share-btn" type="button">🔗 Share this story</button>
+            </div>
+        `;
+
+        const shareBtn = card.querySelector(".share-btn");
+        shareBtn.addEventListener("click", async (e) => {
+            e.stopPropagation();
+            const fullUrl = `${window.location.origin}/${storyPage}?story=${encodeURIComponent(s.url)}`;
+
+            try{
+                await navigator.clipboard.writeText(fullUrl);
+                shareBtn.textContent = "✅ Copied!";
+                setTimeout(() => {
+                    shareBtn.textContent = "🔗 Share this story";
+                }, 2000);
+            } catch(err){
+                alert("Could not copy link. Please copy it manually from the address bar.");
+            }
+        });
+
+        container.appendChild(card);
+    });
 }
 
-if(keywords){
-query+=`&or=(headline.ilike.*${keywords}*,summary.ilike.*${keywords}*)`;
-}
+document.addEventListener("DOMContentLoaded", function() {
+    fetch("header.html")
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById("site-header").innerHTML = html;
 
-query+="&order=posted_at.desc&limit=100";
+            const hamburger = document.getElementById("hamburger");
+            const mobileNav = document.getElementById("mobile-nav");
 
-const res=await fetch(query,{
-headers:{
-apikey:"sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB"
-}
+            if (hamburger && mobileNav) {
+                hamburger.onclick = () => {
+                    mobileNav.classList.toggle("open");
+                    hamburger.classList.toggle("active");
+                };
+
+                mobileNav.querySelectorAll("a").forEach(link => {
+                    link.onclick = () => {
+                        mobileNav.classList.remove("open");
+                        hamburger.classList.remove("active");
+                    };
+                });
+            }
+        })
+        .catch(err => console.error("Error loading header.html:", err));
+
+    document.getElementById("keywords").addEventListener("keydown", function(e){
+        if(e.key === "Enter"){
+            e.preventDefault();
+            searchArchive();
+        }
+    });
 });
-
-const stories=await res.json();
-
-displayStories(stories);
-
-}
-
-function displayStories(stories){
-
-const container=document.getElementById("news-container");
-container.innerHTML="";
-
-if(stories.length===0){
-container.innerHTML="<p>No stories found.</p>";
-return;
-}
-
-stories.forEach(s=>{
-
-let cleanText=convertRedditMarkdown(s.summary);
-let firstParagraph=cleanText.split("\n\n")[0];
-
-const date=new Date(s.posted_at).toLocaleDateString("en-US",{
-year:"numeric",
-month:"long",
-day:"numeric"
-});
-
-const card=document.createElement("div");
-card.className="story-card";
-
-card.onclick=()=>{
-window.location=`story.html?story=${s.url}`;
-};
-
-card.innerHTML=`
-
-<h3>
-<a href="story.html?story=${s.url}" class="headline-link">${s.headline}</a>
-</h3>
-
-<div class="story-date">${date}</div>
-
-<div class="story-summary">${firstParagraph}</div>
-
-<div class="card-footer">
-<a class="story-link" href="story.html?story=${s.url}">Read full story →</a>
-</div>
-
-`;
-
-container.appendChild(card);
-
-});
-
-}
-
-document.addEventListener("DOMContentLoaded", function(){
-
-fetch("header.html")
-.then(res=>res.text())
-.then(html=>{
-
-document.getElementById("site-header").innerHTML=html;
-
-const hamburger=document.getElementById("hamburger");
-const mobileNav=document.getElementById("mobile-nav");
-
-if(hamburger && mobileNav){
-
-hamburger.onclick=()=>{
-mobileNav.classList.toggle("open");
-hamburger.classList.toggle("active");
-};
-
-mobileNav.querySelectorAll("a").forEach(link=>{
-link.onclick=()=>{
-mobileNav.classList.remove("open");
-hamburger.classList.remove("active");
-};
-});
-
-}
-
-});
-
-});
-
 </script>
 
 </head>
@@ -288,57 +435,52 @@ hamburger.classList.remove("active");
 
 <div class="container">
 
-<div class="left-ad"></div>
+    <div class="left-ad"></div>
 
-<div class="main">
+    <div class="main">
 
-<h1>🧭 NSM Archive</h1>
+        <h1>🧭 NSM Archive</h1>
 
-<div class="archive-search">
+        <div class="archive-search">
+            <select id="database">
+                <option value="news_posts">Main News</option>
+                <option value="news_ne">New England</option>
+            </select>
 
-<select id="database">
-<option value="news_posts">Main News</option>
-<option value="news_ne">New England</option>
-</select>
+            <select id="month">
+                <option value="">Month</option>
+                <option value="01">January</option>
+                <option value="02">February</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">June</option>
+                <option value="07">July</option>
+                <option value="08">August</option>
+                <option value="09">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>
 
-<select id="month">
-<option value="">Month</option>
-<option value="01">January</option>
-<option value="02">February</option>
-<option value="03">March</option>
-<option value="04">April</option>
-<option value="05">May</option>
-<option value="06">June</option>
-<option value="07">July</option>
-<option value="08">August</option>
-<option value="09">September</option>
-<option value="10">October</option>
-<option value="11">November</option>
-<option value="12">December</option>
-</select>
+            <select id="year">
+                <option value="">Year</option>
+                <option value="2026">2026</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+            </select>
 
-<select id="year">
-<option value="">Year</option>
-<option>2026</option>
-<option>2025</option>
-<option>2024</option>
-</select>
+            <input type="text" id="keywords" placeholder="Keywords"/>
 
-<input
-type="text"
-id="keywords"
-placeholder="Keywords"
-/>
+            <button type="button" onclick="searchArchive()">Search</button>
+        </div>
 
-<button onclick="searchArchive()">Search</button>
+        <div id="results-info" class="results-info"></div>
+        <div id="news-container"></div>
 
-</div>
+    </div>
 
-<div id="news-container"></div>
-
-</div>
-
-<div class="right-ad"></div>
+    <div class="right-ad"></div>
 
 </div>
 
