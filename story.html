@@ -131,6 +131,14 @@ max-width:100%;
 
 <script>
 
+function shareStory(){
+  const shareUrl = window.location.href;
+  navigator.clipboard.writeText(shareUrl).then(()=>{
+    document.getElementById("share-btn").innerHTML = "✅ Copied!";
+    setTimeout(()=> document.getElementById("share-btn").innerHTML = "🔗 Share this story", 2000);
+  });
+}
+  
 function convertRedditMarkdown(text){
 
 if(!text) return "";
@@ -227,6 +235,8 @@ Join the discussion on Reddit
 <a href="https://reddit.com/r/NoSpinMedia" target="_blank" rel="noopener">
 Explore more stories in r/NoSpinMedia
 </a>
+
+<button id="share-btn" onclick="shareStory()" style="background:none;border:none;color:#0066cc;font-weight:bold;font-size:1rem;cursor:pointer;padding:0;">🔗 Share this story</button>
 
 </div>
 
