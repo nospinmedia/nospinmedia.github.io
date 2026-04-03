@@ -369,7 +369,7 @@ function displayStories(stories, database){
 
             <div class="card-footer">
                 <a class="story-link" href="${storyPage}?story=${encodeURIComponent(s.url)}">Read full story →</a>
-                <button class="share-btn" type="button">🔗 Share this story</button>
+                <a class="story-link share-btn" style="cursor:pointer;">🔗 Share this story</a>
             </div>
         `;
 
@@ -380,9 +380,9 @@ function displayStories(stories, database){
 
             try{
                 await navigator.clipboard.writeText(fullUrl);
-                shareBtn.textContent = "✅ Copied!";
+                shareBtn.innerHTML = "✅ Copied!";
                 setTimeout(() => {
-                    shareBtn.textContent = "🔗 Share this story";
+                    shareBtn.innerHTML = "🔗 Share this story";
                 }, 2000);
             } catch(err){
                 alert("Could not copy link. Please copy it manually from the address bar.");
