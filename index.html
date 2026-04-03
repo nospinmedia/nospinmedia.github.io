@@ -186,100 +186,52 @@ const emojiMap = {
   "🏦": "economy"
 };
 
-/* ── Category → Amazon keywords ── */
-const bookKeywords = {
-  space:      "space exploration books",
-  military:   "military aviation books",
-  energy:     "oil geopolitics books",
-  politics:   "political history books",
-  health:     "medical science books",
-  technology: "artificial intelligence books",
-  economy:    "economics financial books",
-  default:    "world history books"
+const bookLinks = {
+  space:      [{text:"Space exploration books", k:"space+exploration+books"},{text:"Astronomy books", k:"astronomy+books"},{text:"NASA history books", k:"NASA+history+books"}],
+  military:   [{text:"Military aviation books", k:"military+aviation+books"},{text:"Air combat history", k:"air+combat+history+books"},{text:"Modern fighter jets", k:"modern+fighter+jets+books"}],
+  energy:     [{text:"Oil geopolitics books", k:"oil+geopolitics+books"},{text:"Energy crisis history", k:"energy+crisis+history+books"},{text:"Middle East politics books", k:"middle+east+politics+books"}],
+  politics:   [{text:"Political history books", k:"political+history+books"},{text:"Government accountability books", k:"government+accountability+books"},{text:"Constitutional law books", k:"constitutional+law+books"}],
+  health:     [{text:"Medical science books", k:"medical+science+books"},{text:"Public health books", k:"public+health+books"},{text:"Pandemic history books", k:"pandemic+history+books"}],
+  technology: [{text:"Artificial intelligence books", k:"artificial+intelligence+books"},{text:"Tech industry books", k:"silicon+valley+books"},{text:"Cybersecurity books", k:"cybersecurity+books"}],
+  economy:    [{text:"Economics books", k:"economics+books"},{text:"Financial crisis books", k:"financial+crisis+books"},{text:"Federal Reserve books", k:"federal+reserve+books"}],
+  default:    [{text:"World history books", k:"world+history+books"},{text:"Current events books", k:"current+events+books"},{text:"Journalism books", k:"journalism+books"}]
 };
 
-const gearKeywords = {
-  space:      "telescope astronomy",
-  military:   "emergency preparedness gear",
-  energy:     "emergency weather radio",
-  politics:   "emergency preparedness kit",
-  health:     "first aid kit emergency",
-  technology: "home electronics gadgets",
-  economy:    "emergency preparedness kit",
-  default:    "emergency preparedness kit"
+const gearLinks = {
+  space:      [{text:"Telescopes", k:"telescope+astronomy"},{text:"Star charts", k:"star+chart+maps"},{text:"Night sky guides", k:"night+sky+guide"}],
+  military:   [{text:"Emergency weather radio", k:"emergency+weather+radio"},{text:"Emergency preparedness kit", k:"emergency+preparedness+kit"},{text:"Portable power bank", k:"portable+power+bank"}],
+  energy:     [{text:"Emergency weather radio", k:"emergency+weather+radio"},{text:"Solar power charger", k:"solar+power+charger"},{text:"Emergency preparedness kit", k:"emergency+preparedness+kit"}],
+  politics:   [{text:"Emergency preparedness kit", k:"emergency+preparedness+kit"},{text:"First aid kit", k:"first+aid+kit"},{text:"Portable weather radio", k:"portable+weather+radio"}],
+  health:     [{text:"First aid kit", k:"first+aid+kit"},{text:"Blood pressure monitor", k:"blood+pressure+monitor"},{text:"Pulse oximeter", k:"pulse+oximeter"}],
+  technology: [{text:"Home electronics", k:"home+electronics"},{text:"Smart home devices", k:"smart+home+devices"},{text:"Portable charger", k:"portable+charger"}],
+  economy:    [{text:"Emergency preparedness kit", k:"emergency+preparedness+kit"},{text:"Portable power bank", k:"portable+power+bank"},{text:"Emergency weather radio", k:"emergency+weather+radio"}],
+  default:    [{text:"Emergency preparedness kit", k:"emergency+preparedness+kit"},{text:"First aid kit", k:"first+aid+kit"},{text:"Emergency weather radio", k:"emergency+weather+radio"}]
 };
-
-function detectCategory(headlines){
-  const counts = {};
-  headlines.forEach(h => {
-    /* grab first emoji — may be 1 or 2 codepoints */
-    const chars = [...h];
-    for(let i = 0; i < Math.min(3, chars.length); i++){
-      const ch = chars[i];
-      /* handle multi-codepoint emoji like ✈️ */
-      const twoChar = chars[i] + (chars[i+1] || "");
-      const cat = emojiMap[twoChar] || emojiMap[ch];
-      if(cat){
-        counts[cat] = (counts[cat] || 0) + 1;
-        break;
-      }
-    }
-  });
-  if(Object.keys(counts).length === 0) return "default";
-  return Object.entries(counts).sort((a,b) => b[1]-a[1])[0][0];
-}
-
-function injectAmazonWidget(containerId, keyword, category){
-  const el = document.getElementById(containerId);
-  if(!el) return;
-
-  el.innerHTML = "";
-
-  const config = document.createElement("script");
-  config.type = "text/javascript";
-  config.innerHTML = `
-    amzn_assoc_placement = "${containerId}";
-    amzn_assoc_tracking_id = "nospinmedia-20";
-    amzn_assoc_ad_mode = "search";
-    amzn_assoc_ad_type = "smart";
-    amzn_assoc_marketplace = "amazon";
-    amzn_assoc_region = "US";
-    amzn_assoc_default_search_phrase = "${keyword}";
-    amzn_assoc_default_category = "${category}";
-  `;
-  el.appendChild(config);
-
-  const engine = document.createElement("script");
-  engine.src = "https://z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US";
-  engine.async = true;
-  el.appendChild(engine);
-}
 
 function buildSidebars(headlines){
   const cat = detectCategory(headlines);
+  const tag = "nospinmedia-20";
 
-  const bookKw  = bookKeywords[cat]  || bookKeywords.default;
-  const gearKw  = gearKeywords[cat]  || gearKeywords.default;
+  const books = bookLinks[cat] || bookLinks.default;
+  const gear  = gearLinks[cat] || gearLinks.default;
 
-  /* Left — books */
-  const leftBox = document.getElementById("left-ad");
-  leftBox.innerHTML = `
+  const makeLinks = (items) => items.map(item =>
+    `<a href="https://www.amazon.com/s?k=${item.k}&tag=${tag}" target="_blank" rel="noopener" style="display:block;margin-bottom:10px;font-weight:bold;color:#0066cc;text-decoration:none;font-size:.9rem;">${item.text} →</a>`
+  ).join("");
+
+  document.getElementById("left-ad").innerHTML = `
     <div class="affiliate-box">
       <h4>📚 Recommended Reading</h4>
-      <div id="amzn-books"></div>
-    </div>
-  `;
-  injectAmazonWidget("amzn-books", bookKw, "Books");
+      ${makeLinks(books)}
+      <p style="font-size:.7rem;color:#999;margin-top:8px;">As an Amazon Associate I earn from qualifying purchases.</p>
+    </div>`;
 
-  /* Right — gear */
-  const rightBox = document.getElementById("right-ad");
-  rightBox.innerHTML = `
+  document.getElementById("right-ad").innerHTML = `
     <div class="affiliate-box">
       <h4>🛒 Related Items</h4>
-      <div id="amzn-gear"></div>
-    </div>
-  `;
-  injectAmazonWidget("amzn-gear", gearKw, "All");
+      ${makeLinks(gear)}
+      <p style="font-size:.7rem;color:#999;margin-top:8px;">As an Amazon Associate I earn from qualifying purchases.</p>
+    </div>`;
 }
 
 function convertRedditMarkdown(text){
