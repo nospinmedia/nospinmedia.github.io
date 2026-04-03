@@ -140,8 +140,20 @@ function convertRedditMarkdown(text){
   return text;
 }
 
-function shareStory(url, headline, btn){
-  alert("fired: " + url);
+async function shareStory(url, headline, btn) {
+  const fullUrl = `${window.location.origin}/story.html?story=${url}`;
+  try {
+    await navigator.clipboard.writeText(fullUrl);
+    const originalText = btn.innerHTML;
+    btn.innerHTML = "✅ Copied!";
+    btn.style.color = "#28a745";
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.style.color = "#0066cc";
+    }, 2000);
+  } catch (err) {
+    alert("Could not copy link. Please copy it manually from the address bar.");
+  }
 }
 
 async function loadStories(){
@@ -175,7 +187,7 @@ async function loadStories(){
       window.location=`story.html?story=${s.url}`;
     };
 
-    const safeHeadline=(s.headline||"").replace(/'/g,"\\'");
+    const safeHeadline=(s.headline||"").replace(/'/g,"\\'").replace(/\n/g," ").replace(/\r/g,"");
 
     card.innerHTML=`
 
