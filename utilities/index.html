@@ -294,7 +294,7 @@
                     </p>
 
                     <h2>Available Tools</h2>
-                    <div class="utility-list">
+                    <div class="utility-list" id="utility-list">
                         <div class="utility-item" onclick="window.location.href='tip.html'">
                             <h2>💰 Tip Calculator</h2>
                             <p>A privacy-first, offline-capable tip calculator with rounding options and email receipts.</p>
@@ -400,6 +400,33 @@
                     a.innerHTML = `<img src="${item.img}" alt="Curated gear selection">`;
                     gearContainer.appendChild(a);
                 });
+            }
+
+            /* Mobile: inject 1 random card after the utility list */
+            if (window.innerWidth <= 900) {
+                const allCards   = shuffle([...bookSubjects, ...gearSubjects]);
+                const mobileCard = allCards[0];
+                const isGear     = gearSubjects.includes(mobileCard);
+                const utilList   = document.getElementById("utility-list");
+
+                if (utilList) {
+                    const insert = document.createElement("div");
+                    insert.style.cssText = "background:#fff;padding:1rem 1.2rem;margin-top:1.2rem;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,0.08);";
+                    insert.innerHTML = `
+                        <div style="font-family:Arial,sans-serif;font-size:.75rem;font-weight:700;color:#333;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px 0;padding-bottom:8px;border-bottom:2px solid #0066cc;">
+                            🧭 ${isGear ? "NSM Field Gear" : "NSM Reading List"}
+                        </div>
+                        <a href="${mobileCard.link}" target="_blank" rel="noopener nofollow sponsored"
+                           title="Browse on Amazon — supports NSM at no extra cost">
+                            <img src="${mobileCard.img}" alt="${isGear ? "Curated gear" : "Curated reading"}"
+                                 style="width:100%;border-radius:6px;display:block;box-shadow:0 2px 8px rgba(0,0,0,.12);">
+                        </a>
+                        <div style="margin-top:8px;font-size:.65rem;color:#bbb;font-style:italic;font-family:Arial,sans-serif;">
+                            Selecting ${isGear ? "an item" : "a title"} supports independent journalism at no extra cost to you.
+                        </div>
+                    `;
+                    utilList.parentNode.insertBefore(insert, utilList.nextSibling);
+                }
             }
         }
 
