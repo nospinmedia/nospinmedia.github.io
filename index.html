@@ -54,9 +54,39 @@ body {
 }
 
 .right-ad {
-  flex: 1;
-  min-width: 200px;
-  max-width: 260px;
+  width: 210px;
+  min-width: 210px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 90px;
+  border-left: 1px solid #e0e0e0;
+  padding-left: 20px;
+}
+
+/* ── Gear tiles: same treatment as book tiles ── */
+#gear-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#gear-tiles a {
+  display: block;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+
+#gear-tiles a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.18);
+}
+
+#gear-tiles img {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
 }
 
 .main {
@@ -282,34 +312,65 @@ const bookSubjects = [
   { img: "/affiliate/books/scifi.png",    link: "https://www.amazon.com/s?k=science+fiction+books&tag=nospinmedia-20" }
 ];
 
-function loadBookTiles() {
-  const shuffled = [...bookSubjects].sort(() => 0.5 - Math.random());
+/* ── Gear tile pool ── */
+const gearSubjects = [
+  { img: "/affiliate/gear/nsm-gear-field-optics.png",      link: "https://www.amazon.com/s?k=monocular+binoculars+compact+telescope&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-solar-power.png",       link: "https://www.amazon.com/s?k=solar+power+bank+portable+solar+charger&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-emergency-radio.png",   link: "https://www.amazon.com/s?k=emergency+weather+radio+hand+crank&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-science-tools.png",     link: "https://www.amazon.com/s?k=pocket+microscope+geiger+counter+science+tools&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-weather-station.png",   link: "https://www.amazon.com/s?k=home+weather+station+barometer+wireless&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-auto-tools.png",        link: "https://www.amazon.com/s?k=automotive+diagnostic+tools+multimeter+garage+tools&tag=nospinmedia-20" }
+];
 
-  /* Desktop: 3 cards in left column */
+function shuffle(arr) {
+  return [...arr].sort(() => 0.5 - Math.random());
+}
+
+function loadBookTiles() {
+  const shuffled = shuffle(bookSubjects);
+
+  /* Desktop: 3 random book cards in left column */
   const container = document.getElementById("book-tiles");
   if (container) {
     container.innerHTML = shuffled.slice(0, 3).map(book => `
-      <a href="${book.link}" target="_blank" rel="noopener sponsored"
+      <a href="${book.link}" target="_blank" rel="noopener nofollow sponsored"
          title="Browse on Amazon — supports NSM at no extra cost">
         <img src="${book.img}" alt="Curated reading selection">
       </a>
     `).join("");
   }
 
-  /* Mobile: 1 card, stored for injection after story 3 */
-  const mobileBook = shuffled[0];
+  /* Mobile: 1 random card from either pool */
+  const allCards = shuffle([...bookSubjects, ...gearSubjects]);
+  const mobileCard = allCards[0];
+  const isGear = gearSubjects.includes(mobileCard);
   window.mobileBookHTML = `
     <div class="mobile-reading-insert">
-      <div class="reading-label">🧭 NSM Reading List</div>
-      <a href="${mobileBook.link}" target="_blank" rel="noopener sponsored"
+      <div class="reading-label">🧭 ${isGear ? "NSM Field Gear" : "NSM Reading List"}</div>
+      <a href="${mobileCard.link}" target="_blank" rel="noopener nofollow sponsored"
          title="Browse on Amazon — supports NSM at no extra cost">
-        <img src="${mobileBook.img}" alt="Curated reading selection">
+        <img src="${mobileCard.img}" alt="${isGear ? "Curated gear selection" : "Curated reading selection"}">
       </a>
       <div class="reading-disclosure">
-        Selecting a title supports independent journalism at no extra cost to you.
+        Selecting ${isGear ? "an item" : "a title"} supports independent journalism at no extra cost to you.
       </div>
     </div>
   `;
+}
+
+function loadGearTiles() {
+  const shuffled = shuffle(gearSubjects);
+
+  /* Desktop: 3 random gear cards in right column */
+  const container = document.getElementById("gear-tiles");
+  if (container) {
+    container.innerHTML = shuffled.slice(0, 3).map(item => `
+      <a href="${item.link}" target="_blank" rel="noopener nofollow sponsored"
+         title="Browse on Amazon — supports NSM at no extra cost">
+        <img src="${item.img}" alt="Curated gear selection">
+      </a>
+    `).join("");
+  }
 }
 
 /* ── Text link sidebars (kept, currently commented out) ── */
@@ -473,6 +534,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       loadBookTiles();
+      loadGearTiles();
       loadStories();
     });
 });
@@ -502,8 +564,14 @@ document.addEventListener("DOMContentLoaded", function () {
     <div id="news-container"></div>
   </div>
 
-  <!-- Right: future items column -->
-  <div class="right-ad" id="right-ad"></div>
+  <!-- Right: gear column -->
+  <div class="right-ad" id="right-ad">
+    <div class="reading-label">🧭 NSM Field Gear</div>
+    <div id="gear-tiles"></div>
+    <div class="reading-disclosure">
+      Selecting an item supports independent journalism at no extra cost to you.
+    </div>
+  </div>
 
 </div>
 
