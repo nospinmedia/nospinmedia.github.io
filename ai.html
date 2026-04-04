@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Google AdSense -->
   <script async
   src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053277983719011"
   crossorigin="anonymous"></script>
@@ -19,18 +18,29 @@
       padding: 0;
       background: #f7f7f7;
       color: #222;
-      padding-top: 70px; /* ✅ Push content below fixed header */
+      padding-top: 70px;
       line-height: 1.6;
     }
 
-    /* ✅ Centered container for desktop */
-    .container {
-      max-width: 1000px;
+    /* ── Outer layout: two-column on desktop ── */
+    .ai-page-container {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 1200px;
       margin: 2rem auto;
-      padding: 2rem;
-      background: white;
+      padding: 0 2rem;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    /* ── Main article ── */
+    .main {
+      flex: 1 1 60%;
+      background: #fff;
       border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-sizing: border-box;
     }
 
     h1 {
@@ -39,31 +49,50 @@
       text-align: center;
     }
 
-    /* ✅ Paragraphs properly spaced and normal width */
-    .container p {
+    .main p {
       margin-bottom: 1rem;
       font-size: 1.05rem;
     }
 
-    /* ✅ Feedback form styling */
-    #feedbackForm {
-      margin-top: 2rem;
-      background: #f9f9f9;
+    /* ── Sidebar — matches utilities page exactly ── */
+    .sidebar {
+      flex: 1 1 28%;
+      background: #fff;
       padding: 1rem;
-      border-radius: 6px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-sizing: border-box;
+      align-self: flex-start;
     }
-    #feedbackForm h3 {
+
+    .sidebar h2,
+    .sidebar h3 {
       margin-top: 0;
-      text-align: center;
+      font-size: 1.1rem;
     }
-    #feedbackForm input, #feedbackForm textarea {
+
+    .sidebar p {
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    /* ── Form — matches utilities page exactly ── */
+    #feedbackForm {
+      margin-top: 0.5rem;
+    }
+
+    #feedbackForm input,
+    #feedbackForm textarea {
       width: 100%;
       padding: 8px;
       margin: 6px 0;
       border: 1px solid #ccc;
       border-radius: 4px;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      font-size: 0.95rem;
     }
+
     #feedbackForm button {
       background: #0073e6;
       color: #fff;
@@ -73,8 +102,11 @@
       font-weight: bold;
       border-radius: 4px;
       cursor: pointer;
+      font-size: 1rem;
     }
+
     #feedbackForm button:hover { background: #005bb5; }
+
     #formStatus {
       font-size: 0.9em;
       color: green;
@@ -91,17 +123,25 @@
       color: #666;
     }
 
-    /* ✅ Mobile adjustments */
+    footer a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Mobile ── */
     @media (max-width: 768px) {
-      .container {
-        margin: 1rem;
-        padding: 1rem;
+      .ai-page-container {
+        flex-direction: column;
+        padding: 0 1rem;
+        margin: 1rem auto;
       }
-      h1 {
-        font-size: 1.6rem;
-      }
+
+      h1 { font-size: 1.6rem; }
     }
   </style>
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       fetch('header.html')
@@ -109,7 +149,6 @@
         .then(html => {
           document.getElementById('site-header').innerHTML = html;
 
-          // ✅ Mobile nav toggle
           const hamburger = document.getElementById('hamburger');
           const mobileNav = document.getElementById('mobile-nav');
 
@@ -118,14 +157,12 @@
               mobileNav.classList.toggle('open');
               hamburger.classList.toggle('active');
             });
-
             mobileNav.querySelectorAll('a').forEach(link => {
               link.addEventListener('click', () => {
                 mobileNav.classList.remove('open');
                 hamburger.classList.remove('active');
               });
             });
-
             window.addEventListener('resize', function() {
               if (window.innerWidth > 768) {
                 mobileNav.classList.remove('open');
@@ -135,7 +172,6 @@
           }
         });
 
-      // ✅ Feedback form
       const feedbackForm = document.getElementById('feedbackForm');
       if (feedbackForm) {
         feedbackForm.addEventListener('submit', async function(e) {
@@ -143,15 +179,11 @@
           const status = document.getElementById('formStatus');
           status.textContent = "⏳ Sending...";
 
-          const name = document.getElementById('name').value || "Someone";
-          const email = document.getElementById('email').value;
-          const message = document.getElementById('message').value;
-
           const data = {
-            name: name,
-            email: email,
+            name:    document.getElementById('name').value || "Someone",
+            email:   document.getElementById('email').value,
             subject: "Why AI Feedback",
-            message: message
+            message: document.getElementById('message').value
           };
 
           try {
@@ -170,10 +202,10 @@
             } else {
               status.textContent = "❌ Error sending. Please try again.";
             }
-            setTimeout(()=>{ status.textContent = ""; }, 5000);
+            setTimeout(() => { status.textContent = ""; }, 5000);
           } catch (err) {
             status.textContent = "❌ Failed to send! Check connection.";
-            setTimeout(()=>{ status.textContent = ""; }, 5000);
+            setTimeout(() => { status.textContent = ""; }, 5000);
           }
         });
       }
@@ -184,68 +216,71 @@
 
   <div id="site-header"></div>
 
-<div class="container ai-page-container">
-<main class="main">
+  <div class="ai-page-container">
 
-<h1>Why AI? Why No Spin?</h1>
+    <main class="main">
+      <h1>Why AI? Why No Spin?</h1>
 
-<p>
-Modern news is often shaped by incentives that reward outrage, speed, and political framing. In that
-environment, facts can sometimes get lost behind commentary or interpretation. We created
-<span class="content-logo"><span class="emoji">🧭</span> No Spin Media</span>
-to offer something different: <strong>a clear, structured view of the news focused on verified facts</strong>.
-Our goal is simple — present what is known, explain what is still uncertain, and leave the conclusions to you.
-</p>
+      <p>
+        Modern news is often shaped by incentives that reward outrage, speed, and political framing. In that
+        environment, facts can sometimes get lost behind commentary or interpretation. We created
+        <span class="content-logo"><span class="emoji">🧭</span> No Spin Media</span>
+        to offer something different: <strong>a clear, structured view of the news focused on verified facts</strong>.
+        Our goal is simple — present what is known, explain what is still uncertain, and leave the conclusions to you.
+      </p>
 
-<p>
-No Spin Media uses artificial intelligence as a tool to help organize and summarize information reported by
-established news organizations. The system reviews reliable reporting and generates
-<strong>original summaries of the confirmed facts</strong> in straightforward language.
-We do not copy article text or rewrite headlines from other outlets. Instead, the system produces new wording
-that reflects the verified details of the reporting.
-</p>
+      <p>
+        No Spin Media uses artificial intelligence as a tool to help organize and summarize information reported by
+        established news organizations. The system reviews reliable reporting and generates
+        <strong>original summaries of the confirmed facts</strong> in straightforward language.
+        We do not copy article text or rewrite headlines from other outlets. Instead, the system produces new wording
+        that reflects the verified details of the reporting.
+      </p>
 
-<p>
-Technology alone does not publish our stories. <strong>Every post is reviewed by a human before publication</strong>
-to ensure the summary accurately reflects the source material and follows our editorial rules for neutrality,
-clarity, and factual grounding. When details are still developing or uncertain, we say so openly.
-</p>
+      <p>
+        Technology alone does not publish our stories. <strong>Every post is reviewed by a human before publication</strong>
+        to ensure the summary accurately reflects the source material and follows our editorial rules for neutrality,
+        clarity, and factual grounding. When details are still developing or uncertain, we say so openly.
+      </p>
 
-<p>
-AI helps us apply the same editorial discipline to every story. Our framework is designed to avoid loaded
-language, partisan framing, speculation, and exaggerated conclusions. The focus is not speed or sensationalism,
-but <strong>consistency and transparency</strong>. Readers should be able to quickly understand what happened,
-what is confirmed, and what is still evolving.
-</p>
+      <p>
+        AI helps us apply the same editorial discipline to every story. Our framework is designed to avoid loaded
+        language, partisan framing, speculation, and exaggerated conclusions. The focus is not speed or sensationalism,
+        but <strong>consistency and transparency</strong>. Readers should be able to quickly understand what happened,
+        what is confirmed, and what is still evolving.
+      </p>
 
-<p>
-<span class="content-logo"><span class="emoji">🧭</span> No Spin Media</span>
-is not a replacement for journalism. It depends on the work of reporters around the world who gather and
-verify information. Our role is to present that information in a clear, structured format that removes
-unnecessary spin and keeps the focus on the facts.
-</p>
+      <p>
+        <span class="content-logo"><span class="emoji">🧭</span> No Spin Media</span>
+        is not a replacement for journalism. It depends on the work of reporters around the world who gather and
+        verify information. Our role is to present that information in a clear, structured format that removes
+        unnecessary spin and keeps the focus on the facts.
+      </p>
 
-<p>
-We believe people deserve news that is straightforward, transparent, and easy to understand.
-Thank you for being part of the project.
-</p>
+      <p>
+        We believe people deserve news that is straightforward, transparent, and easy to understand.
+        Thank you for being part of the project.
+      </p>
+    </main>
 
-</main>
-
+    <!-- Sidebar — styled to match utilities page -->
     <aside class="sidebar">
-      <h3>🤖 Tell us what you *really* think about AI!</h3>
+      <h2>🤖 Tell us what you think about AI!</h2>
+      <p>Have thoughts on how we use AI? We read every message. 😊</p>
+      <p>You can also reach us at: <strong>nospinmedia.ai@gmail.com</strong></p>
       <form id="feedbackForm">
-        <input type="text" id="name" name="name" placeholder="Your first name">
-        <input type="email" id="email" name="email" placeholder="you@email.com" required>
-        <textarea id="message" name="message" rows="4" placeholder="Your thoughts... Be honest!"></textarea>
+        <input type="text"  id="name"    name="name"    placeholder="Your first name">
+        <input type="email" id="email"   name="email"   placeholder="you@email.com" required>
+        <textarea           id="message" name="message" rows="4" placeholder="Your thoughts... Be honest!"></textarea>
         <p id="formStatus"></p>
         <button type="submit">💬 Send Feedback</button>
       </form>
     </aside>
+
   </div>
 
   <footer>
-    © 2026 🧭 No Spin Media. Independent. Ad-free. Truth-focused. |
+    © 2026 🧭 No Spin Media. Independent. Truth-focused. |
     <a href="mailto:nospinmedia.ai@gmail.com">nospinmedia.ai@gmail.com</a> |
     <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
   </footer>
