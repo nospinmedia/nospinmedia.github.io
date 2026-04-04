@@ -41,7 +41,9 @@
   <div id="site-header"></div>
 
   <div class="container">
-    <div class="main">
+
+    <!-- id added for mobile affiliate injection — nothing else changed -->
+    <div class="main" id="tip-main">
       <h1>💰 Tip Calculator</h1>
       <p>Quickly calculate tips with rounding options, manual overrides, and optional email receipts.</p>
 
@@ -126,71 +128,113 @@
         <button type="submit">💬 Send Feedback</button>
       </form>
     </div>
+
   </div>
 
   <p style="font-size: 0.8rem; color: #888; text-align: center; max-width: 800px; margin: 2rem auto 0;">
     🔒 <strong>We respect your privacy.</strong> This site does not use cookies, tracking technologies, or collect personal data.
   </p>
 
-  <footer>© 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.</footer>
+  <footer>
+    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.<br>
+    <span style="font-size:.75rem;color:#aaa;">Some links on this site are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
+  </footer>
 
   <script>
-    // ==== Config / globals ====
-    const MAX_FILE_BYTES = 7 * 1024 * 1024; // 7 MB cap
-    let _attachment = null;                 // { filename, mimeType, base64 } or null
-    let POST_ADJUST = false;                // after +/- nudges, ignore rounding until next Calculate
+    // ==== Affiliate tiles — mobile only ====
+    const bookSubjects = [
+      { img: "/affiliate/books/history.png",  link: "https://www.amazon.com/s?k=history+books&tag=nospinmedia-20" },
+      { img: "/affiliate/books/science.png",  link: "https://www.amazon.com/s?k=science+books&tag=nospinmedia-20" },
+      { img: "/affiliate/books/space.png",    link: "https://www.amazon.com/s?k=space+exploration+books&tag=nospinmedia-20" },
+      { img: "/affiliate/books/politics.png", link: "https://www.amazon.com/s?k=political+books&tag=nospinmedia-20" },
+      { img: "/affiliate/books/military.png", link: "https://www.amazon.com/s?k=military+history+books&tag=nospinmedia-20" },
+      { img: "/affiliate/books/scifi.png",    link: "https://www.amazon.com/s?k=science+fiction+books&tag=nospinmedia-20" }
+    ];
+    const gearSubjects = [
+      { img: "/affiliate/gear/nsm-gear-field-optics.png",    link: "https://www.amazon.com/s?k=monocular+binoculars+compact+telescope&tag=nospinmedia-20" },
+      { img: "/affiliate/gear/nsm-gear-solar-power.png",     link: "https://www.amazon.com/s?k=solar+power+bank+portable+solar+charger&tag=nospinmedia-20" },
+      { img: "/affiliate/gear/nsm-gear-emergency-radio.png", link: "https://www.amazon.com/s?k=emergency+weather+radio+hand+crank&tag=nospinmedia-20" },
+      { img: "/affiliate/gear/nsm-gear-science-tools.png",   link: "https://www.amazon.com/s?k=pocket+microscope+geiger+counter+science+tools&tag=nospinmedia-20" },
+      { img: "/affiliate/gear/nsm-gear-weather-station.png", link: "https://www.amazon.com/s?k=home+weather+station+barometer+wireless&tag=nospinmedia-20" },
+      { img: "/affiliate/gear/nsm-gear-auto-tools.png",      link: "https://www.amazon.com/s?k=automotive+diagnostic+tools+multimeter+garage+tools&tag=nospinmedia-20" }
+    ];
 
-    // ==== Header loader (unchanged) ====
-document.addEventListener('DOMContentLoaded', function() {
-fetch('../header.html')
-  .then(res => res.text())
-  .then(html => {
-    const host = document.getElementById('site-header');
-    host.innerHTML = html;
+    function injectMobileAffiliate() {
+      if (window.innerWidth > 768) return; // desktop: do nothing
+      const mainEl = document.getElementById("tip-main");
+      if (!mainEl) return;
 
-    // Try a broad set of common selectors, including your originals
-    const toggle = host.querySelector(
-      '[data-menu-toggle], #menu-toggle, .menu-toggle, .hamburger, .hamburger-btn, #hamburger'
-    );
-    const menu = host.querySelector(
-      '[data-menu], #mobile-menu, #nav-menu, .mobile-menu, #mobile-nav'
-    );
+      const allCards   = [...bookSubjects, ...gearSubjects].sort(() => 0.5 - Math.random());
+      const card       = allCards[0];
+      const isGear     = gearSubjects.includes(card);
 
-    // Helpful diagnostics while we’re fixing this
-    console.log('Header toggle found?', !!toggle);
-    console.log('Header menu found?', !!menu);
+      const insert = document.createElement("div");
+      insert.style.cssText = "background:#fff;padding:1rem 1.2rem;margin-top:1.2rem;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,0.08);";
+      insert.innerHTML = `
+        <div style="font-family:Arial,sans-serif;font-size:.75rem;font-weight:700;color:#333;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px 0;padding-bottom:8px;border-bottom:2px solid #0066cc;">
+          🧭 ${isGear ? "NSM Field Gear" : "NSM Reading List"}
+        </div>
+        <a href="${card.link}" target="_blank" rel="noopener nofollow sponsored"
+           title="Browse on Amazon — supports NSM at no extra cost">
+          <img src="${card.img}" alt="${isGear ? "Curated gear" : "Curated reading"}"
+               style="width:100%;border-radius:6px;display:block;box-shadow:0 2px 8px rgba(0,0,0,.12);">
+        </a>
+        <div style="margin-top:8px;font-size:.65rem;color:#bbb;font-style:italic;font-family:Arial,sans-serif;">
+          Selecting ${isGear ? "an item" : "a title"} supports independent journalism at no extra cost to you.
+        </div>
+      `;
 
-    if (toggle && menu) {
-      if (!menu.hasAttribute('hidden') && getComputedStyle(menu).display !== 'none') {
-        menu.setAttribute('hidden', '');
-      }
-
-      const toggleMenu = (e) => {
-        e.preventDefault();
-        const isHidden = menu.hasAttribute('hidden');
-        if (isHidden) { menu.removeAttribute('hidden'); menu.classList.add('open'); }
-        else { menu.setAttribute('hidden', ''); menu.classList.remove('open'); }
-        toggle.setAttribute('aria-expanded', String(isHidden));
-      };
-
-      // Bind once, guard against double-binding
-      if (!toggle.dataset.bound) {
-        toggle.addEventListener('click', toggleMenu);
-        toggle.addEventListener('touchstart', toggleMenu, { passive: false });
-        toggle.dataset.bound = '1';
-      }
-
-      // Close menu when a link is tapped
-      menu.addEventListener('click', (ev) => {
-        if (!ev.target.closest('a')) return;
-        menu.setAttribute('hidden','');
-        menu.classList.remove('open');
-        toggle.setAttribute('aria-expanded','false');
-      });
-    } else {
-      console.warn('Header menu elements not found on this page.');
+      // Insert after .main, before .sidebar
+      mainEl.parentNode.insertBefore(insert, mainEl.nextSibling);
     }
-  });
+
+    // ==== Config / globals ====
+    const MAX_FILE_BYTES = 7 * 1024 * 1024;
+    let _attachment = null;
+    let POST_ADJUST = false;
+
+    // ==== Header loader ====
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('../header.html')
+        .then(res => res.text())
+        .then(html => {
+          const host = document.getElementById('site-header');
+          host.innerHTML = html;
+
+          const toggle = host.querySelector(
+            '[data-menu-toggle], #menu-toggle, .menu-toggle, .hamburger, .hamburger-btn, #hamburger'
+          );
+          const menu = host.querySelector(
+            '[data-menu], #mobile-menu, #nav-menu, .mobile-menu, #mobile-nav'
+          );
+
+          if (toggle && menu) {
+            if (!menu.hasAttribute('hidden') && getComputedStyle(menu).display !== 'none') {
+              menu.setAttribute('hidden', '');
+            }
+            const toggleMenu = (e) => {
+              e.preventDefault();
+              const isHidden = menu.hasAttribute('hidden');
+              if (isHidden) { menu.removeAttribute('hidden'); menu.classList.add('open'); }
+              else { menu.setAttribute('hidden', ''); menu.classList.remove('open'); }
+              toggle.setAttribute('aria-expanded', String(isHidden));
+            };
+            if (!toggle.dataset.bound) {
+              toggle.addEventListener('click', toggleMenu);
+              toggle.addEventListener('touchstart', toggleMenu, { passive: false });
+              toggle.dataset.bound = '1';
+            }
+            menu.addEventListener('click', (ev) => {
+              if (!ev.target.closest('a')) return;
+              menu.setAttribute('hidden','');
+              menu.classList.remove('open');
+              toggle.setAttribute('aria-expanded','false');
+            });
+          }
+
+          // Inject mobile affiliate card after header loads
+          injectMobileAffiliate();
+        });
 
       // Prefill & restore choices
       const savedEmail = localStorage.getItem('userEmail');
@@ -201,7 +245,6 @@ fetch('../header.html')
         if (localStorage.getItem(id) === 'true') document.getElementById(id).checked = true;
       });
 
-      // Enforce exclusivity among Exact% / Round Up / Round Down
       document.querySelectorAll('#roundUp,#roundDown,#exactPercent').forEach(cb => {
         cb.addEventListener('change', e => {
           if (e.target.checked) {
@@ -212,10 +255,8 @@ fetch('../header.html')
         });
       });
 
-      // File input
       document.getElementById('attachmentInput').addEventListener('change', handleFileChange);
 
-      // Feedback form (unchanged endpoint)
       document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const status = document.getElementById('formStatus');
@@ -241,7 +282,7 @@ fetch('../header.html')
       });
     });
 
-    // ==== Core math ====
+    // ==== Core math (unchanged) ====
     function calculateValues() {
       const total = parseFloat(document.getElementById('billTotal').value) || 0;
       const taxInput = document.getElementById('taxTotal').value.trim();
@@ -249,84 +290,52 @@ fetch('../header.html')
       const percent = parseFloat(document.getElementById('tipPercent').value) || 20;
       const manualTip = parseFloat(document.getElementById('manualTip').value);
       const excludeTax = document.getElementById('excludeTax').checked;
-
-      // Base = pre-tax when Exclude Tax is on and a tax value exists
       const base = (excludeTax && tax !== null) ? total - tax : total;
-
       let tip = !isNaN(manualTip) ? manualTip : base * (percent / 100);
       let finalTotal = total + tip;
-
-      // Apply rounding only when not in post-adjust mode
       const useRounding =
         !POST_ADJUST &&
         (document.getElementById('roundUp').checked || document.getElementById('roundDown').checked);
-
       if (useRounding) {
-        if (document.getElementById('roundUp').checked) {
-          finalTotal = Math.ceil(finalTotal);
-          tip = finalTotal - total;
-        }
-        if (document.getElementById('roundDown').checked) {
-          finalTotal = Math.floor(finalTotal);
-          tip = finalTotal - total;
-        }
+        if (document.getElementById('roundUp').checked) { finalTotal = Math.ceil(finalTotal); tip = finalTotal - total; }
+        if (document.getElementById('roundDown').checked) { finalTotal = Math.floor(finalTotal); tip = finalTotal - total; }
       }
-
       const simplePercent = Math.round((tip / base) * 100);
       const exactPercent = (tip / base) * 100;
-
-      // Persist preferences
       localStorage.setItem('userEmail', document.getElementById('userEmail').value.trim());
       localStorage.setItem('tipPercent', percent);
       ['roundUp','roundDown','exactPercent','excludeTax'].forEach(id=>{
         localStorage.setItem(id, document.getElementById(id).checked);
       });
-
       return { total, tax, base, tip, finalTotal, simplePercent, exactPercent };
     }
 
     function calculateTip(reset = false) {
-      if (reset) {
-        POST_ADJUST = false;                              // return to rounding behavior
-        document.getElementById('manualTip').value = '';  // back to % mode
-      }
-
+      if (reset) { POST_ADJUST = false; document.getElementById('manualTip').value = ''; }
       const { total, tax, base, tip, finalTotal, exactPercent } = calculateValues();
-      if (total <= 0) {
-        document.getElementById('result').innerHTML = "❌ Enter a Bill Total to calculate.";
-        return;
-      }
-
+      if (total <= 0) { document.getElementById('result').innerHTML = "❌ Enter a Bill Total to calculate."; return; }
       let msg = '';
       const mealCost = (tax !== null && tax <= total) ? total - tax : total;
-
       if (tax !== null) {
         msg += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}<br>`;
-        const taxPct = (tax / mealCost) * 100;
-        msg += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)<br>`;
+        msg += `Tax: $${tax.toFixed(2)} (${((tax/mealCost)*100).toFixed(2)}%)<br>`;
       }
       msg += `Bill Total: $${total.toFixed(2)}<br>`;
-
       const manualTip = parseFloat(document.getElementById('manualTip').value);
       const tipLabel = !isNaN(manualTip) ? "Manual Tip Entered" : `${document.getElementById('tipPercent').value}% preferred`;
       msg += `Tip: $${tip.toFixed(2)} (${tipLabel}, ${exactPercent.toFixed(2)}% actual)<br><br>`;
       msg += `<strong>Total with Tip: $${finalTotal.toFixed(2)}</strong>`;
-
       document.getElementById('result').innerHTML = msg;
       document.getElementById('emailStatus').textContent = "";
       showTagline();
     }
 
-    // Adjust final total by +/- amount, update manual tip, and ignore rounding until next Calculate
     function adjustTotal(amount) {
       const vals = calculateValues();
-      if (vals.total <= 0) {
-        document.getElementById('result').innerHTML = "❌ Enter a Bill Total first.";
-        return;
-      }
+      if (vals.total <= 0) { document.getElementById('result').innerHTML = "❌ Enter a Bill Total first."; return; }
       POST_ADJUST = true;
       const newFinal = Math.max(0, vals.finalTotal + amount);
-      const newTip = Math.max(0, newFinal - vals.total);
+      const newTip   = Math.max(0, newFinal - vals.total);
       document.getElementById('manualTip').value = newTip.toFixed(2);
       calculateTip(false);
     }
@@ -355,21 +364,15 @@ fetch('../header.html')
 
     function showTagline(){ document.getElementById('tagline').textContent = getRandomTagline().split("\n")[0]; }
 
-    // ==== Share helpers ====
     function copyLink() {
-      navigator.clipboard.writeText(window.location.href).then(() => {
-        alert("✅ Link copied to clipboard!");
-      });
+      navigator.clipboard.writeText(window.location.href).then(() => { alert("✅ Link copied to clipboard!"); });
     }
     function sharePage() {
       if (navigator.share) {
         navigator.share({ title: "Tip Calculator", text: "Check out this Tip Calculator!", url: window.location.href });
-      } else {
-        copyLink();
-      }
+      } else { copyLink(); }
     }
 
-    // ==== File attach ====
     function openFilePicker() { document.getElementById('attachmentInput').click(); }
     function handleFileChange(e) {
       const file = e.target.files && e.target.files[0];
@@ -399,36 +402,23 @@ fetch('../header.html')
       reader.readAsDataURL(file);
     }
 
-    // ==== Email (unchanged endpoint) ====
     async function completeTip() {
       const { total, tax, base, tip, finalTotal, exactPercent } = calculateValues();
-      if (total <= 0) {
-        document.getElementById('result').innerHTML = "❌ Enter a Bill Total before sending.";
-        return;
-      }
-      calculateTip(false); // keep current on-screen state
-
+      if (total <= 0) { document.getElementById('result').innerHTML = "❌ Enter a Bill Total before sending."; return; }
+      calculateTip(false);
       const emailField = document.getElementById('userEmail');
       const email = emailField.value.trim();
       if (!email) {
         emailField.style.border = '2px solid red';
         document.getElementById('emailStatus').textContent = "❌ Enter your email to receive receipt.";
         return;
-      } else {
-        emailField.style.border = '';
-      }
-
+      } else { emailField.style.border = ''; }
       let message = '';
       const mealCost = (tax !== null && tax <= total) ? total - tax : total;
-
       if (tax !== null) {
-        const taxPct = (tax / mealCost) * 100;
         message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`;
-        message += `Tax: $${tax.toFixed(2)} (${taxPct.toFixed(2)}%)\n`;
-      } else {
-        message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`;
-      }
-
+        message += `Tax: $${tax.toFixed(2)} (${((tax/mealCost)*100).toFixed(2)}%)\n`;
+      } else { message += `Meal Cost (Pre-Tax): $${mealCost.toFixed(2)}\n`; }
       const manualTip = parseFloat(document.getElementById('manualTip').value);
       const tipLabel = !isNaN(manualTip) ? "Manual Tip Entered" : `${document.getElementById('tipPercent').value}% preferred`;
       message += `Bill Total: $${total.toFixed(2)}\n`;
@@ -436,9 +426,7 @@ fetch('../header.html')
       message += `Total with Tip: $${finalTotal.toFixed(2)}\n\n`;
       if (document.getElementById('excludeTax').checked) message += `(Tip calculated excluding tax)\n`;
       message += getRandomTagline();
-
       const payload = { name: "No Spin Utilities", email, subject: "Your Tip Calculator Receipt", message };
-
       if (_attachment) {
         const isImage = (_attachment.mimeType || "").startsWith("image/");
         if (isImage) {
@@ -449,17 +437,15 @@ fetch('../header.html')
           payload.attachments = [_attachment];
           const status = document.getElementById('emailStatus');
           status.style.color = 'green';
-          status.textContent = "ℹ️ Non-image file selected; sending. If it doesn't arrive, update server script.";
+          status.textContent = "ℹ️ Non-image file selected; sending.";
           setTimeout(()=>{ status.textContent=''; }, 4000);
         }
       }
-
       await fetch('https://script.google.com/macros/s/AKfycbwRMD0KhGcv8YGo-GFw2onU5PYldc19J50uGCqRuxbA2wSTj2y8uNZaBnp-DrbHr_rNjQ/exec', {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload)
       });
-
       const confirmText = _attachment ? `✅ Receipt sent to ${email} (with attachment)` : `✅ Receipt sent to ${email}`;
       const status = document.getElementById('emailStatus');
       status.style.color = 'green';
