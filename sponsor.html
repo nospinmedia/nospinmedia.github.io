@@ -24,6 +24,85 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
+    /* ── Two-column outer wrapper ── */
+    .outer {
+      display: flex;
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 300px;
+      min-width: 300px;
+      flex-shrink: 0;
+      background: #fff;
+      padding: 1.2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-sizing: border-box;
+      align-self: flex-start;
+    }
+
+    .sidebar h2 {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #222;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .sidebar p {
+      font-size: 0.9rem;
+      color: #444;
+      margin: 0 0 0.8rem 0;
+    }
+
+    #feedbackForm input,
+    #feedbackForm textarea,
+    #feedbackForm select {
+      width: 100%;
+      padding: 9px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      font-size: 0.95rem;
+      background: #fff;
+    }
+
+    #feedbackForm textarea { resize: vertical; }
+
+    #feedbackForm button {
+      background: #0073e6;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 4px;
+    }
+
+    #feedbackForm button:hover { background: #005bb5; }
+
+    #formStatus {
+      font-size: 0.9em;
+      color: green;
+      margin: 6px 0;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .outer { flex-direction: column; padding: 0 1rem; }
+      .sidebar { width: 100%; min-width: 0; }
+    }
+
     h1, h2, h3 {
       color: #111;
     }
@@ -111,12 +190,49 @@
             });
           }
         });
+
+      const feedbackForm = document.getElementById('feedbackForm');
+      if (feedbackForm) {
+        feedbackForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          if (document.getElementById('website').value) return; // honeypot
+          const status = document.getElementById('formStatus');
+          status.textContent = "⏳ Sending...";
+          const data = {
+            name:    document.getElementById('name').value || "Someone",
+            email:   document.getElementById('email').value,
+            subject: `Support Page — ${document.getElementById('topic').value || "Message"}`,
+            message: document.getElementById('message').value
+          };
+          try {
+            const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+              method: 'POST',
+              headers: {'Content-Type':'text/plain'},
+              body: JSON.stringify(data)
+            });
+            let result = {};
+            try { result = await res.json(); } catch (err) { result = { status: "success" }; }
+            if (result.status === "success") {
+              status.textContent = "✅ Thanks! Your message was sent.";
+              this.reset();
+            } else {
+              status.textContent = "❌ Error sending. Please try again.";
+            }
+            setTimeout(() => { status.textContent = ""; }, 5000);
+          } catch (err) {
+            status.textContent = "❌ Failed to send! Check connection.";
+            setTimeout(() => { status.textContent = ""; }, 5000);
+          }
+        });
+      }
     }
   </script>
 </head>
 <body>
 
   <div id="site-header"></div>
+
+  <div class="outer">
 
   <div class="content">
     <h1>Support & Sponsor No Spin Media</h1>
@@ -171,10 +287,33 @@
     </p>
   </div>
 
+  <!-- Right: feedback/contact sidebar -->
+  <div class="sidebar">
+    <h2>We ❤️ Your Thoughts!</h2>
+    <p>Have a story idea, correction, suggestion, or just want to say hi? We read every message we receive. 😊</p>
+    <p>Interested in sponsoring No Spin Media? Reach out below or email us at <strong>nospinmedia.ai@gmail.com</strong></p>
+
+    <form id="feedbackForm">
+      <input type="text"  id="name"    name="name"    placeholder="Your first name">
+      <input type="email" id="email"   name="email"   placeholder="you@email.com" required>
+      <select id="topic" name="topic">
+        <option value="">Topic...</option>
+        <option value="Feedback">💬 Feedback</option>
+        <option value="Story Idea / Tip">💡 Story Idea / Tip</option>
+        <option value="Correction">✏️ Correction</option>
+        <option value="Sponsorship / Advertising">📣 Sponsorship / Advertising</option>
+        <option value="Other">📌 Other</option>
+      </select>
+      <textarea id="message" name="message" rows="5" placeholder="Your message..." required></textarea>
+      <!-- Honeypot: hidden from humans, bots fill it -->
+      <input type="text" name="website" id="website" style="display:none;" tabindex="-1" autocomplete="off">
+      <p id="formStatus"></p>
+      <button type="submit">💬 Send Message</button>
+    </form>
+  </div>
+
+  </div>
+
   <footer>
     © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
-    <span style="font-size:.8rem;color:#aaa;">Some links on this site are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
-  </footer>
-
-</body>
-</html>
+    <span style="font-size:.8rem;color:#
