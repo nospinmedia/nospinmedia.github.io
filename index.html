@@ -138,10 +138,15 @@ color:#666;
 .container{
 flex-direction:column;
 }
-.left-ad,
-.right-ad{
-max-width:100%;
+
+.left-ad{
+display:none;
 }
+
+.right-ad{
+display:none;
+}
+
 .main{
 max-width:100%;
 }
@@ -322,7 +327,7 @@ async function loadStories(){
   const container=document.getElementById("news-container");
   container.innerHTML="";
 
-  stories.forEach(s=>{
+  stories.forEach((s, index)=>{
 
     let cleanText=convertRedditMarkdown(s.summary);
     let firstParagraph=cleanText.split("\n\n")[0];
@@ -355,8 +360,11 @@ async function loadStories(){
     `;
 
     container.appendChild(card);
+
+/* Insert book box after the 3rd story on mobile */
 if (window.innerWidth <= 900 && index === 2 && window.mobileBookBox) {
   const ad = document.createElement("div");
+  ad.className = "story-card";
   ad.innerHTML = window.mobileBookBox;
   container.appendChild(ad);
 }
