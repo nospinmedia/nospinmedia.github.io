@@ -176,6 +176,32 @@ const emojiMap = {
   "🏦": "economy"
 };
 
+/* --- Random Book Tiles --- */
+
+const bookSubjects = [
+  { img: "/affiliate/books/history.png", link: "https://www.amazon.com/s?k=history+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/science.png", link: "https://www.amazon.com/s?k=science+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/space.png", link: "https://www.amazon.com/s?k=space+exploration+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/politics.png", link: "https://www.amazon.com/s?k=political+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/military.png", link: "https://www.amazon.com/s?k=military+history+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/scifi.png", link: "https://www.amazon.com/s?k=science+fiction+books&tag=nospinmedia-20" }
+];
+
+function loadBookTiles() {
+
+  const shuffled = [...bookSubjects].sort(() => 0.5 - Math.random());
+  const selected = shuffled.slice(0,3);
+
+  const container = document.getElementById("book-tiles");
+
+  container.innerHTML = selected.map(book => `
+    <a href="${book.link}" target="_blank" rel="noopener">
+      <img src="${book.img}" style="width:100%;border-radius:6px;margin-bottom:12px;">
+    </a>
+  `).join("");
+
+}
+
 const bookLinks = {
   space:      [{text:"Space exploration books", k:"space+exploration+books"},{text:"Astronomy books", k:"astronomy+books"},{text:"NASA history books", k:"NASA+history+books"}],
   military:   [{text:"Military aviation books", k:"military+aviation+books"},{text:"Air combat history", k:"air+combat+history+books"},{text:"Modern fighter jets", k:"modern+fighter+jets+books"}],
@@ -338,7 +364,9 @@ document.addEventListener("DOMContentLoaded", function() {
         });
       }
 
+      loadBookTiles();   // ← ADD THIS LINE
       loadStories();
+
     });
 });
 
@@ -354,20 +382,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <div class="left-ad" id="left-ad">
   <div class="affiliate-box">
-    <h4>📚 Recommended Reading</h4>
-    <div id="amzn-books">
-      <script type="text/javascript">
-        amzn_assoc_placement = "adunit0";
-        amzn_assoc_tracking_id = "nospinmedia-20";
-        amzn_assoc_ad_mode = "search";
-        amzn_assoc_ad_type = "smart";
-        amzn_assoc_marketplace = "amazon";
-        amzn_assoc_region = "US";
-        amzn_assoc_default_search_phrase = "current events books";
-        amzn_assoc_default_category = "Books";
-      </script>
-      <script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US"></script>
-    </div>
+    <h4>📚 Books worth exploring</h4>
+    <div id="book-tiles"></div>
+    <p style="font-size:.7rem;color:#999;margin-top:8px;">
+      As an Amazon Associate I earn from qualifying purchases.
+    </p>
   </div>
 </div>
 
