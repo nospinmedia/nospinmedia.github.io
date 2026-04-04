@@ -13,128 +13,318 @@ crossorigin="anonymous"></script>
 
 <style>
 
-.card-footer{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-top:12px;
-flex-wrap:wrap;
-gap:8px;
-}
-  
-body{
-font-family:Arial,sans-serif;
-margin:0;
-padding:0;
-background:#f4f4f4;
-color:#222;
-padding-top:70px;
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f4f4;
+  color: #222;
+  padding-top: 70px;
 }
 
-.container{
-display:flex;
-max-width:1600px;
-margin:0 auto;
-padding:1.5rem;
-gap:2rem;
+.container {
+  display: flex;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  gap: 2rem;
+  align-items: flex-start;
 }
 
-.left-ad,
-.right-ad{
-flex:1;
-min-width:160px;
+/* ── Left reading column ── */
+.left-ad {
+  width: 210px;
+  min-width: 210px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 90px;
+  border-right: 1px solid #e0e0e0;
+  padding-right: 20px;
 }
 
-.main{
-flex:5;
-max-width:1200px;
-margin:0 auto;
+/* ── Right gear column ── */
+.right-ad {
+  width: 210px;
+  min-width: 210px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 90px;
+  border-left: 1px solid #e0e0e0;
+  padding-left: 20px;
 }
 
-.story-card{
-background:#fff;
-padding:1.4rem;
-margin-bottom:1.2rem;
-border-radius:6px;
-box-shadow:0 2px 10px rgba(0,0,0,0.08);
+.main {
+  flex: 1;
+  min-width: 0;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.story-card h3{
-margin:0 0 8px 0;
-font-size:1.5rem;
-line-height:1.4;
+/* ── Column headers ── */
+.reading-label {
+  font-family: Arial, sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  color: #333;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #0066cc;
 }
 
-.story-date{
-font-size:.85rem;
-color:#777;
-margin-bottom:10px;
+/* ── Book tiles ── */
+#book-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.story-summary{
-line-height:1.6;
-font-size:1rem;
+#book-tiles a {
+  display: block;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
 }
 
-.story-link{
-display:inline-block;
-margin-top:10px;
-font-weight:bold;
-text-decoration:none;
-color:#0066cc;
+#book-tiles a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.18);
 }
 
-.story-link:hover{
-text-decoration:underline;
+#book-tiles img {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
 }
 
-.headline-link{
-color:#222;
-text-decoration:none;
+/* ── Gear tiles ── */
+#gear-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
 }
 
-.headline-link:hover{
-text-decoration:underline;
+#gear-tiles a {
+  display: block;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
 }
 
-footer{
-text-align:center;
-padding:1rem;
-font-size:.9rem;
-color:#666;
+#gear-tiles a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.18);
 }
 
-@media(max-width:900px){
-
-.container{
-flex-direction:column;
+#gear-tiles img {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
 }
 
-.main{
-max-width:100%;
+/* ── Disclosure ── */
+.reading-disclosure {
+  margin-top: 12px;
+  font-size: .65rem;
+  color: #bbb;
+  line-height: 1.4;
+  font-style: italic;
 }
 
+/* ── Story cards ── */
+.story-card {
+  background: #fff;
+  padding: 1.4rem;
+  margin-bottom: 1.2rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.story-card h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.5rem;
+  line-height: 1.4;
+}
+
+.story-date {
+  font-size: .85rem;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.story-summary {
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.story-link {
+  display: inline-block;
+  font-weight: bold;
+  text-decoration: none;
+  color: #0066cc;
+}
+
+.story-link:hover {
+  text-decoration: underline;
+}
+
+.headline-link {
+  color: #222;
+  text-decoration: none;
+}
+
+.headline-link:hover {
+  text-decoration: underline;
+}
+
+/* ── Mobile affiliate insert ── */
+.mobile-affiliate-insert {
+  background: #fff;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.2rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.mobile-affiliate-insert .reading-label {
+  font-size: .75rem;
+  margin-bottom: 10px;
+}
+
+.mobile-affiliate-insert img {
+  width: 100%;
+  border-radius: 6px;
+  display: block;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+
+.mobile-affiliate-insert .reading-disclosure {
+  margin-top: 8px;
+  font-size: .65rem;
+  color: #bbb;
+  font-style: italic;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: .9rem;
+  color: #666;
+}
+
+/* ── Mobile ── */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .left-ad,
+  .right-ad {
+    display: none;
+  }
+
+  .main {
+    max-width: 100%;
+  }
 }
 
 </style>
 
 <script>
 
-function convertRedditMarkdown(text){
+/* ── Book tile pool ── */
+const bookSubjects = [
+  { img: "/affiliate/books/history.png",  link: "https://www.amazon.com/s?k=history+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/science.png",  link: "https://www.amazon.com/s?k=science+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/space.png",    link: "https://www.amazon.com/s?k=space+exploration+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/politics.png", link: "https://www.amazon.com/s?k=political+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/military.png", link: "https://www.amazon.com/s?k=military+history+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/scifi.png",    link: "https://www.amazon.com/s?k=science+fiction+books&tag=nospinmedia-20" }
+];
 
-if(!text) return "";
+/* ── Gear tile pool ── */
+const gearSubjects = [
+  { img: "/affiliate/gear/nsm-gear-field-optics.png",    link: "https://www.amazon.com/s?k=monocular+binoculars+compact+telescope&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-solar-power.png",     link: "https://www.amazon.com/s?k=solar+power+bank+portable+solar+charger&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-emergency-radio.png", link: "https://www.amazon.com/s?k=emergency+weather+radio+hand+crank&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-science-tools.png",   link: "https://www.amazon.com/s?k=pocket+microscope+geiger+counter+science+tools&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-weather-station.png", link: "https://www.amazon.com/s?k=home+weather+station+barometer+wireless&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-auto-tools.png",      link: "https://www.amazon.com/s?k=automotive+diagnostic+tools+multimeter+garage+tools&tag=nospinmedia-20" }
+];
 
-text=text.replace(/\\n\\n/g,"\n\n");
-text=text.replace(/\\n/g,"\n");
-
-text=text.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>");
-text=text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,"<em>$1</em>");
-
-return text;
-
+function shuffle(arr) {
+  return [...arr].sort(() => 0.5 - Math.random());
 }
 
-async function shareStory(url, btn){
+function loadAffiliateTiles() {
+  /* Desktop left: 3 random books */
+  const bookContainer = document.getElementById("book-tiles");
+  if (bookContainer) {
+    shuffle(bookSubjects).slice(0, 3).forEach(book => {
+      const a = document.createElement("a");
+      a.href = book.link;
+      a.target = "_blank";
+      a.rel = "noopener nofollow sponsored";
+      a.title = "Browse on Amazon — supports NSM at no extra cost";
+      a.innerHTML = `<img src="${book.img}" alt="Curated reading selection">`;
+      bookContainer.appendChild(a);
+    });
+  }
+
+  /* Desktop right: 3 random gear */
+  const gearContainer = document.getElementById("gear-tiles");
+  if (gearContainer) {
+    shuffle(gearSubjects).slice(0, 3).forEach(item => {
+      const a = document.createElement("a");
+      a.href = item.link;
+      a.target = "_blank";
+      a.rel = "noopener nofollow sponsored";
+      a.title = "Browse on Amazon — supports NSM at no extra cost";
+      a.innerHTML = `<img src="${item.img}" alt="Curated gear selection">`;
+      gearContainer.appendChild(a);
+    });
+  }
+
+  /* Mobile: 1 random from either pool, injected after story 3 */
+  const allCards = shuffle([...bookSubjects, ...gearSubjects]);
+  const mobileCard = allCards[0];
+  const isGear = gearSubjects.includes(mobileCard);
+  window.mobileAffiliateHTML = `
+    <div class="mobile-affiliate-insert">
+      <div class="reading-label">🧭 ${isGear ? "NSM Field Gear" : "NSM Reading List"}</div>
+      <a href="${mobileCard.link}" target="_blank" rel="noopener nofollow sponsored"
+         title="Browse on Amazon — supports NSM at no extra cost">
+        <img src="${mobileCard.img}" alt="${isGear ? "Curated gear" : "Curated reading"}">
+      </a>
+      <div class="reading-disclosure">
+        Selecting ${isGear ? "an item" : "a title"} supports independent journalism at no extra cost to you.
+      </div>
+    </div>
+  `;
+}
+
+function convertRedditMarkdown(text) {
+  if (!text) return "";
+  text = text.replace(/\\n\\n/g, "\n\n");
+  text = text.replace(/\\n/g, "\n");
+  text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+  text = text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g, "<em>$1</em>");
+  return text;
+}
+
+async function shareStory(url, btn) {
   const fullUrl = `${window.location.origin}/ne_story.html?story=${url}`;
   try {
     await navigator.clipboard.writeText(fullUrl);
@@ -144,87 +334,82 @@ async function shareStory(url, btn){
     alert("Could not copy link.");
   }
 }
-  
-async function loadStories(){
 
-const apiURL="https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_ne?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=20";
+async function loadStories() {
+  const apiURL = "https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_ne?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=20";
+  const res = await fetch(apiURL, {
+    headers: { apikey: "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB" }
+  });
+  const stories = await res.json();
+  const container = document.getElementById("news-container");
+  container.innerHTML = "";
 
-const res=await fetch(apiURL,{
-headers:{apikey:"sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB"}
-});
+  stories.forEach((s, index) => {
+    let cleanText      = convertRedditMarkdown(s.summary);
+    let firstParagraph = cleanText.split("\n\n")[0];
 
-const stories=await res.json();
+    const date = new Date(s.posted_at).toLocaleDateString("en-US", {
+      year: "numeric", month: "long", day: "numeric"
+    });
 
-const container=document.getElementById("news-container");
+    const safeUrl      = s.url;
+    const safeHeadline = (s.headline || "").replace(/'/g, "\\'").replace(/\n/g, " ").replace(/\r/g, "");
 
-container.innerHTML="";
+    const card = document.createElement("div");
+    card.className = "story-card";
+    card.style.cursor = "pointer";
+    card.onclick = (e) => {
+      if (e.target.closest(".story-link")) return;
+      window.location = `ne_story.html?story=${safeUrl}`;
+    };
 
-stories.forEach(s=>{
+    card.innerHTML = `
+      <h3>
+        <a href="ne_story.html?story=${safeUrl}" class="headline-link">${s.headline}</a>
+      </h3>
+      <div class="story-date">${date}</div>
+      <div class="story-summary">${firstParagraph}</div>
+      <div class="card-footer">
+        <a class="story-link" href="ne_story.html?story=${safeUrl}">Read full story →</a>
+        <a class="story-link" onclick="event.stopPropagation(); shareStory('${safeHeadline}', this)" style="cursor:pointer;">🔗 Share this story</a>
+      </div>
+    `;
 
-let cleanText=convertRedditMarkdown(s.summary);
+    container.appendChild(card);
 
-let firstParagraph=cleanText.split("\n\n")[0];
-
-const date=new Date(s.posted_at).toLocaleDateString("en-US",{
-year:"numeric",
-month:"long",
-day:"numeric"
-});
-
-const card=document.createElement("div");
-card.className="story-card";
-card.style.cursor="pointer";
-card.onclick=(e)=>{ if(e.target.closest(".story-link")) return; window.location=`ne_story.html?story=${s.url}`; };
-
-card.innerHTML=`
-
-<h3>
-<a href="ne_story.html?story=${s.url}" class="headline-link">
-${s.headline}
-</a>
-</h3>
-
-<div class="story-date">${date}</div>
-
-<div class="story-summary">${firstParagraph}</div>
-
-<div class="card-footer">
-  <a class="story-link" href="ne_story.html?story=${s.url}">Read full story →</a>
-  <a class="story-link" onclick="event.stopPropagation(); shareStory('${s.url}', this)" style="cursor:pointer;">🔗 Share this story</a>
-</div>
-
-`;
-
-container.appendChild(card);
-
-});
-
+    /* Mobile: inject after story 3 */
+    if (window.innerWidth <= 900 && index === 2 && window.mobileAffiliateHTML) {
+      const insert = document.createElement("div");
+      insert.innerHTML = window.mobileAffiliateHTML;
+      container.appendChild(insert.firstElementChild);
+    }
+  });
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-fetch("header.html")
-.then(res => res.text())
-.then(html => {
-document.getElementById("site-header").innerHTML = html;
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("header.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("site-header").innerHTML = html;
 
-const hamburger = document.getElementById("hamburger");
-const mobileNav = document.getElementById("mobile-nav");
+      const hamburger = document.getElementById("hamburger");
+      const mobileNav = document.getElementById("mobile-nav");
+      if (hamburger && mobileNav) {
+        hamburger.onclick = () => {
+          mobileNav.classList.toggle("open");
+          hamburger.classList.toggle("active");
+        };
+        mobileNav.querySelectorAll("a").forEach(link => {
+          link.onclick = () => {
+            mobileNav.classList.remove("open");
+            hamburger.classList.remove("active");
+          };
+        });
+      }
 
-if (hamburger && mobileNav) {
-hamburger.onclick = () => {
-mobileNav.classList.toggle("open");
-hamburger.classList.toggle("active");
-};
-mobileNav.querySelectorAll("a").forEach(link => {
-link.onclick = () => {
-mobileNav.classList.remove("open");
-hamburger.classList.remove("active");
-};
-});
-}
-
-loadStories();
-});
+      loadAffiliateTiles();
+      loadStories();
+    });
 });
 
 </script>
@@ -237,22 +422,35 @@ loadStories();
 
 <div class="container">
 
-<div class="left-ad"></div>
+  <!-- Left: reading column -->
+  <div class="left-ad" id="left-ad">
+    <div class="reading-label">🧭 NSM Reading List</div>
+    <div id="book-tiles"></div>
+    <div class="reading-disclosure">
+      Selecting a title supports independent journalism at no extra cost to you.
+    </div>
+  </div>
 
-<div class="main">
+  <!-- Main: NE feed -->
+  <div class="main">
+    <h1>New England News</h1>
+    <div id="news-container"></div>
+  </div>
 
-<h1>New England News</h1>
-
-<div id="news-container"></div>
-
-</div>
-
-<div class="right-ad"></div>
+  <!-- Right: gear column -->
+  <div class="right-ad" id="right-ad">
+    <div class="reading-label">🧭 NSM Field Gear</div>
+    <div id="gear-tiles"></div>
+    <div class="reading-disclosure">
+      Selecting an item supports independent journalism at no extra cost to you.
+    </div>
+  </div>
 
 </div>
 
 <footer>
-© 2026 🧭 No Spin Media. Independent. Truth-focused.
+  © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
+  <span style="font-size:.8rem;color:#aaa;">Some links on this site are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
 </footer>
 
 </body>
