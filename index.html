@@ -44,11 +44,13 @@ body {
 
 /* ── Left reading column ── */
 .left-ad {
-  width: 200px;
-  min-width: 200px;
+  width: 210px;
+  min-width: 210px;
   flex-shrink: 0;
   position: sticky;
-  top: 90px;           /* clears fixed header */
+  top: 90px;
+  border-right: 1px solid #e0e0e0;
+  padding-right: 20px;
 }
 
 .right-ad {
@@ -64,16 +66,18 @@ body {
   margin: 0 auto;
 }
 
-/* ── Book column header — editorial, not ad-unit ── */
+/* ── Book column header ── */
 .reading-label {
-  font-family: Georgia, serif;
-  font-size: .72rem;
-  font-style: italic;
-  color: #888;
-  letter-spacing: .04em;
-  margin: 0 0 10px 2px;
-  padding-bottom: 7px;
-  border-bottom: 1px solid #ccc;
+  font-family: Arial, sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  font-style: normal;
+  color: #333;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #0066cc;
 }
 
 /* ── Book tiles: no box, no shadow, just cards ── */
@@ -296,7 +300,7 @@ function loadBookTiles() {
   const mobileBook = shuffled[0];
   window.mobileBookHTML = `
     <div class="mobile-reading-insert">
-      <div class="reading-label">Further Reading</div>
+      <div class="reading-label">🧭 NSM Reading List</div>
       <a href="${mobileBook.link}" target="_blank" rel="noopener sponsored"
          title="Browse on Amazon — supports NSM at no extra cost">
         <img src="${mobileBook.img}" alt="Curated reading selection">
@@ -485,7 +489,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   <!-- Left: editorial reading column -->
   <div class="left-ad" id="left-ad">
-    <div class="reading-label">Further Reading</div>
+    <div class="reading-label">🧭 NSM Reading List</div>
     <div id="book-tiles"></div>
     <div class="reading-disclosure">
       Selecting a title supports independent journalism at no extra cost to you.
@@ -505,6 +509,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <footer>
   © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
+  <span style="font-size:.8rem;color:#aaa;">Some links on this site are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
 </footer>
 
 </body>
