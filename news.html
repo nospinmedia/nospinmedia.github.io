@@ -8,170 +8,297 @@
 
 <link rel="stylesheet" href="style.css"/>
 
-<!-- Google AdSense -->
 <script async
 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053277983719011"
 crossorigin="anonymous"></script>
 
 <style>
-body{
-    font-family:Arial,sans-serif;
-    margin:0;
-    padding:0;
-    background:#f4f4f4;
-    color:#222;
-    padding-top:70px;
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f4f4;
+  color: #222;
+  padding-top: 70px;
 }
 
-.container{
-    display:flex;
-    max-width:1600px;
-    margin:0 auto;
-    padding:1.5rem;
-    gap:2rem;
+.container {
+  display: flex;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  gap: 2rem;
+  align-items: flex-start;
 }
 
-.left-ad,
-.right-ad{
-    flex:1;
-    min-width:160px;
+/* ── Left reading column ── */
+.left-ad {
+  width: 210px;
+  min-width: 210px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 90px;
+  border-right: 1px solid #e0e0e0;
+  padding-right: 20px;
 }
 
-.main{
-    flex:5;
-    max-width:1200px;
-    margin:0 auto;
+/* ── Right gear column ── */
+.right-ad {
+  width: 210px;
+  min-width: 210px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 90px;
+  border-left: 1px solid #e0e0e0;
+  padding-left: 20px;
 }
 
-.archive-search{
-    background:#fff;
-    padding:1rem;
-    margin-bottom:1.2rem;
-    border-radius:8px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.08);
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    align-items:center;
+.main {
+  flex: 1;
+  min-width: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Column headers ── */
+.reading-label {
+  font-family: Arial, sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  color: #333;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #0066cc;
+}
+
+/* ── Book tiles ── */
+#book-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#book-tiles a {
+  display: block;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+
+#book-tiles a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.18);
+}
+
+#book-tiles img {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+}
+
+/* ── Gear tiles ── */
+#gear-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
+}
+
+#gear-tiles a {
+  display: block;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+
+#gear-tiles a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.18);
+}
+
+#gear-tiles img {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+}
+
+/* ── Disclosure ── */
+.reading-disclosure {
+  margin-top: 12px;
+  font-size: .65rem;
+  color: #bbb;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* ── Archive search bar ── */
+.archive-search {
+  background: #fff;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
 }
 
 .archive-search select,
-.archive-search input{
-    padding:10px;
-    font-size:1rem;
-    border:1px solid #ccc;
-    border-radius:6px;
-    background:#fff;
+.archive-search input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
 }
 
-.archive-search input{
-    flex:1;
-    min-width:220px;
+.archive-search input {
+  flex: 1;
+  min-width: 220px;
 }
 
-.archive-search button{
-    padding:10px 16px;
-    font-size:1rem;
-    border:none;
-    border-radius:6px;
-    background:#333;
-    color:#fff;
-    cursor:pointer;
+.archive-search button {
+  padding: 10px 16px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  background: #333;
+  color: #fff;
+  cursor: pointer;
 }
 
-.archive-search button:hover{
-    background:#555;
+.archive-search button:hover {
+  background: #555;
 }
 
-.results-info{
-    margin:0 0 1rem 0;
-    color:#666;
-    font-size:.95rem;
+.results-info {
+  margin: 0 0 1rem 0;
+  color: #666;
+  font-size: .95rem;
 }
 
-.story-card{
-    background:#fff;
-    padding:1.4rem;
-    margin-bottom:1.2rem;
-    border-radius:6px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.08);
-    cursor:pointer;
+/* ── Story cards ── */
+.story-card {
+  background: #fff;
+  padding: 1.4rem;
+  margin-bottom: 1.2rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  cursor: pointer;
 }
 
-.story-card h3{
-    margin:0 0 8px 0;
-    font-size:1.5rem;
-    line-height:1.4;
+.story-card h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.5rem;
+  line-height: 1.4;
 }
 
-.story-date{
-    font-size:.85rem;
-    color:#777;
-    margin-bottom:10px;
+.story-date {
+  font-size: .85rem;
+  color: #777;
+  margin-bottom: 10px;
 }
 
-.story-summary{
-    line-height:1.6;
-    font-size:1rem;
+.story-summary {
+  line-height: 1.6;
+  font-size: 1rem;
 }
 
-.card-footer{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px;
-    margin-top:12px;
-    flex-wrap:wrap;
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
 }
 
-.story-link{
-    font-weight:bold;
-    text-decoration:none;
-    color:#0066cc;
+.story-link {
+  font-weight: bold;
+  text-decoration: none;
+  color: #0066cc;
 }
 
-.story-link:hover{
-    text-decoration:underline;
+.story-link:hover {
+  text-decoration: underline;
 }
 
-.share-btn{
-    background:none;
-    border:none;
-    color:#0066cc;
-    font-weight:bold;
-    font-size:1rem;
-    cursor:pointer;
-    padding:0;
+.share-btn {
+  background: none;
+  border: none;
+  color: #0066cc;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
 }
 
-.share-btn:hover{
-    text-decoration:underline;
+.share-btn:hover {
+  text-decoration: underline;
 }
 
-.headline-link{
-    color:#222;
-    text-decoration:none;
+.headline-link {
+  color: #222;
+  text-decoration: none;
 }
 
-.headline-link:hover{
-    text-decoration:underline;
+.headline-link:hover {
+  text-decoration: underline;
 }
 
-footer{
-    text-align:center;
-    padding:1rem;
-    font-size:.9rem;
-    color:#666;
+/* ── Mobile affiliate insert ── */
+.mobile-affiliate-insert {
+  background: #fff;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.2rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
 }
 
-@media(max-width:900px){
-    .container{
-        flex-direction:column;
-    }
+.mobile-affiliate-insert .reading-label {
+  font-size: .75rem;
+  margin-bottom: 10px;
+}
 
-    .main{
-        max-width:100%;
-    }
+.mobile-affiliate-insert img {
+  width: 100%;
+  border-radius: 6px;
+  display: block;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+
+.mobile-affiliate-insert .reading-disclosure {
+  margin-top: 8px;
+  font-size: .65rem;
+  color: #bbb;
+  font-style: italic;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: .9rem;
+  color: #666;
+}
+
+/* ── Mobile ── */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .left-ad,
+  .right-ad {
+    display: none;
+  }
+
+  .main {
+    max-width: 100%;
+  }
 }
 </style>
 
@@ -179,262 +306,279 @@ footer{
 const SUPABASE_URL = "https://dckmflnbprhmaqysuued.supabase.co/rest/v1";
 const SUPABASE_KEY = "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB";
 
-function convertRedditMarkdown(text){
-    if(!text) return "";
+/* ── Book tile pool ── */
+const bookSubjects = [
+  { img: "/affiliate/books/history.png",  link: "https://www.amazon.com/s?k=history+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/science.png",  link: "https://www.amazon.com/s?k=science+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/space.png",    link: "https://www.amazon.com/s?k=space+exploration+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/politics.png", link: "https://www.amazon.com/s?k=political+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/military.png", link: "https://www.amazon.com/s?k=military+history+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/scifi.png",    link: "https://www.amazon.com/s?k=science+fiction+books&tag=nospinmedia-20" }
+];
 
-    text = text.replace(/\\n\\n/g,"\n\n");
-    text = text.replace(/\\n/g,"\n");
-    text = text.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>");
-    text = text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,"<em>$1</em>");
+/* ── Gear tile pool ── */
+const gearSubjects = [
+  { img: "/affiliate/gear/nsm-gear-field-optics.png",    link: "https://www.amazon.com/s?k=monocular+binoculars+compact+telescope&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-solar-power.png",     link: "https://www.amazon.com/s?k=solar+power+bank+portable+solar+charger&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-emergency-radio.png", link: "https://www.amazon.com/s?k=emergency+weather+radio+hand+crank&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-science-tools.png",   link: "https://www.amazon.com/s?k=pocket+microscope+geiger+counter+science+tools&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-weather-station.png", link: "https://www.amazon.com/s?k=home+weather+station+barometer+wireless&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-auto-tools.png",      link: "https://www.amazon.com/s?k=automotive+diagnostic+tools+multimeter+garage+tools&tag=nospinmedia-20" }
+];
 
-    return text;
+function shuffle(arr) {
+  return [...arr].sort(() => 0.5 - Math.random());
 }
 
-function escapeHtml(text){
-    if(text == null) return "";
-    const div = document.createElement("div");
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-function getStoryPage(database){
-    return database === "news_ne" ? "ne_story.html" : "story.html";
-}
-
-function buildDateFilters(params, year, month){
-    // No date filters at all
-    if(!year && !month) return;
-
-    // Year only
-    if(year && !month){
-        params.append("posted_at", `gte.${year}-01-01T00:00:00`);
-        params.append("posted_at", `lt.${Number(year)+1}-01-01T00:00:00`);
-        return;
-    }
-
-    // Month + year
-    if(year && month){
-        const start = `${year}-${month}-01T00:00:00`;
-
-        let nextYear = Number(year);
-        let nextMonth = Number(month) + 1;
-
-        if(nextMonth === 13){
-            nextMonth = 1;
-            nextYear += 1;
-        }
-
-        const nextMonthStr = String(nextMonth).padStart(2, "0");
-        const end = `${nextYear}-${nextMonthStr}-01T00:00:00`;
-
-        params.append("posted_at", `gte.${start}`);
-        params.append("posted_at", `lt.${end}`);
-        return;
-    }
-
-    // Month only: search across all years by month number
-    // Supabase/PostgREST does not make this pretty, so use all returned rows and filter client-side.
-    // We flag this by storing a custom marker.
-    params.append("_month_only", month);
-}
-
-function passesMonthOnlyFilter(postedAt, month){
-    if(!month) return true;
-    if(!postedAt) return false;
-    const d = new Date(postedAt);
-    if(Number.isNaN(d.getTime())) return false;
-    return String(d.getMonth() + 1).padStart(2, "0") === month;
-}
-
-async function loadRecent(){
-    const res = await fetch(`${SUPABASE_URL}/news_posts?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=3`, {
-        headers:{ apikey: SUPABASE_KEY }
+function loadAffiliateTiles() {
+  /* Desktop left: 3 random books */
+  const bookContainer = document.getElementById("book-tiles");
+  if (bookContainer) {
+    shuffle(bookSubjects).slice(0, 3).forEach(book => {
+      const a = document.createElement("a");
+      a.href = book.link;
+      a.target = "_blank";
+      a.rel = "noopener nofollow sponsored";
+      a.title = "Browse on Amazon — supports NSM at no extra cost";
+      a.innerHTML = `<img src="${book.img}" alt="Curated reading selection">`;
+      bookContainer.appendChild(a);
     });
-    const stories = await res.json();
-    document.getElementById("results-info").textContent = "Recent stories — use filters above to search the full archive.";
-    displayStories(stories, "news_posts");
-}
-    
-async function searchArchive(){
-    const database = document.getElementById("database").value;
-    const month = document.getElementById("month").value;
-    const year = document.getElementById("year").value;
-    const keywordsRaw = document.getElementById("keywords").value.trim();
-    const container = document.getElementById("news-container");
-    const resultsInfo = document.getElementById("results-info");
+  }
 
-    container.innerHTML = "<p>Searching...</p>";
-    resultsInfo.textContent = "";
+  /* Desktop right: 3 random gear */
+  const gearContainer = document.getElementById("gear-tiles");
+  if (gearContainer) {
+    shuffle(gearSubjects).slice(0, 3).forEach(item => {
+      const a = document.createElement("a");
+      a.href = item.link;
+      a.target = "_blank";
+      a.rel = "noopener nofollow sponsored";
+      a.title = "Browse on Amazon — supports NSM at no extra cost";
+      a.innerHTML = `<img src="${item.img}" alt="Curated gear selection">`;
+      gearContainer.appendChild(a);
+    });
+  }
 
-    const params = new URLSearchParams();
-    params.set("select", "headline,summary,posted_at,url");
-    params.append("used", "eq.true");
-    params.append("order", "posted_at.desc");
-    params.append("limit", "200");
-
-    buildDateFilters(params, year, month);
-
-    const monthOnly = params.get("_month_only");
-    if(monthOnly){
-        params.delete("_month_only");
-    }
-
-    if(keywordsRaw){
-        const safeKeywords = keywordsRaw.replace(/,/g, " ").replace(/\s+/g, " ").trim();
-        params.append("or", `(headline.ilike.*${safeKeywords}*,summary.ilike.*${safeKeywords}*)`);
-    }
-
-    const queryUrl = `${SUPABASE_URL}/${database}?${params.toString()}`;
-
-    try{
-        const res = await fetch(queryUrl, {
-            headers: {
-                apikey: SUPABASE_KEY
-            }
-        });
-
-        if(!res.ok){
-            throw new Error(`Supabase returned ${res.status}`);
-        }
-
-        let stories = await res.json();
-
-        if(monthOnly){
-            stories = stories.filter(s => passesMonthOnlyFilter(s.posted_at, monthOnly));
-        }
-
-        displayStories(stories, database);
-
-        const pieces = [];
-        pieces.push(`${stories.length} result${stories.length === 1 ? "" : "s"}`);
-
-        if(database === "news_ne"){
-            pieces.push("New England");
-        } else {
-            pieces.push("Main News");
-        }
-
-        if(month){
-            const monthName = document.querySelector(`#month option[value="${month}"]`)?.textContent || month;
-            pieces.push(monthName);
-        }
-
-        if(year){
-            pieces.push(year);
-        }
-
-        if(keywordsRaw){
-            pieces.push(`"${keywordsRaw}"`);
-        }
-
-        resultsInfo.textContent = pieces.join(" • ");
-    } catch(err){
-        console.error(err);
-        container.innerHTML = "<p>Search failed. Check the browser console for details.</p>";
-    }
+  /* Mobile: 1 random from either pool, injected after story 3 */
+  const allCards = shuffle([...bookSubjects, ...gearSubjects]);
+  const mobileCard = allCards[0];
+  const isGear = gearSubjects.includes(mobileCard);
+  window.mobileAffiliateHTML = `
+    <div class="mobile-affiliate-insert">
+      <div class="reading-label">🧭 ${isGear ? "NSM Field Gear" : "NSM Reading List"}</div>
+      <a href="${mobileCard.link}" target="_blank" rel="noopener nofollow sponsored"
+         title="Browse on Amazon — supports NSM at no extra cost">
+        <img src="${mobileCard.img}" alt="${isGear ? "Curated gear" : "Curated reading"}">
+      </a>
+      <div class="reading-disclosure">
+        Selecting ${isGear ? "an item" : "a title"} supports independent journalism at no extra cost to you.
+      </div>
+    </div>
+  `;
 }
 
-function displayStories(stories, database){
-    const container = document.getElementById("news-container");
-    const storyPage = getStoryPage(database);
+/* ── Archive logic (unchanged from original) ── */
+function convertRedditMarkdown(text) {
+  if (!text) return "";
+  text = text.replace(/\\n\\n/g, "\n\n");
+  text = text.replace(/\\n/g, "\n");
+  text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+  text = text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g, "<em>$1</em>");
+  return text;
+}
 
-    container.innerHTML = "";
+function escapeHtml(text) {
+  if (text == null) return "";
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
 
-    if(!stories || stories.length === 0){
-        container.innerHTML = "<p>No stories found.</p>";
-        return;
+function getStoryPage(database) {
+  return database === "news_ne" ? "ne_story.html" : "story.html";
+}
+
+function buildDateFilters(params, year, month) {
+  if (!year && !month) return;
+  if (year && !month) {
+    params.append("posted_at", `gte.${year}-01-01T00:00:00`);
+    params.append("posted_at", `lt.${Number(year)+1}-01-01T00:00:00`);
+    return;
+  }
+  if (year && month) {
+    const start = `${year}-${month}-01T00:00:00`;
+    let nextYear = Number(year);
+    let nextMonth = Number(month) + 1;
+    if (nextMonth === 13) { nextMonth = 1; nextYear += 1; }
+    const nextMonthStr = String(nextMonth).padStart(2, "0");
+    params.append("posted_at", `gte.${start}`);
+    params.append("posted_at", `lt.${nextYear}-${nextMonthStr}-01T00:00:00`);
+    return;
+  }
+  params.append("_month_only", month);
+}
+
+function passesMonthOnlyFilter(postedAt, month) {
+  if (!month) return true;
+  if (!postedAt) return false;
+  const d = new Date(postedAt);
+  if (Number.isNaN(d.getTime())) return false;
+  return String(d.getMonth() + 1).padStart(2, "0") === month;
+}
+
+async function loadRecent() {
+  const res = await fetch(`${SUPABASE_URL}/news_posts?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=3`, {
+    headers: { apikey: SUPABASE_KEY }
+  });
+  const stories = await res.json();
+  document.getElementById("results-info").textContent = "Recent stories — use filters above to search the full archive.";
+  displayStories(stories, "news_posts");
+}
+
+async function searchArchive() {
+  const database    = document.getElementById("database").value;
+  const month       = document.getElementById("month").value;
+  const year        = document.getElementById("year").value;
+  const keywordsRaw = document.getElementById("keywords").value.trim();
+  const container   = document.getElementById("news-container");
+  const resultsInfo = document.getElementById("results-info");
+
+  container.innerHTML = "<p>Searching...</p>";
+  resultsInfo.textContent = "";
+
+  const params = new URLSearchParams();
+  params.set("select", "headline,summary,posted_at,url");
+  params.append("used", "eq.true");
+  params.append("order", "posted_at.desc");
+  params.append("limit", "200");
+
+  buildDateFilters(params, year, month);
+
+  const monthOnly = params.get("_month_only");
+  if (monthOnly) params.delete("_month_only");
+
+  if (keywordsRaw) {
+    const safeKeywords = keywordsRaw.replace(/,/g, " ").replace(/\s+/g, " ").trim();
+    params.append("or", `(headline.ilike.*${safeKeywords}*,summary.ilike.*${safeKeywords}*)`);
+  }
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/${database}?${params.toString()}`, {
+      headers: { apikey: SUPABASE_KEY }
+    });
+    if (!res.ok) throw new Error(`Supabase returned ${res.status}`);
+
+    let stories = await res.json();
+    if (monthOnly) stories = stories.filter(s => passesMonthOnlyFilter(s.posted_at, monthOnly));
+
+    displayStories(stories, database);
+
+    const pieces = [`${stories.length} result${stories.length === 1 ? "" : "s"}`];
+    if (database === "news_ne") pieces.push("New England"); else pieces.push("Main News");
+    if (month) pieces.push(document.querySelector(`#month option[value="${month}"]`)?.textContent || month);
+    if (year) pieces.push(year);
+    if (keywordsRaw) pieces.push(`"${keywordsRaw}"`);
+    resultsInfo.textContent = pieces.join(" • ");
+
+  } catch(err) {
+    console.error(err);
+    container.innerHTML = "<p>Search failed. Check the browser console for details.</p>";
+  }
+}
+
+function displayStories(stories, database) {
+  const container = document.getElementById("news-container");
+  const storyPage = getStoryPage(database);
+
+  container.innerHTML = "";
+
+  if (!stories || stories.length === 0) {
+    container.innerHTML = "<p>No stories found.</p>";
+    return;
+  }
+
+  stories.forEach((s, index) => {
+    const cleanText      = convertRedditMarkdown(s.summary || "");
+    const firstParagraph = cleanText.split("\n\n")[0];
+    const safeHeadline   = escapeHtml((s.headline || "").replace(/\n/g, " ").replace(/\r/g, ""));
+    const date           = s.posted_at
+      ? new Date(s.posted_at).toLocaleDateString("en-US", { year:"numeric", month:"long", day:"numeric" })
+      : "";
+
+    const card = document.createElement("div");
+    card.className = "story-card";
+    card.onclick = (e) => {
+      if (e.target.closest(".share-btn")) return;
+      if (e.target.closest(".story-link")) return;
+      if (e.target.closest(".headline-link")) return;
+      window.location = `${storyPage}?story=${encodeURIComponent(s.url)}`;
+    };
+
+    card.innerHTML = `
+      <h3>
+        <a href="${storyPage}?story=${encodeURIComponent(s.url)}" class="headline-link">${safeHeadline}</a>
+      </h3>
+      <div class="story-date">${date}</div>
+      <div class="story-summary">${firstParagraph}</div>
+      <div class="card-footer">
+        <a class="story-link" href="${storyPage}?story=${encodeURIComponent(s.url)}">Read full story →</a>
+        <a class="story-link share-btn" style="cursor:pointer;">🔗 Share this story</a>
+      </div>
+    `;
+
+    const shareBtn = card.querySelector(".share-btn");
+    shareBtn.addEventListener("click", async (e) => {
+      e.stopPropagation();
+      const fullUrl = `${window.location.origin}/${storyPage}?story=${encodeURIComponent(s.url)}`;
+      try {
+        await navigator.clipboard.writeText(fullUrl);
+        shareBtn.innerHTML = "✅ Copied!";
+        setTimeout(() => { shareBtn.innerHTML = "🔗 Share this story"; }, 2000);
+      } catch(err) {
+        alert("Could not copy link. Please copy it manually from the address bar.");
+      }
+    });
+
+    container.appendChild(card);
+
+    /* Mobile: inject after story 3 */
+    if (window.innerWidth <= 900 && index === 2 && window.mobileAffiliateHTML) {
+      const insert = document.createElement("div");
+      insert.innerHTML = window.mobileAffiliateHTML;
+      container.appendChild(insert.firstElementChild);
     }
+  });
+}
 
-    stories.forEach(s => {
-        const cleanText = convertRedditMarkdown(s.summary || "");
-        const firstParagraph = cleanText.split("\n\n")[0];
-        const safeHeadline = escapeHtml((s.headline || "").replace(/\n/g, " ").replace(/\r/g, ""));
-        const date = s.posted_at
-            ? new Date(s.posted_at).toLocaleDateString("en-US", {
-                year:"numeric",
-                month:"long",
-                day:"numeric"
-              })
-            : "";
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("header.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("site-header").innerHTML = html;
 
-        const card = document.createElement("div");
-        card.className = "story-card";
-
-        card.onclick = (e) => {
-            if(e.target.closest(".share-btn")) return;
-            if(e.target.closest(".story-link")) return;
-            if(e.target.closest(".headline-link")) return;
-            window.location = `${storyPage}?story=${encodeURIComponent(s.url)}`;
+      const hamburger = document.getElementById("hamburger");
+      const mobileNav = document.getElementById("mobile-nav");
+      if (hamburger && mobileNav) {
+        hamburger.onclick = () => {
+          mobileNav.classList.toggle("open");
+          hamburger.classList.toggle("active");
         };
-
-        card.innerHTML = `
-            <h3>
-                <a href="${storyPage}?story=${encodeURIComponent(s.url)}" class="headline-link">${safeHeadline}</a>
-            </h3>
-
-            <div class="story-date">${date}</div>
-
-            <div class="story-summary">${firstParagraph}</div>
-
-            <div class="card-footer">
-                <a class="story-link" href="${storyPage}?story=${encodeURIComponent(s.url)}">Read full story →</a>
-                <a class="story-link share-btn" style="cursor:pointer;">🔗 Share this story</a>
-            </div>
-        `;
-
-        const shareBtn = card.querySelector(".share-btn");
-        shareBtn.addEventListener("click", async (e) => {
-            e.stopPropagation();
-            const fullUrl = `${window.location.origin}/${storyPage}?story=${encodeURIComponent(s.url)}`;
-
-            try{
-                await navigator.clipboard.writeText(fullUrl);
-                shareBtn.innerHTML = "✅ Copied!";
-                setTimeout(() => {
-                    shareBtn.innerHTML = "🔗 Share this story";
-                }, 2000);
-            } catch(err){
-                alert("Could not copy link. Please copy it manually from the address bar.");
-            }
+        mobileNav.querySelectorAll("a").forEach(link => {
+          link.onclick = () => {
+            mobileNav.classList.remove("open");
+            hamburger.classList.remove("active");
+          };
         });
+      }
 
-        container.appendChild(card);
-    });
-}
+      loadAffiliateTiles();
+      loadRecent();
+    })
+    .catch(err => console.error("Error loading header.html:", err));
 
-document.addEventListener("DOMContentLoaded", function() {
-    fetch("header.html")
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById("site-header").innerHTML = html;
-
-            const hamburger = document.getElementById("hamburger");
-            const mobileNav = document.getElementById("mobile-nav");
-
-            if (hamburger && mobileNav) {
-                hamburger.onclick = () => {
-                    mobileNav.classList.toggle("open");
-                    hamburger.classList.toggle("active");
-                };
-
-                mobileNav.querySelectorAll("a").forEach(link => {
-                    link.onclick = () => {
-                        mobileNav.classList.remove("open");
-                        hamburger.classList.remove("active");
-                    };
-                });
-            }
-        })
-        .catch(err => console.error("Error loading header.html:", err));
-
-    document.getElementById("keywords").addEventListener("keydown", function(e){
-        if(e.key === "Enter"){
-            e.preventDefault();
-            searchArchive();
-        }
-    });
-
-    loadRecent();
+  document.getElementById("keywords").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") { e.preventDefault(); searchArchive(); }
+  });
 });
 </script>
 
@@ -446,58 +590,70 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <div class="container">
 
-    <div class="left-ad"></div>
+  <!-- Left: reading column -->
+  <div class="left-ad" id="left-ad">
+    <div class="reading-label">🧭 NSM Reading List</div>
+    <div id="book-tiles"></div>
+    <div class="reading-disclosure">
+      Selecting a title supports independent journalism at no extra cost to you.
+    </div>
+  </div>
 
-    <div class="main">
+  <!-- Main: archive -->
+  <div class="main">
 
-        <h1>🧭 NSM Archive</h1>
-<p style="color:#666; margin:-0.5rem 0 1rem 0; font-size:1rem;">Search the No Spin Media archive by topic, keyword, or date.</p>
+    <h1>🧭 NSM Archive</h1>
+    <p style="color:#666; margin:-0.5rem 0 1rem 0; font-size:1rem;">Search the No Spin Media archive by topic, keyword, or date.</p>
 
-        <div class="archive-search">
-            <select id="database">
-                <option value="news_posts">📰 Main News</option>
-                <option value="news_ne">📍 New England</option>
-            </select>
-
-            <select id="month">
-                <option value="">Month</option>
-                <option value="01">January</option>
-                <option value="02">February</option>
-                <option value="03">March</option>
-                <option value="04">April</option>
-                <option value="05">May</option>
-                <option value="06">June</option>
-                <option value="07">July</option>
-                <option value="08">August</option>
-                <option value="09">September</option>
-                <option value="10">October</option>
-                <option value="11">November</option>
-                <option value="12">December</option>
-            </select>
-
-            <select id="year">
-                <option value="">Year</option>
-                <option value="2026">2026</option>
-                <option value="2025">2025</option>
-                <option value="2024">2024</option>
-            </select>
-
-            <input type="text" id="keywords" placeholder="Keywords"/>
-
-            <button type="button" onclick="searchArchive()">🔎 Search Archive</button>
-        </div>
-
-        <div id="results-info" class="results-info"></div>
-        <div id="news-container"></div>
-
+    <div class="archive-search">
+      <select id="database">
+        <option value="news_posts">📰 Main News</option>
+        <option value="news_ne">📍 New England</option>
+      </select>
+      <select id="month">
+        <option value="">Month</option>
+        <option value="01">January</option>
+        <option value="02">February</option>
+        <option value="03">March</option>
+        <option value="04">April</option>
+        <option value="05">May</option>
+        <option value="06">June</option>
+        <option value="07">July</option>
+        <option value="08">August</option>
+        <option value="09">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
+      </select>
+      <select id="year">
+        <option value="">Year</option>
+        <option value="2026">2026</option>
+        <option value="2025">2025</option>
+        <option value="2024">2024</option>
+      </select>
+      <input type="text" id="keywords" placeholder="Keywords"/>
+      <button type="button" onclick="searchArchive()">🔎 Search Archive</button>
     </div>
 
-    <div class="right-ad"></div>
+    <div id="results-info" class="results-info"></div>
+    <div id="news-container"></div>
+
+  </div>
+
+  <!-- Right: gear column -->
+  <div class="right-ad" id="right-ad">
+    <div class="reading-label">🧭 NSM Field Gear</div>
+    <div id="gear-tiles"></div>
+    <div class="reading-disclosure">
+      Selecting an item supports independent journalism at no extra cost to you.
+    </div>
+  </div>
 
 </div>
 
 <footer>
-© 2026 🧭 No Spin Media. Independent. Truth-focused.
+  © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
+  <span style="font-size:.8rem;color:#aaa;">Some links on this site are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
 </footer>
 
 </body>
