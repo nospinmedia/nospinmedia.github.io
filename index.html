@@ -195,24 +195,26 @@ const bookSubjects = [
 function loadBookTiles() {
 
   const shuffled = [...bookSubjects].sort(() => 0.5 - Math.random());
-  const selected = shuffled.slice(0,3);
+
+  const desktopBooks = shuffled.slice(0,3);
+  const mobileBook = shuffled.slice(0,1);
 
   /* Desktop sidebar */
   const container = document.getElementById("book-tiles");
 
   if (container) {
-    container.innerHTML = selected.map(book => `
+    container.innerHTML = desktopBooks.map(book => `
       <a href="${book.link}" target="_blank" rel="noopener">
         <img src="${book.img}" style="width:100%;border-radius:6px;margin-bottom:12px;">
       </a>
     `).join("");
   }
 
-  /* Mobile version stored for later insertion */
+  /* Mobile ad block */
   window.mobileBookBox = `
     <div class="affiliate-box">
       <h4>📚 Books worth exploring</h4>
-      ${selected.map(book => `
+      ${mobileBook.map(book => `
         <a href="${book.link}" target="_blank" rel="noopener">
           <img src="${book.img}" style="width:100%;border-radius:6px;margin-bottom:12px;">
         </a>
