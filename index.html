@@ -192,13 +192,31 @@ function loadBookTiles() {
   const shuffled = [...bookSubjects].sort(() => 0.5 - Math.random());
   const selected = shuffled.slice(0,3);
 
+  /* Desktop sidebar */
   const container = document.getElementById("book-tiles");
 
-  container.innerHTML = selected.map(book => `
-    <a href="${book.link}" target="_blank" rel="noopener">
-      <img src="${book.img}" style="width:100%;border-radius:6px;margin-bottom:12px;">
-    </a>
-  `).join("");
+  if (container) {
+    container.innerHTML = selected.map(book => `
+      <a href="${book.link}" target="_blank" rel="noopener">
+        <img src="${book.img}" style="width:100%;border-radius:6px;margin-bottom:12px;">
+      </a>
+    `).join("");
+  }
+
+  /* Mobile version stored for later insertion */
+  window.mobileBookBox = `
+    <div class="affiliate-box">
+      <h4>📚 Books worth exploring</h4>
+      ${selected.map(book => `
+        <a href="${book.link}" target="_blank" rel="noopener">
+          <img src="${book.img}" style="width:100%;border-radius:6px;margin-bottom:12px;">
+        </a>
+      `).join("")}
+      <p style="font-size:.7rem;color:#999;margin-top:8px;">
+        As an Amazon Associate I earn from qualifying purchases.
+      </p>
+    </div>
+  `;
 
 }
 
@@ -337,7 +355,11 @@ async function loadStories(){
     `;
 
     container.appendChild(card);
-
+if (window.innerWidth <= 900 && index === 2 && window.mobileBookBox) {
+  const ad = document.createElement("div");
+  ad.innerHTML = window.mobileBookBox;
+  container.appendChild(ad);
+}
   });
 
 }
