@@ -299,7 +299,7 @@ async function loadStories(){
   const stories=await res.json();
 
   const top3 = stories.slice(0,3).map(s => s.headline || "");
-  buildSidebars(top3);
+  // buildSidebars(top3);
 
   const container=document.getElementById("news-container");
   container.innerHTML="";
