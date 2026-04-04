@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <!-- Google AdSense -->
     <script async
     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053277983719011"
     crossorigin="anonymous"></script>
@@ -20,20 +19,126 @@
             padding: 0;
             background: #f4f4f4;
             color: #222;
-            padding-top: 70px; /* Match header height */
+            padding-top: 70px;
         }
 
-        /* Main Container */
+        /* ── Outer three-column shell ── */
+        .outer {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        /* ── Affiliate columns ── */
+        .left-ad {
+            width: 210px;
+            min-width: 210px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 90px;
+            border-right: 1px solid #e0e0e0;
+            padding-right: 20px;
+        }
+
+        .right-ad {
+            width: 210px;
+            min-width: 210px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 90px;
+            border-left: 1px solid #e0e0e0;
+            padding-left: 20px;
+        }
+
+        /* ── Column headers ── */
+        .reading-label {
+            font-family: Arial, sans-serif;
+            font-size: .82rem;
+            font-weight: 700;
+            color: #333;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            margin: 0 0 12px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #0066cc;
+        }
+
+        /* ── Book tiles ── */
+        #book-tiles {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        #book-tiles a {
+            display: block;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: transform .2s ease, box-shadow .2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,.12);
+        }
+
+        #book-tiles a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0,0,0,.18);
+        }
+
+        #book-tiles img {
+            width: 100%;
+            display: block;
+            border-radius: 6px;
+        }
+
+        /* ── Gear tiles ── */
+        #gear-tiles {
+            display: flex;
+            flex-direction: column;
+            gap: 42px;
+        }
+
+        #gear-tiles a {
+            display: block;
+            border-radius: 6px;
+            overflow: hidden;
+            transition: transform .2s ease, box-shadow .2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,.12);
+        }
+
+        #gear-tiles a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0,0,0,.18);
+        }
+
+        #gear-tiles img {
+            width: 100%;
+            display: block;
+            border-radius: 6px;
+        }
+
+        /* ── Disclosure ── */
+        .reading-disclosure {
+            margin-top: 12px;
+            font-size: .65rem;
+            color: #bbb;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        /* ── Center content: original layout untouched ── */
+        .center-content {
+            flex: 1;
+            min-width: 0;
+        }
+
         .container {
             display: flex;
             flex-wrap: wrap;
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
             gap: 2rem;
         }
 
-        /* Main Section */
         .main {
             flex: 1 1 60%;
             padding: 1rem;
@@ -43,7 +148,6 @@
             box-sizing: border-box;
         }
 
-        /* Sidebar */
         .sidebar {
             flex: 1 1 30%;
             background: #fff;
@@ -54,12 +158,8 @@
             align-self: flex-start;
         }
 
-        h1 {
-            font-size: 2rem;
-            margin-top: 0;
-        }
+        h1 { font-size: 2rem; margin-top: 0; }
 
-        /* Utility Cards */
         .utility-list {
             display: grid;
             grid-template-columns: 1fr;
@@ -111,18 +211,18 @@
             transition: background-color 0.2s;
         }
 
-        .share-buttons button:hover {
-            background-color: #005bb5;
-        }
+        .share-buttons button:hover { background-color: #005bb5; }
 
-        /* Feedback form */
-        #feedbackForm input, #feedbackForm textarea {
+        #feedbackForm input,
+        #feedbackForm textarea {
             width: 100%;
             padding: 8px;
             margin: 6px 0;
             border: 1px solid #ccc;
             border-radius: 4px;
+            box-sizing: border-box;
         }
+
         #feedbackForm button {
             background: #0073e6;
             color: #fff;
@@ -133,7 +233,9 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         #feedbackForm button:hover { background: #005bb5; }
+
         #formStatus {
             font-size: 0.9em;
             color: green;
@@ -141,8 +243,24 @@
             text-align: center;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: .9rem;
+            color: #666;
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 900px) {
+            .outer {
+                flex-direction: column;
+            }
+
+            .left-ad,
+            .right-ad {
+                display: none;
+            }
+
             .container {
                 flex-direction: column;
             }
@@ -153,59 +271,138 @@
 
     <div id="site-header"></div>
 
-    <div class="container">
-        <div class="main">
-            <h1>🛠️ No Spin Utilities</h1>
-            <p>
-                Welcome to No Spin Utilities – quick, privacy-friendly tools to make your day easier.
-                All utilities run directly in your browser with no data tracking.
-            </p>
+    <div class="outer">
 
-            <h2>Available Tools</h2>
-            <div class="utility-list">
-                <!-- Tip Calculator Card -->
-                <div class="utility-item" onclick="window.location.href='tip.html'">
-                    <h2>💰 Tip Calculator</h2>
-                    <p>
-                        A privacy-first, offline-capable tip calculator with rounding options and email receipts.
-                    </p>
-                    <div class="share-buttons">
-                        <button onclick="event.stopPropagation(); shareUtility('Tip Calculator', 'tip.html')">🔗 Share with Friends</button>
-                        <button onclick="event.stopPropagation(); copyLink('tip.html')">📋 Copy Link</button>
-                    </div>
-                </div>
+        <!-- Left: reading column -->
+        <div class="left-ad" id="left-ad">
+            <div class="reading-label">🧭 NSM Reading List</div>
+            <div id="book-tiles"></div>
+            <div class="reading-disclosure">
+                Selecting a title supports independent journalism at no extra cost to you.
             </div>
         </div>
 
-        <div class="sidebar">
-            <h2>Support Our Utilities 💙</h2>
-            <p>Like these tools? Help keep No Spin Utilities running:</p>
-            <p><strong>Venmo:</strong><br/>
-                <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
-            </p>
+        <!-- Center: original utilities content, untouched -->
+        <div class="center-content">
+            <div class="container">
 
-            <h2>Follow Us</h2>
-            <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
+                <div class="main">
+                    <h1>🛠️ No Spin Utilities</h1>
+                    <p>
+                        Welcome to No Spin Utilities – quick, privacy-friendly tools to make your day easier.
+                        All utilities run directly in your browser with no data tracking.
+                    </p>
 
-            <h2>We ❤️ Your Feedback!</h2>
-            <p>Have an idea for a new utility? We read every suggestion you send. 😊</p>
-            <p>You can also reach us at: <strong>nospinmedia.ai@gmail.com</strong></p>
+                    <h2>Available Tools</h2>
+                    <div class="utility-list">
+                        <div class="utility-item" onclick="window.location.href='tip.html'">
+                            <h2>💰 Tip Calculator</h2>
+                            <p>A privacy-first, offline-capable tip calculator with rounding options and email receipts.</p>
+                            <div class="share-buttons">
+                                <button onclick="event.stopPropagation(); shareUtility('Tip Calculator', 'tip.html')">🔗 Share with Friends</button>
+                                <button onclick="event.stopPropagation(); copyLink('tip.html')">📋 Copy Link</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <form id="feedbackForm">
-                <input type="text" id="name" name="name" placeholder="Your first name">
-                <input type="email" id="email" name="email" placeholder="you@email.com" required>
-                <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
-                <p id="formStatus"></p>
-                <button type="submit">💬 Send Feedback</button>
-            </form>
+                <div class="sidebar">
+                    <h2>Support Our Utilities 💙</h2>
+                    <p>Like these tools? Help keep No Spin Utilities running:</p>
+                    <p><strong>Venmo:</strong><br/>
+                        <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+                    </p>
+
+                    <h2>Follow Us</h2>
+                    <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
+
+                    <h2>We ❤️ Your Feedback!</h2>
+                    <p>Have an idea for a new utility? We read every suggestion you send. 😊</p>
+                    <p>You can also reach us at: <strong>nospinmedia.ai@gmail.com</strong></p>
+
+                    <form id="feedbackForm">
+                        <input type="text" id="name" name="name" placeholder="Your first name">
+                        <input type="email" id="email" name="email" placeholder="you@email.com" required>
+                        <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
+                        <p id="formStatus"></p>
+                        <button type="submit">💬 Send Feedback</button>
+                    </form>
+                </div>
+
+            </div>
         </div>
+
+        <!-- Right: gear column -->
+        <div class="right-ad" id="right-ad">
+            <div class="reading-label">🧭 NSM Field Gear</div>
+            <div id="gear-tiles"></div>
+            <div class="reading-disclosure">
+                Selecting an item supports independent journalism at no extra cost to you.
+            </div>
+        </div>
+
     </div>
 
     <footer>
-        © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
+        © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
+        Seriously factual, surprisingly fun.<br>
+        <span style="font-size:.8rem;color:#aaa;">Some links on this site are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
     </footer>
 
     <script>
+
+        /* ── Book tile pool ── */
+        const bookSubjects = [
+            { img: "/affiliate/books/history.png",  link: "https://www.amazon.com/s?k=history+books&tag=nospinmedia-20" },
+            { img: "/affiliate/books/science.png",  link: "https://www.amazon.com/s?k=science+books&tag=nospinmedia-20" },
+            { img: "/affiliate/books/space.png",    link: "https://www.amazon.com/s?k=space+exploration+books&tag=nospinmedia-20" },
+            { img: "/affiliate/books/politics.png", link: "https://www.amazon.com/s?k=political+books&tag=nospinmedia-20" },
+            { img: "/affiliate/books/military.png", link: "https://www.amazon.com/s?k=military+history+books&tag=nospinmedia-20" },
+            { img: "/affiliate/books/scifi.png",    link: "https://www.amazon.com/s?k=science+fiction+books&tag=nospinmedia-20" }
+        ];
+
+        /* ── Gear tile pool ── */
+        const gearSubjects = [
+            { img: "/affiliate/gear/nsm-gear-field-optics.png",    link: "https://www.amazon.com/s?k=monocular+binoculars+compact+telescope&tag=nospinmedia-20" },
+            { img: "/affiliate/gear/nsm-gear-solar-power.png",     link: "https://www.amazon.com/s?k=solar+power+bank+portable+solar+charger&tag=nospinmedia-20" },
+            { img: "/affiliate/gear/nsm-gear-emergency-radio.png", link: "https://www.amazon.com/s?k=emergency+weather+radio+hand+crank&tag=nospinmedia-20" },
+            { img: "/affiliate/gear/nsm-gear-science-tools.png",   link: "https://www.amazon.com/s?k=pocket+microscope+geiger+counter+science+tools&tag=nospinmedia-20" },
+            { img: "/affiliate/gear/nsm-gear-weather-station.png", link: "https://www.amazon.com/s?k=home+weather+station+barometer+wireless&tag=nospinmedia-20" },
+            { img: "/affiliate/gear/nsm-gear-auto-tools.png",      link: "https://www.amazon.com/s?k=automotive+diagnostic+tools+multimeter+garage+tools&tag=nospinmedia-20" }
+        ];
+
+        function shuffle(arr) {
+            return [...arr].sort(() => 0.5 - Math.random());
+        }
+
+        function loadAffiliateTiles() {
+            const bookContainer = document.getElementById("book-tiles");
+            if (bookContainer) {
+                shuffle(bookSubjects).slice(0, 3).forEach(book => {
+                    const a = document.createElement("a");
+                    a.href = book.link;
+                    a.target = "_blank";
+                    a.rel = "noopener nofollow sponsored";
+                    a.title = "Browse on Amazon — supports NSM at no extra cost";
+                    a.innerHTML = `<img src="${book.img}" alt="Curated reading selection">`;
+                    bookContainer.appendChild(a);
+                });
+            }
+
+            const gearContainer = document.getElementById("gear-tiles");
+            if (gearContainer) {
+                shuffle(gearSubjects).slice(0, 3).forEach(item => {
+                    const a = document.createElement("a");
+                    a.href = item.link;
+                    a.target = "_blank";
+                    a.rel = "noopener nofollow sponsored";
+                    a.title = "Browse on Amazon — supports NSM at no extra cost";
+                    a.innerHTML = `<img src="${item.img}" alt="Curated gear selection">`;
+                    gearContainer.appendChild(a);
+                });
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             fetch('../header.html')
                 .then(res => res.text())
@@ -220,13 +417,11 @@
                             mobileNav.classList.toggle('open');
                             hamburger.classList.toggle('active');
                         }
-
                         hamburger.addEventListener('click', toggleMobileNav);
                         hamburger.addEventListener('touchstart', function(e) {
                             e.preventDefault();
                             toggleMobileNav();
                         }, { passive: false });
-
                         mobileNav.querySelectorAll('a').forEach(link => {
                             link.addEventListener('click', () => {
                                 mobileNav.classList.remove('open');
@@ -234,6 +429,8 @@
                             });
                         });
                     }
+
+                    loadAffiliateTiles();
                 });
 
             const feedbackForm = document.getElementById('feedbackForm');
@@ -243,21 +440,16 @@
                     const status = document.getElementById('formStatus');
                     status.textContent = "⏳ Sending...";
 
-                    const name = document.getElementById('name').value || "Someone";
-                    const email = document.getElementById('email').value;
+                    const name    = document.getElementById('name').value || "Someone";
+                    const email   = document.getElementById('email').value;
                     const message = document.getElementById('message').value;
 
-                    const data = {
-                        name: name,
-                        email: email,
-                        subject: "Utilities Feedback",
-                        message: message
-                    };
+                    const data = { name, email, subject: "Utilities Feedback", message };
 
                     try {
                         const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
                             method: 'POST',
-                            headers: {'Content-Type':'text/plain'},
+                            headers: { 'Content-Type': 'text/plain' },
                             body: JSON.stringify(data)
                         });
 
@@ -270,25 +462,20 @@
                         } else {
                             status.textContent = "❌ Error sending. Please try again.";
                         }
-                        setTimeout(()=>{ status.textContent = ""; }, 5000);
+                        setTimeout(() => { status.textContent = ""; }, 5000);
                     } catch (err) {
                         console.error(err);
                         status.textContent = "❌ Failed to send! Check connection.";
-                        setTimeout(()=>{ status.textContent = ""; }, 5000);
+                        setTimeout(() => { status.textContent = ""; }, 5000);
                     }
                 });
             }
         });
 
-        // Share + Copy functions
         function shareUtility(name, path) {
             const url = window.location.origin + '/utilities/' + path;
             if (navigator.share) {
-                navigator.share({
-                    title: name,
-                    text: `Check out this handy ${name} from No Spin Utilities!`,
-                    url: url
-                });
+                navigator.share({ title: name, text: `Check out this handy ${name} from No Spin Utilities!`, url });
             } else {
                 alert("Sharing not supported on this device. Copy the link instead!");
             }
@@ -296,10 +483,9 @@
 
         function copyLink(path) {
             const url = window.location.origin + '/utilities/' + path;
-            navigator.clipboard.writeText(url).then(() => {
-                alert("✅ Link copied to clipboard!");
-            });
+            navigator.clipboard.writeText(url).then(() => { alert("✅ Link copied to clipboard!"); });
         }
+
     </script>
 </body>
 </html>
