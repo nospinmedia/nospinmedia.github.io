@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
+
 <script>
 
-const id = window.location.pathname.split("/").pop();
+const path = window.location.pathname;
+const id = path.split("/").pop();
 
-window.location.href =
-"https://YOURPROJECTID.supabase.co/functions/v1/preview/" + id;
+window.location.replace(
+"https://dckmflnbprhmaqysuued.supabase.co/functions/v1/preview/" + id
+);
 
 </script>
+
 </head>
+
 <body>
 Redirecting...
 </body>
