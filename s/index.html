@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
+<title>Redirecting...</title>
 
 <script>
 
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
+window.onload = function () {
 
-if (id) {
-  window.location.replace(
-    "https://dckmflnbprhmaqysuued.supabase.co/functions/v1/preview/" + id
-  );
-} else {
-  document.body.innerHTML = "Missing story id";
-}
+  const params = new URLSearchParams(window.location.search);
+  const story = params.get("story");
+
+  if (!story) {
+    document.body.innerHTML = "Missing story id";
+    return;
+  }
+
+  window.location.href =
+    "https://dckmflnbprhmaqysuued.supabase.co/functions/v1/preview/" + story;
+
+};
 
 </script>
 
