@@ -483,19 +483,19 @@ async function loadStories() {
     card.className = "story-card";
     card.onclick = (e) => {
       if (e.target.closest(".story-link")) return;
-      window.location = `s/?story=${s.url}`;
+      window.location = `story.html?story=${s.url}`;
     };
 
     const safeHeadline = (s.headline || "").replace(/'/g, "\\'").replace(/\n/g, " ").replace(/\r/g, "");
 
     card.innerHTML = `
       <h3>
-        <a href="s/?story=${s.url}" class="headline-link">${s.headline}</a>
+        <a href="story.html?story=${s.url}" class="headline-link">${s.headline}</a>
       </h3>
       <div class="story-date">${date}</div>
       <div class="story-summary">${firstParagraph}</div>
       <div class="card-footer">
-       <a class="story-link" href="s/?story=${s.url}">">Read full story →</a>
+       <a class="story-link" href="story.html?story=${s.url}">">Read full story →</a>
         <a class="story-link" onclick="event.stopPropagation(); shareStory('${s.url}', '${safeHeadline}', this)" style="cursor:pointer;">🔗 Share this story</a>
       </div>
     `;
