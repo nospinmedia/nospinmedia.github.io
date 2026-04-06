@@ -333,10 +333,18 @@ function loadAffiliateTiles() {
 }
 
 function shareStory() {
-  const shareUrl = window.location.href;
+
+  const params = new URLSearchParams(window.location.search);
+  const storyId = params.get("story");
+
+  const shareUrl = `${window.location.origin}/s/?story=${storyId}`;
+
   navigator.clipboard.writeText(shareUrl).then(() => {
     document.getElementById("share-btn").innerHTML = "✅ Copied!";
-    setTimeout(() => document.getElementById("share-btn").innerHTML = "🔗 Share this story", 2000);
+    setTimeout(() =>
+      document.getElementById("share-btn").innerHTML = "🔗 Share this story",
+      2000
+    );
   });
 }
 
