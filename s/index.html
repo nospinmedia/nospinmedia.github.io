@@ -5,12 +5,16 @@
 
 <script>
 
-const path = window.location.pathname;
-const id = path.split("/").pop();
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
 
-window.location.replace(
-"https://dckmflnbprhmaqysuued.supabase.co/functions/v1/preview/" + id
-);
+if (id) {
+  window.location.replace(
+    "https://dckmflnbprhmaqysuued.supabase.co/functions/v1/preview/" + id
+  );
+} else {
+  document.body.innerHTML = "Missing story id";
+}
 
 </script>
 
