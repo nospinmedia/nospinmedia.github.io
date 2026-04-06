@@ -16,6 +16,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://nospin.media/preview.png">
 
+<meta name="twitter:title" content="No Spin Media">
+<meta name="twitter:description" content="Independent news. Clear facts. No spin.">
+
 <link rel="stylesheet" href="style.css"/>
 
 <script async
@@ -367,6 +370,13 @@ async function loadStory() {
   }
 
   const s = data[0];
+  // Update Open Graph metadata so social previews work
+document.querySelector('meta[property="og:title"]').setAttribute("content", s.headline.replace("\n"," "));
+document.querySelector('meta[property="og:description"]').setAttribute("content", s.summary.substring(0,180));
+document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
+
+document.querySelector('meta[name="twitter:title"]').setAttribute("content", s.headline.replace("\n"," "));
+document.querySelector('meta[name="twitter:description"]').setAttribute("content", s.summary.substring(0,180));
   let cleanText  = convertRedditMarkdown(s.summary);
   let paragraphs = cleanText.split("\n\n").map(p => `<p>${p}</p>`).join("");
 
