@@ -176,19 +176,17 @@ body {
   color: #444;
 }
 
-.story-summary {
+.story-summary-preview {
   line-height: 1.6;
   font-size: 1rem;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.4s ease, opacity 0.3s ease;
-  white-space: pre-line;
+  margin-bottom: 4px;
 }
 
-.story-summary.show {
-  max-height: 9999px;
-  opacity: 1;
+.story-summary-rest {
+  line-height: 1.6;
+  font-size: 1rem;
+  margin-top: 8px;
+  white-space: pre-line;
 }
 
 .card-footer {
@@ -519,12 +517,14 @@ function toggleReview(storyUrl, headline) {
 }
 window.toggleReview = toggleReview;
 
-/* ── Toggle story summary ── */
+/* ── Toggle story expand (first para shown, rest hidden) ── */
 function toggleSummary(btn) {
   const card = btn.closest(".story-card");
-  const summaryEl = card.querySelector(".story-summary");
-  summaryEl.classList.toggle("show");
-  btn.textContent = summaryEl.classList.contains("show") ? "Hide Story" : "Show Story";
+  const rest = card.querySelector(".story-summary-rest");
+  if (!rest) return;
+  const isOpen = rest.style.display !== "none";
+  rest.style.display = isOpen ? "none" : "block";
+  btn.textContent = isOpen ? "Show more ↓" : "Show less ↑";
 }
 window.toggleSummary = toggleSummary;
 
@@ -538,10 +538,18 @@ function shareUnpublished(id) {
 }
 window.shareUnpublished = shareUnpublished;
 
-/* ── Slot scheduling (identical logic from unpublished) ── */
+/* ── Slot scheduling — sorted to match n8n cron exactly (EST) ── */
 const slots = [
-  "00:30", "06:15", "08:45", "10:15", "11:45",
-  "13:15", "15:45", "17:15", "18:30", "20:45"
+  "00:30",  // midnight:30
+  "06:15",  // 6:15 AM
+  "08:45",  // 8:45 AM
+  "10:15",  // 10:15 AM
+  "11:45",  // 11:45 AM
+  "13:15",  // 1:15 PM
+  "15:45",  // 3:45 PM
+  "17:15",  // 5:15 PM
+  "18:30",  // 6:30 PM
+  "20:45"   // 8:45 PM
 ];
 
 function assignSlots(stories) {
@@ -641,6 +649,13 @@ async function loadStories() {
       const safeHeadline = (story.headline || "").replace(/'/g, "\\'").replace(/\n/g, " ").replace(/\r/g, "");
       const safeUrl = String(story.url || "").replace(/'/g, "\\'");
 
+      /* Split into first paragraph + rest, matching index.html behavior */
+      const fullConverted = convertRedditMarkdown(story.summary || "");
+      const paragraphs = fullConverted.split(/\n\n+/);
+      const firstPara = paragraphs[0] || "";
+      const restPara  = paragraphs.slice(1).join("\n\n");
+      const hasMore   = restPara.trim().length > 0;
+
       const card = document.createElement("div");
       card.className = "story-card";
 
@@ -650,9 +665,10 @@ async function loadStories() {
           <span>⏰ <strong>${timeLabel} EST</strong></span>
           ${story.bias ? `<span>📊 Bias: <strong>${story.bias}</strong></span>` : ""}
         </div>
-        <div class="story-summary">${convertRedditMarkdown(story.summary)}</div>
+        <div class="story-summary-preview">${firstPara}</div>
+        ${hasMore ? `<div class="story-summary-rest" style="display:none;">${restPara}</div>` : ""}
         <div class="card-footer">
-          <button class="story-link" onclick="toggleSummary(this)">Show Story</button>
+          ${hasMore ? `<button class="story-link" onclick="toggleSummary(this)">Show more ↓</button>` : `<span></span>`}
           <button class="btn-review" onclick="toggleReview('${safeUrl}', '${safeHeadline}')">✏️ Review / Comment</button>
           <button class="story-link" onclick="shareUnpublished('${safeUrl}')">🔗 Share</button>
         </div>
@@ -676,11 +692,11 @@ async function loadStories() {
 
       /* Auto-expand if ?id= match */
       if (storyId && String(story.url).trim() === String(storyId).trim()) {
-        const summaryEl = card.querySelector('.story-summary');
+        const rest = card.querySelector('.story-summary-rest');
         const toggleBtn = card.querySelector('.story-link');
-        if (summaryEl && toggleBtn) {
-          summaryEl.classList.add('show');
-          toggleBtn.textContent = "Hide Story";
+        if (rest) {
+          rest.style.display = "block";
+          if (toggleBtn) toggleBtn.textContent = "Show less ↑";
         }
       }
 
@@ -784,7 +800,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <!-- Global feedback at bottom -->
     <div class="global-feedback">
       <h2>💙 General Feedback</h2>
-      <p>Questions, tips, or general comments? Reach us here or at <strong>nospinmedia.ai@gmail.com</strong></p>
+      <p>Questions, tips, or general comments? Reach us here or at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7c12130f0c1512111918151d521d153c1b111d1510521f1311">[email&#160;protected]</a></strong></p>
       <form id="globalFeedbackForm">
         <input type="text" id="gf-name" placeholder="Your first name">
         <input type="email" id="gf-email" placeholder="you@email.com" required>
@@ -808,8 +824,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <footer>
   © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
-  <span style="font-size:.8rem;color:#aaa;">Some links on this site are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
-</footer>
-
-</body>
-</html>
+  <span style="font-size:.8rem;color:#aaa;">Some links
