@@ -557,40 +557,60 @@ function assignSlots(stories) {
   let startDateEST;
 
   (function initSlot() {
-    const estNow = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }));
-    const today = estNow.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+    // Get true current EST wall-clock time
+    const nowEST = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }));
+    const todayStr = nowEST.toLocaleDateString('en-CA', { timeZone: 'America/New_York' }); // YYYY-MM-DD
+
+    // EST offset: determine if we're in EDT (-4) or EST (-5)
+    // We do this by comparing a UTC-constructed date vs the locale string
+    const jan = new Date(nowEST.getFullYear(), 0, 1);
+    const jul = new Date(nowEST.getFullYear(), 6, 1);
+    const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+    const isDST = nowEST.getTimezoneOffset() < stdOffset;
+    const tzOffset = isDST ? "-04:00" : "-05:00";
+
     let found = false;
     for (let i = 0; i < slots.length; i++) {
-      const dt = new Date(`${today}T${slots[i]}:00-05:00`);
-      if (dt > estNow) {
+      const slotDT = new Date(`${todayStr}T${slots[i]}:00${tzOffset}`);
+      if (slotDT > nowEST) {
         slotPointer = i;
-        startDateEST = dt;
+        startDateEST = slotDT;
         found = true;
         break;
       }
     }
     if (!found) {
+      // All slots today are past — start at tomorrow's first slot
       slotPointer = 0;
-      const tomorrow = new Date(estNow.getTime() + 86400000);
+      const tomorrow = new Date(nowEST);
+      tomorrow.setDate(tomorrow.getDate() + 1);
       const tStr = tomorrow.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
-      startDateEST = new Date(`${tStr}T${slots[0]}:00-05:00`);
+      startDateEST = new Date(`${tStr}T${slots[0]}:00${tzOffset}`);
     }
   })();
 
   let currentDay = startDateEST;
 
+  // Recompute offset for slot construction (DST-aware)
+  const nowCheck = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }));
+  const janC = new Date(nowCheck.getFullYear(), 0, 1);
+  const julC = new Date(nowCheck.getFullYear(), 6, 1);
+  const stdOffsetC = Math.max(janC.getTimezoneOffset(), julC.getTimezoneOffset());
+  const isDSTC = nowCheck.getTimezoneOffset() < stdOffsetC;
+  const tzOff = isDSTC ? "-04:00" : "-05:00";
+
   for (let i = 0; i < stories.length; i++) {
     const dateStr = currentDay.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
     const slotStr = slots[slotPointer];
-    const scheduled = new Date(`${dateStr}T${slotStr}:00-05:00`);
+    const scheduled = new Date(`${dateStr}T${slotStr}:00${tzOff}`);
     stories[i].scheduled = scheduled.toISOString();
     slotPointer++;
     if (slotPointer >= slots.length) {
       slotPointer = 0;
-      const nextDayTime = currentDay.getTime() + 86400000;
-      const next = new Date(nextDayTime);
+      const next = new Date(currentDay);
+      next.setDate(next.getDate() + 1);
       const nextDateStr = next.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
-      currentDay = new Date(`${nextDateStr}T${slots[0]}:00-05:00`);
+      currentDay = new Date(`${nextDateStr}T${slots[0]}:00${tzOff}`);
     }
   }
 
