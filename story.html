@@ -337,7 +337,7 @@ function shareStory() {
   const params = new URLSearchParams(window.location.search);
   const storyId = params.get("story");
 
-  const shareUrl = `${window.location.origin}/s/?story=${storyId}`;
+  const shareUrl = `${window.location.origin}/story.html?story=${storyId}`;
 
   navigator.clipboard.writeText(shareUrl).then(() => {
     document.getElementById("share-btn").innerHTML = "✅ Copied!";
