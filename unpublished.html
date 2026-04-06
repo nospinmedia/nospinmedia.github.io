@@ -1,540 +1,815 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="robots" content="noindex, nofollow">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>No Spin Media News Stories</title>
-    <link rel="stylesheet" href="style.css" />
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f4f4f4;
-            color: #222;
-            padding-top: 70px;
-        }
-/* RESTORE BEAUTIFUL INPUT & BUTTON STYLING */
-input[type="text"],
-input[type="email"],
-textarea {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-    box-sizing: border-box;
+<meta charset="UTF-8"/>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>No Spin Media — Story Queue</title>
+<link rel="stylesheet" href="style.css"/>
+
+<script async
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053277983719011"
+  crossorigin="anonymous"></script>
+
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f4f4;
+  color: #222;
+  padding-top: 70px;
 }
-.button-row {
-    display: flex;
-    gap: 10px;
+
+.container {
+  display: flex;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+/* ── Left reading column ── */
+.left-ad {
+  width: 210px;
+  min-width: 210px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 90px;
+  border-right: 1px solid #e0e0e0;
+  padding-right: 20px;
+}
+
+.right-ad {
+  width: 210px;
+  min-width: 210px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 90px;
+  border-left: 1px solid #e0e0e0;
+  padding-left: 20px;
+}
+
+/* ── Gear tiles ── */
+#gear-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
+}
+
+#gear-tiles a {
+  display: block;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+
+#gear-tiles a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.18);
+}
+
+#gear-tiles img {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Column header ── */
+.reading-label {
+  font-family: Arial, sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  font-style: normal;
+  color: #333;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #0066cc;
+}
+
+/* ── Book tiles ── */
+#book-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#book-tiles a {
+  display: block;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+
+#book-tiles a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.18);
+}
+
+#book-tiles img {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+}
+
+.reading-disclosure {
+  margin-top: 12px;
+  font-size: .65rem;
+  color: #bbb;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* ── Date group header ── */
+.date-group {
+  margin-bottom: 2rem;
+}
+
+.date-header {
+  background: #333;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+/* ── Story cards — matches index ── */
+.story-card {
+  background: #fff;
+  padding: 1.4rem;
+  margin-bottom: 1.2rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.story-card h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.5rem;
+  line-height: 1.4;
+}
+
+.story-meta {
+  font-size: .85rem;
+  color: #777;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.story-meta strong {
+  color: #444;
+}
+
+.story-summary {
+  line-height: 1.6;
+  font-size: 1rem;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+  white-space: pre-line;
+}
+
+.story-summary.show {
+  max-height: 9999px;
+  opacity: 1;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.story-link {
+  font-weight: bold;
+  text-decoration: none;
+  color: #0066cc;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+.story-link:hover {
+  text-decoration: underline;
+}
+
+.btn-review {
+  font-weight: bold;
+  text-decoration: none;
+  color: #0066cc;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+.btn-review:hover {
+  text-decoration: underline;
+}
+
+/* ── Feedback panel ── */
+.feedback-panel {
+  background: #fff;
+  padding: 1.4rem;
+  margin-bottom: 1.2rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  display: none;
+}
+
+.feedback-panel.open {
+  display: block;
+}
+
+.feedback-panel h4 {
+  margin: 0 0 10px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.feedback-panel input[type="text"],
+.feedback-panel input[type="email"],
+.feedback-panel textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin: 6px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: .95rem;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.feedback-panel textarea {
+  resize: vertical;
+}
+
+.feedback-panel button[type="submit"] {
+  background: #0073e6;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 8px;
+  font-size: .95rem;
+}
+
+.feedback-panel button[type="submit"]:hover {
+  background: #005bb5;
+}
+
+.feedback-panel .form-status {
+  font-size: .9rem;
+  margin-top: 6px;
+}
+
+/* ── Global feedback section ── */
+.global-feedback {
+  background: #fff;
+  padding: 1.4rem;
+  margin-bottom: 1.2rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.global-feedback h2 {
+  margin: 0 0 12px 0;
+  font-size: 1.2rem;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 8px;
+}
+
+.global-feedback input[type="text"],
+.global-feedback input[type="email"],
+.global-feedback textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin: 6px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: .95rem;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.global-feedback textarea {
+  resize: vertical;
+}
+
+.global-feedback button[type="submit"] {
+  background: #0073e6;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 8px;
+  font-size: .95rem;
+}
+
+.global-feedback button[type="submit"]:hover {
+  background: #005bb5;
+}
+
+/* ── Mobile ── */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .left-ad,
+  .right-ad {
+    display: none;
+  }
+
+  .main {
+    max-width: 100%;
+  }
+
+  .mobile-reading-insert {
+    background: #fff;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.2rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  }
+
+  .mobile-reading-insert .reading-label {
+    font-size: .75rem;
+    margin-bottom: 10px;
+  }
+
+  .mobile-reading-insert img {
+    width: 100%;
+    border-radius: 6px;
+    display: block;
+    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  }
+
+  .mobile-reading-insert .reading-disclosure {
     margin-top: 8px;
-    align-items: center;
+    font-size: .65rem;
+    color: #bbb;
+    font-style: italic;
+  }
 }
 
-        
-button[type="submit"] {
-    background: #0073e6;
-    color: #fff;
-    border: none;
-    padding: 12px;
-    width: 100%;
-    font-weight: bold;
-    border-radius: 6px;
-    cursor: pointer;
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: .9rem;
+  color: #666;
 }
 
-button[type="submit"]:hover {
-    background: #005bb5;
+</style>
+
+<script>
+
+/* ── Affiliate tile pools (identical to index) ── */
+const bookSubjects = [
+  { img: "/affiliate/books/history.png",  link: "https://www.amazon.com/s?k=history+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/science.png",  link: "https://www.amazon.com/s?k=science+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/space.png",    link: "https://www.amazon.com/s?k=space+exploration+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/politics.png", link: "https://www.amazon.com/s?k=political+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/military.png", link: "https://www.amazon.com/s?k=military+history+books&tag=nospinmedia-20" },
+  { img: "/affiliate/books/scifi.png",    link: "https://www.amazon.com/s?k=science+fiction+books&tag=nospinmedia-20" }
+];
+
+const gearSubjects = [
+  { img: "/affiliate/gear/nsm-gear-field-optics.png",      link: "https://www.amazon.com/s?k=monocular+binoculars+compact+telescope&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-solar-power.png",       link: "https://www.amazon.com/s?k=solar+power+bank+portable+solar+charger&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-emergency-radio.png",   link: "https://www.amazon.com/s?k=emergency+weather+radio+hand+crank&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-science-tools.png",     link: "https://www.amazon.com/s?k=pocket+microscope+geiger+counter+science+tools&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-weather-station.png",   link: "https://www.amazon.com/s?k=home+weather+station+barometer+wireless&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-auto-tools.png",        link: "https://www.amazon.com/s?k=automotive+diagnostic+tools+multimeter+garage+tools&tag=nospinmedia-20" }
+];
+
+function shuffle(arr) {
+  return [...arr].sort(() => 0.5 - Math.random());
 }
 
-#formStatus {
-    font-size: 0.9em;
-    margin: 6px 0;
-    text-align: center;
+function loadBookTiles() {
+  const shuffled = shuffle(bookSubjects);
+
+  const container = document.getElementById("book-tiles");
+  if (container) {
+    container.innerHTML = shuffled.slice(0, 3).map(book => `
+      <a href="${book.link}" target="_blank" rel="noopener nofollow sponsored"
+         title="Browse on Amazon — supports NSM at no extra cost">
+        <img src="${book.img}" alt="Curated reading selection">
+      </a>
+    `).join("");
+  }
+
+  /* Mobile: 1 random card */
+  const allCards = shuffle([...bookSubjects, ...gearSubjects]);
+  const mobileCard = allCards[0];
+  const isGear = gearSubjects.includes(mobileCard);
+  window.mobileBookHTML = `
+    <div class="mobile-reading-insert">
+      <div class="reading-label">🧭 ${isGear ? "NSM Field Gear" : "NSM Reading List"}</div>
+      <a href="${mobileCard.link}" target="_blank" rel="noopener nofollow sponsored"
+         title="Browse on Amazon — supports NSM at no extra cost">
+        <img src="${mobileCard.img}" alt="${isGear ? "Curated gear selection" : "Curated reading selection"}">
+      </a>
+      <div class="reading-disclosure">
+        Selecting ${isGear ? "an item" : "a title"} supports independent journalism at no extra cost to you.
+      </div>
+    </div>
+  `;
 }
 
-        .container {
-            display: flex;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
+function loadGearTiles() {
+  const shuffled = shuffle(gearSubjects);
+  const container = document.getElementById("gear-tiles");
+  if (container) {
+    container.innerHTML = shuffled.slice(0, 3).map(item => `
+      <a href="${item.link}" target="_blank" rel="noopener nofollow sponsored"
+         title="Browse on Amazon — supports NSM at no extra cost">
+        <img src="${item.img}" alt="Curated gear selection">
+      </a>
+    `).join("");
+  }
+}
 
-        .main { flex: 2; }
-        .sidebar {
-            flex: 1;
-            background: #fff;
-            padding: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            height: fit-content;
-            border-left: 2px solid #eee;
-            align-self: flex-start;
-        }
+/* ── Markdown converter (from unpublished) ── */
+function convertRedditMarkdown(text) {
+  if (!text) return "";
+  text = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  text = text.replace(/^###\s*(.*)$/gm, "<strong>$1</strong>");
+  text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+  text = text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g, "<em>$1</em>");
+  text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
+  text = text.replace(/^\s*>\s+(.*)$/gm, "<em>$1</em>");
+  text = text.replace(/^\s*-\s+(.*)$/gm, "• $1");
+  text = text.replace(/^-{3,}$/gm, "");
+  text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1 (<a href="$2" target="_blank" rel="noopener noreferrer">$2</a>)');
+  text = text.replace(/\\n/g, "\n");
+  text = text.replace(/\n{3,}/g, "\n\n");
+  return text.trim();
+}
 
-        .date-group { margin-bottom: 2rem; }
-        .date-header {
-            background: #333; color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-weight: bold; font-size: 1.2rem;
-        }
+/* ── Feedback submit (shared handler) ── */
+async function submitFeedback(name, email, message, statusEl, formEl) {
+  statusEl.style.color = "black";
+  statusEl.textContent = "Sending...";
+  try {
+    const res = await fetch(
+      "https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec",
+      {
+        method: "POST",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify({ name, email, message, subject: "NSM Story Queue Feedback" })
+      }
+    );
+    if (res.ok) {
+      statusEl.style.color = "green";
+      statusEl.textContent = "✅ Thanks for your feedback!";
+      if (formEl) formEl.reset();
+    } else {
+      statusEl.style.color = "red";
+      statusEl.textContent = "❌ Error sending feedback.";
+    }
+  } catch {
+    statusEl.style.color = "red";
+    statusEl.textContent = "❌ Could not connect.";
+  }
+}
 
-        .story-card {
-            background: #fff;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 0.8rem 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .story-card h3 {
-            font-size: 1.3rem;
-            margin: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+/* ── Toggle per-story review panel ── */
+function toggleReview(storyUrl, headline) {
+  const panel = document.getElementById("review-panel-" + storyUrl);
+  if (!panel) return;
+  panel.classList.toggle("open");
+  if (panel.classList.contains("open")) {
+    const ta = panel.querySelector("textarea");
+    if (ta && !ta.value) {
+      ta.value = `Story: ${headline}\n\nNotes:\n`;
+    }
+    panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+window.toggleReview = toggleReview;
 
-        .bias {
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: #666;
-            margin-top: 0.3rem;
-        }
+/* ── Toggle story summary ── */
+function toggleSummary(btn) {
+  const card = btn.closest(".story-card");
+  const summaryEl = card.querySelector(".story-summary");
+  summaryEl.classList.toggle("show");
+  btn.textContent = summaryEl.classList.contains("show") ? "Hide Story" : "Show Story";
+}
+window.toggleSummary = toggleSummary;
 
-        .summary {
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
-            transition: all 0.4s ease;
-            white-space: pre-line;
-            margin-top: 0.5rem;
-        }
-        .summary.show {
-            max-height: 9999px;
-            opacity: 1;
-        }
+/* ── Share link ── */
+function shareUnpublished(id) {
+  const base = `${window.location.origin}${window.location.pathname}`;
+  const url = `${base}?id=${id}`;
+  navigator.clipboard.writeText(url).then(() => {
+    alert("Share link copied to clipboard!");
+  });
+}
+window.shareUnpublished = shareUnpublished;
 
-        button.toggle, button.share-btn {
-            margin-top: 0.6rem;
-            padding: 6px 12px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            border-radius: 4px;
-            border: 1px solid #333;
-            background: #333;
-            color: #fff;
-        }
-        button.toggle:hover, button.share-btn:hover { background: #555; }
+/* ── Slot scheduling (identical logic from unpublished) ── */
+const slots = [
+  "00:30", "06:15", "08:45", "10:15", "11:45",
+  "13:15", "15:45", "17:15", "18:30", "20:45"
+];
 
-        button.share-btn {
-            margin-left: 10px;
-            font-size: 0.8rem;
-            background: #0066cc;
-            border-color: #0066cc;
-        }
-        button.share-btn:hover { background: #004c99; }
+function assignSlots(stories) {
+  let slotPointer = 0;
+  let startDateEST;
 
-        footer {
-            text-align: center;
-            padding: 1rem;
-            font-size: 0.9rem;
-            color: #666;
-        }
+  (function initSlot() {
+    const estNow = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }));
+    const today = estNow.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+    let found = false;
+    for (let i = 0; i < slots.length; i++) {
+      const dt = new Date(`${today}T${slots[i]}:00-05:00`);
+      if (dt > estNow) {
+        slotPointer = i;
+        startDateEST = dt;
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      slotPointer = 0;
+      const tomorrow = new Date(estNow.getTime() + 86400000);
+      const tStr = tomorrow.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+      startDateEST = new Date(`${tStr}T${slots[0]}:00-05:00`);
+    }
+  })();
 
-        @media (max-width: 768px) {
-            .container { flex-direction: column; }
-            .sidebar {
-                margin-top: 1rem;
-                border-left: none;
-                border-top: 2px solid #eee;
-            }
+  let currentDay = startDateEST;
+
+  for (let i = 0; i < stories.length; i++) {
+    const dateStr = currentDay.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+    const slotStr = slots[slotPointer];
+    const scheduled = new Date(`${dateStr}T${slotStr}:00-05:00`);
+    stories[i].scheduled = scheduled.toISOString();
+    slotPointer++;
+    if (slotPointer >= slots.length) {
+      slotPointer = 0;
+      const nextDayTime = currentDay.getTime() + 86400000;
+      const next = new Date(nextDayTime);
+      const nextDateStr = next.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+      currentDay = new Date(`${nextDateStr}T${slots[0]}:00-05:00`);
+    }
+  }
+
+  return stories;
+}
+
+/* ── Main load ── */
+async function loadStories() {
+  const storyId = new URLSearchParams(window.location.search).get('id');
+
+  const response = await fetch("https://data.nospin.media/unpublished");
+  let stories = await response.json();
+
+  if (storyId) {
+    stories = stories.filter(r => String(r.url).trim() === String(storyId).trim());
+  }
+
+  stories.sort((a, b) => parseInt(a.order) - parseInt(b.order));
+  stories = stories.filter(s => s.headline);
+  stories = assignSlots(stories);
+
+  /* Group by date */
+  const groups = {};
+  stories.forEach(r => {
+    const date = new Date(r.scheduled).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+    if (!groups[date]) groups[date] = [];
+    groups[date].push(r);
+  });
+
+  const container = document.getElementById("news-container");
+  container.innerHTML = "";
+
+  const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+  let cardCount = 0;
+  let mobileInserted = false;
+
+  for (const date in groups) {
+    const [y, m, d] = date.split('-');
+    const dt = new Date(Number(y), Number(m) - 1, Number(d), 12, 0, 0);
+    const label = `${weekdays[dt.getDay()]}, ${months[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`;
+
+    const dateGroup = document.createElement("div");
+    dateGroup.className = "date-group";
+    dateGroup.innerHTML = `<div class="date-header">${label}</div>`;
+
+    groups[date].forEach(story => {
+      const sched = new Date(story.scheduled);
+      const timeLabel = sched.toLocaleTimeString("en-US", {
+        timeZone: "America/New_York",
+        hour: "numeric",
+        minute: "2-digit"
+      });
+
+      const safeHeadline = (story.headline || "").replace(/'/g, "\\'").replace(/\n/g, " ").replace(/\r/g, "");
+      const safeUrl = String(story.url || "").replace(/'/g, "\\'");
+
+      const card = document.createElement("div");
+      card.className = "story-card";
+
+      card.innerHTML = `
+        <h3>${story.headline}</h3>
+        <div class="story-meta">
+          <span>⏰ <strong>${timeLabel} EST</strong></span>
+          ${story.bias ? `<span>📊 Bias: <strong>${story.bias}</strong></span>` : ""}
+        </div>
+        <div class="story-summary">${convertRedditMarkdown(story.summary)}</div>
+        <div class="card-footer">
+          <button class="story-link" onclick="toggleSummary(this)">Show Story</button>
+          <button class="btn-review" onclick="toggleReview('${safeUrl}', '${safeHeadline}')">✏️ Review / Comment</button>
+          <button class="story-link" onclick="shareUnpublished('${safeUrl}')">🔗 Share</button>
+        </div>
+      `;
+
+      /* Per-story review panel */
+      const reviewPanel = document.createElement("div");
+      reviewPanel.className = "feedback-panel";
+      reviewPanel.id = "review-panel-" + story.url;
+      reviewPanel.innerHTML = `
+        <h4>✏️ Review: ${story.headline}</h4>
+        <input type="text" placeholder="Your first name" class="rp-name">
+        <input type="email" placeholder="you@email.com" class="rp-email">
+        <textarea rows="5" class="rp-message"></textarea>
+        <p class="form-status"></p>
+        <button type="submit" onclick="submitReviewPanel('${safeUrl}', this)">💬 Send Review</button>
+      `;
+
+      dateGroup.appendChild(card);
+      dateGroup.appendChild(reviewPanel);
+
+      /* Auto-expand if ?id= match */
+      if (storyId && String(story.url).trim() === String(storyId).trim()) {
+        const summaryEl = card.querySelector('.story-summary');
+        const toggleBtn = card.querySelector('.story-link');
+        if (summaryEl && toggleBtn) {
+          summaryEl.classList.add('show');
+          toggleBtn.textContent = "Hide Story";
         }
-    </style>
+      }
+
+      cardCount++;
+
+      /* Mobile affiliate insert after card 3 */
+      if (window.innerWidth <= 900 && cardCount === 3 && !mobileInserted && window.mobileBookHTML) {
+        const insert = document.createElement("div");
+        insert.innerHTML = window.mobileBookHTML;
+        dateGroup.appendChild(insert.firstElementChild);
+        mobileInserted = true;
+      }
+    });
+
+    container.appendChild(dateGroup);
+  }
+}
+
+/* ── Per-story review submit ── */
+window.submitReviewPanel = function(storyUrl, btn) {
+  const panel = document.getElementById("review-panel-" + storyUrl);
+  if (!panel) return;
+  const name    = panel.querySelector('.rp-name').value.trim();
+  const email   = panel.querySelector('.rp-email').value.trim();
+  const message = panel.querySelector('.rp-message').value.trim();
+  const statusEl = panel.querySelector('.form-status');
+  if (!email || !message) {
+    statusEl.style.color = "red";
+    statusEl.textContent = "Please include your email and message.";
+    return;
+  }
+  submitFeedback(name, email, message, statusEl, null);
+};
+
+/* ── Global feedback form ── */
+function initGlobalFeedback() {
+  const form = document.getElementById("globalFeedbackForm");
+  if (!form) return;
+  form.addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const name    = document.getElementById("gf-name").value.trim();
+    const email   = document.getElementById("gf-email").value.trim();
+    const message = document.getElementById("gf-message").value.trim();
+    const statusEl = document.getElementById("gf-status");
+    await submitFeedback(name, email, message, statusEl, form);
+  });
+}
+
+/* ── Boot ── */
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("header.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("site-header").innerHTML = html;
+
+      const hamburger = document.getElementById("hamburger");
+      const mobileNav = document.getElementById("mobile-nav");
+      if (hamburger && mobileNav) {
+        hamburger.onclick = () => {
+          mobileNav.classList.toggle("open");
+          hamburger.classList.toggle("active");
+        };
+        mobileNav.querySelectorAll("a").forEach(link => {
+          link.onclick = () => {
+            mobileNav.classList.remove("open");
+            hamburger.classList.remove("active");
+          };
+        });
+      }
+
+      loadBookTiles();
+      loadGearTiles();
+      loadStories();
+      initGlobalFeedback();
+    });
+});
+
+</script>
 </head>
+
 <body>
 
 <div id="site-header"></div>
 
 <div class="container">
-    <div class="main">
-        <h1>Unpublished News Stories</h1>
-        <div id="stories-container"></div>
+
+  <!-- Left: reading column -->
+  <div class="left-ad" id="left-ad">
+    <div class="reading-label">🧭 NSM Reading List</div>
+    <div id="book-tiles"></div>
+    <div class="reading-disclosure">
+      Selecting a title supports independent journalism at no extra cost to you.
     </div>
+  </div>
 
-    <div class="sidebar">
-        <h2>Support Us 💙</h2>
-        <p>Like what we're doing? Help keep No Spin Media running:</p>
-        <p><strong>Venmo:</strong><br/>
-            <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
-        </p>
+  <!-- Main content -->
+  <div class="main">
+    <h1>Story Queue</h1>
+    <div id="news-container"></div>
 
-<h2>Follow Us</h2>
-
-<p>
-    📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">
-        facebook.com/NoSpinNewsAI
-    </a>
-</p>
-
-<p>
-    🔺 <a href="https://reddit.com/r/NoSpinMedia" target="_blank">
-        reddit.com/r/NoSpinMedia
-    </a>
-</p>
-<p>
-    🟦 <a href="https://bsky.app/profile/nospinmedia.bsky.social" target="_blank">
-        nospinmedia.bsky.social
-    </a>
-</p>
-        <h2>We ❤️ Your Thoughts!</h2>
-        <p>You can also reach us directly at: <strong>nospinmedia.ai@gmail.com</strong></p>
-
-        <form id="feedbackForm">
-            <input type="text" id="name" name="name" placeholder="Your first name">
-            <input type="email" id="email" name="email" placeholder="you@email.com" required>
-            <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
-            <p id="formStatus"></p>
-            <button type="submit">💬 Send Feedback</button>
-        </form>
+    <!-- Global feedback at bottom -->
+    <div class="global-feedback">
+      <h2>💙 General Feedback</h2>
+      <p>Questions, tips, or general comments? Reach us here or at <strong>nospinmedia.ai@gmail.com</strong></p>
+      <form id="globalFeedbackForm">
+        <input type="text" id="gf-name" placeholder="Your first name">
+        <input type="email" id="gf-email" placeholder="you@email.com" required>
+        <textarea id="gf-message" rows="4" placeholder="Your feedback..." required></textarea>
+        <p id="gf-status" class="form-status"></p>
+        <button type="submit">💬 Send Feedback</button>
+      </form>
     </div>
+  </div>
+
+  <!-- Right: gear column -->
+  <div class="right-ad" id="right-ad">
+    <div class="reading-label">🧭 NSM Field Gear</div>
+    <div id="gear-tiles"></div>
+    <div class="reading-disclosure">
+      Selecting an item supports independent journalism at no extra cost to you.
+    </div>
+  </div>
+
 </div>
 
 <footer>
-    © 2025 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun. V2.6
+  © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
+  <span style="font-size:.8rem;color:#aaa;">Some links on this site are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
 </footer>
-
-<script>
-function convertRedditMarkdown(text) {
-    if (!text) return "";
-
-    // 1) Escape HTML first (XSS safety)
-    text = text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-
-    // 2) Headings: ### Heading
-    text = text.replace(/^###\s*(.*)$/gm, "<strong>$1</strong>");
-
-    // 3) Bold: **text**
-    text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-
-    // 4) Italics: *text* (avoid conflicts with **)
-    text = text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g, "<em>$1</em>");
-
-    // 5) Inline code: `code`
-    text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
-
-    // 6) Blockquotes: > text
-    text = text.replace(/^\s*>\s+(.*)$/gm, "<em>$1</em>");
-
-    // 7) Bullets (top-level + nested)
-    text = text.replace(/^\s*-\s+(.*)$/gm, "• $1");
-
-    // 8) Horizontal rules: ---
-    text = text.replace(/^-{3,}$/gm, "");
-
-    // 9) Markdown links: [text](url)
-    text = text.replace(
-        /\[([^\]]+)\]\(([^)]+)\)/g,
-        '$1 (<a href="$2" target="_blank" rel="noopener noreferrer">$2</a>)'
-    );
-
-    // 10) Normalize spacing (avoid giant gaps)
-    text = text.replace(/\\n/g, "\n");
-    text = text.replace(/\n{3,}/g, "\n\n");
-
-    return text.trim();
-}
-</script>
-    
-<script>
-/* IDENTICAL PAGE — only loadStories() is modified */
-let storyId = null;
-
-function getQueryParam(param) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(param);
-}
-
-function sendReview(title) {
-    const messageBox = document.getElementById('message');
-    if (!messageBox) return;
-
-    // Pre-fill only — do NOT scroll or focus
-    messageBox.value = `Story Title:\n${title}\n\nYour notes:\n`;
-}
-
-// 🔥 REQUIRED FIX
-window.sendReview = sendReview;
-
-    function formatDateLabel(dateStr) {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr || 'Undated';
-    const [y,m,d] = dateStr.split('-');
-    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-    const fakeDate = new Date(Number(y), Number(m)-1, Number(d));
-    return `${weekdays[fakeDate.getDay()]}, ${months[Number(m)-1]} ${Number(d)}, ${y}`;
-}
-
-async function loadStories() {
-    storyId = getQueryParam('id');
-
-// 🔥 Use unpublished posts
-    const apiURL = "https://data.nospin.media/unpublished";
-    const response = await fetch(apiURL);
-    let stories = await response.json();
-
-// ⭐ Filter to single story when using ?id=xxx
-if (storyId) {
-    stories = stories.filter(r => String(r.url).trim() === String(storyId).trim());
-}
-
-    // ⭐ FIX 1: Ensure stories are sorted by the 'order' field (1, 2, 3...)
-    stories.sort((a, b) => {
-        return parseInt(a.order) - parseInt(b.order);
-    });
-
-    // ⭐ FINAL FIX 3: Filter out any empty records (where headline is null or undefined)
-    stories = stories.filter(story => story.headline);
-
-    // ---- POST SLOTS (EST) ----
-    const slots = [
-        "00:30", "06:15", "08:45", "10:15", "11:45",
-        "13:15", "15:45", "17:15", "18:30", "20:45"
-    ];
-
-    // ---- ASSIGN SLOTS ----
-    let slotPointer = 0;
-    let startDateEST = new Date(); // Start with the current time (which is EST from toLocaleString)
-
-    // 1. First find the next slot pointer and the correct starting day
-    (function initSlotPointerAndDay() {
-        const estNow = new Date(
-            new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
-        );
-        const today = estNow.toISOString().split("T")[0];
-        let foundNextSlot = false;
-
-        for (let i = 0; i < slots.length; i++) {
-            // Create EST date object for the current slot time today
-            const dt = new Date(`${today}T${slots[i]}:00-05:00`); 
-            
-            if (dt > estNow) {
-                slotPointer = i;
-                startDateEST = dt; // Set the starting date/time to the next available slot time
-                foundNextSlot = true;
-                break;
-            }
-        }
-
-if (!foundNextSlot) {
-            // If all slots today are past, start at tomorrow's first slot (00:30)
-            slotPointer = 0;
-            const tomorrow = new Date(estNow.getTime() + 86400000);
-            // ⭐ FIX 2: Use toLocaleDateString to safely get tomorrow's date string in EST
-            const tStr = tomorrow.toLocaleDateString('en-CA', { timeZone: 'America/New_York' }); 
-            startDateEST = new Date(`${tStr}T${slots[0]}:00-05:00`);
-        }
-    })();
-    
-    // Use the determined start date from initSlotPointerAndDay
-    let currentDay = startDateEST;
-
-    for (let i = 0; i < stories.length; i++) {
-        // Correctly get the YYYY-MM-DD date string using the EST date part.
-        // We use toLocaleString and slice to avoid UTC/ISO string conversion issues.
-        const dateStr = currentDay.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
-        const slotStr = slots[slotPointer];
-
-        // Ensure the post time is created using the current date string and time slot in EST
-        const scheduled = new Date(`${dateStr}T${slotStr}:00-05:00`);
-        stories[i].scheduled = scheduled.toISOString();
-
-        // Move pointer forward
-        slotPointer++;
-        if (slotPointer >= slots.length) {
-            slotPointer = 0;
-
-            // Move currentDay to the next day's 00:30 slot for the next iteration's calculation
-            const nextDayTime = currentDay.getTime() + 86400000; // Advance by a full day (24 hours)
-            const next = new Date(nextDayTime);
-            
-            // Re-set currentDay to the new day's 00:30 slot time, 
-            // ensuring it has the correct date for the next post.
-            const nextDateStr = next.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
-            currentDay = new Date(`${nextDateStr}T${slots[0]}:00-05:00`);
-        }
-    }
-
-    // ---- GROUP BY DATE ----
-    const groups = {};
-    stories.forEach(r => {
-        // Safely extract the date string using EST timezone
-        const date = new Date(r.scheduled).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
-        if (!groups[date]) groups[date] = [];
-        groups[date].push(r);
-    });
-
-    // ---- RENDER ----
-    const container = document.getElementById("stories-container");
-    container.innerHTML = "";
-
-    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-
-    for (const date in groups) {
-        // Create a date object to display the full date label. Use 12:00:00 EST for safety.
-        const [y, m, d] = date.split('-');
-        const dt = new Date(Number(y), Number(m) - 1, Number(d), 12, 0, 0); 
-        
-        // This time, we rely on formatDateLabel to handle the date object for display purposes
-        const label = `${weekdays[dt.getDay()]}, ${months[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`;
-
-        const dateGroup = document.createElement("div");
-        dateGroup.className = "date-group";
-        dateGroup.innerHTML = `<div class="date-header">${label}</div>`;
-
-        groups[date].forEach(story => {
-            const sched = new Date(story.scheduled);
-            const timeLabel = sched.toLocaleTimeString("en-US", {
-                timeZone: "America/New_York",
-                hour: "numeric",
-                minute: "2-digit"
-            });
-
-            const card = document.createElement("div");
-            card.className = "story-card";
-
-            card.innerHTML = `
-                <h3>${story.headline}</h3>
-                <div class="bias">Scheduled: <strong>${timeLabel} EST</strong></div>
-                <div class="bias">Bias: ${story.bias}</div>
-
-                <div class="button-row">
-                    <button class="toggle" onclick="toggleSummary(this)">Show Story</button>
-                
-                    <button class="share-btn" onclick="sendReview('${story.headline.replace(/'/g, "\\'").replace(/\n/g, " ")}')">
-                        ✏️ Review / Comment
-                    </button>
-                
-                    <button class="share-btn" onclick="shareUnpublished('${story.url}')">
-                        🔗 Share
-                    </button>
-                </div>
-
-
-                <div class="summary">${convertRedditMarkdown(story.summary)}</div>
-            `;
-
-            // ⭐ Auto-expand story if share link (?id=xxx) is used
-            if (storyId && String(story.url).trim() === String(storyId).trim()) {
-                const summaryEl = card.querySelector('.summary');
-                const toggleBtn = card.querySelector('.toggle');
-            
-                if (summaryEl && toggleBtn) {
-                    summaryEl.classList.add('show');
-                    toggleBtn.textContent = "Hide Story";
-                }
-            }
-
-            dateGroup.appendChild(card);
-        });
-
-        container.appendChild(dateGroup);
-    }
-}
-function toggleSummary(btn) {
-    const card = btn.closest(".story-card");
-    const summaryEl = card.querySelector(".summary");
-
-    summaryEl.classList.toggle("show");
-
-    btn.textContent = summaryEl.classList.contains("show")
-        ? "Hide Story"
-        : "Show Story";
-}
-
-window.toggleSummary = toggleSummary;
-
-/* LOAD HEADER + THEN LOAD STORIES (required!) */
-document.addEventListener('DOMContentLoaded', function() {
-
-    // Load header first
-    fetch('header.html')
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById('site-header').innerHTML = html;
-
-            // Load stories AFTER header is inserted
-            loadStories();
-        })
-        .catch(err => console.error("Error loading header.html:", err));
-
-    // Feedback form
-    const feedbackForm = document.getElementById('feedbackForm');
-
-    if (feedbackForm) {
-        feedbackForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const message = document.getElementById('message').value.trim();
-            const formStatus = document.getElementById('formStatus');
-
-            formStatus.style.color = "black";
-            formStatus.textContent = "Sending...";
-
-            try {
-                const res = await fetch(
-                    "https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec",
-                    {
-                        method: "POST",
-                        headers: { "Content-Type": "text/plain" },
-                        body: JSON.stringify({
-                            name,
-                            email,
-                            message,
-                            subject: "Unpublished News Feedback"
-                        })
-                    }
-                );
-
-                if (res.ok) {
-                    formStatus.style.color = "green";
-                    formStatus.textContent = "✅ Thanks for your feedback!";
-                    feedbackForm.reset();
-                } else {
-                    formStatus.style.color = "red";
-                    formStatus.textContent = "❌ Error sending feedback.";
-                }
-            } catch (err) {
-                formStatus.style.color = "red";
-                formStatus.textContent = "❌ Could not connect.";
-            }
-        });
-    }
-
-});
-function shareUnpublished(id) {
-    const base = `${window.location.origin}${window.location.pathname}`;
-    const url = `${base}?id=${id}`;
-    navigator.clipboard.writeText(url).then(() => {
-        alert("Share link copied to clipboard!");
-    });
-}
-
-window.shareUnpublished = shareUnpublished;
-
-</script>
 
 </body>
 </html>
-
