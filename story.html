@@ -3,8 +3,21 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>No Spin Media</title>
 
-<title>NSM Archive</title>
+<meta property="og:site_name" content="No Spin Media">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://nospin.media/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:title" content="No Spin Media">
+<meta property="og:description" content="Independent news. Clear facts. No spin. Verified reporting from reputable sources.">
+<meta property="og:url" content="https://nospin.media">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nospin.media/preview.png">
+
+<meta name="twitter:title" content="No Spin Media">
+<meta name="twitter:description" content="Independent news. Clear facts. No spin.">
 
 <link rel="stylesheet" href="style.css"/>
 
@@ -13,6 +26,7 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
 crossorigin="anonymous"></script>
 
 <style>
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -56,7 +70,7 @@ body {
 .main {
   flex: 1;
   min-width: 0;
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -134,187 +148,86 @@ body {
   font-style: italic;
 }
 
-/* ── Archive search bar ── */
-.archive-search {
-  background: #fff;
-  padding: 1rem;
-  margin-bottom: 1.2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-}
-
-.archive-search select,
-.archive-search input {
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background: #fff;
-}
-
-.archive-search input {
-  flex: 1;
-  min-width: 220px;
-}
-
-.archive-search button {
-  padding: 10px 16px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 6px;
-  background: #333;
-  color: #fff;
-  cursor: pointer;
-}
-
-.archive-search button:hover {
-  background: #555;
-}
-
-.results-info {
-  margin: 0 0 1rem 0;
-  color: #666;
-  font-size: .95rem;
-}
-
-/* ── Story cards ── */
+/* ── Story styles ── */
 .story-card {
   background: #fff;
-  padding: 1.4rem;
+  padding: 2rem;
   margin-bottom: 1.2rem;
   border-radius: 6px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  cursor: pointer;
 }
 
-/* ── Card inner layout: text left, thumbnail right ── */
-.card-inner {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-
-.card-text {
-  flex: 1;
-  min-width: 0;
-}
-
-/* ── Thumbnail ── */
-.card-thumb {
-  flex-shrink: 0;
-  width: 200px;
-}
-
-.card-thumb a {
-  display: block;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,.15);
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-
-.card-thumb a:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 16px rgba(0,0,0,.22);
-}
-
-.card-thumb img {
-  width: 200px;
-  height: 134px;
-  object-fit: cover;
-  display: block;
-  border-radius: 6px;
-}
-
-.story-card h3 {
-  margin: 0 0 8px 0;
-  font-size: 1.5rem;
+.story-card h1 {
+  margin: 0 0 10px 0;
+  font-size: 2rem;
   line-height: 1.4;
 }
 
 .story-date {
-  font-size: .85rem;
+  font-size: .9rem;
   color: #777;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
-.story-summary {
-  line-height: 1.6;
-  font-size: 1rem;
-}
-
-.card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-top: 12px;
-  flex-wrap: wrap;
-}
-
-.story-link {
-  font-weight: bold;
-  text-decoration: none;
-  color: #0066cc;
-}
-
-.story-link:hover {
-  text-decoration: underline;
-}
-
-.share-btn {
-  background: none;
-  border: none;
-  color: #0066cc;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  padding: 0;
-}
-
-.share-btn:hover {
-  text-decoration: underline;
-}
-
-.headline-link {
-  color: #222;
-  text-decoration: none;
-}
-
-.headline-link:hover {
-  text-decoration: underline;
-}
-
-/* ── Mobile affiliate insert ── */
-.mobile-affiliate-insert {
-  background: #fff;
-  padding: 1rem 1.2rem;
-  margin-bottom: 1.2rem;
+/* ── Story image block ── */
+.story-image-wrap {
+  margin: 0 0 24px 0;
+  border: 2px solid #e0e0e0;
   border-radius: 6px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  overflow: hidden;
 }
 
-.mobile-affiliate-insert .reading-label {
-  font-size: .75rem;
-  margin-bottom: 10px;
-}
-
-.mobile-affiliate-insert img {
+.story-image-wrap img {
   width: 100%;
-  border-radius: 6px;
   display: block;
-  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  max-height: 520px;
+  object-fit: cover;
 }
 
-.mobile-affiliate-insert .reading-disclosure {
-  margin-top: 8px;
-  font-size: .65rem;
-  color: #bbb;
-  font-style: italic;
+.story-image-caption {
+  background: #f8f8f8;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 14px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: .82rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* ── Story content ── */
+.story-content {
+  line-height: 1.7;
+  font-size: 1.1rem;
+}
+
+.story-content p {
+  margin-bottom: 18px;
+}
+
+.story-links {
+  margin-top: 25px;
+}
+
+.story-links a {
+  display: inline-block;
+  margin-right: 15px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #0066cc;
+}
+
+.story-links a:hover {
+  text-decoration: underline;
+}
+
+.back-link {
+  margin-bottom: 15px;
+  font-size: .9rem;
+}
+
+.back-link a {
+  text-decoration: none;
+  color: #0066cc;
 }
 
 footer {
@@ -330,7 +243,10 @@ footer {
     flex-direction: column;
   }
 
-  .left-ad,
+  .left-ad {
+    display: none;
+  }
+
   .right-ad {
     display: none;
   }
@@ -339,25 +255,41 @@ footer {
     max-width: 100%;
   }
 
-  /* Stack thumbnail below text on mobile */
-  .card-inner {
-    flex-direction: column;
+  .story-image-wrap img {
+    max-height: 260px;
   }
 
-  .card-thumb {
-    width: 100%;
+  .mobile-affiliate-insert {
+    background: #fff;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.2rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
   }
 
-  .card-thumb img {
+  .mobile-affiliate-insert .reading-label {
+    font-size: .75rem;
+    margin-bottom: 10px;
+  }
+
+  .mobile-affiliate-insert img {
     width: 100%;
-    height: 200px;
+    border-radius: 6px;
+    display: block;
+    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  }
+
+  .mobile-affiliate-insert .reading-disclosure {
+    margin-top: 8px;
+    font-size: .65rem;
+    color: #bbb;
+    font-style: italic;
   }
 }
+
 </style>
 
 <script>
-const SUPABASE_URL = "https://dckmflnbprhmaqysuued.supabase.co/rest/v1";
-const SUPABASE_KEY = "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB";
 
 /* ── Book tile pool ── */
 const bookSubjects = [
@@ -384,6 +316,7 @@ function shuffle(arr) {
 }
 
 function loadAffiliateTiles() {
+  /* Desktop left: 3 random books */
   const bookContainer = document.getElementById("book-tiles");
   if (bookContainer) {
     shuffle(bookSubjects).slice(0, 3).forEach(book => {
@@ -397,6 +330,7 @@ function loadAffiliateTiles() {
     });
   }
 
+  /* Desktop right: 3 random gear */
   const gearContainer = document.getElementById("gear-tiles");
   if (gearContainer) {
     shuffle(gearSubjects).slice(0, 3).forEach(item => {
@@ -410,6 +344,7 @@ function loadAffiliateTiles() {
     });
   }
 
+  /* Mobile: 1 random card from either pool, injected after story */
   const allCards = shuffle([...bookSubjects, ...gearSubjects]);
   const mobileCard = allCards[0];
   const isGear = gearSubjects.includes(mobileCard);
@@ -427,22 +362,19 @@ function loadAffiliateTiles() {
   `;
 }
 
-/* ── Check if a story image exists — tries webp, jpg, png ── */
-async function resolveStoryImage(storyId) {
-  const extensions = ["webp", "jpg", "png"];
-  for (const ext of extensions) {
-    const url = `/images/news/${storyId}.${ext}`;
-    try {
-      const res = await fetch(url, { method: "HEAD" });
-      if (res.ok) return url;
-    } catch (e) {
-      // treat as not found
-    }
-  }
-  return null;
+function shareStory() {
+  const params = new URLSearchParams(window.location.search);
+  const storyId = params.get("story");
+  const shareUrl = `${window.location.origin}/story.html?story=${storyId}`;
+  navigator.clipboard.writeText(shareUrl).then(() => {
+    document.getElementById("share-btn").innerHTML = "✅ Copied!";
+    setTimeout(() =>
+      document.getElementById("share-btn").innerHTML = "🔗 Share this story",
+      2000
+    );
+  });
 }
 
-/* ── Archive logic ── */
 function convertRedditMarkdown(text) {
   if (!text) return "";
   text = text.replace(/\\n\\n/g, "\n\n");
@@ -452,185 +384,134 @@ function convertRedditMarkdown(text) {
   return text;
 }
 
-function escapeHtml(text) {
-  if (text == null) return "";
-  const div = document.createElement("div");
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-function getStoryPage(database) {
-  return database === "news_ne" ? "ne_story.html" : "story.html";
-}
-
-function buildDateFilters(params, year, month) {
-  if (!year && !month) return;
-  if (year && !month) {
-    params.append("posted_at", `gte.${year}-01-01T00:00:00`);
-    params.append("posted_at", `lt.${Number(year)+1}-01-01T00:00:00`);
-    return;
-  }
-  if (year && month) {
-    const start = `${year}-${month}-01T00:00:00`;
-    let nextYear = Number(year);
-    let nextMonth = Number(month) + 1;
-    if (nextMonth === 13) { nextMonth = 1; nextYear += 1; }
-    const nextMonthStr = String(nextMonth).padStart(2, "0");
-    params.append("posted_at", `gte.${start}`);
-    params.append("posted_at", `lt.${nextYear}-${nextMonthStr}-01T00:00:00`);
-    return;
-  }
-  params.append("_month_only", month);
-}
-
-function passesMonthOnlyFilter(postedAt, month) {
-  if (!month) return true;
-  if (!postedAt) return false;
-  const d = new Date(postedAt);
-  if (Number.isNaN(d.getTime())) return false;
-  return String(d.getMonth() + 1).padStart(2, "0") === month;
-}
-
-async function loadRecent() {
-  const res = await fetch(`${SUPABASE_URL}/news_posts?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=3`, {
-    headers: { apikey: SUPABASE_KEY }
-  });
-  const stories = await res.json();
-  document.getElementById("results-info").textContent = "Recent stories — use filters above to search the full archive.";
-  displayStories(stories, "news_posts");
-}
-
-async function searchArchive() {
-  const database    = document.getElementById("database").value;
-  const month       = document.getElementById("month").value;
-  const year        = document.getElementById("year").value;
-  const keywordsRaw = document.getElementById("keywords").value.trim();
-  const container   = document.getElementById("news-container");
-  const resultsInfo = document.getElementById("results-info");
-
-  container.innerHTML = "<p>Searching...</p>";
-  resultsInfo.textContent = "";
-
-  const params = new URLSearchParams();
-  params.set("select", "headline,summary,posted_at,url");
-  params.append("used", "eq.true");
-  params.append("order", "posted_at.desc");
-  params.append("limit", "200");
-
-  buildDateFilters(params, year, month);
-
-  const monthOnly = params.get("_month_only");
-  if (monthOnly) params.delete("_month_only");
-
-  if (keywordsRaw) {
-    const safeKeywords = keywordsRaw.replace(/,/g, " ").replace(/\s+/g, " ").trim();
-    params.append("or", `(headline.ilike.*${safeKeywords}*,summary.ilike.*${safeKeywords}*)`);
-  }
-
-  try {
-    const res = await fetch(`${SUPABASE_URL}/${database}?${params.toString()}`, {
-      headers: { apikey: SUPABASE_KEY }
-    });
-    if (!res.ok) throw new Error(`Supabase returned ${res.status}`);
-
-    let stories = await res.json();
-    if (monthOnly) stories = stories.filter(s => passesMonthOnlyFilter(s.posted_at, monthOnly));
-
-    displayStories(stories, database);
-
-    const pieces = [`${stories.length} result${stories.length === 1 ? "" : "s"}`];
-    if (database === "news_ne") pieces.push("New England"); else pieces.push("Main News");
-    if (month) pieces.push(document.querySelector(`#month option[value="${month}"]`)?.textContent || month);
-    if (year) pieces.push(year);
-    if (keywordsRaw) pieces.push(`"${keywordsRaw}"`);
-    resultsInfo.textContent = pieces.join(" • ");
-
-  } catch(err) {
-    console.error(err);
-    container.innerHTML = "<p>Search failed. Check the browser console for details.</p>";
-  }
-}
-
-async function displayStories(stories, database) {
-  const container = document.getElementById("news-container");
-  const storyPage = getStoryPage(database);
-
-  container.innerHTML = "";
-
-  if (!stories || stories.length === 0) {
-    container.innerHTML = "<p>No stories found.</p>";
-    return;
-  }
-
-  /* ── Resolve all thumbnails in parallel before rendering ── */
-  const thumbUrls = await Promise.all(stories.map(s => resolveStoryImage(s.url)));
-
-  stories.forEach((s, index) => {
-    const cleanText      = convertRedditMarkdown(s.summary || "");
-    const firstParagraph = cleanText.split("\n\n")[0];
-    const safeHeadline   = escapeHtml((s.headline || "").replace(/\n/g, " ").replace(/\r/g, ""));
-    const date           = s.posted_at
-      ? new Date(s.posted_at).toLocaleDateString("en-US", { year:"numeric", month:"long", day:"numeric" })
-      : "";
-
-    const thumbUrl  = thumbUrls[index];
-    const thumbHTML = thumbUrl ? `
-      <div class="card-thumb">
-        <a href="${storyPage}?story=${encodeURIComponent(s.url)}">
-          <img src="${thumbUrl}" alt="Story photo" loading="lazy">
-        </a>
-      </div>
-    ` : "";
-
-    const card = document.createElement("div");
-    card.className = "story-card";
-    card.onclick = (e) => {
-      if (e.target.closest(".share-btn"))    return;
-      if (e.target.closest(".story-link"))   return;
-      if (e.target.closest(".headline-link")) return;
-      if (e.target.closest(".card-thumb"))   return;
-      window.location = `${storyPage}?story=${encodeURIComponent(s.url)}`;
-    };
-
-    card.innerHTML = `
-      <div class="card-inner">
-        <div class="card-text">
-          <h3>
-            <a href="${storyPage}?story=${encodeURIComponent(s.url)}" class="headline-link">${safeHeadline}</a>
-          </h3>
-          <div class="story-date">${date}</div>
-          <div class="story-summary">${firstParagraph}</div>
-          <div class="card-footer">
-            <a class="story-link" href="${storyPage}?story=${encodeURIComponent(s.url)}">Read full story →</a>
-            <a class="story-link share-btn" style="cursor:pointer;">🔗 Share this story</a>
-          </div>
-        </div>
-        ${thumbHTML}
-      </div>
-    `;
-
-    const shareBtn = card.querySelector(".share-btn");
-    shareBtn.addEventListener("click", async (e) => {
-      e.stopPropagation();
-      const fullUrl = `${window.location.origin}/${storyPage}?story=${encodeURIComponent(s.url)}`;
-      try {
-        await navigator.clipboard.writeText(fullUrl);
-        shareBtn.innerHTML = "✅ Copied!";
-        setTimeout(() => { shareBtn.innerHTML = "🔗 Share this story"; }, 2000);
-      } catch(err) {
-        alert("Could not copy link. Please copy it manually from the address bar.");
-      }
-    });
-
-    container.appendChild(card);
-
-    /* Mobile: inject affiliate card after story 3 */
-    if (window.innerWidth <= 900 && index === 2 && window.mobileAffiliateHTML) {
-      const insert = document.createElement("div");
-      insert.innerHTML = window.mobileAffiliateHTML;
-      container.appendChild(insert.firstElementChild);
+/* ── Check if a story image exists — tries webp, jpg, png ── */
+async function resolveStoryImage(storyId) {
+  const extensions = ["webp", "jpg", "png"];
+  for (const ext of extensions) {
+    const url = `/images/news/${storyId}.${ext}`;
+    try {
+      const res = await fetch(url, { method: "HEAD" });
+      if (res.ok) return url;
+    } catch (e) {
+      // network error — treat as not found
     }
+  }
+  return null; // no image for this story
+}
+
+/* ── Fetch caption/credit from companion JSON file if it exists ── */
+async function fetchImageMeta(storyId) {
+  try {
+    const res = await fetch(`/images/news/${storyId}.json`);
+    if (res.ok) return await res.json();
+  } catch (e) {
+    // no JSON file — that's fine
+  }
+  return null;
+}
+
+/* ── Build the image block HTML ── */
+function buildImageBlockHTML(imgUrl, meta, dbCaption) {
+  let captionText = "";
+  if (meta) {
+    captionText = meta.caption || "";
+    if (meta.credit) captionText += (captionText ? "\nCredit: " : "Credit: ") + meta.credit;
+  } else if (dbCaption) {
+    captionText = dbCaption;
+  }
+  const captionHTML = captionText
+    ? `<div class="story-image-caption">${captionText.replace(/\n/g, "<br>")}</div>`
+    : "";
+  return `
+    <div class="story-image-wrap">
+      <img src="${imgUrl}" alt="Story photo">
+      ${captionHTML}
+    </div>
+  `;
+}
+
+async function loadStory() {
+  const params  = new URLSearchParams(window.location.search);
+  const storyId = params.get("story");
+
+  if (!storyId) {
+    document.getElementById("story-container").innerHTML = "<p>Story not found.</p>";
+    return;
+  }
+
+  const apiURL = `https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=*&url=eq.${storyId}`;
+  const res = await fetch(apiURL, {
+    headers: { apikey: "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB" }
   });
+  const data = await res.json();
+
+  if (!data.length) {
+    document.getElementById("story-container").innerHTML = "<p>Story not found.</p>";
+    return;
+  }
+
+  const s = data[0];
+
+  // Update Open Graph metadata so social previews work
+  document.querySelector('meta[property="og:title"]').setAttribute("content", s.headline.replace("\n"," "));
+  document.querySelector('meta[property="og:description"]').setAttribute("content", s.summary.substring(0,180));
+  document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
+  document.querySelector('meta[name="twitter:title"]').setAttribute("content", s.headline.replace("\n"," "));
+  document.querySelector('meta[name="twitter:description"]').setAttribute("content", s.summary.substring(0,180));
+
+  let cleanText  = convertRedditMarkdown(s.summary);
+  let paragraphs = cleanText.split("\n\n").map(p => `<p>${p}</p>`).join("");
+
+  const date = new Date(s.posted_at).toLocaleDateString("en-US", {
+    year: "numeric", month: "long", day: "numeric"
+  });
+
+  let redditLink = "";
+  if (s.reddit_post_id) {
+    try {
+      const parsed = JSON.parse(s.reddit_post_id);
+      if (parsed.jquery?.[10]?.[3]?.[0]) {
+        redditLink = parsed.jquery[10][3][0];
+      }
+    } catch(e) {
+      console.warn("Could not parse reddit_post_id");
+    }
+  }
+
+  // ── Check for a story image before rendering ──
+  const [imgUrl, imgMeta] = await Promise.all([
+    resolveStoryImage(storyId),
+    fetchImageMeta(storyId)
+  ]);
+
+  // Build image block only if image file exists
+  const imageBlockHTML = imgUrl
+    ? buildImageBlockHTML(imgUrl, imgMeta, s.image_caption || "")
+    : "";
+
+  document.getElementById("story-container").innerHTML = `
+    <div class="story-card">
+      <div class="back-link">
+        <a href="index.html">← Back to Latest News</a>
+      </div>
+      <h1>${s.headline}</h1>
+      <div class="story-date">${date}</div>
+      ${imageBlockHTML}
+      <div class="story-content">${paragraphs}</div>
+      <div class="story-links">
+        ${redditLink ? `<a href="${redditLink}" target="_blank" rel="noopener">Join the discussion on Reddit</a>` : ""}
+        <a href="https://reddit.com/r/NoSpinMedia" target="_blank" rel="noopener">Explore more stories in r/NoSpinMedia</a>
+        <button id="share-btn" onclick="shareStory()" style="background:none;border:none;color:#0066cc;font-weight:bold;font-size:1rem;cursor:pointer;padding:0;">🔗 Share this story</button>
+      </div>
+    </div>
+  `;
+
+  /* Mobile: inject affiliate card after the story */
+  if (window.innerWidth <= 900 && window.mobileAffiliateHTML) {
+    const insert = document.createElement("div");
+    insert.innerHTML = window.mobileAffiliateHTML;
+    document.getElementById("story-container").appendChild(insert.firstElementChild);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -655,14 +536,10 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       loadAffiliateTiles();
-      loadRecent();
-    })
-    .catch(err => console.error("Error loading header.html:", err));
-
-  document.getElementById("keywords").addEventListener("keydown", function(e) {
-    if (e.key === "Enter") { e.preventDefault(); searchArchive(); }
-  });
+      loadStory();
+    });
 });
+
 </script>
 
 </head>
@@ -682,45 +559,9 @@ document.addEventListener("DOMContentLoaded", function () {
     </div>
   </div>
 
-  <!-- Main: archive -->
+  <!-- Main: single story -->
   <div class="main">
-
-    <h1>🧭 NSM Archive</h1>
-    <p style="color:#666; margin:-0.5rem 0 1rem 0; font-size:1rem;">Search the No Spin Media archive by topic, keyword, or date.</p>
-
-    <div class="archive-search">
-      <select id="database">
-        <option value="news_posts">📰 Main News</option>
-        <option value="news_ne">📍 New England</option>
-      </select>
-      <select id="month">
-        <option value="">Month</option>
-        <option value="01">January</option>
-        <option value="02">February</option>
-        <option value="03">March</option>
-        <option value="04">April</option>
-        <option value="05">May</option>
-        <option value="06">June</option>
-        <option value="07">July</option>
-        <option value="08">August</option>
-        <option value="09">September</option>
-        <option value="10">October</option>
-        <option value="11">November</option>
-        <option value="12">December</option>
-      </select>
-      <select id="year">
-        <option value="">Year</option>
-        <option value="2026">2026</option>
-        <option value="2025">2025</option>
-        <option value="2024">2024</option>
-      </select>
-      <input type="text" id="keywords" placeholder="Keywords"/>
-      <button type="button" onclick="searchArchive()">🔎 Search Archive</button>
-    </div>
-
-    <div id="results-info" class="results-info"></div>
-    <div id="news-container"></div>
-
+    <div id="story-container"></div>
   </div>
 
   <!-- Right: gear column -->
