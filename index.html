@@ -372,17 +372,59 @@ function loadGearTiles() {
   }
 }
 
-/* ── Check if a story image exists — tries webp, jpg, png ── */
+/* ── Step 1: Check for story-specific image ── */
 async function resolveStoryImage(storyId) {
   const extensions = ["webp", "jpg", "png"];
   for (const ext of extensions) {
-    const url = `/images/news/${storyId}.${ext}`;
+    const url = `/images/${storyId}.${ext}`;
     try {
       const res = await fetch(url, { method: "HEAD" });
       if (res.ok) return url;
-    } catch (e) {
-      // network error — treat as not found
+    } catch (e) {}
+  }
+  return null;
+}
+
+/* ── Step 2+3: Check keyword rules for fallback image ── */
+let _imageRulesCache = null;
+async function resolveFallbackImage(headline) {
+  try {
+    if (!_imageRulesCache) {
+      const res = await fetch("/images/image-rules.json");
+      if (!res.ok) return null;
+      _imageRulesCache = await res.json();
     }
+    const h = (headline || "").toLowerCase();
+    for (const rule of (_imageRulesCache.keywords || [])) {
+      if (rule.match.some(kw => h.includes(kw.toLowerCase()))) {
+        return `/images/${rule.image}`;
+      }
+    }
+  } catch (e) {}
+  return null;
+}
+
+/* ── Fetch JSON metadata for any image (story or fallback) ── */
+async function fetchImageMeta(imagePath) {
+  try {
+    const jsonPath = imagePath.replace(/\.[^.]+$/, ".json");
+    const res = await fetch(jsonPath);
+    if (res.ok) return await res.json();
+  } catch (e) {}
+  return null;
+}
+
+/* ── Full image resolution: story → fallback → nothing ── */
+async function getCardImage(storyId, headline) {
+  const storyImg = await resolveStoryImage(storyId);
+  if (storyImg) {
+    const meta = await fetchImageMeta(storyImg);
+    return { url: storyImg, meta };
+  }
+  const fallbackImg = await resolveFallbackImage(headline);
+  if (fallbackImg) {
+    const meta = await fetchImageMeta(fallbackImg);
+    return { url: fallbackImg, meta };
   }
   return null;
 }
@@ -415,7 +457,7 @@ async function loadStories() {
   const stories = await res.json();
 
   /* ── Resolve thumbnails for all stories in parallel ── */
-  const thumbUrls = await Promise.all(stories.map(s => resolveStoryImage(s.url)));
+  const thumbResults = await Promise.all(stories.map(s => getCardImage(s.url, s.headline)));
 
   const container = document.getElementById("news-container");
   container.innerHTML = "";
@@ -430,7 +472,8 @@ async function loadStories() {
       day: "numeric"
     });
 
-    const thumbUrl = thumbUrls[index];
+    const thumb = thumbResults[index];
+    const thumbUrl = thumb ? thumb.url : null;
 
     const thumbHTML = thumbUrl ? `
       <div class="card-thumb">
