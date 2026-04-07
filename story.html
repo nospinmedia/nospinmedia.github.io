@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>No Spin Media</title>
-  
+
 <meta property="og:site_name" content="No Spin Media">
 <meta property="og:type" content="article">
 <meta property="og:image" content="https://nospin.media/preview.png">
@@ -15,6 +15,9 @@
 <meta property="og:url" content="https://nospin.media">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://nospin.media/preview.png">
+
+<meta name="twitter:title" content="No Spin Media">
+<meta name="twitter:description" content="Independent news. Clear facts. No spin.">
 
 <link rel="stylesheet" href="style.css"/>
 
@@ -42,7 +45,6 @@ body {
   align-items: flex-start;
 }
 
-/* ── Left reading column ── */
 .left-ad {
   width: 210px;
   min-width: 210px;
@@ -63,45 +65,17 @@ body {
   padding-left: 20px;
 }
 
-/* ── Gear tiles ── */
-#gear-tiles {
-  display: flex;
-  flex-direction: column;
-  gap: 42px;
-}
-
-#gear-tiles a {
-  display: block;
-  border-radius: 6px;
-  overflow: hidden;
-  transition: transform .2s ease, box-shadow .2s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,.12);
-}
-
-#gear-tiles a:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(0,0,0,.18);
-}
-
-#gear-tiles img {
-  width: 100%;
-  display: block;
-  border-radius: 6px;
-}
-
 .main {
   flex: 1;
   min-width: 0;
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
-/* ── Column header ── */
 .reading-label {
   font-family: Arial, sans-serif;
   font-size: .82rem;
   font-weight: 700;
-  font-style: normal;
   color: #333;
   letter-spacing: .06em;
   text-transform: uppercase;
@@ -110,7 +84,6 @@ body {
   border-bottom: 2px solid #0066cc;
 }
 
-/* ── Book tiles ── */
 #book-tiles {
   display: flex;
   flex-direction: column;
@@ -136,7 +109,31 @@ body {
   border-radius: 6px;
 }
 
-/* ── Disclosure ── */
+#gear-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
+}
+
+#gear-tiles a {
+  display: block;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+
+#gear-tiles a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.18);
+}
+
+#gear-tiles img {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+}
+
 .reading-disclosure {
   margin-top: 12px;
   font-size: .65rem;
@@ -145,98 +142,83 @@ body {
   font-style: italic;
 }
 
-/* ── Story card ── */
 .story-card {
   background: #fff;
-  padding: 1.4rem;
+  padding: 2rem;
   margin-bottom: 1.2rem;
   border-radius: 6px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  cursor: pointer;
 }
 
-/* ── Card inner layout: text left, thumbnail right ── */
-.card-inner {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-
-.card-text {
-  flex: 1;
-  min-width: 0;
-}
-
-/* ── Thumbnail ── */
-.card-thumb {
-  flex-shrink: 0;
-  width: 200px;
-}
-
-.card-thumb a {
-  display: block;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,.15);
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-
-.card-thumb a:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 16px rgba(0,0,0,.22);
-}
-
-.card-thumb img {
-  width: 200px;
-  height: 134px;        /* ~3:2 ratio */
-  object-fit: cover;
-  display: block;
-  border-radius: 6px;
-}
-
-.story-card h3 {
-  margin: 0 0 8px 0;
-  font-size: 1.5rem;
+.story-card h1 {
+  margin: 0 0 10px 0;
+  font-size: 2rem;
   line-height: 1.4;
 }
 
 .story-date {
-  font-size: .85rem;
+  font-size: .9rem;
   color: #777;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
-.story-summary {
-  line-height: 1.6;
-  font-size: 1rem;
+.story-image-wrap {
+  margin: 0 0 24px 0;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
-.card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 12px;
-  flex-wrap: wrap;
-  gap: 8px;
+.story-image-wrap img {
+  width: 100%;
+  display: block;
+  max-height: 520px;
+  object-fit: cover;
 }
 
-.story-link {
+.story-image-caption {
+  background: #f8f8f8;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 14px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: .82rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.story-content {
+  line-height: 1.7;
+  font-size: 1.1rem;
+}
+
+.story-content p {
+  margin-bottom: 18px;
+}
+
+.story-links {
+  margin-top: 25px;
+}
+
+.story-links a {
+  display: inline-block;
+  margin-right: 15px;
   font-weight: bold;
   text-decoration: none;
   color: #0066cc;
 }
 
-.story-link:hover {
+.story-links a:hover {
   text-decoration: underline;
 }
 
-.headline-link {
-  color: #222;
+.back-link {
+  margin-bottom: 15px;
+  font-size: .9rem;
+}
+
+.back-link a {
   text-decoration: none;
-}
-
-.headline-link:hover {
-  text-decoration: underline;
+  color: #0066cc;
 }
 
 footer {
@@ -246,33 +228,15 @@ footer {
   color: #666;
 }
 
-/* ── Mobile ── */
 @media (max-width: 900px) {
-  .container {
-    flex-direction: column;
-  }
-
+  .container { flex-direction: column; }
   .left-ad  { display: none; }
   .right-ad { display: none; }
+  .main     { max-width: 100%; }
 
-  .main { max-width: 100%; }
+  .story-image-wrap img { max-height: 260px; }
 
-  /* Stack thumbnail below text on mobile */
-  .card-inner {
-    flex-direction: column;
-  }
-
-  .card-thumb {
-    width: 100%;
-  }
-
-  .card-thumb img {
-    width: 100%;
-    height: 200px;
-  }
-
-  /* Mobile inline affiliate insert */
-  .mobile-reading-insert {
+  .mobile-affiliate-insert {
     background: #fff;
     padding: 1rem 1.2rem;
     margin-bottom: 1.2rem;
@@ -280,19 +244,16 @@ footer {
     box-shadow: 0 2px 10px rgba(0,0,0,0.08);
   }
 
-  .mobile-reading-insert .reading-label {
-    font-size: .75rem;
-    margin-bottom: 10px;
-  }
+  .mobile-affiliate-insert .reading-label { font-size: .75rem; margin-bottom: 10px; }
 
-  .mobile-reading-insert img {
+  .mobile-affiliate-insert img {
     width: 100%;
     border-radius: 6px;
     display: block;
     box-shadow: 0 2px 8px rgba(0,0,0,.12);
   }
 
-  .mobile-reading-insert .reading-disclosure {
+  .mobile-affiliate-insert .reading-disclosure {
     margin-top: 8px;
     font-size: .65rem;
     color: #bbb;
@@ -304,7 +265,6 @@ footer {
 
 <script>
 
-/* ── Book tile pool ── */
 const bookSubjects = [
   { img: "/affiliate/books/history.png",  link: "https://www.amazon.com/s?k=history+books&tag=nospinmedia-20" },
   { img: "/affiliate/books/science.png",  link: "https://www.amazon.com/s?k=science+books&tag=nospinmedia-20" },
@@ -314,7 +274,6 @@ const bookSubjects = [
   { img: "/affiliate/books/scifi.png",    link: "https://www.amazon.com/s?k=science+fiction+books&tag=nospinmedia-20" }
 ];
 
-/* ── Gear tile pool ── */
 const gearSubjects = [
   { img: "/affiliate/gear/nsm-gear-field-optics.png",    link: "https://www.amazon.com/s?k=monocular+binoculars+compact+telescope&tag=nospinmedia-20" },
   { img: "/affiliate/gear/nsm-gear-solar-power.png",     link: "https://www.amazon.com/s?k=solar+power+bank+portable+solar+charger&tag=nospinmedia-20" },
@@ -328,29 +287,42 @@ function shuffle(arr) {
   return [...arr].sort(() => 0.5 - Math.random());
 }
 
-function loadBookTiles() {
-  const shuffled = shuffle(bookSubjects);
-
-  const container = document.getElementById("book-tiles");
-  if (container) {
-    container.innerHTML = shuffled.slice(0, 3).map(book => `
-      <a href="${book.link}" target="_blank" rel="noopener nofollow sponsored"
-         title="Browse on Amazon — supports NSM at no extra cost">
-        <img src="${book.img}" alt="Curated reading selection">
-      </a>
-    `).join("");
+function loadAffiliateTiles() {
+  const bookContainer = document.getElementById("book-tiles");
+  if (bookContainer) {
+    shuffle(bookSubjects).slice(0, 3).forEach(book => {
+      const a = document.createElement("a");
+      a.href = book.link;
+      a.target = "_blank";
+      a.rel = "noopener nofollow sponsored";
+      a.title = "Browse on Amazon — supports NSM at no extra cost";
+      a.innerHTML = `<img src="${book.img}" alt="Curated reading selection">`;
+      bookContainer.appendChild(a);
+    });
   }
 
-  /* Mobile: 1 random card from either pool */
+  const gearContainer = document.getElementById("gear-tiles");
+  if (gearContainer) {
+    shuffle(gearSubjects).slice(0, 3).forEach(item => {
+      const a = document.createElement("a");
+      a.href = item.link;
+      a.target = "_blank";
+      a.rel = "noopener nofollow sponsored";
+      a.title = "Browse on Amazon — supports NSM at no extra cost";
+      a.innerHTML = `<img src="${item.img}" alt="Curated gear selection">`;
+      gearContainer.appendChild(a);
+    });
+  }
+
   const allCards = shuffle([...bookSubjects, ...gearSubjects]);
   const mobileCard = allCards[0];
   const isGear = gearSubjects.includes(mobileCard);
-  window.mobileBookHTML = `
-    <div class="mobile-reading-insert">
+  window.mobileAffiliateHTML = `
+    <div class="mobile-affiliate-insert">
       <div class="reading-label">🧭 ${isGear ? "NSM Field Gear" : "NSM Reading List"}</div>
       <a href="${mobileCard.link}" target="_blank" rel="noopener nofollow sponsored"
          title="Browse on Amazon — supports NSM at no extra cost">
-        <img src="${mobileCard.img}" alt="${isGear ? "Curated gear selection" : "Curated reading selection"}">
+        <img src="${mobileCard.img}" alt="${isGear ? "Curated gear" : "Curated reading"}">
       </a>
       <div class="reading-disclosure">
         Selecting ${isGear ? "an item" : "a title"} supports independent journalism at no extra cost to you.
@@ -359,20 +331,29 @@ function loadBookTiles() {
   `;
 }
 
-function loadGearTiles() {
-  const shuffled = shuffle(gearSubjects);
-  const container = document.getElementById("gear-tiles");
-  if (container) {
-    container.innerHTML = shuffled.slice(0, 3).map(item => `
-      <a href="${item.link}" target="_blank" rel="noopener nofollow sponsored"
-         title="Browse on Amazon — supports NSM at no extra cost">
-        <img src="${item.img}" alt="Curated gear selection">
-      </a>
-    `).join("");
-  }
+function shareStory() {
+  const params = new URLSearchParams(window.location.search);
+  const storyId = params.get("story");
+  const shareUrl = `${window.location.origin}/story.html?story=${storyId}`;
+  navigator.clipboard.writeText(shareUrl).then(() => {
+    document.getElementById("share-btn").innerHTML = "✅ Copied!";
+    setTimeout(() =>
+      document.getElementById("share-btn").innerHTML = "🔗 Share this story",
+      2000
+    );
+  });
 }
 
-/* ── Step 1: Check for story-specific image ── */
+function convertRedditMarkdown(text) {
+  if (!text) return "";
+  text = text.replace(/\\n\\n/g, "\n\n");
+  text = text.replace(/\\n/g, "\n");
+  text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+  text = text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g, "<em>$1</em>");
+  return text;
+}
+
+/* ── Step 1: story-specific image ── */
 async function resolveStoryImage(storyId) {
   const extensions = ["webp", "jpg", "png"];
   for (const ext of extensions) {
@@ -385,7 +366,7 @@ async function resolveStoryImage(storyId) {
   return null;
 }
 
-/* ── Step 2+3: Check keyword rules for fallback image ── */
+/* ── Step 2+3: keyword fallback image ── */
 let _imageRulesCache = null;
 async function resolveFallbackImage(headline) {
   try {
@@ -404,10 +385,9 @@ async function resolveFallbackImage(headline) {
   return null;
 }
 
-/* ── Fetch JSON metadata for any image (story or fallback) ── */
+/* ── Fetch JSON metadata for any image path ── */
 async function fetchImageMeta(imagePath) {
   try {
-    // Replace image extension with .json, keeping the same path
     const jsonPath = imagePath.replace(/\.[^.]+$/, ".json");
     const res = await fetch(jsonPath);
     if (res.ok) return await res.json();
@@ -415,8 +395,8 @@ async function fetchImageMeta(imagePath) {
   return null;
 }
 
-/* ── Full image resolution: story → fallback → nothing ── */
-async function getCardImage(storyId, headline) {
+/* ── Full resolution: story → fallback → null ── */
+async function getStoryImage(storyId, headline) {
   const storyImg = await resolveStoryImage(storyId);
   if (storyImg) {
     const meta = await fetchImageMeta(storyImg);
@@ -430,95 +410,101 @@ async function getCardImage(storyId, headline) {
   return null;
 }
 
-function convertRedditMarkdown(text) {
-  if (!text) return "";
-  text = text.replace(/\\n\\n/g, "\n\n");
-  text = text.replace(/\\n/g, "\n");
-  text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-  text = text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g, "<em>$1</em>");
-  return text;
-}
-
-async function shareStory(url, headline, btn) {
-  const fullUrl = `${window.location.origin}/story.html?story=${url}`;
-  try {
-    await navigator.clipboard.writeText(fullUrl);
-    btn.innerHTML = "✅ Copied!";
-    setTimeout(() => { btn.innerHTML = "🔗 Share this story"; }, 2000);
-  } catch (err) {
-    alert("Could not copy link. Please copy it manually from the address bar.");
+/* ── Build image block with caption + credit ── */
+function buildImageBlockHTML(imgUrl, meta, dbCaption) {
+  let captionText = "";
+  if (meta) {
+    captionText = meta.caption || "";
+    if (meta.credit) captionText += (captionText ? "\nCredit: " : "Credit: ") + meta.credit;
+  } else if (dbCaption) {
+    captionText = dbCaption;
   }
+  const captionHTML = captionText
+    ? `<div class="story-image-caption">${captionText.replace(/\n/g, "<br>")}</div>`
+    : "";
+  return `
+    <div class="story-image-wrap">
+      <img src="${imgUrl}" alt="Story photo">
+      ${captionHTML}
+    </div>
+  `;
 }
 
-async function loadStories() {
-  const apiURL = "https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=20";
+async function loadStory() {
+  const params  = new URLSearchParams(window.location.search);
+  const storyId = params.get("story");
+
+  if (!storyId) {
+    document.getElementById("story-container").innerHTML = "<p>Story not found.</p>";
+    return;
+  }
+
+  const apiURL = `https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=*&url=eq.${storyId}`;
   const res = await fetch(apiURL, {
     headers: { apikey: "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB" }
   });
-  const stories = await res.json();
+  const data = await res.json();
 
-  /* ── Resolve thumbnails for all stories in parallel ── */
-  const thumbResults = await Promise.all(stories.map(s => getCardImage(s.url, s.headline)));
+  if (!data.length) {
+    document.getElementById("story-container").innerHTML = "<p>Story not found.</p>";
+    return;
+  }
 
-  const container = document.getElementById("news-container");
-  container.innerHTML = "";
+  const s = data[0];
 
-  stories.forEach((s, index) => {
-    let cleanText = convertRedditMarkdown(s.summary);
-    let firstParagraph = cleanText.split("\n\n")[0];
+  document.querySelector('meta[property="og:title"]').setAttribute("content", s.headline.replace("\n"," "));
+  document.querySelector('meta[property="og:description"]').setAttribute("content", s.summary.substring(0,180));
+  document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
+  document.querySelector('meta[name="twitter:title"]').setAttribute("content", s.headline.replace("\n"," "));
+  document.querySelector('meta[name="twitter:description"]').setAttribute("content", s.summary.substring(0,180));
 
-    const date = new Date(s.posted_at).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    });
+  let cleanText  = convertRedditMarkdown(s.summary);
+  let paragraphs = cleanText.split("\n\n").map(p => `<p>${p}</p>`).join("");
 
-    const thumb = thumbResults[index];
-    const thumbUrl = thumb ? thumb.url : null;
-
-    const thumbHTML = thumbUrl ? `
-      <div class="card-thumb">
-        <a href="story.html?story=${s.url}">
-          <img src="${thumbUrl}" alt="Story photo" loading="lazy">
-        </a>
-      </div>
-    ` : "";
-
-    const card = document.createElement("div");
-    card.className = "story-card";
-    card.onclick = (e) => {
-      if (e.target.closest(".story-link") || e.target.closest(".card-thumb")) return;
-      window.location = `story.html?story=${s.url}`;
-    };
-
-    const safeHeadline = (s.headline || "").replace(/'/g, "\\'").replace(/\n/g, " ").replace(/\r/g, "");
-
-    card.innerHTML = `
-      <div class="card-inner">
-        <div class="card-text">
-          <h3>
-            <a href="story.html?story=${s.url}" class="headline-link">${s.headline}</a>
-          </h3>
-          <div class="story-date">${date}</div>
-          <div class="story-summary">${firstParagraph}</div>
-          <div class="card-footer">
-            <a class="story-link" href="story.html?story=${s.url}">Read full story →</a>
-            <a class="story-link" onclick="event.stopPropagation(); shareStory('${s.url}', '${safeHeadline}', this)" style="cursor:pointer;">🔗 Share this story</a>
-          </div>
-        </div>
-        ${thumbHTML}
-      </div>
-    `;
-
-    container.appendChild(card);
-
-    /* Mobile: inject affiliate card after story 3 */
-    if (window.innerWidth <= 900 && index === 2 && window.mobileBookHTML) {
-      const insert = document.createElement("div");
-      insert.innerHTML = window.mobileBookHTML;
-      container.appendChild(insert.firstElementChild);
-    }
+  const date = new Date(s.posted_at).toLocaleDateString("en-US", {
+    year: "numeric", month: "long", day: "numeric"
   });
+
+  let redditLink = "";
+  if (s.reddit_post_id) {
+    try {
+      const parsed = JSON.parse(s.reddit_post_id);
+      if (parsed.jquery?.[10]?.[3]?.[0]) {
+        redditLink = parsed.jquery[10][3][0];
+      }
+    } catch(e) {
+      console.warn("Could not parse reddit_post_id");
+    }
+  }
+
+  /* ── Resolve image: story-specific → keyword fallback → nothing ── */
+  const imgResult = await getStoryImage(storyId, s.headline);
+  const imageBlockHTML = imgResult
+    ? buildImageBlockHTML(imgResult.url, imgResult.meta, s.image_caption || "")
+    : "";
+
+  document.getElementById("story-container").innerHTML = `
+    <div class="story-card">
+      <div class="back-link">
+        <a href="index.html">← Back to Latest News</a>
+      </div>
+      <h1>${s.headline}</h1>
+      <div class="story-date">${date}</div>
+      ${imageBlockHTML}
+      <div class="story-content">${paragraphs}</div>
+      <div class="story-links">
+        ${redditLink ? `<a href="${redditLink}" target="_blank" rel="noopener">Join the discussion on Reddit</a>` : ""}
+        <a href="https://reddit.com/r/NoSpinMedia" target="_blank" rel="noopener">Explore more stories in r/NoSpinMedia</a>
+        <button id="share-btn" onclick="shareStory()" style="background:none;border:none;color:#0066cc;font-weight:bold;font-size:1rem;cursor:pointer;padding:0;">🔗 Share this story</button>
+      </div>
+    </div>
+  `;
+
+  if (window.innerWidth <= 900 && window.mobileAffiliateHTML) {
+    const insert = document.createElement("div");
+    insert.innerHTML = window.mobileAffiliateHTML;
+    document.getElementById("story-container").appendChild(insert.firstElementChild);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -529,7 +515,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const hamburger = document.getElementById("hamburger");
       const mobileNav = document.getElementById("mobile-nav");
-
       if (hamburger && mobileNav) {
         hamburger.onclick = () => {
           mobileNav.classList.toggle("open");
@@ -543,9 +528,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       }
 
-      loadBookTiles();
-      loadGearTiles();
-      loadStories();
+      loadAffiliateTiles();
+      loadStory();
     });
 });
 
@@ -559,7 +543,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <div class="container">
 
-  <!-- Left: editorial reading column -->
   <div class="left-ad" id="left-ad">
     <div class="reading-label">🧭 NSM Reading List</div>
     <div id="book-tiles"></div>
@@ -568,13 +551,10 @@ document.addEventListener("DOMContentLoaded", function () {
     </div>
   </div>
 
-  <!-- Main content -->
   <div class="main">
-    <h1>Latest News</h1>
-    <div id="news-container"></div>
+    <div id="story-container"></div>
   </div>
 
-  <!-- Right: gear column -->
   <div class="right-ad" id="right-ad">
     <div class="reading-label">🧭 NSM Field Gear</div>
     <div id="gear-tiles"></div>
