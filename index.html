@@ -376,7 +376,7 @@ function loadGearTiles() {
 async function resolveStoryImage(storyId) {
   const extensions = ["webp", "jpg", "png"];
   for (const ext of extensions) {
-    const url = `/images/${storyId}.${ext}`;
+    const url = `/images/news/${storyId}.${ext}`;
     try {
       const res = await fetch(url, { method: "HEAD" });
       if (res.ok) return url;
@@ -407,6 +407,7 @@ async function resolveFallbackImage(headline) {
 /* ── Fetch JSON metadata for any image (story or fallback) ── */
 async function fetchImageMeta(imagePath) {
   try {
+    // Replace image extension with .json, keeping the same path
     const jsonPath = imagePath.replace(/\.[^.]+$/, ".json");
     const res = await fetch(jsonPath);
     if (res.ok) return await res.json();
