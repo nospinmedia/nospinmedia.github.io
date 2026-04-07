@@ -384,9 +384,9 @@ function convertRedditMarkdown(text) {
   return text;
 }
 
-/* ── Check if a story image exists at /images/news/{storyId}.jpg or .png ── */
+/* ── Check if a story image exists — tries webp, jpg, png ── */
 async function resolveStoryImage(storyId) {
-  const extensions = ["jpg", "png"];
+  const extensions = ["webp", "jpg", "png"];
   for (const ext of extensions) {
     const url = `/images/news/${storyId}.${ext}`;
     try {
@@ -399,10 +399,28 @@ async function resolveStoryImage(storyId) {
   return null; // no image for this story
 }
 
+/* ── Fetch caption/credit from companion JSON file if it exists ── */
+async function fetchImageMeta(storyId) {
+  try {
+    const res = await fetch(`/images/news/${storyId}.json`);
+    if (res.ok) return await res.json();
+  } catch (e) {
+    // no JSON file — that's fine
+  }
+  return null;
+}
+
 /* ── Build the image block HTML ── */
-function buildImageBlockHTML(imgUrl, caption) {
-  const captionHTML = caption
-    ? `<div class="story-image-caption">${caption}</div>`
+function buildImageBlockHTML(imgUrl, meta, dbCaption) {
+  let captionText = "";
+  if (meta) {
+    captionText = meta.caption || "";
+    if (meta.credit) captionText += (captionText ? "\nCredit: " : "Credit: ") + meta.credit;
+  } else if (dbCaption) {
+    captionText = dbCaption;
+  }
+  const captionHTML = captionText
+    ? `<div class="story-image-caption">${captionText.replace(/\n/g, "<br>")}</div>`
     : "";
   return `
     <div class="story-image-wrap">
@@ -461,11 +479,14 @@ async function loadStory() {
   }
 
   // ── Check for a story image before rendering ──
-  const imgUrl = await resolveStoryImage(storyId);
+  const [imgUrl, imgMeta] = await Promise.all([
+    resolveStoryImage(storyId),
+    fetchImageMeta(storyId)
+  ]);
 
   // Build image block only if image file exists
   const imageBlockHTML = imgUrl
-    ? buildImageBlockHTML(imgUrl, s.image_caption || "")
+    ? buildImageBlockHTML(imgUrl, imgMeta, s.image_caption || "")
     : "";
 
   // Swap og:image to story-specific image if one was found
