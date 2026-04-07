@@ -63,7 +63,7 @@ body {
   padding-left: 20px;
 }
 
-/* ── Gear tiles: same treatment as book tiles ── */
+/* ── Gear tiles ── */
 #gear-tiles {
   display: flex;
   flex-direction: column;
@@ -96,7 +96,7 @@ body {
   margin: 0 auto;
 }
 
-/* ── Book column header ── */
+/* ── Column header ── */
 .reading-label {
   font-family: Arial, sans-serif;
   font-size: .82rem;
@@ -110,7 +110,7 @@ body {
   border-bottom: 2px solid #0066cc;
 }
 
-/* ── Book tiles: no box, no shadow, just cards ── */
+/* ── Book tiles ── */
 #book-tiles {
   display: flex;
   flex-direction: column;
@@ -136,7 +136,7 @@ body {
   border-radius: 6px;
 }
 
-/* ── Disclosure — barely there ── */
+/* ── Disclosure ── */
 .reading-disclosure {
   margin-top: 12px;
   font-size: .65rem;
@@ -145,26 +145,7 @@ body {
   font-style: italic;
 }
 
-/* ── Kept from original ── */
-.affiliate-box {
-  background: #fff;
-  padding: 12px;
-  border-radius: 6px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  margin-bottom: 16px;
-}
-
-.affiliate-box h4 {
-  margin: 0 0 10px 0;
-  font-size: .85rem;
-  font-weight: bold;
-  color: #555;
-  text-transform: uppercase;
-  letter-spacing: .05em;
-  border-bottom: 2px solid #0066cc;
-  padding-bottom: 6px;
-}
-
+/* ── Story card ── */
 .story-card {
   background: #fff;
   padding: 1.4rem;
@@ -172,6 +153,45 @@ body {
   border-radius: 6px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.08);
   cursor: pointer;
+}
+
+/* ── Card inner layout: text left, thumbnail right ── */
+.card-inner {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.card-text {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Thumbnail ── */
+.card-thumb {
+  flex-shrink: 0;
+  width: 200px;
+}
+
+.card-thumb a {
+  display: block;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card-thumb a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px rgba(0,0,0,.22);
+}
+
+.card-thumb img {
+  width: 200px;
+  height: 134px;        /* ~3:2 ratio */
+  object-fit: cover;
+  display: block;
+  border-radius: 6px;
 }
 
 .story-card h3 {
@@ -226,28 +246,35 @@ footer {
   color: #666;
 }
 
-/* ── Mobile: hide left col, show inline after story 3 ── */
+/* ── Mobile ── */
 @media (max-width: 900px) {
   .container {
     flex-direction: column;
   }
 
-  .left-ad {
-    display: none;
+  .left-ad  { display: none; }
+  .right-ad { display: none; }
+
+  .main { max-width: 100%; }
+
+  /* Stack thumbnail below text on mobile */
+  .card-inner {
+    flex-direction: column;
   }
 
-  .right-ad {
-    display: none;
+  .card-thumb {
+    width: 100%;
   }
 
-  .main {
-    max-width: 100%;
+  .card-thumb img {
+    width: 100%;
+    height: 200px;
   }
 
-  /* Mobile inline book insert */
+  /* Mobile inline affiliate insert */
   .mobile-reading-insert {
     background: #fff;
-    padding: 1rem 1.2rem 1rem;
+    padding: 1rem 1.2rem;
     margin-bottom: 1.2rem;
     border-radius: 6px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.08);
@@ -277,31 +304,6 @@ footer {
 
 <script>
 
-/* ── Emoji → category map ── */
-const emojiMap = {
-  "🚀": "space",
-  "🌙": "space",
-  "🔭": "space",
-  "✈️": "military",
-  "🪖": "military",
-  "⚔️": "military",
-  "🛫": "military",
-  "🛢️": "energy",
-  "⛽": "energy",
-  "🔥": "energy",
-  "⚖️": "politics",
-  "🏛️": "politics",
-  "🗳️": "politics",
-  "💊": "health",
-  "🧠": "health",
-  "🦦": "health",
-  "🤖": "technology",
-  "📱": "technology",
-  "💵": "economy",
-  "📉": "economy",
-  "🏦": "economy"
-};
-
 /* ── Book tile pool ── */
 const bookSubjects = [
   { img: "/affiliate/books/history.png",  link: "https://www.amazon.com/s?k=history+books&tag=nospinmedia-20" },
@@ -314,12 +316,12 @@ const bookSubjects = [
 
 /* ── Gear tile pool ── */
 const gearSubjects = [
-  { img: "/affiliate/gear/nsm-gear-field-optics.png",      link: "https://www.amazon.com/s?k=monocular+binoculars+compact+telescope&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-solar-power.png",       link: "https://www.amazon.com/s?k=solar+power+bank+portable+solar+charger&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-emergency-radio.png",   link: "https://www.amazon.com/s?k=emergency+weather+radio+hand+crank&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-science-tools.png",     link: "https://www.amazon.com/s?k=pocket+microscope+geiger+counter+science+tools&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-weather-station.png",   link: "https://www.amazon.com/s?k=home+weather+station+barometer+wireless&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-auto-tools.png",        link: "https://www.amazon.com/s?k=automotive+diagnostic+tools+multimeter+garage+tools&tag=nospinmedia-20" }
+  { img: "/affiliate/gear/nsm-gear-field-optics.png",    link: "https://www.amazon.com/s?k=monocular+binoculars+compact+telescope&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-solar-power.png",     link: "https://www.amazon.com/s?k=solar+power+bank+portable+solar+charger&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-emergency-radio.png", link: "https://www.amazon.com/s?k=emergency+weather+radio+hand+crank&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-science-tools.png",   link: "https://www.amazon.com/s?k=pocket+microscope+geiger+counter+science+tools&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-weather-station.png", link: "https://www.amazon.com/s?k=home+weather+station+barometer+wireless&tag=nospinmedia-20" },
+  { img: "/affiliate/gear/nsm-gear-auto-tools.png",      link: "https://www.amazon.com/s?k=automotive+diagnostic+tools+multimeter+garage+tools&tag=nospinmedia-20" }
 ];
 
 function shuffle(arr) {
@@ -329,7 +331,6 @@ function shuffle(arr) {
 function loadBookTiles() {
   const shuffled = shuffle(bookSubjects);
 
-  /* Desktop: 3 random book cards in left column */
   const container = document.getElementById("book-tiles");
   if (container) {
     container.innerHTML = shuffled.slice(0, 3).map(book => `
@@ -360,8 +361,6 @@ function loadBookTiles() {
 
 function loadGearTiles() {
   const shuffled = shuffle(gearSubjects);
-
-  /* Desktop: 3 random gear cards in right column */
   const container = document.getElementById("gear-tiles");
   if (container) {
     container.innerHTML = shuffled.slice(0, 3).map(item => `
@@ -373,67 +372,19 @@ function loadGearTiles() {
   }
 }
 
-/* ── Text link sidebars (kept, currently commented out) ── */
-const bookLinks = {
-  space:      [{text:"Space exploration books", k:"space+exploration+books"},{text:"Astronomy books", k:"astronomy+books"},{text:"NASA history books", k:"NASA+history+books"}],
-  military:   [{text:"Military aviation books", k:"military+aviation+books"},{text:"Air combat history", k:"air+combat+history+books"},{text:"Modern fighter jets", k:"modern+fighter+jets+books"}],
-  energy:     [{text:"Oil geopolitics books", k:"oil+geopolitics+books"},{text:"Energy crisis history", k:"energy+crisis+history+books"},{text:"Middle East politics books", k:"middle+east+politics+books"}],
-  politics:   [{text:"Political history books", k:"political+history+books"},{text:"Government accountability books", k:"government+accountability+books"},{text:"Constitutional law books", k:"constitutional+law+books"}],
-  health:     [{text:"Medical science books", k:"medical+science+books"},{text:"Public health books", k:"public+health+books"},{text:"Pandemic history books", k:"pandemic+history+books"}],
-  technology: [{text:"Artificial intelligence books", k:"artificial+intelligence+books"},{text:"Tech industry books", k:"silicon+valley+books"},{text:"Cybersecurity books", k:"cybersecurity+books"}],
-  economy:    [{text:"Economics books", k:"economics+books"},{text:"Financial crisis books", k:"financial+crisis+books"},{text:"Federal Reserve books", k:"federal+reserve+books"}],
-  default:    [{text:"World history books", k:"world+history+books"},{text:"Current events books", k:"current+events+books"},{text:"Journalism books", k:"journalism+books"}]
-};
-
-const gearLinks = {
-  space:      [{text:"Telescopes", k:"telescope+astronomy"},{text:"Star charts", k:"star+chart+maps"},{text:"Night sky guides", k:"night+sky+guide"}],
-  military:   [{text:"Emergency weather radio", k:"emergency+weather+radio"},{text:"Emergency preparedness kit", k:"emergency+preparedness+kit"},{text:"Portable power bank", k:"portable+power+bank"}],
-  energy:     [{text:"Emergency weather radio", k:"emergency+weather+radio"},{text:"Solar power charger", k:"solar+power+charger"},{text:"Emergency preparedness kit", k:"emergency+preparedness+kit"}],
-  politics:   [{text:"Emergency preparedness kit", k:"emergency+preparedness+kit"},{text:"First aid kit", k:"first+aid+kit"},{text:"Portable weather radio", k:"portable+weather+radio"}],
-  health:     [{text:"First aid kit", k:"first+aid+kit"},{text:"Blood pressure monitor", k:"blood+pressure+monitor"},{text:"Pulse oximeter", k:"pulse+oximeter"}],
-  technology: [{text:"Home electronics", k:"home+electronics"},{text:"Smart home devices", k:"smart+home+devices"},{text:"Portable charger", k:"portable+charger"}],
-  economy:    [{text:"Emergency preparedness kit", k:"emergency+preparedness+kit"},{text:"Portable power bank", k:"portable+power+bank"},{text:"Emergency weather radio", k:"emergency+weather+radio"}],
-  default:    [{text:"Emergency preparedness kit", k:"emergency+preparedness+kit"},{text:"First aid kit", k:"first+aid+kit"},{text:"Emergency weather radio", k:"emergency+weather+radio"}]
-};
-
-function detectCategory(headlines) {
-  const counts = {};
-  headlines.forEach(h => {
-    const chars = [...h];
-    for (let i = 0; i < Math.min(3, chars.length); i++) {
-      const ch = chars[i];
-      const twoChar = chars[i] + (chars[i+1] || "");
-      const cat = emojiMap[twoChar] || emojiMap[ch];
-      if (cat) {
-        counts[cat] = (counts[cat] || 0) + 1;
-        break;
-      }
+/* ── Check if a story image exists — tries webp, jpg, png ── */
+async function resolveStoryImage(storyId) {
+  const extensions = ["webp", "jpg", "png"];
+  for (const ext of extensions) {
+    const url = `/images/news/${storyId}.${ext}`;
+    try {
+      const res = await fetch(url, { method: "HEAD" });
+      if (res.ok) return url;
+    } catch (e) {
+      // network error — treat as not found
     }
-  });
-  if (Object.keys(counts).length === 0) return "default";
-  return Object.entries(counts).sort((a,b) => b[1]-a[1])[0][0];
-}
-
-function buildSidebars(headlines) {
-  const cat = detectCategory(headlines);
-  const tag = "nospinmedia-20";
-  const books = bookLinks[cat] || bookLinks.default;
-  const gear  = gearLinks[cat] || gearLinks.default;
-  const makeLinks = (items) => items.map(item =>
-    `<a href="https://www.amazon.com/s?k=${item.k}&tag=${tag}" target="_blank" rel="noopener" style="display:block;margin-bottom:10px;font-weight:bold;color:#0066cc;text-decoration:none;font-size:.9rem;">${item.text} →</a>`
-  ).join("");
-  document.getElementById("left-ad").innerHTML = `
-    <div class="affiliate-box">
-      <h4>📚 Recommended Reading</h4>
-      ${makeLinks(books)}
-      <p style="font-size:.7rem;color:#999;margin-top:8px;">As an Amazon Associate I earn from qualifying purchases.</p>
-    </div>`;
-  document.getElementById("right-ad").innerHTML = `
-    <div class="affiliate-box">
-      <h4>🛒 Related Items</h4>
-      ${makeLinks(gear)}
-      <p style="font-size:.7rem;color:#999;margin-top:8px;">As an Amazon Associate I earn from qualifying purchases.</p>
-    </div>`;
+  }
+  return null;
 }
 
 function convertRedditMarkdown(text) {
@@ -463,8 +414,8 @@ async function loadStories() {
   });
   const stories = await res.json();
 
-  // const top3 = stories.slice(0,3).map(s => s.headline || "");
-  // buildSidebars(top3);
+  /* ── Resolve thumbnails for all stories in parallel ── */
+  const thumbUrls = await Promise.all(stories.map(s => resolveStoryImage(s.url)));
 
   const container = document.getElementById("news-container");
   container.innerHTML = "";
@@ -479,30 +430,45 @@ async function loadStories() {
       day: "numeric"
     });
 
+    const thumbUrl = thumbUrls[index];
+
+    const thumbHTML = thumbUrl ? `
+      <div class="card-thumb">
+        <a href="story.html?story=${s.url}">
+          <img src="${thumbUrl}" alt="Story photo" loading="lazy">
+        </a>
+      </div>
+    ` : "";
+
     const card = document.createElement("div");
     card.className = "story-card";
     card.onclick = (e) => {
-      if (e.target.closest(".story-link")) return;
+      if (e.target.closest(".story-link") || e.target.closest(".card-thumb")) return;
       window.location = `story.html?story=${s.url}`;
     };
 
     const safeHeadline = (s.headline || "").replace(/'/g, "\\'").replace(/\n/g, " ").replace(/\r/g, "");
 
     card.innerHTML = `
-      <h3>
-        <a href="story.html?story=${s.url}" class="headline-link">${s.headline}</a>
-      </h3>
-      <div class="story-date">${date}</div>
-      <div class="story-summary">${firstParagraph}</div>
-      <div class="card-footer">
-       <a class="story-link" href="story.html?story=${s.url}">Read full story →</a>
-        <a class="story-link" onclick="event.stopPropagation(); shareStory('${s.url}', '${safeHeadline}', this)" style="cursor:pointer;">🔗 Share this story</a>
+      <div class="card-inner">
+        <div class="card-text">
+          <h3>
+            <a href="story.html?story=${s.url}" class="headline-link">${s.headline}</a>
+          </h3>
+          <div class="story-date">${date}</div>
+          <div class="story-summary">${firstParagraph}</div>
+          <div class="card-footer">
+            <a class="story-link" href="story.html?story=${s.url}">Read full story →</a>
+            <a class="story-link" onclick="event.stopPropagation(); shareStory('${s.url}', '${safeHeadline}', this)" style="cursor:pointer;">🔗 Share this story</a>
+          </div>
+        </div>
+        ${thumbHTML}
       </div>
     `;
 
     container.appendChild(card);
 
-    /* Mobile: inject reading card after story 3 */
+    /* Mobile: inject affiliate card after story 3 */
     if (window.innerWidth <= 900 && index === 2 && window.mobileBookHTML) {
       const insert = document.createElement("div");
       insert.innerHTML = window.mobileBookHTML;
