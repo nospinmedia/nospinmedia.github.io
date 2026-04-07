@@ -1,0 +1,20 @@
+{
+  "keywords": [
+    {
+      "match": ["WHO", "World Health", "health campaign"],
+      "image": "who-hq.webp"
+    },
+    {
+      "match": ["NASA", "Artemis", "space", "moon mission"],
+      "image": "nasa-rocket.webp"
+    },
+    {
+      "match": ["tariff", "trade", "imports", "exports"],
+      "image": "cargo-containers.webp"
+    },
+    {
+      "match": ["oil", "refinery", "petrochemical", "energy"],
+      "image": "refinery.webp"
+    }
+  ]
+}
