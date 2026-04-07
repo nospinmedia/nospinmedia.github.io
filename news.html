@@ -427,7 +427,7 @@ function loadAffiliateTiles() {
   `;
 }
 
-/* ── Check if a story image exists — tries webp, jpg, png ── */
+/* ── Step 1: story-specific image ── */
 async function resolveStoryImage(storyId) {
   const extensions = ["webp", "jpg", "png"];
   for (const ext of extensions) {
@@ -435,10 +435,36 @@ async function resolveStoryImage(storyId) {
     try {
       const res = await fetch(url, { method: "HEAD" });
       if (res.ok) return url;
-    } catch (e) {
-      // treat as not found
-    }
+    } catch (e) {}
   }
+  return null;
+}
+
+/* ── Step 2+3: keyword fallback image ── */
+let _imageRulesCache = null;
+async function resolveFallbackImage(headline) {
+  try {
+    if (!_imageRulesCache) {
+      const res = await fetch("/images/news/image-rules.json");
+      if (!res.ok) return null;
+      _imageRulesCache = await res.json();
+    }
+    const h = (headline || "").toLowerCase();
+    for (const rule of (_imageRulesCache.keywords || [])) {
+      if (rule.match.some(kw => h.includes(kw.toLowerCase()))) {
+        return `/images/news/${rule.image}`;
+      }
+    }
+  } catch (e) {}
+  return null;
+}
+
+/* ── Full resolution: story → fallback → null ── */
+async function getCardImage(storyId, headline) {
+  const storyImg = await resolveStoryImage(storyId);
+  if (storyImg) return storyImg;
+  const fallbackImg = await resolveFallbackImage(headline);
+  if (fallbackImg) return fallbackImg;
   return null;
 }
 
@@ -563,7 +589,7 @@ async function displayStories(stories, database) {
   }
 
   /* ── Resolve all thumbnails in parallel before rendering ── */
-  const thumbUrls = await Promise.all(stories.map(s => resolveStoryImage(s.url)));
+  const thumbUrls = await Promise.all(stories.map(s => getCardImage(s.url, s.headline)));
 
   stories.forEach((s, index) => {
     const cleanText      = convertRedditMarkdown(s.summary || "");
