@@ -390,14 +390,14 @@ let _imageRulesCache = null;
 async function resolveFallbackImage(headline) {
   try {
     if (!_imageRulesCache) {
-      const res = await fetch("/images/image-rules.json");
+      const res = await fetch("/images/news/image-rules.json");
       if (!res.ok) return null;
       _imageRulesCache = await res.json();
     }
     const h = (headline || "").toLowerCase();
     for (const rule of (_imageRulesCache.keywords || [])) {
       if (rule.match.some(kw => h.includes(kw.toLowerCase()))) {
-        return `/images/${rule.image}`;
+        return `/images/news/${rule.image}`;
       }
     }
   } catch (e) {}
