@@ -191,6 +191,45 @@ body {
   cursor: pointer;
 }
 
+/* ── Card inner layout: text left, thumbnail right ── */
+.card-inner {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.card-text {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Thumbnail ── */
+.card-thumb {
+  flex-shrink: 0;
+  width: 200px;
+}
+
+.card-thumb a {
+  display: block;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card-thumb a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px rgba(0,0,0,.22);
+}
+
+.card-thumb img {
+  width: 200px;
+  height: 134px;
+  object-fit: cover;
+  display: block;
+  border-radius: 6px;
+}
+
 .story-card h3 {
   margin: 0 0 8px 0;
   font-size: 1.5rem;
@@ -299,6 +338,20 @@ footer {
   .main {
     max-width: 100%;
   }
+
+  /* Stack thumbnail below text on mobile */
+  .card-inner {
+    flex-direction: column;
+  }
+
+  .card-thumb {
+    width: 100%;
+  }
+
+  .card-thumb img {
+    width: 100%;
+    height: 200px;
+  }
 }
 </style>
 
@@ -331,7 +384,6 @@ function shuffle(arr) {
 }
 
 function loadAffiliateTiles() {
-  /* Desktop left: 3 random books */
   const bookContainer = document.getElementById("book-tiles");
   if (bookContainer) {
     shuffle(bookSubjects).slice(0, 3).forEach(book => {
@@ -345,7 +397,6 @@ function loadAffiliateTiles() {
     });
   }
 
-  /* Desktop right: 3 random gear */
   const gearContainer = document.getElementById("gear-tiles");
   if (gearContainer) {
     shuffle(gearSubjects).slice(0, 3).forEach(item => {
@@ -359,7 +410,6 @@ function loadAffiliateTiles() {
     });
   }
 
-  /* Mobile: 1 random from either pool, injected after story 3 */
   const allCards = shuffle([...bookSubjects, ...gearSubjects]);
   const mobileCard = allCards[0];
   const isGear = gearSubjects.includes(mobileCard);
@@ -377,7 +427,22 @@ function loadAffiliateTiles() {
   `;
 }
 
-/* ── Archive logic (unchanged from original) ── */
+/* ── Check if a story image exists — tries webp, jpg, png ── */
+async function resolveStoryImage(storyId) {
+  const extensions = ["webp", "jpg", "png"];
+  for (const ext of extensions) {
+    const url = `/images/news/${storyId}.${ext}`;
+    try {
+      const res = await fetch(url, { method: "HEAD" });
+      if (res.ok) return url;
+    } catch (e) {
+      // treat as not found
+    }
+  }
+  return null;
+}
+
+/* ── Archive logic ── */
 function convertRedditMarkdown(text) {
   if (!text) return "";
   text = text.replace(/\\n\\n/g, "\n\n");
@@ -486,7 +551,7 @@ async function searchArchive() {
   }
 }
 
-function displayStories(stories, database) {
+async function displayStories(stories, database) {
   const container = document.getElementById("news-container");
   const storyPage = getStoryPage(database);
 
@@ -497,6 +562,9 @@ function displayStories(stories, database) {
     return;
   }
 
+  /* ── Resolve all thumbnails in parallel before rendering ── */
+  const thumbUrls = await Promise.all(stories.map(s => resolveStoryImage(s.url)));
+
   stories.forEach((s, index) => {
     const cleanText      = convertRedditMarkdown(s.summary || "");
     const firstParagraph = cleanText.split("\n\n")[0];
@@ -505,24 +573,39 @@ function displayStories(stories, database) {
       ? new Date(s.posted_at).toLocaleDateString("en-US", { year:"numeric", month:"long", day:"numeric" })
       : "";
 
+    const thumbUrl  = thumbUrls[index];
+    const thumbHTML = thumbUrl ? `
+      <div class="card-thumb">
+        <a href="${storyPage}?story=${encodeURIComponent(s.url)}">
+          <img src="${thumbUrl}" alt="Story photo" loading="lazy">
+        </a>
+      </div>
+    ` : "";
+
     const card = document.createElement("div");
     card.className = "story-card";
     card.onclick = (e) => {
-      if (e.target.closest(".share-btn")) return;
-      if (e.target.closest(".story-link")) return;
+      if (e.target.closest(".share-btn"))    return;
+      if (e.target.closest(".story-link"))   return;
       if (e.target.closest(".headline-link")) return;
+      if (e.target.closest(".card-thumb"))   return;
       window.location = `${storyPage}?story=${encodeURIComponent(s.url)}`;
     };
 
     card.innerHTML = `
-      <h3>
-        <a href="${storyPage}?story=${encodeURIComponent(s.url)}" class="headline-link">${safeHeadline}</a>
-      </h3>
-      <div class="story-date">${date}</div>
-      <div class="story-summary">${firstParagraph}</div>
-      <div class="card-footer">
-        <a class="story-link" href="${storyPage}?story=${encodeURIComponent(s.url)}">Read full story →</a>
-        <a class="story-link share-btn" style="cursor:pointer;">🔗 Share this story</a>
+      <div class="card-inner">
+        <div class="card-text">
+          <h3>
+            <a href="${storyPage}?story=${encodeURIComponent(s.url)}" class="headline-link">${safeHeadline}</a>
+          </h3>
+          <div class="story-date">${date}</div>
+          <div class="story-summary">${firstParagraph}</div>
+          <div class="card-footer">
+            <a class="story-link" href="${storyPage}?story=${encodeURIComponent(s.url)}">Read full story →</a>
+            <a class="story-link share-btn" style="cursor:pointer;">🔗 Share this story</a>
+          </div>
+        </div>
+        ${thumbHTML}
       </div>
     `;
 
@@ -541,7 +624,7 @@ function displayStories(stories, database) {
 
     container.appendChild(card);
 
-    /* Mobile: inject after story 3 */
+    /* Mobile: inject affiliate card after story 3 */
     if (window.innerWidth <= 900 && index === 2 && window.mobileAffiliateHTML) {
       const insert = document.createElement("div");
       insert.innerHTML = window.mobileAffiliateHTML;
