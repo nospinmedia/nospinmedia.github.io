@@ -169,6 +169,32 @@ body {
   margin-bottom: 20px;
 }
 
+/* ── Story image block ── */
+.story-image-wrap {
+  margin: 0 0 24px 0;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.story-image-wrap img {
+  width: 100%;
+  display: block;
+  max-height: 520px;
+  object-fit: cover;
+}
+
+.story-image-caption {
+  background: #f8f8f8;
+  border-top: 1px solid #e0e0e0;
+  padding: 10px 14px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: .82rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* ── Story content ── */
 .story-content {
   line-height: 1.7;
   font-size: 1.1rem;
@@ -227,6 +253,10 @@ footer {
 
   .main {
     max-width: 100%;
+  }
+
+  .story-image-wrap img {
+    max-height: 260px;
   }
 
   .mobile-affiliate-insert {
@@ -333,12 +363,9 @@ function loadAffiliateTiles() {
 }
 
 function shareStory() {
-
   const params = new URLSearchParams(window.location.search);
   const storyId = params.get("story");
-
   const shareUrl = `${window.location.origin}/story.html?story=${storyId}`;
-
   navigator.clipboard.writeText(shareUrl).then(() => {
     document.getElementById("share-btn").innerHTML = "✅ Copied!";
     setTimeout(() =>
@@ -355,6 +382,34 @@ function convertRedditMarkdown(text) {
   text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
   text = text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g, "<em>$1</em>");
   return text;
+}
+
+/* ── Check if a story image exists at /images/news/{storyId}.jpg or .png ── */
+async function resolveStoryImage(storyId) {
+  const extensions = ["jpg", "png"];
+  for (const ext of extensions) {
+    const url = `/images/news/${storyId}.${ext}`;
+    try {
+      const res = await fetch(url, { method: "HEAD" });
+      if (res.ok) return url;
+    } catch (e) {
+      // network error — treat as not found
+    }
+  }
+  return null; // no image for this story
+}
+
+/* ── Build the image block HTML ── */
+function buildImageBlockHTML(imgUrl, caption) {
+  const captionHTML = caption
+    ? `<div class="story-image-caption">${caption}</div>`
+    : "";
+  return `
+    <div class="story-image-wrap">
+      <img src="${imgUrl}" alt="Story photo">
+      ${captionHTML}
+    </div>
+  `;
 }
 
 async function loadStory() {
@@ -378,13 +433,14 @@ async function loadStory() {
   }
 
   const s = data[0];
-  // Update Open Graph metadata so social previews work
-document.querySelector('meta[property="og:title"]').setAttribute("content", s.headline.replace("\n"," "));
-document.querySelector('meta[property="og:description"]').setAttribute("content", s.summary.substring(0,180));
-document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
 
-document.querySelector('meta[name="twitter:title"]').setAttribute("content", s.headline.replace("\n"," "));
-document.querySelector('meta[name="twitter:description"]').setAttribute("content", s.summary.substring(0,180));
+  // Update Open Graph metadata so social previews work
+  document.querySelector('meta[property="og:title"]').setAttribute("content", s.headline.replace("\n"," "));
+  document.querySelector('meta[property="og:description"]').setAttribute("content", s.summary.substring(0,180));
+  document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
+  document.querySelector('meta[name="twitter:title"]').setAttribute("content", s.headline.replace("\n"," "));
+  document.querySelector('meta[name="twitter:description"]').setAttribute("content", s.summary.substring(0,180));
+
   let cleanText  = convertRedditMarkdown(s.summary);
   let paragraphs = cleanText.split("\n\n").map(p => `<p>${p}</p>`).join("");
 
@@ -404,6 +460,21 @@ document.querySelector('meta[name="twitter:description"]').setAttribute("content
     }
   }
 
+  // ── Check for a story image before rendering ──
+  const imgUrl = await resolveStoryImage(storyId);
+
+  // Build image block only if image file exists
+  const imageBlockHTML = imgUrl
+    ? buildImageBlockHTML(imgUrl, s.image_caption || "")
+    : "";
+
+  // Swap og:image to story-specific image if one was found
+  if (imgUrl) {
+    const absImgUrl = `${window.location.origin}${imgUrl}`;
+    document.querySelector('meta[property="og:image"]').setAttribute("content", absImgUrl);
+    document.querySelector('meta[name="twitter:image"]').setAttribute("content", absImgUrl);
+  }
+
   document.getElementById("story-container").innerHTML = `
     <div class="story-card">
       <div class="back-link">
@@ -411,6 +482,7 @@ document.querySelector('meta[name="twitter:description"]').setAttribute("content
       </div>
       <h1>${s.headline}</h1>
       <div class="story-date">${date}</div>
+      ${imageBlockHTML}
       <div class="story-content">${paragraphs}</div>
       <div class="story-links">
         ${redditLink ? `<a href="${redditLink}" target="_blank" rel="noopener">Join the discussion on Reddit</a>` : ""}
