@@ -13,20 +13,20 @@
       "image": "cargo-containers.webp"
     },
     {
-  "match": ["refinery", "petrochemical", "refining"],
-  "image": "refinery.webp"
-},
+      "match": ["court", "judge", "supreme court", "lawsuit", "trial", "guilty", "arrested", "indict", "charged", "ruling", "legal"],
+      "image": "court-gavel.webp"
+    },
+    {
+      "match": ["missile", "missiles", "rocket", "rockets", "ballistic", "missile strike", "missile attack"],
+      "image": "missile-launch.webp"
+    },
+    {
+      "match": ["refinery", "petrochemical", "refining"],
+      "image": "refinery.webp"
+    },
     {
       "match": ["oil", "crude", "barrel", "OPEC", "drilling", "oilfield"],
       "image": "oil-pumpjack.webp"
-    },
-    {
-  "match": ["court", "judge", "supreme court", "lawsuit", "trial", "guilty", "arrested", "indict", "charged", "ruling"],
-  "image": "court-gavel.webp"
-},
-    {
-  "match": ["missile", "missiles", "rocket", "ballistic", "missile strike", "missile attack"],
-  "image": "missile-launch.webp"
-}
+    }
   ]
 }
