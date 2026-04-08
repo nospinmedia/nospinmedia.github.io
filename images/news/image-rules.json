@@ -23,6 +23,10 @@
     {
   "match": ["court", "judge", "supreme court", "lawsuit", "trial", "guilty", "arrested", "indict", "charged", "ruling"],
   "image": "court-gavel.webp"
+},
+    {
+  "match": ["missile", "missiles", "rocket", "ballistic", "missile strike", "missile attack"],
+  "image": "missile-launch.webp"
 }
   ]
 }
