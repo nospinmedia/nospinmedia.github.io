@@ -16,10 +16,22 @@
       "match": ["court", "judge", "supreme court", "lawsuit", "trial", "guilty", "arrested", "indict", "charged", "ruling", "legal"],
       "image": "court-gavel.webp"
     },
+
+    {
+      "match": ["drone", "drones", "drone strike", "drone attack", "uav", "uavs"],
+      "image": "military-drone.webp"
+    },
+
     {
       "match": ["missile", "missiles", "rocket", "rockets", "ballistic", "missile strike", "missile attack"],
       "image": "missile-launch.webp"
     },
+
+    {
+      "match": ["fighter jet", "fighter jets", "warplane", "warplanes", "bomber", "bombers", "airstrike", "air strike", "airstrikes", "military aircraft", "jet fighters"],
+      "image": "fighter-jet.webp"
+    },
+
     {
       "match": ["refinery", "petrochemical", "refining"],
       "image": "refinery.webp"
