@@ -19,6 +19,10 @@
     {
       "match": ["oil", "crude", "barrel", "OPEC", "drilling", "oilfield"],
       "image": "oil-pumpjack.webp"
-    }
+    },
+    {
+  "match": ["court", "judge", "supreme court", "lawsuit", "trial", "guilty", "arrested", "indict", "charged", "ruling"],
+  "image": "court-gavel.webp"
+}
   ]
 }
