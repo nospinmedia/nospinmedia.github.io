@@ -13,12 +13,12 @@
       "image": "cargo-containers.webp"
     },
     {
-      "match": ["oil", "crude", "barrel", "OPEC", "drilling", "oilfield"],
-      "image": "oil-pumpjack.webp"
-    },
-    {
   "match": ["refinery", "petrochemical", "refining"],
   "image": "refinery.webp"
-}
+},
+    {
+      "match": ["oil", "crude", "barrel", "OPEC", "drilling", "oilfield"],
+      "image": "oil-pumpjack.webp"
+    }
   ]
 }
