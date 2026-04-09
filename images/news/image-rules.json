@@ -27,9 +27,10 @@
     },
 
     {
-  "match": ["heatwave", "extreme heat", "temperature", "humidity", "wet-bulb", "record heat"],
-  "image": "heatwave-warning-highway.webp"
+      "match": ["heatwave", "extreme heat", "temperature", "humidity", "wet-bulb", "record heat"],
+      "image": "heatwave-warning-highway.webp"
     },
+
     {
       "match": ["WHO", "World Health", "health campaign"],
       "image": "who-hq.webp"
@@ -43,6 +44,11 @@
     {
       "match": ["refinery", "petrochemical", "refining"],
       "image": "refinery.webp"
+    },
+
+    {
+      "match": ["Strait of Hormuz", "Hormuz", "oil tanker", "tanker traffic", "Persian Gulf shipping"],
+      "image": "strait-of-hormuz-satellite.webp"
     },
 
     {
