@@ -1,29 +1,13 @@
 {
   "keywords": [
-    {
-      "match": ["WHO", "World Health", "health campaign"],
-      "image": "who-hq.webp"
-    },
-    {
-      "match": ["NASA", "Artemis", "space", "moon mission"],
-      "image": "nasa-rocket.webp"
-    },
-    {
-      "match": ["tariff", "trade", "imports", "exports"],
-      "image": "cargo-containers.webp"
-    },
-    {
-      "match": ["court", "judge", "supreme court", "lawsuit", "trial", "guilty", "arrested", "indict", "charged", "ruling", "legal"],
-      "image": "court-gavel.webp"
-    },
 
     {
-      "match": ["drone", "drones", "drone strike", "drone attack", "uav", "uavs"],
+      "match": ["drone strike", "drone attack", "drone", "drones", "uav", "uavs"],
       "image": "military-drone.webp"
     },
 
     {
-      "match": ["missile", "missiles", "rocket", "rockets", "ballistic", "missile strike", "missile attack"],
+      "match": ["missile strike", "missile attack", "ballistic", "missile", "missiles"],
       "image": "missile-launch.webp"
     },
 
@@ -33,12 +17,39 @@
     },
 
     {
+      "match": ["NASA", "Artemis", "space", "moon mission"],
+      "image": "nasa-rocket.webp"
+    },
+
+    {
+      "match": ["ICE", "immigration", "detention", "deportation", "border enforcement", "DHS"],
+      "image": "ice-enforcement.webp"
+    },
+
+    {
+      "match": ["WHO", "World Health", "health campaign"],
+      "image": "who-hq.webp"
+    },
+
+    {
+      "match": ["court", "judge", "supreme court", "lawsuit", "trial", "guilty", "arrested", "indict", "charged", "ruling", "legal"],
+      "image": "court-gavel.webp"
+    },
+
+    {
       "match": ["refinery", "petrochemical", "refining"],
       "image": "refinery.webp"
     },
+
     {
       "match": ["oil", "crude", "barrel", "OPEC", "drilling", "oilfield"],
       "image": "oil-pumpjack.webp"
+    },
+
+    {
+      "match": ["tariff", "trade", "imports", "exports"],
+      "image": "cargo-containers.webp"
     }
+
   ]
 }
