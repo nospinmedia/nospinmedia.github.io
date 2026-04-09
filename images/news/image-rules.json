@@ -28,7 +28,7 @@
 
     {
   "match": ["heatwave", "extreme heat", "temperature", "humidity", "wet-bulb", "record heat"],
-  "image": "heatwave.webp"
+  "image": "heatwave-warning-highway.webp"
     },
     {
       "match": ["WHO", "World Health", "health campaign"],
