@@ -199,6 +199,10 @@ body {
   color: #0066cc;
 }
 
+.back-link a:hover {
+  text-decoration: underline;
+}
+
 footer {
   text-align: center;
   padding: 1rem;
@@ -253,69 +257,142 @@ footer {
 
 <script>
 
-/* ── Book tile pool ── */
-const bookSubjects = [
-  { img: "/affiliate/books/history.png",  link: "https://www.amazon.com/s?k=history+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/science.png",  link: "https://www.amazon.com/s?k=science+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/space.png",    link: "https://www.amazon.com/s?k=space+exploration+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/politics.png", link: "https://www.amazon.com/s?k=political+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/military.png", link: "https://www.amazon.com/s?k=military+history+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/scifi.png",    link: "https://www.amazon.com/s?k=science+fiction+books&tag=nospinmedia-20" }
-];
+/* ══════════════════════════════════════════
+   SMART BACK BUTTON
+   - Came from new-england.html → go back there
+   - Came from news.html (archive) → go back there
+   - Direct link / external → default new-england.html
+   ══════════════════════════════════════════ */
 
-/* ── Gear tile pool ── */
-const gearSubjects = [
-  { img: "/affiliate/gear/nsm-gear-field-optics.png",    link: "https://www.amazon.com/s?k=monocular+binoculars+compact+telescope&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-solar-power.png",     link: "https://www.amazon.com/s?k=solar+power+bank+portable+solar+charger&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-emergency-radio.png", link: "https://www.amazon.com/s?k=emergency+weather+radio+hand+crank&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-science-tools.png",   link: "https://www.amazon.com/s?k=pocket+microscope+geiger+counter+science+tools&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-weather-station.png", link: "https://www.amazon.com/s?k=home+weather+station+barometer+wireless&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-auto-tools.png",      link: "https://www.amazon.com/s?k=automotive+diagnostic+tools+multimeter+garage+tools&tag=nospinmedia-20" }
-];
-
-function shuffle(arr) {
-  return [...arr].sort(() => 0.5 - Math.random());
+function resolveBackLink() {
+  const ref = document.referrer;
+  if (ref) {
+    try {
+      const refUrl = new URL(ref);
+      if (refUrl.hostname === window.location.hostname) {
+        const refPage = refUrl.pathname.split("/").pop();
+        if (refPage === "new-england.html") {
+          return { href: "new-england.html", label: "← Back to New England News" };
+        }
+        if (refPage === "news.html") {
+          return { href: "news.html", label: "← Back to Archive" };
+        }
+        // Any other internal page
+        return { href: ref, label: "← Back" };
+      }
+    } catch (e) {}
+  }
+  // No referrer or external = direct/shared link, default to NE feed
+  return { href: "new-england.html", label: "← Back to New England News" };
 }
 
-function loadAffiliateTiles() {
-  /* Desktop left: 3 random books */
+/* ══════════════════════════════════════════
+   AFFILIATE SYSTEM — JSON-driven, NE-aware
+   Items whose title starts with "NE" are
+   treated as must-show on this page only.
+   ══════════════════════════════════════════ */
+
+let _affiliateData = null;
+
+async function loadAffiliateData() {
+  if (_affiliateData) return _affiliateData;
+  try {
+    const res = await fetch('/affiliate/affiliate.json');
+    if (!res.ok) throw new Error('affiliate.json not found');
+    _affiliateData = await res.json();
+  } catch (e) {
+    console.warn('Affiliate data failed to load:', e);
+    _affiliateData = {};
+  }
+  return _affiliateData;
+}
+
+function getRandomLink(item) {
+  if (!item.links || item.links.length === 0) return '#';
+  return item.links[Math.floor(Math.random() * item.links.length)];
+}
+
+function getAllItems(data) {
+  return Object.values(data).flatMap(cat => cat.items || []);
+}
+
+function isNEItem(item) {
+  return (item.title || "").startsWith("NE");
+}
+
+/* NE-aware pick: NE-titled items always come first, then must_show, then random */
+function pickItemsNE(items, count) {
+  const neItems  = items.filter(i => isNEItem(i));
+  const mustShow = items.filter(i => !isNEItem(i) && i.must_show);
+  const optional = [...items.filter(i => !isNEItem(i) && !i.must_show)]
+                     .sort(() => 0.5 - Math.random());
+  const pool = [...neItems, ...mustShow, ...optional];
+  const seen = new Set();
+  const result = [];
+  for (const item of pool) {
+    if (!seen.has(item.title) && result.length < count) {
+      seen.add(item.title);
+      result.push(item);
+    }
+  }
+  return result;
+}
+
+/* Mobile: prefer NE items first, then must_show, then anything */
+function pickMobileItemNE(items) {
+  const neItems  = items.filter(i => isNEItem(i));
+  const mustShow = items.filter(i => !isNEItem(i) && i.must_show);
+  const pool = neItems.length > 0 ? neItems
+             : mustShow.length > 0 ? mustShow
+             : items;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function renderTileHTML(item) {
+  const link   = getRandomLink(item);
+  const imgSrc = `/affiliate/${item.image}`;
+  return `
+    <a href="${link}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost">
+      <img src="${imgSrc}" alt="${item.title}" loading="lazy">
+    </a>
+  `;
+}
+
+async function loadAffiliateTiles() {
+  const data     = await loadAffiliateData();
+  const allItems = getAllItems(data);
+
+  /* Left panel: books (NE-aware, 3 slots) */
+  const bookItems   = data.books?.items || [];
+  const bookDesktop = pickItemsNE(bookItems, 3);
   const bookContainer = document.getElementById("book-tiles");
   if (bookContainer) {
-    shuffle(bookSubjects).slice(0, 3).forEach(book => {
-      const a = document.createElement("a");
-      a.href = book.link;
-      a.target = "_blank";
-      a.rel = "noopener nofollow sponsored";
-      a.title = "Browse on Amazon — supports NSM at no extra cost";
-      a.innerHTML = `<img src="${book.img}" alt="Curated reading selection">`;
-      bookContainer.appendChild(a);
-    });
+    bookContainer.innerHTML = bookDesktop.map(renderTileHTML).join("");
   }
 
-  /* Desktop right: 3 random gear */
+  /* Right panel: gear (NE-aware, 3 slots) */
+  const gearItems   = data.gear?.items || [];
+  const gearDesktop = pickItemsNE(gearItems, 3);
   const gearContainer = document.getElementById("gear-tiles");
   if (gearContainer) {
-    shuffle(gearSubjects).slice(0, 3).forEach(item => {
-      const a = document.createElement("a");
-      a.href = item.link;
-      a.target = "_blank";
-      a.rel = "noopener nofollow sponsored";
-      a.title = "Browse on Amazon — supports NSM at no extra cost";
-      a.innerHTML = `<img src="${item.img}" alt="Curated gear selection">`;
-      gearContainer.appendChild(a);
-    });
+    gearContainer.innerHTML = gearDesktop.map(renderTileHTML).join("");
   }
 
-  /* Mobile: 1 random from either pool, injected after story */
-  const allCards = shuffle([...bookSubjects, ...gearSubjects]);
-  const mobileCard = allCards[0];
-  const isGear = gearSubjects.includes(mobileCard);
+  /* Mobile: one item, NE-first priority across ALL categories */
+  if (allItems.length === 0) return;
+  const mobileItem   = pickMobileItemNE(allItems);
+  const mobileLink   = getRandomLink(mobileItem);
+  const mobileImgSrc = `/affiliate/${mobileItem.image}`;
+  const gearTitles   = new Set((data.gear?.items || []).map(i => i.title));
+  const isGear       = gearTitles.has(mobileItem.title);
+
   window.mobileAffiliateHTML = `
     <div class="mobile-affiliate-insert">
       <div class="reading-label">🧭 ${isGear ? "NSM Field Gear" : "NSM Reading List"}</div>
-      <a href="${mobileCard.link}" target="_blank" rel="noopener nofollow sponsored"
+      <a href="${mobileLink}" target="_blank" rel="noopener nofollow sponsored"
          title="Browse on Amazon — supports NSM at no extra cost">
-        <img src="${mobileCard.img}" alt="${isGear ? "Curated gear" : "Curated reading"}">
+        <img src="${mobileImgSrc}" alt="${mobileItem.title}" loading="lazy">
       </a>
       <div class="reading-disclosure">
         Selecting ${isGear ? "an item" : "a title"} supports independent journalism at no extra cost to you.
@@ -323,6 +400,10 @@ function loadAffiliateTiles() {
     </div>
   `;
 }
+
+/* ══════════════════════════════════════════
+   STORY LOADER
+   ══════════════════════════════════════════ */
 
 function shareStory() {
   const shareUrl = window.location.href;
@@ -381,10 +462,13 @@ async function loadStory() {
     }
   }
 
+  /* ── Resolve back link ── */
+  const back = resolveBackLink();
+
   document.getElementById("story-container").innerHTML = `
     <div class="story-card">
       <div class="back-link">
-        <a href="new-england.html">← Back to New England News</a>
+        <a href="${back.href}">${back.label}</a>
       </div>
       <h1>${s.headline}</h1>
       <div class="story-date">${date}</div>
@@ -404,6 +488,10 @@ async function loadStory() {
     document.getElementById("story-container").appendChild(insert.firstElementChild);
   }
 }
+
+/* ══════════════════════════════════════════
+   INIT
+   ══════════════════════════════════════════ */
 
 document.addEventListener("DOMContentLoaded", function () {
   fetch("header.html")
