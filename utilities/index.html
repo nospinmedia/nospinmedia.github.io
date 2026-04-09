@@ -127,7 +127,7 @@
             font-style: italic;
         }
 
-        /* ── Center content: original layout untouched ── */
+        /* ── Center content ── */
         .center-content {
             flex: 1;
             min-width: 0;
@@ -250,10 +250,25 @@
             color: #666;
         }
 
-        /* ── Mobile ── */
+        /* ── Mobile affiliate insert (hidden on desktop) ── */
+        .mobile-affiliate-insert {
+            display: none;
+        }
+
+        /* ════════════════════════════════════════
+           MOBILE
+           Layout: title bar → utility → ads → sidebar → ads → footer
+           ════════════════════════════════════════ */
         @media (max-width: 900px) {
+
+            body {
+                background: #ebebeb;
+            }
+
             .outer {
                 flex-direction: column;
+                padding: 0;
+                gap: 0;
             }
 
             .left-ad,
@@ -261,8 +276,183 @@
                 display: none;
             }
 
+            .center-content {
+                width: 100%;
+            }
+
             .container {
                 flex-direction: column;
+                gap: 0;
+            }
+
+            /* ── Main utility block ── */
+            .main {
+                flex: none;
+                border-radius: 0;
+                box-shadow: none;
+                border-bottom: 1px solid #e8e8e8;
+                padding: 16px 16px 20px;
+            }
+
+            .main h1 {
+                font-size: 1rem;
+                font-weight: 800;
+                letter-spacing: .08em;
+                text-transform: uppercase;
+                color: #444;
+                margin: 0 0 4px 0;
+                padding-bottom: 10px;
+                border-bottom: 3px solid #0066cc;
+            }
+
+            .main > p {
+                font-size: .88rem;
+                color: #666;
+                line-height: 1.55;
+                margin: 12px 0 14px;
+            }
+
+            .main h2 {
+                font-size: .95rem;
+                font-weight: 700;
+                color: #333;
+                text-transform: uppercase;
+                letter-spacing: .05em;
+                margin: 0 0 10px 0;
+            }
+
+            /* ── Utility card ── */
+            .utility-item {
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,.10);
+                padding: 1.2rem;
+            }
+
+            .utility-item h2 {
+                font-size: 1.3rem;
+                letter-spacing: 0;
+                text-transform: none;
+                color: #0073e6;
+            }
+
+            .utility-item p {
+                font-size: .88rem;
+                color: #555;
+            }
+
+            .share-buttons {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .share-buttons button {
+                font-size: .82rem;
+                padding: 7px 12px;
+                flex: 1;
+            }
+
+            /* ── Mobile affiliate insert ── */
+            .mobile-affiliate-insert {
+                display: block;
+                background: #fff;
+                padding: 13px 16px 14px;
+                border-top: 1px solid #e8e8e8;
+                border-bottom: 1px solid #e8e8e8;
+            }
+
+            .mobile-affiliate-insert .affiliate-label {
+                font-size: .7rem;
+                font-weight: 800;
+                letter-spacing: .07em;
+                text-transform: uppercase;
+                color: #444;
+                border-bottom: 2px solid #0066cc;
+                padding-bottom: 6px;
+                margin-bottom: 10px;
+            }
+
+            .mobile-affiliate-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .mobile-affiliate-grid a {
+                display: block;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0,0,0,.10);
+                transition: transform .15s ease;
+            }
+
+            .mobile-affiliate-grid a:active {
+                transform: scale(0.98);
+            }
+
+            .mobile-affiliate-grid img {
+                width: 100%;
+                display: block;
+                border-radius: 8px;
+            }
+
+            .mobile-affiliate-insert .reading-disclosure {
+                margin-top: 8px;
+                font-size: .6rem;
+                color: #bbb;
+                font-style: italic;
+                line-height: 1.4;
+            }
+
+            /* ── Sidebar (feedback + support) ── */
+            .sidebar {
+                flex: none;
+                border-radius: 0;
+                box-shadow: none;
+                border-bottom: 1px solid #e8e8e8;
+                padding: 18px 16px 20px;
+                margin-top: 6px;
+                background: #fff;
+            }
+
+            .sidebar h2 {
+                font-size: .95rem;
+                font-weight: 700;
+                color: #333;
+                margin: 0 0 8px 0;
+                padding-bottom: 6px;
+                border-bottom: 1px solid #eee;
+            }
+
+            .sidebar p {
+                font-size: .88rem;
+                color: #555;
+                line-height: 1.5;
+                margin: 6px 0;
+            }
+
+            .sidebar a {
+                color: #0055bb;
+                font-weight: 700;
+            }
+
+            #feedbackForm input,
+            #feedbackForm textarea {
+                font-size: .88rem;
+            }
+
+            #feedbackForm button {
+                font-size: .9rem;
+                padding: 10px;
+            }
+
+            /* ── Footer ── */
+            footer {
+                font-size: .76rem;
+                padding: 1.4rem 1rem;
+                color: #999;
+                background: #fff;
+                border-top: 1px solid #ddd;
+                margin-top: 6px;
             }
         }
     </style>
@@ -273,7 +463,7 @@
 
     <div class="outer">
 
-        <!-- Left: reading column -->
+        <!-- Left: reading column (desktop only) -->
         <div class="left-ad" id="left-ad">
             <div class="reading-label">🧭 NSM Reading List</div>
             <div id="book-tiles"></div>
@@ -282,10 +472,11 @@
             </div>
         </div>
 
-        <!-- Center: original utilities content, untouched -->
+        <!-- Center content -->
         <div class="center-content">
             <div class="container">
 
+                <!-- Main utility block -->
                 <div class="main">
                     <h1>🛠️ No Spin Utilities</h1>
                     <p>
@@ -306,6 +497,12 @@
                     </div>
                 </div>
 
+                <!-- Mobile affiliate insert 1: after utilities, before sidebar -->
+                <div class="mobile-affiliate-insert" id="mobile-affiliate-1">
+                    <!-- populated by JS -->
+                </div>
+
+                <!-- Sidebar: support + feedback -->
                 <div class="sidebar">
                     <h2>Support Our Utilities 💙</h2>
                     <p>Like these tools? Help keep No Spin Utilities running:</p>
@@ -329,10 +526,15 @@
                     </form>
                 </div>
 
+                <!-- Mobile affiliate insert 2: after sidebar/feedback -->
+                <div class="mobile-affiliate-insert" id="mobile-affiliate-2">
+                    <!-- populated by JS -->
+                </div>
+
             </div>
         </div>
 
-        <!-- Right: gear column -->
+        <!-- Right: gear column (desktop only) -->
         <div class="right-ad" id="right-ad">
             <div class="reading-label">🧭 NSM Field Gear</div>
             <div id="gear-tiles"></div>
@@ -351,84 +553,130 @@
 
     <script>
 
-        /* ── Book tile pool ── */
-        const bookSubjects = [
-            { img: "/affiliate/books/history.png",  link: "https://www.amazon.com/s?k=history+books&tag=nospinmedia-20" },
-            { img: "/affiliate/books/science.png",  link: "https://www.amazon.com/s?k=science+books&tag=nospinmedia-20" },
-            { img: "/affiliate/books/space.png",    link: "https://www.amazon.com/s?k=space+exploration+books&tag=nospinmedia-20" },
-            { img: "/affiliate/books/politics.png", link: "https://www.amazon.com/s?k=political+books&tag=nospinmedia-20" },
-            { img: "/affiliate/books/military.png", link: "https://www.amazon.com/s?k=military+history+books&tag=nospinmedia-20" },
-            { img: "/affiliate/books/scifi.png",    link: "https://www.amazon.com/s?k=science+fiction+books&tag=nospinmedia-20" }
-        ];
+        /* ══════════════════════════════════════════
+           AFFILIATE SYSTEM — JSON-driven
+           No NE priority on this page
+           ══════════════════════════════════════════ */
 
-        /* ── Gear tile pool ── */
-        const gearSubjects = [
-            { img: "/affiliate/gear/nsm-gear-field-optics.png",    link: "https://www.amazon.com/s?k=monocular+binoculars+compact+telescope&tag=nospinmedia-20" },
-            { img: "/affiliate/gear/nsm-gear-solar-power.png",     link: "https://www.amazon.com/s?k=solar+power+bank+portable+solar+charger&tag=nospinmedia-20" },
-            { img: "/affiliate/gear/nsm-gear-emergency-radio.png", link: "https://www.amazon.com/s?k=emergency+weather+radio+hand+crank&tag=nospinmedia-20" },
-            { img: "/affiliate/gear/nsm-gear-science-tools.png",   link: "https://www.amazon.com/s?k=pocket+microscope+geiger+counter+science+tools&tag=nospinmedia-20" },
-            { img: "/affiliate/gear/nsm-gear-weather-station.png", link: "https://www.amazon.com/s?k=home+weather+station+barometer+wireless&tag=nospinmedia-20" },
-            { img: "/affiliate/gear/nsm-gear-auto-tools.png",      link: "https://www.amazon.com/s?k=automotive+diagnostic+tools+multimeter+garage+tools&tag=nospinmedia-20" }
-        ];
+        let _affiliateData = null;
 
-        function shuffle(arr) {
-            return [...arr].sort(() => 0.5 - Math.random());
+        async function loadAffiliateData() {
+            if (_affiliateData) return _affiliateData;
+            try {
+                const res = await fetch('/affiliate/affiliate.json');
+                if (!res.ok) throw new Error('affiliate.json not found');
+                _affiliateData = await res.json();
+            } catch (e) {
+                console.warn('Affiliate data failed to load:', e);
+                _affiliateData = {};
+            }
+            return _affiliateData;
         }
 
-        function loadAffiliateTiles() {
-            const bookContainer = document.getElementById("book-tiles");
-            if (bookContainer) {
-                shuffle(bookSubjects).slice(0, 3).forEach(book => {
-                    const a = document.createElement("a");
-                    a.href = book.link;
-                    a.target = "_blank";
-                    a.rel = "noopener nofollow sponsored";
-                    a.title = "Browse on Amazon — supports NSM at no extra cost";
-                    a.innerHTML = `<img src="${book.img}" alt="Curated reading selection">`;
-                    bookContainer.appendChild(a);
-                });
-            }
+        function getRandomLink(item) {
+            if (!item.links || item.links.length === 0) return '#';
+            return item.links[Math.floor(Math.random() * item.links.length)];
+        }
 
-            const gearContainer = document.getElementById("gear-tiles");
-            if (gearContainer) {
-                shuffle(gearSubjects).slice(0, 3).forEach(item => {
-                    const a = document.createElement("a");
-                    a.href = item.link;
-                    a.target = "_blank";
-                    a.rel = "noopener nofollow sponsored";
-                    a.title = "Browse on Amazon — supports NSM at no extra cost";
-                    a.innerHTML = `<img src="${item.img}" alt="Curated gear selection">`;
-                    gearContainer.appendChild(a);
-                });
-            }
-
-            /* Mobile: inject 1 random card after the utility list */
-            if (window.innerWidth <= 900) {
-                const allCards   = shuffle([...bookSubjects, ...gearSubjects]);
-                const mobileCard = allCards[0];
-                const isGear     = gearSubjects.includes(mobileCard);
-                const utilList   = document.getElementById("utility-list");
-
-                if (utilList) {
-                    const insert = document.createElement("div");
-                    insert.style.cssText = "background:#fff;padding:1rem 1.2rem;margin-top:1.2rem;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,0.08);";
-                    insert.innerHTML = `
-                        <div style="font-family:Arial,sans-serif;font-size:.75rem;font-weight:700;color:#333;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px 0;padding-bottom:8px;border-bottom:2px solid #0066cc;">
-                            🧭 ${isGear ? "NSM Field Gear" : "NSM Reading List"}
-                        </div>
-                        <a href="${mobileCard.link}" target="_blank" rel="noopener nofollow sponsored"
-                           title="Browse on Amazon — supports NSM at no extra cost">
-                            <img src="${mobileCard.img}" alt="${isGear ? "Curated gear" : "Curated reading"}"
-                                 style="width:100%;border-radius:6px;display:block;box-shadow:0 2px 8px rgba(0,0,0,.12);">
-                        </a>
-                        <div style="margin-top:8px;font-size:.65rem;color:#bbb;font-style:italic;font-family:Arial,sans-serif;">
-                            Selecting ${isGear ? "an item" : "a title"} supports independent journalism at no extra cost to you.
-                        </div>
-                    `;
-                    utilList.parentNode.insertBefore(insert, utilList.nextSibling);
+        function pickItems(items, count) {
+            const mustShow = items.filter(i => i.must_show);
+            const optional = [...items.filter(i => !i.must_show)].sort(() => 0.5 - Math.random());
+            const pool = [...mustShow, ...optional];
+            const seen = new Set();
+            const result = [];
+            for (const item of pool) {
+                if (!seen.has(item.title) && result.length < count) {
+                    seen.add(item.title);
+                    result.push(item);
                 }
             }
+            return result;
         }
+
+        function pickOneMobile(items) {
+            const mustShow = items.filter(i => i.must_show);
+            const pool = mustShow.length > 0 ? mustShow : items;
+            return pool[Math.floor(Math.random() * pool.length)];
+        }
+
+        function renderTileHTML(item) {
+            const link = getRandomLink(item);
+            const imgSrc = `/affiliate/${item.image}`;
+            return `
+                <a href="${link}" target="_blank" rel="noopener nofollow sponsored"
+                   title="Browse on Amazon — supports NSM at no extra cost">
+                    <img src="${imgSrc}" alt="${item.title}" loading="lazy">
+                </a>
+            `;
+        }
+
+        function build2ColInsertHTML(bookItem, gearItem) {
+            const bookHTML = bookItem ? `
+                <a href="${getRandomLink(bookItem)}" target="_blank" rel="noopener nofollow sponsored"
+                   title="Browse on Amazon — supports NSM at no extra cost">
+                    <img src="/affiliate/${bookItem.image}" alt="${bookItem.title}" loading="lazy">
+                </a>` : "";
+
+            const gearHTML = gearItem ? `
+                <a href="${getRandomLink(gearItem)}" target="_blank" rel="noopener nofollow sponsored"
+                   title="Browse on Amazon — supports NSM at no extra cost">
+                    <img src="/affiliate/${gearItem.image}" alt="${gearItem.title}" loading="lazy">
+                </a>` : "";
+
+            return `
+                <div class="affiliate-label">🧭 NSM Picks</div>
+                <div class="mobile-affiliate-grid">
+                    ${bookHTML}
+                    ${gearHTML}
+                </div>
+                <div class="reading-disclosure">
+                    Selecting an item supports independent journalism at no extra cost to you.
+                </div>
+            `;
+        }
+
+        async function loadAffiliateTiles() {
+            const data = await loadAffiliateData();
+
+            /* Desktop left: books (3 slots) */
+            const bookItems = data.books?.items || [];
+            const bookDesktop = pickItems(bookItems, 3);
+            const bookContainer = document.getElementById("book-tiles");
+            if (bookContainer) {
+                bookContainer.innerHTML = bookDesktop.map(renderTileHTML).join("");
+            }
+
+            /* Desktop right: gear (3 slots) */
+            const gearItems = data.gear?.items || [];
+            const gearDesktop = pickItems(gearItems, 3);
+            const gearContainer = document.getElementById("gear-tiles");
+            if (gearContainer) {
+                gearContainer.innerHTML = gearDesktop.map(renderTileHTML).join("");
+            }
+
+            /* Mobile: 2 separate 2-col inserts — pick independently each time */
+            if (bookItems.length === 0 && gearItems.length === 0) return;
+
+            /* Insert 1: after utilities */
+            const insert1 = document.getElementById("mobile-affiliate-1");
+            if (insert1) {
+                const b1 = bookItems.length > 0 ? pickOneMobile(bookItems) : null;
+                const g1 = gearItems.length > 0 ? pickOneMobile(gearItems) : null;
+                insert1.innerHTML = build2ColInsertHTML(b1, g1);
+            }
+
+            /* Insert 2: after feedback — pick fresh items (may repeat, keeps it simple) */
+            const insert2 = document.getElementById("mobile-affiliate-2");
+            if (insert2) {
+                const b2 = bookItems.length > 0 ? pickOneMobile(bookItems) : null;
+                const g2 = gearItems.length > 0 ? pickOneMobile(gearItems) : null;
+                insert2.innerHTML = build2ColInsertHTML(b2, g2);
+            }
+        }
+
+        /* ══════════════════════════════════════════
+           INIT
+           ══════════════════════════════════════════ */
 
         document.addEventListener('DOMContentLoaded', function() {
             fetch('../header.html')
