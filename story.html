@@ -141,6 +141,7 @@ body {
   font-style: italic;
 }
 
+/* ── Desktop story card ── */
 .story-card {
   background: #fff;
   padding: 2rem;
@@ -196,11 +197,13 @@ body {
 
 .story-links {
   margin-top: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
 }
 
 .story-links a {
-  display: inline-block;
-  margin-right: 15px;
   font-weight: bold;
   text-decoration: none;
   color: #0066cc;
@@ -231,36 +234,190 @@ footer {
   color: #666;
 }
 
+/* ════════════════════════════════════════
+   MOBILE — matches index.html quality
+   ════════════════════════════════════════ */
 @media (max-width: 900px) {
-  .container { flex-direction: column; }
-  .left-ad  { display: none; }
-  .right-ad { display: none; }
-  .main     { max-width: 100%; }
 
-  .story-image-wrap img { max-height: 260px; }
-
-  .mobile-affiliate-insert {
-    background: #fff;
-    padding: 1rem 1.2rem;
-    margin-bottom: 1.2rem;
-    border-radius: 6px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  body {
+    background: #ebebeb;
   }
 
-  .mobile-affiliate-insert .reading-label { font-size: .75rem; margin-bottom: 10px; }
+  .container {
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+  }
 
-  .mobile-affiliate-insert img {
+  .left-ad  { display: none; }
+  .right-ad { display: none; }
+
+  .main {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  /* ── Story card: full bleed white tile ── */
+  .story-card {
+    background: #fff;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  /* ── Back link ── */
+  .back-link {
+    padding: 12px 16px 0;
+    margin-bottom: 0;
+    font-size: .8rem;
+  }
+
+  .back-link a {
+    color: #0055bb;
+    font-weight: 700;
+  }
+
+  /* ── Headline ── */
+  .story-card h1 {
+    font-size: 1.3rem;
+    line-height: 1.38;
+    margin: 10px 0 6px 0;
+    padding: 0 16px;
+    font-weight: 800;
+    color: #111;
+  }
+
+  /* ── Date ── */
+  .story-date {
+    font-size: .7rem;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    font-weight: 600;
+    padding: 0 16px;
+    margin-bottom: 14px;
+  }
+
+  /* ── Story image: full bleed, no border ── */
+  .story-image-wrap {
+    margin: 0 0 0 0;
+    border: none;
+    border-radius: 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+  }
+
+  .story-image-wrap img {
+    max-height: 240px;
     width: 100%;
-    border-radius: 6px;
+    object-fit: cover;
     display: block;
-    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  }
+
+  /* ── Caption: subtle, monospace ── */
+  .story-image-caption {
+    font-size: .74rem;
+    padding: 8px 16px;
+    color: #888;
+    background: #fafafa;
+    border-top: 1px solid #eee;
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1.45;
+  }
+
+  /* ── Story body text ── */
+  .story-content {
+    font-size: 1rem;
+    line-height: 1.72;
+    color: #222;
+    padding: 18px 16px 4px;
+  }
+
+  .story-content p {
+    margin-bottom: 16px;
+  }
+
+  /* ── Story links / actions ── */
+  .story-links {
+    padding: 14px 16px 20px;
+    margin-top: 4px;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .story-links a {
+    font-size: .88rem;
+    color: #0055bb;
+    font-weight: 700;
+  }
+
+  /* ════════════════════════════════════
+     MOBILE AFFILIATE INSERT — 2 columns
+     ════════════════════════════════════ */
+  .mobile-affiliate-insert {
+    background: #fff;
+    padding: 13px 16px 14px;
+    border-radius: 0;
+    box-shadow: none;
+    margin-top: 6px;
+    border-top: 1px solid #e8e8e8;
+  }
+
+  .mobile-affiliate-insert .affiliate-label {
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: #444;
+    border-bottom: 2px solid #0066cc;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+
+  .mobile-affiliate-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .mobile-affiliate-grid a {
+    display: block;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,.10);
+    transition: transform .15s ease;
+  }
+
+  .mobile-affiliate-grid a:active {
+    transform: scale(0.98);
+  }
+
+  .mobile-affiliate-grid img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
   }
 
   .mobile-affiliate-insert .reading-disclosure {
     margin-top: 8px;
-    font-size: .65rem;
+    font-size: .6rem;
     color: #bbb;
     font-style: italic;
+    line-height: 1.4;
+  }
+
+  /* ── Footer ── */
+  footer {
+    font-size: .76rem;
+    padding: 1.4rem 1rem;
+    color: #999;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    margin-top: 6px;
   }
 }
 
@@ -270,9 +427,6 @@ footer {
 
 /* ══════════════════════════════════════════
    SMART BACK BUTTON
-   - Came from archive.html → go back there
-   - Came from index.html   → go back there
-   - Direct link / external → default index.html
    ══════════════════════════════════════════ */
 
 function resolveBackLink() {
@@ -280,7 +434,6 @@ function resolveBackLink() {
   if (ref) {
     try {
       const refUrl = new URL(ref);
-      // Only trust referrers from the same site
       if (refUrl.hostname === window.location.hostname) {
         const refPage = refUrl.pathname.split("/").pop();
         if (refPage === "news.html") {
@@ -289,18 +442,15 @@ function resolveBackLink() {
         if (refPage === "index.html" || refPage === "" || refPage === "/") {
           return { href: "index.html", label: "← Back to Latest News" };
         }
-        // Any other internal page — go back to it
         return { href: ref, label: "← Back" };
       }
     } catch (e) {}
   }
-  // No referrer or external referrer = direct link, default to index
   return { href: "index.html", label: "← Back to Latest News" };
 }
 
 /* ══════════════════════════════════════════
    AFFILIATE SYSTEM — JSON-driven
-   All config lives in /affiliate/affiliate.json
    ══════════════════════════════════════════ */
 
 let _affiliateData = null;
@@ -342,7 +492,7 @@ function pickItems(items, count) {
   return result;
 }
 
-function pickMobileItem(items) {
+function pickOneMobile(items) {
   const mustShow = items.filter(i => i.must_show);
   const pool = mustShow.length > 0 ? mustShow : items;
   return pool[Math.floor(Math.random() * pool.length)];
@@ -361,9 +511,8 @@ function renderTileHTML(item) {
 
 async function loadAffiliateTiles() {
   const data = await loadAffiliateData();
-  const allItems = getAllItems(data);
 
-  /* Left panel: books (3 slots) */
+  /* Desktop left: books (3 slots) */
   const bookItems = data.books?.items || [];
   const bookDesktop = pickItems(bookItems, 3);
   const bookContainer = document.getElementById("book-tiles");
@@ -371,7 +520,7 @@ async function loadAffiliateTiles() {
     bookContainer.innerHTML = bookDesktop.map(renderTileHTML).join("");
   }
 
-  /* Right panel: gear (3 slots) */
+  /* Desktop right: gear (3 slots) */
   const gearItems = data.gear?.items || [];
   const gearDesktop = pickItems(gearItems, 3);
   const gearContainer = document.getElementById("gear-tiles");
@@ -379,23 +528,32 @@ async function loadAffiliateTiles() {
     gearContainer.innerHTML = gearDesktop.map(renderTileHTML).join("");
   }
 
-  /* Mobile: one random item from ALL categories */
-  if (allItems.length === 0) return;
-  const mobileItem = pickMobileItem(allItems);
-  const mobileLink = getRandomLink(mobileItem);
-  const mobileImgSrc = `/affiliate/${mobileItem.image}`;
-  const gearTitles = new Set((data.gear?.items || []).map(i => i.title));
-  const isGear = gearTitles.has(mobileItem.title);
+  /* Mobile: 2-column insert (1 book + 1 gear) */
+  const mobileBook = bookItems.length > 0 ? pickOneMobile(bookItems) : null;
+  const mobileGear = gearItems.length > 0 ? pickOneMobile(gearItems) : null;
+  if (!mobileBook && !mobileGear) return;
+
+  const bookTileHTML = mobileBook ? `
+    <a href="${getRandomLink(mobileBook)}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost">
+      <img src="/affiliate/${mobileBook.image}" alt="${mobileBook.title}" loading="lazy">
+    </a>` : "";
+
+  const gearTileHTML = mobileGear ? `
+    <a href="${getRandomLink(mobileGear)}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost">
+      <img src="/affiliate/${mobileGear.image}" alt="${mobileGear.title}" loading="lazy">
+    </a>` : "";
 
   window.mobileAffiliateHTML = `
     <div class="mobile-affiliate-insert">
-      <div class="reading-label">🧭 ${isGear ? "NSM Field Gear" : "NSM Reading List"}</div>
-      <a href="${mobileLink}" target="_blank" rel="noopener nofollow sponsored"
-         title="Browse on Amazon — supports NSM at no extra cost">
-        <img src="${mobileImgSrc}" alt="${mobileItem.title}" loading="lazy">
-      </a>
+      <div class="affiliate-label">🧭 NSM Picks</div>
+      <div class="mobile-affiliate-grid">
+        ${bookTileHTML}
+        ${gearTileHTML}
+      </div>
       <div class="reading-disclosure">
-        Selecting ${isGear ? "an item" : "a title"} supports independent journalism at no extra cost to you.
+        Selecting an item supports independent journalism at no extra cost to you.
       </div>
     </div>
   `;
@@ -550,13 +708,11 @@ async function loadStory() {
     }
   }
 
-  /* ── Resolve image ── */
   const imgResult = await getStoryImage(storyId, s.headline);
   const imageBlockHTML = imgResult
     ? buildImageBlockHTML(imgResult.url, imgResult.meta, s.image_caption || "")
     : "";
 
-  /* ── Resolve back link ── */
   const back = resolveBackLink();
 
   document.getElementById("story-container").innerHTML = `
@@ -570,12 +726,13 @@ async function loadStory() {
       <div class="story-content">${paragraphs}</div>
       <div class="story-links">
         ${redditLink ? `<a href="${redditLink}" target="_blank" rel="noopener">Join the discussion on Reddit</a>` : ""}
-        <a href="https://reddit.com/r/NoSpinMedia" target="_blank" rel="noopener">Explore more stories in r/NoSpinMedia</a>
+        <a href="https://reddit.com/r/NoSpinMedia" target="_blank" rel="noopener">Explore more in r/NoSpinMedia</a>
         <button id="share-btn" onclick="shareStory()" style="background:none;border:none;color:#0066cc;font-weight:bold;font-size:1rem;cursor:pointer;padding:0;">🔗 Share this story</button>
       </div>
     </div>
   `;
 
+  /* Mobile: inject 2-col affiliate insert after story */
   if (window.innerWidth <= 900 && window.mobileAffiliateHTML) {
     const insert = document.createElement("div");
     insert.innerHTML = window.mobileAffiliateHTML;
