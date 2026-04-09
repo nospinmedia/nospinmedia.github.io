@@ -248,8 +248,6 @@ footer {
 
 /* ════════════════════════════════════════
    MOBILE — clean, editorial, professional
-   Inspired by NYT/BBC mobile news apps:
-   full-bleed images, tight type, clear hierarchy
    ════════════════════════════════════════ */
 @media (max-width: 900px) {
 
@@ -284,7 +282,7 @@ footer {
     background: #fff;
   }
 
-  /* ── News container background ── */
+  /* ── News container: grey gaps between white cards ── */
   #news-container {
     background: #ebebeb;
     display: flex;
@@ -334,16 +332,16 @@ footer {
     object-fit: cover;
   }
 
-  /* ── Text block ── */
+  /* ── Text block — Gemini: padding-top 18px ── */
   .card-text {
-    padding: 13px 16px 0 16px;
+    padding: 18px 16px 0 16px;
   }
 
-  /* ── Headline ── */
+  /* ── Headline — Gemini: line-height 1.38 ── */
   .story-card h3 {
     font-size: 1.05rem;
     line-height: 1.38;
-    margin: 0 0 4px 0;
+    margin: 0 0 5px 0;
     font-weight: 700;
     color: #111;
   }
@@ -362,7 +360,7 @@ footer {
     font-weight: 600;
   }
 
-  /* ── Summary: 3-line clamp keeps cards tight ── */
+  /* ── Summary: 3-line clamp ── */
   .story-summary {
     font-size: .91rem;
     line-height: 1.56;
@@ -373,7 +371,7 @@ footer {
     overflow: hidden;
   }
 
-  /* ── Footer: read more + share on one line ── */
+  /* ── Footer ── */
   .card-footer {
     display: flex;
     justify-content: space-between;
@@ -392,33 +390,54 @@ footer {
     letter-spacing: .01em;
   }
 
-  /* ── Mobile affiliate insert ── */
-  .mobile-reading-insert {
+  /* ════════════════════════════════════
+     MOBILE AFFILIATE INSERT — 2 columns
+     1 book tile + 1 gear tile, side by side
+     must_show picks first per category
+     ════════════════════════════════════ */
+  .mobile-affiliate-insert {
     background: #fff;
-    padding: 14px 16px;
+    padding: 13px 16px 14px;
     border-radius: 0;
     box-shadow: none;
   }
 
-  .mobile-reading-insert .reading-label {
+  .mobile-affiliate-insert .affiliate-label {
     font-size: .7rem;
-    margin-bottom: 10px;
-    letter-spacing: .06em;
-    color: #555;
-    font-weight: 700;
+    font-weight: 800;
+    letter-spacing: .07em;
     text-transform: uppercase;
+    color: #444;
     border-bottom: 2px solid #0066cc;
     padding-bottom: 6px;
+    margin-bottom: 10px;
   }
 
-  .mobile-reading-insert img {
-    width: 100%;
-    border-radius: 8px;
+  .mobile-affiliate-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .mobile-affiliate-grid a {
     display: block;
-    box-shadow: 0 2px 10px rgba(0,0,0,.10);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,.10);
+    transition: transform .15s ease;
   }
 
-  .mobile-reading-insert .reading-disclosure {
+  .mobile-affiliate-grid a:active {
+    transform: scale(0.98);
+  }
+
+  .mobile-affiliate-grid img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+  }
+
+  .mobile-affiliate-insert .reading-disclosure {
     margin-top: 8px;
     font-size: .6rem;
     color: #bbb;
@@ -444,7 +463,6 @@ footer {
 /* ══════════════════════════════════════════
    AFFILIATE SYSTEM — JSON-driven
    All config lives in /affiliate/affiliate.json
-   No code changes needed to add/remove items
    ══════════════════════════════════════════ */
 
 let _affiliateData = null;
@@ -486,7 +504,8 @@ function pickItems(items, count) {
   return result;
 }
 
-function pickMobileItem(items) {
+/* Pick one item from a category — must_show first, then random */
+function pickOneMobile(items) {
   const mustShow = items.filter(i => i.must_show);
   const pool = mustShow.length > 0 ? mustShow : items;
   return pool[Math.floor(Math.random() * pool.length)];
@@ -505,9 +524,8 @@ function renderTileHTML(item) {
 
 async function loadBookTiles() {
   const data = await loadAffiliateData();
-  const allItems = getAllItems(data);
 
-  /* Left panel: books category (3 slots) */
+  /* Desktop left panel: books (3 slots) */
   const bookItems = data.books?.items || [];
   const bookDesktop = pickItems(bookItems, 3);
   const bookContainer = document.getElementById("book-tiles");
@@ -515,23 +533,36 @@ async function loadBookTiles() {
     bookContainer.innerHTML = bookDesktop.map(renderTileHTML).join("");
   }
 
-  /* Mobile: one random item from ALL categories */
-  if (allItems.length === 0) return;
-  const mobileItem = pickMobileItem(allItems);
-  const mobileLink = getRandomLink(mobileItem);
-  const mobileImgSrc = `/affiliate/${mobileItem.image}`;
-  const gearTitles = new Set((data.gear?.items || []).map(i => i.title));
-  const isGear = gearTitles.has(mobileItem.title);
+  /* ── Mobile: 2-column insert (1 book + 1 gear) ── */
+  const gearItems = data.gear?.items || [];
+  if (bookItems.length === 0 && gearItems.length === 0) return;
+
+  const mobileBook = bookItems.length > 0 ? pickOneMobile(bookItems) : null;
+  const mobileGear = gearItems.length > 0 ? pickOneMobile(gearItems) : null;
+
+  const bookTileHTML = mobileBook ? `
+    <a href="${getRandomLink(mobileBook)}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost">
+      <img src="/affiliate/${mobileBook.image}" alt="${mobileBook.title}" loading="lazy">
+    </a>
+  ` : "";
+
+  const gearTileHTML = mobileGear ? `
+    <a href="${getRandomLink(mobileGear)}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost">
+      <img src="/affiliate/${mobileGear.image}" alt="${mobileGear.title}" loading="lazy">
+    </a>
+  ` : "";
 
   window.mobileBookHTML = `
-    <div class="mobile-reading-insert">
-      <div class="reading-label">🧭 ${isGear ? "NSM Field Gear" : "NSM Reading List"}</div>
-      <a href="${mobileLink}" target="_blank" rel="noopener nofollow sponsored"
-         title="Browse on Amazon — supports NSM at no extra cost">
-        <img src="${mobileImgSrc}" alt="${mobileItem.title}" loading="lazy">
-      </a>
+    <div class="mobile-affiliate-insert">
+      <div class="affiliate-label">🧭 NSM Picks</div>
+      <div class="mobile-affiliate-grid">
+        ${bookTileHTML}
+        ${gearTileHTML}
+      </div>
       <div class="reading-disclosure">
-        Selecting ${isGear ? "an item" : "a title"} supports independent journalism at no extra cost to you.
+        Selecting an item supports independent journalism at no extra cost to you.
       </div>
     </div>
   `;
@@ -689,7 +720,7 @@ async function loadStories() {
 
     container.appendChild(card);
 
-    /* Mobile: inject affiliate card after story 3 */
+    /* Mobile: inject 2-col affiliate insert after story 3 */
     if (window.innerWidth <= 900 && index === 2 && window.mobileBookHTML) {
       const insert = document.createElement("div");
       insert.innerHTML = window.mobileBookHTML;
