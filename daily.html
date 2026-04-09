@@ -172,7 +172,7 @@ body {
   cursor: pointer;
 }
 
-/* ── Post cards ── */
+/* ── Post cards (desktop) ── */
 .date-header {
   background: #333;
   color: #fff;
@@ -247,34 +247,6 @@ body {
   text-decoration: underline;
 }
 
-/* ── Mobile affiliate insert ── */
-.mobile-affiliate-insert {
-  background: #fff;
-  padding: 1rem 1.2rem;
-  margin-bottom: 1.2rem;
-  border-radius: 6px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-}
-
-.mobile-affiliate-insert .reading-label {
-  font-size: .75rem;
-  margin-bottom: 10px;
-}
-
-.mobile-affiliate-insert img {
-  width: 100%;
-  border-radius: 6px;
-  display: block;
-  box-shadow: 0 2px 8px rgba(0,0,0,.12);
-}
-
-.mobile-affiliate-insert .reading-disclosure {
-  margin-top: 8px;
-  font-size: .65rem;
-  color: #bbb;
-  font-style: italic;
-}
-
 footer {
   text-align: center;
   padding: 1rem;
@@ -282,10 +254,19 @@ footer {
   color: #666;
 }
 
-/* ── Mobile ── */
+/* ════════════════════════════════════════
+   MOBILE — matches index.html quality
+   ════════════════════════════════════════ */
 @media (max-width: 900px) {
+
+  body {
+    background: #ebebeb;
+  }
+
   .container {
     flex-direction: column;
+    padding: 0;
+    gap: 0;
   }
 
   .left-ad,
@@ -295,6 +276,187 @@ footer {
 
   .main {
     max-width: 100%;
+    padding: 0;
+  }
+
+  /* ── Page title bar ── */
+  .main h1 {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #444;
+    padding: 13px 16px 11px;
+    margin: 0;
+    border-bottom: 3px solid #0066cc;
+    background: #fff;
+  }
+
+  /* ── Filter bar ── */
+  .filter-bar {
+    border-radius: 0;
+    box-shadow: none;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 0;
+    padding: 10px 16px;
+    gap: 8px;
+    background: #fff;
+  }
+
+  .filter-bar label {
+    font-size: .82rem;
+    color: #555;
+  }
+
+  .filter-bar select {
+    font-size: .88rem;
+    padding: 7px 10px;
+    flex: 1;
+  }
+
+  /* ── News container ── */
+  #news-container {
+    background: #ebebeb;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 6px 0;
+  }
+
+  /* ── Date header ── */
+  .date-header {
+    background: #333;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 0;
+    font-size: .9rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+    margin: 0;
+  }
+
+  /* ── Story card: clean white tile ── */
+  .story-card {
+    background: #fff;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 16px 16px 0;
+    margin-bottom: 0;
+  }
+
+  /* ── Headline ── */
+  .story-card h3 {
+    font-size: 1.05rem;
+    line-height: 1.38;
+    margin: 0 0 6px 0;
+    font-weight: 700;
+    color: #111;
+  }
+
+  /* ── Post type badge ── */
+  .post-type {
+    font-size: .72rem;
+    padding: 2px 8px;
+    margin-bottom: 8px;
+  }
+
+  /* ── Preview text ── */
+  .post-preview {
+    font-size: .91rem;
+    line-height: 1.56;
+    color: #444;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+
+  /* ── Full content ── */
+  .post-content {
+    font-size: .91rem;
+    line-height: 1.6;
+    color: #333;
+    margin-top: 10px;
+  }
+
+  /* ── Footer ── */
+  .card-footer {
+    padding: 9px 0 13px;
+    margin-top: 10px;
+    border-top: 1px solid #f2f2f2;
+    gap: 0;
+    flex-wrap: nowrap;
+  }
+
+  .story-link {
+    font-size: .8rem;
+    font-weight: 700;
+    color: #0055bb;
+    letter-spacing: .01em;
+  }
+
+  /* ════════════════════════════════════
+     MOBILE AFFILIATE INSERT — 2 columns
+     ════════════════════════════════════ */
+  .mobile-affiliate-insert {
+    background: #fff;
+    padding: 13px 16px 14px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .mobile-affiliate-insert .affiliate-label {
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: #444;
+    border-bottom: 2px solid #0066cc;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+
+  .mobile-affiliate-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .mobile-affiliate-grid a {
+    display: block;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,.10);
+    transition: transform .15s ease;
+  }
+
+  .mobile-affiliate-grid a:active {
+    transform: scale(0.98);
+  }
+
+  .mobile-affiliate-grid img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+  }
+
+  .mobile-affiliate-insert .reading-disclosure {
+    margin-top: 8px;
+    font-size: .6rem;
+    color: #bbb;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  /* ── Footer ── */
+  footer {
+    font-size: .76rem;
+    padding: 1.4rem 1rem;
+    color: #999;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    margin-top: 6px;
   }
 }
 
@@ -307,78 +469,118 @@ const SUPABASE_KEY = "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB";
 
 let allPosts = [];
 
-/* ── Book tile pool ── */
-const bookSubjects = [
-  { img: "/affiliate/books/history.png",  link: "https://www.amazon.com/s?k=history+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/science.png",  link: "https://www.amazon.com/s?k=science+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/space.png",    link: "https://www.amazon.com/s?k=space+exploration+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/politics.png", link: "https://www.amazon.com/s?k=political+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/military.png", link: "https://www.amazon.com/s?k=military+history+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/scifi.png",    link: "https://www.amazon.com/s?k=science+fiction+books&tag=nospinmedia-20" }
-];
+/* ══════════════════════════════════════════
+   AFFILIATE SYSTEM — JSON-driven
+   All config lives in /affiliate/affiliate.json
+   No NE priority on this page
+   ══════════════════════════════════════════ */
 
-/* ── Gear tile pool ── */
-const gearSubjects = [
-  { img: "/affiliate/gear/nsm-gear-field-optics.png",    link: "https://www.amazon.com/s?k=monocular+binoculars+compact+telescope&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-solar-power.png",     link: "https://www.amazon.com/s?k=solar+power+bank+portable+solar+charger&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-emergency-radio.png", link: "https://www.amazon.com/s?k=emergency+weather+radio+hand+crank&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-science-tools.png",   link: "https://www.amazon.com/s?k=pocket+microscope+geiger+counter+science+tools&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-weather-station.png", link: "https://www.amazon.com/s?k=home+weather+station+barometer+wireless&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-auto-tools.png",      link: "https://www.amazon.com/s?k=automotive+diagnostic+tools+multimeter+garage+tools&tag=nospinmedia-20" }
-];
+let _affiliateData = null;
 
-function shuffle(arr) {
-  return [...arr].sort(() => 0.5 - Math.random());
+async function loadAffiliateData() {
+  if (_affiliateData) return _affiliateData;
+  try {
+    const res = await fetch('/affiliate/affiliate.json');
+    if (!res.ok) throw new Error('affiliate.json not found');
+    _affiliateData = await res.json();
+  } catch (e) {
+    console.warn('Affiliate data failed to load:', e);
+    _affiliateData = {};
+  }
+  return _affiliateData;
 }
 
-function loadAffiliateTiles() {
-  /* Desktop left: 3 random books */
+function getRandomLink(item) {
+  if (!item.links || item.links.length === 0) return '#';
+  return item.links[Math.floor(Math.random() * item.links.length)];
+}
+
+function pickItems(items, count) {
+  const mustShow = items.filter(i => i.must_show);
+  const optional = [...items.filter(i => !i.must_show)].sort(() => 0.5 - Math.random());
+  const pool = [...mustShow, ...optional];
+  const seen = new Set();
+  const result = [];
+  for (const item of pool) {
+    if (!seen.has(item.title) && result.length < count) {
+      seen.add(item.title);
+      result.push(item);
+    }
+  }
+  return result;
+}
+
+function pickOneMobile(items) {
+  const mustShow = items.filter(i => i.must_show);
+  const pool = mustShow.length > 0 ? mustShow : items;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function renderTileHTML(item) {
+  const link = getRandomLink(item);
+  const imgSrc = `/affiliate/${item.image}`;
+  return `
+    <a href="${link}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost">
+      <img src="${imgSrc}" alt="${item.title}" loading="lazy">
+    </a>
+  `;
+}
+
+async function loadAffiliateTiles() {
+  const data = await loadAffiliateData();
+
+  /* Desktop left: books (3 slots) */
+  const bookItems = data.books?.items || [];
+  const bookDesktop = pickItems(bookItems, 3);
   const bookContainer = document.getElementById("book-tiles");
   if (bookContainer) {
-    shuffle(bookSubjects).slice(0, 3).forEach(book => {
-      const a = document.createElement("a");
-      a.href = book.link;
-      a.target = "_blank";
-      a.rel = "noopener nofollow sponsored";
-      a.title = "Browse on Amazon — supports NSM at no extra cost";
-      a.innerHTML = `<img src="${book.img}" alt="Curated reading selection">`;
-      bookContainer.appendChild(a);
-    });
+    bookContainer.innerHTML = bookDesktop.map(renderTileHTML).join("");
   }
 
-  /* Desktop right: 3 random gear */
+  /* Desktop right: gear (3 slots) */
+  const gearItems = data.gear?.items || [];
+  const gearDesktop = pickItems(gearItems, 3);
   const gearContainer = document.getElementById("gear-tiles");
   if (gearContainer) {
-    shuffle(gearSubjects).slice(0, 3).forEach(item => {
-      const a = document.createElement("a");
-      a.href = item.link;
-      a.target = "_blank";
-      a.rel = "noopener nofollow sponsored";
-      a.title = "Browse on Amazon — supports NSM at no extra cost";
-      a.innerHTML = `<img src="${item.img}" alt="Curated gear selection">`;
-      gearContainer.appendChild(a);
-    });
+    gearContainer.innerHTML = gearDesktop.map(renderTileHTML).join("");
   }
 
-  /* Mobile: 1 random from either pool, injected after card 3 */
-  const allCards = shuffle([...bookSubjects, ...gearSubjects]);
-  const mobileCard = allCards[0];
-  const isGear = gearSubjects.includes(mobileCard);
+  /* Mobile: 2-column insert (1 book + 1 gear) */
+  const mobileBook = bookItems.length > 0 ? pickOneMobile(bookItems) : null;
+  const mobileGear = gearItems.length > 0 ? pickOneMobile(gearItems) : null;
+  if (!mobileBook && !mobileGear) return;
+
+  const bookTileHTML = mobileBook ? `
+    <a href="${getRandomLink(mobileBook)}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost">
+      <img src="/affiliate/${mobileBook.image}" alt="${mobileBook.title}" loading="lazy">
+    </a>` : "";
+
+  const gearTileHTML = mobileGear ? `
+    <a href="${getRandomLink(mobileGear)}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost">
+      <img src="/affiliate/${mobileGear.image}" alt="${mobileGear.title}" loading="lazy">
+    </a>` : "";
+
   window.mobileAffiliateHTML = `
     <div class="mobile-affiliate-insert">
-      <div class="reading-label">🧭 ${isGear ? "NSM Field Gear" : "NSM Reading List"}</div>
-      <a href="${mobileCard.link}" target="_blank" rel="noopener nofollow sponsored"
-         title="Browse on Amazon — supports NSM at no extra cost">
-        <img src="${mobileCard.img}" alt="${isGear ? "Curated gear" : "Curated reading"}">
-      </a>
+      <div class="affiliate-label">🧭 NSM Picks</div>
+      <div class="mobile-affiliate-grid">
+        ${bookTileHTML}
+        ${gearTileHTML}
+      </div>
       <div class="reading-disclosure">
-        Selecting ${isGear ? "an item" : "a title"} supports independent journalism at no extra cost to you.
+        Selecting an item supports independent journalism at no extra cost to you.
       </div>
     </div>
   `;
 }
 
-/* ── Daily posts logic (unchanged) ── */
+/* ══════════════════════════════════════════
+   DAILY POSTS LOGIC
+   ══════════════════════════════════════════ */
+
 function getQueryParam(param) {
   return new URLSearchParams(window.location.search).get(param);
 }
@@ -410,15 +612,16 @@ async function sharePost(id, btn) {
   try {
     await navigator.clipboard.writeText(shareUrl);
     btn.innerHTML = "✅ Copied!";
-    setTimeout(() => { btn.innerHTML = "🔗 Share this post"; }, 2000);
+    setTimeout(() => { btn.innerHTML = "🔗 Share"; }, 2000);
   } catch(err) {
     alert("Could not copy link. Please copy manually from the address bar.");
   }
 }
 
-function togglePost(btn, contentEl) {
+function togglePost(btn, contentEl, previewEl) {
   const showing = contentEl.classList.toggle("show");
-  btn.innerHTML = showing ? "Hide post ▲" : "Show post ▼";
+  previewEl.style.display = showing ? "none" : "";
+  btn.innerHTML = showing ? "Hide post ▲" : "Read more ▼";
 }
 
 function renderPosts(posts, autoExpand) {
@@ -426,7 +629,7 @@ function renderPosts(posts, autoExpand) {
   container.innerHTML = "";
 
   if (!posts || posts.length === 0) {
-    container.innerHTML = "<p>No posts found.</p>";
+    container.innerHTML = "<p style='padding:12px 16px;'>No posts found.</p>";
     return;
   }
 
@@ -456,29 +659,34 @@ function renderPosts(posts, autoExpand) {
       const typeLabel   = formatType(p.post_type);
       const contentHtml = formatContent(p.comment_text);
       const expanded    = autoExpand;
+      const previewText = contentHtml.split("<br>")[0];
 
       card.innerHTML = `
         <h3>${p.headline_text || "Untitled"}</h3>
         <span class="post-type">${typeLabel}</span>
-        <div class="post-preview">${contentHtml.split("<br>")[0]}</div>
+        <div class="post-preview">${previewText}</div>
         <div class="post-content${expanded ? " show" : ""}">${contentHtml}</div>
         <div class="card-footer">
           <a class="story-link toggle-link">${expanded ? "Hide post ▲" : "Read more ▼"}</a>
-          <a class="story-link share-link">🔗 Share this post</a>
+          <a class="story-link share-link">🔗 Share</a>
         </div>
       `;
 
       const toggleBtn = card.querySelector(".toggle-link");
       const contentEl = card.querySelector(".post-content");
+      const previewEl = card.querySelector(".post-preview");
       const shareBtn  = card.querySelector(".share-link");
 
-      toggleBtn.addEventListener("click", () => togglePost(toggleBtn, contentEl));
+      toggleBtn.addEventListener("click", () => togglePost(toggleBtn, contentEl, previewEl));
       shareBtn.addEventListener("click",  () => sharePost(p.fb_post_id, shareBtn));
+
+      /* Hide preview when auto-expanded */
+      if (expanded) previewEl.style.display = "none";
 
       container.appendChild(card);
       cardCount++;
 
-      /* Mobile: inject after card 3 */
+      /* Mobile: inject 2-col affiliate after card 3 */
       if (window.innerWidth <= 900 && cardCount === 3 && !mobileInserted && window.mobileAffiliateHTML) {
         const insert = document.createElement("div");
         insert.innerHTML = window.mobileAffiliateHTML;
@@ -526,6 +734,10 @@ function applyFilter() {
   const filtered = selected === "all" ? allPosts : allPosts.filter(p => p.post_type === selected);
   renderPosts(filtered, false);
 }
+
+/* ══════════════════════════════════════════
+   INIT
+   ══════════════════════════════════════════ */
 
 document.addEventListener("DOMContentLoaded", function () {
   fetch("header.html")
