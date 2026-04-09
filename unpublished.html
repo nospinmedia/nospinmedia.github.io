@@ -143,7 +143,7 @@ body {
   margin-bottom: 1rem;
 }
 
-/* ── Story card with optional thumbnail ── */
+/* ── Story card ── */
 .story-card {
   background: #fff;
   padding: 1.4rem;
@@ -192,9 +192,7 @@ body {
   flex-wrap: wrap;
 }
 
-.story-meta strong {
-  color: #444;
-}
+.story-meta strong { color: #444; }
 
 .story-summary-preview {
   line-height: 1.6;
@@ -230,9 +228,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.story-link:hover {
-  text-decoration: underline;
-}
+.story-link:hover { text-decoration: underline; }
 
 .btn-review {
   font-weight: bold;
@@ -246,9 +242,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.btn-review:hover {
-  text-decoration: underline;
-}
+.btn-review:hover { text-decoration: underline; }
 
 .feedback-panel {
   background: #fff;
@@ -259,9 +253,7 @@ body {
   display: none;
 }
 
-.feedback-panel.open {
-  display: block;
-}
+.feedback-panel.open { display: block; }
 
 .feedback-panel h4 {
   margin: 0 0 10px 0;
@@ -282,9 +274,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.feedback-panel textarea {
-  resize: vertical;
-}
+.feedback-panel textarea { resize: vertical; }
 
 .feedback-panel button[type="submit"] {
   background: #0073e6;
@@ -298,14 +288,8 @@ body {
   font-size: .95rem;
 }
 
-.feedback-panel button[type="submit"]:hover {
-  background: #005bb5;
-}
-
-.feedback-panel .form-status {
-  font-size: .9rem;
-  margin-top: 6px;
-}
+.feedback-panel button[type="submit"]:hover { background: #005bb5; }
+.feedback-panel .form-status { font-size: .9rem; margin-top: 6px; }
 
 .global-feedback {
   background: #fff;
@@ -335,9 +319,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.global-feedback textarea {
-  resize: vertical;
-}
+.global-feedback textarea { resize: vertical; }
 
 .global-feedback button[type="submit"] {
   background: #0073e6;
@@ -351,46 +333,7 @@ body {
   font-size: .95rem;
 }
 
-.global-feedback button[type="submit"]:hover {
-  background: #005bb5;
-}
-
-@media (max-width: 900px) {
-  .container { flex-direction: column; }
-  .left-ad, .right-ad { display: none; }
-  .main { max-width: 100%; }
-
-  .card-inner { flex-direction: column; }
-  .card-thumb { width: 100%; }
-  .card-thumb img { width: 100%; height: 200px; }
-
-  .mobile-reading-insert {
-    background: #fff;
-    padding: 1rem 1.2rem;
-    margin-bottom: 1.2rem;
-    border-radius: 6px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  }
-
-  .mobile-reading-insert .reading-label {
-    font-size: .75rem;
-    margin-bottom: 10px;
-  }
-
-  .mobile-reading-insert img {
-    width: 100%;
-    border-radius: 6px;
-    display: block;
-    box-shadow: 0 2px 8px rgba(0,0,0,.12);
-  }
-
-  .mobile-reading-insert .reading-disclosure {
-    margin-top: 8px;
-    font-size: .65rem;
-    color: #bbb;
-    font-style: italic;
-  }
-}
+.global-feedback button[type="submit"]:hover { background: #005bb5; }
 
 footer {
   text-align: center;
@@ -399,75 +342,351 @@ footer {
   color: #666;
 }
 
+/* ════════════════════════════════════════
+   MOBILE — matches site-wide design
+   ════════════════════════════════════════ */
+@media (max-width: 900px) {
+
+  body { background: #ebebeb; }
+
+  .container {
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+  }
+
+  .left-ad, .right-ad { display: none; }
+
+  .main {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  /* ── Page title ── */
+  .main > h1 {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #444;
+    padding: 13px 16px 11px;
+    margin: 0;
+    border-bottom: 3px solid #0066cc;
+    background: #fff;
+  }
+
+  /* ── News container ── */
+  #news-container {
+    background: #ebebeb;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 6px 0;
+  }
+
+  /* ── Date group ── */
+  .date-group {
+    margin-bottom: 0;
+  }
+
+  /* ── Date header ── */
+  .date-header {
+    background: #333;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 0;
+    font-size: .9rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+    margin-bottom: 0;
+  }
+
+  /* ── Story card ── */
+  .story-card {
+    background: #fff;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    margin-bottom: 0;
+    overflow: hidden;
+  }
+
+  /* ── Card inner: image on top ── */
+  .card-inner {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .card-thumb {
+    width: 100%;
+    order: -1;
+  }
+
+  .card-thumb img {
+    width: 100%;
+    height: 210px;
+    border-radius: 0;
+    box-shadow: none;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── Text block ── */
+  .card-text {
+    padding: 18px 16px 0;
+  }
+
+  /* ── Headline ── */
+  .story-card h3 {
+    font-size: 1.05rem;
+    line-height: 1.38;
+    margin: 0 0 5px 0;
+    font-weight: 700;
+    color: #111;
+  }
+
+  /* ── Meta ── */
+  .story-meta {
+    font-size: .72rem;
+    color: #aaa;
+    gap: 10px;
+    margin-bottom: 7px;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+  }
+
+  /* ── Summary ── */
+  .story-summary-preview {
+    font-size: .91rem;
+    line-height: 1.56;
+    color: #444;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .story-summary-rest {
+    font-size: .91rem;
+    line-height: 1.56;
+    color: #333;
+    margin-top: 8px;
+  }
+
+  /* ── Card footer ── */
+  .card-footer {
+    padding: 9px 16px 13px;
+    margin-top: 8px;
+    border-top: 1px solid #f2f2f2;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .story-link,
+  .btn-review {
+    font-size: .8rem;
+    font-weight: 700;
+    color: #0055bb;
+  }
+
+  /* ── Review panel ── */
+  .feedback-panel {
+    border-radius: 0;
+    box-shadow: none;
+    margin-bottom: 0;
+    border-top: 1px solid #eee;
+  }
+
+  /* ── Global feedback ── */
+  .global-feedback {
+    border-radius: 0;
+    box-shadow: none;
+    margin: 6px 0 0;
+    padding: 16px 16px 20px;
+  }
+
+  .global-feedback h2 {
+    font-size: 1rem;
+  }
+
+  /* ════════════════════════════════════
+     MOBILE AFFILIATE INSERT — 2 columns
+     ════════════════════════════════════ */
+  .mobile-affiliate-insert {
+    background: #fff;
+    padding: 13px 16px 14px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .mobile-affiliate-insert .affiliate-label {
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: #444;
+    border-bottom: 2px solid #0066cc;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+
+  .mobile-affiliate-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .mobile-affiliate-grid a {
+    display: block;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,.10);
+    transition: transform .15s ease;
+  }
+
+  .mobile-affiliate-grid a:active { transform: scale(0.98); }
+
+  .mobile-affiliate-grid img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+  }
+
+  .mobile-affiliate-insert .reading-disclosure {
+    margin-top: 8px;
+    font-size: .6rem;
+    color: #bbb;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  footer {
+    font-size: .76rem;
+    padding: 1.4rem 1rem;
+    color: #999;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    margin-top: 6px;
+  }
+}
+
 </style>
 
 <script>
 
-const bookSubjects = [
-  { img: "/affiliate/books/history.png",  link: "https://www.amazon.com/s?k=history+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/science.png",  link: "https://www.amazon.com/s?k=science+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/space.png",    link: "https://www.amazon.com/s?k=space+exploration+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/politics.png", link: "https://www.amazon.com/s?k=political+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/military.png", link: "https://www.amazon.com/s?k=military+history+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/scifi.png",    link: "https://www.amazon.com/s?k=science+fiction+books&tag=nospinmedia-20" }
-];
+/* ══════════════════════════════════════════
+   AFFILIATE SYSTEM — JSON-driven
+   ══════════════════════════════════════════ */
 
-const gearSubjects = [
-  { img: "/affiliate/gear/nsm-gear-field-optics.png",    link: "https://www.amazon.com/s?k=monocular+binoculars+compact+telescope&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-solar-power.png",     link: "https://www.amazon.com/s?k=solar+power+bank+portable+solar+charger&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-emergency-radio.png", link: "https://www.amazon.com/s?k=emergency+weather+radio+hand+crank&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-science-tools.png",   link: "https://www.amazon.com/s?k=pocket+microscope+geiger+counter+science+tools&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-weather-station.png", link: "https://www.amazon.com/s?k=home+weather+station+barometer+wireless&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-auto-tools.png",      link: "https://www.amazon.com/s?k=automotive+diagnostic+tools+multimeter+garage+tools&tag=nospinmedia-20" }
-];
+let _affiliateData = null;
 
-function shuffle(arr) {
-  return [...arr].sort(() => 0.5 - Math.random());
+async function loadAffiliateData() {
+  if (_affiliateData) return _affiliateData;
+  try {
+    const res = await fetch('/affiliate/affiliate.json');
+    if (!res.ok) throw new Error('affiliate.json not found');
+    _affiliateData = await res.json();
+  } catch (e) {
+    console.warn('Affiliate data failed to load:', e);
+    _affiliateData = {};
+  }
+  return _affiliateData;
 }
 
-function loadBookTiles() {
-  const shuffled = shuffle(bookSubjects);
-  const container = document.getElementById("book-tiles");
-  if (container) {
-    container.innerHTML = shuffled.slice(0, 3).map(book => `
-      <a href="${book.link}" target="_blank" rel="noopener nofollow sponsored"
-         title="Browse on Amazon — supports NSM at no extra cost">
-        <img src="${book.img}" alt="Curated reading selection">
-      </a>
-    `).join("");
+function getRandomLink(item) {
+  if (!item.links || item.links.length === 0) return '#';
+  return item.links[Math.floor(Math.random() * item.links.length)];
+}
+
+function pickItems(items, count) {
+  const mustShow = items.filter(i => i.must_show);
+  const optional = [...items.filter(i => !i.must_show)].sort(() => 0.5 - Math.random());
+  const pool = [...mustShow, ...optional];
+  const seen = new Set();
+  const result = [];
+  for (const item of pool) {
+    if (!seen.has(item.title) && result.length < count) {
+      seen.add(item.title);
+      result.push(item);
+    }
+  }
+  return result;
+}
+
+function pickOneMobile(items) {
+  const mustShow = items.filter(i => i.must_show);
+  const pool = mustShow.length > 0 ? mustShow : items;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function renderTileHTML(item) {
+  const link = getRandomLink(item);
+  const imgSrc = `/affiliate/${item.image}`;
+  return `
+    <a href="${link}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost">
+      <img src="${imgSrc}" alt="${item.title}" loading="lazy">
+    </a>
+  `;
+}
+
+async function loadBookTiles() {
+  const data = await loadAffiliateData();
+
+  /* Desktop left: books (3 slots) */
+  const bookItems = data.books?.items || [];
+  const bookDesktop = pickItems(bookItems, 3);
+  const bookContainer = document.getElementById("book-tiles");
+  if (bookContainer) {
+    bookContainer.innerHTML = bookDesktop.map(renderTileHTML).join("");
   }
 
-  const allCards = shuffle([...bookSubjects, ...gearSubjects]);
-  const mobileCard = allCards[0];
-  const isGear = gearSubjects.includes(mobileCard);
-  window.mobileBookHTML = `
-    <div class="mobile-reading-insert">
-      <div class="reading-label">🧭 ${isGear ? "NSM Field Gear" : "NSM Reading List"}</div>
-      <a href="${mobileCard.link}" target="_blank" rel="noopener nofollow sponsored"
-         title="Browse on Amazon — supports NSM at no extra cost">
-        <img src="${mobileCard.img}" alt="${isGear ? "Curated gear selection" : "Curated reading selection"}">
-      </a>
+  /* Mobile: 2-column insert (1 book + 1 gear) */
+  const gearItems = data.gear?.items || [];
+  const mobileBook = bookItems.length > 0 ? pickOneMobile(bookItems) : null;
+  const mobileGear = gearItems.length > 0 ? pickOneMobile(gearItems) : null;
+  if (!mobileBook && !mobileGear) return;
+
+  const bookTileHTML = mobileBook ? `
+    <a href="${getRandomLink(mobileBook)}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost">
+      <img src="/affiliate/${mobileBook.image}" alt="${mobileBook.title}" loading="lazy">
+    </a>` : "";
+
+  const gearTileHTML = mobileGear ? `
+    <a href="${getRandomLink(mobileGear)}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost">
+      <img src="/affiliate/${mobileGear.image}" alt="${mobileGear.title}" loading="lazy">
+    </a>` : "";
+
+  window.mobileAffiliateHTML = `
+    <div class="mobile-affiliate-insert">
+      <div class="affiliate-label">🧭 NSM Picks</div>
+      <div class="mobile-affiliate-grid">
+        ${bookTileHTML}
+        ${gearTileHTML}
+      </div>
       <div class="reading-disclosure">
-        Selecting ${isGear ? "an item" : "a title"} supports independent journalism at no extra cost to you.
+        Selecting an item supports independent journalism at no extra cost to you.
       </div>
     </div>
   `;
 }
 
-function loadGearTiles() {
-  const shuffled = shuffle(gearSubjects);
+async function loadGearTiles() {
+  const data = await loadAffiliateData();
+  const gearItems = data.gear?.items || [];
+  const desktopItems = pickItems(gearItems, 3);
   const container = document.getElementById("gear-tiles");
   if (container) {
-    container.innerHTML = shuffled.slice(0, 3).map(item => `
-      <a href="${item.link}" target="_blank" rel="noopener nofollow sponsored"
-         title="Browse on Amazon — supports NSM at no extra cost">
-        <img src="${item.img}" alt="Curated gear selection">
-      </a>
-    `).join("");
+    container.innerHTML = desktopItems.map(renderTileHTML).join("");
   }
 }
 
-/* ── Step 1: story-specific image ── */
+/* ══════════════════════════════════════════
+   IMAGE RESOLUTION SYSTEM
+   ══════════════════════════════════════════ */
+
 async function resolveStoryImage(storyId) {
   const extensions = ["webp", "jpg", "png"];
   for (const ext of extensions) {
@@ -480,7 +699,6 @@ async function resolveStoryImage(storyId) {
   return null;
 }
 
-/* ── Step 2+3: keyword fallback image ── */
 let _imageRulesCache = null;
 async function resolveFallbackImage(headline) {
   try {
@@ -499,7 +717,6 @@ async function resolveFallbackImage(headline) {
   return null;
 }
 
-/* ── Full resolution: story → fallback → null ── */
 async function getCardImage(storyId, headline) {
   const storyImg = await resolveStoryImage(storyId);
   if (storyImg) return storyImg;
@@ -508,7 +725,10 @@ async function getCardImage(storyId, headline) {
   return null;
 }
 
-/* ── Markdown converter ── */
+/* ══════════════════════════════════════════
+   MARKDOWN CONVERTER
+   ══════════════════════════════════════════ */
+
 function convertRedditMarkdown(text) {
   if (!text) return "";
   text = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -525,7 +745,10 @@ function convertRedditMarkdown(text) {
   return text.trim();
 }
 
-/* ── Feedback submit ── */
+/* ══════════════════════════════════════════
+   FEEDBACK
+   ══════════════════════════════════════════ */
+
 async function submitFeedback(name, email, message, statusEl, formEl) {
   statusEl.style.color = "black";
   statusEl.textContent = "Sending...";
@@ -552,22 +775,18 @@ async function submitFeedback(name, email, message, statusEl, formEl) {
   }
 }
 
-/* ── Toggle per-story review panel ── */
 function toggleReview(storyUrl, headline) {
   const panel = document.getElementById("review-panel-" + storyUrl);
   if (!panel) return;
   panel.classList.toggle("open");
   if (panel.classList.contains("open")) {
     const ta = panel.querySelector("textarea");
-    if (ta && !ta.value) {
-      ta.value = `Story: ${headline}\n\nNotes:\n`;
-    }
+    if (ta && !ta.value) ta.value = `Story: ${headline}\n\nNotes:\n`;
     panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 }
 window.toggleReview = toggleReview;
 
-/* ── Toggle story expand ── */
 function toggleSummary(btn) {
   const card = btn.closest(".story-card");
   const rest = card.querySelector(".story-summary-rest");
@@ -578,7 +797,6 @@ function toggleSummary(btn) {
 }
 window.toggleSummary = toggleSummary;
 
-/* ── Share — inline feedback, no popup ── */
 async function shareUnpublished(id, btn) {
   const base = `${window.location.origin}${window.location.pathname}`;
   const url  = `${base}?id=${id}`;
@@ -594,7 +812,10 @@ async function shareUnpublished(id, btn) {
 }
 window.shareUnpublished = shareUnpublished;
 
-/* ── Slot scheduling ── */
+/* ══════════════════════════════════════════
+   SLOT SCHEDULING
+   ══════════════════════════════════════════ */
+
 const slots = [
   "00:30", "06:15", "08:45", "10:15", "11:45",
   "13:15", "15:45", "17:15", "18:30", "20:45"
@@ -657,7 +878,10 @@ function assignSlots(stories) {
   return stories;
 }
 
-/* ── Main load ── */
+/* ══════════════════════════════════════════
+   MAIN LOAD
+   ══════════════════════════════════════════ */
+
 async function loadStories() {
   const storyId = new URLSearchParams(window.location.search).get('id');
 
@@ -672,7 +896,6 @@ async function loadStories() {
   stories = stories.filter(s => s.headline);
   stories = assignSlots(stories);
 
-  /* ── Resolve all thumbnails in parallel ── */
   const thumbUrls = await Promise.all(stories.map(s => getCardImage(s.url, s.headline)));
 
   /* Group by date */
@@ -739,7 +962,7 @@ async function loadStories() {
             ${hasMore ? `<div class="story-summary-rest" style="display:none;">${restPara}</div>` : ""}
             <div class="card-footer">
               ${hasMore ? `<button class="story-link" onclick="toggleSummary(this)">Show more ↓</button>` : `<span></span>`}
-              <button class="btn-review" onclick="toggleReview('${safeUrl}', '${safeHeadline}')">✏️ Review / Comment</button>
+              <button class="btn-review" onclick="toggleReview('${safeUrl}', '${safeHeadline}')">✏️ Review</button>
               <button class="story-link" onclick="shareUnpublished('${safeUrl}', this)">🔗 Share</button>
             </div>
           </div>
@@ -747,7 +970,6 @@ async function loadStories() {
         </div>
       `;
 
-      /* Per-story review panel */
       const reviewPanel = document.createElement("div");
       reviewPanel.className = "feedback-panel";
       reviewPanel.id = "review-panel-" + story.url;
@@ -775,9 +997,10 @@ async function loadStories() {
 
       cardCount++;
 
-      if (window.innerWidth <= 900 && cardCount === 3 && !mobileInserted && window.mobileBookHTML) {
+      /* Mobile: inject 2-col affiliate after card 3 */
+      if (window.innerWidth <= 900 && cardCount === 3 && !mobileInserted && window.mobileAffiliateHTML) {
         const insert = document.createElement("div");
-        insert.innerHTML = window.mobileBookHTML;
+        insert.innerHTML = window.mobileAffiliateHTML;
         dateGroup.appendChild(insert.firstElementChild);
         mobileInserted = true;
       }
@@ -803,7 +1026,7 @@ window.submitReviewPanel = function(storyUrl, btn) {
   submitFeedback(name, email, message, statusEl, null);
 };
 
-/* ── Global feedback form ── */
+/* ── Global feedback ── */
 function initGlobalFeedback() {
   const form = document.getElementById("globalFeedbackForm");
   if (!form) return;
@@ -817,7 +1040,10 @@ function initGlobalFeedback() {
   });
 }
 
-/* ── Boot ── */
+/* ══════════════════════════════════════════
+   BOOT
+   ══════════════════════════════════════════ */
+
 document.addEventListener("DOMContentLoaded", function () {
   fetch("header.html")
     .then(res => res.text())
