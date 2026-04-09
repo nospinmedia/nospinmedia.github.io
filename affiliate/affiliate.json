@@ -4,7 +4,7 @@
       {
         "title": "History Books",
         "image": "books/history.png",
-        "must_show": true,
+        "must_show": false,
         "links": [
           "https://www.amazon.com/s?k=history+books&tag=nospinmedia-20",
           "https://www.amazon.com/s?k=american+history+books&tag=nospinmedia-20",
