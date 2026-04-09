@@ -359,66 +359,102 @@ footer {
 const SUPABASE_URL = "https://dckmflnbprhmaqysuued.supabase.co/rest/v1";
 const SUPABASE_KEY = "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB";
 
-/* ── Book tile pool ── */
-const bookSubjects = [
-  { img: "/affiliate/books/history.png",  link: "https://www.amazon.com/s?k=history+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/science.png",  link: "https://www.amazon.com/s?k=science+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/space.png",    link: "https://www.amazon.com/s?k=space+exploration+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/politics.png", link: "https://www.amazon.com/s?k=political+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/military.png", link: "https://www.amazon.com/s?k=military+history+books&tag=nospinmedia-20" },
-  { img: "/affiliate/books/scifi.png",    link: "https://www.amazon.com/s?k=science+fiction+books&tag=nospinmedia-20" }
-];
+/* ══════════════════════════════════════════
+   AFFILIATE SYSTEM — JSON-driven
+   All config lives in /affiliate/affiliate.json
+   No code changes needed to add/remove items
+   ══════════════════════════════════════════ */
 
-/* ── Gear tile pool ── */
-const gearSubjects = [
-  { img: "/affiliate/gear/nsm-gear-field-optics.png",    link: "https://www.amazon.com/s?k=monocular+binoculars+compact+telescope&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-solar-power.png",     link: "https://www.amazon.com/s?k=solar+power+bank+portable+solar+charger&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-emergency-radio.png", link: "https://www.amazon.com/s?k=emergency+weather+radio+hand+crank&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-science-tools.png",   link: "https://www.amazon.com/s?k=pocket+microscope+geiger+counter+science+tools&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-weather-station.png", link: "https://www.amazon.com/s?k=home+weather+station+barometer+wireless&tag=nospinmedia-20" },
-  { img: "/affiliate/gear/nsm-gear-auto-tools.png",      link: "https://www.amazon.com/s?k=automotive+diagnostic+tools+multimeter+garage+tools&tag=nospinmedia-20" }
-];
+let _affiliateData = null;
 
-function shuffle(arr) {
-  return [...arr].sort(() => 0.5 - Math.random());
+async function loadAffiliateData() {
+  if (_affiliateData) return _affiliateData;
+  try {
+    const res = await fetch('/affiliate/affiliate.json');
+    if (!res.ok) throw new Error('affiliate.json not found');
+    _affiliateData = await res.json();
+  } catch (e) {
+    console.warn('Affiliate data failed to load:', e);
+    _affiliateData = {};
+  }
+  return _affiliateData;
 }
 
-function loadAffiliateTiles() {
+function getRandomLink(item) {
+  if (!item.links || item.links.length === 0) return '#';
+  return item.links[Math.floor(Math.random() * item.links.length)];
+}
+
+function getAllItems(data) {
+  return Object.values(data).flatMap(cat => cat.items || []);
+}
+
+function pickItems(items, count) {
+  const mustShow = items.filter(i => i.must_show);
+  const optional = [...items.filter(i => !i.must_show)].sort(() => 0.5 - Math.random());
+  const pool = [...mustShow, ...optional];
+  const seen = new Set();
+  const result = [];
+  for (const item of pool) {
+    if (!seen.has(item.title) && result.length < count) {
+      seen.add(item.title);
+      result.push(item);
+    }
+  }
+  return result;
+}
+
+function pickMobileItem(items) {
+  const mustShow = items.filter(i => i.must_show);
+  const pool = mustShow.length > 0 ? mustShow : items;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function renderTileHTML(item) {
+  const link = getRandomLink(item);
+  const imgSrc = `/affiliate/${item.image}`;
+  return `
+    <a href="${link}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost">
+      <img src="${imgSrc}" alt="${item.title}" loading="lazy">
+    </a>
+  `;
+}
+
+async function loadAffiliateTiles() {
+  const data = await loadAffiliateData();
+  const allItems = getAllItems(data);
+
+  /* Left panel: books (3 slots) */
+  const bookItems = data.books?.items || [];
+  const bookDesktop = pickItems(bookItems, 3);
   const bookContainer = document.getElementById("book-tiles");
   if (bookContainer) {
-    shuffle(bookSubjects).slice(0, 3).forEach(book => {
-      const a = document.createElement("a");
-      a.href = book.link;
-      a.target = "_blank";
-      a.rel = "noopener nofollow sponsored";
-      a.title = "Browse on Amazon — supports NSM at no extra cost";
-      a.innerHTML = `<img src="${book.img}" alt="Curated reading selection">`;
-      bookContainer.appendChild(a);
-    });
+    bookContainer.innerHTML = bookDesktop.map(renderTileHTML).join("");
   }
 
+  /* Right panel: gear (3 slots) */
+  const gearItems = data.gear?.items || [];
+  const gearDesktop = pickItems(gearItems, 3);
   const gearContainer = document.getElementById("gear-tiles");
   if (gearContainer) {
-    shuffle(gearSubjects).slice(0, 3).forEach(item => {
-      const a = document.createElement("a");
-      a.href = item.link;
-      a.target = "_blank";
-      a.rel = "noopener nofollow sponsored";
-      a.title = "Browse on Amazon — supports NSM at no extra cost";
-      a.innerHTML = `<img src="${item.img}" alt="Curated gear selection">`;
-      gearContainer.appendChild(a);
-    });
+    gearContainer.innerHTML = gearDesktop.map(renderTileHTML).join("");
   }
 
-  const allCards = shuffle([...bookSubjects, ...gearSubjects]);
-  const mobileCard = allCards[0];
-  const isGear = gearSubjects.includes(mobileCard);
+  /* Mobile: one random item from ALL categories */
+  if (allItems.length === 0) return;
+  const mobileItem = pickMobileItem(allItems);
+  const mobileLink = getRandomLink(mobileItem);
+  const mobileImgSrc = `/affiliate/${mobileItem.image}`;
+  const gearTitles = new Set((data.gear?.items || []).map(i => i.title));
+  const isGear = gearTitles.has(mobileItem.title);
+
   window.mobileAffiliateHTML = `
     <div class="mobile-affiliate-insert">
       <div class="reading-label">🧭 ${isGear ? "NSM Field Gear" : "NSM Reading List"}</div>
-      <a href="${mobileCard.link}" target="_blank" rel="noopener nofollow sponsored"
+      <a href="${mobileLink}" target="_blank" rel="noopener nofollow sponsored"
          title="Browse on Amazon — supports NSM at no extra cost">
-        <img src="${mobileCard.img}" alt="${isGear ? "Curated gear" : "Curated reading"}">
+        <img src="${mobileImgSrc}" alt="${mobileItem.title}" loading="lazy">
       </a>
       <div class="reading-disclosure">
         Selecting ${isGear ? "an item" : "a title"} supports independent journalism at no extra cost to you.
@@ -427,7 +463,10 @@ function loadAffiliateTiles() {
   `;
 }
 
-/* ── Step 1: story-specific image ── */
+/* ══════════════════════════════════════════
+   IMAGE RESOLUTION SYSTEM
+   ══════════════════════════════════════════ */
+
 async function resolveStoryImage(storyId) {
   const extensions = ["webp", "jpg", "png"];
   for (const ext of extensions) {
@@ -440,7 +479,6 @@ async function resolveStoryImage(storyId) {
   return null;
 }
 
-/* ── Step 2+3: keyword fallback image ── */
 let _imageRulesCache = null;
 async function resolveFallbackImage(headline) {
   try {
@@ -459,7 +497,6 @@ async function resolveFallbackImage(headline) {
   return null;
 }
 
-/* ── Full resolution: story → fallback → null ── */
 async function getCardImage(storyId, headline) {
   const storyImg = await resolveStoryImage(storyId);
   if (storyImg) return storyImg;
@@ -468,7 +505,10 @@ async function getCardImage(storyId, headline) {
   return null;
 }
 
-/* ── Archive logic ── */
+/* ══════════════════════════════════════════
+   ARCHIVE LOGIC
+   ══════════════════════════════════════════ */
+
 function convertRedditMarkdown(text) {
   if (!text) return "";
   text = text.replace(/\\n\\n/g, "\n\n");
@@ -588,7 +628,6 @@ async function displayStories(stories, database) {
     return;
   }
 
-  /* ── Resolve all thumbnails in parallel before rendering ── */
   const thumbUrls = await Promise.all(stories.map(s => getCardImage(s.url, s.headline)));
 
   stories.forEach((s, index) => {
@@ -611,10 +650,10 @@ async function displayStories(stories, database) {
     const card = document.createElement("div");
     card.className = "story-card";
     card.onclick = (e) => {
-      if (e.target.closest(".share-btn"))    return;
-      if (e.target.closest(".story-link"))   return;
+      if (e.target.closest(".share-btn"))     return;
+      if (e.target.closest(".story-link"))    return;
       if (e.target.closest(".headline-link")) return;
-      if (e.target.closest(".card-thumb"))   return;
+      if (e.target.closest(".card-thumb"))    return;
       window.location = `${storyPage}?story=${encodeURIComponent(s.url)}`;
     };
 
@@ -658,6 +697,10 @@ async function displayStories(stories, database) {
     }
   });
 }
+
+/* ══════════════════════════════════════════
+   INIT
+   ══════════════════════════════════════════ */
 
 document.addEventListener("DOMContentLoaded", function () {
   fetch("header.html")
