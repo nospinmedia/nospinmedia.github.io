@@ -27,6 +27,10 @@
     },
 
     {
+  "match": ["heatwave", "extreme heat", "temperature", "humidity", "wet-bulb", "record heat"],
+  "image": "heatwave.webp"
+    },
+    {
       "match": ["WHO", "World Health", "health campaign"],
       "image": "who-hq.webp"
     },
