@@ -25,7 +25,10 @@
       "match": ["ICE", "immigration", "detention", "deportation", "border enforcement", "DHS"],
       "image": "ice-enforcement.webp"
     },
-
+    {
+  "match": ["wildfire", "wildfires", "brush fire", "forest fire", "bushfire"],
+  "image": "wildfire-forest-smoke.webp"
+    },
     {
       "match": ["heatwave", "extreme heat", "temperature", "humidity", "wet-bulb", "record heat"],
       "image": "heatwave-warning-highway.webp"
