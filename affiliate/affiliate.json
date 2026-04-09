@@ -1,0 +1,131 @@
+{
+  "books": {
+    "items": [
+      {
+        "title": "History Books",
+        "image": "books/history.png",
+        "must_show": true,
+        "links": [
+          "https://www.amazon.com/s?k=history+books&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=american+history+books&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=world+history+books&tag=nospinmedia-20"
+        ]
+      },
+      {
+        "title": "Military History",
+        "image": "books/military.png",
+        "must_show": false,
+        "links": [
+          "https://www.amazon.com/s?k=military+history+books&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=ww2+history+books&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=war+history+books&tag=nospinmedia-20"
+        ]
+      },
+      {
+        "title": "Politics",
+        "image": "books/politics.png",
+        "must_show": false,
+        "links": [
+          "https://www.amazon.com/s?k=politics+books&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=political+science+books&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=government+books&tag=nospinmedia-20"
+        ]
+      },
+      {
+        "title": "Science Books",
+        "image": "books/science.png",
+        "must_show": false,
+        "links": [
+          "https://www.amazon.com/s?k=science+books&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=physics+books&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=astronomy+books&tag=nospinmedia-20"
+        ]
+      },
+      {
+        "title": "Science Fiction",
+        "image": "books/scifi.png",
+        "must_show": false,
+        "links": [
+          "https://www.amazon.com/s?k=science+fiction+books&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=space+opera+books&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=best+science+fiction+novels&tag=nospinmedia-20"
+        ]
+      },
+      {
+        "title": "Space Exploration",
+        "image": "books/space.png",
+        "must_show": false,
+        "links": [
+          "https://www.amazon.com/s?k=space+exploration+books&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=nasa+books&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=astronaut+books&tag=nospinmedia-20"
+        ]
+      }
+    ]
+  },
+
+  "gear": {
+    "items": [
+      {
+        "title": "Auto Emergency Tools",
+        "image": "gear/nsm-gear-auto-tools.png",
+        "must_show": false,
+        "links": [
+          "https://www.amazon.com/s?k=car+emergency+kit&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=vehicle+survival+tools&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=car+safety+tools&tag=nospinmedia-20"
+        ]
+      },
+      {
+        "title": "Emergency Radios",
+        "image": "gear/nsm-gear-emergency-radio.png",
+        "must_show": false,
+        "links": [
+          "https://www.amazon.com/s?k=emergency+weather+radio&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=hand+crank+emergency+radio&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=solar+emergency+radio&tag=nospinmedia-20"
+        ]
+      },
+      {
+        "title": "Field Optics",
+        "image": "gear/nsm-gear-field-optics.png",
+        "must_show": false,
+        "links": [
+          "https://www.amazon.com/s?k=binoculars&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=compact+binoculars&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=travel+binoculars&tag=nospinmedia-20"
+        ]
+      },
+      {
+        "title": "Science Tools",
+        "image": "gear/nsm-gear-science-tools.png",
+        "must_show": false,
+        "links": [
+          "https://www.amazon.com/s?k=science+tools+kit&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=microscope+kit&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=lab+equipment+kit&tag=nospinmedia-20"
+        ]
+      },
+      {
+        "title": "Solar Power Gear",
+        "image": "gear/nsm-gear-solar-power.png",
+        "must_show": false,
+        "links": [
+          "https://www.amazon.com/s?k=portable+solar+charger&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=solar+power+bank&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=portable+solar+panel&tag=nospinmedia-20"
+        ]
+      },
+      {
+        "title": "Weather Stations",
+        "image": "gear/nsm-gear-weather-station.png",
+        "must_show": false,
+        "links": [
+          "https://www.amazon.com/s?k=home+weather+station&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=digital+weather+station&tag=nospinmedia-20",
+          "https://www.amazon.com/s?k=wireless+weather+station&tag=nospinmedia-20"
+        ]
+      }
+    ]
+  }
+}
