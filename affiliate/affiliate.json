@@ -2,6 +2,14 @@
   "books": {
     "items": [
       {
+      "title": "Soccer History Book",
+      "image": "faulkner-soccer-book.webp",
+      "must_show": true,
+      "links": [
+        "https://amzn.to/4dzGNBK"
+      ]
+    },
+      {
         "title": "History Books",
         "image": "books/history.png",
         "must_show": false,
