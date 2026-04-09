@@ -274,15 +274,12 @@ function resolveBackLink() {
         if (refPage === "new-england.html") {
           return { href: "new-england.html", label: "← Back to New England News" };
         }
-        if (refPage === "news.html") {
-          return { href: "news.html", label: "← Back to Archive" };
-        }
         // Any other internal page
         return { href: ref, label: "← Back" };
       }
     } catch (e) {}
   }
-  // No referrer or external = direct/shared link, default to NE feed
+  // No referrer or external = direct/shared link
   return { href: "new-england.html", label: "← Back to New England News" };
 }
 
