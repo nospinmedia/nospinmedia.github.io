@@ -21,7 +21,8 @@
         position: fixed !important;
         z-index: 1000 !important;
     }
-.mobile-social {
+
+    .mobile-social {
         display: flex;
         flex-direction: column;
     }
@@ -66,6 +67,33 @@
         margin-left: 20px !important;
         text-decoration: none !important;
         font-weight: bold !important;
+    }
+
+    /* Internal-only links — hidden by default, shown by JS */
+    .internal-nav-link {
+        display: none;
+        color: #ffcc00 !important;  /* gold tint so they stand out */
+        margin-left: 20px !important;
+        text-decoration: none !important;
+        font-weight: bold !important;
+    }
+
+    .internal-nav-link.visible {
+        display: inline !important;
+    }
+
+    .mobile-nav .internal-nav-link {
+        display: none;
+        color: #ffcc00 !important;
+        padding: 10px 20px;
+        text-decoration: none;
+        font-weight: bold;
+        border-bottom: 1px solid #333;
+        text-align: right;
+    }
+
+    .mobile-nav .internal-nav-link.visible {
+        display: block !important;
     }
 
     /* Hamburger */
@@ -136,11 +164,40 @@
 </head>
 <body>
     <header>
-    <a href="/index.html" class="header-logo-text">🧭 No Spin Media</a>
+        <a href="/index.html" class="header-logo-text">🧭 No Spin Media</a>
 
-    <div class="hamburger-menu" id="hamburger">&#9776;</div>
+        <div class="hamburger-menu" id="hamburger">&#9776;</div>
 
-    <nav id="desktop-nav">
+        <nav id="desktop-nav">
+            <a href="/index.html">Home</a>
+            <a href="/news.html">Archive</a>
+            <a href="/new-england.html">New England</a>
+            <a href="/daily.html">Daily</a>
+            <a href="/utilities/index.html">Utilities</a>
+            <a href="/sponsor.html">Support</a>
+            <a href="/about.html">About</a>
+            <a href="/ai.html">AI Transparency</a>
+
+            <!-- Internal links — hidden until probed -->
+            <a id="desktop-dropoff"
+               class="internal-nav-link"
+               href="http://192.168.194.152:9090/dropoff"
+               target="_blank">📥 Dropoff</a>
+            <a id="desktop-images"
+               class="internal-nav-link"
+               href="http://192.168.194.152:9090/image-upload"
+               target="_blank">🖼️ Images</a>
+
+            <span class="social-icons">
+                <a href="https://reddit.com/r/NoSpinMedia" target="_blank" title="Reddit">👽</a>
+                <a href="https://bsky.app/profile/nospinmedia.bsky.social" target="_blank" title="Bluesky">🦋</a>
+                <a href="https://www.threads.com/@nospinmedia" target="_blank" title="Threads">🧵</a>
+                <a href="https://facebook.com/NoSpinNewsAI" target="_blank" title="Facebook">📘</a>
+            </span>
+        </nav>
+    </header>
+
+    <div class="mobile-nav" id="mobile-nav">
         <a href="/index.html">Home</a>
         <a href="/news.html">Archive</a>
         <a href="/new-england.html">New England</a>
@@ -150,38 +207,31 @@
         <a href="/about.html">About</a>
         <a href="/ai.html">AI Transparency</a>
 
-        <span class="social-icons">
-            <a href="https://reddit.com/r/NoSpinMedia" target="_blank" title="Reddit">👽</a>
-            <a href="https://bsky.app/profile/nospinmedia.bsky.social" target="_blank" title="Bluesky">🦋</a>
-            <a href="https://www.threads.com/@nospinmedia" target="_blank" title="Threads">🧵</a>
-            <a href="https://facebook.com/NoSpinNewsAI" target="_blank" title="Facebook">📘</a>
-        </span>
-    </nav>
-</header>
+        <!-- Internal links in mobile nav — hidden until probed -->
+        <a id="mobile-dropoff"
+           class="internal-nav-link"
+           href="http://192.168.194.152:9090/dropoff"
+           target="_blank">📥 Dropoff</a>
+        <a id="mobile-images"
+           class="internal-nav-link"
+           href="http://192.168.194.152:9090/image-upload"
+           target="_blank">🖼️ Images</a>
 
-<div class="mobile-nav" id="mobile-nav">
-    <a href="/index.html">Home</a>
-    <a href="/news.html">Archive</a>
-    <a href="/new-england.html">New England</a>
-    <a href="/daily.html">Daily</a>
-    <a href="/utilities/index.html">Utilities</a>
-    <a href="/sponsor.html">Support</a>
-    <a href="/about.html">About</a>
-    <a href="/ai.html">AI Transparency</a>
-
-    <div class="mobile-social">
-        <a href="https://reddit.com/r/NoSpinMedia" target="_blank">👽 Reddit</a>
-        <a href="https://bsky.app/profile/nospinmedia.bsky.social" target="_blank">🦋 Bluesky</a>
-        <a href="https://www.threads.com/@nospinmedia" target="_blank">🧵 Threads</a>
-        <a href="https://facebook.com/NoSpinNewsAI" target="_blank">📘 Facebook</a>
+        <div class="mobile-social">
+            <a href="https://reddit.com/r/NoSpinMedia" target="_blank">👽 Reddit</a>
+            <a href="https://bsky.app/profile/nospinmedia.bsky.social" target="_blank">🦋 Bluesky</a>
+            <a href="https://www.threads.com/@nospinmedia" target="_blank">🧵 Threads</a>
+            <a href="https://facebook.com/NoSpinNewsAI" target="_blank">📘 Facebook</a>
+        </div>
     </div>
 
 <script>
+/* ══════════════════════════════════════════
+   HAMBURGER
+   ══════════════════════════════════════════ */
 function initHamburger() {
-
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobile-nav');
-
     if (!hamburger || !mobileNav) return;
 
     hamburger.onclick = () => {
@@ -195,9 +245,41 @@ function initHamburger() {
             hamburger.classList.remove('active');
         };
     });
-
 }
 
+/* ══════════════════════════════════════════
+   INTERNAL LINK DETECTION
+   Probes 192.168 server with a short timeout.
+   If reachable (local network or VPN), shows
+   Dropoff and Images links in gold.
+   External visitors: fetch times out silently.
+   ══════════════════════════════════════════ */
+(async function checkInternalAccess() {
+    const probeUrl = "http://192.168.194.152:9090/dropoff";
+
+    try {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 1500);
+
+        await fetch(probeUrl, {
+            method: "HEAD",
+            mode: "no-cors",
+            signal: controller.signal
+        });
+
+        clearTimeout(timer);
+
+        /* Reachable — show both internal links in desktop + mobile nav */
+        ["desktop-dropoff", "desktop-images",
+         "mobile-dropoff",  "mobile-images"].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.add("visible");
+        });
+
+    } catch (e) {
+        /* Not reachable — links stay hidden, no error shown */
+    }
+})();
 </script>
 
 </body>
