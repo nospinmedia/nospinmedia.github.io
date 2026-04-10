@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NSM — Local Access Enabled</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+    .box {
+      max-width: 480px;
+    }
+    h1 { color: #ffcc00; font-size: 2rem; margin-bottom: 0.5rem; }
+    p  { color: #ccc; line-height: 1.6; }
+    .status { font-size: 1.2rem; margin: 1.2rem 0; }
+    a {
+      display: inline-block;
+      margin-top: 1.2rem;
+      padding: 10px 24px;
+      background: #0066cc;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    a:hover { background: #004c99; }
+    .disable {
+      display: block;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: #888;
+      cursor: pointer;
+      text-decoration: underline;
+      background: none;
+      border: none;
+      color: #888;
+    }
+    .disable:hover { color: #ccc; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>🧭 No Spin Media</h1>
+    <div class="status" id="status">Setting up local access…</div>
+    <p id="desc"></p>
+    <a href="https://nospin.media/about.html">← Go to About</a>
+    <br>
+    <button class="disable" onclick="disableLocal()">Disable local links on this browser</button>
+  </div>
+
+  <script>
+    const FLAG_KEY = "nsm_local_seen";
+
+    // Write flag with current timestamp — valid for 30 days
+    // (about.html reads this and shows internal links if < 30 days old)
+    try {
+      localStorage.setItem(FLAG_KEY, Date.now().toString());
+      document.getElementById("status").textContent = "✅ Local links enabled!";
+      document.getElementById("status").style.color = "#00cc66";
+      document.getElementById("desc").textContent =
+        "Dropoff and Images links will now appear in the navigation on this browser. " +
+        "Visit this page again anytime to refresh the setting.";
+    } catch(e) {
+      document.getElementById("status").textContent = "❌ Could not save setting.";
+      document.getElementById("status").style.color = "#cc3333";
+      document.getElementById("desc").textContent =
+        "localStorage may be blocked in this browser. Try disabling private/incognito mode.";
+    }
+
+    function disableLocal() {
+      try {
+        localStorage.removeItem(FLAG_KEY);
+        document.getElementById("status").textContent = "🚫 Local links disabled.";
+        document.getElementById("status").style.color = "#ff9900";
+        document.getElementById("desc").textContent =
+          "Internal nav links are now hidden on this browser.";
+      } catch(e) {}
+    }
+  </script>
+</body>
+</html>
