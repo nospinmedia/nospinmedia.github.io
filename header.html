@@ -103,9 +103,7 @@
         transition: color 0.3s;
     }
 
-    .hamburger-menu.active {
-        color: #ff5733;
-    }
+    .hamburger-menu.active { color: #ff5733; }
 
     .mobile-nav {
         flex-direction: column;
@@ -122,9 +120,7 @@
         transition: transform 0.3s ease;
     }
 
-    .mobile-nav.open {
-        transform: translateX(0);
-    }
+    .mobile-nav.open { transform: translateX(0); }
 
     .mobile-nav a {
         color: #fff;
@@ -144,12 +140,8 @@
             font-size: 1.5rem !important;
             flex-shrink: 0;
         }
-        header nav {
-            display: none !important;
-        }
-        .hamburger-menu {
-            display: block;
-        }
+        header nav { display: none !important; }
+        .hamburger-menu { display: block; }
         .mobile-nav {
             display: flex;
             flex-direction: column;
@@ -159,18 +151,20 @@
 </head>
 <body>
     <header>
-        <a href="/index.html" class="header-logo-text">🧭 No Spin Media</a>
+        <!-- Absolute URL so it works from any origin (nospin.media OR 192.168.x.x) -->
+        <a href="https://nospin.media/index.html" class="header-logo-text">🧭 No Spin Media</a>
         <div class="hamburger-menu" id="hamburger">&#9776;</div>
+
         <nav id="desktop-nav">
-            <a href="/index.html">Home</a>
-            <a href="/news.html">Archive</a>
-            <a href="/new-england.html">New England</a>
-            <a href="/daily.html">Daily</a>
-            <a href="/utilities/index.html">Utilities</a>
-            <a href="/sponsor.html">Support</a>
-            <a href="/about.html">About</a>
-            <a href="/ai.html">AI Transparency</a>
-            <!-- Internal links — revealed by probe script in each page -->
+            <a href="https://nospin.media/index.html">Home</a>
+            <a href="https://nospin.media/news.html">Archive</a>
+            <a href="https://nospin.media/new-england.html">New England</a>
+            <a href="https://nospin.media/daily.html">Daily</a>
+            <a href="https://nospin.media/utilities/index.html">Utilities</a>
+            <a href="https://nospin.media/sponsor.html">Support</a>
+            <a href="https://nospin.media/about.html">About</a>
+            <a href="https://nospin.media/ai.html">AI Transparency</a>
+            <!-- Internal links — shown only when on local network or VPN -->
             <a id="desktop-dropoff"
                class="internal-nav-link"
                href="http://192.168.194.152:9090/dropoff"
@@ -189,15 +183,15 @@
     </header>
 
     <div class="mobile-nav" id="mobile-nav">
-        <a href="/index.html">Home</a>
-        <a href="/news.html">Archive</a>
-        <a href="/new-england.html">New England</a>
-        <a href="/daily.html">Daily</a>
-        <a href="/utilities/index.html">Utilities</a>
-        <a href="/sponsor.html">Support</a>
-        <a href="/about.html">About</a>
-        <a href="/ai.html">AI Transparency</a>
-        <!-- Internal links — revealed by probe script in each page -->
+        <a href="https://nospin.media/index.html">Home</a>
+        <a href="https://nospin.media/news.html">Archive</a>
+        <a href="https://nospin.media/new-england.html">New England</a>
+        <a href="https://nospin.media/daily.html">Daily</a>
+        <a href="https://nospin.media/utilities/index.html">Utilities</a>
+        <a href="https://nospin.media/sponsor.html">Support</a>
+        <a href="https://nospin.media/about.html">About</a>
+        <a href="https://nospin.media/ai.html">AI Transparency</a>
+        <!-- Internal links in mobile nav -->
         <a id="mobile-dropoff"
            class="internal-nav-link"
            href="http://192.168.194.152:9090/dropoff"
