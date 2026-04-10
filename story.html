@@ -195,61 +195,6 @@ body {
   margin-bottom: 18px;
 }
 
-/* ══════════════════════════════════════════
-   REDDIT ENGAGEMENT BLOCK
-   ══════════════════════════════════════════ */
-
-#reddit-engagement {
-  margin-top: 28px;
-  margin-bottom: 4px;
-  padding: 16px 20px 18px;
-  background: #f9f9f9;
-  border: 1px solid #e8e8e8;
-  border-left: 3px solid #ff4500;
-  border-radius: 4px;
-}
-
-.reddit-engagement-header {
-  font-size: .7rem;
-  font-weight: 800;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: #999;
-  margin-bottom: 10px;
-}
-
-.reddit-stats {
-  font-size: .95rem;
-  color: #444;
-  margin-bottom: 8px;
-  line-height: 1.5;
-}
-
-.conversation-meter {
-  font-size: .9rem;
-  font-weight: 700;
-  color: #333;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.meter-bar-wrap {
-  margin-top: 10px;
-  height: 4px;
-  background: #e8e8e8;
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.meter-bar-fill {
-  height: 100%;
-  border-radius: 2px;
-  background: #ff4500;
-  transition: width 0.8s ease;
-}
-
-/* ── Story links section ── */
 .story-links {
   margin-top: 25px;
   display: flex;
@@ -393,17 +338,10 @@ footer {
     margin-bottom: 16px;
   }
 
-  /* ── Reddit engagement: mobile ── */
-  #reddit-engagement {
-    margin: 0 16px 0;
-    margin-top: 16px;
-    border-radius: 4px;
-  }
-
   /* ── Story links / actions ── */
   .story-links {
     padding: 14px 16px 20px;
-    margin-top: 14px;
+    margin-top: 4px;
     border-top: 1px solid #f0f0f0;
     display: flex;
     flex-direction: column;
@@ -698,64 +636,7 @@ function buildImageBlockHTML(imgUrl, meta, dbCaption) {
 }
 
 /* ══════════════════════════════════════════
-   REDDIT ENGAGEMENT METER
-   ══════════════════════════════════════════ */
-
-async function loadRedditEngagement(redditUrl) {
-  try {
-    // Extract post ID from URL pattern: /comments/POST_ID/...
-    const match = redditUrl.match(/\/comments\/([a-z0-9]+)/i);
-    if (!match) return;
-
-    const postId  = match[1];
-    const jsonUrl = `https://www.reddit.com/comments/${postId}.json`;
-
-    const response = await fetch(jsonUrl);
-    if (!response.ok) return;
-
-    const data = await response.json();
-    const post = data?.[0]?.data?.children?.[0]?.data;
-    if (!post) return;
-
-    const upvotes  = post.score        ?? 0;
-    const comments = post.num_comments ?? 0;
-
-    const conversationScore = (comments * 2) + upvotes;
-
-    // Clamp bar fill to 0–100% across a 0–200 score range
-    const barPct = Math.min(100, Math.round((conversationScore / 200) * 100));
-
-    let meterLabel, meterEmoji, barColor;
-    if      (conversationScore <=  10) { meterLabel = "Quiet";    meterEmoji = "😶";   barColor = "#aaa";    }
-    else if (conversationScore <=  30) { meterLabel = "Active";   meterEmoji = "💬";   barColor = "#4a9eff"; }
-    else if (conversationScore <=  60) { meterLabel = "Heated";   meterEmoji = "🔥";   barColor = "#ff8c00"; }
-    else if (conversationScore <= 150) { meterLabel = "On Fire";  meterEmoji = "🚨🔥"; barColor = "#e63000"; }
-    else                               { meterLabel = "Volcanic"; meterEmoji = "🌋";   barColor = "#8b0000"; }
-
-    const container = document.getElementById("reddit-engagement");
-    if (!container) return;
-
-    container.querySelector(".reddit-stats").textContent =
-      `👍 ${upvotes.toLocaleString()} upvotes  ·  💬 ${comments.toLocaleString()} comments`;
-
-    container.querySelector(".conversation-meter").innerHTML =
-      `<span>NSM Conversation Meter</span><span>${meterEmoji} ${meterLabel}</span>`;
-
-    const fill = container.querySelector(".meter-bar-fill");
-    fill.style.background = barColor;
-    // Animate the bar after a brief delay so the transition is visible
-    setTimeout(() => { fill.style.width = barPct + "%"; }, 80);
-
-    container.style.display = "block";
-
-  } catch (err) {
-    // Fail silently — page renders normally without this block
-    console.log("Reddit engagement data unavailable:", err.message);
-  }
-}
-
-/* ══════════════════════════════════════════
-   SHARE BUTTON
+   STORY LOADER
    ══════════════════════════════════════════ */
 
 function shareStory() {
@@ -779,10 +660,6 @@ function convertRedditMarkdown(text) {
   text = text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g, "<em>$1</em>");
   return text;
 }
-
-/* ══════════════════════════════════════════
-   STORY LOADER
-   ══════════════════════════════════════════ */
 
 async function loadStory() {
   const params  = new URLSearchParams(window.location.search);
@@ -847,16 +724,6 @@ async function loadStory() {
       <div class="story-date">${date}</div>
       ${imageBlockHTML}
       <div class="story-content">${paragraphs}</div>
-
-      <div id="reddit-engagement" style="display:none;">
-        <div class="reddit-engagement-header">Reddit Discussion</div>
-        <div class="reddit-stats"></div>
-        <div class="conversation-meter"></div>
-        <div class="meter-bar-wrap">
-          <div class="meter-bar-fill" style="width:0%;"></div>
-        </div>
-      </div>
-
       <div class="story-links">
         ${redditLink ? `<a href="${redditLink}" target="_blank" rel="noopener">Join the discussion on Reddit</a>` : ""}
         <a href="https://reddit.com/r/NoSpinMedia" target="_blank" rel="noopener">Explore more in r/NoSpinMedia</a>
@@ -864,11 +731,6 @@ async function loadStory() {
       </div>
     </div>
   `;
-
-  /* Fetch Reddit engagement asynchronously — fails silently */
-  if (redditLink) {
-    loadRedditEngagement(redditLink);
-  }
 
   /* Mobile: inject 2-col affiliate insert after story */
   if (window.innerWidth <= 900 && window.mobileAffiliateHTML) {
