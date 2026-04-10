@@ -22,6 +22,22 @@
     },
 
     {
+  "match": [
+    "police",
+    "police officer",
+    "police officers",
+    "sheriff",
+    "sheriff's deputy",
+    "deputy",
+    "law enforcement",
+    "officer",
+    "officers",
+    "trooper",
+    "state police"
+  ],
+  "image": "police-generic.webp"
+},
+    {
       "match": ["ICE", "immigration", "detention", "deportation", "border enforcement", "DHS"],
       "image": "ice-enforcement.webp"
     },
