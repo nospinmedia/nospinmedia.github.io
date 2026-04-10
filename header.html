@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-    /* Header */
     header {
         box-sizing: border-box !important;
         background: #111 !important;
@@ -36,7 +35,6 @@
         text-align: right;
     }
 
-    /* Logo */
     .header-logo-text {
         font-family: Arial, sans-serif !important;
         font-size: 2.8rem !important;
@@ -56,7 +54,6 @@
         text-decoration: none !important;
     }
 
-    /* Desktop nav */
     header nav {
         display: flex !important;
         align-items: center !important;
@@ -69,10 +66,10 @@
         font-weight: bold !important;
     }
 
-    /* Internal-only links — hidden by default, shown by JS */
+    /* Internal links — hidden by default, revealed by probe */
     .internal-nav-link {
-        display: none;
-        color: #ffcc00 !important;  /* gold tint so they stand out */
+        display: none !important;
+        color: #ffcc00 !important;
         margin-left: 20px !important;
         text-decoration: none !important;
         font-weight: bold !important;
@@ -83,7 +80,7 @@
     }
 
     .mobile-nav .internal-nav-link {
-        display: none;
+        display: none !important;
         color: #ffcc00 !important;
         padding: 10px 20px;
         text-decoration: none;
@@ -96,7 +93,6 @@
         display: block !important;
     }
 
-    /* Hamburger */
     .hamburger-menu {
         display: none;
         font-size: 2rem;
@@ -111,7 +107,6 @@
         color: #ff5733;
     }
 
-    /* Mobile nav */
     .mobile-nav {
         flex-direction: column;
         position: fixed !important;
@@ -165,9 +160,7 @@
 <body>
     <header>
         <a href="/index.html" class="header-logo-text">🧭 No Spin Media</a>
-
         <div class="hamburger-menu" id="hamburger">&#9776;</div>
-
         <nav id="desktop-nav">
             <a href="/index.html">Home</a>
             <a href="/news.html">Archive</a>
@@ -177,8 +170,7 @@
             <a href="/sponsor.html">Support</a>
             <a href="/about.html">About</a>
             <a href="/ai.html">AI Transparency</a>
-
-            <!-- Internal links — hidden until probed -->
+            <!-- Internal links — revealed by probe script in each page -->
             <a id="desktop-dropoff"
                class="internal-nav-link"
                href="http://192.168.194.152:9090/dropoff"
@@ -187,7 +179,6 @@
                class="internal-nav-link"
                href="http://192.168.194.152:9090/image-upload"
                target="_blank">🖼️ Images</a>
-
             <span class="social-icons">
                 <a href="https://reddit.com/r/NoSpinMedia" target="_blank" title="Reddit">👽</a>
                 <a href="https://bsky.app/profile/nospinmedia.bsky.social" target="_blank" title="Bluesky">🦋</a>
@@ -206,8 +197,7 @@
         <a href="/sponsor.html">Support</a>
         <a href="/about.html">About</a>
         <a href="/ai.html">AI Transparency</a>
-
-        <!-- Internal links in mobile nav — hidden until probed -->
+        <!-- Internal links — revealed by probe script in each page -->
         <a id="mobile-dropoff"
            class="internal-nav-link"
            href="http://192.168.194.152:9090/dropoff"
@@ -216,7 +206,6 @@
            class="internal-nav-link"
            href="http://192.168.194.152:9090/image-upload"
            target="_blank">🖼️ Images</a>
-
         <div class="mobile-social">
             <a href="https://reddit.com/r/NoSpinMedia" target="_blank">👽 Reddit</a>
             <a href="https://bsky.app/profile/nospinmedia.bsky.social" target="_blank">🦋 Bluesky</a>
@@ -226,19 +215,14 @@
     </div>
 
 <script>
-/* ══════════════════════════════════════════
-   HAMBURGER
-   ══════════════════════════════════════════ */
 function initHamburger() {
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobile-nav');
     if (!hamburger || !mobileNav) return;
-
     hamburger.onclick = () => {
         mobileNav.classList.toggle('open');
         hamburger.classList.toggle('active');
     };
-
     mobileNav.querySelectorAll('a').forEach(link => {
         link.onclick = () => {
             mobileNav.classList.remove('open');
@@ -246,40 +230,6 @@ function initHamburger() {
         };
     });
 }
-
-/* ══════════════════════════════════════════
-   INTERNAL LINK DETECTION
-   Probes 192.168 server with a short timeout.
-   If reachable (local network or VPN), shows
-   Dropoff and Images links in gold.
-   External visitors: fetch times out silently.
-   ══════════════════════════════════════════ */
-(async function checkInternalAccess() {
-    const probeUrl = "http://192.168.194.152:9090/dropoff";
-
-    try {
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 1500);
-
-        await fetch(probeUrl, {
-            method: "HEAD",
-            mode: "no-cors",
-            signal: controller.signal
-        });
-
-        clearTimeout(timer);
-
-        /* Reachable — show both internal links in desktop + mobile nav */
-        ["desktop-dropoff", "desktop-images",
-         "mobile-dropoff",  "mobile-images"].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.classList.add("visible");
-        });
-
-    } catch (e) {
-        /* Not reachable — links stay hidden, no error shown */
-    }
-})();
 </script>
 
 </body>
