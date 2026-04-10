@@ -66,7 +66,7 @@
         font-weight: bold !important;
     }
 
-    /* Internal links — hidden by default, revealed by probe */
+    /* Internal links — hidden by default */
     .internal-nav-link {
         display: none !important;
         color: #ffcc00 !important;
@@ -151,7 +151,6 @@
 </head>
 <body>
     <header>
-        <!-- Absolute URL so it works from any origin (nospin.media OR 192.168.x.x) -->
         <a href="https://nospin.media/index.html" class="header-logo-text">🧭 No Spin Media</a>
         <div class="hamburger-menu" id="hamburger">&#9776;</div>
 
@@ -164,7 +163,7 @@
             <a href="https://nospin.media/sponsor.html">Support</a>
             <a href="https://nospin.media/about.html">About</a>
             <a href="https://nospin.media/ai.html">AI Transparency</a>
-            <!-- Internal links — shown only when on local network or VPN -->
+            <!-- Internal links — shown when local/VPN detected -->
             <a id="desktop-dropoff"
                class="internal-nav-link"
                href="http://192.168.194.152:9090/dropoff"
@@ -209,6 +208,9 @@
     </div>
 
 <script>
+/* ══════════════════════════════════════════
+   HAMBURGER
+   ══════════════════════════════════════════ */
 function initHamburger() {
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobile-nav');
@@ -224,6 +226,78 @@ function initHamburger() {
         };
     });
 }
+
+/* ══════════════════════════════════════════
+   INTERNAL LINK DETECTION
+   
+   The browser blocks fetch() from HTTPS pages
+   to HTTP addresses (mixed content policy), so
+   we can't directly probe 192.168.x.x from
+   nospin.media via fetch.
+
+   Solution: localStorage handshake.
+
+   STEP 1 — When this header loads inside a
+   192.168.x.x page, window.parent (or the page
+   itself) has a 192.168 hostname. We detect
+   that and write a timestamp to localStorage.
+
+   STEP 2 — When this header loads on nospin.media,
+   we read the timestamp. If it's fresh (< 8 hrs),
+   the user was recently on the local network
+   and we show the internal links.
+
+   This works because localStorage is shared
+   across all pages on the same browser — both
+   nospin.media and 192.168.x.x pages share the
+   same browser storage on your device.
+   ══════════════════════════════════════════ */
+(function detectAndShowInternalLinks() {
+    const LOCAL_IP   = "192.168.194.152";
+    const FLAG_KEY   = "nsm_local_seen";
+    const MAX_AGE_MS = 8 * 60 * 60 * 1000; // 8 hours
+
+    try {
+        /* STEP 1: Are we currently on the local network?
+           Check the hostname of the page that loaded this header.
+           When header.html is fetched by a 192.168 page and
+           injected via innerHTML, the scripts run in the context
+           of that page — so window.location.hostname is the
+           192.168 address. */
+        const currentHost = window.location.hostname;
+        const isLocalNow  = (currentHost === LOCAL_IP);
+
+        if (isLocalNow) {
+            /* Write/refresh the timestamp */
+            localStorage.setItem(FLAG_KEY, Date.now().toString());
+        }
+
+        /* STEP 2: Check if flag is fresh enough to show links */
+        const stored = parseInt(localStorage.getItem(FLAG_KEY) || "0");
+        const age    = Date.now() - stored;
+        const isRecent = stored > 0 && age < MAX_AGE_MS;
+
+        if (isLocalNow || isRecent) {
+            /* Show internal links in both desktop and mobile nav */
+            [
+                "desktop-dropoff",
+                "desktop-images",
+                "mobile-dropoff",
+                "mobile-images"
+            ].forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) el.classList.add("visible");
+            });
+        }
+
+    } catch(e) {
+        /* localStorage blocked (private browsing etc) — fail silently */
+    }
+})();
+
+/* Run hamburger init immediately — it may also be called
+   by the parent page after header injection */
+initHamburger();
 </script>
 
 </body>
