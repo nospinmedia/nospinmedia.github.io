@@ -777,106 +777,39 @@ async function loadRedditEngagement(redditUrl) {
    SHARE CARD TEMPLATE — EDIT THIS SECTION TO TWEAK THE CARD
    ══════════════════════════════════════════════════════════════
 
-   CARD_WIDTH   : total character width of the card (inner content width = CARD_WIDTH - 4)
-   BRAND_LINE   : the header text shown in the top section
+   CARD_WIDTH  : number of ━ characters in the divider lines
+   BRAND_LINE  : the header text shown at the top
    buildShareCard(headline, statsLine, url) returns the full card string.
 
    The card looks like:
-   ╔══════════════════════════════════════════╗
-   ║  🧭 No Spin Media                        ║
-   ╠══════════════════════════════════════════╣
-   ║  ⚖️ Feds Seek Identity...                ║
-   ╠══════════════════════════════════════════╣  ← only if stats available
-   ║  👍 10 upvotes  ·  💬 8 comments         ║  ← only if stats available
-   ╚══════════════════════════════════════════╝
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   🧭 No Spin Media
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⚖️ Feds Seek Identity of Anonymous ICE Critic:
+   Grand jury subpoena targets Reddit 👇
+   👍 12 upvotes · 💬 10 comments        ← only if stats available
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    🔗 https://nospin.media/...
 
-   To change the border style, swap the box-drawing chars below.
    To change width, adjust CARD_WIDTH.
    To change branding, edit BRAND_LINE.
    ══════════════════════════════════════════════════════════════ */
 
 const CARD_CONFIG = {
-  CARD_WIDTH: 46,      // total width including the ║ borders
+  CARD_WIDTH: 36,
   BRAND_LINE: "🧭 No Spin Media",
-
-  // Box drawing characters — swap these to change border style
-  TL: "╔", TR: "╗",   // top-left, top-right corners
-  BL: "╚", BR: "╝",   // bottom-left, bottom-right corners
-  ML: "╠", MR: "╣",   // mid-left, mid-right (divider row)
-  H:  "═",             // horizontal fill
-  V:  "║",             // vertical side
-  PAD: "  ",           // inner padding (spaces after ║ and before ║)
 };
 
-function cardPad(text, innerWidth) {
-  // Pad text to innerWidth, accounting for emoji double-width chars
-  // Simple approach: measure visible length by stripping surrogate pairs
-  let visLen = 0;
-  for (const ch of text) {
-    const cp = ch.codePointAt(0);
-    // Wide chars (emoji, CJK) count as 2, others as 1
-    visLen += (cp > 0x2E80) ? 2 : 1;
-  }
-  const spaces = Math.max(0, innerWidth - visLen);
-  return text + " ".repeat(spaces);
-}
-
-function cardRow(text, cfg) {
-  const innerWidth = cfg.CARD_WIDTH - 4; // 2 for borders + 2 for PAD each side
-  return `${cfg.V}${cfg.PAD}${cardPad(text, innerWidth)}${cfg.PAD}${cfg.V}`;
-}
-
-function cardDivider(cfg) {
-  return cfg.ML + cfg.H.repeat(cfg.CARD_WIDTH - 2) + cfg.MR;
-}
-
-function cardTop(cfg) {
-  return cfg.TL + cfg.H.repeat(cfg.CARD_WIDTH - 2) + cfg.TR;
-}
-
-function cardBottom(cfg) {
-  return cfg.BL + cfg.H.repeat(cfg.CARD_WIDTH - 2) + cfg.BR;
-}
-
-function wrapText(text, maxWidth) {
-  // Word-wrap text to maxWidth, returns array of lines
-  const words = text.split(" ");
-  const lines = [];
-  let current = "";
-  for (const word of words) {
-    const test = current ? current + " " + word : word;
-    let visLen = 0;
-    for (const ch of test) {
-      const cp = ch.codePointAt(0);
-      visLen += (cp > 0x2E80) ? 2 : 1;
-    }
-    if (visLen > maxWidth && current) {
-      lines.push(current);
-      current = word;
-    } else {
-      current = test;
-    }
-  }
-  if (current) lines.push(current);
-  return lines;
-}
-
 function buildShareCard(headline, statsLine, url) {
-  const cfg        = CARD_CONFIG;
-  const innerWidth = cfg.CARD_WIDTH - 4;
-  const headLines  = wrapText(headline, innerWidth);
-  const rows       = [];
+  const divider = "━".repeat(CARD_CONFIG.CARD_WIDTH);
+  const rows    = [];
 
-  rows.push(cardTop(cfg));
-  rows.push(cardRow(cfg.BRAND_LINE, cfg));
-  rows.push(cardDivider(cfg));
-  headLines.forEach(line => rows.push(cardRow(line, cfg)));
-  if (statsLine) {
-    rows.push(cardDivider(cfg));
-    rows.push(cardRow(statsLine, cfg));
-  }
-  rows.push(cardBottom(cfg));
+  rows.push(divider);
+  rows.push(CARD_CONFIG.BRAND_LINE);
+  rows.push(divider);
+  rows.push(headline);
+  if (statsLine) rows.push(statsLine);
+  rows.push(divider);
   rows.push("🔗 " + url);
 
   return rows.join("\n");
