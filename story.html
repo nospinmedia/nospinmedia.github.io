@@ -225,6 +225,18 @@ body {
   line-height: 1.5;
 }
 
+/* CHANGE 1: make the stats line clickable */
+.reddit-stats a {
+  color: #444;
+  text-decoration: none;
+}
+
+.reddit-stats a:hover {
+  color: #ff4500;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .conversation-meter {
   font-size: .9rem;
   font-weight: 700;
@@ -699,11 +711,31 @@ function buildImageBlockHTML(imgUrl, meta, dbCaption) {
 
 /* ══════════════════════════════════════════
    REDDIT ENGAGEMENT METER
+   CHANGE 2: retry once on failure, tighter
+   timeout, and pass redditUrl through so the
+   stats line can be made into a link.
    ══════════════════════════════════════════ */
+
+async function fetchRedditJson(jsonUrl, timeoutMs) {
+  const controller = new AbortController();
+  const timeout    = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(jsonUrl, {
+      signal:  controller.signal,
+      headers: { "Accept": "application/json" }
+    });
+    clearTimeout(timeout);
+    if (!response.ok) return null;
+    const text = await response.text();
+    return JSON.parse(text);
+  } catch (e) {
+    clearTimeout(timeout);
+    return null;
+  }
+}
 
 async function loadRedditEngagement(redditUrl) {
   try {
-    // Extract post ID from URL pattern: /comments/POST_ID/...
     const match = redditUrl.match(/\/comments\/([a-z0-9]+)/i);
     if (!match) { console.log("Reddit: no post ID found in URL:", redditUrl); return; }
 
@@ -712,42 +744,26 @@ async function loadRedditEngagement(redditUrl) {
 
     console.log("Reddit: fetching", jsonUrl);
 
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000);
-
-    const response = await fetch(jsonUrl, {
-      signal: controller.signal,
-      headers: { "Accept": "application/json" }
-    });
-    clearTimeout(timeout);
-
-    console.log("Reddit: response status", response.status, response.headers.get("content-type"));
-
-    if (!response.ok) {
-      console.log("Reddit: non-OK response", response.status);
-      return;
+    // Try once with 6s timeout, retry once with 5s if first fails
+    let data = await fetchRedditJson(jsonUrl, 6000);
+    if (!data) {
+      console.log("Reddit: first attempt failed, retrying…");
+      await new Promise(r => setTimeout(r, 800));
+      data = await fetchRedditJson(jsonUrl, 5000);
     }
 
-    const text = await response.text();
-    console.log("Reddit: raw response length", text.length, "preview:", text.substring(0, 120));
-
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch (e) {
-      console.log("Reddit: JSON parse failed —", e.message);
+    if (!data) {
+      console.log("Reddit: both attempts failed, skipping engagement block");
       return;
     }
 
     const post = data?.[0]?.data?.children?.[0]?.data;
-    if (!post) { console.log("Reddit: unexpected data shape", JSON.stringify(data).substring(0, 200)); return; }
+    if (!post) { console.log("Reddit: unexpected data shape"); return; }
 
     const upvotes  = post.score        ?? 0;
     const comments = post.num_comments ?? 0;
 
     const conversationScore = (comments * 2) + upvotes;
-
-    // Clamp bar fill to 0–100% across a 0–200 score range
     const barPct = Math.min(100, Math.round((conversationScore / 200) * 100));
 
     let meterLabel, meterEmoji, barColor;
@@ -760,21 +776,22 @@ async function loadRedditEngagement(redditUrl) {
     const container = document.getElementById("reddit-engagement");
     if (!container) return;
 
-    container.querySelector(".reddit-stats").textContent =
-      `👍 ${upvotes.toLocaleString()} upvotes  ·  💬 ${comments.toLocaleString()} comments`;
+    /* CHANGE 1: wrap upvotes and comments in links to the Reddit thread */
+    container.querySelector(".reddit-stats").innerHTML =
+      `<a href="${redditUrl}" target="_blank" rel="noopener">👍 ${upvotes.toLocaleString()} upvotes</a>` +
+      `&nbsp; · &nbsp;` +
+      `<a href="${redditUrl}" target="_blank" rel="noopener">💬 ${comments.toLocaleString()} comments</a>`;
 
     container.querySelector(".conversation-meter").innerHTML =
       `<span>NSM Conversation Meter</span><span>${meterEmoji} ${meterLabel}</span>`;
 
     const fill = container.querySelector(".meter-bar-fill");
     fill.style.background = barColor;
-    // Animate the bar after a brief delay so the transition is visible
     setTimeout(() => { fill.style.width = barPct + "%"; }, 80);
 
     container.style.display = "block";
 
   } catch (err) {
-    // Fail silently — page renders normally without this block
     console.log("Reddit engagement data unavailable:", err.message);
   }
 }
