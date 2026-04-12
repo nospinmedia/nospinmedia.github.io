@@ -274,9 +274,7 @@ body {
   color: #0066cc;
 }
 
-.story-links a:hover {
-  text-decoration: underline;
-}
+.story-links a:hover { text-decoration: underline; }
 
 /* ══════════════════════════════════════════
    SHARE DROPDOWN
@@ -383,12 +381,9 @@ footer {
 @media (max-width: 900px) {
 
   body { background: #ebebeb; }
-
   .container { flex-direction: column; padding: 0; gap: 0; }
-
   .left-ad  { display: none; }
   .right-ad { display: none; }
-
   .main { max-width: 100%; padding: 0; }
 
   .story-card {
@@ -739,6 +734,7 @@ async function loadRedditEngagement(redditUrl) {
     const upvotes  = post.score        ?? 0;
     const comments = post.num_comments ?? 0;
 
+    // Store for share — also triggers the 3rd share option to appear
     window._redditStats = { upvotes, comments };
 
     const conversationScore = (comments * 2) + upvotes;
@@ -768,57 +764,14 @@ async function loadRedditEngagement(redditUrl) {
 
     container.style.display = "block";
 
+    // Reveal the 3rd share option now that we have stats
+    const redditShareBtn = document.getElementById("share-opt-reddit");
+    if (redditShareBtn) redditShareBtn.style.display = "block";
+
   } catch (err) {
     console.log("Reddit engagement data unavailable:", err.message);
   }
 }
-
-/* ══════════════════════════════════════════════════════════════
-   SHARE CARD TEMPLATE — EDIT THIS SECTION TO TWEAK THE CARD
-   ══════════════════════════════════════════════════════════════
-
-   CARD_WIDTH  : number of ━ characters in the divider lines
-   BRAND_LINE  : the header text shown at the top
-   buildShareCard(headline, statsLine, url) returns the full card string.
-
-   The card looks like:
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   🧭 No Spin Media
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   ⚖️ Feds Seek Identity of Anonymous ICE Critic:
-   Grand jury subpoena targets Reddit 👇
-   👍 12 upvotes · 💬 10 comments        ← only if stats available
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   🔗 https://nospin.media/...
-
-   To change width, adjust CARD_WIDTH.
-   To change branding, edit BRAND_LINE.
-   ══════════════════════════════════════════════════════════════ */
-
-const CARD_CONFIG = {
-  CARD_WIDTH: 36,
-  BRAND_LINE: "🧭 No Spin Media",
-};
-
-function buildShareCard(headline, statsLine, url) {
-  const divider = "━".repeat(CARD_CONFIG.CARD_WIDTH);
-  const rows    = [];
-
-  rows.push(divider);
-  rows.push(CARD_CONFIG.BRAND_LINE);
-  rows.push(divider);
-  rows.push(headline);
-  if (statsLine) rows.push(statsLine);
-  rows.push(divider);
-  rows.push("🔗 " + url);
-
-  return rows.join("\n");
-}
-
-/* ══════════════════════════════════════════
-   END OF CARD TEMPLATE CONFIG
-   ══════════════════════════════════════════ */
-
 
 /* ══════════════════════════════════════════
    SHARE FUNCTIONS
@@ -864,32 +817,38 @@ function toggleShareMenu() {
   }
 }
 
+/* Option 1 — just the URL */
 function copyLinkOnly() {
   _closeShareMenu();
-  const url = window._storyUrl || window.location.href;
-  _copyToClipboard(url, "✅ Link copied!");
+  _copyToClipboard(
+    window._storyUrl || window.location.href,
+    "✅ Link copied!"
+  );
 }
 
-function copyWithDetails() {
+/* Option 2 — headline + URL, no stats */
+function copyWithTitle() {
   _closeShareMenu();
-  const headline  = (window._storyHeadline || "").replace(/\n/g, ": ").trim();
-  const url       = window._storyUrl || window.location.href;
-  const statsLine = window._redditStats
-    ? `👍 ${window._redditStats.upvotes.toLocaleString()} upvotes · 💬 ${window._redditStats.comments.toLocaleString()} comments on Reddit`
-    : "";
-  const text = headline + "\n" + (statsLine ? statsLine + "\n" : "") + url;
-  _copyToClipboard(text, "✅ Copied with details!");
+  const headline = (window._storyHeadline || "").replace(/\n/g, ": ").trim();
+  const url      = window._storyUrl || window.location.href;
+  _copyToClipboard(headline + "\n" + url, "✅ Copied with title!");
 }
 
-function copyAsCard() {
+/* Option 3 — headline + On Reddit: + stats + URL
+   Only callable when _redditStats is set */
+function copyWithReddit() {
   _closeShareMenu();
-  const headline  = (window._storyHeadline || "").replace(/\n/g, ": ").trim();
-  const url       = window._storyUrl || window.location.href;
-  const statsLine = window._redditStats
-    ? `👍 ${window._redditStats.upvotes.toLocaleString()} upvotes · 💬 ${window._redditStats.comments.toLocaleString()} comments`
-    : "";
-  const card = buildShareCard(headline, statsLine, url);
-  _copyToClipboard(card, "✅ Card copied!");
+  const headline = (window._storyHeadline || "").replace(/\n/g, ": ").trim();
+  const url      = window._storyUrl || window.location.href;
+  const stats    = window._redditStats;
+  const text = [
+    headline,
+    "",
+    "On Reddit:",
+    `👍 ${stats.upvotes.toLocaleString()} upvotes · 💬 ${stats.comments.toLocaleString()} comments`,
+    url
+  ].join("\n");
+  _copyToClipboard(text, "✅ Copied with Reddit!");
 }
 
 /* ══════════════════════════════════════════
@@ -993,13 +952,13 @@ async function loadStory() {
               <span class="share-opt-label">🔗 Copy link</span>
               <span class="share-opt-desc">Just the URL</span>
             </button>
-            <button onclick="copyWithDetails()">
-              <span class="share-opt-label">📋 Copy with details</span>
-              <span class="share-opt-desc">Headline · stats · link</span>
+            <button onclick="copyWithTitle()">
+              <span class="share-opt-label">📋 Copy with title</span>
+              <span class="share-opt-desc">Headline + link</span>
             </button>
-            <button onclick="copyAsCard()">
-              <span class="share-opt-label">🎨 Copy as card</span>
-              <span class="share-opt-desc">Bordered card — looks great anywhere</span>
+            <button id="share-opt-reddit" onclick="copyWithReddit()" style="display:none;">
+              <span class="share-opt-label">💬 Copy with Reddit</span>
+              <span class="share-opt-desc">Headline · On Reddit: · stats · link</span>
             </button>
           </div>
         </div>
