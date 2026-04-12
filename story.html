@@ -141,7 +141,6 @@ body {
   font-style: italic;
 }
 
-/* ── Desktop story card ── */
 .story-card {
   background: #fff;
   padding: 2rem;
@@ -260,7 +259,7 @@ body {
   transition: width 0.8s ease;
 }
 
-/* ── Story links section ── */
+/* ── Story links ── */
 .story-links {
   margin-top: 25px;
   display: flex;
@@ -300,9 +299,7 @@ body {
   gap: 4px;
 }
 
-.share-btn-main:hover {
-  text-decoration: underline;
-}
+.share-btn-main:hover { text-decoration: underline; }
 
 .share-btn-main .share-caret {
   font-size: .7rem;
@@ -311,9 +308,7 @@ body {
   transition: transform .15s;
 }
 
-.share-wrap.open .share-caret {
-  transform: rotate(180deg);
-}
+.share-wrap.open .share-caret { transform: rotate(180deg); }
 
 .share-dropdown {
   display: none;
@@ -324,14 +319,12 @@ body {
   border: 1px solid #dde;
   border-radius: 7px;
   box-shadow: 0 4px 18px rgba(0,0,0,.13);
-  min-width: 210px;
+  min-width: 220px;
   z-index: 100;
   overflow: hidden;
 }
 
-.share-wrap.open .share-dropdown {
-  display: block;
-}
+.share-wrap.open .share-dropdown { display: block; }
 
 .share-dropdown button {
   display: block;
@@ -347,21 +340,15 @@ body {
   border-bottom: 1px solid #f0f0f0;
 }
 
-.share-dropdown button:last-child {
-  border-bottom: none;
-}
+.share-dropdown button:last-child { border-bottom: none; }
+.share-dropdown button:hover { background: #f4f8ff; color: #0066cc; }
 
-.share-dropdown button:hover {
-  background: #f4f8ff;
-  color: #0066cc;
-}
-
-.share-dropdown .share-opt-label {
+.share-opt-label {
   font-weight: bold;
   display: block;
 }
 
-.share-dropdown .share-opt-desc {
+.share-opt-desc {
   font-size: .76rem;
   color: #888;
   display: block;
@@ -380,14 +367,8 @@ body {
   font-size: .9rem;
 }
 
-.back-link a {
-  text-decoration: none;
-  color: #0066cc;
-}
-
-.back-link a:hover {
-  text-decoration: underline;
-}
+.back-link a { text-decoration: none; color: #0066cc; }
+.back-link a:hover { text-decoration: underline; }
 
 footer {
   text-align: center;
@@ -403,19 +384,12 @@ footer {
 
   body { background: #ebebeb; }
 
-  .container {
-    flex-direction: column;
-    padding: 0;
-    gap: 0;
-  }
+  .container { flex-direction: column; padding: 0; gap: 0; }
 
   .left-ad  { display: none; }
   .right-ad { display: none; }
 
-  .main {
-    max-width: 100%;
-    padding: 0;
-  }
+  .main { max-width: 100%; padding: 0; }
 
   .story-card {
     background: #fff;
@@ -425,16 +399,8 @@ footer {
     margin-bottom: 0;
   }
 
-  .back-link {
-    padding: 12px 16px 0;
-    margin-bottom: 0;
-    font-size: .8rem;
-  }
-
-  .back-link a {
-    color: #0055bb;
-    font-weight: 700;
-  }
+  .back-link { padding: 12px 16px 0; margin-bottom: 0; font-size: .8rem; }
+  .back-link a { color: #0055bb; font-weight: 700; }
 
   .story-card h1 {
     font-size: 1.3rem;
@@ -489,10 +455,7 @@ footer {
 
   .story-content p { margin-bottom: 16px; }
 
-  #reddit-engagement {
-    margin: 16px 16px 0;
-    border-radius: 4px;
-  }
+  #reddit-engagement { margin: 16px 16px 0; border-radius: 4px; }
 
   .story-links {
     padding: 14px 16px 20px;
@@ -504,22 +467,9 @@ footer {
     align-items: flex-start;
   }
 
-  .story-links a {
-    font-size: .88rem;
-    color: #0055bb;
-    font-weight: 700;
-  }
-
-  .share-btn-main {
-    font-size: .88rem;
-    color: #0055bb;
-  }
-
-  /* On mobile dropdown opens upward too but may need to flip
-     if near top — upward is safer since links are near bottom */
-  .share-dropdown {
-    min-width: 230px;
-  }
+  .story-links a { font-size: .88rem; color: #0055bb; font-weight: 700; }
+  .share-btn-main { font-size: .88rem; color: #0055bb; }
+  .share-dropdown { min-width: 230px; }
 
   .mobile-affiliate-insert {
     background: #fff;
@@ -665,42 +615,26 @@ function renderTileHTML(item) {
 async function loadAffiliateTiles() {
   const data = await loadAffiliateData();
 
-  const bookItems   = data.books?.items || [];
-  const bookDesktop = pickItems(bookItems, 3);
+  const bookItems     = data.books?.items || [];
   const bookContainer = document.getElementById("book-tiles");
-  if (bookContainer) bookContainer.innerHTML = bookDesktop.map(renderTileHTML).join("");
+  if (bookContainer) bookContainer.innerHTML = pickItems(bookItems, 3).map(renderTileHTML).join("");
 
-  const gearItems   = data.gear?.items || [];
-  const gearDesktop = pickItems(gearItems, 3);
+  const gearItems     = data.gear?.items || [];
   const gearContainer = document.getElementById("gear-tiles");
-  if (gearContainer) gearContainer.innerHTML = gearDesktop.map(renderTileHTML).join("");
+  if (gearContainer) gearContainer.innerHTML = pickItems(gearItems, 3).map(renderTileHTML).join("");
 
   const mobileBook = bookItems.length > 0 ? pickOneMobile(bookItems) : null;
   const mobileGear = gearItems.length > 0 ? pickOneMobile(gearItems) : null;
   if (!mobileBook && !mobileGear) return;
 
-  const bookTileHTML = mobileBook ? `
-    <a href="${getRandomLink(mobileBook)}" target="_blank" rel="noopener nofollow sponsored"
-       title="Browse on Amazon — supports NSM at no extra cost">
-      <img src="/affiliate/${mobileBook.image}" alt="${mobileBook.title}" loading="lazy">
-    </a>` : "";
-
-  const gearTileHTML = mobileGear ? `
-    <a href="${getRandomLink(mobileGear)}" target="_blank" rel="noopener nofollow sponsored"
-       title="Browse on Amazon — supports NSM at no extra cost">
-      <img src="/affiliate/${mobileGear.image}" alt="${mobileGear.title}" loading="lazy">
-    </a>` : "";
-
   window.mobileAffiliateHTML = `
     <div class="mobile-affiliate-insert">
       <div class="affiliate-label">🧭 NSM Picks</div>
       <div class="mobile-affiliate-grid">
-        ${bookTileHTML}
-        ${gearTileHTML}
+        ${mobileBook ? `<a href="${getRandomLink(mobileBook)}" target="_blank" rel="noopener nofollow sponsored" title="Browse on Amazon"><img src="/affiliate/${mobileBook.image}" alt="${mobileBook.title}" loading="lazy"></a>` : ""}
+        ${mobileGear ? `<a href="${getRandomLink(mobileGear)}" target="_blank" rel="noopener nofollow sponsored" title="Browse on Amazon"><img src="/affiliate/${mobileGear.image}" alt="${mobileGear.title}" loading="lazy"></a>` : ""}
       </div>
-      <div class="reading-disclosure">
-        Selecting an item supports independent journalism at no extra cost to you.
-      </div>
+      <div class="reading-disclosure">Selecting an item supports independent journalism at no extra cost to you.</div>
     </div>`;
 }
 
@@ -709,8 +643,7 @@ async function loadAffiliateTiles() {
    ══════════════════════════════════════════ */
 
 async function resolveStoryImage(storyId) {
-  const extensions = ["webp", "jpg", "png"];
-  for (const ext of extensions) {
+  for (const ext of ["webp", "jpg", "png"]) {
     const url = `/images/news/${storyId}.${ext}`;
     try {
       const res = await fetch(url, { method: "HEAD" });
@@ -730,9 +663,7 @@ async function resolveFallbackImage(headline) {
     }
     const h = (headline || "").toLowerCase();
     for (const rule of (_imageRulesCache.keywords || [])) {
-      if (rule.match.some(kw => h.includes(kw.toLowerCase()))) {
-        return `/images/news/${rule.image}`;
-      }
+      if (rule.match.some(kw => h.includes(kw.toLowerCase()))) return `/images/news/${rule.image}`;
     }
   } catch (e) {}
   return null;
@@ -740,8 +671,7 @@ async function resolveFallbackImage(headline) {
 
 async function fetchImageMeta(imagePath) {
   try {
-    const jsonPath = imagePath.replace(/\.[^.]+$/, ".json");
-    const res = await fetch(jsonPath);
+    const res = await fetch(imagePath.replace(/\.[^.]+$/, ".json"));
     if (res.ok) return await res.json();
   } catch (e) {}
   return null;
@@ -749,15 +679,9 @@ async function fetchImageMeta(imagePath) {
 
 async function getStoryImage(storyId, headline) {
   const storyImg = await resolveStoryImage(storyId);
-  if (storyImg) {
-    const meta = await fetchImageMeta(storyImg);
-    return { url: storyImg, meta };
-  }
+  if (storyImg) return { url: storyImg, meta: await fetchImageMeta(storyImg) };
   const fallbackImg = await resolveFallbackImage(headline);
-  if (fallbackImg) {
-    const meta = await fetchImageMeta(fallbackImg);
-    return { url: fallbackImg, meta };
-  }
+  if (fallbackImg) return { url: fallbackImg, meta: await fetchImageMeta(fallbackImg) };
   return null;
 }
 
@@ -772,11 +696,7 @@ function buildImageBlockHTML(imgUrl, meta, dbCaption) {
   const captionHTML = captionText
     ? `<div class="story-image-caption">${captionText.replace(/\n/g, "<br>")}</div>`
     : "";
-  return `
-    <div class="story-image-wrap">
-      <img src="${imgUrl}" alt="Story photo">
-      ${captionHTML}
-    </div>`;
+  return `<div class="story-image-wrap"><img src="${imgUrl}" alt="Story photo">${captionHTML}</div>`;
 }
 
 /* ══════════════════════════════════════════
@@ -788,7 +708,7 @@ async function fetchRedditJson(jsonUrl, timeoutMs) {
   const timeout    = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const response = await fetch(jsonUrl, {
-      signal:  controller.signal,
+      signal: controller.signal,
       headers: { "Accept": "application/json" }
     });
     clearTimeout(timeout);
@@ -805,9 +725,7 @@ async function loadRedditEngagement(redditUrl) {
     const match = redditUrl.match(/\/comments\/([a-z0-9]+)/i);
     if (!match) return;
 
-    const postId  = match[1];
-    const jsonUrl = `https://www.reddit.com/comments/${postId}.json`;
-
+    const jsonUrl = `https://www.reddit.com/comments/${match[1]}.json`;
     let data = await fetchRedditJson(jsonUrl, 6000);
     if (!data) {
       await new Promise(r => setTimeout(r, 800));
@@ -821,7 +739,6 @@ async function loadRedditEngagement(redditUrl) {
     const upvotes  = post.score        ?? 0;
     const comments = post.num_comments ?? 0;
 
-    // Store for share function to use
     window._redditStats = { upvotes, comments };
 
     const conversationScore = (comments * 2) + upvotes;
@@ -856,81 +773,133 @@ async function loadRedditEngagement(redditUrl) {
   }
 }
 
+/* ══════════════════════════════════════════════════════════════
+   SHARE CARD TEMPLATE — EDIT THIS SECTION TO TWEAK THE CARD
+   ══════════════════════════════════════════════════════════════
+
+   CARD_WIDTH   : total character width of the card (inner content width = CARD_WIDTH - 4)
+   BRAND_LINE   : the header text shown in the top section
+   buildShareCard(headline, statsLine, url) returns the full card string.
+
+   The card looks like:
+   ╔══════════════════════════════════════════╗
+   ║  🧭 No Spin Media                        ║
+   ╠══════════════════════════════════════════╣
+   ║  ⚖️ Feds Seek Identity...                ║
+   ╠══════════════════════════════════════════╣  ← only if stats available
+   ║  👍 10 upvotes  ·  💬 8 comments         ║  ← only if stats available
+   ╚══════════════════════════════════════════╝
+   🔗 https://nospin.media/...
+
+   To change the border style, swap the box-drawing chars below.
+   To change width, adjust CARD_WIDTH.
+   To change branding, edit BRAND_LINE.
+   ══════════════════════════════════════════════════════════════ */
+
+const CARD_CONFIG = {
+  CARD_WIDTH: 46,      // total width including the ║ borders
+  BRAND_LINE: "🧭 No Spin Media",
+
+  // Box drawing characters — swap these to change border style
+  TL: "╔", TR: "╗",   // top-left, top-right corners
+  BL: "╚", BR: "╝",   // bottom-left, bottom-right corners
+  ML: "╠", MR: "╣",   // mid-left, mid-right (divider row)
+  H:  "═",             // horizontal fill
+  V:  "║",             // vertical side
+  PAD: "  ",           // inner padding (spaces after ║ and before ║)
+};
+
+function cardPad(text, innerWidth) {
+  // Pad text to innerWidth, accounting for emoji double-width chars
+  // Simple approach: measure visible length by stripping surrogate pairs
+  let visLen = 0;
+  for (const ch of text) {
+    const cp = ch.codePointAt(0);
+    // Wide chars (emoji, CJK) count as 2, others as 1
+    visLen += (cp > 0x2E80) ? 2 : 1;
+  }
+  const spaces = Math.max(0, innerWidth - visLen);
+  return text + " ".repeat(spaces);
+}
+
+function cardRow(text, cfg) {
+  const innerWidth = cfg.CARD_WIDTH - 4; // 2 for borders + 2 for PAD each side
+  return `${cfg.V}${cfg.PAD}${cardPad(text, innerWidth)}${cfg.PAD}${cfg.V}`;
+}
+
+function cardDivider(cfg) {
+  return cfg.ML + cfg.H.repeat(cfg.CARD_WIDTH - 2) + cfg.MR;
+}
+
+function cardTop(cfg) {
+  return cfg.TL + cfg.H.repeat(cfg.CARD_WIDTH - 2) + cfg.TR;
+}
+
+function cardBottom(cfg) {
+  return cfg.BL + cfg.H.repeat(cfg.CARD_WIDTH - 2) + cfg.BR;
+}
+
+function wrapText(text, maxWidth) {
+  // Word-wrap text to maxWidth, returns array of lines
+  const words = text.split(" ");
+  const lines = [];
+  let current = "";
+  for (const word of words) {
+    const test = current ? current + " " + word : word;
+    let visLen = 0;
+    for (const ch of test) {
+      const cp = ch.codePointAt(0);
+      visLen += (cp > 0x2E80) ? 2 : 1;
+    }
+    if (visLen > maxWidth && current) {
+      lines.push(current);
+      current = word;
+    } else {
+      current = test;
+    }
+  }
+  if (current) lines.push(current);
+  return lines;
+}
+
+function buildShareCard(headline, statsLine, url) {
+  const cfg        = CARD_CONFIG;
+  const innerWidth = cfg.CARD_WIDTH - 4;
+  const headLines  = wrapText(headline, innerWidth);
+  const rows       = [];
+
+  rows.push(cardTop(cfg));
+  rows.push(cardRow(cfg.BRAND_LINE, cfg));
+  rows.push(cardDivider(cfg));
+  headLines.forEach(line => rows.push(cardRow(line, cfg)));
+  if (statsLine) {
+    rows.push(cardDivider(cfg));
+    rows.push(cardRow(statsLine, cfg));
+  }
+  rows.push(cardBottom(cfg));
+  rows.push("🔗 " + url);
+
+  return rows.join("\n");
+}
+
 /* ══════════════════════════════════════════
-   SHARE SYSTEM
-   window._storyHeadline and window._storyUrl
-   are set by loadStory() after render.
+   END OF CARD TEMPLATE CONFIG
    ══════════════════════════════════════════ */
 
-function toggleShareMenu() {
-  const wrap = document.getElementById("share-wrap");
-  wrap.classList.toggle("open");
 
-  // Close on outside click
-  if (wrap.classList.contains("open")) {
-    setTimeout(() => {
-      document.addEventListener("click", closeShareOnOutside, { once: true });
-    }, 0);
-  }
-}
+/* ══════════════════════════════════════════
+   SHARE FUNCTIONS
+   ══════════════════════════════════════════ */
 
-function closeShareOnOutside(e) {
-  const wrap = document.getElementById("share-wrap");
-  if (wrap && !wrap.contains(e.target)) {
-    wrap.classList.remove("open");
-  }
-}
-
-function showShareFeedback(msg) {
-  const fb = document.getElementById("share-feedback");
-  if (!fb) return;
-  fb.textContent = msg;
-  setTimeout(() => { fb.textContent = ""; }, 2500);
-}
-
-function copyLinkOnly() {
-  const wrap = document.getElementById("share-wrap");
-  if (wrap) wrap.classList.remove("open");
-
-  const url    = window._storyUrl || window.location.href;
-  navigator.clipboard.writeText(url).then(() => {
-    showShareFeedback("✅ Link copied!");
-  }).catch(() => {
-    // Fallback
-    const ta = document.createElement("textarea");
-    ta.value = url;
-    ta.style.cssText = "position:fixed;top:0;left:-9999px;";
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand("copy");
-    document.body.removeChild(ta);
-    showShareFeedback("✅ Link copied!");
-  });
-}
-
-function copyWithDetails() {
-  const wrap = document.getElementById("share-wrap");
-  if (wrap) wrap.classList.remove("open");
-
-  const rawHeadline = window._storyHeadline || document.title;
-  const url         = window._storyUrl      || window.location.href;
-
-  // Replace \n with ": " for single-line headline
-  const headline = rawHeadline.replace(/\n/g, ": ").trim();
-
-  let text = headline + "\n";
-
-  // Append Reddit stats if available
-  if (window._redditStats) {
-    const { upvotes, comments } = window._redditStats;
-    text += `👍 ${upvotes.toLocaleString()} upvotes · 💬 ${comments.toLocaleString()} comments on Reddit\n`;
-  }
-
-  text += url;
-
-  navigator.clipboard.writeText(text).then(() => {
-    showShareFeedback("✅ Copied with details!");
-  }).catch(() => {
+function _copyToClipboard(text, successMsg) {
+  const doFeedback = () => {
+    const fb = document.getElementById("share-feedback");
+    if (fb) {
+      fb.textContent = successMsg;
+      setTimeout(() => { fb.textContent = ""; }, 2500);
+    }
+  };
+  navigator.clipboard.writeText(text).then(doFeedback).catch(() => {
     const ta = document.createElement("textarea");
     ta.value = text;
     ta.style.cssText = "position:fixed;top:0;left:-9999px;";
@@ -938,9 +907,61 @@ function copyWithDetails() {
     ta.select();
     document.execCommand("copy");
     document.body.removeChild(ta);
-    showShareFeedback("✅ Copied with details!");
+    doFeedback();
   });
 }
+
+function _closeShareMenu() {
+  const wrap = document.getElementById("share-wrap");
+  if (wrap) wrap.classList.remove("open");
+}
+
+function toggleShareMenu() {
+  const wrap = document.getElementById("share-wrap");
+  wrap.classList.toggle("open");
+  if (wrap.classList.contains("open")) {
+    setTimeout(() => {
+      document.addEventListener("click", function handler(e) {
+        if (!wrap.contains(e.target)) {
+          wrap.classList.remove("open");
+          document.removeEventListener("click", handler);
+        }
+      });
+    }, 0);
+  }
+}
+
+function copyLinkOnly() {
+  _closeShareMenu();
+  const url = window._storyUrl || window.location.href;
+  _copyToClipboard(url, "✅ Link copied!");
+}
+
+function copyWithDetails() {
+  _closeShareMenu();
+  const headline  = (window._storyHeadline || "").replace(/\n/g, ": ").trim();
+  const url       = window._storyUrl || window.location.href;
+  const statsLine = window._redditStats
+    ? `👍 ${window._redditStats.upvotes.toLocaleString()} upvotes · 💬 ${window._redditStats.comments.toLocaleString()} comments on Reddit`
+    : "";
+  const text = headline + "\n" + (statsLine ? statsLine + "\n" : "") + url;
+  _copyToClipboard(text, "✅ Copied with details!");
+}
+
+function copyAsCard() {
+  _closeShareMenu();
+  const headline  = (window._storyHeadline || "").replace(/\n/g, ": ").trim();
+  const url       = window._storyUrl || window.location.href;
+  const statsLine = window._redditStats
+    ? `👍 ${window._redditStats.upvotes.toLocaleString()} upvotes · 💬 ${window._redditStats.comments.toLocaleString()} comments`
+    : "";
+  const card = buildShareCard(headline, statsLine, url);
+  _copyToClipboard(card, "✅ Card copied!");
+}
+
+/* ══════════════════════════════════════════
+   MARKDOWN CONVERTER
+   ══════════════════════════════════════════ */
 
 function convertRedditMarkdown(text) {
   if (!text) return "";
@@ -983,13 +1004,12 @@ async function loadStory() {
   document.querySelector('meta[name="twitter:title"]').setAttribute("content", s.headline.replace("\n"," "));
   document.querySelector('meta[name="twitter:description"]').setAttribute("content", s.summary.substring(0,180));
 
-  // Store for share functions
   window._storyHeadline = s.headline;
   window._storyUrl      = `${window.location.origin}/story.html?story=${storyId}`;
-  window._redditStats   = null; // will be set by loadRedditEngagement if it loads
+  window._redditStats   = null;
 
-  let cleanText  = convertRedditMarkdown(s.summary);
-  let paragraphs = cleanText.split("\n\n").map(p => `<p>${p}</p>`).join("");
+  const cleanText  = convertRedditMarkdown(s.summary);
+  const paragraphs = cleanText.split("\n\n").map(p => `<p>${p}</p>`).join("");
 
   const date = new Date(s.posted_at).toLocaleDateString("en-US", {
     year: "numeric", month: "long", day: "numeric"
@@ -999,12 +1019,8 @@ async function loadStory() {
   if (s.reddit_post_id) {
     try {
       const parsed = JSON.parse(s.reddit_post_id);
-      if (parsed.jquery?.[10]?.[3]?.[0]) {
-        redditLink = parsed.jquery[10][3][0];
-      }
-    } catch(e) {
-      console.warn("Could not parse reddit_post_id");
-    }
+      if (parsed.jquery?.[10]?.[3]?.[0]) redditLink = parsed.jquery[10][3][0];
+    } catch(e) { console.warn("Could not parse reddit_post_id"); }
   }
 
   const imgResult      = await getStoryImage(storyId, s.headline);
@@ -1016,9 +1032,7 @@ async function loadStory() {
 
   document.getElementById("story-container").innerHTML = `
     <div class="story-card">
-      <div class="back-link">
-        <a href="${back.href}">${back.label}</a>
-      </div>
+      <div class="back-link"><a href="${back.href}">${back.label}</a></div>
       <h1>${s.headline}</h1>
       <div class="story-date">${date}</div>
       ${imageBlockHTML}
@@ -1050,6 +1064,10 @@ async function loadStory() {
               <span class="share-opt-label">📋 Copy with details</span>
               <span class="share-opt-desc">Headline · stats · link</span>
             </button>
+            <button onclick="copyAsCard()">
+              <span class="share-opt-label">🎨 Copy as card</span>
+              <span class="share-opt-desc">Bordered card — looks great anywhere</span>
+            </button>
           </div>
         </div>
         <span class="share-feedback" id="share-feedback"></span>
@@ -1075,7 +1093,6 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(res => res.text())
     .then(html => {
       document.getElementById("site-header").innerHTML = html;
-
       const hamburger = document.getElementById("hamburger");
       const mobileNav = document.getElementById("mobile-nav");
       if (hamburger && mobileNav) {
@@ -1090,14 +1107,12 @@ document.addEventListener("DOMContentLoaded", function () {
           };
         });
       }
-
       loadAffiliateTiles();
       loadStory();
     });
 });
 
 </script>
-
 </head>
 
 <body>
