@@ -225,7 +225,6 @@ body {
   line-height: 1.5;
 }
 
-/* CHANGE 1: make the stats line clickable */
 .reddit-stats a {
   color: #444;
   text-decoration: none;
@@ -280,6 +279,102 @@ body {
   text-decoration: underline;
 }
 
+/* ══════════════════════════════════════════
+   SHARE DROPDOWN
+   ══════════════════════════════════════════ */
+.share-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.share-btn-main {
+  background: none;
+  border: none;
+  color: #0066cc;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.share-btn-main:hover {
+  text-decoration: underline;
+}
+
+.share-btn-main .share-caret {
+  font-size: .7rem;
+  color: #0066cc;
+  margin-left: 2px;
+  transition: transform .15s;
+}
+
+.share-wrap.open .share-caret {
+  transform: rotate(180deg);
+}
+
+.share-dropdown {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  background: #fff;
+  border: 1px solid #dde;
+  border-radius: 7px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.13);
+  min-width: 210px;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.share-wrap.open .share-dropdown {
+  display: block;
+}
+
+.share-dropdown button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 11px 16px;
+  font-size: .92rem;
+  color: #222;
+  cursor: pointer;
+  line-height: 1.3;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.share-dropdown button:last-child {
+  border-bottom: none;
+}
+
+.share-dropdown button:hover {
+  background: #f4f8ff;
+  color: #0066cc;
+}
+
+.share-dropdown .share-opt-label {
+  font-weight: bold;
+  display: block;
+}
+
+.share-dropdown .share-opt-desc {
+  font-size: .76rem;
+  color: #888;
+  display: block;
+  margin-top: 1px;
+}
+
+.share-feedback {
+  font-size: .85rem;
+  color: green;
+  font-weight: bold;
+  min-width: 80px;
+}
+
 .back-link {
   margin-bottom: 15px;
   font-size: .9rem;
@@ -302,13 +397,11 @@ footer {
 }
 
 /* ════════════════════════════════════════
-   MOBILE — matches index.html quality
+   MOBILE
    ════════════════════════════════════════ */
 @media (max-width: 900px) {
 
-  body {
-    background: #ebebeb;
-  }
+  body { background: #ebebeb; }
 
   .container {
     flex-direction: column;
@@ -324,7 +417,6 @@ footer {
     padding: 0;
   }
 
-  /* ── Story card: full bleed white tile ── */
   .story-card {
     background: #fff;
     border-radius: 0;
@@ -333,7 +425,6 @@ footer {
     margin-bottom: 0;
   }
 
-  /* ── Back link ── */
   .back-link {
     padding: 12px 16px 0;
     margin-bottom: 0;
@@ -345,7 +436,6 @@ footer {
     font-weight: 700;
   }
 
-  /* ── Headline ── */
   .story-card h1 {
     font-size: 1.3rem;
     line-height: 1.38;
@@ -355,7 +445,6 @@ footer {
     color: #111;
   }
 
-  /* ── Date ── */
   .story-date {
     font-size: .7rem;
     color: #aaa;
@@ -366,9 +455,8 @@ footer {
     margin-bottom: 14px;
   }
 
-  /* ── Story image: full bleed, no border ── */
   .story-image-wrap {
-    margin: 0 0 0 0;
+    margin: 0;
     border: none;
     border-radius: 0;
     border-top: 1px solid #eee;
@@ -382,7 +470,6 @@ footer {
     display: block;
   }
 
-  /* ── Caption: subtle, monospace ── */
   .story-image-caption {
     font-size: .74rem;
     padding: 8px 16px;
@@ -393,7 +480,6 @@ footer {
     line-height: 1.45;
   }
 
-  /* ── Story body text ── */
   .story-content {
     font-size: 1rem;
     line-height: 1.72;
@@ -401,18 +487,13 @@ footer {
     padding: 18px 16px 4px;
   }
 
-  .story-content p {
-    margin-bottom: 16px;
-  }
+  .story-content p { margin-bottom: 16px; }
 
-  /* ── Reddit engagement: mobile ── */
   #reddit-engagement {
-    margin: 0 16px 0;
-    margin-top: 16px;
+    margin: 16px 16px 0;
     border-radius: 4px;
   }
 
-  /* ── Story links / actions ── */
   .story-links {
     padding: 14px 16px 20px;
     margin-top: 14px;
@@ -429,9 +510,17 @@ footer {
     font-weight: 700;
   }
 
-  /* ════════════════════════════════════
-     MOBILE AFFILIATE INSERT — 2 columns
-     ════════════════════════════════════ */
+  .share-btn-main {
+    font-size: .88rem;
+    color: #0055bb;
+  }
+
+  /* On mobile dropdown opens upward too but may need to flip
+     if near top — upward is safer since links are near bottom */
+  .share-dropdown {
+    min-width: 230px;
+  }
+
   .mobile-affiliate-insert {
     background: #fff;
     padding: 13px 16px 14px;
@@ -466,9 +555,7 @@ footer {
     transition: transform .15s ease;
   }
 
-  .mobile-affiliate-grid a:active {
-    transform: scale(0.98);
-  }
+  .mobile-affiliate-grid a:active { transform: scale(0.98); }
 
   .mobile-affiliate-grid img {
     width: 100%;
@@ -484,7 +571,6 @@ footer {
     line-height: 1.4;
   }
 
-  /* ── Footer ── */
   footer {
     font-size: .76rem;
     padding: 1.4rem 1rem;
@@ -510,12 +596,10 @@ function resolveBackLink() {
       const refUrl = new URL(ref);
       if (refUrl.hostname === window.location.hostname) {
         const refPage = refUrl.pathname.split("/").pop();
-        if (refPage === "news.html") {
+        if (refPage === "news.html")
           return { href: "news.html", label: "← Back to Archive" };
-        }
-        if (refPage === "index.html" || refPage === "" || refPage === "/") {
+        if (refPage === "index.html" || refPage === "" || refPage === "/")
           return { href: "index.html", label: "← Back to Latest News" };
-        }
         return { href: ref, label: "← Back" };
       }
     } catch (e) {}
@@ -524,7 +608,7 @@ function resolveBackLink() {
 }
 
 /* ══════════════════════════════════════════
-   AFFILIATE SYSTEM — JSON-driven
+   AFFILIATE SYSTEM
    ══════════════════════════════════════════ */
 
 let _affiliateData = null;
@@ -545,10 +629,6 @@ async function loadAffiliateData() {
 function getRandomLink(item) {
   if (!item.links || item.links.length === 0) return '#';
   return item.links[Math.floor(Math.random() * item.links.length)];
-}
-
-function getAllItems(data) {
-  return Object.values(data).flatMap(cat => cat.items || []);
 }
 
 function pickItems(items, count) {
@@ -573,36 +653,28 @@ function pickOneMobile(items) {
 }
 
 function renderTileHTML(item) {
-  const link = getRandomLink(item);
+  const link   = getRandomLink(item);
   const imgSrc = `/affiliate/${item.image}`;
   return `
     <a href="${link}" target="_blank" rel="noopener nofollow sponsored"
        title="Browse on Amazon — supports NSM at no extra cost">
       <img src="${imgSrc}" alt="${item.title}" loading="lazy">
-    </a>
-  `;
+    </a>`;
 }
 
 async function loadAffiliateTiles() {
   const data = await loadAffiliateData();
 
-  /* Desktop left: books (3 slots) */
-  const bookItems = data.books?.items || [];
+  const bookItems   = data.books?.items || [];
   const bookDesktop = pickItems(bookItems, 3);
   const bookContainer = document.getElementById("book-tiles");
-  if (bookContainer) {
-    bookContainer.innerHTML = bookDesktop.map(renderTileHTML).join("");
-  }
+  if (bookContainer) bookContainer.innerHTML = bookDesktop.map(renderTileHTML).join("");
 
-  /* Desktop right: gear (3 slots) */
-  const gearItems = data.gear?.items || [];
+  const gearItems   = data.gear?.items || [];
   const gearDesktop = pickItems(gearItems, 3);
   const gearContainer = document.getElementById("gear-tiles");
-  if (gearContainer) {
-    gearContainer.innerHTML = gearDesktop.map(renderTileHTML).join("");
-  }
+  if (gearContainer) gearContainer.innerHTML = gearDesktop.map(renderTileHTML).join("");
 
-  /* Mobile: 2-column insert (1 book + 1 gear) */
   const mobileBook = bookItems.length > 0 ? pickOneMobile(bookItems) : null;
   const mobileGear = gearItems.length > 0 ? pickOneMobile(gearItems) : null;
   if (!mobileBook && !mobileGear) return;
@@ -629,8 +701,7 @@ async function loadAffiliateTiles() {
       <div class="reading-disclosure">
         Selecting an item supports independent journalism at no extra cost to you.
       </div>
-    </div>
-  `;
+    </div>`;
 }
 
 /* ══════════════════════════════════════════
@@ -705,15 +776,11 @@ function buildImageBlockHTML(imgUrl, meta, dbCaption) {
     <div class="story-image-wrap">
       <img src="${imgUrl}" alt="Story photo">
       ${captionHTML}
-    </div>
-  `;
+    </div>`;
 }
 
 /* ══════════════════════════════════════════
    REDDIT ENGAGEMENT METER
-   CHANGE 2: retry once on failure, tighter
-   timeout, and pass redditUrl through so the
-   stats line can be made into a link.
    ══════════════════════════════════════════ */
 
 async function fetchRedditJson(jsonUrl, timeoutMs) {
@@ -726,8 +793,7 @@ async function fetchRedditJson(jsonUrl, timeoutMs) {
     });
     clearTimeout(timeout);
     if (!response.ok) return null;
-    const text = await response.text();
-    return JSON.parse(text);
+    return JSON.parse(await response.text());
   } catch (e) {
     clearTimeout(timeout);
     return null;
@@ -737,31 +803,26 @@ async function fetchRedditJson(jsonUrl, timeoutMs) {
 async function loadRedditEngagement(redditUrl) {
   try {
     const match = redditUrl.match(/\/comments\/([a-z0-9]+)/i);
-    if (!match) { console.log("Reddit: no post ID found in URL:", redditUrl); return; }
+    if (!match) return;
 
     const postId  = match[1];
     const jsonUrl = `https://www.reddit.com/comments/${postId}.json`;
 
-    console.log("Reddit: fetching", jsonUrl);
-
-    // Try once with 6s timeout, retry once with 5s if first fails
     let data = await fetchRedditJson(jsonUrl, 6000);
     if (!data) {
-      console.log("Reddit: first attempt failed, retrying…");
       await new Promise(r => setTimeout(r, 800));
       data = await fetchRedditJson(jsonUrl, 5000);
     }
-
-    if (!data) {
-      console.log("Reddit: both attempts failed, skipping engagement block");
-      return;
-    }
+    if (!data) return;
 
     const post = data?.[0]?.data?.children?.[0]?.data;
-    if (!post) { console.log("Reddit: unexpected data shape"); return; }
+    if (!post) return;
 
     const upvotes  = post.score        ?? 0;
     const comments = post.num_comments ?? 0;
+
+    // Store for share function to use
+    window._redditStats = { upvotes, comments };
 
     const conversationScore = (comments * 2) + upvotes;
     const barPct = Math.min(100, Math.round((conversationScore / 200) * 100));
@@ -776,7 +837,6 @@ async function loadRedditEngagement(redditUrl) {
     const container = document.getElementById("reddit-engagement");
     if (!container) return;
 
-    /* CHANGE 1: wrap upvotes and comments in links to the Reddit thread */
     container.querySelector(".reddit-stats").innerHTML =
       `<a href="${redditUrl}" target="_blank" rel="noopener">👍 ${upvotes.toLocaleString()} upvotes</a>` +
       `&nbsp; · &nbsp;` +
@@ -797,19 +857,88 @@ async function loadRedditEngagement(redditUrl) {
 }
 
 /* ══════════════════════════════════════════
-   SHARE BUTTON
+   SHARE SYSTEM
+   window._storyHeadline and window._storyUrl
+   are set by loadStory() after render.
    ══════════════════════════════════════════ */
 
-function shareStory() {
-  const params = new URLSearchParams(window.location.search);
-  const storyId = params.get("story");
-  const shareUrl = `${window.location.origin}/story.html?story=${storyId}`;
-  navigator.clipboard.writeText(shareUrl).then(() => {
-    document.getElementById("share-btn").innerHTML = "✅ Copied!";
-    setTimeout(() =>
-      document.getElementById("share-btn").innerHTML = "🔗 Share this story",
-      2000
-    );
+function toggleShareMenu() {
+  const wrap = document.getElementById("share-wrap");
+  wrap.classList.toggle("open");
+
+  // Close on outside click
+  if (wrap.classList.contains("open")) {
+    setTimeout(() => {
+      document.addEventListener("click", closeShareOnOutside, { once: true });
+    }, 0);
+  }
+}
+
+function closeShareOnOutside(e) {
+  const wrap = document.getElementById("share-wrap");
+  if (wrap && !wrap.contains(e.target)) {
+    wrap.classList.remove("open");
+  }
+}
+
+function showShareFeedback(msg) {
+  const fb = document.getElementById("share-feedback");
+  if (!fb) return;
+  fb.textContent = msg;
+  setTimeout(() => { fb.textContent = ""; }, 2500);
+}
+
+function copyLinkOnly() {
+  const wrap = document.getElementById("share-wrap");
+  if (wrap) wrap.classList.remove("open");
+
+  const url    = window._storyUrl || window.location.href;
+  navigator.clipboard.writeText(url).then(() => {
+    showShareFeedback("✅ Link copied!");
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement("textarea");
+    ta.value = url;
+    ta.style.cssText = "position:fixed;top:0;left:-9999px;";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    showShareFeedback("✅ Link copied!");
+  });
+}
+
+function copyWithDetails() {
+  const wrap = document.getElementById("share-wrap");
+  if (wrap) wrap.classList.remove("open");
+
+  const rawHeadline = window._storyHeadline || document.title;
+  const url         = window._storyUrl      || window.location.href;
+
+  // Replace \n with ": " for single-line headline
+  const headline = rawHeadline.replace(/\n/g, ": ").trim();
+
+  let text = headline + "\n";
+
+  // Append Reddit stats if available
+  if (window._redditStats) {
+    const { upvotes, comments } = window._redditStats;
+    text += `👍 ${upvotes.toLocaleString()} upvotes · 💬 ${comments.toLocaleString()} comments on Reddit\n`;
+  }
+
+  text += url;
+
+  navigator.clipboard.writeText(text).then(() => {
+    showShareFeedback("✅ Copied with details!");
+  }).catch(() => {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.cssText = "position:fixed;top:0;left:-9999px;";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    showShareFeedback("✅ Copied with details!");
   });
 }
 
@@ -836,7 +965,7 @@ async function loadStory() {
   }
 
   const apiURL = `https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=*&url=eq.${storyId}`;
-  const res = await fetch(apiURL, {
+  const res    = await fetch(apiURL, {
     headers: { apikey: "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB" }
   });
   const data = await res.json();
@@ -853,6 +982,11 @@ async function loadStory() {
   document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);
   document.querySelector('meta[name="twitter:title"]').setAttribute("content", s.headline.replace("\n"," "));
   document.querySelector('meta[name="twitter:description"]').setAttribute("content", s.summary.substring(0,180));
+
+  // Store for share functions
+  window._storyHeadline = s.headline;
+  window._storyUrl      = `${window.location.origin}/story.html?story=${storyId}`;
+  window._redditStats   = null; // will be set by loadRedditEngagement if it loads
 
   let cleanText  = convertRedditMarkdown(s.summary);
   let paragraphs = cleanText.split("\n\n").map(p => `<p>${p}</p>`).join("");
@@ -873,7 +1007,7 @@ async function loadStory() {
     }
   }
 
-  const imgResult = await getStoryImage(storyId, s.headline);
+  const imgResult      = await getStoryImage(storyId, s.headline);
   const imageBlockHTML = imgResult
     ? buildImageBlockHTML(imgResult.url, imgResult.meta, s.image_caption || "")
     : "";
@@ -902,17 +1036,29 @@ async function loadStory() {
       <div class="story-links">
         ${redditLink ? `<a href="${redditLink}" target="_blank" rel="noopener">Join the discussion on Reddit</a>` : ""}
         <a href="https://reddit.com/r/NoSpinMedia" target="_blank" rel="noopener">Explore more in r/NoSpinMedia</a>
-        <button id="share-btn" onclick="shareStory()" style="background:none;border:none;color:#0066cc;font-weight:bold;font-size:1rem;cursor:pointer;padding:0;">🔗 Share this story</button>
+
+        <div class="share-wrap" id="share-wrap">
+          <button class="share-btn-main" onclick="toggleShareMenu()">
+            🔗 Share this story <span class="share-caret">▼</span>
+          </button>
+          <div class="share-dropdown">
+            <button onclick="copyLinkOnly()">
+              <span class="share-opt-label">🔗 Copy link</span>
+              <span class="share-opt-desc">Just the URL</span>
+            </button>
+            <button onclick="copyWithDetails()">
+              <span class="share-opt-label">📋 Copy with details</span>
+              <span class="share-opt-desc">Headline · stats · link</span>
+            </button>
+          </div>
+        </div>
+        <span class="share-feedback" id="share-feedback"></span>
       </div>
     </div>
   `;
 
-  /* Fetch Reddit engagement asynchronously — fails silently */
-  if (redditLink) {
-    loadRedditEngagement(redditLink);
-  }
+  if (redditLink) loadRedditEngagement(redditLink);
 
-  /* Mobile: inject 2-col affiliate insert after story */
   if (window.innerWidth <= 900 && window.mobileAffiliateHTML) {
     const insert = document.createElement("div");
     insert.innerHTML = window.mobileAffiliateHTML;
