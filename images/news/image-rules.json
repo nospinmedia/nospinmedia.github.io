@@ -78,7 +78,47 @@
     {
       "match": ["tariff", "trade", "imports", "exports"],
       "image": "cargo-containers.webp"
-    }
-
+    },
+    {
+  "match": [
+    "pope",
+    "vatican",
+    "catholic",
+    "catholics",
+    "pontiff",
+    "holy see",
+    "vatican city",
+    "papal",
+    "global day of prayer"
+  ],
+  "image": "vatican-pope.webp"
+},
+{
+  "match": [
+    "peace talks",
+    "ceasefire talks",
+    "negotiations",
+    "diplomatic talks",
+    "talks collapse",
+    "talks fail",
+    "summit talks",
+    "diplomacy",
+    "delegation"
+  ],
+  "image": "diplomacy-meeting.webp"
+},
+  {
+  "match": [
+    "food bank",
+    "food banks",
+    "food assistance",
+    "food aid",
+    "food insecurity",
+    "food relief",
+    "hunger",
+    "aid network"
+  ],
+  "image": "food-bank.webp"
+}  
   ]
 }
