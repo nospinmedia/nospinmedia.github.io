@@ -161,11 +161,26 @@ body {
   margin-bottom: 20px;
 }
 
+/* ── IMAGE WRAP + WATERMARK ── */
 .story-image-wrap {
   margin: 0 0 24px 0;
   border: 2px solid #e0e0e0;
   border-radius: 6px;
   overflow: hidden;
+  position: relative;
+}
+
+.story-image-wrap::after {
+  content: "🧭 nospin.media";
+  position: absolute;
+  bottom: 38px;
+  right: 10px;
+  font-size: .72rem;
+  color: rgba(255,255,255,0.7);
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  pointer-events: none;
+  font-family: system-ui, -apple-system, Arial, sans-serif;
 }
 
 .story-image-wrap img {
@@ -175,14 +190,15 @@ body {
   object-fit: cover;
 }
 
+/* ── CAPTION ── */
 .story-image-caption {
   background: #f8f8f8;
   border-top: 1px solid #e0e0e0;
-  padding: 10px 14px;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: .82rem;
-  color: #555;
-  line-height: 1.5;
+  padding: 8px 14px;
+  font-family: system-ui, -apple-system, Arial, sans-serif;
+  font-size: .74rem;
+  color: #888;
+  line-height: 1.4;
 }
 
 .story-content {
@@ -432,12 +448,12 @@ footer {
   }
 
   .story-image-caption {
-    font-size: .74rem;
+    font-size: .7rem;
     padding: 8px 16px;
     color: #888;
     background: #fafafa;
     border-top: 1px solid #eee;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: system-ui, -apple-system, Arial, sans-serif;
     line-height: 1.45;
   }
 
@@ -649,6 +665,13 @@ async function resolveStoryImage(storyId) {
 }
 
 let _imageRulesCache = null;
+
+/* ── Word-boundary keyword matcher — prevents "soil" matching "oil" ── */
+function matchesKeyword(text, kw) {
+  const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp('\\b' + escaped + '\\b', 'i').test(text);
+}
+
 async function resolveFallbackImage(headline) {
   try {
     if (!_imageRulesCache) {
@@ -658,7 +681,9 @@ async function resolveFallbackImage(headline) {
     }
     const h = (headline || "").toLowerCase();
     for (const rule of (_imageRulesCache.keywords || [])) {
-      if (rule.match.some(kw => h.includes(kw.toLowerCase()))) return `/images/news/${rule.image}`;
+      if (rule.match.some(kw => matchesKeyword(h, kw.toLowerCase()))) {
+        return `/images/news/${rule.image}`;
+      }
     }
   } catch (e) {}
   return null;
