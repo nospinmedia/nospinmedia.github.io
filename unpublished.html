@@ -700,6 +700,13 @@ async function resolveStoryImage(storyId) {
 }
 
 let _imageRulesCache = null;
+
+/* ── Word-boundary matcher: prevents "soil" matching "oil" ── */
+function matchesKeyword(text, kw) {
+  const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp('\\b' + escaped + '\\b', 'i').test(text);
+}
+
 async function resolveFallbackImage(headline) {
   try {
     if (!_imageRulesCache) {
@@ -709,7 +716,7 @@ async function resolveFallbackImage(headline) {
     }
     const h = (headline || "").toLowerCase();
     for (const rule of (_imageRulesCache.keywords || [])) {
-      if (rule.match.some(kw => h.includes(kw.toLowerCase()))) {
+      if (rule.match.some(kw => matchesKeyword(h, kw.toLowerCase()))) {
         return `/images/news/${rule.image}`;
       }
     }
