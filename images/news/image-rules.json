@@ -56,10 +56,32 @@
     },
 
     {
-      "match": ["court", "judge", "supreme court", "lawsuit", "trial", "guilty", "arrested", "indict", "charged", "ruling", "legal"],
+      "match": [
+        "court",
+        "judge",
+        "supreme court",
+        "appeals court",
+        "federal court",
+        "lawsuit",
+        "trial",
+        "guilty",
+        "conviction",
+        "convictions",
+        "sentencing",
+        "appeal",
+        "appeals",
+        "arrested",
+        "indict",
+        "indicted",
+        "charged",
+        "ruling",
+        "legal",
+        "DOJ",
+        "justice department",
+        "federal prosecutors"
+      ],
       "image": "court-gavel.webp"
     },
-
     {
       "match": ["refinery", "petrochemical", "refining"],
       "image": "refinery.webp"
