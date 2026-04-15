@@ -54,7 +54,16 @@
       "match": ["WHO", "World Health", "health campaign"],
       "image": "who-hq.webp"
     },
-
+    {
+      "match": [
+        "white house",
+        "president",
+        "oval office",
+        "executive order",
+        "administration officials"
+      ],
+      "image": "white-house.webp"
+    },
     {
       "match": [
         "congress",
