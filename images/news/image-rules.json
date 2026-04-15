@@ -57,6 +57,27 @@
 
     {
       "match": [
+        "congress",
+        "capitol hill",
+        "house of representatives",
+        "senate",
+        "lawmakers",
+        "house panel",
+        "senate panel",
+        "committee hearing",
+        "subcommittee",
+        "house subcommittee",
+        "senate subcommittee",
+        "congressional hearing",
+        "legislation",
+        "representative",
+        "rep.",
+        "senator"
+      ],
+      "image": "us-capitol.webp"
+    },
+    {
+      "match": [
         "court",
         "judge",
         "supreme court",
@@ -81,24 +102,6 @@
         "federal prosecutors"
       ],
       "image": "court-gavel.webp"
-    },
-    {
-      "match": [
-        "congress",
-        "capitol hill",
-        "house of representatives",
-        "senate",
-        "lawmakers",
-        "house panel",
-        "senate panel",
-        "committee hearing",
-        "subcommittee",
-        "house subcommittee",
-        "senate subcommittee",
-        "congressional hearing",
-        "legislation"
-      ],
-      "image": "us-capitol.webp"
     },
     {
       "match": ["refinery", "petrochemical", "refining"],
