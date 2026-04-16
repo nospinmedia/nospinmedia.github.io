@@ -125,6 +125,14 @@
         ]
       },
       {
+        "title": "Amazon Home",
+        "image": "amazon/nsm-amazon-home.webp",
+        "must_show": true,
+        "links": [
+          "https://www.amazon.com/gp/browse.html?node=1055398&tag=nospinmedia-20"
+        ]
+      },
+      {
         "title": "Weather Stations",
         "image": "gear/nsm-gear-weather-station.png",
         "must_show": false,
