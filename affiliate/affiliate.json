@@ -4,7 +4,7 @@
       {
       "title": "Soccer History Book",
       "image": "books/faulkner-soccer-book.webp",
-      "must_show": true,
+      "must_show": false,
       "links": [
         "https://www.amazon.com/dp/B0G5VJDCZM?tag=nospinmedia-20"
       ]
