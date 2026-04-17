@@ -15,7 +15,24 @@
       "match": ["fighter jet", "fighter jets", "warplane", "warplanes", "bomber", "bombers", "airstrike", "air strike", "airstrikes", "military aircraft", "jet fighters"],
       "image": "fighter-jet.webp"
     },
-
+    {
+      "match": [
+        "navy",
+        "naval",
+        "warship",
+        "warships",
+        "frigate",
+        "frigates",
+        "destroyer",
+        "destroyers",
+        "aircraft carrier",
+        "carrier strike group",
+        "fleet deployment",
+        "naval exercise",
+        "maritime patrol"
+      ],
+      "image": "us-navy-frigate.webp"
+    },
     {
       "match": ["NASA", "Artemis", "space", "moon mission"],
       "image": "nasa-rocket.webp"
