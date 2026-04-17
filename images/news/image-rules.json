@@ -66,7 +66,19 @@
       "match": ["heatwave", "extreme heat", "temperature", "humidity", "wet-bulb", "record heat"],
       "image": "heatwave-warning-highway.webp"
     },
-
+    {
+      "match": [
+        "FDA",
+        "Food and Drug Administration",
+        "drug approval",
+        "drug safety",
+        "drug recall",
+        "food recall",
+        "medical device",
+        "medical devices"
+      ],
+      "image": "fda-logo.webp"
+    },
     {
       "match": ["WHO", "World Health", "health campaign"],
       "image": "who-hq.webp"
