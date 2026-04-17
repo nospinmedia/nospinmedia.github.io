@@ -145,6 +145,32 @@ body {
   font-style: italic;
 }
 
+/* ── Site intro banner ── */
+.site-intro {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.2rem;
+  border-left: 4px solid #0066cc;
+}
+
+.site-intro .intro-name {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #111;
+  letter-spacing: .01em;
+  margin-bottom: 4px;
+}
+
+.site-intro p {
+  margin: 0;
+  font-size: .95rem;
+  color: #555;
+  line-height: 1.6;
+}
+
 /* ── Story card ── */
 .story-card {
   background: #fff;
@@ -269,6 +295,25 @@ footer {
     padding: 0;
   }
 
+  /* ── Site intro — mobile ── */
+  .site-intro {
+    border-radius: 0;
+    box-shadow: none;
+    margin-bottom: 0;
+    border-left: 3px solid #0066cc;
+    padding: 12px 16px;
+    background: #fff;
+  }
+
+  .site-intro .intro-name {
+    font-size: 1rem;
+  }
+
+  .site-intro p {
+    font-size: .82rem;
+    color: #666;
+  }
+
   /* ── Page title bar ── */
   .main h1 {
     font-size: 1rem;
@@ -332,12 +377,12 @@ footer {
     object-fit: cover;
   }
 
-  /* ── Text block — Gemini: padding-top 18px ── */
+  /* ── Text block ── */
   .card-text {
     padding: 18px 16px 0 16px;
   }
 
-  /* ── Headline — Gemini: line-height 1.38 ── */
+  /* ── Headline ── */
   .story-card h3 {
     font-size: 1.05rem;
     line-height: 1.38;
@@ -392,8 +437,6 @@ footer {
 
   /* ════════════════════════════════════
      MOBILE AFFILIATE INSERT — 2 columns
-     1 book tile + 1 gear tile, side by side
-     must_show picks first per category
      ════════════════════════════════════ */
   .mobile-affiliate-insert {
     background: #fff;
@@ -462,7 +505,6 @@ footer {
 
 /* ══════════════════════════════════════════
    AFFILIATE SYSTEM — JSON-driven
-   All config lives in /affiliate/affiliate.json
    ══════════════════════════════════════════ */
 
 let _affiliateData = null;
@@ -504,7 +546,6 @@ function pickItems(items, count) {
   return result;
 }
 
-/* Pick one item from a category — must_show first, then random */
 function pickOneMobile(items) {
   const mustShow = items.filter(i => i.must_show);
   const pool = mustShow.length > 0 ? mustShow : items;
@@ -525,7 +566,6 @@ function renderTileHTML(item) {
 async function loadBookTiles() {
   const data = await loadAffiliateData();
 
-  /* Desktop left panel: books (3 slots) */
   const bookItems = data.books?.items || [];
   const bookDesktop = pickItems(bookItems, 3);
   const bookContainer = document.getElementById("book-tiles");
@@ -533,7 +573,6 @@ async function loadBookTiles() {
     bookContainer.innerHTML = bookDesktop.map(renderTileHTML).join("");
   }
 
-  /* ── Mobile: 2-column insert (1 book + 1 gear) ── */
   const gearItems = data.gear?.items || [];
   if (bookItems.length === 0 && gearItems.length === 0) return;
 
@@ -786,6 +825,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   <!-- Main content -->
   <div class="main">
+
+    <section class="site-intro">
+      <span class="intro-name">🧭 No Spin Media</span>
+      <p>Independent reporting on national policy, science, technology, and global events. Stories are sourced from verified institutional reporting and written in neutral language — what happened, who said it, and why it matters. No commentary. No spin.</p>
+    </section>
+
     <h1>Latest News</h1>
     <div id="news-container"></div>
   </div>
