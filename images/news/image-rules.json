@@ -37,7 +37,24 @@
       "match": ["NASA", "Artemis", "space", "moon mission"],
       "image": "nasa-rocket.webp"
     },
-
+    {
+      "match": [
+        "AI",
+        "artificial intelligence",
+        "machine learning",
+        "generative AI",
+        "large language model",
+        "LLM",
+        "deep learning",
+        "AI system",
+        "AI model",
+        "AI regulation",
+        "AI safety",
+        "AI chip",
+        "AI training"
+      ],
+      "image": "ai-brain.webp"
+    },
     {
   "match": [
     "police",
