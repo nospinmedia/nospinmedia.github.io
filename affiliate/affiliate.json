@@ -127,9 +127,17 @@
       {
         "title": "Amazon Home",
         "image": "amazon/nsm-amazon-home.webp",
-        "must_show": true,
+        "must_show": false,
         "links": [
           "https://www.amazon.com/gp/browse.html?node=1055398&tag=nospinmedia-20"
+        ]
+      },
+      {
+        "title": "Support No Spin Media",
+        "image": "amazon/nsm-amazon.webp",
+        "must_show": true,
+        "links": [
+          "https://www.amazon.com/?tag=nospinmedia-20"
         ]
       },
       {
