@@ -355,7 +355,7 @@ footer {
   /* ── Thumbnail: full width, above fold ── */
   .card-thumb {
     width: 100%;
-    order: -1;
+    /* order: default — title renders above image in DOM */
   }
 
   .card-thumb a {
@@ -703,7 +703,7 @@ async function shareStory(url, headline, btn) {
 }
 
 async function loadStories() {
-  const apiURL = "https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=20";
+  const apiURL = "https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=50";
   const res = await fetch(apiURL, {
     headers: { apikey: "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB" }
   });
