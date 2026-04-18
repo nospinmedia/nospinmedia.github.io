@@ -199,6 +199,10 @@ body {
   width: 200px;
 }
 
+/* Mobile thumb hidden on desktop, desktop thumb hidden on mobile */
+.card-thumb-mobile { display: none; }
+.card-thumb-desktop { display: block; }
+
 .card-thumb a {
   display: block;
   border-radius: 6px;
@@ -352,24 +356,27 @@ footer {
     gap: 0;
   }
 
-  /* ── Thumbnail: full width, above fold ── */
-  .card-thumb {
-    width: 100%;
-    /* order: default — title renders above image in DOM */
+  /* ── Desktop thumb hidden, mobile thumb shown ── */
+  .card-thumb-desktop { display: none; }
+
+  .card-thumb-mobile {
+    display: block;
+    width: calc(100% + 32px);
+    margin: 8px -16px 12px;
   }
 
-  .card-thumb a {
+  .card-thumb-mobile a {
     border-radius: 0;
     box-shadow: none;
     display: block;
   }
 
-  .card-thumb a:hover {
+  .card-thumb-mobile a:hover {
     transform: none;
     box-shadow: none;
   }
 
-  .card-thumb img {
+  .card-thumb-mobile img {
     width: 100%;
     height: 210px;
     border-radius: 0;
@@ -727,8 +734,18 @@ async function loadStories() {
     const thumb = thumbResults[index];
     const thumbUrl = thumb ? thumb.url : null;
 
+    // Desktop: thumb sits to the right of card-text (outside card-text div)
     const thumbHTML = thumbUrl ? `
-      <div class="card-thumb">
+      <div class="card-thumb card-thumb-desktop">
+        <a href="story.html?story=${s.url}">
+          <img src="${thumbUrl}" alt="Story photo" loading="lazy">
+        </a>
+      </div>
+    ` : "";
+
+    // Mobile: thumb sits between headline/date and summary (inside card-text div)
+    const thumbHTMLMobile = thumbUrl ? `
+      <div class="card-thumb card-thumb-mobile">
         <a href="story.html?story=${s.url}">
           <img src="${thumbUrl}" alt="Story photo" loading="lazy">
         </a>
@@ -751,6 +768,7 @@ async function loadStories() {
             <a href="story.html?story=${s.url}" class="headline-link">${s.headline}</a>
           </h3>
           <div class="story-date">${date}</div>
+          ${thumbHTMLMobile}
           <div class="story-summary">${firstParagraph}</div>
           <div class="card-footer">
             <a class="story-link" href="story.html?story=${s.url}">Read full story →</a>
