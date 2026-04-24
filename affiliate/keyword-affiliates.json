@@ -1,8 +1,9 @@
 {
   "rules": [
+
     {
       "id": "ai",
-      "keywords": ["ai", "artificial intelligence", "machine learning"],
+      "keywords": ["ai","artificial intelligence","machine learning","generative ai","large language model","llm","deep learning","ai model","ai chip","ai training"],
       "match_case": false,
 
       "books": {
@@ -24,6 +25,111 @@
         "icon": "⚙️",
         "url": "https://www.amazon.com/s?k=ai+hardware+gpu&tag=nospinmedia-20"
       }
+    },
+
+    {
+      "id": "space",
+      "keywords": ["nasa","artemis","space","moon mission"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#243a5e",
+        "spine_color": "#1a2b45",
+        "accent_color": "#d4a843",
+        "category_label": "Space Books",
+        "title": "Exploring\nOuter\nSpace",
+        "subtitle": "Human missions beyond Earth",
+        "url": "https://www.amazon.com/s?k=space+exploration+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Space Gear",
+        "title": "SPACE GEAR",
+        "subtitle": "Tools For Viewing\nThe Night Sky",
+        "icon": "🔭",
+        "url": "https://www.amazon.com/s?k=astronomy+telescope+gear&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "wildfire",
+      "keywords": ["wildfire","wildfires","brush fire","forest fire","bushfire"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#5a2a22",
+        "spine_color": "#3f1e18",
+        "accent_color": "#d4a843",
+        "category_label": "Fire Science",
+        "title": "Understanding\nWildfires",
+        "subtitle": "How forests and climate shape fire",
+        "url": "https://www.amazon.com/s?k=wildfire+science+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Emergency Gear",
+        "title": "FIELD GEAR",
+        "subtitle": "Emergency Radios\nAnd Survival Tools",
+        "icon": "🔥",
+        "url": "https://www.amazon.com/s?k=emergency+radio+survival+gear&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "oil",
+      "keywords": ["oil","crude","opec","barrel","drilling","oilfield"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#3b3b3b",
+        "spine_color": "#242424",
+        "accent_color": "#d4a843",
+        "category_label": "Energy Books",
+        "title": "Global\nEnergy\nMarkets",
+        "subtitle": "Oil, power, and world economics",
+        "url": "https://www.amazon.com/s?k=oil+energy+markets+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Field Tools",
+        "title": "FIELD GEAR",
+        "subtitle": "Industrial Tools\nAnd Equipment",
+        "icon": "🛢️",
+        "url": "https://www.amazon.com/s?k=industrial+tools+equipment&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "military",
+      "keywords": ["drone","drones","uav","missile","fighter jet","airstrike","warplane","bombers"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#3f4a2c",
+        "spine_color": "#2c341e",
+        "accent_color": "#d4a843",
+        "category_label": "Military Books",
+        "title": "Modern\nMilitary\nTechnology",
+        "subtitle": "Weapons shaping modern warfare",
+        "url": "https://www.amazon.com/s?k=military+technology+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Field Gear",
+        "title": "TACTICAL GEAR",
+        "subtitle": "Tools Used In\nModern Operations",
+        "icon": "🪖",
+        "url": "https://www.amazon.com/s?k=tactical+gear+equipment&tag=nospinmedia-20"
+      }
     }
+
   ]
 }
