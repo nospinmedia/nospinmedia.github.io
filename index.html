@@ -586,16 +586,25 @@ function renderBookTileCSS(b) {
         <div style="flex:1;background:${b.cover_color};border-radius:0 5px 5px 0;padding:20px 16px 14px;display:flex;flex-direction:column;min-height:280px;overflow:hidden;position:relative;box-shadow:inset 2px 0 12px rgba(0,0,0,.12);">
           <!-- Top-left shine -->
           <div style="position:absolute;inset:0;background:linear-gradient(140deg,rgba(255,255,255,.07) 0%,transparent 45%);border-radius:0 5px 5px 0;pointer-events:none;"></div>
-          <!-- Category label -->
-          <div style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;font-family:Arial,sans-serif;color:${b.accent_color};margin-bottom:16px;-webkit-font-smoothing:antialiased;">${b.category_label}</div>
-          <!-- Title -->
+          <!-- Category label — publisher banner style with gold rules above & below -->
+          <div style="
+            font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;
+            font-family:Arial,sans-serif;color:${b.accent_color};
+            border-top:1.5px solid ${b.accent_color};
+            border-bottom:1.5px solid ${b.accent_color};
+            padding:5px 0 4px;
+            margin-bottom:16px;
+            text-align:center;
+            -webkit-font-smoothing:antialiased;
+          ">${b.category_label}</div>
+          <!-- Title — dominant -->
           <div style="font-size:21px;font-weight:800;line-height:1.08;color:#f9f1e0;flex:1;letter-spacing:-.01em;-webkit-font-smoothing:antialiased;">${titleLines}</div>
-          <!-- Rule -->
-          <div style="width:34px;height:1.5px;background:${b.accent_color};margin:16px 0 12px;opacity:.85;"></div>
+          <!-- Rule under title -->
+          <div style="width:34px;height:1.5px;background:${b.accent_color};margin:14px 0 11px;opacity:.85;"></div>
           <!-- Subtitle -->
           <div style="font-size:11px;line-height:1.5;color:#ddd0a8;font-style:italic;-webkit-font-smoothing:antialiased;">${(b.subtitle||"").replace(/\\n/g,"<br>")}</div>
           <!-- Footer -->
-          <div style="margin-top:14px;padding-top:10px;border-top:1px solid rgba(255,255,255,.14);display:flex;align-items:center;gap:5px;">
+          <div style="margin-top:14px;padding-top:9px;border-top:1px solid rgba(255,255,255,.14);display:flex;align-items:center;gap:5px;">
             <span style="font-size:9.5px;font-weight:700;font-family:Arial,sans-serif;color:${b.accent_color};-webkit-font-smoothing:antialiased;">🧭 NSM</span>
             <span style="font-size:8px;color:${b.accent_color};opacity:.6;font-family:Arial,sans-serif;">supports independent journalism</span>
           </div>
@@ -615,36 +624,45 @@ function renderGearTileCSS(g) {
       <div style="
         position:relative;width:100%;padding-bottom:100%;
         border-radius:10px;
-        background:#1e1e1e;
-        box-shadow:0 5px 18px rgba(0,0,0,.65),inset 0 0 0 1.5px #2e2e2e,inset 0 0 0 3.5px #141414;
+        background:#2a2a2a;
+        box-shadow:0 5px 18px rgba(0,0,0,.65),inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e;
         overflow:hidden;
         transition:transform .2s ease,box-shadow .2s ease;
         -webkit-font-smoothing:antialiased;
-      " onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 26px rgba(0,0,0,.7),inset 0 0 0 1.5px #2e2e2e,inset 0 0 0 3.5px #141414'"
-         onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 5px 18px rgba(0,0,0,.65),inset 0 0 0 1.5px #2e2e2e,inset 0 0 0 3.5px #141414'">
-        <!-- Radial center light -->
-        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 38%,rgba(255,255,255,.09) 0%,rgba(0,0,0,.18) 100%);pointer-events:none;border-radius:10px;"></div>
+      " onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 26px rgba(0,0,0,.7),inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e'"
+         onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 5px 18px rgba(0,0,0,.65),inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e'">
+        <!-- Radial center light — brighter to reveal texture -->
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 38%,rgba(255,255,255,.13) 0%,rgba(0,0,0,.15) 100%);pointer-events:none;border-radius:10px;"></div>
         <!-- Inner lid line -->
-        <div style="position:absolute;inset:11px;border-radius:7px;border:1px solid rgba(255,255,255,.06);pointer-events:none;"></div>
+        <div style="position:absolute;inset:11px;border-radius:7px;border:1px solid rgba(255,255,255,.08);pointer-events:none;"></div>
         <!-- Top handle -->
-        <div style="position:absolute;top:5px;left:50%;transform:translateX(-50%);width:42px;height:8px;background:#272727;border-radius:5px;border:1px solid #363636;"></div>
+        <div style="position:absolute;top:5px;left:50%;transform:translateX(-50%);width:42px;height:8px;background:#333;border-radius:5px;border:1px solid #444;"></div>
         <!-- Bottom handle -->
-        <div style="position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:42px;height:8px;background:#272727;border-radius:5px;border:1px solid #363636;"></div>
+        <div style="position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:42px;height:8px;background:#333;border-radius:5px;border:1px solid #444;"></div>
         <!-- Left latch -->
-        <div style="position:absolute;left:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#252525;border-radius:3px;border:1px solid #363636;"></div>
+        <div style="position:absolute;left:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#303030;border-radius:3px;border:1px solid #444;"></div>
         <!-- Right latch -->
-        <div style="position:absolute;right:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#252525;border-radius:3px;border:1px solid #363636;"></div>
-        <!-- Content -->
+        <div style="position:absolute;right:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#303030;border-radius:3px;border:1px solid #444;"></div>
+        <!-- Content — mirrors book layout: label / title / icon / subtitle -->
         <div style="position:absolute;inset:20px 26px 28px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
-          <div style="font-size:9.5px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;font-family:Arial,sans-serif;color:#c8962a;margin-bottom:6px;-webkit-font-smoothing:antialiased;">${g.category_label||""}</div>
-          <div style="width:82%;height:1px;background:linear-gradient(to right,transparent,#c8962a 25%,#c8962a 75%,transparent);margin-bottom:8px;"></div>
-          <div style="font-family:'Arial Black',Impact,Arial,sans-serif;font-size:32px;font-weight:900;color:#ecdfc4;letter-spacing:.04em;line-height:.92;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;">${titleLines}</div>
-          <div style="font-size:18px;margin:8px 0 6px;-webkit-font-smoothing:antialiased;">${g.icon||"⚙️"}</div>
-          <div style="width:82%;height:1px;background:linear-gradient(to right,transparent,#c8962a 25%,#c8962a 75%,transparent);margin-bottom:8px;"></div>
-          <div style="font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:Arial,sans-serif;color:#c8962a;line-height:1.5;-webkit-font-smoothing:antialiased;">${subLines}</div>
+          <!-- Category label — gold banner matching book style -->
+          <div style="
+            font-size:9px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;
+            font-family:Arial,sans-serif;color:#d4a843;
+            border-top:1.5px solid #d4a843;border-bottom:1.5px solid #d4a843;
+            padding:4px 0 3px;width:85%;
+            margin-bottom:9px;-webkit-font-smoothing:antialiased;
+          ">${g.category_label||""}</div>
+          <!-- Big stencil title — larger & brighter -->
+          <div style="font-family:'Arial Black',Impact,Arial,sans-serif;font-size:36px;font-weight:900;color:#f0e4c8;letter-spacing:.04em;line-height:.9;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;">${titleLines}</div>
+          <!-- Icon -->
+          <div style="font-size:18px;margin:8px 0 6px;">${g.icon||"⚙️"}</div>
+          <!-- Subtitle rule + text -->
+          <div style="width:82%;height:1px;background:linear-gradient(to right,transparent,#d4a843 25%,#d4a843 75%,transparent);margin-bottom:7px;"></div>
+          <div style="font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;line-height:1.5;-webkit-font-smoothing:antialiased;">${subLines}</div>
         </div>
         <!-- NSM footer -->
-        <div style="position:absolute;bottom:6px;left:26px;right:26px;text-align:center;font-size:7px;color:#484848;letter-spacing:.05em;font-family:Arial,sans-serif;-webkit-font-smoothing:antialiased;">
+        <div style="position:absolute;bottom:6px;left:26px;right:26px;text-align:center;font-size:7px;color:#555;letter-spacing:.05em;font-family:Arial,sans-serif;">
           🧭 NSM · supports independent journalism
         </div>
       </div>
