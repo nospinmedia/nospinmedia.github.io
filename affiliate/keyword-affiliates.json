@@ -1,0 +1,29 @@
+{
+  "rules": [
+    {
+      "id": "ai",
+      "keywords": ["ai", "artificial intelligence", "machine learning"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#265c40",
+        "spine_color": "#1e4d35",
+        "accent_color": "#d4a843",
+        "category_label": "AI Books",
+        "title": "Understanding\nArtificial\nIntelligence",
+        "subtitle": "The ideas shaping modern AI systems",
+        "url": "https://www.amazon.com/s?k=artificial+intelligence+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "AI Tools",
+        "title": "AI GEAR",
+        "subtitle": "Hardware Powering\nArtificial Intelligence",
+        "icon": "⚙️",
+        "url": "https://www.amazon.com/s?k=ai+hardware+gpu&tag=nospinmedia-20"
+      }
+    }
+  ]
+}
