@@ -512,9 +512,12 @@ footer {
 
 /* ══════════════════════════════════════════
    AFFILIATE SYSTEM — JSON-driven
+   affiliate.json    = static fallback tiles
+   keyword-affiliates.json = keyword-matched tiles
    ══════════════════════════════════════════ */
 
-let _affiliateData = null;
+let _affiliateData       = null;
+let _keywordAffiliateData = null;
 
 async function loadAffiliateData() {
   if (_affiliateData) return _affiliateData;
@@ -529,13 +532,106 @@ async function loadAffiliateData() {
   return _affiliateData;
 }
 
+async function loadKeywordAffiliateData() {
+  if (_keywordAffiliateData) return _keywordAffiliateData;
+  try {
+    const res = await fetch('/affiliate/keyword-affiliates.json');
+    if (!res.ok) throw new Error('keyword-affiliates.json not found');
+    _keywordAffiliateData = await res.json();
+  } catch (e) {
+    console.warn('Keyword affiliate data failed to load:', e);
+    _keywordAffiliateData = { rules: [] };
+  }
+  return _keywordAffiliateData;
+}
+
+/* ── Keyword matcher — scans text top-to-bottom against rules ── */
+function findKeywordMatch(text, rules) {
+  if (!text || !rules || rules.length === 0) return null;
+  const haystack = text.toLowerCase();
+  for (const rule of rules) {
+    const matchCase = rule.match_case === true;
+    const keywords  = rule.keywords || [];
+    const matched   = keywords.some(kw => {
+      const needle  = matchCase ? kw : kw.toLowerCase();
+      const escaped = needle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      return new RegExp(`(?<![a-z])${escaped}(?![a-z])`, matchCase ? "" : "i").test(haystack);
+    });
+    if (matched) return rule;
+  }
+  return null;
+}
+
+/* ── CSS book tile renderer ── */
+function renderBookTileCSS(b) {
+  const titleLines = (b.title || "").split("\\n").map(l => `<span style="display:block;">${l}</span>`).join("");
+  return `
+    <a href="${b.url}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost"
+       style="display:block;text-decoration:none;">
+      <div style="
+        position:relative;width:100%;padding-bottom:148%;
+        font-family:Georgia,serif;
+        transform:perspective(500px) rotateY(-6deg);
+        transition:transform .2s ease;
+        border-radius:2px 6px 6px 2px;
+      " onmouseover="this.style.transform='perspective(500px) rotateY(-3deg) translateY(-3px)'"
+         onmouseout="this.style.transform='perspective(500px) rotateY(-6deg)'">
+        <div style="position:absolute;left:0;top:0;width:13%;height:100%;background:${b.spine_color};border-radius:2px 0 0 2px;"></div>
+        <div style="position:absolute;left:11%;top:1px;width:4px;height:calc(100% - 2px);
+          background:repeating-linear-gradient(to bottom,#f0ede6 0,#f0ede6 1px,#e8e4dc 2px,#e8e4dc 3px);"></div>
+        <div style="position:absolute;left:13%;top:0;right:0;bottom:0;background:${b.cover_color};border-radius:0 6px 6px 0;padding:14px 12px 10px;display:flex;flex-direction:column;overflow:hidden;">
+          <div style="font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:${b.accent_color};opacity:.8;margin-bottom:7px;">${b.category_label}</div>
+          <div style="font-size:14px;font-weight:800;line-height:1.2;color:#f5edd6;flex:1;">${titleLines}</div>
+          <div style="width:26px;height:1.5px;background:${b.accent_color};opacity:.5;margin:7px 0;"></div>
+          <div style="font-size:8.5px;line-height:1.4;color:#d4c9a8;opacity:.85;">${(b.subtitle||"").replace(/\\n/g,"<br>")}</div>
+          <div style="margin-top:auto;padding-top:6px;border-top:1px solid rgba(255,255,255,.12);display:flex;align-items:center;gap:4px;">
+            <span style="font-size:8px;font-weight:700;color:${b.accent_color};">🧭 NSM</span>
+            <span style="font-size:7px;color:#c0b070;opacity:.8;">supports independent journalism</span>
+          </div>
+        </div>
+      </div>
+    </a>`;
+}
+
+/* ── CSS gear case tile renderer ── */
+function renderGearTileCSS(g) {
+  const titleLines = (g.title || "").split("\\n").map(l => `<div>${l}</div>`).join("");
+  const subLines   = (g.subtitle || "").split("\\n").map(l => `<div>${l}</div>`).join("");
+  return `
+    <a href="${g.url}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost"
+       style="display:block;text-decoration:none;">
+      <div style="
+        position:relative;width:100%;padding-bottom:100%;
+        border-radius:10px;background:#1a1a1a;
+        box-shadow:inset 0 0 0 3px #2a2a2a,inset 0 0 0 5px #111;
+        cursor:pointer;overflow:hidden;
+        transition:transform .2s ease;
+      " onmouseover="this.style.transform='translateY(-3px)'"
+         onmouseout="this.style.transform='translateY(0)'">
+        <div style="position:absolute;top:4px;left:50%;transform:translateX(-50%);width:36px;height:7px;background:#222;border-radius:4px;border:1px solid #333;"></div>
+        <div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:36px;height:7px;background:#222;border-radius:4px;border:1px solid #333;"></div>
+        <div style="position:absolute;left:5px;top:50%;transform:translateY(-50%);width:6px;height:16px;background:#2a2a2a;border-radius:2px;border:1px solid #333;"></div>
+        <div style="position:absolute;right:5px;top:50%;transform:translateY(-50%);width:6px;height:16px;background:#2a2a2a;border-radius:2px;border:1px solid #333;"></div>
+        <div style="position:absolute;inset:16px 20px 16px 20px;border-radius:5px;background:#141414;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 6px 6px;gap:1px;text-align:center;">
+          <div style="font-size:7.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#c8962a;margin-bottom:2px;">${g.category_label||""}</div>
+          <div style="width:78%;height:1px;background:#c8962a;opacity:.55;margin-bottom:2px;"></div>
+          <div style="font-family:'Arial Black',Impact,sans-serif;font-size:22px;font-weight:900;color:#e8e0d0;letter-spacing:.04em;line-height:1;text-shadow:1px 1px 0 #000,-1px -1px 0 #000;">${titleLines}</div>
+          <div style="font-size:13px;margin:2px 0;opacity:.75;">${g.icon||"⚙️"}</div>
+          <div style="width:78%;height:1px;background:#c8962a;opacity:.55;margin-bottom:3px;"></div>
+          <div style="font-size:7px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#c8962a;line-height:1.3;">${subLines}</div>
+        </div>
+        <div style="position:absolute;bottom:19px;left:20px;right:20px;text-align:center;font-size:6px;color:#555;letter-spacing:.04em;border-top:1px solid #2a2a2a;padding-top:3px;">
+          🧭 NSM · supports independent journalism
+        </div>
+      </div>
+    </a>`;
+}
+
 function getRandomLink(item) {
   if (!item.links || item.links.length === 0) return '#';
   return item.links[Math.floor(Math.random() * item.links.length)];
-}
-
-function getAllItems(data) {
-  return Object.values(data).flatMap(cat => cat.items || []);
 }
 
 function pickItems(items, count) {
@@ -560,45 +656,70 @@ function pickOneMobile(items) {
 }
 
 function renderTileHTML(item) {
-  const link = getRandomLink(item);
+  const link   = getRandomLink(item);
   const imgSrc = `/affiliate/${item.image}`;
   return `
     <a href="${link}" target="_blank" rel="noopener nofollow sponsored"
        title="Browse on Amazon — supports NSM at no extra cost">
       <img src="${imgSrc}" alt="${item.title}" loading="lazy">
-    </a>
-  `;
+    </a>`;
 }
 
-async function loadBookTiles() {
-  const data = await loadAffiliateData();
-
+/* ══════════════════════════════════════════
+   MAIN AFFILIATE LOADER
+   Scans story headlines top-to-bottom,
+   injects matched keyword tile into slot 1,
+   fills remaining slots from affiliate.json.
+   Called after stories are in the DOM.
+   ══════════════════════════════════════════ */
+async function loadAllAffiliateTiles(matchedRule) {
+  const data      = await loadAffiliateData();
   const bookItems = data.books?.items || [];
-  const bookDesktop = pickItems(bookItems, 3);
+  const gearItems = data.gear?.items  || [];
+
+  /* ── DESKTOP BOOKS (left column) ── */
   const bookContainer = document.getElementById("book-tiles");
   if (bookContainer) {
-    bookContainer.innerHTML = bookDesktop.map(renderTileHTML).join("");
+    let html = "";
+    if (matchedRule?.books) {
+      html += `<div style="margin-bottom:12px;">${renderBookTileCSS(matchedRule.books)}</div>`;
+    }
+    const staticCount  = matchedRule?.books ? 2 : 3;
+    const staticBooks  = pickItems(bookItems, staticCount);
+    html += staticBooks.map(item => `<div style="margin-bottom:12px;">${renderTileHTML(item)}</div>`).join("");
+    bookContainer.innerHTML = html;
   }
 
-  const gearItems = data.gear?.items || [];
-  if (bookItems.length === 0 && gearItems.length === 0) return;
+  /* ── DESKTOP GEAR (right column) ── */
+  const gearContainer = document.getElementById("gear-tiles");
+  if (gearContainer) {
+    let html = "";
+    if (matchedRule?.gear) {
+      html += `<div style="margin-bottom:12px;">${renderGearTileCSS(matchedRule.gear)}</div>`;
+    }
+    const staticCount = matchedRule?.gear ? 2 : 3;
+    const staticGear  = pickItems(gearItems, staticCount);
+    html += staticGear.map(item => `<div style="margin-bottom:12px;">${renderTileHTML(item)}</div>`).join("");
+    gearContainer.innerHTML = html;
+  }
 
-  const mobileBook = bookItems.length > 0 ? pickOneMobile(bookItems) : null;
-  const mobileGear = gearItems.length > 0 ? pickOneMobile(gearItems) : null;
+  /* ── MOBILE INSERT ── */
+  let bookTileHTML = "";
+  let gearTileHTML = "";
 
-  const bookTileHTML = mobileBook ? `
-    <a href="${getRandomLink(mobileBook)}" target="_blank" rel="noopener nofollow sponsored"
-       title="Browse on Amazon — supports NSM at no extra cost">
-      <img src="/affiliate/${mobileBook.image}" alt="${mobileBook.title}" loading="lazy">
-    </a>
-  ` : "";
+  if (matchedRule?.books) {
+    bookTileHTML = `<div style="border-radius:8px;overflow:hidden;">${renderBookTileCSS(matchedRule.books)}</div>`;
+  } else {
+    const mb = bookItems.length > 0 ? pickOneMobile(bookItems) : null;
+    if (mb) bookTileHTML = `<a href="${getRandomLink(mb)}" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/${mb.image}" alt="${mb.title}" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>`;
+  }
 
-  const gearTileHTML = mobileGear ? `
-    <a href="${getRandomLink(mobileGear)}" target="_blank" rel="noopener nofollow sponsored"
-       title="Browse on Amazon — supports NSM at no extra cost">
-      <img src="/affiliate/${mobileGear.image}" alt="${mobileGear.title}" loading="lazy">
-    </a>
-  ` : "";
+  if (matchedRule?.gear) {
+    gearTileHTML = `<div style="border-radius:8px;overflow:hidden;">${renderGearTileCSS(matchedRule.gear)}</div>`;
+  } else {
+    const mg = gearItems.length > 0 ? pickOneMobile(gearItems) : null;
+    if (mg) gearTileHTML = `<a href="${getRandomLink(mg)}" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/${mg.image}" alt="${mg.title}" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>`;
+  }
 
   window.mobileBookHTML = `
     <div class="mobile-affiliate-insert">
@@ -610,18 +731,7 @@ async function loadBookTiles() {
       <div class="reading-disclosure">
         Selecting an item supports independent journalism at no extra cost to you.
       </div>
-    </div>
-  `;
-}
-
-async function loadGearTiles() {
-  const data = await loadAffiliateData();
-  const gearItems = data.gear?.items || [];
-  const desktopItems = pickItems(gearItems, 3);
-  const container = document.getElementById("gear-tiles");
-  if (container) {
-    container.innerHTML = desktopItems.map(renderTileHTML).join("");
-  }
+    </div>`;
 }
 
 /* ══════════════════════════════════════════
@@ -715,6 +825,12 @@ async function loadStories() {
     headers: { apikey: "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB" }
   });
   const stories = await res.json();
+
+  /* ── Keyword scan: headlines top-to-bottom, first match wins ── */
+  const kwData       = await loadKeywordAffiliateData();
+  const allHeadlines = stories.map(s => s.headline || "").join(" ");
+  const matchedRule  = findKeywordMatch(allHeadlines, kwData.rules || []);
+  await loadAllAffiliateTiles(matchedRule);
 
   const thumbResults = await Promise.all(stories.map(s => getCardImage(s.url, s.headline)));
 
@@ -816,9 +932,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       }
 
-      loadBookTiles();
-      loadGearTiles();
-      loadStories();
+      loadStories(); /* affiliate tiles loaded inside after keyword scan */
     });
 });
 
