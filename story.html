@@ -161,14 +161,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* ══════════════════════════════════════════
-   IMAGE BLOCK
-   .story-image-wrap  — outer border/radius container
-   .story-image-inner — position:relative so ::after
-                        watermark is clipped to photo only,
-                        NOT to the caption bar
-   ══════════════════════════════════════════ */
-
 .story-image-wrap {
   margin: 0 0 24px 0;
   border: 2px solid #e0e0e0;
@@ -202,7 +194,6 @@ body {
   line-height: 1;
 }
 
-/* ── CAPTION ── */
 .story-image-caption {
   background: #f8f8f8;
   border-top: 1px solid #e0e0e0;
@@ -228,10 +219,6 @@ body {
 .story-content p {
   margin-bottom: 18px;
 }
-
-/* ══════════════════════════════════════════
-   REDDIT ENGAGEMENT BLOCK
-   ══════════════════════════════════════════ */
 
 #reddit-engagement {
   margin-top: 28px;
@@ -259,16 +246,8 @@ body {
   line-height: 1.5;
 }
 
-.reddit-stats a {
-  color: #444;
-  text-decoration: none;
-}
-
-.reddit-stats a:hover {
-  color: #ff4500;
-  text-decoration: underline;
-  cursor: pointer;
-}
+.reddit-stats a { color: #444; text-decoration: none; }
+.reddit-stats a:hover { color: #ff4500; text-decoration: underline; cursor: pointer; }
 
 .conversation-meter {
   font-size: .9rem;
@@ -294,7 +273,6 @@ body {
   transition: width 0.8s ease;
 }
 
-/* ── Story links ── */
 .story-links {
   margin-top: 25px;
   display: flex;
@@ -303,112 +281,44 @@ body {
   align-items: center;
 }
 
-.story-links a {
-  font-weight: bold;
-  text-decoration: none;
-  color: #0066cc;
-}
-
+.story-links a { font-weight: bold; text-decoration: none; color: #0066cc; }
 .story-links a:hover { text-decoration: underline; }
 
-/* ══════════════════════════════════════════
-   SHARE DROPDOWN
-   ══════════════════════════════════════════ */
-.share-wrap {
-  position: relative;
-  display: inline-block;
-}
+.share-wrap { position: relative; display: inline-block; }
 
 .share-btn-main {
-  background: none;
-  border: none;
-  color: #0066cc;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  background: none; border: none; color: #0066cc;
+  font-weight: bold; font-size: 1rem; cursor: pointer;
+  padding: 0; display: flex; align-items: center; gap: 4px;
 }
-
 .share-btn-main:hover { text-decoration: underline; }
-
-.share-btn-main .share-caret {
-  font-size: .7rem;
-  color: #0066cc;
-  margin-left: 2px;
-  transition: transform .15s;
-}
-
+.share-btn-main .share-caret { font-size: .7rem; color: #0066cc; margin-left: 2px; transition: transform .15s; }
 .share-wrap.open .share-caret { transform: rotate(180deg); }
 
 .share-dropdown {
-  display: none;
-  position: absolute;
-  bottom: calc(100% + 6px);
-  left: 0;
-  background: #fff;
-  border: 1px solid #dde;
-  border-radius: 7px;
-  box-shadow: 0 4px 18px rgba(0,0,0,.13);
-  min-width: 220px;
-  z-index: 100;
-  overflow: hidden;
+  display: none; position: absolute; bottom: calc(100% + 6px); left: 0;
+  background: #fff; border: 1px solid #dde; border-radius: 7px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.13); min-width: 220px; z-index: 100; overflow: hidden;
 }
-
 .share-wrap.open .share-dropdown { display: block; }
 
 .share-dropdown button {
-  display: block;
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  padding: 11px 16px;
-  font-size: .92rem;
-  color: #222;
-  cursor: pointer;
-  line-height: 1.3;
-  border-bottom: 1px solid #f0f0f0;
+  display: block; width: 100%; text-align: left; background: none; border: none;
+  padding: 11px 16px; font-size: .92rem; color: #222; cursor: pointer;
+  line-height: 1.3; border-bottom: 1px solid #f0f0f0;
 }
-
 .share-dropdown button:last-child { border-bottom: none; }
 .share-dropdown button:hover { background: #f4f8ff; color: #0066cc; }
 
-.share-opt-label {
-  font-weight: bold;
-  display: block;
-}
+.share-opt-label { font-weight: bold; display: block; }
+.share-opt-desc { font-size: .76rem; color: #888; display: block; margin-top: 1px; }
+.share-feedback { font-size: .85rem; color: green; font-weight: bold; min-width: 80px; }
 
-.share-opt-desc {
-  font-size: .76rem;
-  color: #888;
-  display: block;
-  margin-top: 1px;
-}
-
-.share-feedback {
-  font-size: .85rem;
-  color: green;
-  font-weight: bold;
-  min-width: 80px;
-}
-
-.back-link {
-  margin-bottom: 15px;
-  font-size: .9rem;
-}
-
+.back-link { margin-bottom: 15px; font-size: .9rem; }
 .back-link a { text-decoration: none; color: #0066cc; }
 .back-link a:hover { text-decoration: underline; }
 
-footer {
-  text-align: center;
-  padding: 1rem;
-  font-size: .9rem;
-  color: #666;
-}
+footer { text-align: center; padding: 1rem; font-size: .9rem; color: #666; }
 
 /* ════════════════════════════════════════
    MOBILE
@@ -422,84 +332,44 @@ footer {
   .main { max-width: 100%; padding: 0; }
 
   .story-card {
-    background: #fff;
-    border-radius: 0;
-    box-shadow: none;
-    padding: 0;
-    margin-bottom: 0;
+    background: #fff; border-radius: 0; box-shadow: none; padding: 0; margin-bottom: 0;
   }
 
   .back-link { padding: 12px 16px 0; margin-bottom: 0; font-size: .8rem; }
   .back-link a { color: #0055bb; font-weight: 700; }
 
   .story-card h1 {
-    font-size: 1.3rem;
-    line-height: 1.38;
-    margin: 10px 0 6px 0;
-    padding: 0 16px;
-    font-weight: 800;
-    color: #111;
+    font-size: 1.3rem; line-height: 1.38; margin: 10px 0 6px 0;
+    padding: 0 16px; font-weight: 800; color: #111;
   }
 
   .story-date {
-    font-size: .7rem;
-    color: #aaa;
-    text-transform: uppercase;
-    letter-spacing: .04em;
-    font-weight: 600;
-    padding: 0 16px;
-    margin-bottom: 14px;
+    font-size: .7rem; color: #aaa; text-transform: uppercase;
+    letter-spacing: .04em; font-weight: 600; padding: 0 16px; margin-bottom: 14px;
   }
 
   .story-image-wrap {
-    margin: 0;
-    border: none;
-    border-radius: 0;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
+    margin: 0; border: none; border-radius: 0;
+    border-top: 1px solid #eee; border-bottom: 1px solid #eee;
   }
 
-  .story-image-inner img {
-    max-height: 240px;
-    width: 100%;
-    object-fit: cover;
-    display: block;
-  }
+  .story-image-inner img { max-height: 240px; width: 100%; object-fit: cover; display: block; }
 
   .story-image-caption {
-    font-size: 11px;
-    padding: 7px 16px;
-    color: #666;
-    background: #fafafa;
-    border-top: 1px solid #eee;
-    font-family: system-ui, -apple-system, Arial, sans-serif;
-    line-height: 1.4;
+    font-size: 11px; padding: 7px 16px; color: #666; background: #fafafa;
+    border-top: 1px solid #eee; font-family: system-ui,-apple-system,Arial,sans-serif; line-height: 1.4;
   }
+  .story-image-credit { font-size: 10px; color: #888; }
 
-  .story-image-credit {
-    font-size: 10px;
-    color: #888;
-  }
-
-  .story-content {
-    font-size: 1rem;
-    line-height: 1.72;
-    color: #222;
-    padding: 18px 16px 4px;
-  }
-
+  .story-content { font-size: 1rem; line-height: 1.72; color: #222; padding: 18px 16px 4px; }
   .story-content p { margin-bottom: 16px; }
 
   #reddit-engagement { margin: 16px 16px 0; border-radius: 4px; }
 
   .story-links {
-    padding: 14px 16px 20px;
-    margin-top: 14px;
+    padding: 14px 16px 20px; margin-top: 14px;
     border-top: 1px solid #f0f0f0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
+    display: flex; flex-direction: column; gap: 10px; align-items: flex-start;
   }
 
   .story-links a { font-size: .88rem; color: #0055bb; font-weight: 700; }
@@ -507,62 +377,32 @@ footer {
   .share-dropdown { min-width: 230px; }
 
   .mobile-affiliate-insert {
-    background: #fff;
-    padding: 13px 16px 14px;
-    border-radius: 0;
-    box-shadow: none;
-    margin-top: 6px;
-    border-top: 1px solid #e8e8e8;
+    background: #fff; padding: 13px 16px 14px; border-radius: 0;
+    box-shadow: none; margin-top: 6px; border-top: 1px solid #e8e8e8;
   }
 
   .mobile-affiliate-insert .affiliate-label {
-    font-size: .7rem;
-    font-weight: 800;
-    letter-spacing: .07em;
-    text-transform: uppercase;
-    color: #444;
-    border-bottom: 2px solid #0066cc;
-    padding-bottom: 6px;
-    margin-bottom: 10px;
+    font-size: .7rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase;
+    color: #444; border-bottom: 2px solid #0066cc; padding-bottom: 6px; margin-bottom: 10px;
   }
 
-  .mobile-affiliate-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
+  .mobile-affiliate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
   .mobile-affiliate-grid a {
-    display: block;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,.10);
-    transition: transform .15s ease;
+    display: block; border-radius: 8px; overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,.10); transition: transform .15s ease;
   }
-
   .mobile-affiliate-grid a:active { transform: scale(0.98); }
 
-  .mobile-affiliate-grid img {
-    width: 100%;
-    display: block;
-    border-radius: 8px;
-  }
+  .mobile-affiliate-grid img { width: 100%; display: block; border-radius: 8px; }
 
   .mobile-affiliate-insert .reading-disclosure {
-    margin-top: 8px;
-    font-size: .6rem;
-    color: #bbb;
-    font-style: italic;
-    line-height: 1.4;
+    margin-top: 8px; font-size: .6rem; color: #bbb; font-style: italic; line-height: 1.4;
   }
 
   footer {
-    font-size: .76rem;
-    padding: 1.4rem 1rem;
-    color: #999;
-    background: #fff;
-    border-top: 1px solid #ddd;
-    margin-top: 6px;
+    font-size: .76rem; padding: 1.4rem 1rem; color: #999;
+    background: #fff; border-top: 1px solid #ddd; margin-top: 6px;
   }
 }
 
@@ -594,21 +434,123 @@ function resolveBackLink() {
 
 /* ══════════════════════════════════════════
    AFFILIATE SYSTEM
+   affiliate.json         = static fallback tiles
+   keyword-affiliates.json = keyword-matched tiles
+   story.html scans full story body text
    ══════════════════════════════════════════ */
 
-let _affiliateData = null;
+let _affiliateData        = null;
+let _keywordAffiliateData = null;
 
 async function loadAffiliateData() {
   if (_affiliateData) return _affiliateData;
   try {
     const res = await fetch('/affiliate/affiliate.json');
-    if (!res.ok) throw new Error('affiliate.json not found');
+    if (!res.ok) throw new Error('not found');
     _affiliateData = await res.json();
   } catch (e) {
     console.warn('Affiliate data failed to load:', e);
     _affiliateData = {};
   }
   return _affiliateData;
+}
+
+async function loadKeywordAffiliateData() {
+  if (_keywordAffiliateData) return _keywordAffiliateData;
+  try {
+    const res = await fetch('/affiliate/keyword-affiliates.json');
+    if (!res.ok) throw new Error('not found');
+    _keywordAffiliateData = await res.json();
+  } catch (e) {
+    console.warn('Keyword affiliate data failed to load:', e);
+    _keywordAffiliateData = { rules: [] };
+  }
+  return _keywordAffiliateData;
+}
+
+/* ── Keyword matcher — word-boundary safe ── */
+function findKeywordMatch(text, rules) {
+  if (!text || !rules || rules.length === 0) return null;
+  const haystack = text.toLowerCase();
+  for (const rule of rules) {
+    const matchCase = rule.match_case === true;
+    const matched   = (rule.keywords || []).some(kw => {
+      const needle  = matchCase ? kw : kw.toLowerCase();
+      const escaped = needle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      return new RegExp(`(?<![a-z])${escaped}(?![a-z])`, matchCase ? "" : "i").test(haystack);
+    });
+    if (matched) return rule;
+  }
+  return null;
+}
+
+/* ── CSS book tile renderer ── */
+function renderBookTileCSS(b) {
+  const titleLines = (b.title || "").split("\\n").map(l => `<div>${l}</div>`).join("");
+  return `
+    <a href="${b.url}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost"
+       style="display:block;text-decoration:none;">
+      <div style="
+        display:flex;
+        border-radius:2px 5px 5px 2px;
+        box-shadow:5px 7px 18px rgba(0,0,0,.5),1px 1px 3px rgba(0,0,0,.3);
+        transition:box-shadow .2s ease,transform .2s ease;
+        font-family:Georgia,'Times New Roman',serif;
+        -webkit-font-smoothing:antialiased;
+      " onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='7px 12px 24px rgba(0,0,0,.55),1px 1px 3px rgba(0,0,0,.3)'"
+         onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='5px 7px 18px rgba(0,0,0,.5),1px 1px 3px rgba(0,0,0,.3)'">
+        <div style="width:18px;min-width:18px;background:${b.spine_color};border-radius:2px 0 0 2px;box-shadow:inset -4px 0 8px rgba(0,0,0,.5);"></div>
+        <div style="width:6px;min-width:6px;background:repeating-linear-gradient(to bottom,#f6f1e9 0,#f6f1e9 1px,#e9e4db 2px,#e9e4db 3px);"></div>
+        <div style="flex:1;background:${b.cover_color};border-radius:0 5px 5px 0;padding:20px 16px 14px;display:flex;flex-direction:column;min-height:280px;overflow:hidden;position:relative;box-shadow:inset 2px 0 12px rgba(0,0,0,.12);">
+          <div style="position:absolute;inset:0;background:linear-gradient(140deg,rgba(255,255,255,.07) 0%,transparent 45%);border-radius:0 5px 5px 0;pointer-events:none;"></div>
+          <div style="font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;font-family:Arial,sans-serif;color:${b.accent_color};border-top:1.5px solid ${b.accent_color};border-bottom:1.5px solid ${b.accent_color};padding:5px 0 4px;margin-bottom:16px;text-align:center;-webkit-font-smoothing:antialiased;">${b.category_label}</div>
+          <div style="font-size:21px;font-weight:800;line-height:1.08;color:#f9f1e0;flex:1;letter-spacing:-.01em;-webkit-font-smoothing:antialiased;">${titleLines}</div>
+          <div style="width:34px;height:1.5px;background:${b.accent_color};margin:14px 0 11px;opacity:.85;"></div>
+          <div style="font-size:11px;line-height:1.5;color:#ddd0a8;font-style:italic;-webkit-font-smoothing:antialiased;">${(b.subtitle||"").replace(/\\n/g,"<br>")}</div>
+          <div style="margin-top:14px;padding-top:9px;border-top:1px solid rgba(255,255,255,.14);display:flex;align-items:center;gap:5px;">
+            <span style="font-size:9.5px;font-weight:700;font-family:Arial,sans-serif;color:${b.accent_color};-webkit-font-smoothing:antialiased;">🧭 NSM</span>
+            <span style="font-size:8px;color:${b.accent_color};opacity:.6;font-family:Arial,sans-serif;">supports independent journalism</span>
+          </div>
+        </div>
+      </div>
+    </a>`;
+}
+
+/* ── CSS gear case tile renderer ── */
+function renderGearTileCSS(g) {
+  const titleLines = (g.title || "").split("\\n").map(l => `<div>${l}</div>`).join("");
+  const subLines   = (g.subtitle || "").split("\\n").map(l => `<div>${l}</div>`).join("");
+  return `
+    <a href="${g.url}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost"
+       style="display:block;text-decoration:none;">
+      <div style="
+        position:relative;width:100%;padding-bottom:100%;
+        border-radius:10px;background:#2a2a2a;
+        box-shadow:0 5px 18px rgba(0,0,0,.65),inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e;
+        overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;
+        -webkit-font-smoothing:antialiased;
+      " onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 26px rgba(0,0,0,.7),inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e'"
+         onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 5px 18px rgba(0,0,0,.65),inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e'">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 38%,rgba(255,255,255,.13) 0%,rgba(0,0,0,.15) 100%);pointer-events:none;border-radius:10px;"></div>
+        <div style="position:absolute;inset:11px;border-radius:7px;border:1px solid rgba(255,255,255,.08);pointer-events:none;"></div>
+        <div style="position:absolute;top:5px;left:50%;transform:translateX(-50%);width:42px;height:8px;background:#333;border-radius:5px;border:1px solid #444;"></div>
+        <div style="position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:42px;height:8px;background:#333;border-radius:5px;border:1px solid #444;"></div>
+        <div style="position:absolute;left:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#303030;border-radius:3px;border:1px solid #444;"></div>
+        <div style="position:absolute;right:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#303030;border-radius:3px;border:1px solid #444;"></div>
+        <div style="position:absolute;inset:20px 26px 28px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+          <div style="font-size:9px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;border-top:1.5px solid #d4a843;border-bottom:1.5px solid #d4a843;padding:4px 0 3px;width:85%;margin-bottom:9px;-webkit-font-smoothing:antialiased;">${g.category_label||""}</div>
+          <div style="font-family:'Arial Black',Impact,Arial,sans-serif;font-size:36px;font-weight:900;color:#f0e4c8;letter-spacing:.04em;line-height:.9;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;">${titleLines}</div>
+          <div style="font-size:18px;margin:8px 0 6px;">${g.icon||"⚙️"}</div>
+          <div style="width:82%;height:1px;background:linear-gradient(to right,transparent,#d4a843 25%,#d4a843 75%,transparent);margin-bottom:7px;"></div>
+          <div style="font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;line-height:1.5;-webkit-font-smoothing:antialiased;">${subLines}</div>
+        </div>
+        <div style="position:absolute;bottom:6px;left:26px;right:26px;text-align:center;font-size:7px;color:#555;letter-spacing:.05em;font-family:Arial,sans-serif;">
+          🧭 NSM · supports independent journalism
+        </div>
+      </div>
+    </a>`;
 }
 
 function getRandomLink(item) {
@@ -647,27 +589,64 @@ function renderTileHTML(item) {
     </a>`;
 }
 
-async function loadAffiliateTiles() {
-  const data = await loadAffiliateData();
+/* ══════════════════════════════════════════
+   MAIN AFFILIATE LOADER
+   Accepts matchedRule from keyword scan.
+   Scans full story body on story.html.
+   ══════════════════════════════════════════ */
+async function loadAllAffiliateTiles(matchedRule) {
+  const data      = await loadAffiliateData();
+  const bookItems = data.books?.items || [];
+  const gearItems = data.gear?.items  || [];
 
-  const bookItems     = data.books?.items || [];
+  /* ── Desktop books ── */
   const bookContainer = document.getElementById("book-tiles");
-  if (bookContainer) bookContainer.innerHTML = pickItems(bookItems, 3).map(renderTileHTML).join("");
+  if (bookContainer) {
+    let html = "";
+    if (matchedRule?.books) {
+      html += `<div style="margin-bottom:12px;">${renderBookTileCSS(matchedRule.books)}</div>`;
+    }
+    const staticBooks = pickItems(bookItems, matchedRule?.books ? 2 : 3);
+    html += staticBooks.map(item => `<div style="margin-bottom:12px;">${renderTileHTML(item)}</div>`).join("");
+    bookContainer.innerHTML = html;
+  }
 
-  const gearItems     = data.gear?.items || [];
+  /* ── Desktop gear ── */
   const gearContainer = document.getElementById("gear-tiles");
-  if (gearContainer) gearContainer.innerHTML = pickItems(gearItems, 3).map(renderTileHTML).join("");
+  if (gearContainer) {
+    let html = "";
+    if (matchedRule?.gear) {
+      html += `<div style="margin-bottom:12px;">${renderGearTileCSS(matchedRule.gear)}</div>`;
+    }
+    const staticGear = pickItems(gearItems, matchedRule?.gear ? 2 : 3);
+    html += staticGear.map(item => `<div style="margin-bottom:12px;">${renderTileHTML(item)}</div>`).join("");
+    gearContainer.innerHTML = html;
+  }
 
-  const mobileBook = bookItems.length > 0 ? pickOneMobile(bookItems) : null;
-  const mobileGear = gearItems.length > 0 ? pickOneMobile(gearItems) : null;
-  if (!mobileBook && !mobileGear) return;
+  /* ── Mobile insert ── */
+  let bookTileHTML = "";
+  let gearTileHTML = "";
+
+  if (matchedRule?.books) {
+    bookTileHTML = `<div style="border-radius:8px;overflow:hidden;">${renderBookTileCSS(matchedRule.books)}</div>`;
+  } else {
+    const mb = bookItems.length > 0 ? pickOneMobile(bookItems) : null;
+    if (mb) bookTileHTML = `<a href="${getRandomLink(mb)}" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/${mb.image}" alt="${mb.title}" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>`;
+  }
+
+  if (matchedRule?.gear) {
+    gearTileHTML = `<div style="border-radius:8px;overflow:hidden;">${renderGearTileCSS(matchedRule.gear)}</div>`;
+  } else {
+    const mg = gearItems.length > 0 ? pickOneMobile(gearItems) : null;
+    if (mg) gearTileHTML = `<a href="${getRandomLink(mg)}" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/${mg.image}" alt="${mg.title}" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>`;
+  }
 
   window.mobileAffiliateHTML = `
     <div class="mobile-affiliate-insert">
       <div class="affiliate-label">🧭 NSM Picks</div>
       <div class="mobile-affiliate-grid">
-        ${mobileBook ? `<a href="${getRandomLink(mobileBook)}" target="_blank" rel="noopener nofollow sponsored" title="Browse on Amazon"><img src="/affiliate/${mobileBook.image}" alt="${mobileBook.title}" loading="lazy"></a>` : ""}
-        ${mobileGear ? `<a href="${getRandomLink(mobileGear)}" target="_blank" rel="noopener nofollow sponsored" title="Browse on Amazon"><img src="/affiliate/${mobileGear.image}" alt="${mobileGear.title}" loading="lazy"></a>` : ""}
+        ${bookTileHTML}
+        ${gearTileHTML}
       </div>
       <div class="reading-disclosure">Selecting an item supports independent journalism at no extra cost to you.</div>
     </div>`;
@@ -690,7 +669,6 @@ async function resolveStoryImage(storyId) {
 
 let _imageRulesCache = null;
 
-/* ── Word-boundary matcher: prevents "soil" matching "oil" ── */
 function matchesKeyword(text, kw) {
   const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   return new RegExp('\\b' + escaped + '\\b', 'i').test(text);
@@ -732,24 +710,20 @@ async function getStoryImage(storyId, headline) {
 function buildImageBlockHTML(imgUrl, meta, dbCaption) {
   let captionText = "";
   let creditText  = "";
-
   if (meta) {
     captionText = meta.caption || "";
     creditText  = meta.credit  || "";
   } else if (dbCaption) {
-    // Split on newline+Credit: if present
     const parts = dbCaption.split(/\nCredit:/i);
     captionText = parts[0].trim();
     if (parts[1]) creditText = parts[1].trim();
   }
-
   const captionHTML = (captionText || creditText)
     ? `<div class="story-image-caption">
         ${captionText}
         ${creditText ? `<span class="story-image-credit">Credit: ${creditText}</span>` : ""}
        </div>`
     : "";
-
   return `<div class="story-image-wrap">
             <div class="story-image-inner">
               <img src="${imgUrl}" alt="Story photo">
@@ -920,6 +894,8 @@ function convertRedditMarkdown(text) {
 
 /* ══════════════════════════════════════════
    STORY LOADER
+   Keyword scan runs against full story body
+   (headline + summary) for best match coverage
    ══════════════════════════════════════════ */
 
 async function loadStory() {
@@ -943,6 +919,12 @@ async function loadStory() {
   }
 
   const s = data[0];
+
+  /* ── Keyword scan: full story body (headline + summary) ── */
+  const kwData      = await loadKeywordAffiliateData();
+  const fullText    = [s.headline || "", s.summary || ""].join(" ");
+  const matchedRule = findKeywordMatch(fullText, kwData.rules || []);
+  await loadAllAffiliateTiles(matchedRule);
 
   document.querySelector('meta[property="og:title"]').setAttribute("content", s.headline.replace("\n"," "));
   document.querySelector('meta[property="og:description"]').setAttribute("content", s.summary.substring(0,180));
@@ -1053,8 +1035,7 @@ document.addEventListener("DOMContentLoaded", function () {
           };
         });
       }
-      loadAffiliateTiles();
-      loadStory();
+      loadStory(); /* affiliate tiles loaded inside after keyword scan */
     });
 });
 
