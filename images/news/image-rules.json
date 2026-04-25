@@ -230,6 +230,19 @@
     "Starship test flight"
   ],
   "image": "spacex-starship-launch.webp"
+},
+    {
+  "match": [
+    "chemical leak",
+    "chemical spill",
+    "toxic leak",
+    "hazmat",
+    "hazmat crews",
+    "hazardous materials",
+    "industrial chemical",
+    "chemical exposure"
+  ],
+  "image": "chemical-hazmat-response.webp"
 }
   ]
 }
