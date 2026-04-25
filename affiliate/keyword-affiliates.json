@@ -2,8 +2,138 @@
   "rules": [
 
     {
+      "id": "drones",
+      "keywords": ["drone strike", "drone attack", "drone", "drones", "uav", "uavs"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#4a3f2f",
+        "spine_color": "#332c20",
+        "accent_color": "#d4a843",
+        "category_label": "Drone Warfare Books",
+        "title": "The Age of\nDrones",
+        "subtitle": "How unmanned systems changed modern war",
+        "url": "https://www.amazon.com/s?k=drone+warfare+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Drone Gear",
+        "title": "DRONE GEAR",
+        "subtitle": "Consumer Drones\nAnd Aerial Cameras",
+        "icon": "🚁",
+        "url": "https://www.amazon.com/s?k=consumer+drones+aerial+camera&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "missiles",
+      "keywords": ["missile strike", "missile attack", "ballistic", "missile", "missiles"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#3e2a2a",
+        "spine_color": "#2b1d1d",
+        "accent_color": "#d4a843",
+        "category_label": "Military History Books",
+        "title": "Missiles\nAnd Modern\nWarfare",
+        "subtitle": "Precision weapons and global deterrence",
+        "url": "https://www.amazon.com/s?k=missile+warfare+military+history+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Field Tools",
+        "title": "FIELD OPTICS",
+        "subtitle": "Binoculars And\nSurveillance Tools",
+        "icon": "🎯",
+        "url": "https://www.amazon.com/s?k=field+optics+binoculars+surveillance&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "air-power",
+      "keywords": ["fighter jet", "fighter jets", "warplane", "warplanes", "bomber", "bombers", "airstrike", "air strike", "airstrikes", "military aircraft", "jet fighters"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#2b3a4e",
+        "spine_color": "#1e2a38",
+        "accent_color": "#d4a843",
+        "category_label": "Air Power Books",
+        "title": "Air Power\nAnd Modern\nConflict",
+        "subtitle": "How air dominance shapes the battlefield",
+        "url": "https://www.amazon.com/s?k=air+power+military+aviation+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Aviation Gear",
+        "title": "AVIATION GEAR",
+        "subtitle": "Flight Simulators\nAnd Pilot Tools",
+        "icon": "✈️",
+        "url": "https://www.amazon.com/s?k=flight+simulator+aviation+gear&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "navy",
+      "keywords": ["navy", "naval", "warship", "warships", "frigate", "frigates", "destroyer", "destroyers", "aircraft carrier", "carrier strike group", "fleet deployment", "naval exercise", "maritime patrol"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#1e3a5a",
+        "spine_color": "#152944",
+        "accent_color": "#d4a843",
+        "category_label": "Naval History Books",
+        "title": "Sea Power\nAnd Naval\nStrategy",
+        "subtitle": "The history and future of naval warfare",
+        "url": "https://www.amazon.com/s?k=naval+history+sea+power+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Maritime Gear",
+        "title": "MARITIME GEAR",
+        "subtitle": "Marine Electronics\nAnd Navigation Tools",
+        "icon": "⚓",
+        "url": "https://www.amazon.com/s?k=marine+electronics+navigation+tools&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "space",
+      "keywords": ["nasa", "artemis", "space", "moon mission", "rocket", "spacecraft", "orbit", "astronaut", "space station", "ISS", "launch vehicle"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#243a5e",
+        "spine_color": "#1a2b45",
+        "accent_color": "#d4a843",
+        "category_label": "Space Books",
+        "title": "Exploring\nOuter\nSpace",
+        "subtitle": "Human missions beyond Earth",
+        "url": "https://www.amazon.com/s?k=space+exploration+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Space Gear",
+        "title": "SPACE GEAR",
+        "subtitle": "Telescopes And\nAstronomy Tools",
+        "icon": "🔭",
+        "url": "https://www.amazon.com/s?k=astronomy+telescope+gear&tag=nospinmedia-20"
+      }
+    },
+
+    {
       "id": "ai",
-      "keywords": ["ai","artificial intelligence","machine learning","generative ai","large language model","llm","deep learning","ai model","ai chip","ai training"],
+      "keywords": ["ai", "artificial intelligence", "machine learning", "generative ai", "large language model", "llm", "deep learning", "ai system", "ai model", "ai regulation", "ai safety", "ai chip", "ai training"],
       "match_case": false,
 
       "books": {
@@ -28,34 +158,60 @@
     },
 
     {
-      "id": "space",
-      "keywords": ["nasa","artemis","space","moon mission"],
+      "id": "police",
+      "keywords": ["police", "police officer", "police officers", "sheriff", "sheriff's deputy", "deputy", "law enforcement", "officer", "officers", "trooper", "state police"],
       "match_case": false,
 
       "books": {
         "image": "books/book-default.webp",
-        "cover_color": "#243a5e",
-        "spine_color": "#1a2b45",
+        "cover_color": "#2c3e5a",
+        "spine_color": "#1f2e44",
         "accent_color": "#d4a843",
-        "category_label": "Space Books",
-        "title": "Exploring\nOuter\nSpace",
-        "subtitle": "Human missions beyond Earth",
-        "url": "https://www.amazon.com/s?k=space+exploration+books&tag=nospinmedia-20"
+        "category_label": "Law Enforcement Books",
+        "title": "Policing\nIn America",
+        "subtitle": "Reform, accountability, and the thin blue line",
+        "url": "https://www.amazon.com/s?k=policing+law+enforcement+reform+books&tag=nospinmedia-20"
       },
 
       "gear": {
         "image": "gear/gear-default.webp",
-        "category_label": "Space Gear",
-        "title": "SPACE GEAR",
-        "subtitle": "Tools For Viewing\nThe Night Sky",
-        "icon": "🔭",
-        "url": "https://www.amazon.com/s?k=astronomy+telescope+gear&tag=nospinmedia-20"
+        "category_label": "Home Office",
+        "title": "STAY INFORMED",
+        "subtitle": "News Monitors\nAnd Home Office Tools",
+        "icon": "🖥️",
+        "url": "https://www.amazon.com/s?k=home+office+monitor+desk+tools&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "immigration",
+      "keywords": ["ice", "immigration", "detention", "deportation", "border enforcement", "dhs", "border patrol", "undocumented", "asylum", "migrant", "migrants"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#5c4a1e",
+        "spine_color": "#443617",
+        "accent_color": "#d4a843",
+        "category_label": "Immigration Books",
+        "title": "Immigration\nAnd The\nAmerican Border",
+        "subtitle": "Policy, enforcement, and human cost",
+        "url": "https://www.amazon.com/s?k=immigration+border+policy+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Home Office",
+        "title": "STAY INFORMED",
+        "subtitle": "News Monitors\nAnd Home Office Tools",
+        "icon": "🖥️",
+        "url": "https://www.amazon.com/s?k=home+office+monitor+desk+tools&tag=nospinmedia-20"
       }
     },
 
     {
       "id": "wildfire",
-      "keywords": ["wildfire","wildfires","brush fire","forest fire","bushfire"],
+      "keywords": ["wildfire", "wildfires", "brush fire", "forest fire", "bushfire"],
       "match_case": false,
 
       "books": {
@@ -63,7 +219,7 @@
         "cover_color": "#5a2a22",
         "spine_color": "#3f1e18",
         "accent_color": "#d4a843",
-        "category_label": "Fire Science",
+        "category_label": "Fire Science Books",
         "title": "Understanding\nWildfires",
         "subtitle": "How forests and climate shape fire",
         "url": "https://www.amazon.com/s?k=wildfire+science+books&tag=nospinmedia-20"
@@ -80,8 +236,216 @@
     },
 
     {
+      "id": "heatwave",
+      "keywords": ["heatwave", "extreme heat", "temperature record", "humidity", "wet-bulb", "record heat", "heat advisory", "heat emergency"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#7a3d1a",
+        "spine_color": "#5c2e12",
+        "accent_color": "#d4a843",
+        "category_label": "Climate Books",
+        "title": "Extreme Heat\nAnd A\nChanging Climate",
+        "subtitle": "Science behind record-breaking temperatures",
+        "url": "https://www.amazon.com/s?k=extreme+heat+climate+change+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Heat Safety Gear",
+        "title": "HEAT SAFETY",
+        "subtitle": "Cooling Fans\nAnd Hydration Gear",
+        "icon": "🌡️",
+        "url": "https://www.amazon.com/s?k=portable+fan+cooling+heat+safety&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "fda",
+      "keywords": ["fda", "food and drug administration", "drug approval", "drug safety", "drug recall", "food recall", "medical device", "medical devices"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#2a4a5c",
+        "spine_color": "#1e3544",
+        "accent_color": "#d4a843",
+        "category_label": "Public Health Books",
+        "title": "Drug Safety\nAnd The\nFDA",
+        "subtitle": "How America regulates what we eat and take",
+        "url": "https://www.amazon.com/s?k=FDA+drug+safety+public+health+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Home Office",
+        "title": "STAY INFORMED",
+        "subtitle": "News Monitors\nAnd Home Office Tools",
+        "icon": "🖥️",
+        "url": "https://www.amazon.com/s?k=home+office+monitor+desk+tools&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "global-health",
+      "keywords": ["who", "world health", "health campaign", "pandemic", "outbreak", "epidemic", "public health", "global health", "cdc", "disease control"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#1e4d4d",
+        "spine_color": "#163838",
+        "accent_color": "#d4a843",
+        "category_label": "Global Health Books",
+        "title": "Global Health\nAnd Pandemic\nResponse",
+        "subtitle": "How the world manages disease and crisis",
+        "url": "https://www.amazon.com/s?k=global+health+pandemic+response+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Health Preparedness",
+        "title": "HEALTH PREP",
+        "subtitle": "First Aid Kits\nAnd Preparedness Tools",
+        "icon": "🏥",
+        "url": "https://www.amazon.com/s?k=first+aid+kit+emergency+preparedness&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "white-house",
+      "keywords": ["white house", "president", "oval office", "executive order", "administration officials", "presidential", "west wing"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#4a3a2a",
+        "spine_color": "#342a1e",
+        "accent_color": "#d4a843",
+        "category_label": "Presidential History Books",
+        "title": "The American\nPresidency",
+        "subtitle": "Power, policy, and the Oval Office",
+        "url": "https://www.amazon.com/s?k=american+presidency+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Home Office",
+        "title": "STAY INFORMED",
+        "subtitle": "News Monitors\nAnd Home Office Tools",
+        "icon": "🖥️",
+        "url": "https://www.amazon.com/s?k=home+office+monitor+desk+tools&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "congress",
+      "keywords": ["congress", "capitol hill", "house of representatives", "senate", "lawmakers", "house panel", "senate panel", "committee hearing", "subcommittee", "congressional hearing", "legislation", "representative", "rep.", "senator"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#3a3260",
+        "spine_color": "#2a2448",
+        "accent_color": "#d4a843",
+        "category_label": "Congress And Democracy Books",
+        "title": "How Congress\nActually\nWorks",
+        "subtitle": "Lawmaking, oversight, and accountability",
+        "url": "https://www.amazon.com/s?k=congress+democracy+lawmaking+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Home Office",
+        "title": "STAY INFORMED",
+        "subtitle": "News Monitors\nAnd Home Office Tools",
+        "icon": "🖥️",
+        "url": "https://www.amazon.com/s?k=home+office+monitor+desk+tools&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "courts",
+      "keywords": ["court", "judge", "supreme court", "appeals court", "federal court", "lawsuit", "trial", "guilty", "conviction", "convictions", "sentencing", "appeal", "appeals", "arrested", "indict", "indicted", "charged", "ruling", "doj", "justice department", "federal prosecutors"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#3b2d1e",
+        "spine_color": "#2a2016",
+        "accent_color": "#d4a843",
+        "category_label": "Law And Justice Books",
+        "title": "The American\nJustice\nSystem",
+        "subtitle": "Courts, accountability, and the rule of law",
+        "url": "https://www.amazon.com/s?k=american+justice+system+law+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Home Office",
+        "title": "STAY INFORMED",
+        "subtitle": "News Monitors\nAnd Home Office Tools",
+        "icon": "🖥️",
+        "url": "https://www.amazon.com/s?k=home+office+monitor+desk+tools&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "oil-refining",
+      "keywords": ["refinery", "petrochemical", "refining"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#3b3b3b",
+        "spine_color": "#242424",
+        "accent_color": "#d4a843",
+        "category_label": "Energy Industry Books",
+        "title": "The Business\nOf Oil\nRefining",
+        "subtitle": "How crude becomes fuel and profit",
+        "url": "https://www.amazon.com/s?k=oil+refining+energy+industry+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Field Tools",
+        "title": "FIELD GEAR",
+        "subtitle": "Industrial Tools\nAnd Equipment",
+        "icon": "🛢️",
+        "url": "https://www.amazon.com/s?k=industrial+tools+equipment&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "hormuz",
+      "keywords": ["strait of hormuz", "hormuz", "oil tanker", "tanker traffic", "persian gulf shipping", "gulf shipping"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#2e4a3e",
+        "spine_color": "#20362c",
+        "accent_color": "#d4a843",
+        "category_label": "Geopolitics Books",
+        "title": "The Persian\nGulf And\nGlobal Oil",
+        "subtitle": "How chokepoints control the world economy",
+        "url": "https://www.amazon.com/s?k=persian+gulf+geopolitics+oil+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Maritime Gear",
+        "title": "MARITIME GEAR",
+        "subtitle": "Marine Navigation\nAnd Tracking Tools",
+        "icon": "🛳️",
+        "url": "https://www.amazon.com/s?k=marine+navigation+gps+tools&tag=nospinmedia-20"
+      }
+    },
+
+    {
       "id": "oil",
-      "keywords": ["oil","crude","opec","barrel","drilling","oilfield"],
+      "keywords": ["oil", "crude", "barrel", "opec", "drilling", "oilfield"],
       "match_case": false,
 
       "books": {
@@ -106,28 +470,106 @@
     },
 
     {
-      "id": "military",
-      "keywords": ["drone","drones","uav","missile","fighter jet","airstrike","warplane","bombers"],
+      "id": "trade",
+      "keywords": ["tariff", "tariffs", "trade war", "trade", "imports", "exports", "trade deficit", "trade deal", "wto", "supply chain", "sanctions"],
       "match_case": false,
 
       "books": {
         "image": "books/book-default.webp",
-        "cover_color": "#3f4a2c",
-        "spine_color": "#2c341e",
+        "cover_color": "#4a3a1a",
+        "spine_color": "#362b12",
         "accent_color": "#d4a843",
-        "category_label": "Military Books",
-        "title": "Modern\nMilitary\nTechnology",
-        "subtitle": "Weapons shaping modern warfare",
-        "url": "https://www.amazon.com/s?k=military+technology+books&tag=nospinmedia-20"
+        "category_label": "Economics Books",
+        "title": "Trade Wars\nAnd Global\nEconomics",
+        "subtitle": "Tariffs, supply chains, and world markets",
+        "url": "https://www.amazon.com/s?k=trade+war+economics+books&tag=nospinmedia-20"
       },
 
       "gear": {
         "image": "gear/gear-default.webp",
-        "category_label": "Field Gear",
-        "title": "TACTICAL GEAR",
-        "subtitle": "Tools Used In\nModern Operations",
-        "icon": "🪖",
-        "url": "https://www.amazon.com/s?k=tactical+gear+equipment&tag=nospinmedia-20"
+        "category_label": "Productivity Tools",
+        "title": "HOME OFFICE",
+        "subtitle": "Tools For Staying\nInformed And Productive",
+        "icon": "📊",
+        "url": "https://www.amazon.com/s?k=home+office+productivity+tools&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "vatican",
+      "keywords": ["pope", "vatican", "catholic", "catholics", "pontiff", "holy see", "vatican city", "papal", "global day of prayer"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#4a2e1e",
+        "spine_color": "#362016",
+        "accent_color": "#d4a843",
+        "category_label": "Religion And History Books",
+        "title": "The Vatican\nAnd The\nCatholic Church",
+        "subtitle": "Faith, power, and global influence",
+        "url": "https://www.amazon.com/s?k=vatican+catholic+church+history+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Home Office",
+        "title": "STAY INFORMED",
+        "subtitle": "News Monitors\nAnd Home Office Tools",
+        "icon": "🖥️",
+        "url": "https://www.amazon.com/s?k=home+office+monitor+desk+tools&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "diplomacy",
+      "keywords": ["peace talks", "ceasefire talks", "negotiations", "diplomatic talks", "talks collapse", "talks fail", "summit talks", "diplomacy", "delegation", "treaty", "accord", "bilateral"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#2e3a4e",
+        "spine_color": "#202a38",
+        "accent_color": "#d4a843",
+        "category_label": "Diplomacy Books",
+        "title": "The Art Of\nDiplomacy",
+        "subtitle": "How nations negotiate and resolve conflict",
+        "url": "https://www.amazon.com/s?k=diplomacy+international+relations+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Home Office",
+        "title": "STAY INFORMED",
+        "subtitle": "News Monitors\nAnd Home Office Tools",
+        "icon": "🖥️",
+        "url": "https://www.amazon.com/s?k=home+office+monitor+desk+tools&tag=nospinmedia-20"
+      }
+    },
+
+    {
+      "id": "food-security",
+      "keywords": ["food bank", "food banks", "food assistance", "food aid", "food insecurity", "food relief", "hunger", "aid network", "food stamps", "snap", "nutrition assistance"],
+      "match_case": false,
+
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#3a5230",
+        "spine_color": "#2a3c22",
+        "accent_color": "#d4a843",
+        "category_label": "Food Policy Books",
+        "title": "Hunger In\nThe Richest\nNation",
+        "subtitle": "Food insecurity, policy, and community response",
+        "url": "https://www.amazon.com/s?k=food+insecurity+hunger+policy+books&tag=nospinmedia-20"
+      },
+
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "Kitchen & Food Storage",
+        "title": "FOOD STORAGE",
+        "subtitle": "Pantry Essentials\nAnd Food Storage",
+        "icon": "🥫",
+        "url": "https://www.amazon.com/s?k=food+storage+containers+pantry&tag=nospinmedia-20"
       }
     }
 
