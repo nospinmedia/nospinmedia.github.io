@@ -468,20 +468,27 @@ async function loadKeywordAffiliateData() {
   return _keywordAffiliateData;
 }
 
-/* ── Keyword matcher — word-boundary safe ── */
+/* ── Keyword matcher — word-boundary safe, best-score wins ── */
 function findKeywordMatch(text, rules) {
   if (!text || !rules || rules.length === 0) return null;
-  const haystack = text.toLowerCase();
-  for (const rule of rules) {
-    const matchCase = rule.match_case === true;
-    const matched   = (rule.keywords || []).some(kw => {
-      const needle  = matchCase ? kw : kw.toLowerCase();
-      const escaped = needle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      return new RegExp(`(?<![a-z])${escaped}(?![a-z])`, matchCase ? "" : "i").test(haystack);
-    });
-    if (matched) return rule;
+
+  function wordMatch(haystack, kw) {
+    const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return new RegExp(`(?<![a-zA-Z])${escaped}(?![a-zA-Z])`, "i").test(haystack);
   }
-  return null;
+
+  let bestRule  = null;
+  let bestScore = 0;
+
+  for (const rule of rules) {
+    const score = (rule.keywords || []).filter(kw => wordMatch(text, kw)).length;
+    if (score > bestScore) {
+      bestScore = score;
+      bestRule  = rule;
+    }
+  }
+
+  return bestRule;
 }
 
 /* ── CSS book tile renderer ── */
