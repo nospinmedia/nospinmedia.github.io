@@ -369,10 +369,9 @@ const SUPABASE_URL = "https://dckmflnbprhmaqysuued.supabase.co/rest/v1";
 const SUPABASE_KEY = "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB";
 
 /* ══════════════════════════════════════════
-   AFFILIATE SYSTEM
+   AFFILIATE SYSTEM — JSON-driven
    affiliate.json         = static fallback tiles
    keyword-affiliates.json = keyword-matched tiles
-   Scans result headlines top-to-bottom after load
    ══════════════════════════════════════════ */
 
 let _affiliateData        = null;
@@ -404,20 +403,54 @@ async function loadKeywordAffiliateData() {
   return _keywordAffiliateData;
 }
 
-/* ── Keyword matcher — word-boundary safe ── */
+/* ══════════════════════════════════════════
+   KEYWORD MATCHING — word-boundary safe
+   ══════════════════════════════════════════ */
+
+function wordMatch(haystack, kw) {
+  const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(?<![a-zA-Z])${escaped}(?![a-zA-Z])`, "i").test(haystack);
+}
+
+/* ── Single-text matcher — best-score wins ── */
 function findKeywordMatch(text, rules) {
   if (!text || !rules || rules.length === 0) return null;
-  const haystack = text.toLowerCase();
+  let bestRule  = null;
+  let bestScore = 0;
   for (const rule of rules) {
-    const matchCase = rule.match_case === true;
-    const matched   = (rule.keywords || []).some(kw => {
-      const needle  = matchCase ? kw : kw.toLowerCase();
-      const escaped = needle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      return new RegExp(`(?<![a-z])${escaped}(?![a-z])`, matchCase ? "" : "i").test(haystack);
-    });
-    if (matched) return rule;
+    const score = (rule.keywords || []).filter(kw => wordMatch(text, kw)).length;
+    if (score > bestScore) {
+      bestScore = score;
+      bestRule  = rule;
+    }
   }
-  return null;
+  return bestRule;
+}
+
+/* ══════════════════════════════════════════
+   FEED SCORER — top two distinct rules
+   bookRule  = rule with most hits across results
+   gearRule  = rule with second-most hits
+   Re-runs on every search so tiles stay relevant.
+   ══════════════════════════════════════════ */
+function findTopTwoRules(stories, rules) {
+  if (!stories?.length || !rules?.length) return { bookRule: null, gearRule: null };
+
+  const scores = rules.map(rule => {
+    let total = 0;
+    for (const story of stories) {
+      const text = [story.headline || "", story.summary || ""].join(" ");
+      total += (rule.keywords || []).filter(kw => wordMatch(text, kw)).length;
+    }
+    return { rule, total };
+  });
+
+  const ranked = scores.filter(s => s.total > 0).sort((a, b) => b.total - a.total);
+
+  return {
+    bookRule: ranked[0]?.rule || null,
+    gearRule: ranked[1]?.rule || null
+  };
 }
 
 /* ── CSS book tile renderer ── */
@@ -536,10 +569,11 @@ function renderTileHTML(item) {
 
 /* ══════════════════════════════════════════
    MAIN AFFILIATE LOADER
-   matchedRule = result of keyword scan on
-   the loaded story headlines.
+   bookRule = top-scoring rule  → book column
+   gearRule = 2nd-scoring rule  → gear column
+   Re-renders on every search result set.
    ══════════════════════════════════════════ */
-async function loadAllAffiliateTiles(matchedRule) {
+async function loadAllAffiliateTiles(bookRule, gearRule) {
   const data      = await loadAffiliateData();
   const bookItems = data.books?.items || [];
   const gearItems = data.gear?.items  || [];
@@ -548,10 +582,10 @@ async function loadAllAffiliateTiles(matchedRule) {
   const bookContainer = document.getElementById("book-tiles");
   if (bookContainer) {
     let html = "";
-    if (matchedRule?.books) {
-      html += `<div style="margin-bottom:12px;">${renderBookTileCSS(matchedRule.books)}</div>`;
+    if (bookRule?.books) {
+      html += `<div style="margin-bottom:12px;">${renderBookTileCSS(bookRule.books)}</div>`;
     }
-    const staticBooks = pickItems(bookItems, matchedRule?.books ? 2 : 3);
+    const staticBooks = pickItems(bookItems, bookRule?.books ? 2 : 3);
     html += staticBooks.map(item => `<div style="margin-bottom:12px;">${renderTileHTML(item)}</div>`).join("");
     bookContainer.innerHTML = html;
   }
@@ -560,10 +594,10 @@ async function loadAllAffiliateTiles(matchedRule) {
   const gearContainer = document.getElementById("gear-tiles");
   if (gearContainer) {
     let html = "";
-    if (matchedRule?.gear) {
-      html += `<div style="margin-bottom:12px;">${renderGearTileCSS(matchedRule.gear)}</div>`;
+    if (gearRule?.gear) {
+      html += `<div style="margin-bottom:12px;">${renderGearTileCSS(gearRule.gear)}</div>`;
     }
-    const staticGear = pickItems(gearItems, matchedRule?.gear ? 2 : 3);
+    const staticGear = pickItems(gearItems, gearRule?.gear ? 2 : 3);
     html += staticGear.map(item => `<div style="margin-bottom:12px;">${renderTileHTML(item)}</div>`).join("");
     gearContainer.innerHTML = html;
   }
@@ -572,15 +606,15 @@ async function loadAllAffiliateTiles(matchedRule) {
   let bookTileHTML = "";
   let gearTileHTML = "";
 
-  if (matchedRule?.books) {
-    bookTileHTML = `<div style="border-radius:8px;overflow:hidden;">${renderBookTileCSS(matchedRule.books)}</div>`;
+  if (bookRule?.books) {
+    bookTileHTML = `<div style="border-radius:8px;overflow:hidden;">${renderBookTileCSS(bookRule.books)}</div>`;
   } else {
     const mb = bookItems.length > 0 ? pickOneMobile(bookItems) : null;
     if (mb) bookTileHTML = `<a href="${getRandomLink(mb)}" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/${mb.image}" alt="${mb.title}" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>`;
   }
 
-  if (matchedRule?.gear) {
-    gearTileHTML = `<div style="border-radius:8px;overflow:hidden;">${renderGearTileCSS(matchedRule.gear)}</div>`;
+  if (gearRule?.gear) {
+    gearTileHTML = `<div style="border-radius:8px;overflow:hidden;">${renderGearTileCSS(gearRule.gear)}</div>`;
   } else {
     const mg = gearItems.length > 0 ? pickOneMobile(gearItems) : null;
     if (mg) gearTileHTML = `<a href="${getRandomLink(mg)}" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/${mg.image}" alt="${mg.title}" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>`;
@@ -599,7 +633,6 @@ async function loadAllAffiliateTiles(matchedRule) {
 
 /* ══════════════════════════════════════════
    IMAGE RESOLUTION SYSTEM
-   Word-boundary keyword matching
    ══════════════════════════════════════════ */
 
 async function resolveStoryImage(storyId) {
@@ -763,16 +796,14 @@ async function displayStories(stories, database) {
 
   if (!stories || stories.length === 0) {
     container.innerHTML = "<p style='padding:12px 16px;'>No stories found.</p>";
-    /* No match — load static fallback tiles */
-    await loadAllAffiliateTiles(null);
+    await loadAllAffiliateTiles(null, null);
     return;
   }
 
-  /* ── Keyword scan: headlines top-to-bottom, first match wins ── */
-  const kwData       = await loadKeywordAffiliateData();
-  const allHeadlines = stories.map(s => s.headline || "").join(" ");
-  const matchedRule  = findKeywordMatch(allHeadlines, kwData.rules || []);
-  await loadAllAffiliateTiles(matchedRule);
+  /* ── Score all rules across results, top two win book + gear slots ── */
+  const kwData                 = await loadKeywordAffiliateData();
+  const { bookRule, gearRule } = findTopTwoRules(stories, kwData.rules || []);
+  await loadAllAffiliateTiles(bookRule, gearRule);
 
   const thumbUrls = await Promise.all(stories.map(s => getCardImage(s.url, s.headline)));
 
@@ -867,7 +898,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       }
 
-      loadRecent(); /* affiliate tiles loaded inside displayStories after keyword scan */
+      loadRecent();
     })
     .catch(err => console.error("Error loading header.html:", err));
 
