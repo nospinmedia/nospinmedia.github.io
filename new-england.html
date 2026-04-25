@@ -31,7 +31,6 @@ body {
   align-items: flex-start;
 }
 
-/* ── Left reading column ── */
 .left-ad {
   width: 210px;
   min-width: 210px;
@@ -42,7 +41,6 @@ body {
   padding-right: 20px;
 }
 
-/* ── Right gear column ── */
 .right-ad {
   width: 210px;
   min-width: 210px;
@@ -60,7 +58,6 @@ body {
   margin: 0 auto;
 }
 
-/* ── Column headers ── */
 .reading-label {
   font-family: Arial, sans-serif;
   font-size: .82rem;
@@ -73,7 +70,6 @@ body {
   border-bottom: 2px solid #0066cc;
 }
 
-/* ── Book tiles ── */
 #book-tiles {
   display: flex;
   flex-direction: column;
@@ -99,7 +95,6 @@ body {
   border-radius: 6px;
 }
 
-/* ── Gear tiles ── */
 #gear-tiles {
   display: flex;
   flex-direction: column;
@@ -125,7 +120,6 @@ body {
   border-radius: 6px;
 }
 
-/* ── Disclosure ── */
 .reading-disclosure {
   margin-top: 12px;
   font-size: .65rem;
@@ -134,7 +128,6 @@ body {
   font-style: italic;
 }
 
-/* ── Story cards (desktop) ── */
 .story-card {
   background: #fff;
   padding: 1.4rem;
@@ -177,52 +170,26 @@ body {
   color: #0066cc;
 }
 
-.story-link:hover {
-  text-decoration: underline;
-}
+.story-link:hover { text-decoration: underline; }
 
-.headline-link {
-  color: #222;
-  text-decoration: none;
-}
+.headline-link { color: #222; text-decoration: none; }
+.headline-link:hover { text-decoration: underline; }
 
-.headline-link:hover {
-  text-decoration: underline;
-}
-
-footer {
-  text-align: center;
-  padding: 1rem;
-  font-size: .9rem;
-  color: #666;
-}
+footer { text-align: center; padding: 1rem; font-size: .9rem; color: #666; }
 
 /* ════════════════════════════════════════
-   MOBILE — matches index.html quality
+   MOBILE
    ════════════════════════════════════════ */
 @media (max-width: 900px) {
 
-  body {
-    background: #ebebeb;
-  }
+  body { background: #ebebeb; }
 
-  .container {
-    flex-direction: column;
-    padding: 0;
-    gap: 0;
-  }
+  .container { flex-direction: column; padding: 0; gap: 0; }
 
-  .left-ad,
-  .right-ad {
-    display: none;
-  }
+  .left-ad, .right-ad { display: none; }
 
-  .main {
-    max-width: 100%;
-    padding: 0;
-  }
+  .main { max-width: 100%; padding: 0; }
 
-  /* ── Page title bar ── */
   .main h1 {
     font-size: 1rem;
     font-weight: 800;
@@ -235,7 +202,6 @@ footer {
     background: #fff;
   }
 
-  /* ── News container: grey gaps between white cards ── */
   #news-container {
     background: #ebebeb;
     display: flex;
@@ -244,7 +210,6 @@ footer {
     padding: 6px 0;
   }
 
-  /* ── Story card: clean white tile ── */
   .story-card {
     background: #fff;
     border-radius: 0;
@@ -254,12 +219,8 @@ footer {
     overflow: hidden;
   }
 
-  /* ── Text block — 18px top padding per Gemini ── */
-  .card-text {
-    padding: 18px 16px 0 16px;
-  }
+  .card-text { padding: 18px 16px 0 16px; }
 
-  /* ── Headline ── */
   .story-card h3 {
     font-size: 1.05rem;
     line-height: 1.38;
@@ -268,11 +229,8 @@ footer {
     color: #111;
   }
 
-  .headline-link {
-    color: #111;
-  }
+  .headline-link { color: #111; }
 
-  /* ── Date ── */
   .story-date {
     font-size: .7rem;
     color: #aaa;
@@ -282,7 +240,6 @@ footer {
     font-weight: 600;
   }
 
-  /* ── Summary: 3-line clamp ── */
   .story-summary {
     font-size: .91rem;
     line-height: 1.56;
@@ -294,7 +251,6 @@ footer {
     overflow: hidden;
   }
 
-  /* ── Footer ── */
   .card-footer {
     display: flex;
     justify-content: space-between;
@@ -313,10 +269,6 @@ footer {
     letter-spacing: .01em;
   }
 
-  /* ════════════════════════════════════
-     MOBILE AFFILIATE INSERT — 2 columns
-     NE items always get priority slot
-     ════════════════════════════════════ */
   .mobile-affiliate-insert {
     background: #fff;
     padding: 13px 16px 14px;
@@ -335,46 +287,22 @@ footer {
     margin-bottom: 10px;
   }
 
-  .mobile-affiliate-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
+  .mobile-affiliate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
   .mobile-affiliate-grid a {
-    display: block;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,.10);
-    transition: transform .15s ease;
+    display: block; border-radius: 8px; overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,.10); transition: transform .15s ease;
   }
-
-  .mobile-affiliate-grid a:active {
-    transform: scale(0.98);
-  }
-
-  .mobile-affiliate-grid img {
-    width: 100%;
-    display: block;
-    border-radius: 8px;
-  }
+  .mobile-affiliate-grid a:active { transform: scale(0.98); }
+  .mobile-affiliate-grid img { width: 100%; display: block; border-radius: 8px; }
 
   .mobile-affiliate-insert .reading-disclosure {
-    margin-top: 8px;
-    font-size: .6rem;
-    color: #bbb;
-    font-style: italic;
-    line-height: 1.4;
+    margin-top: 8px; font-size: .6rem; color: #bbb; font-style: italic; line-height: 1.4;
   }
 
-  /* ── Footer ── */
   footer {
-    font-size: .76rem;
-    padding: 1.4rem 1rem;
-    color: #999;
-    background: #fff;
-    border-top: 1px solid #ddd;
-    margin-top: 6px;
+    font-size: .76rem; padding: 1.4rem 1rem; color: #999;
+    background: #fff; border-top: 1px solid #ddd; margin-top: 6px;
   }
 }
 
@@ -384,11 +312,14 @@ footer {
 
 /* ══════════════════════════════════════════
    AFFILIATE SYSTEM — JSON-driven, NE-aware
-   Items whose title starts with "NE" are
-   treated as must-show on this page only.
+   keyword-affiliates.json scored across feed.
+   bookRule (top scorer)  → book column slot 1
+   gearRule (2nd scorer)  → gear column slot 1
+   NE-prefix items fill remaining static slots.
    ══════════════════════════════════════════ */
 
-let _affiliateData = null;
+let _affiliateData        = null;
+let _keywordAffiliateData = null;
 
 async function loadAffiliateData() {
   if (_affiliateData) return _affiliateData;
@@ -403,15 +334,133 @@ async function loadAffiliateData() {
   return _affiliateData;
 }
 
+async function loadKeywordAffiliateData() {
+  if (_keywordAffiliateData) return _keywordAffiliateData;
+  try {
+    const res = await fetch('/affiliate/keyword-affiliates.json');
+    if (!res.ok) throw new Error('keyword-affiliates.json not found');
+    _keywordAffiliateData = await res.json();
+  } catch (e) {
+    console.warn('Keyword affiliate data failed to load:', e);
+    _keywordAffiliateData = { rules: [] };
+  }
+  return _keywordAffiliateData;
+}
+
+/* ══════════════════════════════════════════
+   KEYWORD MATCHING — word-boundary safe
+   ══════════════════════════════════════════ */
+
+function wordMatch(haystack, kw) {
+  const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(?<![a-zA-Z])${escaped}(?![a-zA-Z])`, "i").test(haystack);
+}
+
+/* ── Feed scorer — top two distinct rules across all stories ── */
+function findTopTwoRules(stories, rules) {
+  if (!stories?.length || !rules?.length) return { bookRule: null, gearRule: null };
+
+  const scores = rules.map(rule => {
+    let total = 0;
+    for (const story of stories) {
+      const text = [story.headline || "", story.summary || ""].join(" ");
+      total += (rule.keywords || []).filter(kw => wordMatch(text, kw)).length;
+    }
+    return { rule, total };
+  });
+
+  const ranked = scores.filter(s => s.total > 0).sort((a, b) => b.total - a.total);
+
+  return {
+    bookRule: ranked[0]?.rule || null,
+    gearRule: ranked[1]?.rule || null
+  };
+}
+
+/* ── CSS book tile renderer ── */
+function renderBookTileCSS(b) {
+  const titleLines = (b.title || "").split("\\n").map(l => `<div>${l}</div>`).join("");
+  return `
+    <a href="${b.url}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost"
+       style="display:block;text-decoration:none;">
+      <div style="
+        display:flex;
+        border-radius:2px 5px 5px 2px;
+        box-shadow:5px 7px 18px rgba(0,0,0,.5),1px 1px 3px rgba(0,0,0,.3);
+        transition:box-shadow .2s ease,transform .2s ease;
+        font-family:Georgia,'Times New Roman',serif;
+        -webkit-font-smoothing:antialiased;
+      " onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='7px 12px 24px rgba(0,0,0,.55),1px 1px 3px rgba(0,0,0,.3)'"
+         onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='5px 7px 18px rgba(0,0,0,.5),1px 1px 3px rgba(0,0,0,.3)'">
+        <div style="width:18px;min-width:18px;background:${b.spine_color};border-radius:2px 0 0 2px;box-shadow:inset -4px 0 8px rgba(0,0,0,.5);"></div>
+        <div style="width:6px;min-width:6px;background:repeating-linear-gradient(to bottom,#f6f1e9 0,#f6f1e9 1px,#e9e4db 2px,#e9e4db 3px);"></div>
+        <div style="flex:1;background:${b.cover_color};border-radius:0 5px 5px 0;padding:20px 16px 14px;display:flex;flex-direction:column;min-height:280px;overflow:hidden;position:relative;box-shadow:inset 2px 0 12px rgba(0,0,0,.12);">
+          <div style="position:absolute;inset:0;background:linear-gradient(140deg,rgba(255,255,255,.07) 0%,transparent 45%);border-radius:0 5px 5px 0;pointer-events:none;"></div>
+          <div style="font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;font-family:Arial,sans-serif;color:${b.accent_color};border-top:1.5px solid ${b.accent_color};border-bottom:1.5px solid ${b.accent_color};padding:5px 0 4px;margin-bottom:16px;text-align:center;-webkit-font-smoothing:antialiased;">${b.category_label}</div>
+          <div style="font-size:21px;font-weight:800;line-height:1.08;color:#f9f1e0;flex:1;letter-spacing:-.01em;-webkit-font-smoothing:antialiased;">${titleLines}</div>
+          <div style="width:34px;height:1.5px;background:${b.accent_color};margin:14px 0 11px;opacity:.85;"></div>
+          <div style="font-size:11px;line-height:1.5;color:#ddd0a8;font-style:italic;-webkit-font-smoothing:antialiased;">${(b.subtitle||"").replace(/\\n/g,"<br>")}</div>
+          <div style="margin-top:14px;padding-top:9px;border-top:1px solid rgba(255,255,255,.18);">
+            <div style="font-size:10.5px;font-weight:800;font-family:Arial,sans-serif;color:#ffffff;-webkit-font-smoothing:antialiased;letter-spacing:.02em;">🧭 No Spin Media</div>
+            <div style="font-size:8px;color:rgba(255,255,255,.6);font-family:Arial,sans-serif;margin-top:2px;font-style:italic;">supports independent journalism</div>
+          </div>
+        </div>
+      </div>
+    </a>`;
+}
+
+/* ── CSS gear case tile renderer ── */
+function renderGearTileCSS(g) {
+  const titleText = (g.title || "").replace(/\\n/g, "");
+  const titleLen  = titleText.length;
+  const titleSize = titleLen <= 6  ? 36
+                  : titleLen <= 8  ? 30
+                  : titleLen <= 10 ? 26
+                  : titleLen <= 13 ? 22
+                  :                  18;
+
+  const titleLines = (g.title || "").split("\\n").map(l => `<div>${l}</div>`).join("");
+  const subLines   = (g.subtitle || "").split("\\n").map(l => `<div>${l}</div>`).join("");
+  return `
+    <a href="${g.url}" target="_blank" rel="noopener nofollow sponsored"
+       title="Browse on Amazon — supports NSM at no extra cost"
+       style="display:block;text-decoration:none;">
+      <div style="
+        position:relative;width:100%;padding-bottom:100%;
+        border-radius:10px;background:#2a2a2a;
+        box-shadow:0 5px 18px rgba(0,0,0,.65),inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e;
+        overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;
+        -webkit-font-smoothing:antialiased;
+      " onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 26px rgba(0,0,0,.7),inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e'"
+         onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 5px 18px rgba(0,0,0,.65),inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e'">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 38%,rgba(255,255,255,.13) 0%,rgba(0,0,0,.15) 100%);pointer-events:none;border-radius:10px;"></div>
+        <div style="position:absolute;inset:11px;border-radius:7px;border:1px solid rgba(255,255,255,.08);pointer-events:none;"></div>
+        <div style="position:absolute;top:5px;left:50%;transform:translateX(-50%);width:42px;height:8px;background:#333;border-radius:5px;border:1px solid #444;"></div>
+        <div style="position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:42px;height:8px;background:#333;border-radius:5px;border:1px solid #444;"></div>
+        <div style="position:absolute;left:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#303030;border-radius:3px;border:1px solid #444;"></div>
+        <div style="position:absolute;right:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#303030;border-radius:3px;border:1px solid #444;"></div>
+        <div style="position:absolute;inset:20px 26px 32px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+          <div style="font-size:9px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;border-top:1.5px solid #d4a843;border-bottom:1.5px solid #d4a843;padding:4px 0 3px;width:85%;margin-bottom:9px;-webkit-font-smoothing:antialiased;">${g.category_label||""}</div>
+          <div style="font-family:'Arial Black',Impact,Arial,sans-serif;font-size:${titleSize}px;font-weight:900;color:#f0e4c8;letter-spacing:.04em;line-height:.95;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;word-break:keep-all;overflow-wrap:normal;">${titleLines}</div>
+          <div style="font-size:18px;margin:7px 0 5px;">${g.icon||"⚙️"}</div>
+          <div style="width:82%;height:1px;background:linear-gradient(to right,transparent,#d4a843 25%,#d4a843 75%,transparent);margin-bottom:7px;"></div>
+          <div style="font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;line-height:1.5;-webkit-font-smoothing:antialiased;">${subLines}</div>
+        </div>
+        <div style="position:absolute;bottom:7px;left:26px;right:26px;text-align:center;font-family:Arial,sans-serif;">
+          <div style="font-size:9px;font-weight:800;color:#ffffff;letter-spacing:.03em;-webkit-font-smoothing:antialiased;">🧭 No Spin Media</div>
+          <div style="font-size:7px;color:rgba(255,255,255,.55);font-style:italic;margin-top:1px;">supports independent journalism</div>
+        </div>
+      </div>
+    </a>`;
+}
+
 function getRandomLink(item) {
   if (!item.links || item.links.length === 0) return '#';
   return item.links[Math.floor(Math.random() * item.links.length)];
 }
 
-function getAllItems(data) {
-  return Object.values(data).flatMap(cat => cat.items || []);
-}
-
+/* ── NE-aware static item pickers ── */
 function isNEItem(item) {
   return (item.title || "").startsWith("NE");
 }
@@ -449,45 +498,61 @@ function renderTileHTML(item) {
     <a href="${link}" target="_blank" rel="noopener nofollow sponsored"
        title="Browse on Amazon — supports NSM at no extra cost">
       <img src="${imgSrc}" alt="${item.title}" loading="lazy">
-    </a>
-  `;
+    </a>`;
 }
 
-async function loadAffiliateTiles() {
-  const data = await loadAffiliateData();
-
-  /* Desktop left: books NE-aware (3 slots) */
+/* ══════════════════════════════════════════
+   MAIN AFFILIATE LOADER
+   bookRule → CSS book tile in slot 1 of left col
+   gearRule → CSS gear tile in slot 1 of right col
+   Remaining slots filled with NE-priority static tiles.
+   ══════════════════════════════════════════ */
+async function loadAllAffiliateTiles(bookRule, gearRule) {
+  const data      = await loadAffiliateData();
   const bookItems = data.books?.items || [];
-  const bookDesktop = pickItemsNE(bookItems, 3);
+  const gearItems = data.gear?.items  || [];
+
+  /* Desktop books — keyword tile first, then NE-priority statics */
   const bookContainer = document.getElementById("book-tiles");
   if (bookContainer) {
-    bookContainer.innerHTML = bookDesktop.map(renderTileHTML).join("");
+    let html = "";
+    if (bookRule?.books) {
+      html += `<div style="margin-bottom:12px;">${renderBookTileCSS(bookRule.books)}</div>`;
+    }
+    const staticBooks = pickItemsNE(bookItems, bookRule?.books ? 2 : 3);
+    html += staticBooks.map(item => `<div style="margin-bottom:12px;">${renderTileHTML(item)}</div>`).join("");
+    bookContainer.innerHTML = html;
   }
 
-  /* Desktop right: gear NE-aware (3 slots) */
-  const gearItems = data.gear?.items || [];
-  const gearDesktop = pickItemsNE(gearItems, 3);
+  /* Desktop gear — keyword tile first, then NE-priority statics */
   const gearContainer = document.getElementById("gear-tiles");
   if (gearContainer) {
-    gearContainer.innerHTML = gearDesktop.map(renderTileHTML).join("");
+    let html = "";
+    if (gearRule?.gear) {
+      html += `<div style="margin-bottom:12px;">${renderGearTileCSS(gearRule.gear)}</div>`;
+    }
+    const staticGear = pickItemsNE(gearItems, gearRule?.gear ? 2 : 3);
+    html += staticGear.map(item => `<div style="margin-bottom:12px;">${renderTileHTML(item)}</div>`).join("");
+    gearContainer.innerHTML = html;
   }
 
-  /* Mobile: 2-column insert — NE priority per category */
-  const mobileBook = bookItems.length > 0 ? pickOneMobileNE(bookItems) : null;
-  const mobileGear = gearItems.length > 0 ? pickOneMobileNE(gearItems) : null;
-  if (!mobileBook && !mobileGear) return;
+  /* Mobile insert */
+  let bookTileHTML = "";
+  let gearTileHTML = "";
 
-  const bookTileHTML = mobileBook ? `
-    <a href="${getRandomLink(mobileBook)}" target="_blank" rel="noopener nofollow sponsored"
-       title="Browse on Amazon — supports NSM at no extra cost">
-      <img src="/affiliate/${mobileBook.image}" alt="${mobileBook.title}" loading="lazy">
-    </a>` : "";
+  if (bookRule?.books) {
+    bookTileHTML = `<div style="border-radius:8px;overflow:hidden;">${renderBookTileCSS(bookRule.books)}</div>`;
+  } else {
+    const mb = bookItems.length > 0 ? pickOneMobileNE(bookItems) : null;
+    if (mb) bookTileHTML = `<a href="${getRandomLink(mb)}" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/${mb.image}" alt="${mb.title}" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>`;
+  }
 
-  const gearTileHTML = mobileGear ? `
-    <a href="${getRandomLink(mobileGear)}" target="_blank" rel="noopener nofollow sponsored"
-       title="Browse on Amazon — supports NSM at no extra cost">
-      <img src="/affiliate/${mobileGear.image}" alt="${mobileGear.title}" loading="lazy">
-    </a>` : "";
+  if (gearRule?.gear) {
+    gearTileHTML = `<div style="border-radius:8px;overflow:hidden;">${renderGearTileCSS(gearRule.gear)}</div>`;
+  } else {
+    const mg = gearItems.length > 0 ? pickOneMobileNE(gearItems) : null;
+    if (mg) gearTileHTML = `<a href="${getRandomLink(mg)}" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/${mg.image}" alt="${mg.title}" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>`;
+  }
 
   window.mobileAffiliateHTML = `
     <div class="mobile-affiliate-insert">
@@ -499,12 +564,11 @@ async function loadAffiliateTiles() {
       <div class="reading-disclosure">
         Selecting an item supports independent journalism at no extra cost to you.
       </div>
-    </div>
-  `;
+    </div>`;
 }
 
 /* ══════════════════════════════════════════
-   STORY FEED
+   STORY FEED — news_ne table
    ══════════════════════════════════════════ */
 
 function convertRedditMarkdown(text) {
@@ -533,6 +597,12 @@ async function loadStories() {
     headers: { apikey: "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB" }
   });
   const stories = await res.json();
+
+  /* ── Score all rules across NE feed, top two win ── */
+  const kwData                 = await loadKeywordAffiliateData();
+  const { bookRule, gearRule } = findTopTwoRules(stories, kwData.rules || []);
+  await loadAllAffiliateTiles(bookRule, gearRule);
+
   const container = document.getElementById("news-container");
   container.innerHTML = "";
 
@@ -602,8 +672,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       }
 
-      loadAffiliateTiles();
-      loadStories();
+      loadStories(); /* affiliate tiles loaded inside after keyword scan */
     });
 });
 
@@ -617,7 +686,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <div class="container">
 
-  <!-- Left: reading column -->
   <div class="left-ad" id="left-ad">
     <div class="reading-label">🧭 NSM Reading List</div>
     <div id="book-tiles"></div>
@@ -626,13 +694,11 @@ document.addEventListener("DOMContentLoaded", function () {
     </div>
   </div>
 
-  <!-- Main: NE feed -->
   <div class="main">
     <h1>New England News</h1>
     <div id="news-container"></div>
   </div>
 
-  <!-- Right: gear column -->
   <div class="right-ad" id="right-ad">
     <div class="reading-label">🧭 NSM Field Gear</div>
     <div id="gear-tiles"></div>
