@@ -759,10 +759,9 @@ async function searchArchive() {
   const monthOnly = params.get("_month_only");
   if (monthOnly) params.delete("_month_only");
 
-  if (keywordsRaw) {
-    const safeKeywords = keywordsRaw.replace(/,/g, " ").replace(/\s+/g, " ").trim();
-    params.append("or", `(headline.ilike.*${safeKeywords}*,summary.ilike.*${safeKeywords}*)`);
-  }
+  /* NOTE: keyword filtering is done client-side after fetch for exact word-boundary matching.
+     Supabase ilike is a substring match and cannot enforce word boundaries (e.g. "ai" would
+     match "retaliation"). We fetch broadly by date/database and filter in JS below. */
 
   try {
     const res = await fetch(`${SUPABASE_URL}/${database}?${params.toString()}`, {
@@ -772,6 +771,25 @@ async function searchArchive() {
 
     let stories = await res.json();
     if (monthOnly) stories = stories.filter(s => passesMonthOnlyFilter(s.posted_at, monthOnly));
+
+    /* ── Client-side exact word-boundary keyword filter ──
+       Supabase ilike is a substring match and cannot enforce word boundaries.
+       We filter here so "ai" matches "AI" but not "retaliation".
+       Multiple terms are AND-ed: all must appear as whole words in headline OR summary. ── */
+    if (keywordsRaw) {
+      const terms = keywordsRaw
+        .split(/[\s,]+/)
+        .map(t => t.trim())
+        .filter(t => t.length > 0);
+
+      stories = stories.filter(s => {
+        const text = [s.headline || "", s.summary || ""].join(" ");
+        return terms.every(term => {
+          const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          return new RegExp(`(?<![a-zA-Z])${escaped}(?![a-zA-Z])`, "i").test(text);
+        });
+      });
+    }
 
     await displayStories(stories, database);
 
