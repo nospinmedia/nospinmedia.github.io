@@ -581,8 +581,7 @@ function findKeywordMatch(text, rules) {
    ══════════════════════════════════════════ */
 function findTopTwoRules(stories, rules) {
   if (!stories?.length || !rules?.length) return { bookRule: null, gearRule: null };
-  /* Count distinct stories matched per rule — prevents high-frequency
-     legal/court terms from dominating via raw keyword hit inflation */
+
   const scores = rules.map(rule => {
     const matchingStories = stories.filter(story => {
       const text = [story.headline || "", story.summary || ""].join(" ");
@@ -590,10 +589,16 @@ function findTopTwoRules(stories, rules) {
     });
     return { rule, total: matchingStories.length };
   });
+
   const ranked = scores.filter(s => s.total > 0).sort((a, b) => b.total - a.total);
+
+  /* Pick randomly from top 5 for both book and gear slots */
+  const top5 = ranked.slice(0, 5);
+  const shuffled = [...top5].sort(() => 0.5 - Math.random());
+
   return {
-    bookRule: ranked[0]?.rule || null,
-    gearRule: ranked[1]?.rule || null
+    bookRule: shuffled[0]?.rule || null,
+    gearRule: shuffled[1]?.rule || null
   };
 }
 
