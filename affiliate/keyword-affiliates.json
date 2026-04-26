@@ -571,7 +571,40 @@
         "icon": "🥫",
         "url": "https://www.amazon.com/s?k=food+storage+containers+pantry&tag=nospinmedia-20"
       }
+    },
+    {
+      "id": "sahel-conflict",
+      "keywords": [
+        "sahel",
+        "mali",
+        "jihadist",
+        "insurgency",
+        "militant group",
+        "al-qaeda",
+        "isis",
+        "terror group"
+      ],
+      "match_case": false,
+    
+      "books": {
+        "image": "books/book-default.webp",
+        "cover_color": "#4a3f2f",
+        "spine_color": "#332c20",
+        "accent_color": "#d4a843",
+        "category_label": "Conflict & Geopolitics",
+        "title": "Sahel\nConflict\nExplained",
+        "subtitle": "Understanding modern insurgencies",
+        "url": "https://www.amazon.com/s?k=sahel+conflict+books&tag=nospinmedia-20"
+      },
+    
+      "gear": {
+        "image": "gear/gear-default.webp",
+        "category_label": "World Geography",
+        "title": "AFRICA\nMAPS",
+        "subtitle": "Learn about the Sahel region",
+        "icon": "🌍",
+        "url": "https://www.amazon.com/s?k=africa+map+atlas&tag=nospinmedia-20"
+      }
     }
-
   ]
 }
