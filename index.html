@@ -581,24 +581,20 @@ function findKeywordMatch(text, rules) {
    ══════════════════════════════════════════ */
 function findTopTwoRules(stories, rules) {
   if (!stories?.length || !rules?.length) return { bookRule: null, gearRule: null };
-
-  /* Accumulate hit counts per rule across all story headlines+summaries */
+  /* Count distinct stories matched per rule — prevents high-frequency
+     legal/court terms from dominating via raw keyword hit inflation */
   const scores = rules.map(rule => {
-    let total = 0;
-    for (const story of stories) {
+    const matchingStories = stories.filter(story => {
       const text = [story.headline || "", story.summary || ""].join(" ");
-      total += (rule.keywords || []).filter(kw => wordMatch(text, kw)).length;
-    }
-    return { rule, total };
+      return (rule.keywords || []).some(kw => wordMatch(text, kw));
+    });
+    return { rule, total: matchingStories.length };
   });
-
-  /* Sort descending by score, keep only rules that actually matched */
   const ranked = scores.filter(s => s.total > 0).sort((a, b) => b.total - a.total);
-
-  const bookRule = ranked[0]?.rule || null;
-  const gearRule = ranked[1]?.rule || null;  /* second-highest, always a different rule */
-
-  return { bookRule, gearRule };
+  return {
+    bookRule: ranked[0]?.rule || null,
+    gearRule: ranked[1]?.rule || null
+  };
 }
 
 /* ── CSS book tile renderer ── */
