@@ -523,7 +523,7 @@
 
     {
       "id": "diplomacy",
-      "keywords": ["peace talks", "ceasefire talks", "negotiations", "diplomatic talks", "talks collapse", "talks fail", "summit talks", "diplomacy", "delegation", "treaty", "accord", "bilateral"],
+      "keywords": ["peace talks", "ceasefire talks", "diplomatic talks", "talks collapse", "talks fail", "summit talks", "diplomacy", "treaty"],
       "match_case": false,
 
       "books": {
