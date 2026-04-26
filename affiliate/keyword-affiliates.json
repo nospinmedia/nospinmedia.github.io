@@ -341,7 +341,7 @@
 
     {
       "id": "congress",
-      "keywords": ["congress", "capitol hill", "house of representatives", "senate", "lawmakers", "house panel", "senate panel", "committee hearing", "subcommittee", "congressional hearing", "legislation", "representative", "rep.", "senator"],
+      "keywords": ["keywords": ["congress", "capitol hill", "house of representatives", "committee hearing", "subcommittee", "congressional hearing", "capitol building"],
       "match_case": false,
 
       "books": {
