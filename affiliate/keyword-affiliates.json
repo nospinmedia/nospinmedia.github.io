@@ -340,30 +340,30 @@
     },
 
     {
-      "id": "congress",
-      "keywords": ["keywords": ["congress", "capitol hill", "house of representatives", "committee hearing", "subcommittee", "congressional hearing", "capitol building"],
-      "match_case": false,
+  "id": "congress",
+  "keywords": ["congress", "capitol hill", "house of representatives", "committee hearing", "subcommittee", "congressional hearing", "capitol building"],
+  "match_case": false,
 
-      "books": {
-        "image": "books/book-default.webp",
-        "cover_color": "#3a3260",
-        "spine_color": "#2a2448",
-        "accent_color": "#d4a843",
-        "category_label": "Congress And Democracy Books",
-        "title": "How Congress\nActually\nWorks",
-        "subtitle": "Lawmaking, oversight, and accountability",
-        "url": "https://www.amazon.com/s?k=congress+democracy+lawmaking+books&tag=nospinmedia-20"
-      },
+  "books": {
+    "image": "books/book-default.webp",
+    "cover_color": "#3a3260",
+    "spine_color": "#2a2448",
+    "accent_color": "#d4a843",
+    "category_label": "Congress And Democracy Books",
+    "title": "How Congress\nActually\nWorks",
+    "subtitle": "Lawmaking, oversight, and accountability",
+    "url": "https://www.amazon.com/s?k=congress+democracy+lawmaking+books&tag=nospinmedia-20"
+  },
 
-      "gear": {
-        "image": "gear/gear-default.webp",
-        "category_label": "Home Office",
-        "title": "STAY INFORMED",
-        "subtitle": "News Monitors\nAnd Home Office Tools",
-        "icon": "🖥️",
-        "url": "https://www.amazon.com/s?k=home+office+monitor+desk+tools&tag=nospinmedia-20"
-      }
-    },
+  "gear": {
+    "image": "gear/gear-default.webp",
+    "category_label": "Home Office",
+    "title": "STAY INFORMED",
+    "subtitle": "News Monitors\nAnd Home Office Tools",
+    "icon": "🖥️",
+    "url": "https://www.amazon.com/s?k=home+office+monitor+desk+tools&tag=nospinmedia-20"
+  }
+},
 
     {
       "id": "courts",
