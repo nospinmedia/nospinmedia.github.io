@@ -12,7 +12,7 @@
     },
 
     {
-      "match": ["fighter jet", "fighter jets", "warplane", "warplanes", "bomber", "bombers", "airstrike", "air strike", "airstrikes", "military aircraft", "jet fighters"],
+      "match": ["fighter jet", "fighter jets", "warplane", "warplanes", "airstrike", "air strike", "airstrikes", "military aircraft", "jet fighters"],
       "image": "fighter-jet.webp"
     },
     {
