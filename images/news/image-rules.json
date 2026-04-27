@@ -34,7 +34,7 @@
       "image": "us-navy-frigate.webp"
     },
     {
-      "match": ["NASA", "Artemis", "space", "moon mission"],
+      "match": ["NASA", "Artemis", "moon mission"],
       "image": "nasa-rocket.webp"
     },
     {
@@ -64,8 +64,6 @@
     "sheriff's deputy",
     "deputy",
     "law enforcement",
-    "officer",
-    "officers",
     "trooper",
     "state police"
   ],
@@ -80,7 +78,7 @@
   "image": "wildfire-forest-smoke.webp"
     },
     {
-      "match": ["heatwave", "extreme heat", "temperature", "humidity", "wet-bulb", "record heat"],
+      "match": ["heatwave", "extreme heat", "humidity", "wet-bulb", "record heat"],
       "image": "heatwave-warning-highway.webp"
     },
     {
@@ -151,7 +149,6 @@
         "indicted",
         "charged",
         "ruling",
-        "legal",
         "DOJ",
         "justice department",
         "federal prosecutors"
@@ -174,7 +171,7 @@
     },
 
     {
-      "match": ["tariff", "trade", "imports", "exports"],
+      "match": ["tariff", "imports", "exports"],
       "image": "cargo-containers.webp"
     },
     {
