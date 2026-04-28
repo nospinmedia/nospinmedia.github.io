@@ -4,1142 +4,633 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>No Spin Media</title>
-
 <meta property="og:site_name" content="No Spin Media">
 <meta property="og:type" content="article">
 <meta property="og:image" content="https://nospin.media/preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:title" content="No Spin Media">
-<meta property="og:description" content="Independent news. Clear facts. No spin. Verified reporting from reputable sources.">
+<meta property="og:description" content="Independent news. Clear facts. No spin.">
 <meta property="og:url" content="https://nospin.media">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://nospin.media/preview.png">
-
 <link rel="stylesheet" href="style.css"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053277983719011" crossorigin="anonymous"></script>
 
 <style>
-/* ── Reset & Base ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --nsm-blue: #0A84FF;
-  --nsm-red: #FF3B30;
-  --nsm-dark: #0D0D0F;
-  --nsm-card: #1A1A1F;
-  --nsm-card2: #111116;
-  --nsm-border: rgba(255,255,255,0.07);
-  --nsm-text: #F0F0F0;
-  --nsm-muted: rgba(240,240,240,0.5);
-  --nsm-dimmed: rgba(240,240,240,0.3);
-  --nsm-pill-bg: rgba(255,255,255,0.08);
-  --font-head: 'DM Serif Display', Georgia, serif;
-  --font-body: 'DM Sans', Arial, sans-serif;
-  --radius: 14px;
-  --radius-sm: 8px;
-  --shadow: 0 4px 24px rgba(0,0,0,0.5);
+  --blue:    #0066CC;
+  --blue-lt: #E8F1FA;
+  --red:     #CC2200;
+  --bg:      #F0F0EE;
+  --surface: #FFFFFF;
+  --surface2:#F7F7F5;
+  --border:  #E2E2DE;
+  --text:    #111111;
+  --muted:   #666666;
+  --dimmed:  #999999;
+  --font-h:  'DM Serif Display', Georgia, serif;
+  --font-b:  'DM Sans', Arial, sans-serif;
+  --r:       12px;
+  --r-sm:    7px;
+  --shadow:  0 2px 12px rgba(0,0,0,0.07);
+  --shadow-h:0 6px 24px rgba(0,0,0,0.12);
 }
 
 body {
-  font-family: var(--font-body);
-  background: var(--nsm-dark);
-  color: var(--nsm-text);
+  font-family: var(--font-b);
+  background: var(--bg);
+  color: var(--text);
   padding-top: 70px;
-  min-height: 100vh;
 }
 
-/* ── Layout ── */
-.nsm2-wrap {
-  display: flex;
-  max-width: 1500px;
+.page-wrap {
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 1.5rem 1.5rem;
-  gap: 2rem;
-  align-items: flex-start;
+  padding: 1.25rem 1.25rem 2rem;
 }
 
-.nsm2-left {
-  width: 200px;
-  min-width: 200px;
-  flex-shrink: 0;
-  position: sticky;
-  top: 90px;
-}
-
-.nsm2-right {
-  width: 200px;
-  min-width: 200px;
-  flex-shrink: 0;
-  position: sticky;
-  top: 90px;
-}
-
-.nsm2-main {
-  flex: 1;
-  min-width: 0;
-}
-
-/* ── Section label ── */
-.section-label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-body);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--nsm-muted);
-  margin: 1.5rem 0 0.85rem;
-}
-.section-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--nsm-border);
-}
-.section-label:first-child { margin-top: 0; }
-
-/* ── Topic pill ── */
-.topic-pill {
-  display: inline-block;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border-radius: 20px;
-  background: var(--nsm-pill-bg);
-  color: var(--nsm-muted);
-  border: 1px solid var(--nsm-border);
-}
-.tp-politics   { background: rgba(10,132,255,0.15); color: #60AEFF; border-color: rgba(10,132,255,0.25); }
-.tp-economy    { background: rgba(52,199,89,0.15);  color: #5ED47A; border-color: rgba(52,199,89,0.25); }
-.tp-health     { background: rgba(255,159,10,0.15); color: #FFB340; border-color: rgba(255,159,10,0.25); }
-.tp-legal      { background: rgba(175,82,222,0.15); color: #C97EF5; border-color: rgba(175,82,222,0.25); }
-.tp-war        { background: rgba(255,59,48,0.15);  color: #FF7066; border-color: rgba(255,59,48,0.25); }
-.tp-crime      { background: rgba(255,59,48,0.15);  color: #FF7066; border-color: rgba(255,59,48,0.25); }
-.tp-science    { background: rgba(90,200,250,0.15); color: #70D0FA; border-color: rgba(90,200,250,0.25); }
-.tp-technology { background: rgba(10,132,255,0.15); color: #60AEFF; border-color: rgba(10,132,255,0.25); }
-.tp-ai         { background: rgba(175,82,222,0.15); color: #C97EF5; border-color: rgba(175,82,222,0.25); }
-.tp-world      { background: rgba(240,240,240,0.1); color: #AAAAAA; border-color: rgba(255,255,255,0.1); }
-.tp-environment{ background: rgba(52,199,89,0.15);  color: #5ED47A; border-color: rgba(52,199,89,0.25); }
-.tp-military   { background: rgba(255,59,48,0.15);  color: #FF7066; border-color: rgba(255,59,48,0.25); }
-
-/* ── Importance dot ── */
-.importance-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 4px;
-  vertical-align: middle;
-}
-.imp-major  { background: var(--nsm-red); box-shadow: 0 0 6px var(--nsm-red); }
-.imp-normal { background: var(--nsm-blue); }
-.imp-minor  { background: rgba(255,255,255,0.2); }
-
-/* ═══════════════════════════════
-   HERO CARD
-   ═══════════════════════════════ */
-.hero-card {
-  position: relative;
-  border-radius: var(--radius);
-  overflow: hidden;
-  height: 400px;
-  cursor: pointer;
-  background: #111;
-  box-shadow: var(--shadow);
-  transition: transform 0.2s ease;
-  margin-bottom: 1.25rem;
-}
-.hero-card:hover { transform: translateY(-2px); }
-
-.hero-img {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  opacity: 0.55;
-  transition: opacity 0.3s ease;
-}
-.hero-img-div {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0.55;
-}
-.hero-card:hover .hero-img-div { opacity: 0.65; }
-
-.hero-grad {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,0.97) 0%,
-    rgba(0,0,0,0.6) 45%,
-    rgba(0,0,0,0.1) 100%
-  );
-}
-
-.hero-content {
-  position: absolute;
-  inset: 0;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  background: var(--nsm-red);
-  color: #fff;
-  padding: 4px 9px;
-  border-radius: 20px;
-  margin-bottom: 0.65rem;
-  width: fit-content;
-}
-
-.hero-headline {
-  font-family: var(--font-head);
-  font-size: clamp(1.4rem, 2.5vw, 2rem);
-  line-height: 1.2;
-  color: #fff;
-  margin-bottom: 0.7rem;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-}
-
-.hero-summary {
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: rgba(255,255,255,0.78);
-  margin-bottom: 1rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.hero-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.hero-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-}
-
-.hero-time {
-  font-size: 11px;
-  color: rgba(255,255,255,0.4);
-}
-
-.hero-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.btn-read {
-  font-size: 12px;
-  font-weight: 600;
-  color: #fff;
-  background: var(--nsm-blue);
-  border: none;
-  border-radius: 20px;
-  padding: 7px 16px;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  transition: background 0.15s ease, transform 0.15s ease;
-}
-.btn-read:hover { background: #339AFF; transform: translateY(-1px); }
-
-.btn-share {
-  font-size: 12px;
-  font-weight: 600;
-  color: rgba(255,255,255,0.75);
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 20px;
-  padding: 7px 14px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  transition: all 0.15s ease;
-}
-.btn-share:hover { background: rgba(255,255,255,0.18); color: #fff; }
-
-/* ═══════════════════════════════
-   GRID CARDS (image + text)
-   ═══════════════════════════════ */
-.cards-grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 1.25rem;
-}
-.cards-grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 1.25rem;
-}
-
-.story-card {
-  background: var(--nsm-card);
-  border: 1px solid var(--nsm-border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-}
-.story-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(255,255,255,0.14);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-}
-
-.card-img-wrap {
-  position: relative;
-  height: 160px;
-  background: #111;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.card-img-div {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  transition: transform 0.3s ease;
-}
-.story-card:hover .card-img-div { transform: scale(1.04); }
-.card-img-grad {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 55%);
-}
-.card-img-pill {
-  position: absolute;
-  bottom: 9px;
-  left: 10px;
-}
-
-.card-body {
-  padding: 1rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-headline {
-  font-family: var(--font-head);
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.35;
-  color: var(--nsm-text);
-  margin-bottom: 0.55rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.card-summary {
-  font-size: 0.8rem;
-  line-height: 1.55;
-  color: var(--nsm-muted);
-  flex: 1;
-  margin-bottom: 0.85rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding-top: 0.65rem;
-  border-top: 1px solid var(--nsm-border);
-}
-
-.card-time {
-  font-size: 10px;
-  color: var(--nsm-dimmed);
-}
-
-.card-actions {
-  display: flex;
-  gap: 6px;
-}
-
-.btn-card-read {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--nsm-blue);
-  background: rgba(10,132,255,0.12);
-  border: none;
-  border-radius: 20px;
-  padding: 5px 11px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background 0.15s ease;
-}
-.btn-card-read:hover { background: rgba(10,132,255,0.22); }
-
-.btn-card-share {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--nsm-muted);
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--nsm-border);
-  border-radius: 20px;
-  padding: 5px 10px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-.btn-card-share:hover { background: rgba(255,255,255,0.1); color: var(--nsm-text); }
-
-/* ═══════════════════════════════
-   TEXT-ONLY CARDS (no image)
-   ═══════════════════════════════ */
-.text-card {
-  background: var(--nsm-card2);
-  border: 1px solid var(--nsm-border);
-  border-radius: var(--radius);
-  padding: 1rem;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.18s ease, border-color 0.18s ease;
-}
-.text-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(255,255,255,0.12);
-}
-
-.text-card .card-headline {
-  font-size: 0.88rem;
-  margin-bottom: 0.45rem;
-  -webkit-line-clamp: 2;
-}
-.text-card .card-summary {
-  font-size: 0.76rem;
-  -webkit-line-clamp: 2;
-  margin-bottom: 0.65rem;
-}
-
-/* ═══════════════════════════════
-   AFFILIATE AD TILE
-   ═══════════════════════════════ */
-.affiliate-section {
-  background: var(--nsm-card);
-  border: 1px solid var(--nsm-border);
-  border-radius: var(--radius);
-  padding: 1rem 1.1rem;
-  margin-bottom: 1.25rem;
-}
-.affiliate-section-label {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--nsm-dimmed);
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--nsm-border);
-}
-.affiliate-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-.affiliate-grid a {
-  display: block;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.affiliate-grid a:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-}
-.affiliate-grid img { width: 100%; display: block; border-radius: var(--radius-sm); }
-.affiliate-disclosure {
-  font-size: 0.6rem;
-  color: var(--nsm-dimmed);
-  font-style: italic;
-  margin-top: 0.65rem;
-  line-height: 1.4;
-}
-
-/* ═══════════════════════════════
-   SIDEBAR
-   ═══════════════════════════════ */
-.sidebar-label {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--nsm-dimmed);
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--nsm-border);
-}
-#book-tiles, #gear-tiles {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-#book-tiles a, #gear-tiles a {
-  display: block;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.4);
-}
-#book-tiles a:hover, #gear-tiles a:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-}
-#book-tiles img, #gear-tiles img { width: 100%; display: block; border-radius: var(--radius-sm); }
-.sidebar-disclosure {
-  margin-top: 10px;
-  font-size: 0.6rem;
-  color: var(--nsm-dimmed);
-  font-style: italic;
-  line-height: 1.4;
-}
-
-/* ═══════════════════════════════
-   TABS
-   ═══════════════════════════════ */
+/* ── TABS ── */
 .feed-tabs {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 1.25rem;
-  overflow-x: auto;
-  padding-bottom: 2px;
-  scrollbar-width: none;
+  display: flex; gap: 6px; margin-bottom: 1.1rem;
+  overflow-x: auto; scrollbar-width: none; padding-bottom: 2px;
 }
 .feed-tabs::-webkit-scrollbar { display: none; }
 .feed-tab {
-  font-size: 12px;
-  font-weight: 500;
-  padding: 6px 14px;
-  border-radius: 20px;
-  cursor: pointer;
-  white-space: nowrap;
-  color: var(--nsm-muted);
-  background: var(--nsm-pill-bg);
-  border: 1px solid var(--nsm-border);
-  transition: all 0.15s ease;
-  user-select: none;
+  font-size: 12px; font-weight: 600; padding: 6px 15px;
+  border-radius: 20px; cursor: pointer; white-space: nowrap;
+  color: var(--muted); background: var(--surface);
+  border: 1px solid var(--border); transition: all 0.15s; user-select: none;
 }
-.feed-tab:hover { color: var(--nsm-text); background: rgba(255,255,255,0.1); }
-.feed-tab.active {
-  color: #fff;
-  background: var(--nsm-blue);
-  border-color: var(--nsm-blue);
-}
+.feed-tab:hover { color: var(--text); border-color: #bbb; }
+.feed-tab.active { color: #fff; background: var(--blue); border-color: var(--blue); }
 
-/* ═══════════════════════════════
-   LOADING / EMPTY
-   ═══════════════════════════════ */
-.feed-loading {
-  text-align: center;
-  padding: 4rem 2rem;
-  color: var(--nsm-muted);
-  font-size: 0.9rem;
-}
-.feed-loading .spinner {
-  width: 32px; height: 32px;
-  border: 2px solid var(--nsm-border);
-  border-top-color: var(--nsm-blue);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin: 0 auto 1rem;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ═══════════════════════════════
-   REFRESH BAR
-   ═══════════════════════════════ */
+/* ── REFRESH BAR ── */
 .refresh-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.85rem;
+  display: flex; align-items: center;
+  justify-content: space-between; margin-bottom: 0.9rem;
 }
-.story-count-label {
-  font-size: 11px;
-  color: var(--nsm-dimmed);
-}
+.story-count { font-size: 11px; color: var(--dimmed); }
 .refresh-btn {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--nsm-muted);
-  background: var(--nsm-pill-bg);
-  border: 1px solid var(--nsm-border);
-  border-radius: 20px;
-  padding: 5px 12px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 5px 13px; cursor: pointer;
+  display: flex; align-items: center; gap: 5px; transition: all 0.15s;
 }
-.refresh-btn:hover { background: rgba(255,255,255,0.1); color: var(--nsm-text); }
-.refresh-icon { display: inline-block; transition: transform 0.4s ease; }
-.refresh-btn:hover .refresh-icon { transform: rotate(180deg); }
+.refresh-btn:hover { border-color: #bbb; color: var(--text); }
+.spin-icon { display: inline-block; transition: transform 0.5s ease; }
+.refresh-btn:hover .spin-icon { transform: rotate(180deg); }
 
-/* ═══════════════════════════════
-   PLATFORM INDICATOR (header only)
-   ═══════════════════════════════ */
-.platform-strip {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 10px;
-  color: var(--nsm-dimmed);
-  margin-bottom: 1rem;
+/* ── SECTION LABEL ── */
+.section-label {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--dimmed);
+  margin: 1.4rem 0 0.8rem;
 }
-.platform-chip {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: var(--nsm-pill-bg);
-  border: 1px solid var(--nsm-border);
-  border-radius: 20px;
-  padding: 3px 8px;
-  font-size: 10px;
-  color: var(--nsm-muted);
+.section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+/* ── TOPIC GRADIENT TOPS ── */
+.tp-bg-politics    { background: linear-gradient(135deg,#1A4B8C,#2E73D2); }
+.tp-bg-economy     { background: linear-gradient(135deg,#1A5C2E,#2E9E52); }
+.tp-bg-health      { background: linear-gradient(135deg,#8C4A00,#D4720A); }
+.tp-bg-legal       { background: linear-gradient(135deg,#4A1A8C,#7B3DD4); }
+.tp-bg-war         { background: linear-gradient(135deg,#8C1A1A,#C42B2B); }
+.tp-bg-crime       { background: linear-gradient(135deg,#6B1A1A,#AA2B2B); }
+.tp-bg-science     { background: linear-gradient(135deg,#0A5C7A,#1A9EC0); }
+.tp-bg-technology  { background: linear-gradient(135deg,#1A3A6B,#2B5FBB); }
+.tp-bg-ai          { background: linear-gradient(135deg,#3A1A6B,#6A2EBB); }
+.tp-bg-world       { background: linear-gradient(135deg,#3A3A3A,#666666); }
+.tp-bg-environment { background: linear-gradient(135deg,#1A5C1A,#2E8C2E); }
+.tp-bg-military    { background: linear-gradient(135deg,#4A2A0A,#7A4A1A); }
+
+/* ── TOPIC PILLS ── */
+.pill {
+  display: inline-block; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.07em; text-transform: uppercase; padding: 3px 8px; border-radius: 20px;
+}
+.tp-politics    { background:#DDEEFF; color:#0044AA; }
+.tp-economy     { background:#DDFAE8; color:#006622; }
+.tp-health      { background:#FFEEDD; color:#883300; }
+.tp-legal       { background:#EEE0FF; color:#5500AA; }
+.tp-war         { background:#FFDDDD; color:#AA1100; }
+.tp-crime       { background:#FFDDDD; color:#AA1100; }
+.tp-science     { background:#DDEEFC; color:#005577; }
+.tp-technology  { background:#DDEEFF; color:#003399; }
+.tp-ai          { background:#EEE0FF; color:#440099; }
+.tp-world       { background:#EEEEEE; color:#555555; }
+.tp-environment { background:#DDFAE8; color:#004400; }
+.tp-military    { background:#FFEEDD; color:#663300; }
+
+/* ── IMPORTANCE DOT ── */
+.imp-dot {
+  width:6px; height:6px; border-radius:50%; display:inline-block;
+  vertical-align:middle; margin-right:3px;
+}
+.imp-major  { background:var(--red); }
+.imp-normal { background:var(--blue); }
+.imp-minor  { background:#CCC; }
+
+/* ── HERO ── */
+.hero-card {
+  border-radius: var(--r); overflow: hidden;
+  background: var(--surface); box-shadow: var(--shadow);
+  margin-bottom: 1rem; cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.hero-card:hover { box-shadow: var(--shadow-h); transform: translateY(-2px); }
+.hero-img-top { height: 260px; position: relative; overflow: hidden; flex-shrink: 0; }
+.hero-img-bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  transition: transform 0.35s ease;
+}
+.hero-card:hover .hero-img-bg { transform: scale(1.03); }
+.hero-img-grad {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top,rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.15) 50%,transparent 100%);
+}
+.hero-img-pill { position: absolute; bottom: 12px; left: 14px; }
+.hero-img-badge {
+  position: absolute; top: 14px; left: 14px;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; background: var(--red);
+  color: #fff; padding: 4px 10px; border-radius: 20px;
+}
+.hero-body { padding: 1.2rem 1.4rem 1.1rem; }
+.hero-headline {
+  font-family: var(--font-h);
+  font-size: clamp(1.35rem,2.2vw,1.85rem);
+  line-height: 1.2; color: var(--text); margin-bottom: 0.6rem;
+}
+.hero-summary {
+  font-size: 0.92rem; line-height: 1.65; color: var(--muted);
+  margin-bottom: 1rem; display: -webkit-box;
+  -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.hero-footer {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 10px; flex-wrap: wrap;
+}
+.hero-meta { display: flex; align-items: center; gap: 8px; }
+.hero-time { font-size: 11px; color: var(--dimmed); }
+.hero-actions { display: flex; gap: 8px; }
+
+.btn-read {
+  font-size: 12px; font-weight: 600; color: #fff;
+  background: var(--blue); border: none; border-radius: 20px;
+  padding: 7px 16px; cursor: pointer; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 5px; transition: background 0.15s, transform 0.15s;
+}
+.btn-read:hover { background: #0055BB; transform: translateY(-1px); }
+.btn-share {
+  font-size: 12px; font-weight: 500; color: var(--muted);
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 7px 14px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s;
+}
+.btn-share:hover { border-color: #bbb; color: var(--text); }
+
+/* ── GRIDS ── */
+.cards-grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:1rem; }
+.cards-grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:1rem; }
+
+/* ── IMAGE CARD ── */
+.story-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); overflow: hidden; cursor: pointer;
+  display: flex; flex-direction: column;
+  box-shadow: var(--shadow); transition: box-shadow 0.18s, transform 0.18s;
+}
+.story-card:hover { box-shadow: var(--shadow-h); transform: translateY(-3px); }
+.card-top { height: 130px; position: relative; overflow: hidden; flex-shrink: 0; }
+.card-top-bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  transition: transform 0.3s ease;
+}
+.story-card:hover .card-top-bg { transform: scale(1.05); }
+.card-top-grad {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top,rgba(0,0,0,0.62) 0%,transparent 55%);
+}
+.card-top-pill { position: absolute; bottom: 8px; left: 9px; }
+.card-body { padding: 0.85rem 0.95rem; flex: 1; display: flex; flex-direction: column; }
+.card-headline {
+  font-family: var(--font-h); font-size: 0.96rem; line-height: 1.3;
+  color: var(--text); margin-bottom: 0.45rem;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.card-summary {
+  font-size: 0.78rem; line-height: 1.55; color: var(--muted); flex: 1;
+  margin-bottom: 0.75rem; display: -webkit-box;
+  -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 0.6rem; border-top: 1px solid var(--border); gap: 6px;
+}
+.card-time { font-size: 10px; color: var(--dimmed); }
+.card-actions { display: flex; gap: 5px; }
+.btn-sm-read {
+  font-size: 11px; font-weight: 600; color: var(--blue);
+  background: var(--blue-lt); border: none; border-radius: 20px;
+  padding: 4px 11px; cursor: pointer; text-decoration: none; transition: background 0.15s;
+}
+.btn-sm-read:hover { background: #D0E6F8; }
+.btn-sm-share {
+  font-size: 11px; color: var(--dimmed); background: var(--surface2);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 4px 9px; cursor: pointer; transition: all 0.15s; line-height: 1;
+}
+.btn-sm-share:hover { border-color: #bbb; color: var(--muted); }
+
+/* ── TEXT CARD ── */
+.text-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 0.9rem 1rem; cursor: pointer;
+  display: flex; flex-direction: column;
+  box-shadow: var(--shadow); transition: box-shadow 0.18s, transform 0.18s;
+}
+.text-card:hover { box-shadow: var(--shadow-h); transform: translateY(-2px); }
+.text-card .card-headline { font-size: 0.88rem; -webkit-line-clamp: 2; }
+.text-card .card-summary  { font-size: 0.76rem; -webkit-line-clamp: 2; }
+
+/* ── AFFILIATE STRIP ── */
+.affiliate-strip {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 0.7rem 1rem;
+  margin-bottom: 1rem; display: flex; align-items: center; gap: 12px;
+}
+.aff-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--dimmed); white-space: nowrap; flex-shrink: 0;
+}
+.aff-tiles { display: flex; gap: 8px; align-items: center; }
+.aff-tile {
+  width: 56px; height: 56px; border-radius: var(--r-sm); overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); flex-shrink: 0;
+  transition: transform 0.18s, box-shadow 0.18s; cursor: pointer;
+}
+.aff-tile:hover { transform: translateY(-2px); box-shadow: 0 5px 14px rgba(0,0,0,0.15); }
+.aff-tile img { width:56px; height:56px; object-fit:cover; display:block; }
+.aff-note {
+  flex: 1; font-size: 0.76rem; color: var(--dimmed); font-style: italic; line-height: 1.45;
+}
+.aff-disc {
+  font-size: 0.6rem; color: var(--dimmed); font-style: italic;
+  flex-shrink: 0; text-align: right; line-height: 1.4;
 }
 
-/* ═══════════════════════════════
-   FOOTER
-   ═══════════════════════════════ */
+/* ── LOADING ── */
+.feed-loading { text-align:center; padding:4rem; color:var(--dimmed); }
+.spinner {
+  width:28px; height:28px; border:2px solid var(--border);
+  border-top-color:var(--blue); border-radius:50%;
+  animation:spin 0.7s linear infinite; margin:0 auto 1rem;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ── FOOTER ── */
 footer {
-  text-align: center;
-  padding: 2rem 1rem;
-  font-size: 0.8rem;
-  color: var(--nsm-dimmed);
-  border-top: 1px solid var(--nsm-border);
-  margin-top: 2rem;
+  text-align:center; padding:1.5rem 1rem; font-size:.8rem;
+  color:#999; border-top:1px solid var(--border); margin-top:1rem;
 }
 
-/* ═══════════════════════════════
-   MOBILE
-   ═══════════════════════════════ */
-@media (max-width: 900px) {
-  .nsm2-wrap {
-    flex-direction: column;
-    padding: 0;
-    gap: 0;
-  }
-  .nsm2-left, .nsm2-right { display: none; }
-  .nsm2-main {
-    padding: 0.75rem 0.75rem 1rem;
-    width: 100%;
-  }
-  .hero-card { height: 280px; }
-  .hero-headline { font-size: 1.25rem; }
-  .hero-summary { display: none; }
-  .cards-grid-3 { grid-template-columns: 1fr; }
-  .cards-grid-2 { grid-template-columns: 1fr; }
-  .affiliate-grid { grid-template-columns: 1fr 1fr; }
-  .card-img-wrap { height: 180px; }
+/* ── MOBILE ── */
+@media (max-width:860px) {
+  body { background:#EBEBEB; }
+  .page-wrap { padding:0.75rem 0.75rem 1.5rem; }
+  .hero-img-top { height:190px; }
+  .hero-headline { font-size:1.2rem; }
+  .hero-summary { -webkit-line-clamp:2; }
+  .cards-grid-3 { grid-template-columns:1fr; }
+  .cards-grid-2 { grid-template-columns:1fr; }
+  .card-top { height:170px; }
+  .affiliate-strip { flex-wrap:wrap; }
 }
 </style>
 
 <script>
-/* ══════════════════════════════
-   CONFIG
-   ══════════════════════════════ */
-const SUPABASE_URL = 'https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts';
-const SUPABASE_KEY = 'sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
-const IMG_STORY    = 'https://nospin.media/images/story/';
-const IMG_KW       = 'https://nospin.media/images/keyword/';
-const STORY_BASE   = 'https://nospin.media/story.html?story=';
-const SHARE_BASE   = 'https://nospin.media/share.html?story=';
-
-const TOPIC_KW = {
-  politics:'politics', economy:'economy', health:'health', legal:'court',
-  war:'war', crime:'crime', science:'science', technology:'technology',
-  ai:'ai', world:'world', environment:'environment', military:'military'
-};
-
-const TOPICS_ORDER = [
-  'politics','economy','legal','health','science','ai','technology',
-  'war','military','crime','environment','world'
-];
+const SB_URL = 'https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts';
+const SB_KEY = 'sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
+const IMG_S  = 'https://nospin.media/images/story/';
+const IMG_K  = 'https://nospin.media/images/keyword/';
+const STORY  = 'https://nospin.media/story.html?story=';
+const SHARE  = 'https://nospin.media/share.html?story=';
 
 const TOPIC_LABELS = {
   politics:'Politics', economy:'Economy', legal:'Legal', health:'Health',
   science:'Science', ai:'AI', technology:'Technology', war:'War',
   military:'Military', crime:'Crime', environment:'Environment', world:'World'
 };
+const TOPICS_ORDER = ['politics','economy','legal','health','science','ai',
+  'technology','war','military','crime','environment','world'];
+const KW_IMG = {
+  politics:'politics', economy:'economy', health:'health', legal:'court',
+  war:'war', crime:'crime', science:'science', technology:'technology',
+  ai:'ai', world:'world', environment:'environment', military:'military'
+};
 
-/* ══════════════════════════════
-   STATE
-   ══════════════════════════════ */
-let allStories   = [];
-let activeTopic  = 'all';
-let imgCache     = {};
+let allStories = [], activeTopic = 'all';
+let _aff = null, _kw = null;
 
-/* ══════════════════════════════
-   UTILS
-   ══════════════════════════════ */
-function timeSince(dateStr) {
-  const d    = new Date(dateStr + (dateStr.includes('T') ? '' : 'T00:00:00'));
-  const diff = Math.floor((Date.now() - d) / 60000);
-  if (diff < 2)    return 'Just now';
-  if (diff < 60)   return diff + 'm ago';
-  if (diff < 1440) return Math.floor(diff / 60) + 'h ago';
-  if (diff < 2880) return 'Yesterday';
-  if (diff < 10080)return Math.floor(diff / 1440) + 'd ago';
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+/* ── UTILS ── */
+function timeSince(ds) {
+  if (!ds) return '';
+  const d = new Date(ds.includes('T') ? ds : ds + 'T12:00:00Z');
+  const m = Math.floor((Date.now() - d) / 60000);
+  if (m < 2)     return 'Just now';
+  if (m < 60)    return m + 'm ago';
+  if (m < 1440)  return Math.floor(m/60) + 'h ago';
+  if (m < 2880)  return 'Yesterday';
+  if (m < 10080) return Math.floor(m/1440) + 'd ago';
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
 }
-
-function getSummaries(s) {
-  return [s.social_bluesky, s.social_threads, s.social_facebook]
-    .filter(x => x && x.trim().length > 20);
+function stripMd(t) {
+  return (t||'').replace(/\*\*(.*?)\*\*/g,'$1').replace(/\*(.*?)\*/g,'$1')
+    .replace(/\\n/g,' ').replace(/\n/g,' ').trim();
 }
-
-function stripMarkdown(text) {
-  return (text || '')
-    .replace(/\*\*(.*?)\*\*/g, '$1')
-    .replace(/\*(.*?)\*/g, '$1')
-    .replace(/\\n/g, ' ')
-    .replace(/\n/g, ' ')
-    .trim();
+function randSummary(s) {
+  const opts=[s.social_bluesky,s.social_threads,s.social_facebook].filter(x=>x&&x.trim().length>20);
+  if(opts.length) return opts[Math.floor(Math.random()*opts.length)];
+  const r=stripMd(s.summary||''); return r.substring(0,200)+(r.length>200?'…':'');
 }
-
-function getDisplaySummary(s) {
-  const opts = getSummaries(s);
-  if (opts.length) return opts[Math.floor(Math.random() * opts.length)];
-  const raw = stripMarkdown(s.summary || '');
-  return raw.substring(0, 200) + (raw.length > 200 ? '…' : '');
+function cleanHL(h) { return (h||'').replace(/\n/g,' — ').trim(); }
+function pill(t, white) {
+  if(white) return `<span class="pill" style="background:rgba(255,255,255,0.22);color:#fff;">${TOPIC_LABELS[t]||t}</span>`;
+  return `<span class="pill tp-${t||'world'}">${TOPIC_LABELS[t]||t||'News'}</span>`;
 }
-
-function topicPillClass(topic) {
-  return 'topic-pill tp-' + (topic || 'world');
+function impDot(i) {
+  if(!i) return '';
+  return `<span class="imp-dot imp-${i}"></span>`;
 }
-
-function importanceDotHTML(importance) {
-  if (!importance) return '';
-  return `<span class="importance-dot imp-${importance}"></span>`;
+function topBG(url, t) {
+  const kw=KW_IMG[t]||'news';
+  return `background-image:url('${IMG_S}${url}.jpg'),url('${IMG_K}${kw}.jpg');background-size:cover;background-position:center;`;
 }
+function topCls(t) { return `tp-bg-${t||'world'}`; }
 
-function bgStyle(storyId, topic) {
-  const kw = TOPIC_KW[topic] || 'news';
-  const cache = imgCache[storyId];
-  if (cache) return `background-image:url('${cache}'),url('${IMG_KW}${kw}.jpg');`;
-  return `background-image:url('${IMG_STORY}${storyId}.jpg'),url('${IMG_KW}${kw}.jpg');`;
-}
-
-function cleanHeadline(hl) {
-  return (hl || '').replace(/\n/g, ' — ').trim();
-}
-
-/* ══════════════════════════════
-   SHARE
-   ══════════════════════════════ */
-function shareStory(storyId, btn) {
-  const url = SHARE_BASE + storyId;
-  if (navigator.share) {
-    navigator.share({ url });
-  } else {
-    navigator.clipboard.writeText(url).then(() => {
-      const orig = btn.innerHTML;
-      btn.innerHTML = '✅ Copied!';
-      setTimeout(() => btn.innerHTML = orig, 2000);
-    }).catch(() => {
-      window.open(url, '_blank');
-    });
+/* ── SHARE ── */
+function shareStory(id, btn) {
+  const url = SHARE + id;
+  if(navigator.share) { navigator.share({url}).catch(()=>{}); }
+  else {
+    navigator.clipboard.writeText(url).then(()=>{
+      const o=btn.innerHTML; btn.innerHTML='✅';
+      setTimeout(()=>btn.innerHTML=o,1800);
+    }).catch(()=>window.open(url,'_blank'));
   }
 }
 
-/* ══════════════════════════════
-   CARD BUILDERS
-   ══════════════════════════════ */
-function heroCardHTML(s) {
-  const sum   = getDisplaySummary(s);
-  const hl    = cleanHeadline(s.headline);
-  const time  = timeSince(s.date || s.posted_at || s.created_at);
-  const major = s.importance === 'major';
-  const topic = s.topic || 'world';
-
+/* ── CARD HTML ── */
+function heroHTML(s) {
+  const hl=cleanHL(s.headline), sum=randSummary(s), t=s.topic||'world';
+  const ts=timeSince(s.date||s.posted_at), maj=s.importance==='major';
   return `
-  <div class="hero-card" id="hero-${s.url}">
-    <div class="hero-img-div" style="${bgStyle(s.url, topic)}background-size:cover;background-position:center;"></div>
-    <div class="hero-grad"></div>
-    <div class="hero-content">
-      ${major ? '<div class="hero-badge">🔴 Breaking</div>' : '<div class="hero-badge" style="background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.9);">📰 Top Story</div>'}
-      <div class="hero-headline">${hl}</div>
-      <div class="hero-summary" id="hsum-${s.url}">${sum}</div>
-      <div class="hero-footer">
-        <div class="hero-meta">
-          <span class="${topicPillClass(topic)}">${TOPIC_LABELS[topic] || topic}</span>
-          <span class="hero-time">${time}</span>
-        </div>
-        <div class="hero-actions">
-          <button class="btn-share" onclick="event.stopPropagation(); shareStory('${s.url}', this)">🔗 Share</button>
-          <a class="btn-read" href="${STORY_BASE}${s.url}">Read More →</a>
-        </div>
+<div class="hero-card" onclick="window.location='${STORY}${s.url}'">
+  <div class="hero-img-top ${topCls(t)}">
+    <div class="hero-img-bg" style="${topBG(s.url,t)}"></div>
+    <div class="hero-img-grad"></div>
+    <div class="hero-img-pill">${pill(t,true)}</div>
+    ${maj?`<div class="hero-img-badge">🔴 Breaking</div>`:''}
+  </div>
+  <div class="hero-body">
+    <div class="hero-headline">${hl}</div>
+    <div class="hero-summary" data-id="${s.url}">${sum}</div>
+    <div class="hero-footer">
+      <div class="hero-meta"><span class="hero-time">${impDot(s.importance)}${ts}</span></div>
+      <div class="hero-actions">
+        <button class="btn-share" onclick="event.stopPropagation();shareStory('${s.url}',this)">🔗 Share</button>
+        <a class="btn-read" href="${STORY}${s.url}" onclick="event.stopPropagation()">Read More →</a>
       </div>
     </div>
-  </div>`;
+  </div>
+</div>`;
 }
 
-function storyCardHTML(s) {
-  const sum  = getDisplaySummary(s);
-  const hl   = cleanHeadline(s.headline);
-  const time = timeSince(s.date || s.posted_at || s.created_at);
-  const topic = s.topic || 'world';
-
+function cardHTML(s) {
+  const hl=cleanHL(s.headline), sum=randSummary(s), t=s.topic||'world', ts=timeSince(s.date||s.posted_at);
   return `
-  <div class="story-card" onclick="window.location='${STORY_BASE}${s.url}'" id="card-${s.url}">
-    <div class="card-img-wrap">
-      <div class="card-img-div" style="${bgStyle(s.url, topic)}background-size:cover;background-position:center;"></div>
-      <div class="card-img-grad"></div>
-      <div class="card-img-pill"><span class="${topicPillClass(topic)}">${TOPIC_LABELS[topic] || topic}</span></div>
-    </div>
-    <div class="card-body">
-      <div class="card-headline">${hl}</div>
-      <div class="card-summary" id="csum-${s.url}">${sum}</div>
-      <div class="card-footer">
-        <span class="card-time">${importanceDotHTML(s.importance)}${time}</span>
-        <div class="card-actions">
-          <button class="btn-card-share" onclick="event.stopPropagation(); shareStory('${s.url}', this)">🔗</button>
-          <a class="btn-card-read" href="${STORY_BASE}${s.url}" onclick="event.stopPropagation()">Read →</a>
-        </div>
+<div class="story-card" onclick="window.location='${STORY}${s.url}'">
+  <div class="card-top ${topCls(t)}">
+    <div class="card-top-bg" style="${topBG(s.url,t)}"></div>
+    <div class="card-top-grad"></div>
+    <div class="card-top-pill">${pill(t,true)}</div>
+  </div>
+  <div class="card-body">
+    <div class="card-headline">${hl}</div>
+    <div class="card-summary" data-id="${s.url}">${sum}</div>
+    <div class="card-footer">
+      <span class="card-time">${impDot(s.importance)}${ts}</span>
+      <div class="card-actions">
+        <button class="btn-sm-share" onclick="event.stopPropagation();shareStory('${s.url}',this)">🔗</button>
+        <a class="btn-sm-read" href="${STORY}${s.url}" onclick="event.stopPropagation()">Read →</a>
       </div>
     </div>
-  </div>`;
+  </div>
+</div>`;
 }
 
 function textCardHTML(s) {
-  const sum  = getDisplaySummary(s);
-  const hl   = cleanHeadline(s.headline);
-  const time = timeSince(s.date || s.posted_at || s.created_at);
-  const topic = s.topic || 'world';
-
+  const hl=cleanHL(s.headline), sum=randSummary(s), t=s.topic||'world', ts=timeSince(s.date||s.posted_at);
   return `
-  <div class="text-card" onclick="window.location='${STORY_BASE}${s.url}'" id="tcard-${s.url}">
-    <div style="margin-bottom:0.5rem;">
-      <span class="${topicPillClass(topic)}">${TOPIC_LABELS[topic] || topic}</span>
+<div class="text-card" onclick="window.location='${STORY}${s.url}'">
+  <div style="margin-bottom:0.45rem;">${pill(t,false)}</div>
+  <div class="card-headline">${hl}</div>
+  <div class="card-summary" data-id="${s.url}">${sum}</div>
+  <div class="card-footer">
+    <span class="card-time">${impDot(s.importance)}${ts}</span>
+    <div class="card-actions">
+      <button class="btn-sm-share" onclick="event.stopPropagation();shareStory('${s.url}',this)">🔗</button>
+      <a class="btn-sm-read" href="${STORY}${s.url}" onclick="event.stopPropagation()">Read →</a>
     </div>
-    <div class="card-headline">${hl}</div>
-    <div class="card-summary" id="tcsum-${s.url}">${sum}</div>
-    <div class="card-footer">
-      <span class="card-time">${importanceDotHTML(s.importance)}${time}</span>
-      <div class="card-actions">
-        <button class="btn-card-share" onclick="event.stopPropagation(); shareStory('${s.url}', this)">🔗</button>
-        <a class="btn-card-read" href="${STORY_BASE}${s.url}" onclick="event.stopPropagation()">Read →</a>
-      </div>
-    </div>
-  </div>`;
+  </div>
+</div>`;
 }
 
-/* ══════════════════════════════
-   AFFILIATE TILE (inline)
-   ══════════════════════════════ */
-let _affiliateData = null;
-async function getAffiliateData() {
-  if (_affiliateData) return _affiliateData;
-  try {
-    const r = await fetch('/affiliate/affiliate.json');
-    if (r.ok) _affiliateData = await r.json();
-  } catch(e) {}
-  return _affiliateData || {};
+/* ── AFFILIATE ── */
+async function getAff() {
+  if(_aff) return _aff;
+  try { const r=await fetch('/affiliate/affiliate.json'); if(r.ok) _aff=await r.json(); } catch(e){}
+  return _aff||{};
+}
+async function getKw() {
+  if(_kw) return _kw;
+  try { const r=await fetch('/affiliate/keyword-affiliates.json'); if(r.ok) _kw=await r.json(); } catch(e){}
+  return _kw||{rules:[]};
+}
+function wordMatch(hay,kw) {
+  const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return new RegExp(`(?<![a-zA-Z])${esc}(?![a-zA-Z])`,'i').test(hay);
+}
+function topTwoRules(stories,rules) {
+  if(!stories?.length||!rules?.length) return {bookRule:null,gearRule:null};
+  const sc=rules.map(rule=>({
+    rule,
+    total:stories.filter(s=>(rule.keywords||[]).some(kw=>wordMatch([s.headline||'',s.summary||''].join(' '),kw))).length
+  }));
+  const top5=[...sc.filter(s=>s.total>0).sort((a,b)=>b.total-a.total)].slice(0,5).sort(()=>0.5-Math.random());
+  return {bookRule:top5[0]?.rule||null, gearRule:top5[1]?.rule||null};
 }
 
-function affiliateSectionHTML(data) {
-  const books = data.books?.items || [];
-  const gear  = data.gear?.items  || [];
-  if (!books.length && !gear.length) return '';
-
+function affStripHTML(affData, bookRule, gearRule) {
+  const books=affData.books?.items||[], gear=affData.gear?.items||[];
   function pickOne(arr) {
-    const must = arr.filter(i => i.must_show);
-    const pool = must.length ? must : arr;
-    const item = pool[Math.floor(Math.random() * pool.length)];
-    if (!item) return '';
-    const link = (item.links || [])[0] || '#';
-    return `<a href="${link}" target="_blank" rel="noopener nofollow sponsored">
-      <img src="/affiliate/${item.image}" alt="${item.title}" loading="lazy">
-    </a>`;
+    const must=arr.filter(i=>i.must_show), pool=must.length?must:arr;
+    return pool[Math.floor(Math.random()*pool.length)]||null;
+  }
+  let tiles='';
+
+  // Book tile
+  if(bookRule?.books) {
+    const b=bookRule.books;
+    const tl=(b.title||'').split('\\n').map(l=>`<div>${l}</div>`).join('');
+    tiles+=`<div class="aff-tile" style="background:${b.cover_color};display:flex;align-items:center;justify-content:center;padding:4px;cursor:pointer;" title="${b.title}" onclick="window.open('${b.url}','_blank')">
+      <div style="font-size:7px;font-weight:800;color:#f9f1e0;text-align:center;line-height:1.2;font-family:Georgia,serif;">${tl}</div>
+    </div>`;
+  } else {
+    const item=pickOne(books);
+    if(item) { const lnk=(item.links||[])[0]||'#';
+      tiles+=`<div class="aff-tile"><a href="${lnk}" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/${item.image}" alt="${item.title}" loading="lazy"></a></div>`; }
   }
 
-  return `
-  <div class="affiliate-section">
-    <div class="affiliate-section-label">🧭 NSM Picks — supports independent journalism</div>
-    <div class="affiliate-grid">
-      ${pickOne(books)}
-      ${pickOne(gear)}
-    </div>
-    <div class="affiliate-disclosure">Selecting an item supports NSM at no extra cost to you.</div>
+  // Gear tile
+  if(gearRule?.gear) {
+    const g=gearRule.gear;
+    const tl=(g.title||'').split('\\n').map(l=>`<div>${l}</div>`).join('');
+    tiles+=`<div class="aff-tile" style="background:#2a2a2a;display:flex;align-items:center;justify-content:center;padding:4px;cursor:pointer;" title="${g.title}" onclick="window.open('${g.url}','_blank')">
+      <div style="font-size:7px;font-weight:900;color:#f0e4c8;text-align:center;line-height:1.2;font-family:Arial Black,Arial,sans-serif;">${tl}<div style="font-size:12px;">${g.icon||'⚙️'}</div></div>
+    </div>`;
+  } else {
+    const item=pickOne(gear);
+    if(item) { const lnk=(item.links||[])[0]||'#';
+      tiles+=`<div class="aff-tile"><a href="${lnk}" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/${item.image}" alt="${item.title}" loading="lazy"></a></div>`; }
+  }
+
+  if(!tiles) return '';
+  return `<div class="affiliate-strip">
+    <span class="aff-label">🧭 NSM Picks</span>
+    <div class="aff-tiles">${tiles}</div>
+    <div class="aff-note">Supporting independent journalism</div>
+    <div class="aff-disc">Affiliate links.<br>No extra cost.</div>
   </div>`;
 }
 
-/* ══════════════════════════════
-   FEED RENDER
-   ══════════════════════════════ */
+/* ── ROTATE ── */
 function rotateSummaries() {
-  document.querySelectorAll('[id^="hsum-"],[id^="csum-"],[id^="tcsum-"]').forEach(el => {
-    const storyId = el.id.split('-').slice(1).join('-');
-    const s = allStories.find(x => x.url === storyId);
-    if (!s) return;
-    const opts = getSummaries(s);
-    if (!opts.length) return;
-    const newSum = opts[Math.floor(Math.random() * opts.length)];
-    el.style.opacity = '0';
-    setTimeout(() => {
-      el.textContent = newSum;
-      el.style.transition = 'opacity 0.25s';
-      el.style.opacity = '1';
-    }, 120);
+  document.querySelectorAll('[data-id]').forEach(el=>{
+    const s=allStories.find(x=>x.url===el.dataset.id); if(!s) return;
+    const opts=[s.social_bluesky,s.social_threads,s.social_facebook].filter(x=>x&&x.trim().length>20);
+    if(!opts.length) return;
+    el.style.opacity='0';
+    setTimeout(()=>{el.textContent=opts[Math.floor(Math.random()*opts.length)];el.style.transition='opacity 0.22s';el.style.opacity='1';},110);
   });
 }
 
-async function renderFeed(stories) {
-  const feed = document.getElementById('nsm-feed');
-  if (!stories.length) {
-    feed.innerHTML = '<div class="feed-loading"><p>No stories found.</p></div>';
-    return;
-  }
-
-  const affData = await getAffiliateData();
-  const affHTML = affiliateSectionHTML(affData);
-
-  let html = '';
-
-  // Story count + refresh
-  html += `<div class="refresh-bar">
-    <span class="story-count-label">${stories.length} stories</span>
-    <button class="refresh-btn" onclick="rotateSummaries()">
-      <span class="refresh-icon">↻</span> Rotate summaries
-    </button>
-  </div>`;
-
-  // Platform indicator
-  html += `<div class="platform-strip">
-    Summaries sourced from:
-    <span class="platform-chip">🦋 Bluesky</span>
-    <span class="platform-chip">🧵 Threads</span>
-    <span class="platform-chip">📘 Facebook</span>
-  </div>`;
-
-  // Hero — first story
-  html += heroCardHTML(stories[0]);
-
-  // Grid of 3 — stories 1–3
-  const grid1 = stories.slice(1, 4);
-  if (grid1.length) {
-    html += `<div class="section-label">Latest</div>`;
-    html += `<div class="cards-grid-3">` + grid1.map(storyCardHTML).join('') + `</div>`;
-  }
-
-  // Affiliate insert after first section
-  if (affHTML) html += affHTML;
-
-  // Group remaining by topic
-  const remaining = stories.slice(4);
-  const byTopic = {};
-  remaining.forEach(s => {
-    const t = s.topic || 'world';
-    if (!byTopic[t]) byTopic[t] = [];
-    byTopic[t].push(s);
-  });
-
-  // Render topic sections
-  const topicsPresent = TOPICS_ORDER.filter(t => byTopic[t]?.length);
-  topicsPresent.forEach((topic, ti) => {
-    const group = byTopic[topic];
-    html += `<div class="section-label">${TOPIC_LABELS[topic] || topic}</div>`;
-
-    if (group.length === 1) {
-      html += `<div class="cards-grid-2">` + storyCardHTML(group[0]) + `</div>`;
-    } else if (group.length === 2) {
-      html += `<div class="cards-grid-2">` + group.map(storyCardHTML).join('') + `</div>`;
-    } else {
-      // First 2 with image, rest as text cards
-      html += `<div class="cards-grid-2">` + group.slice(0, 2).map(storyCardHTML).join('') + `</div>`;
-      if (group.length > 2) {
-        html += `<div class="cards-grid-3">` + group.slice(2).map(textCardHTML).join('') + `</div>`;
-      }
-    }
-
-    // Affiliate insert every 3 topic sections
-    if ((ti + 1) % 3 === 0 && affHTML) html += affHTML;
-  });
-
-  feed.innerHTML = html;
-}
-
-/* ══════════════════════════════
-   TABS
-   ══════════════════════════════ */
+/* ── TABS ── */
 function buildTabs(stories) {
-  const topics = [...new Set(stories.map(s => s.topic).filter(Boolean))];
-  const tabsEl = document.getElementById('feed-tabs');
-  let html = `<div class="feed-tab active" data-topic="all">For You</div>`;
-  TOPICS_ORDER.filter(t => topics.includes(t)).forEach(t => {
-    html += `<div class="feed-tab" data-topic="${t}">${TOPIC_LABELS[t]}</div>`;
+  const topics=[...new Set(stories.map(s=>s.topic).filter(Boolean))];
+  const el=document.getElementById('feed-tabs');
+  let html=`<div class="feed-tab active" data-topic="all">For You</div>`;
+  TOPICS_ORDER.filter(t=>topics.includes(t)).forEach(t=>{
+    html+=`<div class="feed-tab" data-topic="${t}">${TOPIC_LABELS[t]}</div>`;
   });
-  tabsEl.innerHTML = html;
-  tabsEl.querySelectorAll('.feed-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabsEl.querySelectorAll('.feed-tab').forEach(t => t.classList.remove('active'));
+  el.innerHTML=html;
+  el.querySelectorAll('.feed-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      el.querySelectorAll('.feed-tab').forEach(t=>t.classList.remove('active'));
       tab.classList.add('active');
-      activeTopic = tab.dataset.topic;
-      const filtered = activeTopic === 'all' ? allStories : allStories.filter(s => s.topic === activeTopic);
-      renderFeed(filtered);
+      activeTopic=tab.dataset.topic;
+      const f=activeTopic==='all'?allStories:allStories.filter(s=>s.topic===activeTopic);
+      renderFeed(f);
     });
   });
 }
 
-/* ══════════════════════════════
-   AFFILIATE SIDEBAR
-   ══════════════════════════════ */
-let _kwData = null;
-async function loadAffiliateSidebar(stories) {
-  try {
-    const data = await getAffiliateData();
-    const books = data.books?.items || [];
-    const gear  = data.gear?.items  || [];
+/* ── RENDER ── */
+async function renderFeed(stories) {
+  const feed=document.getElementById('nsm-feed');
+  if(!stories.length){feed.innerHTML='<div class="feed-loading"><p>No stories in this category yet.</p></div>';return;}
 
-    function pickN(arr, n) {
-      const must = arr.filter(i => i.must_show);
-      const opt  = [...arr.filter(i => !i.must_show)].sort(() => 0.5 - Math.random());
-      const pool = [...must, ...opt];
-      return pool.slice(0, n);
-    }
+  const affData=await getAff();
+  const kwData=await getKw();
+  const {bookRule,gearRule}=topTwoRules(stories,kwData.rules||[]);
+  const aff=affStripHTML(affData,bookRule,gearRule);
 
-    const bookEl = document.getElementById('book-tiles');
-    const gearEl = document.getElementById('gear-tiles');
+  let html='';
+  html+=`<div class="refresh-bar">
+    <span class="story-count">${stories.length} stories</span>
+    <button class="refresh-btn" onclick="rotateSummaries()"><span class="spin-icon">↻</span> Rotate summaries</button>
+  </div>`;
 
-    if (bookEl) {
-      bookEl.innerHTML = pickN(books, 3).map(item => {
-        const link = (item.links || [])[0] || '#';
-        return `<a href="${link}" target="_blank" rel="noopener nofollow sponsored">
-          <img src="/affiliate/${item.image}" alt="${item.title}" loading="lazy">
-        </a>`;
-      }).join('');
+  html+=heroHTML(stories[0]);
+
+  const g1=stories.slice(1,4);
+  if(g1.length){html+=`<div class="section-label">Latest</div><div class="cards-grid-3">${g1.map(cardHTML).join('')}</div>`;}
+  if(aff) html+=aff;
+
+  const byTopic={};
+  stories.slice(4).forEach(s=>{const t=s.topic||'world';if(!byTopic[t])byTopic[t]=[];byTopic[t].push(s);});
+  const present=TOPICS_ORDER.filter(t=>byTopic[t]?.length);
+
+  present.forEach((topic,ti)=>{
+    const grp=byTopic[topic];
+    html+=`<div class="section-label">${TOPIC_LABELS[topic]||topic}</div>`;
+    if(grp.length===1) html+=`<div class="cards-grid-2">${cardHTML(grp[0])}</div>`;
+    else if(grp.length===2) html+=`<div class="cards-grid-2">${grp.map(cardHTML).join('')}</div>`;
+    else {
+      html+=`<div class="cards-grid-2">${grp.slice(0,2).map(cardHTML).join('')}</div>`;
+      if(grp.length>2) html+=`<div class="cards-grid-3">${grp.slice(2).map(textCardHTML).join('')}</div>`;
     }
-    if (gearEl) {
-      gearEl.innerHTML = pickN(gear, 2).map(item => {
-        const link = (item.links || [])[0] || '#';
-        return `<a href="${link}" target="_blank" rel="noopener nofollow sponsored">
-          <img src="/affiliate/${item.image}" alt="${item.title}" loading="lazy">
-        </a>`;
-      }).join('');
-    }
-  } catch(e) { console.warn('Affiliate sidebar failed', e); }
+    if((ti+1)%3===0&&aff) html+=aff;
+  });
+
+  feed.innerHTML=html;
 }
 
-/* ══════════════════════════════
-   FETCH & INIT
-   ══════════════════════════════ */
+/* ── INIT ── */
 async function loadStories() {
   try {
-    const res = await fetch(
-      SUPABASE_URL +
-      '?select=headline,date,url,summary,style,topic,importance,social_bluesky,social_facebook,social_threads' +
-      '&used=eq.true&order=date.desc&limit=50&apikey=' + SUPABASE_KEY
-    );
-    allStories = await res.json();
-
+    const res=await fetch(SB_URL+'?select=headline,date,url,summary,style,topic,importance,social_bluesky,social_facebook,social_threads&used=eq.true&order=date.desc&limit=50&apikey='+SB_KEY);
+    allStories=await res.json();
+    if(!Array.isArray(allStories)) throw new Error('bad response');
     buildTabs(allStories);
     await renderFeed(allStories);
-    await loadAffiliateSidebar(allStories);
   } catch(e) {
-    document.getElementById('nsm-feed').innerHTML =
-      '<div class="feed-loading"><p>Could not load stories. Please try again.</p></div>';
+    document.getElementById('nsm-feed').innerHTML='<div class="feed-loading"><p>Could not load stories. Please refresh.</p></div>';
     console.error(e);
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  fetch('header.html')
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById('site-header').innerHTML = html;
-      const ham = document.getElementById('hamburger');
-      const nav = document.getElementById('mobile-nav');
-      if (ham && nav) {
-        ham.onclick = () => { nav.classList.toggle('open'); ham.classList.toggle('active'); };
-        nav.querySelectorAll('a').forEach(a => {
-          a.onclick = () => { nav.classList.remove('open'); ham.classList.remove('active'); };
-        });
-      }
-    })
-    .finally(() => loadStories());
+document.addEventListener('DOMContentLoaded',()=>{
+  fetch('header.html').then(r=>r.text()).then(html=>{
+    document.getElementById('site-header').innerHTML=html;
+    const ham=document.getElementById('hamburger'), nav=document.getElementById('mobile-nav');
+    if(ham&&nav){
+      ham.onclick=()=>{nav.classList.toggle('open');ham.classList.toggle('active');};
+      nav.querySelectorAll('a').forEach(a=>{a.onclick=()=>{nav.classList.remove('open');ham.classList.remove('active');};});
+    }
+  }).finally(()=>loadStories());
 });
 </script>
 </head>
 <body>
-
 <div id="site-header"></div>
-
-<div class="nsm2-wrap">
-
-  <!-- Left sidebar: books -->
-  <div class="nsm2-left">
-    <div class="sidebar-label">🧭 NSM Reading List</div>
-    <div id="book-tiles"></div>
-    <div class="sidebar-disclosure">Selecting a title supports independent journalism at no extra cost.</div>
+<div class="page-wrap">
+  <div id="feed-tabs" class="feed-tabs"></div>
+  <div id="nsm-feed">
+    <div class="feed-loading"><div class="spinner"></div>Loading stories…</div>
   </div>
-
-  <!-- Main feed -->
-  <div class="nsm2-main">
-    <div id="feed-tabs" class="feed-tabs"></div>
-    <div id="nsm-feed">
-      <div class="feed-loading">
-        <div class="spinner"></div>
-        Loading stories…
-      </div>
-    </div>
-  </div>
-
-  <!-- Right sidebar: gear -->
-  <div class="nsm2-right">
-    <div class="sidebar-label">🧭 NSM Field Gear</div>
-    <div id="gear-tiles"></div>
-    <div class="sidebar-disclosure">Selecting an item supports independent journalism at no extra cost.</div>
-  </div>
-
 </div>
-
 <footer>
   © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
-  <span style="font-size:.75rem;color:rgba(255,255,255,0.25);">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
+  <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
 </footer>
-
 </body>
 </html>
