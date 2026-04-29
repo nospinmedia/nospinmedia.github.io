@@ -380,7 +380,7 @@ function heroHTML(s) {
       <div class="hero-meta">${pillColored(t)}<span class="hero-time">${impDot(s.importance)}${ts}</span></div>
       <div class="hero-actions">
         <button class="btn-share" onclick="event.stopPropagation();shareStory('${s.url}',this)">🔗 Share</button>
-        <a class="btn-read" href="${STORY}${s.url}" onclick="event.stopPropagation()">Read More →</a>
+        <a class="btn-read" href="${STORY}${s.url}" onclick="event.stopPropagation()">View Story →</a>
       </div>
     </div>
   </div>
@@ -408,7 +408,7 @@ function cardHTML(s) {
       <span class="card-time">${impDot(s.importance)}${ts}</span>
       <div class="card-actions">
         <button class="btn-sm-share" onclick="event.stopPropagation();shareStory('${s.url}',this)">🔗</button>
-        <a class="btn-sm-read" href="${STORY}${s.url}" onclick="event.stopPropagation()">Read →</a>
+        <a class="btn-sm-read" href="${STORY}${s.url}" onclick="event.stopPropagation()">View Story →</a>
       </div>
     </div>
   </div>
@@ -429,7 +429,7 @@ function textCardHTML(s) {
     <span class="card-time">${impDot(s.importance)}${ts}</span>
     <div class="card-actions">
       <button class="btn-sm-share" onclick="event.stopPropagation();shareStory('${s.url}',this)">🔗</button>
-      <a class="btn-sm-read" href="${STORY}${s.url}" onclick="event.stopPropagation()">Read →</a>
+      <a class="btn-sm-read" href="${STORY}${s.url}" onclick="event.stopPropagation()">View Story →</a>
     </div>
   </div>
 </div>`;
@@ -512,27 +512,50 @@ function gearTileHTML(g) {
 </a>`;
 }
 
-/* Affiliate section: desktop = 2-col grid (book + gear), mobile = alternates one per break */
-let _affGridHTML='', _affBookHTML='', _affGearHTML='';
+/* ── PER-SECTION AFFILIATE ──
+   For each placement, score keyword rules against the stories in that section
+   and pick the best book+gear match. Falls back to global top rules if no match.
+   Alternate book/gear each placement so the page varies. */
+let _allAffData=null, _allKwData=null, _globalBookRule=null, _globalGearRule=null;
+let _affPlacementToggle=0; // 0=book, 1=gear, alternates each placement
 
-function buildAffHTML(affData, bookRule, gearRule) {
-  if(!bookRule?.books && !gearRule?.gear) return;
-  if(bookRule?.books) _affBookHTML=bookTileHTML(bookRule.books);
-  if(gearRule?.gear)  _affGearHTML=gearTileHTML(gearRule.gear);
+function pickAffTileForSection(sectionStories) {
+  const kwRules=_allKwData?.rules||[];
+  // Score rules against this section's stories
+  let best=null, bestScore=0;
+  for(const rule of kwRules){
+    const score=sectionStories.filter(s=>(rule.keywords||[]).some(kw=>wordMatch([s.headline||'',s.summary||''].join(' '),kw))).length;
+    if(score>bestScore){bestScore=score;best=rule;}
+  }
+  const rule=best||(_affPlacementToggle===0?_globalBookRule:_globalGearRule)||_globalBookRule||_globalGearRule;
+  if(!rule) return null;
 
-  // Desktop: ad in center slot, stories either side — stored as template needing 2 story args
-  // We store book+gear individually; renderFeed builds the 3-col row inline
-  _affGridHTML='__AFF_GRID__'; // placeholder — replaced in renderFeed
+  // Alternate book vs gear each placement
+  let tile=null;
+  if(_affPlacementToggle===0){
+    tile=rule.books?bookTileHTML(rule.books):(rule.gear?gearTileHTML(rule.gear):null);
+    if(!tile && _globalBookRule?.books) tile=bookTileHTML(_globalBookRule.books);
+  } else {
+    tile=rule.gear?gearTileHTML(rule.gear):(rule.books?bookTileHTML(rule.books):null);
+    if(!tile && _globalGearRule?.gear) tile=gearTileHTML(_globalGearRule.gear);
+  }
+  _affPlacementToggle=1-_affPlacementToggle;
+  return tile;
 }
 
-/* Returns inline aff HTML for a given position on mobile (alternates book/gear) */
-let _mobileAffToggle=0;
-function mobileAffHTML() {
-  const tile=_mobileAffToggle===0?(_affBookHTML||_affGearHTML):(_affGearHTML||_affBookHTML);
-  _mobileAffToggle=1-_mobileAffToggle;
-  if(!tile) return '';
-  return `<div class="aff-mobile-single" style="min-height:220px;">${tile}</div>
-<div class="aff-disclosure" style="display:none;" id="aff-disc-mob">🧭 NSM Picks — supports independent journalism at no extra cost.</div>`;
+/* Build 3-col desktop row: story | ad | story. Mobile shows only the 2 stories. */
+function affRow(s1, s2, tile) {
+  if(!tile) return s2
+    ? `<div class="cards-grid-2">${cardHTML(s1)}${cardHTML(s2)}</div>`
+    : `<div class="cards-grid-2">${cardHTML(s1)}</div>`;
+  return `
+<div class="cards-grid-3 aff-grid-desktop" style="align-items:stretch;">
+  <div>${cardHTML(s1)}</div>
+  <div style="min-height:240px;">${tile}</div>
+  <div>${s2?cardHTML(s2):''}</div>
+</div>
+<div class="cards-grid-2 aff-mobile-single">${cardHTML(s1)}${s2?cardHTML(s2):''}</div>
+<div class="aff-disclosure">🧭 NSM Picks — Supports independent journalism. No extra cost.</div>`;
 }
 
 /* ── ROTATE SUMMARIES ── */
@@ -560,9 +583,13 @@ function buildTabs(stories) {
       el.querySelectorAll('.feed-tab').forEach(t=>t.classList.remove('active'));
       tab.classList.add('active');
       activeTopic=tab.dataset.topic;
-      _mobileAffToggle=0;
-      const f=activeTopic==='all'?allStories:allStories.filter(s=>s.topic===activeTopic);
-      renderFeed(f);
+      _affPlacementToggle=0;
+      _displayedCount=PAGE_SIZE;
+      const filtered=activeTopic==='all'?allStories:allStories.filter(s=>s.topic===activeTopic);
+      preloadImages(filtered.slice(0,_displayedCount)).then(()=>{
+        renderFeed(filtered.slice(0,_displayedCount));
+        showLoadMore(filtered.length);
+      });
     });
   });
 }
@@ -576,7 +603,7 @@ async function renderFeed(stories) {
   let html='';
   html+=`<div class="refresh-bar">
     <span class="story-count">${stories.length} stories</span>
-    <button class="refresh-btn" onclick="rotateSummaries()"><span class="spin-icon">↻</span> Rotate summaries</button>
+    <button class="refresh-btn" onclick="rotateSummaries()"><span class="spin-icon">↻</span> Shuffle Feed</button>
   </div>`;
 
   html+=heroHTML(stories[0]);
@@ -641,24 +668,59 @@ async function renderFeed(stories) {
   feed.innerHTML=html;
 }
 
+/* ── LOAD MORE ── */
+let _displayedCount=30;
+const PAGE_SIZE=30;
+
+function showLoadMore(total) {
+  const existing=document.getElementById('load-more-wrap');
+  if(existing) existing.remove();
+  if(_displayedCount>=total) return;
+  const wrap=document.createElement('div');
+  wrap.id='load-more-wrap';
+  wrap.style.cssText='text-align:center;padding:1.5rem 0 .5rem;';
+  wrap.innerHTML=`<button onclick="loadMore()" style="font-size:13px;font-weight:600;color:var(--blue);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:9px 24px;cursor:pointer;transition:all .15s;">
+    Load More Stories (${Math.min(PAGE_SIZE, total-_displayedCount)} more)
+  </button>`;
+  document.getElementById('nsm-feed').after(wrap);
+}
+
+async function loadMore() {
+  _displayedCount=Math.min(_displayedCount+PAGE_SIZE, allStories.length);
+  const btn=document.querySelector('#load-more-wrap button');
+  if(btn){btn.textContent='Loading…';btn.disabled=true;}
+  const slice = activeTopic==='all'
+    ? allStories.slice(0,_displayedCount)
+    : allStories.filter(s=>s.topic===activeTopic).slice(0,_displayedCount);
+  await preloadImages(slice);
+  await renderFeed(slice);
+  const total = activeTopic==='all' ? allStories.length : allStories.filter(s=>s.topic===activeTopic).length;
+  showLoadMore(total);
+}
+
 /* ── INIT ── */
 async function loadStories() {
   try {
     const res=await fetch(
       SB_URL+'?select=headline,posted_at,url,summary,style,topic,importance,social_bluesky,social_facebook,social_threads'+
-      '&used=eq.true&order=posted_at.desc&limit=50&apikey='+SB_KEY
+      '&used=eq.true&order=posted_at.desc&limit=100&apikey='+SB_KEY
     );
     allStories=await res.json();
     if(!Array.isArray(allStories)) throw new Error('Bad data');
 
-    // Load affiliate data in parallel
+    // Load affiliate + keyword data
     const [affData,kwData]=await Promise.all([getAff(),getKw()]);
+    _allAffData=affData; _allKwData=kwData;
+    // Set global fallback rules
     const {bookRule,gearRule}=topTwoRules(allStories,kwData.rules||[]);
-    buildAffHTML(affData,bookRule,gearRule);
+    _globalBookRule=bookRule; _globalGearRule=gearRule;
 
-    await preloadImages(allStories);
+    // Preload images for first batch only
+    const firstBatch=allStories.slice(0,_displayedCount);
+    await preloadImages(firstBatch);
     buildTabs(allStories);
-    await renderFeed(allStories);
+    await renderFeed(firstBatch);
+    showLoadMore(allStories.length);
   } catch(e) {
     document.getElementById('nsm-feed').innerHTML='<div class="feed-loading"><p>Could not load stories. Please refresh.</p></div>';
     console.error(e);
