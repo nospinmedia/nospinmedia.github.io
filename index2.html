@@ -206,7 +206,10 @@ body { font-family:var(--font-b); background:var(--bg); color:var(--text); paddi
 .gear-brand-name { font-size:9px; font-weight:800; color:#fff; letter-spacing:.03em; }
 .gear-brand-sub { font-size:7px; color:rgba(255,255,255,.55); font-style:italic; margin-top:1px; }
 
-.aff-disclosure { text-align:center; font-size:.62rem; color:var(--dimmed); font-style:italic; margin-bottom:.9rem; margin-top:.2rem; }
+.aff-disclosure { text-align:center; font-size:.65rem; color:var(--dimmed); font-style:italic; margin-bottom:.9rem; margin-top:.25rem; }
+@media (max-width:860px) {
+  .aff-disclosure { font-size:.78rem; line-height:1.6; padding:0 .5rem; }
+}
 
 /* ── LOADING ── */
 .feed-loading { text-align:center; padding:4rem; color:var(--dimmed); }
@@ -256,6 +259,38 @@ const KW_IMG = {
 };
 
 let allStories=[], activeTopic='all', _aff=null, _kw=null;
+let _imgCache={}, _imgRules=null;
+
+/* ── IMAGE RESOLUTION (same 3-step as index.html) ── */
+async function resolveImg(url, headline) {
+  if(_imgCache[url]!==undefined) return _imgCache[url];
+  for(const ext of['webp','jpg','png']) {
+    try {
+      const r=await fetch(`/images/news/${url}.${ext}`,{method:'HEAD'});
+      if(r.ok){_imgCache[url]=`/images/news/${url}.${ext}`;return _imgCache[url];}
+    } catch(e){}
+  }
+  try {
+    if(!_imgRules){
+      const r=await fetch('/images/news/image-rules.json');
+      if(r.ok) _imgRules=await r.json();
+    }
+    if(_imgRules){
+      const h=(headline||'').toLowerCase();
+      for(const rule of(_imgRules.keywords||[])){
+        if(rule.match.some(kw=>{
+          const esc=kw.replace(/[.*+?^${}()|[\\]\\]/g,'\\$&');
+          return new RegExp(`(?<![a-z])${esc}(?![a-z])`,'i').test(h);
+        })){_imgCache[url]=`/images/news/${rule.image}`;return _imgCache[url];}
+      }
+    }
+  } catch(e){}
+  _imgCache[url]=null;
+  return null;
+}
+async function preloadImages(stories){
+  await Promise.all(stories.map(s=>resolveImg(s.url,s.headline)));
+}
 
 /* ── UTILS ── */
 function timeSince(ds) {
@@ -306,7 +341,9 @@ function impDot(i) {
 }
 function topBG(url,t) {
   const kw=KW_IMG[t]||'news';
-  return `background-image:url('${IMG_S}${url}.jpg'),url('${IMG_K}${kw}.jpg');background-size:cover;background-position:center;`;
+  const resolved=_imgCache[url];
+  const primary=resolved?`url('${resolved}')`:`url('${IMG_S}${url}.jpg')`;
+  return `background-image:${primary},url('${IMG_K}${kw}.jpg');background-size:cover;background-position:center;`;
 }
 function topCls(t) { return `tp-bg-${t||'world'}`; }
 
@@ -483,22 +520,9 @@ function buildAffHTML(affData, bookRule, gearRule) {
   if(bookRule?.books) _affBookHTML=bookTileHTML(bookRule.books);
   if(gearRule?.gear)  _affGearHTML=gearTileHTML(gearRule.gear);
 
-  // Desktop: both side by side in 2-col (fills nicely, no third oversized tile)
-  if(_affBookHTML && _affGearHTML) {
-    _affGridHTML=`
-<div class="cards-grid-2 aff-grid-desktop" style="align-items:stretch;">
-  <div style="min-height:240px;">${_affBookHTML}</div>
-  <div style="min-height:240px;">${_affGearHTML}</div>
-</div>
-<div class="aff-disclosure">🧭 NSM Picks — Selecting an item supports independent journalism at no extra cost to you.</div>`;
-  } else {
-    const single=_affBookHTML||_affGearHTML;
-    _affGridHTML=`
-<div class="cards-grid-2 aff-grid-desktop" style="align-items:stretch;">
-  <div style="min-height:240px;">${single}</div>
-</div>
-<div class="aff-disclosure">🧭 NSM Picks — Selecting an item supports independent journalism at no extra cost to you.</div>`;
-  }
+  // Desktop: ad in center slot, stories either side — stored as template needing 2 story args
+  // We store book+gear individually; renderFeed builds the 3-col row inline
+  _affGridHTML='__AFF_GRID__'; // placeholder — replaced in renderFeed
 }
 
 /* Returns inline aff HTML for a given position on mobile (alternates book/gear) */
@@ -557,19 +581,40 @@ async function renderFeed(stories) {
 
   html+=heroHTML(stories[0]);
 
+  /* affRow(s1,s2): 3-col desktop row — story | ad | story
+     On mobile the ad is hidden here; mobileAffHTML() inserts it separately */
+  const affTile=_affBookHTML||_affGearHTML;
+  function affRow(s1,s2) {
+    if(!affTile) return `<div class="cards-grid-2">${cardHTML(s1)}${s2?cardHTML(s2):''}</div>`;
+    return `
+<div class="cards-grid-3 aff-grid-desktop" style="align-items:stretch;">
+  <div>${cardHTML(s1)}</div>
+  <div style="min-height:240px;">${affTile}</div>
+  <div>${s2?cardHTML(s2):''}</div>
+</div>
+<div class="aff-disclosure">🧭 NSM Picks<br>Supports independent journalism — no extra cost.</div>`;
+  }
+
   const g1=stories.slice(1,4);
   if(g1.length){
     html+=`<div class="section-label">Latest</div>`;
-    html+=`<div class="cards-grid-3">${g1.map(cardHTML).join('')}</div>`;
+    // First section: 3-col grid normally, then aff row with next 2 stories
+    if(g1.length===3 && affTile && stories.length>4) {
+      html+=`<div class="cards-grid-3">${g1.map(cardHTML).join('')}</div>`;
+      // aff row uses stories 4+5
+      html+=affRow(stories[4], stories[5]||null);
+      if(_affBookHTML||_affGearHTML) html+=mobileAffHTML();
+    } else {
+      html+=`<div class="cards-grid-3">${g1.map(cardHTML).join('')}</div>`;
+      if(affTile) { html+=affRow(stories[4]||g1[0], stories[5]||null); }
+      if(_affBookHTML||_affGearHTML) html+=mobileAffHTML();
+    }
   }
 
-  // Affiliate after first section
-  if(_affGridHTML) html+=_affGridHTML;
-  if(_affBookHTML||_affGearHTML) html+=mobileAffHTML();
-
-  // Topic sections
+  // Topic sections — start from story index 6 if we used 4+5 above
+  const usedUpTo = (g1.length===3 && affTile && stories.length>4) ? 6 : 4;
   const byTopic={};
-  stories.slice(4).forEach(s=>{const t=s.topic||'world';if(!byTopic[t])byTopic[t]=[];byTopic[t].push(s);});
+  stories.slice(usedUpTo).forEach(s=>{const t=s.topic||'world';if(!byTopic[t])byTopic[t]=[];byTopic[t].push(s);});
   const present=TOPICS_ORDER.filter(t=>byTopic[t]?.length);
 
   present.forEach((topic,ti)=>{
@@ -577,14 +622,19 @@ async function renderFeed(stories) {
     html+=`<div class="section-label">${TOPIC_LABELS[topic]||topic}</div>`;
     if(grp.length===1)      html+=`<div class="cards-grid-2">${cardHTML(grp[0])}</div>`;
     else if(grp.length===2) html+=`<div class="cards-grid-2">${grp.map(cardHTML).join('')}</div>`;
-    else {
+    else if(grp.length===3 && affTile) {
+      // 3 stories in section: use aff row for 2 of them + one above
+      html+=`<div class="cards-grid-2">${cardHTML(grp[0])}</div>`;
+      html+=affRow(grp[1],grp[2]);
+      if(_affBookHTML||_affGearHTML) html+=mobileAffHTML();
+    } else {
       html+=`<div class="cards-grid-2">${grp.slice(0,2).map(cardHTML).join('')}</div>`;
       if(grp.length>2) html+=`<div class="cards-grid-3">${grp.slice(2).map(textCardHTML).join('')}</div>`;
-    }
-    // Affiliate every 3 topic sections
-    if((ti+1)%3===0) {
-      if(_affGridHTML) html+=_affGridHTML;
-      if(_affBookHTML||_affGearHTML) html+=mobileAffHTML();
+      // Affiliate every 3 topic sections
+      if((ti+1)%3===0 && affTile) {
+        html+=affRow(grp[grp.length-1],null);
+        if(_affBookHTML||_affGearHTML) html+=mobileAffHTML();
+      }
     }
   });
 
@@ -606,6 +656,7 @@ async function loadStories() {
     const {bookRule,gearRule}=topTwoRules(allStories,kwData.rules||[]);
     buildAffHTML(affData,bookRule,gearRule);
 
+    await preloadImages(allStories);
     buildTabs(allStories);
     await renderFeed(allStories);
   } catch(e) {
