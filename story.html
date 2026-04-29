@@ -150,16 +150,20 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
   padding:1.75rem 2rem 1.5rem;margin-bottom:.75rem
 }
 .story-content{
-  font-family:var(--font-b);font-size:1.05rem;line-height:1.78;color:#222
+  font-family:var(--font-b);font-size:1.07rem;line-height:1.82;color:#1a1a1a
 }
-.story-content p{margin-bottom:1.1rem}
+.story-content p{margin-bottom:1.35rem}
 .story-content p:last-child{margin-bottom:0}
 .story-content strong{color:#111;font-weight:600}
 .story-content em{font-style:italic;color:#444}
 
 /* Discussion question — styled as a pull-quote */
+.discussion-label{
+  font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--dimmed);margin:1.5rem 0 .4rem
+}
 .story-discussion{
-  margin:1.5rem 0 0;padding:1rem 1.25rem;
+  margin:0 0 0;padding:1rem 1.25rem;
   background:var(--blue-lt);border-left:3px solid var(--blue);
   border-radius:0 var(--r) var(--r) 0;
   font-size:.88rem;font-weight:500;color:#004499;line-height:1.55
@@ -604,8 +608,15 @@ async function loadStory(){
     }
   }
 
-  // Date
-  const dateStr=s.posted_at?new Date(s.posted_at).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}):'';
+  // Date — relative time, fall back to full date after 7 days
+  function timeSince(ds){
+    if(!ds)return '';const d=new Date(ds);if(isNaN(d))return '';
+    const m=Math.floor((Date.now()-d)/60000);
+    if(m<2)return 'Just now';if(m<60)return m+'m ago';if(m<1440)return Math.floor(m/60)+'h ago';
+    if(m<2880)return 'Yesterday';if(m<10080)return Math.floor(m/1440)+'d ago';
+    return d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  }
+  const dateStr=timeSince(s.posted_at);
   const imp=s.importance||'normal';
 
   // Body
@@ -662,11 +673,8 @@ async function loadStory(){
     // Body card
     +'<div class="story-body-card">'
     +'<div class="story-content">'+bodyHTML+'</div>'
-    +(discussionQ?'<div class="story-discussion">\uD83D\uDCAD '+discussionQ+'</div>':'')
+    +(discussionQ?'<div class="discussion-label">Community Discussion</div><div class="story-discussion">\uD83D\uDCAC '+discussionQ+'</div>':'')
     +'</div>'
-
-    // Source
-    +(sourceUrl?'<div class="source-card">\uD83D\uDD17 Source: <a href="'+sourceUrl+'" target="_blank" rel="noopener nofollow">'+sourceDisplay+'</a></div>':'')
 
     // Reddit engagement (hidden until loaded)
     +'<div class="reddit-card" id="reddit-card" style="display:none;">'
@@ -678,7 +686,7 @@ async function loadStory(){
 
     // Actions
     +'<div class="story-actions-card">'
-    +(redditLink?'<a href="'+redditLink+'" target="_blank" rel="noopener" class="action-btn action-btn-reddit">\uD83D\uDCAC Join Reddit discussion</a>':'')
+    +(redditLink?'<a href="'+redditLink+'" target="_blank" rel="noopener" class="action-btn action-btn-reddit">Join the discussion on Reddit →</a>':'')
     +'<a href="https://reddit.com/r/NoSpinMedia" target="_blank" rel="noopener" class="action-btn action-btn-secondary">r/NoSpinMedia</a>'
     +'<div class="share-wrap" id="share-wrap">'
     +'<button class="action-btn action-btn-secondary" onclick="toggleShareMenu()">\uD83D\uDD17 Share \u25BE</button>'
@@ -718,7 +726,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 <div id="site-header"></div>
 <div class="story-wrap">
   <div class="story-sidebar-l">
-    <div class="sidebar-label">\uD83E\uDDED NSM Reading List</div>
+    <div class="sidebar-label">🧭 NSM Reading List</div>
     <div id="book-tiles"></div>
     <div class="sidebar-disclosure">Selecting a title supports independent journalism at no extra cost.</div>
   </div>
@@ -726,13 +734,13 @@ document.addEventListener('DOMContentLoaded',()=>{
     <div id="story-container" style="min-height:300px;"></div>
   </div>
   <div class="story-sidebar-r">
-    <div class="sidebar-label">\uD83E\uDDED NSM Field Gear</div>
+    <div class="sidebar-label">🧭 NSM Field Gear</div>
     <div id="gear-tiles"></div>
     <div class="sidebar-disclosure">Selecting an item supports independent journalism at no extra cost.</div>
   </div>
 </div>
 <footer>
-  &copy; 2026 \uD83E\uDDED No Spin Media. Independent. Truth-focused.<br>
+  &copy; 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
   <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
 </footer>
 </body>
