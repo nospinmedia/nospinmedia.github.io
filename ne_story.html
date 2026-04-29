@@ -416,7 +416,35 @@ function gearTileHTML(g){
 }
 
 
-/* ── NE-AWARE AFFILIATE PICKERS ── */
+/* ══════════════════════════════════════════
+   NE TOPIC INFERENCE
+   ══════════════════════════════════════════ */
+const NE_TOPIC_RULES=[
+  {topic:'education',kws:['school','schools','university','universities','college','colleges','student','students','teacher','teachers','curriculum','tuition','campus','classroom','education','graduation','superintendent','school board','school district']},
+  {topic:'environment',kws:['climate','flood','flooding','storm','hurricane','wildfire','drought','pollution','environmental','conservation','wildlife','habitat','clean energy','solar','wind turbine','offshore wind','fishing','fishery','fisheries','lobster','seacoast','watershed']},
+  {topic:'health',kws:['hospital','hospitals','healthcare','health care','medical','medicine','patient','patients','nurse','nurses','doctor','doctors','opioid','fentanyl','overdose','mental health','addiction','vaccine','vaccination','flu','cancer','medicaid','medicare','public health','pharmacy','ambulance']},
+  {topic:'economy',kws:['economy','economic','budget','tax','taxes','spending','revenue','deficit','inflation','unemployment','jobs','labor','workforce','wage','wages','housing','rent','mortgage','property','development','business','businesses','commerce','trade','tariff','prices','cost of living','fiscal']},
+  {topic:'legal',kws:['court','courts','judge','ruling','lawsuit','verdict','charged','indicted','arrested','prosecution','trial','sentence','appeal','attorney general','supreme court','federal court','civil rights','injunction','constitution','legislation']},
+  {topic:'crime',kws:['shooting','homicide','murder','robbery','assault','theft','arson','drug bust','arrested for','convicted','sentenced to','fentanyl bust','trafficking','gang','shooting investigation','domestic violence']},
+  {topic:'politics',kws:['governor','legislature','senate','senator','house of representatives','representative','congressman','congresswoman','election','ballot','primary','campaign','vote','voted','voter','democrat','republican','independent','mayor','city council','town meeting','selectboard','state house','statehouse','policy','law','bill','legislation']},
+  {topic:'newengland',kws:['new hampshire','vermont','maine','massachusetts','connecticut','rhode island','boston','manchester','concord','portland','burlington','providence','new haven','cape cod','white mountains','acadia','foliage','maple syrup','lobster roll','patriots','red sox','celtics','bruins']},
+];
+const NE_TOPIC_LABELS={education:'Education',environment:'Environment',health:'Health',economy:'Economy',legal:'Legal',crime:'Crime',politics:'Politics',newengland:'New England'};
+const NE_TOPIC_BG={
+  education:'linear-gradient(160deg,#1A3A6B,#2E5FA0)',
+  environment:'linear-gradient(160deg,#083A08,#1A7A1A)',
+  health:'linear-gradient(160deg,#6B2E00,#C05A0A)',
+  economy:'linear-gradient(160deg,#0A3D1F,#1A7A3C)',
+  legal:'linear-gradient(160deg,#320A6B,#6A28C0)',
+  crime:'linear-gradient(160deg,#4A0A0A,#952020)',
+  politics:'linear-gradient(160deg,#0D3270,#1E5BB8)',
+  newengland:'linear-gradient(160deg,#1A3A1A,#2E6B2E)'
+};
+function neInferTopic(s){
+  const text=[s.headline||'',(s.summary||'').split('\n\n')[0]].join(' ');
+  for(const rule of NE_TOPIC_RULES){if(rule.kws.some(kw=>wordMatch(text,kw)))return rule.topic}
+  return 'newengland';
+}
 function isNEItem(item){return(item.title||'').startsWith('NE')}
 function pickItemsNE(arr,n){
   const ne=arr.filter(isNEItem);const must=arr.filter(i=>!isNEItem(i)&&i.must_show);
@@ -425,7 +453,12 @@ function pickItemsNE(arr,n){
   for(const item of[...ne,...must,...opt]){if(!seen.has(item.title)&&result.length<n){seen.add(item.title);result.push(item)}}
   return result;
 }
-function pickOneMobileNE(arr){const ne=arr.filter(isNEItem);const must=arr.filter(i=>!isNEItem(i)&&i.must_show);const pool=ne.length?ne:must.length?must:arr;return pool[Math.floor(Math.random()*pool.length)]}
+function pickOneMobileNE(arr){
+  const ne=arr.filter(isNEItem);const must=arr.filter(i=>!isNEItem(i)&&i.must_show);
+  const pool=ne.length?ne:must.length?must:arr;
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
 async function loadAllAffiliateTiles(matchedRule){
   const data=await loadAffiliateData();
   const bookItems=data.books?.items||[];
@@ -592,7 +625,7 @@ async function loadStory(){
   document.querySelector('meta[name="twitter:description"]').setAttribute('content',(s.summary||'').substring(0,180));
 
   window._storyHeadline=s.headline;
-  window._storyUrl=location.origin+'/story.html?story='+storyId;
+  window._storyUrl=location.origin+'/ne_story.html?story='+storyId;
   window._redditStats=null;
 
   // Parse headline into two lines
