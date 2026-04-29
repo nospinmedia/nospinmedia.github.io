@@ -4,715 +4,631 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>No Spin Media – New England</title>
-
 <link rel="stylesheet" href="style.css"/>
-
-<script async
-src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053277983719011"
-crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053277983719011" crossorigin="anonymous"></script>
 
 <style>
-
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f4f4f4;
-  color: #222;
-  padding-top: 70px;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0066CC;--blue-lt:#E8F1FA;--red:#CC2200;
+  --bg:#EEEEEC;--surface:#FFFFFF;--surface2:#F6F6F4;--border:#E0E0DC;
+  --text:#111111;--muted:#555555;--dimmed:#999999;
+  --font-h:'DM Serif Display',Georgia,serif;--font-b:'DM Sans',Arial,sans-serif;
+  --r:11px;--shadow:0 1px 8px rgba(0,0,0,.08);--shadow-h:0 5px 20px rgba(0,0,0,.13)
 }
+body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-top:70px}
+.page-wrap{max-width:1160px;margin:0 auto;padding:1.1rem 1.1rem 2rem}
 
-.container {
-  display: flex;
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: 1.5rem;
-  gap: 2rem;
-  align-items: flex-start;
+/* ── TABS ── */
+.feed-tabs{display:flex;gap:5px;margin-bottom:1rem;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.feed-tabs::-webkit-scrollbar{display:none}
+.feed-tab{font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;cursor:pointer;white-space:nowrap;color:var(--dimmed);background:var(--surface);border:1px solid var(--border);transition:all .15s;user-select:none}
+.feed-tab:hover{color:var(--text);border-color:#bbb}
+.feed-tab.active{color:#fff;background:var(--blue);border-color:var(--blue)}
+
+/* ── REFRESH BAR ── */
+.refresh-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem}
+.story-count{font-size:11px;color:var(--dimmed)}
+.refresh-btn{font-size:11px;font-weight:600;color:var(--dimmed);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:5px 12px;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .15s}
+.refresh-btn:hover{border-color:#bbb;color:var(--text)}
+.spin-icon{display:inline-block;transition:transform .5s ease}
+.refresh-btn:hover .spin-icon{transform:rotate(180deg)}
+
+/* ── SECTION LABEL ── */
+.section-label{display:flex;align-items:center;gap:10px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);margin:1.3rem 0 .75rem}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── TOPIC GRADIENTS ── */
+.tp-bg-politics{background:linear-gradient(160deg,#0D3270,#1E5BB8)}
+.tp-bg-economy{background:linear-gradient(160deg,#0A3D1F,#1A7A3C)}
+.tp-bg-health{background:linear-gradient(160deg,#6B2E00,#C05A0A)}
+.tp-bg-legal{background:linear-gradient(160deg,#320A6B,#6A28C0)}
+.tp-bg-war{background:linear-gradient(160deg,#6B0A0A,#B52020)}
+.tp-bg-crime{background:linear-gradient(160deg,#4A0A0A,#952020)}
+.tp-bg-science{background:linear-gradient(160deg,#063A52,#0F7EA0)}
+.tp-bg-technology{background:linear-gradient(160deg,#0A2252,#1845A0)}
+.tp-bg-ai{background:linear-gradient(160deg,#280A52,#5520A0)}
+.tp-bg-environment{background:linear-gradient(160deg,#083A08,#1A7A1A)}
+.tp-bg-education{background:linear-gradient(160deg,#1A3A6B,#2E5FA0)}
+.tp-bg-newengland{background:linear-gradient(160deg,#1A3A1A,#2E6B2E)}
+
+/* ── PILLS ── */
+.pill{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:20px}
+.pill-white{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.28)}
+.tp-politics{background:#DDEEFF;color:#0044AA}
+.tp-economy{background:#DDFAE8;color:#006622}
+.tp-health{background:#FFEEDD;color:#883300}
+.tp-legal{background:#EEE0FF;color:#5500AA}
+.tp-war{background:#FFDDDD;color:#AA1100}
+.tp-crime{background:#FFDDDD;color:#AA1100}
+.tp-science{background:#DDEEFC;color:#005577}
+.tp-technology{background:#DDEEFF;color:#003399}
+.tp-ai{background:#EEE0FF;color:#440099}
+.tp-environment{background:#DDFAE8;color:#004400}
+.tp-education{background:#E8F0FF;color:#003388}
+.tp-newengland{background:#E8F5E8;color:#1A5C1A}
+
+/* ── IMP DOT ── */
+.imp-dot{width:6px;height:6px;border-radius:50%;display:inline-block;vertical-align:middle;margin-right:3px}
+.imp-normal{background:var(--blue)}.imp-minor{background:#CCC}
+
+/* ── HERO ── */
+.hero-card{border-radius:var(--r);overflow:hidden;background:var(--surface);box-shadow:var(--shadow);margin-bottom:1rem;cursor:pointer;transition:box-shadow .2s,transform .2s}
+.hero-card:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
+.hero-top{position:relative;min-height:160px;display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem 1.5rem 1.1rem;overflow:hidden}
+.hero-top-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .35s}
+.hero-card:hover .hero-top-bg{transform:scale(1.03)}
+.hero-top-scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.78) 0%,rgba(0,0,0,.2) 60%,rgba(0,0,0,.02) 100%)}
+.hero-top-content{position:relative;z-index:1}
+.hero-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.18);color:#fff;padding:3px 9px;border-radius:20px;margin-bottom:.6rem}
+.hero-hl-line1{font-family:var(--font-h);font-size:clamp(1.25rem,2.2vw,1.7rem);line-height:1.18;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5);display:block;margin-bottom:3px}
+.hero-hl-line2{font-family:var(--font-b);font-size:.9rem;font-weight:400;color:rgba(255,255,255,.82);display:block;line-height:1.3}
+.hero-body{padding:.95rem 1.5rem 1rem}
+/* Show full first paragraph — no clamp */
+.hero-summary{font-size:.9rem;line-height:1.68;color:var(--muted);margin-bottom:.85rem}
+.hero-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.hero-meta{display:flex;align-items:center;gap:8px}
+.hero-time{font-size:11px;color:var(--dimmed)}
+.hero-actions{display:flex;gap:8px}
+.btn-read{font-size:12px;font-weight:600;color:#fff;background:var(--blue);border:none;border-radius:20px;padding:7px 16px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:background .15s,transform .15s}
+.btn-read:hover{background:#0055BB;transform:translateY(-1px)}
+.btn-share{font-size:12px;font-weight:500;color:var(--muted);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:7px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:all .15s}
+.btn-share:hover{border-color:#bbb;color:var(--text)}
+
+/* ── GRIDS ── */
+.cards-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
+.cards-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1rem}
+
+/* ── STORY CARD ── */
+.story-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:box-shadow .18s,transform .18s}
+.story-card:hover{box-shadow:var(--shadow-h);transform:translateY(-3px)}
+.card-top{position:relative;min-height:90px;display:flex;flex-direction:column;justify-content:flex-end;padding:.65rem .85rem .7rem;overflow:hidden;flex-shrink:0}
+.card-top-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .3s}
+.story-card:hover .card-top-bg{transform:scale(1.05)}
+.card-top-scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.35) 55%,rgba(0,0,0,.02) 100%)}
+.card-top-content{position:relative;z-index:1}
+.card-pill-row{margin-bottom:.3rem}
+.card-hl-line1{font-family:var(--font-h);font-size:1rem;line-height:1.2;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.6);display:block;margin-bottom:2px}
+.card-hl-line2{font-family:var(--font-b);font-size:.72rem;font-weight:400;color:rgba(255,255,255,.8);display:block;line-height:1.3}
+.card-body{padding:.75rem .88rem .75rem;flex:1;display:flex;flex-direction:column}
+/* Show first paragraph fully */
+.card-summary{font-size:.8rem;line-height:1.58;color:var(--muted);flex:1;margin-bottom:.65rem}
+.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:.55rem;border-top:1px solid var(--border);gap:6px}
+.card-time{font-size:10px;color:var(--dimmed)}
+.card-actions{display:flex;gap:5px}
+.btn-sm-read{font-size:11px;font-weight:600;color:var(--blue);background:var(--blue-lt);border:none;border-radius:20px;padding:4px 11px;cursor:pointer;text-decoration:none;transition:background .15s}
+.btn-sm-read:hover{background:#D0E6F8}
+.btn-sm-share{font-size:11px;color:var(--dimmed);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 9px;cursor:pointer;transition:all .15s;line-height:1}
+.btn-sm-share:hover{border-color:#bbb;color:var(--muted)}
+
+/* ── TEXT CARD ── */
+.text-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.85rem .95rem;cursor:pointer;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:box-shadow .18s,transform .18s}
+.text-card:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
+.text-card-headline{font-family:var(--font-h);font-size:.88rem;line-height:1.3;color:var(--text);margin:.4rem 0 .4rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.text-card-summary{font-size:.76rem;line-height:1.5;color:var(--muted);flex:1;margin-bottom:.6rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* ── AFFILIATE TILES (full CSS) ── */
+.aff-card{border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s;display:block;text-decoration:none;height:100%}
+.aff-card:hover{box-shadow:var(--shadow-h);transform:translateY(-3px)}
+.book-card-wrap{display:flex;height:100%;min-height:240px;font-family:Georgia,'Times New Roman',serif}
+.book-spine{width:22px;min-width:22px;border-radius:var(--r) 0 0 var(--r);box-shadow:inset -4px 0 10px rgba(0,0,0,.45)}
+.book-pages{width:7px;min-width:7px;background:repeating-linear-gradient(to bottom,#f6f1e9 0,#f6f1e9 1px,#e9e4db 2px,#e9e4db 3px)}
+.book-cover{flex:1;border-radius:0 var(--r) var(--r) 0;padding:18px 15px 13px;display:flex;flex-direction:column;overflow:hidden;position:relative;box-shadow:inset 2px 0 12px rgba(0,0,0,.12)}
+.book-cover-sheen{position:absolute;inset:0;border-radius:0 var(--r) var(--r) 0;background:linear-gradient(140deg,rgba(255,255,255,.07) 0%,transparent 45%);pointer-events:none}
+.book-cat{font-size:9px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;font-family:Arial,sans-serif;border-top:1.5px solid;border-bottom:1.5px solid;padding:5px 0 4px;margin-bottom:14px;text-align:center}
+.book-title{font-size:19px;font-weight:800;line-height:1.08;color:#f9f1e0;flex:1;letter-spacing:-.01em}
+.book-rule{width:32px;height:1.5px;margin:12px 0 10px;opacity:.8}
+.book-sub{font-size:10px;line-height:1.5;color:#ddd0a8;font-style:italic}
+.book-brand{margin-top:12px;padding-top:8px;border-top:1px solid rgba(255,255,255,.18)}
+.book-brand-name{font-size:10px;font-weight:800;font-family:Arial,sans-serif;color:#fff;letter-spacing:.02em}
+.book-brand-sub{font-size:7.5px;color:rgba(255,255,255,.55);font-family:Arial,sans-serif;margin-top:1px;font-style:italic}
+.gear-card-wrap{position:relative;width:100%;min-height:240px;height:100%;background:#2a2a2a;border-radius:var(--r);box-shadow:inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.gear-sheen{position:absolute;inset:0;border-radius:var(--r);background:radial-gradient(ellipse at 50% 38%,rgba(255,255,255,.13) 0%,rgba(0,0,0,.15) 100%);pointer-events:none}
+.gear-inner-border{position:absolute;inset:11px;border-radius:7px;border:1px solid rgba(255,255,255,.08);pointer-events:none}
+.gear-clip-t{position:absolute;top:5px;left:50%;transform:translateX(-50%);width:42px;height:8px;background:#333;border-radius:5px;border:1px solid #444}
+.gear-clip-b{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:42px;height:8px;background:#333;border-radius:5px;border:1px solid #444}
+.gear-clip-l{position:absolute;left:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#303030;border-radius:3px;border:1px solid #444}
+.gear-clip-r{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#303030;border-radius:3px;border:1px solid #444}
+.gear-content{position:absolute;inset:20px 26px 32px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.gear-cat{font-size:9px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;border-top:1.5px solid #d4a843;border-bottom:1.5px solid #d4a843;padding:4px 0 3px;width:85%;margin-bottom:9px}
+.gear-title{font-family:'Arial Black',Impact,Arial,sans-serif;font-weight:900;color:#f0e4c8;letter-spacing:.04em;line-height:.95}
+.gear-icon{font-size:18px;margin:7px 0 5px}
+.gear-rule{width:82%;height:1px;background:linear-gradient(to right,transparent,#d4a843 25%,#d4a843 75%,transparent);margin-bottom:7px}
+.gear-sub{font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;line-height:1.5}
+.gear-brand{position:absolute;bottom:7px;left:26px;right:26px;text-align:center;font-family:Arial,sans-serif}
+.gear-brand-name{font-size:9px;font-weight:800;color:#fff;letter-spacing:.03em}
+.gear-brand-sub{font-size:7px;color:rgba(255,255,255,.55);font-style:italic;margin-top:1px}
+.aff-disclosure{text-align:center;font-size:.65rem;color:var(--dimmed);font-style:italic;margin-bottom:.9rem;margin-top:.25rem}
+@media(max-width:860px){.aff-disclosure{font-size:.78rem;line-height:1.6;padding:0 .5rem}.ne-sidebar{display:none!important}}
+
+/* Mobile affiliate */
+.mobile-aff-insert{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;margin-bottom:.75rem;box-shadow:var(--shadow)}
+.mobile-aff-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);padding-bottom:.5rem;margin-bottom:.65rem;border-bottom:2px solid var(--blue)}
+.mobile-aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mobile-aff-grid a{display:block;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);transition:transform .15s}
+.mobile-aff-grid a:active{transform:scale(.98)}
+.mobile-aff-grid img{width:100%;display:block;border-radius:var(--r)}
+.mobile-aff-disc{margin-top:.5rem;font-size:.6rem;color:#ccc;font-style:italic;line-height:1.4}
+
+/* ── LOADING ── */
+.feed-loading{text-align:center;padding:4rem;color:var(--dimmed)}
+.spinner{width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 1rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-top:1px solid var(--border);margin-top:1rem}
+
+/* ── MOBILE ── */
+@media(max-width:860px){
+  body{background:#EBEBEB}
+  .page-wrap{padding:.75rem .75rem 1.5rem}
+  .hero-top{min-height:130px;padding:1rem 1.1rem}
+  .hero-hl-line1{font-size:1.15rem}
+  .cards-grid-3{grid-template-columns:1fr}
+  .cards-grid-2{grid-template-columns:1fr}
+  .aff-grid-desktop{display:none}
+  .aff-mobile-single{display:block;margin-bottom:1rem;min-height:220px}
 }
-
-.left-ad {
-  width: 210px;
-  min-width: 210px;
-  flex-shrink: 0;
-  position: sticky;
-  top: 90px;
-  border-right: 1px solid #e0e0e0;
-  padding-right: 20px;
-}
-
-.right-ad {
-  width: 210px;
-  min-width: 210px;
-  flex-shrink: 0;
-  position: sticky;
-  top: 90px;
-  border-left: 1px solid #e0e0e0;
-  padding-left: 20px;
-}
-
-.main {
-  flex: 1;
-  min-width: 0;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.reading-label {
-  font-family: Arial, sans-serif;
-  font-size: .82rem;
-  font-weight: 700;
-  color: #333;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  margin: 0 0 12px 0;
-  padding-bottom: 8px;
-  border-bottom: 2px solid #0066cc;
-}
-
-#book-tiles {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-#book-tiles a {
-  display: block;
-  border-radius: 6px;
-  overflow: hidden;
-  transition: transform .2s ease, box-shadow .2s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,.12);
-}
-
-#book-tiles a:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(0,0,0,.18);
-}
-
-#book-tiles img {
-  width: 100%;
-  display: block;
-  border-radius: 6px;
-}
-
-#gear-tiles {
-  display: flex;
-  flex-direction: column;
-  gap: 42px;
-}
-
-#gear-tiles a {
-  display: block;
-  border-radius: 6px;
-  overflow: hidden;
-  transition: transform .2s ease, box-shadow .2s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,.12);
-}
-
-#gear-tiles a:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(0,0,0,.18);
-}
-
-#gear-tiles img {
-  width: 100%;
-  display: block;
-  border-radius: 6px;
-}
-
-.reading-disclosure {
-  margin-top: 12px;
-  font-size: .65rem;
-  color: #bbb;
-  line-height: 1.4;
-  font-style: italic;
-}
-
-.story-card {
-  background: #fff;
-  padding: 1.4rem;
-  margin-bottom: 1.2rem;
-  border-radius: 6px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  cursor: pointer;
-}
-
-.story-card h3 {
-  margin: 0 0 8px 0;
-  font-size: 1.5rem;
-  line-height: 1.4;
-}
-
-.story-date {
-  font-size: .85rem;
-  color: #777;
-  margin-bottom: 10px;
-}
-
-.story-summary {
-  line-height: 1.6;
-  font-size: 1rem;
-}
-
-.card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 12px;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.story-link {
-  display: inline-block;
-  font-weight: bold;
-  text-decoration: none;
-  color: #0066cc;
-}
-
-.story-link:hover { text-decoration: underline; }
-
-.headline-link { color: #222; text-decoration: none; }
-.headline-link:hover { text-decoration: underline; }
-
-footer { text-align: center; padding: 1rem; font-size: .9rem; color: #666; }
-
-/* ════════════════════════════════════════
-   MOBILE
-   ════════════════════════════════════════ */
-@media (max-width: 900px) {
-
-  body { background: #ebebeb; }
-
-  .container { flex-direction: column; padding: 0; gap: 0; }
-
-  .left-ad, .right-ad { display: none; }
-
-  .main { max-width: 100%; padding: 0; }
-
-  .main h1 {
-    font-size: 1rem;
-    font-weight: 800;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: #444;
-    padding: 13px 16px 11px;
-    margin: 0;
-    border-bottom: 3px solid #0066cc;
-    background: #fff;
-  }
-
-  #news-container {
-    background: #ebebeb;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 6px 0;
-  }
-
-  .story-card {
-    background: #fff;
-    border-radius: 0;
-    box-shadow: none;
-    padding: 0;
-    margin-bottom: 0;
-    overflow: hidden;
-  }
-
-  .card-text { padding: 18px 16px 0 16px; }
-
-  .story-card h3 {
-    font-size: 1.05rem;
-    line-height: 1.38;
-    margin: 18px 16px 5px;
-    font-weight: 700;
-    color: #111;
-  }
-
-  .headline-link { color: #111; }
-
-  .story-date {
-    font-size: .7rem;
-    color: #aaa;
-    margin: 0 16px 7px;
-    text-transform: uppercase;
-    letter-spacing: .04em;
-    font-weight: 600;
-  }
-
-  .story-summary {
-    font-size: .91rem;
-    line-height: 1.56;
-    color: #444;
-    margin: 0 16px;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 9px 16px 13px;
-    margin-top: 8px;
-    border-top: 1px solid #f2f2f2;
-    gap: 0;
-    flex-wrap: nowrap;
-  }
-
-  .story-link {
-    font-size: .8rem;
-    font-weight: 700;
-    color: #0055bb;
-    letter-spacing: .01em;
-  }
-
-  .mobile-affiliate-insert {
-    background: #fff;
-    padding: 13px 16px 14px;
-    border-radius: 0;
-    box-shadow: none;
-  }
-
-  .mobile-affiliate-insert .affiliate-label {
-    font-size: .7rem;
-    font-weight: 800;
-    letter-spacing: .07em;
-    text-transform: uppercase;
-    color: #444;
-    border-bottom: 2px solid #0066cc;
-    padding-bottom: 6px;
-    margin-bottom: 10px;
-  }
-
-  .mobile-affiliate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-  .mobile-affiliate-grid a {
-    display: block; border-radius: 8px; overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,.10); transition: transform .15s ease;
-  }
-  .mobile-affiliate-grid a:active { transform: scale(0.98); }
-  .mobile-affiliate-grid img { width: 100%; display: block; border-radius: 8px; }
-
-  .mobile-affiliate-insert .reading-disclosure {
-    margin-top: 8px; font-size: .6rem; color: #bbb; font-style: italic; line-height: 1.4;
-  }
-
-  footer {
-    font-size: .76rem; padding: 1.4rem 1rem; color: #999;
-    background: #fff; border-top: 1px solid #ddd; margin-top: 6px;
-  }
-}
-
+@media(min-width:861px){.aff-mobile-single{display:none}}
 </style>
 
 <script>
+const SB_URL='https://dckmflnbprhmaqysuued.supabase.co/rest/v1';
+const SB_KEY='sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
+const IMG_S='https://nospin.media/images/story/';
+const IMG_K='https://nospin.media/images/keyword/';
+const STORY_PAGE='ne_story.html';
 
 /* ══════════════════════════════════════════
-   AFFILIATE SYSTEM — JSON-driven, NE-aware
-   keyword-affiliates.json scored across feed.
-   bookRule (top scorer)  → book column slot 1
-   gearRule (2nd scorer)  → gear column slot 1
-   NE-prefix items fill remaining static slots.
+   SAFE KEYWORD → TOPIC INFERENCE
+   Rules are ordered by priority (first match wins).
+   Keywords are conservative — chosen to avoid false
+   positives. Word-boundary matched, case-insensitive.
+   Adds two NE-specific topics: education, newengland
    ══════════════════════════════════════════ */
+const TOPIC_RULES = [
+  // Education first — very NE-relevant, low collision risk
+  { topic:'education',  kws:['school','schools','university','universities','college','colleges','student','students','teacher','teachers','curriculum','tuition','campus','classroom','education','graduation','superintendent','school board','school district'] },
+  // Environment — NE cares deeply
+  { topic:'environment',kws:['climate','flood','flooding','storm','hurricane','wildfire','wildfire','drought','pollution','environmental','conservation','wildlife','habitat','clean energy','solar','wind turbine','offshore wind','fishing','fishery','fisheries','lobster','seacoast','watershed'] },
+  // Health
+  { topic:'health',     kws:['hospital','hospitals','healthcare','health care','medical','medicine','patient','patients','nurse','nurses','doctor','doctors','opioid','fentanyl','overdose','mental health','addiction','vaccine','vaccination','flu','cancer','medicaid','medicare','public health','pharmacy','pharmacies','ambulance'] },
+  // Economy
+  { topic:'economy',    kws:['economy','economic','budget','tax','taxes','spending','revenue','deficit','inflation','unemployment','jobs','labor','workforce','wage','wages','housing','rent','mortgage','property','development','business','businesses','commerce','trade','tariff','tariffs','prices','cost of living','fiscal'] },
+  // Legal / courts
+  { topic:'legal',      kws:['court','courts','judge','ruling','lawsuit','verdict','charged','indicted','arrested','prosecution','trial','sentence','appeal','attorney general','supreme court','federal court','civil rights','injunction','constitution','legislation'] },
+  // Crime — specific enough to not collide
+  { topic:'crime',      kws:['shooting','homicide','murder','robbery','assault','theft','arson','drug bust','arrested for','convicted','sentenced to','fentanyl bust','trafficking','gang','shooting investigation','domestic violence'] },
+  // Politics — broad but last resort for this category
+  { topic:'politics',   kws:['governor','legislature','senate','senator','house of representatives','representative','congressman','congresswoman','election','ballot','primary','campaign','vote','voted','voter','democrat','republican','independent','mayor','city council','town meeting','selectboard','state house','statehouse','policy','law','bill','legislation'] },
+  // New England regional catch-all (geography, culture)
+  { topic:'newengland', kws:['new hampshire','vermont','maine','massachusetts','connecticut','rhode island','boston','manchester','concord','portland','burlington','providence','new haven','cape cod','white mountains','acadia','foliage','maple syrup','lobster roll','patriots','red sox','celtics','bruins'] },
+];
 
-let _affiliateData        = null;
-let _keywordAffiliateData = null;
+const TOPIC_LABELS={
+  politics:'Politics',economy:'Economy',legal:'Legal',health:'Health',
+  crime:'Crime',environment:'Environment',education:'Education',
+  newengland:'New England',science:'Science',technology:'Technology'
+};
 
-async function loadAffiliateData() {
-  if (_affiliateData) return _affiliateData;
-  try {
-    const res = await fetch('/affiliate/affiliate.json');
-    if (!res.ok) throw new Error('affiliate.json not found');
-    _affiliateData = await res.json();
-  } catch (e) {
-    console.warn('Affiliate data failed to load:', e);
-    _affiliateData = {};
+const KW_IMG={
+  politics:'politics',economy:'economy',health:'health',legal:'court',
+  crime:'crime',environment:'environment',education:'education',
+  newengland:'newengland',science:'science',technology:'technology'
+};
+
+/* Word-boundary safe match */
+function wordMatch(hay,kw){
+  const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return new RegExp('(?<![a-zA-Z])'+esc+'(?![a-zA-Z])','i').test(hay);
+}
+
+/* Infer topic from headline + first paragraph of summary */
+function inferTopic(s){
+  const text=[s.headline||'',stripMd((s.summary||'').split('\n\n')[0])].join(' ');
+  for(const rule of TOPIC_RULES){
+    if(rule.kws.some(kw=>wordMatch(text,kw)))return rule.topic;
   }
-  return _affiliateData;
+  return 'newengland'; // safe default for NE feed
 }
 
-async function loadKeywordAffiliateData() {
-  if (_keywordAffiliateData) return _keywordAffiliateData;
-  try {
-    const res = await fetch('/affiliate/keyword-affiliates.json');
-    if (!res.ok) throw new Error('keyword-affiliates.json not found');
-    _keywordAffiliateData = await res.json();
-  } catch (e) {
-    console.warn('Keyword affiliate data failed to load:', e);
-    _keywordAffiliateData = { rules: [] };
+let allStories=[],activeTopic='all';
+let _aff=null,_kw=null,_imgRules=null,_imgCache={};
+let _allKwData=null,_globalBookRule=null,_globalGearRule=null,_affToggle=0;
+
+/* ── UTILS ── */
+function timeSince(ds){
+  if(!ds)return '';const d=new Date(ds);if(isNaN(d))return '';
+  const m=Math.floor((Date.now()-d)/60000);
+  if(m<2)return 'Just now';if(m<60)return m+'m ago';if(m<1440)return Math.floor(m/60)+'h ago';
+  if(m<2880)return 'Yesterday';if(m<10080)return Math.floor(m/1440)+'d ago';
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+function stripMd(t){return(t||'').replace(/\*\*(.*?)\*\*/g,'$1').replace(/\*(.*?)\*/g,'$1').replace(/\\n/g,' ').replace(/\n/g,' ').trim()}
+function parseHL(raw){
+  const h=(raw||'').trim(),nl=h.indexOf('\n');
+  if(nl>-1)return{line1:h.substring(0,nl).trim(),line2:h.substring(nl+1).trim()};
+  return{line1:h,line2:''};
+}
+function getFirstPara(summary){
+  const md=summary||'';
+  const raw=md.replace(/\\n\\n/g,'\n\n').replace(/\\n/g,'\n');
+  const para=raw.split('\n\n')[0];
+  return stripMd(para);
+}
+function pillW(t){return'<span class="pill pill-white">'+(TOPIC_LABELS[t]||t||'Local')+'</span>'}
+function pillC(t){return'<span class="pill tp-'+(t||'newengland')+'">'+(TOPIC_LABELS[t]||t||'Local')+'</span>'}
+function topCls(t){return'tp-bg-'+(t||'newengland')}
+function topBG(url,t){
+  const kw=KW_IMG[t]||'newengland',res=_imgCache[url];
+  const pri=res?'url(\''+res+'\')':'url(\''+IMG_S+url+'.jpg\')';
+  return'background-image:'+pri+',url(\''+IMG_K+kw+'.jpg\');background-size:cover;background-position:center;';
+}
+
+/* ── SHARE ── */
+function shareStory(url,btn){
+  const full=window.location.origin+'/'+STORY_PAGE+'?story='+encodeURIComponent(url);
+  if(navigator.share){navigator.share({url:full}).catch(()=>{})}
+  else{navigator.clipboard.writeText(full).then(()=>{const o=btn.innerHTML;btn.innerHTML='\u2705';setTimeout(()=>btn.innerHTML=o,1800)}).catch(()=>{})}
+}
+
+/* ── IMAGE RESOLUTION ── */
+async function resolveImg(url,headline){
+  if(_imgCache[url]!==undefined)return _imgCache[url];
+  for(const ext of['webp','jpg','png']){
+    try{const r=await fetch('/images/news/'+url+'.'+ext,{method:'HEAD'});if(r.ok){_imgCache[url]='/images/news/'+url+'.'+ext;return _imgCache[url]}}catch(e){}
   }
-  return _keywordAffiliateData;
-}
-
-/* ══════════════════════════════════════════
-   KEYWORD MATCHING — word-boundary safe
-   ══════════════════════════════════════════ */
-
-function wordMatch(haystack, kw) {
-  const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return new RegExp(`(?<![a-zA-Z])${escaped}(?![a-zA-Z])`, "i").test(haystack);
-}
-
-/* ── Feed scorer — top two distinct rules across all stories ── */
-function findTopTwoRules(stories, rules) {
-  if (!stories?.length || !rules?.length) return { bookRule: null, gearRule: null };
-
-  const scores = rules.map(rule => {
-    let total = 0;
-    for (const story of stories) {
-      const text = [story.headline || "", story.summary || ""].join(" ");
-      total += (rule.keywords || []).filter(kw => wordMatch(text, kw)).length;
+  try{
+    if(!_imgRules){const r=await fetch('/images/news/image-rules.json');if(r.ok)_imgRules=await r.json()}
+    if(_imgRules){
+      const h=(headline||'').toLowerCase();
+      for(const rule of(_imgRules.keywords||[])){
+        if(rule.match.some(kw=>{const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-z])'+esc+'(?![a-z])','i').test(h)})){_imgCache[url]='/images/news/'+rule.image;return _imgCache[url]}
+      }
     }
-    return { rule, total };
-  });
-
-  const ranked = scores.filter(s => s.total > 0).sort((a, b) => b.total - a.total);
-
-  return {
-    bookRule: ranked[0]?.rule || null,
-    gearRule: ranked[1]?.rule || null
-  };
+  }catch(e){}
+  _imgCache[url]=null;return null;
 }
+async function preloadImages(stories){await Promise.all(stories.map(s=>resolveImg(s.url,s.headline)))}
 
-/* ── CSS book tile renderer ── */
-function renderBookTileCSS(b) {
-  const titleLines = (b.title || "").split("\\n").map(l => `<div>${l}</div>`).join("");
-  return `
-    <a href="${b.url}" target="_blank" rel="noopener nofollow sponsored"
-       title="Browse on Amazon — supports NSM at no extra cost"
-       style="display:block;text-decoration:none;">
-      <div style="
-        display:flex;
-        border-radius:2px 5px 5px 2px;
-        box-shadow:5px 7px 18px rgba(0,0,0,.5),1px 1px 3px rgba(0,0,0,.3);
-        transition:box-shadow .2s ease,transform .2s ease;
-        font-family:Georgia,'Times New Roman',serif;
-        -webkit-font-smoothing:antialiased;
-      " onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='7px 12px 24px rgba(0,0,0,.55),1px 1px 3px rgba(0,0,0,.3)'"
-         onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='5px 7px 18px rgba(0,0,0,.5),1px 1px 3px rgba(0,0,0,.3)'">
-        <div style="width:18px;min-width:18px;background:${b.spine_color};border-radius:2px 0 0 2px;box-shadow:inset -4px 0 8px rgba(0,0,0,.5);"></div>
-        <div style="width:6px;min-width:6px;background:repeating-linear-gradient(to bottom,#f6f1e9 0,#f6f1e9 1px,#e9e4db 2px,#e9e4db 3px);"></div>
-        <div style="flex:1;background:${b.cover_color};border-radius:0 5px 5px 0;padding:20px 16px 14px;display:flex;flex-direction:column;min-height:280px;overflow:hidden;position:relative;box-shadow:inset 2px 0 12px rgba(0,0,0,.12);">
-          <div style="position:absolute;inset:0;background:linear-gradient(140deg,rgba(255,255,255,.07) 0%,transparent 45%);border-radius:0 5px 5px 0;pointer-events:none;"></div>
-          <div style="font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;font-family:Arial,sans-serif;color:${b.accent_color};border-top:1.5px solid ${b.accent_color};border-bottom:1.5px solid ${b.accent_color};padding:5px 0 4px;margin-bottom:16px;text-align:center;-webkit-font-smoothing:antialiased;">${b.category_label}</div>
-          <div style="font-size:21px;font-weight:800;line-height:1.08;color:#f9f1e0;flex:1;letter-spacing:-.01em;-webkit-font-smoothing:antialiased;">${titleLines}</div>
-          <div style="width:34px;height:1.5px;background:${b.accent_color};margin:14px 0 11px;opacity:.85;"></div>
-          <div style="font-size:11px;line-height:1.5;color:#ddd0a8;font-style:italic;-webkit-font-smoothing:antialiased;">${(b.subtitle||"").replace(/\\n/g,"<br>")}</div>
-          <div style="margin-top:14px;padding-top:9px;border-top:1px solid rgba(255,255,255,.18);">
-            <div style="font-size:10.5px;font-weight:800;font-family:Arial,sans-serif;color:#ffffff;-webkit-font-smoothing:antialiased;letter-spacing:.02em;">🧭 No Spin Media</div>
-            <div style="font-size:8px;color:rgba(255,255,255,.6);font-family:Arial,sans-serif;margin-top:2px;font-style:italic;">supports independent journalism</div>
-          </div>
-        </div>
-      </div>
-    </a>`;
+/* ── AFFILIATE ── */
+async function getAff(){if(_aff)return _aff;try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_aff=await r.json()}catch(e){}return _aff||{}}
+async function getKw(){if(_kw)return _kw;try{const r=await fetch('/affiliate/keyword-affiliates.json');if(r.ok)_kw=await r.json()}catch(e){}return _kw||{rules:[]}}
+function findTopTwoRules(stories,rules){
+  if(!stories?.length||!rules?.length)return{bookRule:null,gearRule:null};
+  const sc=rules.map(rule=>({rule,total:stories.filter(s=>(rule.keywords||[]).some(kw=>wordMatch([s.headline||'',s.summary||''].join(' '),kw))).length}));
+  const top5=[...sc.filter(s=>s.total>0).sort((a,b)=>b.total-a.total)].slice(0,5).sort(()=>0.5-Math.random());
+  return{bookRule:top5[0]?.rule||null,gearRule:top5[1]?.rule||null};
 }
-
-/* ── CSS gear case tile renderer ── */
-function renderGearTileCSS(g) {
-  const titleText = (g.title || "").replace(/\\n/g, "");
-  const titleLen  = titleText.length;
-  const titleSize = titleLen <= 6  ? 36
-                  : titleLen <= 8  ? 30
-                  : titleLen <= 10 ? 26
-                  : titleLen <= 13 ? 22
-                  :                  18;
-
-  const titleLines = (g.title || "").split("\\n").map(l => `<div>${l}</div>`).join("");
-  const subLines   = (g.subtitle || "").split("\\n").map(l => `<div>${l}</div>`).join("");
-  return `
-    <a href="${g.url}" target="_blank" rel="noopener nofollow sponsored"
-       title="Browse on Amazon — supports NSM at no extra cost"
-       style="display:block;text-decoration:none;">
-      <div style="
-        position:relative;width:100%;padding-bottom:100%;
-        border-radius:10px;background:#2a2a2a;
-        box-shadow:0 5px 18px rgba(0,0,0,.65),inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e;
-        overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;
-        -webkit-font-smoothing:antialiased;
-      " onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 26px rgba(0,0,0,.7),inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e'"
-         onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 5px 18px rgba(0,0,0,.65),inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e'">
-        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 38%,rgba(255,255,255,.13) 0%,rgba(0,0,0,.15) 100%);pointer-events:none;border-radius:10px;"></div>
-        <div style="position:absolute;inset:11px;border-radius:7px;border:1px solid rgba(255,255,255,.08);pointer-events:none;"></div>
-        <div style="position:absolute;top:5px;left:50%;transform:translateX(-50%);width:42px;height:8px;background:#333;border-radius:5px;border:1px solid #444;"></div>
-        <div style="position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:42px;height:8px;background:#333;border-radius:5px;border:1px solid #444;"></div>
-        <div style="position:absolute;left:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#303030;border-radius:3px;border:1px solid #444;"></div>
-        <div style="position:absolute;right:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#303030;border-radius:3px;border:1px solid #444;"></div>
-        <div style="position:absolute;inset:20px 26px 32px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
-          <div style="font-size:9px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;border-top:1.5px solid #d4a843;border-bottom:1.5px solid #d4a843;padding:4px 0 3px;width:85%;margin-bottom:9px;-webkit-font-smoothing:antialiased;">${g.category_label||""}</div>
-          <div style="font-family:'Arial Black',Impact,Arial,sans-serif;font-size:${titleSize}px;font-weight:900;color:#f0e4c8;letter-spacing:.04em;line-height:.95;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;word-break:keep-all;overflow-wrap:normal;">${titleLines}</div>
-          <div style="font-size:18px;margin:7px 0 5px;">${g.icon||"⚙️"}</div>
-          <div style="width:82%;height:1px;background:linear-gradient(to right,transparent,#d4a843 25%,#d4a843 75%,transparent);margin-bottom:7px;"></div>
-          <div style="font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;line-height:1.5;-webkit-font-smoothing:antialiased;">${subLines}</div>
-        </div>
-        <div style="position:absolute;bottom:7px;left:26px;right:26px;text-align:center;font-family:Arial,sans-serif;">
-          <div style="font-size:9px;font-weight:800;color:#ffffff;letter-spacing:.03em;-webkit-font-smoothing:antialiased;">🧭 No Spin Media</div>
-          <div style="font-size:7px;color:rgba(255,255,255,.55);font-style:italic;margin-top:1px;">supports independent journalism</div>
-        </div>
-      </div>
-    </a>`;
-}
-
-function getRandomLink(item) {
-  if (!item.links || item.links.length === 0) return '#';
-  return item.links[Math.floor(Math.random() * item.links.length)];
-}
-
-/* ── NE-aware static item pickers ── */
-function isNEItem(item) {
-  return (item.title || "").startsWith("NE");
-}
-
-function pickItemsNE(items, count) {
-  const neItems  = items.filter(i => isNEItem(i));
-  const mustShow = items.filter(i => !isNEItem(i) && i.must_show);
-  const optional = [...items.filter(i => !isNEItem(i) && !i.must_show)]
-                     .sort(() => 0.5 - Math.random());
-  const pool = [...neItems, ...mustShow, ...optional];
-  const seen = new Set();
-  const result = [];
-  for (const item of pool) {
-    if (!seen.has(item.title) && result.length < count) {
-      seen.add(item.title);
-      result.push(item);
-    }
-  }
+function isNEItem(item){return(item.title||'').startsWith('NE')}
+function pickNE(arr,n){
+  const ne=arr.filter(isNEItem);const must=arr.filter(i=>!isNEItem(i)&&i.must_show);
+  const opt=[...arr.filter(i=>!isNEItem(i)&&!i.must_show)].sort(()=>0.5-Math.random());
+  const seen=new Set();const result=[];
+  for(const item of[...ne,...must,...opt]){if(!seen.has(item.title)&&result.length<n){seen.add(item.title);result.push(item)}}
   return result;
 }
+function pickOneMobileNE(arr){const ne=arr.filter(isNEItem);const must=arr.filter(i=>!isNEItem(i)&&i.must_show);const pool=ne.length?ne:must.length?must:arr;return pool[Math.floor(Math.random()*pool.length)]}
+function getRandomLink(item){return(item.links||[])[Math.floor(Math.random()*(item.links||[]).length)]||'#'}
+function renderImgTile(item){return'<a href="'+getRandomLink(item)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+item.image+'" alt="'+item.title+'" loading="lazy"></a>'}
 
-function pickOneMobileNE(items) {
-  const neItems  = items.filter(i => isNEItem(i));
-  const mustShow = items.filter(i => !isNEItem(i) && i.must_show);
-  const pool = neItems.length > 0 ? neItems
-             : mustShow.length > 0 ? mustShow
-             : items;
-  return pool[Math.floor(Math.random() * pool.length)];
+function bookTileHTML(b){
+  const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
+  const sub=(b.subtitle||'').replace(/\\n/g,'<br>');
+  return'<a href="'+b.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card">'
+    +'<div class="book-card-wrap"><div class="book-spine" style="background:'+b.spine_color+';"></div><div class="book-pages"></div>'
+    +'<div class="book-cover" style="background:'+b.cover_color+';">'
+    +'<div class="book-cover-sheen"></div>'
+    +'<div class="book-cat" style="color:'+b.accent_color+';border-color:'+b.accent_color+';">'+b.category_label+'</div>'
+    +'<div class="book-title">'+tl+'</div>'
+    +'<div class="book-rule" style="background:'+b.accent_color+';"></div>'
+    +'<div class="book-sub">'+sub+'</div>'
+    +'<div class="book-brand"><div class="book-brand-name">\uD83E\uDDED No Spin Media</div><div class="book-brand-sub">supports independent journalism</div></div>'
+    +'</div></div></a>';
+}
+function gearTileHTML(g){
+  const tLen=(g.title||'').replace(/\\n/g,'').length;
+  const tSize=tLen<=6?36:tLen<=8?30:tLen<=10?26:tLen<=13?22:18;
+  const tl=(g.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
+  const sub=(g.subtitle||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
+  return'<a href="'+g.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card">'
+    +'<div class="gear-card-wrap"><div class="gear-sheen"></div><div class="gear-inner-border"></div>'
+    +'<div class="gear-clip-t"></div><div class="gear-clip-b"></div><div class="gear-clip-l"></div><div class="gear-clip-r"></div>'
+    +'<div class="gear-content"><div class="gear-cat">'+(g.category_label||'')+'</div>'
+    +'<div class="gear-title" style="font-size:'+tSize+'px;">'+tl+'</div>'
+    +'<div class="gear-icon">'+(g.icon||'\u2699\uFE0F')+'</div>'
+    +'<div class="gear-rule"></div><div class="gear-sub">'+sub+'</div></div>'
+    +'<div class="gear-brand"><div class="gear-brand-name">\uD83E\uDDED No Spin Media</div><div class="gear-brand-sub">supports independent journalism</div></div>'
+    +'</div></a>';
 }
 
-function renderTileHTML(item) {
-  const link   = getRandomLink(item);
-  const imgSrc = `/affiliate/${item.image}`;
-  return `
-    <a href="${link}" target="_blank" rel="noopener nofollow sponsored"
-       title="Browse on Amazon — supports NSM at no extra cost">
-      <img src="${imgSrc}" alt="${item.title}" loading="lazy">
-    </a>`;
+function pickAffTileForSection(sectionStories){
+  const kwRules=(_allKwData?.rules)||[];
+  let best=null,bestScore=0;
+  for(const rule of kwRules){
+    const score=sectionStories.filter(s=>(rule.keywords||[]).some(kw=>wordMatch([s.headline||'',s.summary||''].join(' '),kw))).length;
+    if(score>bestScore){bestScore=score;best=rule;}
+  }
+  const rule=best||(_affToggle===0?_globalBookRule:_globalGearRule)||_globalBookRule||_globalGearRule;
+  if(!rule)return null;
+  let tile=null;
+  if(_affToggle===0){tile=rule.books?bookTileHTML(rule.books):(rule.gear?gearTileHTML(rule.gear):null);if(!tile&&_globalBookRule?.books)tile=bookTileHTML(_globalBookRule.books)}
+  else{tile=rule.gear?gearTileHTML(rule.gear):(rule.books?bookTileHTML(rule.books):null);if(!tile&&_globalGearRule?.gear)tile=gearTileHTML(_globalGearRule.gear)}
+  _affToggle=1-_affToggle;
+  return tile;
 }
 
-/* ══════════════════════════════════════════
-   MAIN AFFILIATE LOADER
-   bookRule → CSS book tile in slot 1 of left col
-   gearRule → CSS gear tile in slot 1 of right col
-   Remaining slots filled with NE-priority static tiles.
-   ══════════════════════════════════════════ */
-async function loadAllAffiliateTiles(bookRule, gearRule) {
-  const data      = await loadAffiliateData();
-  const bookItems = data.books?.items || [];
-  const gearItems = data.gear?.items  || [];
-
-  /* Desktop books — keyword tile first, then NE-priority statics */
-  const bookContainer = document.getElementById("book-tiles");
-  if (bookContainer) {
-    let html = "";
-    if (bookRule?.books) {
-      html += `<div style="margin-bottom:12px;">${renderBookTileCSS(bookRule.books)}</div>`;
-    }
-    const staticBooks = pickItemsNE(bookItems, bookRule?.books ? 2 : 3);
-    html += staticBooks.map(item => `<div style="margin-bottom:12px;">${renderTileHTML(item)}</div>`).join("");
-    bookContainer.innerHTML = html;
-  }
-
-  /* Desktop gear — keyword tile first, then NE-priority statics */
-  const gearContainer = document.getElementById("gear-tiles");
-  if (gearContainer) {
-    let html = "";
-    if (gearRule?.gear) {
-      html += `<div style="margin-bottom:12px;">${renderGearTileCSS(gearRule.gear)}</div>`;
-    }
-    const staticGear = pickItemsNE(gearItems, gearRule?.gear ? 2 : 3);
-    html += staticGear.map(item => `<div style="margin-bottom:12px;">${renderTileHTML(item)}</div>`).join("");
-    gearContainer.innerHTML = html;
-  }
-
-  /* Mobile insert */
-  let bookTileHTML = "";
-  let gearTileHTML = "";
-
-  if (bookRule?.books) {
-    bookTileHTML = `<div style="border-radius:8px;overflow:hidden;">${renderBookTileCSS(bookRule.books)}</div>`;
-  } else {
-    const mb = bookItems.length > 0 ? pickOneMobileNE(bookItems) : null;
-    if (mb) bookTileHTML = `<a href="${getRandomLink(mb)}" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/${mb.image}" alt="${mb.title}" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>`;
-  }
-
-  if (gearRule?.gear) {
-    gearTileHTML = `<div style="border-radius:8px;overflow:hidden;">${renderGearTileCSS(gearRule.gear)}</div>`;
-  } else {
-    const mg = gearItems.length > 0 ? pickOneMobileNE(gearItems) : null;
-    if (mg) gearTileHTML = `<a href="${getRandomLink(mg)}" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/${mg.image}" alt="${mg.title}" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>`;
-  }
-
-  window.mobileAffiliateHTML = `
-    <div class="mobile-affiliate-insert">
-      <div class="affiliate-label">🧭 NSM Picks</div>
-      <div class="mobile-affiliate-grid">
-        ${bookTileHTML}
-        ${gearTileHTML}
-      </div>
-      <div class="reading-disclosure">
-        Selecting an item supports independent journalism at no extra cost to you.
-      </div>
-    </div>`;
+function affRow(s1,s2,tile){
+  if(!tile)return s2?'<div class="cards-grid-2">'+cardHTML(s1)+cardHTML(s2)+'</div>':'<div class="cards-grid-2">'+cardHTML(s1)+'</div>';
+  return'<div class="cards-grid-3 aff-grid-desktop" style="align-items:stretch;">'
+    +'<div>'+cardHTML(s1)+'</div>'
+    +'<div style="min-height:240px;">'+tile+'</div>'
+    +'<div>'+(s2?cardHTML(s2):'')+'</div>'
+    +'</div>'
+    +'<div class="cards-grid-2 aff-mobile-single">'+cardHTML(s1)+(s2?cardHTML(s2):'')+'</div>'
+    +'<div class="aff-disclosure">\uD83E\uDDED NSM Picks \u2014 Supports independent journalism. No extra cost.</div>';
 }
 
-/* ══════════════════════════════════════════
-   STORY FEED — news_ne table
-   ══════════════════════════════════════════ */
+async function loadAffiliateSidebars(stories){
+  const affData=await getAff();const kwData=await getKw();
+  _allKwData=kwData;
+  const{bookRule,gearRule}=findTopTwoRules(stories,kwData.rules||[]);
+  _globalBookRule=bookRule;_globalGearRule=gearRule;
+  const books=affData.books?.items||[];const gear=affData.gear?.items||[];
 
-function convertRedditMarkdown(text) {
-  if (!text) return "";
-  text = text.replace(/\\n\\n/g, "\n\n");
-  text = text.replace(/\\n/g, "\n");
-  text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-  text = text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g, "<em>$1</em>");
-  return text;
-}
-
-async function shareStory(url, btn) {
-  const fullUrl = `${window.location.origin}/ne_story.html?story=${url}`;
-  try {
-    await navigator.clipboard.writeText(fullUrl);
-    btn.innerHTML = "✅ Copied!";
-    setTimeout(() => { btn.innerHTML = "🔗 Share"; }, 2000);
-  } catch (err) {
-    alert("Could not copy link.");
+  // Desktop sidebars
+  const bookEl=document.getElementById('book-tiles');
+  if(bookEl){
+    let html='';
+    if(bookRule?.books)html+='<div style="margin-bottom:12px;">'+bookTileHTML(bookRule.books)+'</div>';
+    pickNE(books,bookRule?.books?2:3).forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderImgTile(item)+'</div>'});
+    bookEl.innerHTML=html;
   }
+  const gearEl=document.getElementById('gear-tiles');
+  if(gearEl){
+    let html='';
+    if(gearRule?.gear)html+='<div style="margin-bottom:12px;">'+gearTileHTML(gearRule.gear)+'</div>';
+    pickNE(gear,gearRule?.gear?2:3).forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderImgTile(item)+'</div>'});
+    gearEl.innerHTML=html;
+  }
+
+  // Mobile insert
+  let bHTML='',gHTML='';
+  if(bookRule?.books)bHTML='<div style="border-radius:8px;overflow:hidden;">'+bookTileHTML(bookRule.books)+'</div>';
+  else{const mb=pickOneMobileNE(books);if(mb)bHTML='<a href="'+getRandomLink(mb)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+mb.image+'" alt="'+mb.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>'}
+  if(gearRule?.gear)gHTML='<div style="border-radius:8px;overflow:hidden;">'+gearTileHTML(gearRule.gear)+'</div>';
+  else{const mg=pickOneMobileNE(gear);if(mg)gHTML='<a href="'+getRandomLink(mg)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+mg.image+'" alt="'+mg.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>'}
+
+  window.mobileAffHTML='<div class="mobile-aff-insert">'
+    +'<div class="mobile-aff-label">\uD83E\uDDED NSM Picks</div>'
+    +'<div class="mobile-aff-grid">'+bHTML+gHTML+'</div>'
+    +'<div class="mobile-aff-disc">Selecting an item supports independent journalism at no extra cost.</div>'
+    +'</div>';
 }
 
-async function loadStories() {
-  const apiURL = "https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_ne?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=20";
-  const res = await fetch(apiURL, {
-    headers: { apikey: "sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB" }
-  });
-  const stories = await res.json();
+/* ── CARD HTML ── */
+function heroHTML(s){
+  const p=parseHL(s.headline),t=s._topic,ts=timeSince(s.posted_at);
+  const sum=getFirstPara(s.summary);
+  return'<div class="hero-card" onclick="window.location=\''+STORY_PAGE+'?story='+encodeURIComponent(s.url)+'\'">'
+    +'<div class="hero-top '+topCls(t)+'">'
+    +'<div class="hero-top-bg" style="'+topBG(s.url,t)+'"></div>'
+    +'<div class="hero-top-scrim"></div>'
+    +'<div class="hero-top-content">'
+    +'<div class="hero-badge">\uD83D\uDCCD New England</div>'
+    +'<span class="hero-hl-line1">'+p.line1+'</span>'
+    +(p.line2?'<span class="hero-hl-line2">'+p.line2+'</span>':'')
+    +'</div></div>'
+    +'<div class="hero-body">'
+    +'<div class="hero-summary">'+sum+'</div>'
+    +'<div class="hero-footer">'
+    +'<div class="hero-meta">'+pillC(t)+'<span class="hero-time">'+ts+'</span></div>'
+    +'<div class="hero-actions">'
+    +'<button class="btn-share" onclick="event.stopPropagation();shareStory(\''+s.url+'\',this)">\uD83D\uDD17 Share</button>'
+    +'<a class="btn-read" href="'+STORY_PAGE+'?story='+encodeURIComponent(s.url)+'" onclick="event.stopPropagation()">View Story \u2192</a>'
+    +'</div></div></div></div>';
+}
 
-  /* ── Score all rules across NE feed, top two win ── */
-  const kwData                 = await loadKeywordAffiliateData();
-  const { bookRule, gearRule } = findTopTwoRules(stories, kwData.rules || []);
-  await loadAllAffiliateTiles(bookRule, gearRule);
+function cardHTML(s){
+  const p=parseHL(s.headline),t=s._topic,ts=timeSince(s.posted_at);
+  const sum=getFirstPara(s.summary);
+  return'<div class="story-card" onclick="window.location=\''+STORY_PAGE+'?story='+encodeURIComponent(s.url)+'\'">'
+    +'<div class="card-top '+topCls(t)+'">'
+    +'<div class="card-top-bg" style="'+topBG(s.url,t)+'"></div>'
+    +'<div class="card-top-scrim"></div>'
+    +'<div class="card-top-content">'
+    +'<div class="card-pill-row">'+pillW(t)+'</div>'
+    +'<span class="card-hl-line1">'+p.line1+'</span>'
+    +(p.line2?'<span class="card-hl-line2">'+p.line2+'</span>':'')
+    +'</div></div>'
+    +'<div class="card-body">'
+    +'<div class="card-summary">'+sum+'</div>'
+    +'<div class="card-footer">'
+    +'<span class="card-time">'+ts+'</span>'
+    +'<div class="card-actions">'
+    +'<button class="btn-sm-share" onclick="event.stopPropagation();shareStory(\''+s.url+'\',this)">\uD83D\uDD17</button>'
+    +'<a class="btn-sm-read" href="'+STORY_PAGE+'?story='+encodeURIComponent(s.url)+'" onclick="event.stopPropagation()">View Story \u2192</a>'
+    +'</div></div></div></div>';
+}
 
-  const container = document.getElementById("news-container");
-  container.innerHTML = "";
+function textCardHTML(s){
+  const p=parseHL(s.headline),t=s._topic,ts=timeSince(s.posted_at);
+  const hl=p.line2?p.line1+' '+p.line2:p.line1;
+  const sum=getFirstPara(s.summary).substring(0,140);
+  return'<div class="text-card" onclick="window.location=\''+STORY_PAGE+'?story='+encodeURIComponent(s.url)+'\'">'
+    +pillC(t)
+    +'<div class="text-card-headline">'+hl+'</div>'
+    +'<div class="text-card-summary">'+sum+'</div>'
+    +'<div class="card-footer">'
+    +'<span class="card-time">'+ts+'</span>'
+    +'<div class="card-actions">'
+    +'<button class="btn-sm-share" onclick="event.stopPropagation();shareStory(\''+s.url+'\',this)">\uD83D\uDD17</button>'
+    +'<a class="btn-sm-read" href="'+STORY_PAGE+'?story='+encodeURIComponent(s.url)+'" onclick="event.stopPropagation()">View Story \u2192</a>'
+    +'</div></div></div>';
+}
 
-  stories.forEach((s, index) => {
-    let cleanText      = convertRedditMarkdown(s.summary);
-    let firstParagraph = cleanText.split("\n\n")[0];
-
-    const date = new Date(s.posted_at).toLocaleDateString("en-US", {
-      year: "numeric", month: "long", day: "numeric"
+/* ── TABS ── */
+function buildTabs(stories){
+  const topics=[...new Set(stories.map(s=>s._topic).filter(Boolean))];
+  const el=document.getElementById('feed-tabs');
+  let html='<div class="feed-tab active" data-topic="all">All Stories</div>';
+  // Show tabs only for topics that appear 2+ times (avoid single-story tabs)
+  const counts={};stories.forEach(s=>counts[s._topic]=(counts[s._topic]||0)+1);
+  const present=Object.keys(TOPIC_LABELS).filter(t=>topics.includes(t)&&counts[t]>=2);
+  present.forEach(t=>{html+='<div class="feed-tab" data-topic="'+t+'">'+TOPIC_LABELS[t]+'</div>'});
+  el.innerHTML=html;
+  el.querySelectorAll('.feed-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      el.querySelectorAll('.feed-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      activeTopic=tab.dataset.topic;
+      _affToggle=0;
+      const f=activeTopic==='all'?allStories:allStories.filter(s=>s._topic===activeTopic);
+      renderFeed(f);
     });
-
-    const safeUrl      = s.url;
-    const safeHeadline = (s.headline || "").replace(/'/g, "\\'").replace(/\n/g, " ").replace(/\r/g, "");
-
-    const card = document.createElement("div");
-    card.className = "story-card";
-    card.onclick = (e) => {
-      if (e.target.closest(".story-link")) return;
-      window.location = `ne_story.html?story=${safeUrl}`;
-    };
-
-    card.innerHTML = `
-      <h3>
-        <a href="ne_story.html?story=${safeUrl}" class="headline-link">${s.headline}</a>
-      </h3>
-      <div class="story-date">${date}</div>
-      <div class="story-summary">${firstParagraph}</div>
-      <div class="card-footer">
-        <a class="story-link" href="ne_story.html?story=${safeUrl}">Read full story →</a>
-        <a class="story-link" onclick="event.stopPropagation(); shareStory('${safeUrl}', this)" style="cursor:pointer;">🔗 Share</a>
-      </div>
-    `;
-
-    container.appendChild(card);
-
-    /* Mobile: inject 2-col affiliate insert after story 3 */
-    if (window.innerWidth <= 900 && index === 2 && window.mobileAffiliateHTML) {
-      const insert = document.createElement("div");
-      insert.innerHTML = window.mobileAffiliateHTML;
-      container.appendChild(insert.firstElementChild);
-    }
   });
 }
 
-/* ══════════════════════════════════════════
-   INIT
-   ══════════════════════════════════════════ */
+/* ── RENDER ── */
+function renderFeed(stories){
+  const feed=document.getElementById('nsm-feed');
+  if(!stories.length){feed.innerHTML='<div style="padding:3rem;text-align:center;color:var(--dimmed);">No stories in this category.</div>';return}
+  _affToggle=0;
+  let html='';
+  html+='<div class="refresh-bar">'
+    +'<span class="story-count">Latest Updates \u00b7 '+stories.length+' stories</span>'
+    +'<button class="refresh-btn" onclick="shuffleFeed()"><span class="spin-icon">\u21bb</span> Shuffle Feed</button>'
+    +'</div>';
 
-document.addEventListener("DOMContentLoaded", function () {
-  fetch("header.html")
-    .then(res => res.text())
-    .then(html => {
-      document.getElementById("site-header").innerHTML = html;
+  // Hero
+  html+=heroHTML(stories[0]);
 
-      const hamburger = document.getElementById("hamburger");
-      const mobileNav = document.getElementById("mobile-nav");
-      if (hamburger && mobileNav) {
-        hamburger.onclick = () => {
-          mobileNav.classList.toggle("open");
-          hamburger.classList.toggle("active");
-        };
-        mobileNav.querySelectorAll("a").forEach(link => {
-          link.onclick = () => {
-            mobileNav.classList.remove("open");
-            hamburger.classList.remove("active");
-          };
-        });
-      }
+  // 3-grid latest
+  const g1=stories.slice(1,4);
+  if(g1.length){html+='<div class="section-label">Latest</div><div class="cards-grid-3">'+g1.map(cardHTML).join('')+'</div>'}
 
-      loadStories(); /* affiliate tiles loaded inside after keyword scan */
-    });
+  // First aff row
+  const aff1=stories.slice(4,6);
+  if(aff1.length){html+=affRow(aff1[0],aff1[1]||null,pickAffTileForSection(aff1))}
+
+  // Topic sections from story 6+
+  const byTopic={};
+  stories.slice(6).forEach(s=>{if(!byTopic[s._topic])byTopic[s._topic]=[];byTopic[s._topic].push(s)});
+  const present=Object.keys(TOPIC_LABELS).filter(t=>byTopic[t]?.length);
+
+  present.forEach((topic,ti)=>{
+    const grp=byTopic[topic];
+    html+='<div class="section-label">'+TOPIC_LABELS[topic]+'</div>';
+    if(grp.length<=2){html+='<div class="cards-grid-2">'+grp.map(cardHTML).join('')+'</div>'}
+    else{
+      html+='<div class="cards-grid-3">'+grp.slice(0,3).map(cardHTML).join('')+'</div>';
+      const rest=grp.slice(3);if(rest.length)html+='<div class="cards-grid-3">'+rest.map(textCardHTML).join('')+'</div>';
+    }
+    if((ti+1)%2===0){
+      const tile=pickAffTileForSection(grp);
+      if(tile&&grp.length>=1){const s1=grp[Math.max(0,grp.length-2)],s2=grp[grp.length-1]||null;html+=affRow(s1,s1!==s2?s2:null,tile)}
+    }
+  });
+
+  feed.innerHTML=html;
+
+  // Mobile aff after card 3
+  if(window.innerWidth<=860&&window.mobileAffHTML){
+    const cards=feed.querySelectorAll('.story-card,.text-card');
+    if(cards[2]){const div=document.createElement('div');div.innerHTML=window.mobileAffHTML;cards[2].after(div.firstElementChild)}
+  }
+}
+
+/* Shuffle just re-randomizes which platform summary shows (NE has no social text, so just re-renders) */
+function shuffleFeed(){
+  const f=activeTopic==='all'?allStories:allStories.filter(s=>s._topic===activeTopic);
+  renderFeed(f);
+}
+
+/* ── LOAD ── */
+async function loadStories(){
+  try{
+    const res=await fetch(SB_URL+'/news_ne?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=50',{headers:{apikey:SB_KEY}});
+    const raw=await res.json();
+    // Annotate each story with inferred topic
+    allStories=raw.map(s=>({...s,_topic:inferTopic(s)}));
+    await preloadImages(allStories);
+    await loadAffiliateSidebars(allStories);
+    buildTabs(allStories);
+    renderFeed(allStories);
+  }catch(e){
+    document.getElementById('nsm-feed').innerHTML='<div style="padding:3rem;text-align:center;color:var(--dimmed);">Could not load stories. Please refresh.</div>';
+    console.error(e);
+  }
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  fetch('header.html').then(r=>r.text()).then(html=>{
+    document.getElementById('site-header').innerHTML=html;
+    const ham=document.getElementById('hamburger'),nav=document.getElementById('mobile-nav');
+    if(ham&&nav){
+      ham.onclick=()=>{nav.classList.toggle('open');ham.classList.toggle('active')};
+      nav.querySelectorAll('a').forEach(a=>{a.onclick=()=>{nav.classList.remove('open');ham.classList.remove('active')}});
+    }
+    loadStories();
+  });
 });
-
 </script>
-
 </head>
-
 <body>
-
 <div id="site-header"></div>
+<div class="page-wrap">
 
-<div class="container">
-
-  <div class="left-ad" id="left-ad">
-    <div class="reading-label">🧭 NSM Reading List</div>
-    <div id="book-tiles"></div>
-    <div class="reading-disclosure">
-      Selecting a title supports independent journalism at no extra cost to you.
+  <!-- Left sidebar (desktop only) -->
+  <div style="display:flex;max-width:1400px;margin:0 auto;gap:1.5rem;align-items:flex-start;">
+    <div id="left-sidebar" class="ne-sidebar" style="width:190px;min-width:190px;flex-shrink:0;position:sticky;top:90px;border-right:1px solid var(--border);padding-right:1.1rem;">
+      <div style="font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--blue);">🧭 NSM Reading List</div>
+      <div id="book-tiles"></div>
+      <div style="margin-top:10px;font-size:.62rem;color:#ccc;line-height:1.4;font-style:italic;">Selecting a title supports independent journalism at no extra cost.</div>
     </div>
-  </div>
 
-  <div class="main">
-    <h1>New England News</h1>
-    <div id="news-container"></div>
-  </div>
+    <!-- Main feed -->
+    <div style="flex:1;min-width:0;">
+      <div id="feed-tabs" class="feed-tabs"></div>
+      <div id="nsm-feed">
+        <div class="feed-loading"><div class="spinner"></div>Loading New England stories...</div>
+      </div>
+    </div>
 
-  <div class="right-ad" id="right-ad">
-    <div class="reading-label">🧭 NSM Field Gear</div>
-    <div id="gear-tiles"></div>
-    <div class="reading-disclosure">
-      Selecting an item supports independent journalism at no extra cost to you.
+    <!-- Right sidebar (desktop only) -->
+    <div id="right-sidebar" class="ne-sidebar" style="width:190px;min-width:190px;flex-shrink:0;position:sticky;top:90px;border-left:1px solid var(--border);padding-left:1.1rem;">
+      <div style="font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--blue);">🧭 NSM Field Gear</div>
+      <div id="gear-tiles"></div>
+      <div style="margin-top:10px;font-size:.62rem;color:#ccc;line-height:1.4;font-style:italic;">Selecting an item supports independent journalism at no extra cost.</div>
     </div>
   </div>
 
 </div>
-
 <footer>
-  © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
-  <span style="font-size:.8rem;color:#aaa;">Some links on this site are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
+  &copy; 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
+  <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
 </footer>
-
 </body>
 </html>
