@@ -148,15 +148,14 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .gear-clip-b{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:42px;height:8px;background:#333;border-radius:5px;border:1px solid #444}
 .gear-clip-l{position:absolute;left:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#303030;border-radius:3px;border:1px solid #444}
 .gear-clip-r{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#303030;border-radius:3px;border:1px solid #444}
-.gear-content{position:absolute;inset:16px 26px 52px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.gear-content{position:absolute;inset:14px 26px 62px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 .gear-cat{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;border-top:1.5px solid #d4a843;border-bottom:1.5px solid #d4a843;padding:4px 0 3px;width:85%;margin-bottom:9px}
 .gear-title{font-family:'Arial Black',Impact,Arial,sans-serif;font-weight:900;color:#f0e4c8;letter-spacing:.04em;line-height:.95}
 .gear-icon{font-size:18px;margin:7px 0 5px}
 .gear-rule{width:82%;height:1px;background:linear-gradient(to right,transparent,#d4a843 25%,#d4a843 75%,transparent);margin-bottom:7px}
 .gear-sub{font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;line-height:1.5}
 .gear-brand{position:absolute;bottom:7px;left:26px;right:26px;text-align:center;font-family:Arial,sans-serif}
-.gear-brand-name{font-size:9px;font-weight:800;color:#fff;letter-spacing:.03em}
-.gear-brand-sub{font-size:7px;color:rgba(255,255,255,.55);font-style:italic;margin-top:1px}
+/* gear-brand-name and gear-brand-sub defined in gear-brand-bottom block below */
 
 /* ── IMPROVED AFFILIATE TILE STYLES ── */
 /* Book tile enhancements */
@@ -171,7 +170,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .book-brand-sub{font-size:8px!important;color:rgba(255,255,255,.65);font-style:italic;margin-top:3px;line-height:1.3}
 /* Gear brand at bottom */
 .gear-brand-bottom{
-  position:absolute;bottom:10px;left:16px;right:16px;
+  position:absolute;bottom:20px;left:16px;right:16px;
   text-align:center;font-family:Arial,sans-serif
 }
 .gear-brand-rule{height:1px;background:rgba(212,168,67,.45);margin-bottom:8px;width:50%;margin-left:auto;margin-right:auto}
@@ -380,6 +379,15 @@ function topTwoRules(stories,rules){
   const top5=[...sc.filter(s=>s.total>0).sort((a,b)=>b.total-a.total)].slice(0,5).sort(()=>0.5-Math.random());
   return{bookRule:top5[0]?top5[0].rule:null,gearRule:top5[1]?top5[1].rule:null};
 }
+/* Rotating support messages for affiliate tiles */
+const NSM_SUPPORT_MSGS=[
+  'Supports independent journalism',
+  'No extra cost to you',
+  'Helps keep NSM free',
+  'Supporting reader-funded news'
+];
+function randSupport(){return NSM_SUPPORT_MSGS[Math.floor(Math.random()*NSM_SUPPORT_MSGS.length)]}
+
 function bookTileHTML(b){
   const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
   const sub=(b.subtitle||'').replace(/\\n/g,'<br>');
@@ -397,7 +405,7 @@ function bookTileHTML(b){
     +'<div class="book-brand book-brand-bottom">'
     +'<div class="book-brand-rule" style="background:'+b.accent_color+';"></div>'
     +'<div class="book-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div>'
-    +'<div class="book-brand-sub">Supports independent journalism</div>'
+    +'<div class="book-brand-sub">'+randSupport()+'</div>'
     +'</div>'
     +'</div></div></a>';
 }
@@ -419,7 +427,7 @@ function gearTileHTML(g){
     +'<div class="gear-brand gear-brand-bottom">'
     +'<div class="gear-brand-rule"></div>'
     +'<div class="gear-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div>'
-    +'<div class="gear-brand-sub">Supports independent journalism</div>'
+    +'<div class="gear-brand-sub">'+randSupport()+'</div>'
     +'</div>'
     +'</div></a>';
 }
