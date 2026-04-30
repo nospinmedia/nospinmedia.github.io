@@ -161,7 +161,17 @@
     },
 
     {
-      "match": ["Strait of Hormuz", "Hormuz", "oil tanker", "tanker traffic", "Persian Gulf shipping"],
+      "match": [
+        "strait of hormuz",
+        "Strait of Hormuz",
+        "hormuz",
+        "Hormuz",
+        "oil tanker",
+        "oil tankers",
+        "tanker traffic",
+        "persian gulf shipping",
+        "Persian Gulf shipping"
+      ],
       "image": "strait-of-hormuz-satellite.webp"
     },
 
