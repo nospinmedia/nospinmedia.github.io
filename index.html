@@ -160,8 +160,8 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 
 /* ── IMPROVED AFFILIATE TILE STYLES ── */
 /* Book tile enhancements */
-.book-title-lg{font-size:22px!important;line-height:1.1!important;letter-spacing:-.01em}
-.book-sub-readable{font-size:11.5px!important;color:rgba(221,208,168,.95)!important;line-height:1.6!important;font-style:italic}
+.book-title-lg{font-size:23px!important;line-height:1.08!important;letter-spacing:-.015em}
+.book-sub-readable{font-size:11.5px!important;color:rgba(221,208,168,.92)!important;line-height:1.55!important;font-style:italic;margin-top:2px}
 .book-brand-bottom{
   margin-top:0;padding-top:8px;
   border-top:none!important
@@ -169,10 +169,12 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .book-brand-rule{height:1px;opacity:.35;margin-bottom:8px;background:rgba(255,255,255,.4)}
 /* Gear brand at bottom */
 .gear-brand-bottom{
-  position:absolute;bottom:7px;left:20px;right:20px;
+  position:absolute;bottom:14px;left:20px;right:20px;
   text-align:center;font-family:Arial,sans-serif
 }
-.gear-brand-rule{height:1px;background:rgba(212,168,67,.35);margin-bottom:6px;width:60%;margin-left:auto;margin-right:auto}
+.gear-brand-rule{height:1px;background:rgba(212,168,67,.4);margin-bottom:7px;width:55%;margin-left:auto;margin-right:auto}
+.gear-brand-name{font-size:9.5px!important;font-weight:800;color:#fff;letter-spacing:.04em;line-height:1.3}
+.gear-brand-sub{font-size:7.5px!important;color:rgba(255,255,255,.6);font-style:italic;margin-top:2px;line-height:1.3}
 /* Hover lift on both tile types — more pronounced than base .aff-card */
 .aff-card-book:hover,.aff-card-gear:hover{
   transform:translateY(-5px)!important;
@@ -197,9 +199,15 @@ footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-t
   .cards-grid-3{grid-template-columns:1fr}
   .cards-grid-2{grid-template-columns:1fr}
   .aff-grid-desktop{display:none}
-  .aff-mobile-single{display:block;margin-bottom:1rem;min-height:220px}
+  /* Mobile stories row (2-col) visible on mobile */
+  .aff-mobile-stories{display:grid!important;grid-template-columns:1fr!important}
+  /* Mobile tile: show the actual ad tile below the stories */
+  .aff-mobile-tile{display:block;margin-bottom:1rem;min-height:200px}
 }
-@media(min-width:861px){.aff-mobile-single{display:none}}
+@media(min-width:861px){
+  .aff-mobile-stories{display:none!important}
+  .aff-mobile-tile{display:none!important}
+}
 </style>
 <script>
 const SB_URL='https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts';
@@ -430,7 +438,7 @@ function pickAffTileForSection(sectionStories){
   return tile;
 }
 const AFF_DISCLOSURES=[
-  '\uD83E\uDDED No Spin Media Picks support independent journalism',
+  '\uD83E\uDDED NSM Picks support independent journalism',
   '\uD83E\uDDED Selecting an item supports NSM at no extra cost',
   '\uD83E\uDDED Recommended reading and gear from No Spin Media'
 ];
@@ -443,8 +451,8 @@ function affRow(s1,s2,tile){
     +'<div style="min-height:240px;">'+tile+'</div>'
     +'<div>'+(s2?cardHTML(s2):'')+'</div>'
     +'</div>'
-    +'<div class="cards-grid-2 aff-mobile-single">'+cardHTML(s1)+(s2?cardHTML(s2):'')+'</div>'
-    ;
+    +'<div class="cards-grid-2 aff-mobile-stories">'+cardHTML(s1)+(s2?cardHTML(s2):'')+'</div>'
+    +'<div class="aff-mobile-tile">'+tile+'</div>';
 }
 
 /* SHUFFLE */
