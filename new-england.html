@@ -20,35 +20,10 @@
   --r:11px;--shadow:0 1px 8px rgba(0,0,0,.08);--shadow-h:0 5px 20px rgba(0,0,0,.13)
 }
 body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-top:70px}
-.ne-layout{
-  display:flex;max-width:1500px;margin:0 auto;
-  padding:1.25rem 1.25rem 2rem;gap:1.5rem;align-items:flex-start
-}
-.ne-sidebar{
-  width:205px;min-width:205px;flex-shrink:0;
-  position:sticky;top:90px;overflow:hidden
-}
-#left-sidebar{border-right:1px solid var(--border);padding-right:1.1rem}
-#right-sidebar{border-left:1px solid var(--border);padding-left:1.1rem}
-.ne-main{flex:1;min-width:0}
-.ne-sidebar-label{
-  font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--dimmed);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--blue)
-}
-.ne-sidebar-disc{margin-top:10px;font-size:.62rem;color:#ccc;line-height:1.4;font-style:italic}
-/* Constrain book/gear tiles to sidebar width */
-#book-tiles .aff-card,.book-card-wrap{max-width:100%;width:100%}
-#gear-tiles .aff-card,.gear-card-wrap{max-width:100%;width:100%}
-#book-tiles img,#gear-tiles img{width:100%;display:block;border-radius:var(--r);box-shadow:var(--shadow)}
-#book-tiles a,#gear-tiles a{display:block;margin-bottom:12px;border-radius:var(--r);overflow:hidden;transition:transform .2s,box-shadow .2s;box-shadow:var(--shadow)}
-#book-tiles a:hover,#gear-tiles a:hover{transform:translateY(-3px);box-shadow:var(--shadow-h)}
-/* Sidebar book tile — constrain height, don't let it overflow */
-#book-tiles .book-card-wrap{min-height:180px!important;height:auto}
-#book-tiles .book-cover{min-height:180px}
-#book-tiles .book-title{font-size:16px}
-#book-tiles .book-cat{margin-bottom:8px}
-#gear-tiles .gear-card-wrap{min-height:180px!important}
-#gear-tiles .gear-card-wrap>div[style*="padding-bottom:100%"]{padding-bottom:90%!important}
+.ne-layout{max-width:1160px;margin:0 auto;padding:1.25rem 1.25rem 2rem}
+.ne-main{width:100%}
+
+
 
 /* ── TABS ── */
 .feed-tabs{display:flex;gap:5px;margin-bottom:1rem;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
@@ -204,9 +179,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .aff-disclosure{text-align:center;font-size:.65rem;color:var(--dimmed);font-style:italic;margin-bottom:.9rem;margin-top:.25rem}
 @media(max-width:860px){
   .aff-disclosure{font-size:.78rem;line-height:1.6;padding:0 .5rem}
-  .ne-layout{flex-direction:column;padding:.75rem .75rem 1.5rem;gap:0}
-  .ne-sidebar{display:none!important}
-  .ne-main{width:100%;min-width:0}
+  .ne-layout{padding:.75rem .75rem 1.5rem}
   .cards-grid-3{grid-template-columns:1fr}
   .cards-grid-2{grid-template-columns:1fr}
   .aff-grid-desktop{display:none}
@@ -476,22 +449,6 @@ async function loadAffiliateSidebars(stories){
   _globalBookRule=bookRule;_globalGearRule=gearRule;
   const books=affData.books?.items||[];const gear=affData.gear?.items||[];
 
-  // Desktop sidebars
-  const bookEl=document.getElementById('book-tiles');
-  if(bookEl){
-    let html='';
-    if(bookRule?.books)html+='<div style="margin-bottom:12px;">'+bookTileHTML(bookRule.books)+'</div>';
-    pickNE(books,bookRule?.books?2:3).forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderImgTile(item)+'</div>'});
-    bookEl.innerHTML=html;
-  }
-  const gearEl=document.getElementById('gear-tiles');
-  if(gearEl){
-    let html='';
-    if(gearRule?.gear)html+='<div style="margin-bottom:12px;">'+gearTileHTML(gearRule.gear)+'</div>';
-    pickNE(gear,gearRule?.gear?2:3).forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderImgTile(item)+'</div>'});
-    gearEl.innerHTML=html;
-  }
-
   // Mobile insert
   let bHTML='',gHTML='';
   if(bookRule?.books)bHTML='<div style="border-radius:8px;overflow:hidden;">'+bookTileHTML(bookRule.books)+'</div>';
@@ -679,13 +636,6 @@ document.addEventListener('DOMContentLoaded',()=>{
 <div id="site-header"></div>
 
 <div class="ne-layout">
-  <!-- Left sidebar -->
-  <div class="ne-sidebar" id="left-sidebar">
-    <div class="ne-sidebar-label">🧭 NSM Reading List</div>
-    <div id="book-tiles"></div>
-    <div class="ne-sidebar-disc">Selecting a title supports independent journalism at no extra cost.</div>
-  </div>
-
   <!-- Main feed -->
   <div class="ne-main">
     <div id="feed-tabs" class="feed-tabs"></div>
@@ -694,12 +644,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     </div>
   </div>
 
-  <!-- Right sidebar -->
-  <div class="ne-sidebar" id="right-sidebar">
-    <div class="ne-sidebar-label">🧭 NSM Field Gear</div>
-    <div id="gear-tiles"></div>
-    <div class="ne-sidebar-disc">Selecting an item supports independent journalism at no extra cost.</div>
-  </div>
 </div>
 <footer>
   &copy; 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
