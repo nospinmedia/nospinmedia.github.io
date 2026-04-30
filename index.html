@@ -274,7 +274,7 @@ async function resolveImg(url,headline){
   }catch(e){}
   _imgCache[url]=null;return null;
 }
-async function preloadImages(stories){await Promise.all(stories.map(s=>resolveImg(s.url,s.headline)))}
+async function preloadImages(stories){await Promise.all(stories.map(s=>resolveImg(s.url,(s.headline||'')+' '+(s.summary||''))))}
 
 /* UTILS */
 function timeSince(ds){
