@@ -157,7 +157,33 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .gear-brand{position:absolute;bottom:7px;left:26px;right:26px;text-align:center;font-family:Arial,sans-serif}
 .gear-brand-name{font-size:9px;font-weight:800;color:#fff;letter-spacing:.03em}
 .gear-brand-sub{font-size:7px;color:rgba(255,255,255,.55);font-style:italic;margin-top:1px}
-.aff-disclosure{text-align:center;font-size:.65rem;color:var(--dimmed);font-style:italic;margin-bottom:.9rem;margin-top:.25rem}
+
+/* ── IMPROVED AFFILIATE TILE STYLES ── */
+/* Book tile enhancements */
+.book-title-lg{font-size:22px!important;line-height:1.1!important;letter-spacing:-.01em}
+.book-sub-readable{font-size:11.5px!important;color:rgba(221,208,168,.95)!important;line-height:1.6!important;font-style:italic}
+.book-brand-bottom{
+  margin-top:0;padding-top:8px;
+  border-top:none!important
+}
+.book-brand-rule{height:1px;opacity:.35;margin-bottom:8px;background:rgba(255,255,255,.4)}
+/* Gear brand at bottom */
+.gear-brand-bottom{
+  position:absolute;bottom:7px;left:20px;right:20px;
+  text-align:center;font-family:Arial,sans-serif
+}
+.gear-brand-rule{height:1px;background:rgba(212,168,67,.35);margin-bottom:6px;width:60%;margin-left:auto;margin-right:auto}
+/* Hover lift on both tile types — more pronounced than base .aff-card */
+.aff-card-book:hover,.aff-card-gear:hover{
+  transform:translateY(-5px)!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.22)!important
+}
+/* Disclosure line styling */
+.aff-disclosure{
+  text-align:center;font-size:.68rem;color:var(--dimmed);
+  font-style:italic;margin-bottom:.9rem;margin-top:.3rem;
+  letter-spacing:.01em
+}
 @media(max-width:860px){.aff-disclosure{font-size:.78rem;line-height:1.6;padding:0 .5rem}}
 .feed-loading{text-align:center;padding:4rem;color:var(--dimmed)}
 .spinner{width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 1rem}
@@ -347,17 +373,22 @@ function topTwoRules(stories,rules){
 function bookTileHTML(b){
   const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
   const sub=(b.subtitle||'').replace(/\\n/g,'<br>');
-  return'<a href="'+b.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card" title="Browse on Amazon">'
+  return'<a href="'+b.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-book" title="Recommended reading — supports NSM at no extra cost">'
     +'<div class="book-card-wrap">'
     +'<div class="book-spine" style="background:'+b.spine_color+';"></div>'
     +'<div class="book-pages"></div>'
     +'<div class="book-cover" style="background:'+b.cover_color+';">'
     +'<div class="book-cover-sheen"></div>'
     +'<div class="book-cat" style="color:'+b.accent_color+';border-color:'+b.accent_color+';">'+b.category_label+'</div>'
-    +'<div class="book-title">'+tl+'</div>'
+    +'<div class="book-title book-title-lg">'+tl+'</div>'
     +'<div class="book-rule" style="background:'+b.accent_color+';"></div>'
-    +'<div class="book-sub">'+sub+'</div>'
-    +'<div class="book-brand"><div class="book-brand-name">\uD83E\uDDED No Spin Media</div><div class="book-brand-sub">supports independent journalism</div></div>'
+    +'<div class="book-sub book-sub-readable">'+sub+'</div>'
+    +'<div style="flex:1;"></div>'
+    +'<div class="book-brand book-brand-bottom">'
+    +'<div class="book-brand-rule" style="background:'+b.accent_color+';"></div>'
+    +'<div class="book-brand-name">\uD83E\uDDED NSM Pick</div>'
+    +'<div class="book-brand-sub">Supports independent journalism</div>'
+    +'</div>'
     +'</div></div></a>';
 }
 function gearTileHTML(g){
@@ -365,7 +396,7 @@ function gearTileHTML(g){
   const tSize=tLen<=6?36:tLen<=8?30:tLen<=10?26:tLen<=13?22:18;
   const tl=(g.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
   const sub=(g.subtitle||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
-  return'<a href="'+g.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card" title="Browse on Amazon">'
+  return'<a href="'+g.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-gear" title="Recommended gear — supports NSM at no extra cost">'
     +'<div class="gear-card-wrap">'
     +'<div class="gear-sheen"></div><div class="gear-inner-border"></div>'
     +'<div class="gear-clip-t"></div><div class="gear-clip-b"></div><div class="gear-clip-l"></div><div class="gear-clip-r"></div>'
@@ -375,7 +406,11 @@ function gearTileHTML(g){
     +'<div class="gear-icon">'+(g.icon||'\u2699\uFE0F')+'</div>'
     +'<div class="gear-rule"></div><div class="gear-sub">'+sub+'</div>'
     +'</div>'
-    +'<div class="gear-brand"><div class="gear-brand-name">\uD83E\uDDED No Spin Media</div><div class="gear-brand-sub">supports independent journalism</div></div>'
+    +'<div class="gear-brand gear-brand-bottom">'
+    +'<div class="gear-brand-rule"></div>'
+    +'<div class="gear-brand-name">\uD83E\uDDED NSM Pick</div>'
+    +'<div class="gear-brand-sub">Supports independent journalism</div>'
+    +'</div>'
     +'</div></a>';
 }
 let _allAffData=null,_allKwData=null,_globalBookRule=null,_globalGearRule=null,_affPlacementToggle=0;
@@ -394,6 +429,13 @@ function pickAffTileForSection(sectionStories){
   _affPlacementToggle=1-_affPlacementToggle;
   return tile;
 }
+const AFF_DISCLOSURES=[
+  '\uD83E\uDDED NSM Picks support independent journalism',
+  '\uD83E\uDDED Selecting an item supports NSM at no extra cost',
+  '\uD83E\uDDED Recommended reading and gear from No Spin Media'
+];
+function randDisclosure(){return AFF_DISCLOSURES[Math.floor(Math.random()*AFF_DISCLOSURES.length)]}
+
 function affRow(s1,s2,tile){
   if(!tile)return s2?'<div class="cards-grid-2">'+cardHTML(s1)+cardHTML(s2)+'</div>':'<div class="cards-grid-2">'+cardHTML(s1)+'</div>';
   return'<div class="cards-grid-3 aff-grid-desktop" style="align-items:stretch;">'
@@ -402,7 +444,7 @@ function affRow(s1,s2,tile){
     +'<div>'+(s2?cardHTML(s2):'')+'</div>'
     +'</div>'
     +'<div class="cards-grid-2 aff-mobile-single">'+cardHTML(s1)+(s2?cardHTML(s2):'')+'</div>'
-    +'<div class="aff-disclosure">\uD83E\uDDED NSM Picks \u2014 Supports independent journalism. No extra cost.</div>';
+    +'<div class="aff-disclosure">'+randDisclosure()+'</div>';
 }
 
 /* SHUFFLE */
