@@ -151,7 +151,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .gear-content{position:absolute;inset:14px 26px 62px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 .gear-cat{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;border-top:1.5px solid #d4a843;border-bottom:1.5px solid #d4a843;padding:4px 0 3px;width:85%;margin-bottom:9px}
 .gear-title{font-family:'Arial Black',Impact,Arial,sans-serif;font-weight:900;color:#f0e4c8;letter-spacing:.04em;line-height:.95}
-.gear-icon{font-size:18px;margin:7px 0 5px}
+.gear-icon{font-size:18px;margin:13px 0 5px}
 .gear-rule{width:82%;height:1px;background:linear-gradient(to right,transparent,#d4a843 25%,#d4a843 75%,transparent);margin-bottom:7px}
 .gear-sub{font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;line-height:1.5}
 .gear-brand{position:absolute;bottom:7px;left:26px;right:26px;text-align:center;font-family:Arial,sans-serif}
@@ -162,20 +162,21 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .book-title-lg{font-size:24px!important;line-height:1.07!important;letter-spacing:-.018em}
 .book-sub-readable{font-size:11.5px!important;color:rgba(221,208,168,.92)!important;line-height:1.55!important;font-style:italic;margin-top:2px}
 .book-brand-bottom{
-  margin-top:auto;padding-top:12px;
-  border-top:none!important
+  margin-top:auto;padding-top:14px;
+  border-top:none!important;
+  text-align:center
 }
-.book-brand-rule{height:1px;opacity:.4;margin-bottom:9px;background:rgba(255,255,255,.45)}
-.book-brand-name{font-size:11px!important;font-weight:700;letter-spacing:.03em;color:#fff;line-height:1.35}
-.book-brand-sub{font-size:8px!important;color:rgba(255,255,255,.65);font-style:italic;margin-top:3px;line-height:1.3}
+.book-brand-rule{height:1px;opacity:.4;margin-bottom:9px;background:rgba(255,255,255,.45);width:60%;margin-left:auto;margin-right:auto}
+.book-brand-name{font-size:11px!important;font-weight:700;letter-spacing:.03em;color:#fff;line-height:1.35;text-align:center}
+.book-brand-sub{font-size:8px!important;color:rgba(255,255,255,.65);font-style:italic;margin-top:3px;line-height:1.3;text-align:center}
 /* Gear brand at bottom */
 .gear-brand-bottom{
   position:absolute;bottom:20px;left:16px;right:16px;
   text-align:center;font-family:Arial,sans-serif
 }
-.gear-brand-rule{height:1px;background:rgba(212,168,67,.45);margin-bottom:8px;width:50%;margin-left:auto;margin-right:auto}
-.gear-brand-name{font-size:11px!important;font-weight:700;color:#fff;letter-spacing:.03em;line-height:1.35}
-.gear-brand-sub{font-size:8px!important;color:rgba(255,255,255,.65);font-style:italic;margin-top:3px;line-height:1.3}
+.gear-brand-rule{height:1px;background:rgba(212,168,67,.45);margin-bottom:9px;width:50%;margin-left:auto;margin-right:auto}
+.gear-brand-name{font-size:11px!important;font-weight:700;color:#fff;letter-spacing:.03em;line-height:1.35;text-align:center}
+.gear-brand-sub{font-size:8px!important;color:rgba(255,255,255,.65);font-style:italic;margin-top:3px;line-height:1.3;text-align:center}
 /* Hover lift on both tile types — more pronounced than base .aff-card */
 .aff-card-book:hover,.aff-card-gear:hover{
   transform:translateY(-5px)!important;
@@ -382,9 +383,13 @@ function topTwoRules(stories,rules){
 /* Rotating support messages for affiliate tiles */
 const NSM_SUPPORT_MSGS=[
   'Supports independent journalism',
-  'No extra cost to you',
   'Helps keep NSM free',
-  'Supporting reader-funded news'
+  'Curated by No Spin Media',
+  'Reader-supported journalism',
+  'Recommended by the NSM newsroom',
+  'Hand-picked by No Spin Media',
+  'Helps fund independent reporting',
+  'NSM reader recommendation'
 ];
 function randSupport(){return NSM_SUPPORT_MSGS[Math.floor(Math.random()*NSM_SUPPORT_MSGS.length)]}
 
