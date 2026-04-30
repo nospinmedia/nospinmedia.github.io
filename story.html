@@ -257,7 +257,8 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 /* Affiliate book/gear tiles (same CSS as index2) */
 .aff-card{border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s;display:block;text-decoration:none;height:100%}
 .aff-card:hover{box-shadow:var(--shadow-h);transform:translateY(-3px)}
-.book-card-wrap{display:flex;height:100%;min-height:240px;font-family:Georgia,'Times New Roman',serif}
+.aff-card-book:hover,.aff-card-gear:hover{transform:translateY(-5px)!important;box-shadow:0 10px 28px rgba(0,0,0,.22)!important}
+.book-card-wrap{display:flex;height:100%;min-height:225px;font-family:Georgia,'Times New Roman',serif}
 .book-spine{width:22px;min-width:22px;border-radius:var(--r) 0 0 var(--r);box-shadow:inset -4px 0 10px rgba(0,0,0,.45)}
 .book-pages{width:7px;min-width:7px;background:repeating-linear-gradient(to bottom,#f6f1e9 0,#f6f1e9 1px,#e9e4db 2px,#e9e4db 3px)}
 .book-cover{flex:1;border-radius:0 var(--r) var(--r) 0;padding:18px 15px 13px;display:flex;flex-direction:column;overflow:hidden;position:relative;box-shadow:inset 2px 0 12px rgba(0,0,0,.12)}
@@ -269,7 +270,13 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .book-brand{margin-top:12px;padding-top:8px;border-top:1px solid rgba(255,255,255,.18)}
 .book-brand-name{font-size:10px;font-weight:800;font-family:Arial,sans-serif;color:#fff;letter-spacing:.02em}
 .book-brand-sub{font-size:7.5px;color:rgba(255,255,255,.55);font-family:Arial,sans-serif;margin-top:1px;font-style:italic}
-.gear-card-wrap{position:relative;width:100%;min-height:240px;height:100%;background:#2a2a2a;border-radius:var(--r);box-shadow:inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e;display:flex;align-items:center;justify-content:center;overflow:hidden}
+/* Book tile enhancements */
+.book-title-lg{font-size:24px!important;line-height:1.07!important;letter-spacing:-.018em}
+.book-sub-readable{font-size:11.5px!important;color:rgba(221,208,168,.92)!important;line-height:1.55!important;font-style:italic;margin-top:2px}
+.book-cat{font-size:9px;letter-spacing:.14em!important;text-transform:uppercase;font-weight:700;font-family:Arial,sans-serif;border-top:1.5px solid;border-bottom:1.5px solid;padding:5px 0 4px;margin-bottom:12px;text-align:center}
+.book-brand-bottom{margin-top:auto;padding-top:14px;border-top:none!important;text-align:center}
+.book-brand-rule{height:1px;opacity:.4;margin-bottom:9px;background:rgba(255,255,255,.45);width:60%;margin-left:auto;margin-right:auto}
+.gear-card-wrap{position:relative;width:100%;min-height:225px;height:100%;background:#2a2a2a;border-radius:var(--r);box-shadow:inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .gear-sheen{position:absolute;inset:0;border-radius:var(--r);background:radial-gradient(ellipse at 50% 38%,rgba(255,255,255,.13) 0%,rgba(0,0,0,.15) 100%);pointer-events:none}
 .gear-inner-border{position:absolute;inset:11px;border-radius:7px;border:1px solid rgba(255,255,255,.08);pointer-events:none}
 .gear-clip-t{position:absolute;top:5px;left:50%;transform:translateX(-50%);width:42px;height:8px;background:#333;border-radius:5px;border:1px solid #444}
@@ -283,8 +290,14 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .gear-rule{width:82%;height:1px;background:linear-gradient(to right,transparent,#d4a843 25%,#d4a843 75%,transparent);margin-bottom:7px}
 .gear-sub{font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;line-height:1.5}
 .gear-brand{position:absolute;bottom:7px;left:26px;right:26px;text-align:center;font-family:Arial,sans-serif}
-.gear-brand-name{font-size:9px;font-weight:800;color:#fff;letter-spacing:.03em}
-.gear-brand-sub{font-size:7px;color:rgba(255,255,255,.55);font-style:italic;margin-top:1px}
+/* gear-brand-name and gear-brand-sub defined below */
+.gear-brand-bottom{position:absolute;bottom:20px;left:16px;right:16px;text-align:center;font-family:Arial,sans-serif}
+.gear-brand-rule{height:1px;background:rgba(212,168,67,.45);margin-bottom:9px;width:50%;margin-left:auto;margin-right:auto}
+.gear-brand-name{font-size:11px!important;font-weight:700;color:#fff;letter-spacing:.03em;line-height:1.35;text-align:center}
+.gear-brand-sub{font-size:8px!important;color:rgba(255,255,255,.65);font-style:italic;margin-top:3px;line-height:1.3;text-align:center}
+.gear-cat{font-size:9px;font-weight:700;letter-spacing:.13em!important;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;border-top:1.5px solid #d4a843;border-bottom:1.5px solid #d4a843;padding:4px 0 3px;width:85%;margin-bottom:9px}
+.gear-icon{font-size:18px;margin:13px 0 5px}
+.gear-content{position:absolute;inset:14px 26px 62px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 
 footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-top:1px solid var(--border);margin-top:1rem}
 
@@ -377,39 +390,60 @@ function pickItems(items,count){
 function pickOneMobile(items){const must=items.filter(i=>i.must_show);const pool=must.length?must:items;return pool[Math.floor(Math.random()*pool.length)]}
 function renderTileHTML(item){return'<a href="'+getRandomLink(item)+'" target="_blank" rel="noopener nofollow sponsored" title="Browse on Amazon"><img src="/affiliate/'+item.image+'" alt="'+item.title+'" loading="lazy"></a>'}
 
+/* Rotating support messages */
+const NSM_SUPPORT_MSGS=[
+  'Supports independent journalism',
+  'Helps keep NSM free',
+  'Curated by No Spin Media',
+  'Reader-supported journalism',
+  'Recommended by the NSM newsroom',
+  'Hand-picked by No Spin Media',
+  'Helps fund independent reporting',
+  'NSM reader recommendation'
+];
+function randSupport(){return NSM_SUPPORT_MSGS[Math.floor(Math.random()*NSM_SUPPORT_MSGS.length)]}
+
 function bookTileHTML(b){
   const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
   const sub=(b.subtitle||'').replace(/\\n/g,'<br>');
-  return'<a href="'+b.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card" title="Browse on Amazon">'
+  return'<a href="'+b.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-book" title="Recommended reading — supports NSM at no extra cost">'
     +'<div class="book-card-wrap">'
-    +'<div class="book-spine" style="background:'+b.spine_color+';"></div>'
+    +'<div class="book-spine" style="background:'+b.spine_color+';">' + '</div>'
     +'<div class="book-pages"></div>'
-    +'<div class="book-cover" style="background:'+b.cover_color+';">'
+    +'<div class="book-cover" style="background:'+b.cover_color+';">' 
     +'<div class="book-cover-sheen"></div>'
     +'<div class="book-cat" style="color:'+b.accent_color+';border-color:'+b.accent_color+';">'+b.category_label+'</div>'
-    +'<div class="book-title">'+tl+'</div>'
-    +'<div class="book-rule" style="background:'+b.accent_color+';"></div>'
-    +'<div class="book-sub">'+sub+'</div>'
-    +'<div class="book-brand"><div class="book-brand-name">\uD83E\uDDED No Spin Media</div><div class="book-brand-sub">supports independent journalism</div></div>'
+    +'<div class="book-title book-title-lg">'+tl+'</div>'
+    +'<div class="book-rule" style="background:'+b.accent_color+';">' + '</div>'
+    +'<div class="book-sub book-sub-readable">'+sub+'</div>'
+    +'<div style="flex:1;"></div>'
+    +'<div class="book-brand book-brand-bottom">'
+    +'<div class="book-brand-rule" style="background:'+b.accent_color+';">' + '</div>'
+    +'<div class="book-brand-name">🧭  No Spin Media Pick</div>'
+    +'<div class="book-brand-sub">'+randSupport()+'</div>'
+    +'</div>'
     +'</div></div></a>';
 }
 function gearTileHTML(g){
   const tLen=(g.title||'').replace(/\\n/g,'').length;
-  const tSize=tLen<=6?36:tLen<=8?30:tLen<=10?26:tLen<=13?22:18;
+  const tSize=tLen<=6?38:tLen<=8?32:tLen<=10?28:tLen<=13?24:20;
   const tl=(g.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
   const sub=(g.subtitle||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
-  return'<a href="'+g.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card" title="Browse on Amazon">'
+  return'<a href="'+g.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-gear" title="Recommended gear — supports NSM at no extra cost">'
     +'<div class="gear-card-wrap">'
     +'<div class="gear-sheen"></div><div class="gear-inner-border"></div>'
     +'<div class="gear-clip-t"></div><div class="gear-clip-b"></div><div class="gear-clip-l"></div><div class="gear-clip-r"></div>'
     +'<div class="gear-content">'
     +'<div class="gear-cat">'+(g.category_label||'')+'</div>'
     +'<div class="gear-title" style="font-size:'+tSize+'px;">'+tl+'</div>'
-    +'<div class="gear-icon">'+(g.icon||'\u2699\uFE0F')+'</div>'
+    +'<div class="gear-icon">'+(g.icon||'⚙️')+'</div>'
     +'<div class="gear-rule"></div><div class="gear-sub">'+sub+'</div>'
     +'</div>'
-    +'<div class="gear-brand"><div class="gear-brand-name">\uD83E\uDDED No Spin Media</div><div class="gear-brand-sub">supports independent journalism</div></div>'
-    +'</div></a>';
+    +'<div class="gear-brand gear-brand-bottom">'
+    +'<div class="gear-brand-rule"></div>'
+    +'<div class="gear-brand-name">🧭  No Spin Media Pick</div>'
+    +'<div class="gear-brand-sub">'+randSupport()+'</div>'
+    +'</div></div></a>';
 }
 
 async function loadAllAffiliateTiles(matchedRule){
@@ -467,9 +501,10 @@ async function resolveFallbackImage(headline){
   return null;
 }
 async function fetchImageMeta(p){try{const r=await fetch(p.replace(/\.[^.]+$/,'.json'));if(r.ok)return await r.json()}catch(e){}return null}
-async function getStoryImage(id,headline){
+async function getStoryImage(id,headline,summary){
   const si=await resolveStoryImage(id);if(si)return{url:si,meta:await fetchImageMeta(si)};
-  const fi=await resolveFallbackImage(headline);if(fi)return{url:fi,meta:await fetchImageMeta(fi)};
+  const searchText=(headline||'')+' '+(summary||'');
+  const fi=await resolveFallbackImage(searchText);if(fi)return{url:fi,meta:await fetchImageMeta(fi)};
   return null;
 }
 
@@ -592,7 +627,7 @@ async function loadStory(){
   const pillCls='story-pill tp-'+topic;
 
   // Image
-  const imgResult=await getStoryImage(storyId,s.headline);
+  const imgResult=await getStoryImage(storyId,s.headline,s.summary);
   let heroBgStyle=imgResult
     ?'background-image:url(\''+imgResult.url+'\');background-size:cover;background-position:center;'
     :'background:'+topicBg+';';
