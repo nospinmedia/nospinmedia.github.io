@@ -362,9 +362,17 @@ async function loadQueue(){
   let stories;
   try{
     const res=await fetch('https://data.nospin.media/unpublished');
+    if(!res.ok)throw new Error('HTTP '+res.status);
     stories=await res.json();
+    if(!Array.isArray(stories))throw new Error('Unexpected data format');
   }catch(e){
-    container.innerHTML='<div class="feed-loading"><p>Could not load queue. Please refresh.</p></div>';return;
+    container.innerHTML='<div class="feed-loading">'
+      +'<p style="color:#cc2200;font-weight:600;">Could not load queue.</p>'
+      +'<p style="margin-top:.5rem;font-size:.8rem;color:#999;">'+e.message+'</p>'
+      +'<p style="margin-top:.75rem"><button onclick="loadQueue()" style="font-size:.85rem;font-weight:600;color:#0066cc;background:#fff;border:1px solid #e0e0dc;border-radius:20px;padding:6px 14px;cursor:pointer;">↻ Retry</button></p>'
+      +'</div>';
+    console.error('Queue load failed:',e);
+    return;
   }
 
   if(storyId){
@@ -387,8 +395,9 @@ async function loadQueue(){
   const kwData=await getKw();
   const {bookRule,gearRule}=findTopTwoRules(stories,kwData.rules||[]);
 
-  // Resolve all images in parallel
-  const imgUrls=await Promise.all(stories.map(s=>resolveImg(s.url,s.headline,s.summary)));
+  // Pre-resolve images (non-blocking — we'll use topic gradient as fallback while loading)
+  const imgPromises=stories.map(s=>resolveImg(s.url,s.headline,s.summary).catch(()=>null));
+  const imgUrls=await Promise.allSettled(imgPromises).then(r=>r.map(x=>x.value||null));
 
   // Group by date
   const groups={};
