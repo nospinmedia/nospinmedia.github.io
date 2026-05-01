@@ -82,7 +82,16 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .spinner{width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 1rem}
 @keyframes spin{to{transform:rotate(360deg)}}
 footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-top:1px solid var(--border);margin-top:1rem}
-@media(max-width:860px){body{background:#EBEBEB}.page-wrap{padding:.75rem .75rem 1.5rem}.queue-count{display:none}}
+@media(max-width:860px){
+  body{background:#EBEBEB}
+  .page-wrap{padding:.75rem .75rem 1.5rem}
+  .queue-count{display:none}
+  /* Cap inline affiliate tiles on mobile */
+  .mobile-affiliate-insert .mobile-affiliate-grid img{max-height:140px;object-fit:cover;width:100%;display:block;border-radius:8px}
+  /* Inline CSS tiles injected after cards */
+  .aff-inline-wrap{max-width:100%!important}
+  .aff-inline-wrap>a>div{max-height:180px!important;min-height:0!important;padding-bottom:0!important;height:160px!important}
+}
 </style>
 <script>
 const SB_KEY='sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
@@ -127,7 +136,7 @@ function bookTileHTML(b){
   const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
   const sub=(b.subtitle||'').replace(/\\n/g,'<br>');
   return'<a href="'+b.url+'" target="_blank" rel="noopener nofollow sponsored" style="display:block;text-decoration:none;height:100%;">'
-    +'<div style="display:flex;height:100%;min-height:190px;border-radius:11px;overflow:hidden;font-family:Georgia,serif;box-shadow:0 1px 8px rgba(0,0,0,.12);">'
+    +'<div style="display:flex;height:100%;min-height:0;max-height:180px;border-radius:11px;overflow:hidden;font-family:Georgia,serif;box-shadow:0 1px 8px rgba(0,0,0,.12);">'
     +'<div style="width:16px;min-width:16px;background:'+b.spine_color+';border-radius:11px 0 0 11px;box-shadow:inset -3px 0 7px rgba(0,0,0,.4);"></div>'
     +'<div style="width:5px;min-width:5px;background:repeating-linear-gradient(to bottom,#f6f1e9 0,#f6f1e9 1px,#e9e4db 2px,#e9e4db 3px);"></div>'
     +'<div style="flex:1;background:'+b.cover_color+';border-radius:0 11px 11px 0;padding:13px 11px 10px;display:flex;flex-direction:column;overflow:hidden;">'
@@ -146,7 +155,7 @@ function gearTileHTML(g){
   const tl=(g.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
   const sub=(g.subtitle||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
   return'<a href="'+g.url+'" target="_blank" rel="noopener nofollow sponsored" style="display:block;text-decoration:none;height:100%;">'
-    +'<div style="position:relative;width:100%;padding-bottom:80%;border-radius:11px;background:#2a2a2a;box-shadow:inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e,0 1px 8px rgba(0,0,0,.18);overflow:hidden;">'
+    +'<div style="position:relative;width:100%;height:160px;border-radius:11px;background:#2a2a2a;box-shadow:inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e,0 1px 8px rgba(0,0,0,.18);overflow:hidden;">'
     +'<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 38%,rgba(255,255,255,.12) 0%,rgba(0,0,0,.12) 100%);pointer-events:none;"></div>'
     +'<div style="position:absolute;top:4px;left:50%;transform:translateX(-50%);width:34px;height:7px;background:#333;border-radius:4px;border:1px solid #444;"></div>'
     +'<div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:34px;height:7px;background:#333;border-radius:4px;border:1px solid #444;"></div>'
@@ -464,7 +473,8 @@ async function loadStories(){
         +'<div class="card-footer">'
         +(hasMore?'<button class="story-link" onclick="toggleSummary(this)">'+(storyId?'Show less \u2191':'Show more \u2193')+'</button>':'<span></span>')
         +'<button class="btn-review" onclick="toggleReview(\''+safeUrl+'\',\''+safeHL+'\')">&#x270F;&#xFE0F; Review</button>'
-        +'<button class="story-link" onclick="shareUnpublished(\''+safeUrl+'\',\''+safeHL+'\',this)">&#x1F517; Share <span class="share-confirm"></span></button>'
+        +'<button class="story-link" onclick="shareUnpublished(\''+safeUrl+'\',\''+safeHL+'\',this)">&#x1F4CB; Title+Link <span class="share-confirm"></span></button>'
+        +'<button class="story-link" onclick="shareUrlOnly(\''+safeUrl+'\'  ,this)">&#x1F517; Link only <span class="share-confirm-url"></span></button>'
         +'</div></div>';
 
       const reviewPanel=document.createElement('div');
@@ -486,7 +496,8 @@ async function loadStories(){
         const tile=pickInlineTile();
         if(tile){
           const affDiv=document.createElement('div');
-          affDiv.style.cssText='margin-bottom:.75rem;max-width:320px;';
+          affDiv.className='aff-inline-wrap';
+          affDiv.style.cssText='margin-bottom:.75rem;max-width:320px;width:100%;';
           affDiv.innerHTML=tile;
           dateGroup.appendChild(affDiv);
         }
