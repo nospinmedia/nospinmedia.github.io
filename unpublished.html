@@ -388,16 +388,25 @@ async function loadQueue(){
     }
   }
 
+  console.log('Queue: fetched',stories.length,'stories');
   stories.sort((a,b)=>parseInt(a.order)-parseInt(b.order));
   stories=stories.filter(s=>s.headline);
+  console.log('Queue: filtered to',stories.length,'with headlines');
   stories=assignSlots(stories);
+  console.log('Queue: slots assigned');
 
   const kwData=await getKw();
+  console.log('Queue: keyword data loaded');
   const {bookRule,gearRule}=findTopTwoRules(stories,kwData.rules||[]);
+  console.log('Queue: aff rules scored');
 
-  // Pre-resolve images (non-blocking — we'll use topic gradient as fallback while loading)
-  const imgPromises=stories.map(s=>resolveImg(s.url,s.headline,s.summary).catch(()=>null));
-  const imgUrls=await Promise.allSettled(imgPromises).then(r=>r.map(x=>x.value||null));
+  // Pre-resolve images with timeout so they never hang
+  const imgUrls=await Promise.all(stories.map(s=>{
+    const timeout=new Promise(r=>setTimeout(()=>r(null),3000));
+    const resolve=resolveImg(s.url,s.headline,s.summary).catch(()=>null);
+    return Promise.race([resolve,timeout]);
+  }));
+  console.log('Queue: images resolved');
 
   // Group by date
   const groups={};
@@ -412,6 +421,7 @@ async function loadQueue(){
 
   container.innerHTML='';
 
+  try{
   // Update subtitle with count
   document.getElementById('queue-count').textContent=stories.length+' stor'+(stories.length===1?'y':'ies') +' queued';
 
@@ -505,6 +515,10 @@ async function loadQueue(){
     }
 
     container.appendChild(groupEl);
+  }
+  }catch(renderErr){
+    console.error('Queue render error:',renderErr);
+    container.innerHTML='<div class="feed-loading"><p style="color:#cc2200;font-weight:600;">Render error: '+renderErr.message+'</p></div>';
   }
 }
 
