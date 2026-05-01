@@ -255,6 +255,17 @@ function toggleSummary(btn){
 }
 window.toggleSummary=toggleSummary;
 
+async function shareUrlOnly(id,btn){
+  const base=window.location.origin+window.location.pathname;
+  const url=base+'?id='+id;
+  const conf=btn.querySelector('.share-confirm-url');
+  try{
+    await navigator.clipboard.writeText(url);
+    if(conf){conf.textContent='✅ Copied!';setTimeout(()=>{conf.textContent=''},2000)}
+  }catch(e){if(conf){conf.textContent='❌ Failed';setTimeout(()=>{conf.textContent=''},2000)}}
+}
+window.shareUrlOnly=shareUrlOnly;
+
 async function shareUnpublished(id,headline,btn){
   const base=window.location.origin+window.location.pathname;
   const url=base+'?id='+id;
@@ -356,6 +367,9 @@ async function loadStories(){
 
   const countEl=document.getElementById('queue-count');
   if(countEl)countEl.textContent=stories.length+' stor'+(stories.length===1?'y':'ies')+' queued';
+  // Show back-to-queue nav when viewing a single story
+  const singleNav=document.getElementById('single-story-nav');
+  if(singleNav)singleNav.style.display=storyId?'block':'none';
 
   const kwData=await loadKeywordAffiliateData();
   const{bookRule,gearRule}=findTopTwoRules(stories,kwData.rules||[]);
@@ -523,6 +537,10 @@ document.addEventListener('DOMContentLoaded',function(){
     <span style="font-size:1.5rem;line-height:1">&#x1F9ED;</span>
     <span class="queue-title">No Spin Media News Queue</span>
     <span class="queue-count" id="queue-count"></span>
+  </div>
+
+  <div id="single-story-nav" style="display:none;margin-bottom:.75rem;">
+    <a href="unpublished.html" style="display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600;color:var(--blue);text-decoration:none;padding:5px 11px;background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);">&#x2190; Full Story Queue</a>
   </div>
 
   <div id="news-container">
