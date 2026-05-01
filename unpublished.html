@@ -53,10 +53,12 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .tp-bg-environment{background:linear-gradient(160deg,#083A08,#1A7A1A)}
 .tp-bg-military{background:linear-gradient(160deg,#3A1A04,#6A3810)}
 .card-body{padding:.8rem 1rem .75rem}
-.affiliate-badge{display:inline-block;margin:0 4px 4px 0;padding:3px 8px;border-radius:20px;font-size:.68rem;font-weight:700;letter-spacing:.03em}
-.affiliate-badge.book{background:#E8F0FF;color:#0044AA;border:1px solid #B0C8FF}
-.affiliate-badge.gear{background:#FFF4E0;color:#8A5000;border:1px solid #FFD080}
-.affiliate-badge.none{background:#F0F0F0;color:#888;border:1px solid #DDD}
+.aff-match-row{display:flex;align-items:center;gap:6px;margin-bottom:.5rem;flex-wrap:wrap}
+.aff-match-label{font-size:.63rem;font-weight:600;color:var(--dimmed);text-transform:uppercase;letter-spacing:.07em}
+.affiliate-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:.66rem;font-weight:600}
+.affiliate-badge.book{background:var(--blue-lt);color:var(--blue)}
+.affiliate-badge.gear{background:#FFF8ED;color:#7A4500}
+.affiliate-badge.none{display:none}
 .story-summary-preview{font-size:.85rem;line-height:1.65;color:var(--muted)}
 .story-summary-rest{font-size:.85rem;line-height:1.65;color:var(--muted);margin-top:.4rem;white-space:pre-line}
 .card-footer{display:flex;align-items:center;gap:8px;padding-top:.6rem;border-top:1px solid var(--border);flex-wrap:wrap;margin-top:.6rem}
@@ -118,6 +120,62 @@ function pickItems(items,count){
 }
 function pickOneMobile(items){const must=items.filter(i=>i.must_show);const pool=must.length?must:items;return pool[Math.floor(Math.random()*pool.length)]}
 function renderTileHTML(item){return'<a href="'+getRandomLink(item)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+item.image+'" alt="'+item.title+'" loading="lazy"></a>'}
+const NSM_SUPPORT_MSGS=['Supports independent journalism','Helps keep NSM free','Curated by No Spin Media','Reader-supported journalism','Hand-picked by No Spin Media','Helps fund independent reporting'];
+function randSupport(){return NSM_SUPPORT_MSGS[Math.floor(Math.random()*NSM_SUPPORT_MSGS.length)]}
+
+function bookTileHTML(b){
+  const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
+  const sub=(b.subtitle||'').replace(/\\n/g,'<br>');
+  return'<a href="'+b.url+'" target="_blank" rel="noopener nofollow sponsored" style="display:block;text-decoration:none;height:100%;">'
+    +'<div style="display:flex;height:100%;min-height:190px;border-radius:11px;overflow:hidden;font-family:Georgia,serif;box-shadow:0 1px 8px rgba(0,0,0,.12);">'
+    +'<div style="width:16px;min-width:16px;background:'+b.spine_color+';border-radius:11px 0 0 11px;box-shadow:inset -3px 0 7px rgba(0,0,0,.4);"></div>'
+    +'<div style="width:5px;min-width:5px;background:repeating-linear-gradient(to bottom,#f6f1e9 0,#f6f1e9 1px,#e9e4db 2px,#e9e4db 3px);"></div>'
+    +'<div style="flex:1;background:'+b.cover_color+';border-radius:0 11px 11px 0;padding:13px 11px 10px;display:flex;flex-direction:column;overflow:hidden;">'
+    +'<div style="font-size:8px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;font-family:Arial,sans-serif;color:'+b.accent_color+';border-top:1.5px solid '+b.accent_color+';border-bottom:1.5px solid '+b.accent_color+';padding:4px 0 3px;margin-bottom:9px;text-align:center;">'+b.category_label+'</div>'
+    +'<div style="font-size:17px;font-weight:800;line-height:1.1;color:#f9f1e0;flex:1;">'+tl+'</div>'
+    +'<div style="width:26px;height:1.5px;background:'+b.accent_color+';margin:9px 0 7px;opacity:.8;"></div>'
+    +'<div style="font-size:9.5px;line-height:1.4;color:#ddd0a8;font-style:italic;">'+sub+'</div>'
+    +'<div style="margin-top:auto;padding-top:8px;border-top:1px solid rgba(255,255,255,.15);text-align:center;">'
+    +'<div style="font-size:9.5px;font-weight:700;font-family:Arial,sans-serif;color:#fff;">&#x1F9ED; No Spin Media Pick</div>'
+    +'<div style="font-size:7px;color:rgba(255,255,255,.6);font-family:Arial,sans-serif;margin-top:1px;font-style:italic;">'+randSupport()+'</div>'
+    +'</div></div></div></a>';
+}
+function gearTileHTML(g){
+  const tLen=(g.title||'').replace(/\\n/g,'').length;
+  const tSize=tLen<=6?30:tLen<=8?24:tLen<=10?20:tLen<=13?17:14;
+  const tl=(g.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
+  const sub=(g.subtitle||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
+  return'<a href="'+g.url+'" target="_blank" rel="noopener nofollow sponsored" style="display:block;text-decoration:none;height:100%;">'
+    +'<div style="position:relative;width:100%;padding-bottom:80%;border-radius:11px;background:#2a2a2a;box-shadow:inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e,0 1px 8px rgba(0,0,0,.18);overflow:hidden;">'
+    +'<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 38%,rgba(255,255,255,.12) 0%,rgba(0,0,0,.12) 100%);pointer-events:none;"></div>'
+    +'<div style="position:absolute;top:4px;left:50%;transform:translateX(-50%);width:34px;height:7px;background:#333;border-radius:4px;border:1px solid #444;"></div>'
+    +'<div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:34px;height:7px;background:#333;border-radius:4px;border:1px solid #444;"></div>'
+    +'<div style="position:absolute;inset:12px 20px 44px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">'
+    +'<div style="font-size:7.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;border-top:1.5px solid #d4a843;border-bottom:1.5px solid #d4a843;padding:3px 0;width:85%;margin-bottom:6px;">'+(g.category_label||'')+'</div>'
+    +'<div style="font-family:Arial Black,Impact,Arial,sans-serif;font-size:'+tSize+'px;font-weight:900;color:#f0e4c8;letter-spacing:.04em;line-height:.95;">'+tl+'</div>'
+    +'<div style="font-size:15px;margin:5px 0 4px;">'+(g.icon||'&#x2699;&#xFE0F;')+'</div>'
+    +'<div style="width:70%;height:1px;background:linear-gradient(to right,transparent,#d4a843 25%,#d4a843 75%,transparent);margin-bottom:4px;"></div>'
+    +'<div style="font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;line-height:1.4;">'+sub+'</div>'
+    +'</div>'
+    +'<div style="position:absolute;bottom:7px;left:12px;right:12px;text-align:center;font-family:Arial,sans-serif;">'
+    +'<div style="font-size:8.5px;font-weight:700;color:#fff;">&#x1F9ED; No Spin Media Pick</div>'
+    +'<div style="font-size:6.5px;color:rgba(255,255,255,.6);font-style:italic;margin-top:1px;">'+randSupport()+'</div>'
+    +'</div></div></a>';
+}
+
+let _cachedBookRule=null,_cachedGearRule=null,_affToggle=0;
+function pickInlineTile(){
+  const useBook=_affToggle===0;
+  _affToggle=1-_affToggle;
+  const rule=useBook?_cachedBookRule:_cachedGearRule;
+  if(!rule)return(_cachedBookRule?.books?bookTileHTML(_cachedBookRule.books):null)||(_cachedGearRule?.gear?gearTileHTML(_cachedGearRule.gear):null);
+  if(useBook&&rule.books)return bookTileHTML(rule.books);
+  if(!useBook&&rule.gear)return gearTileHTML(rule.gear);
+  if(rule.books)return bookTileHTML(rule.books);
+  if(rule.gear)return gearTileHTML(rule.gear);
+  return null;
+}
+
 async function loadAllAffiliateTiles(bookRule,gearRule){
   const data=await loadAffiliateData();
   const bookItems=data.books?.items||[],gearItems=data.gear?.items||[];
@@ -166,15 +224,15 @@ function convertRedditMarkdown(text){
 }
 
 async function submitFeedback(name,email,message,statusEl,formEl){
-  statusEl.style.color='black';statusEl.textContent='Sending...';
+  statusEl.style.color='black';statusEl.innerHTML='Sending&hellip;';
   try{
     const res=await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec',{
       method:'POST',headers:{'Content-Type':'text/plain'},
       body:JSON.stringify({name,email,message,subject:'NSM Story Queue Feedback'})
     });
-    if(res.ok){statusEl.style.color='green';statusEl.textContent='&#x2705; Thanks!';if(formEl)formEl.reset()}
-    else{statusEl.style.color='red';statusEl.textContent='&#x274C; Error.'}
-  }catch(e){statusEl.style.color='red';statusEl.textContent='&#x274C; Could not connect.'}
+    if(res.ok){statusEl.style.color='green';statusEl.innerHTML='&#x2705; Thanks!';if(formEl)formEl.reset()}
+    else{statusEl.style.color='red';statusEl.innerHTML='&#x274C; Error.'}
+  }catch(e){statusEl.style.color='red';statusEl.innerHTML='&#x274C; Could not connect.'}
 }
 
 function toggleReview(storyUrl,headline){
@@ -216,7 +274,7 @@ window.submitReviewPanel=function(storyUrl,btn){
   const email=panel.querySelector('.rp-email').value.trim();
   const message=panel.querySelector('.rp-message').value.trim();
   const statusEl=panel.querySelector('.form-status');
-  if(!email||!message){statusEl.style.color='red';statusEl.textContent='Email and message required.';return}
+  if(!email||!message){statusEl.style.color='red';statusEl.innerHTML='Email and message required.';return}
   submitFeedback(name,email,message,statusEl,null);
 };
 
@@ -301,6 +359,7 @@ async function loadStories(){
 
   const kwData=await loadKeywordAffiliateData();
   const{bookRule,gearRule}=findTopTwoRules(stories,kwData.rules||[]);
+  _cachedBookRule=bookRule;_cachedGearRule=gearRule;
   await loadAllAffiliateTiles(bookRule,gearRule);
 
   const imgUrls=await Promise.all(stories.map(s=>{
@@ -361,15 +420,14 @@ async function loadStories(){
       const hasMore=restPara.trim().length>0;
 
       let badgeHTML='';
-      if(storyRule){
-        const bl=storyRule.books?.category_label||'Book match';
+      if(storyRule&&(storyRule.books||storyRule.gear)){
+        const bl=storyRule.books?.category_label||'';
         const gl=storyRule.gear?.category_label||'';
-        badgeHTML='<div style="margin-bottom:.4rem;">'
-          +(storyRule.books?'<span class="affiliate-badge book">&#x1F4DA; '+bl+'</span>':'')
-          +(storyRule.gear?' <span class="affiliate-badge gear">&#x1F527; '+gl+'</span>':'')
+        badgeHTML='<div class="aff-match-row">'
+          +'<span class="aff-match-label">Affiliate match:</span>'
+          +(bl?'<span class="affiliate-badge book">&#x1F4DA; '+bl+'</span>':'')
+          +(gl?'<span class="affiliate-badge gear">&#x1F527; '+gl+'</span>':'')
           +'</div>';
-      }else{
-        badgeHTML='<div style="margin-bottom:.4rem;"><span class="affiliate-badge none">&#x1F4ED; No affiliate match</span></div>';
       }
 
       const card=document.createElement('div');
@@ -409,6 +467,16 @@ async function loadStories(){
       dateGroup.appendChild(card);
       dateGroup.appendChild(reviewPanel);
       cardCount++;
+
+      if(!storyId&&cardCount%4===0&&(_cachedBookRule||_cachedGearRule)){
+        const tile=pickInlineTile();
+        if(tile){
+          const affDiv=document.createElement('div');
+          affDiv.style.cssText='margin-bottom:.75rem;max-width:320px;';
+          affDiv.innerHTML=tile;
+          dateGroup.appendChild(affDiv);
+        }
+      }
 
       const mobileThreshold=storyId?1:3;
       if(window.innerWidth<=900&&cardCount===mobileThreshold&&!mobileInserted&&window.mobileAffiliateHTML){
