@@ -2,9 +2,22 @@
   "keywords": [
 
     {
-      "match": ["drone strike", "drone attack", "drone", "drones", "uav", "uavs"],
-      "image": "military-drone.webp"
-    },
+  "match": [
+    "drone strike",
+    "drone attack",
+    "military drone",
+    "combat drone",
+    "uav attack",
+    "armed drone",
+    "kamikaze drone",
+    "shahed drone",
+    "mq-9",
+    "reaper drone",
+    "uav",
+    "uavs"
+  ],
+  "image": "military-drone.webp"
+},
 
     {
       "match": ["missile strike", "missile attack", "ballistic", "missile", "missiles"],
