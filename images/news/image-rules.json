@@ -163,16 +163,7 @@
   ],
   "image": "volcano-eruption.webp"
 },
-    {
-      "match": ["wildfire", "wildfires", "brush fire", "forest fire", "bushfire"],
-      "image": "wildfire-forest-smoke.webp"
-    },
-
-    {
-      "match": ["heatwave", "extreme heat", "humidity", "wet-bulb", "record heat"],
-      "image": "heatwave-warning-highway.webp"
-    },
-
+    
     {
       "match": [
         "FDA",
@@ -394,6 +385,15 @@
         "Starship test flight"
       ],
       "image": "spacex-starship-launch.webp"
+    },
+    {
+      "match": ["wildfire", "wildfires", "brush fire", "forest fire", "bushfire"],
+      "image": "wildfire-forest-smoke.webp"
+    },
+
+    {
+      "match": ["heatwave", "extreme heat", "humidity", "wet-bulb", "record heat"],
+      "image": "heatwave-warning-highway.webp"
     },
 
     {
