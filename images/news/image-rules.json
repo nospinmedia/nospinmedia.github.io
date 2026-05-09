@@ -216,7 +216,24 @@
       ],
       "image": "white-house.webp"
     },
-
+    {
+      "match": [
+        "acquisition",
+        "merger",
+        "buyout",
+        "takeover",
+        "shareholders",
+        "proxy battle",
+        "market value",
+        "cash and stock",
+        "corporate deal",
+        "unsolicited offer",
+        "hostile takeover",
+        "board approval",
+        "e-commerce sector"
+      ],
+      "image": "corporate-merger.webp"
+    },
     {
       "match": [
         "congress",
