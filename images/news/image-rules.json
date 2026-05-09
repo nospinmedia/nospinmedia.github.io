@@ -2,32 +2,52 @@
   "keywords": [
 
     {
-  "match": [
-    "drone strike",
-    "drone attack",
-    "military drone",
-    "combat drone",
-    "uav attack",
-    "armed drone",
-    "kamikaze drone",
-    "shahed drone",
-    "mq-9",
-    "reaper drone",
-    "uav",
-    "uavs"
-  ],
-  "image": "military-drone.webp"
-},
+      "match": [
+        "drone strike",
+        "drone attack",
+        "military drone",
+        "combat drone",
+        "uav attack",
+        "armed drone",
+        "kamikaze drone",
+        "shahed drone",
+        "mq-9",
+        "reaper drone",
+        "uav",
+        "uavs"
+      ],
+      "image": "military-drone.webp"
+    },
 
     {
-      "match": ["missile strike", "missile attack", "ballistic", "missile", "missiles"],
+      "match": [
+        "missile strike",
+        "missile attack",
+        "missile launch",
+        "missile fire",
+        "missile system",
+        "interceptor missile",
+        "ballistic missile",
+        "cruise missile"
+      ],
       "image": "missile-launch.webp"
     },
 
     {
-      "match": ["fighter jet", "fighter jets", "warplane", "warplanes", "airstrike", "air strike", "airstrikes", "military aircraft", "jet fighters"],
+      "match": [
+        "fighter jet",
+        "fighter jets",
+        "warplane",
+        "warplanes",
+        "airstrike",
+        "air strike",
+        "airstrikes",
+        "military aircraft",
+        "jet fighters"
+      ],
       "image": "fighter-jet.webp"
     },
+
     {
       "match": [
         "navy",
@@ -46,10 +66,12 @@
       ],
       "image": "us-navy-frigate.webp"
     },
+
     {
       "match": ["NASA", "Artemis", "moon mission"],
       "image": "nasa-rocket.webp"
     },
+
     {
       "match": [
         "AI",
@@ -68,32 +90,44 @@
       ],
       "image": "ai-brain.webp"
     },
+
     {
-  "match": [
-    "police",
-    "police officer",
-    "police officers",
-    "sheriff",
-    "sheriff's deputy",
-    "deputy",
-    "law enforcement",
-    "trooper",
-    "state police"
-  ],
-  "image": "police-generic.webp"
-},
+      "match": [
+        "police",
+        "police officer",
+        "police officers",
+        "sheriff",
+        "sheriff's deputy",
+        "county deputy",
+        "law enforcement",
+        "trooper",
+        "state police"
+      ],
+      "image": "police-generic.webp"
+    },
+
     {
-      "match": ["ICE", "immigration", "detention", "deportation", "border enforcement", "DHS"],
+      "match": [
+        "ICE",
+        "immigration",
+        "detention",
+        "deportation",
+        "border enforcement",
+        "DHS"
+      ],
       "image": "ice-enforcement.webp"
     },
+
     {
-  "match": ["wildfire", "wildfires", "brush fire", "forest fire", "bushfire"],
-  "image": "wildfire-forest-smoke.webp"
+      "match": ["wildfire", "wildfires", "brush fire", "forest fire", "bushfire"],
+      "image": "wildfire-forest-smoke.webp"
     },
+
     {
       "match": ["heatwave", "extreme heat", "humidity", "wet-bulb", "record heat"],
       "image": "heatwave-warning-highway.webp"
     },
+
     {
       "match": [
         "FDA",
@@ -107,20 +141,25 @@
       ],
       "image": "fda-logo.webp"
     },
+
     {
       "match": ["WHO", "World Health", "health campaign"],
       "image": "who-hq.webp"
     },
+
     {
       "match": [
         "white house",
-        "president",
         "oval office",
         "executive order",
-        "administration officials"
+        "administration officials",
+        "president trump",
+        "president biden",
+        "presidential order"
       ],
       "image": "white-house.webp"
     },
+
     {
       "match": [
         "congress",
@@ -142,25 +181,26 @@
       ],
       "image": "us-capitol.webp"
     },
+
     {
       "match": [
-        "court",
-        "judge",
         "supreme court",
         "appeals court",
         "federal court",
+        "district court",
+        "federal judge",
         "lawsuit",
-        "trial",
+        "criminal trial",
+        "criminal charges",
+        "legal appeal",
+        "plea deal",
         "guilty",
         "conviction",
         "convictions",
         "sentencing",
-        "appeal",
-        "appeals",
         "arrested",
         "indict",
         "indicted",
-        "charged",
         "ruling",
         "DOJ",
         "justice department",
@@ -168,6 +208,7 @@
       ],
       "image": "court-gavel.webp"
     },
+
     {
       "match": ["refinery", "petrochemical", "refining"],
       "image": "refinery.webp"
@@ -177,8 +218,6 @@
       "match": [
         "strait of hormuz",
         "Strait of Hormuz",
-        "hormuz",
-        "Hormuz",
         "oil tanker",
         "oil tankers",
         "tanker traffic",
@@ -189,80 +228,109 @@
     },
 
     {
-      "match": ["oil", "crude", "barrel", "OPEC", "drilling", "oilfield"],
+      "match": [
+        "crude oil",
+        "crude",
+        "barrel",
+        "OPEC",
+        "drilling",
+        "oilfield",
+        "oil prices",
+        "oil production",
+        "oil market",
+        "oil supply"
+      ],
       "image": "oil-pumpjack.webp"
     },
 
     {
-      "match": ["tariff", "imports", "exports"],
+      "match": [
+        "tariff",
+        "trade imports",
+        "trade exports",
+        "import tariffs",
+        "export ban",
+        "port of entry",
+        "shipping containers",
+        "trade deficit",
+        "trade surplus"
+      ],
       "image": "cargo-containers.webp"
     },
+
     {
-  "match": [
-    "pope",
-    "vatican",
-    "catholic",
-    "catholics",
-    "pontiff",
-    "holy see",
-    "vatican city",
-    "papal",
-    "global day of prayer"
-  ],
-  "image": "vatican-pope.webp"
-},
-{
-  "match": [
-    "peace talks",
-    "ceasefire talks",
-    "negotiations",
-    "diplomatic talks",
-    "talks collapse",
-    "talks fail",
-    "summit talks",
-    "diplomacy",
-    "delegation"
-  ],
-  "image": "diplomacy-meeting.webp"
-},
-  {
-  "match": [
-    "food bank",
-    "food banks",
-    "food assistance",
-    "food aid",
-    "food insecurity",
-    "food relief",
-    "hunger",
-    "aid network"
-  ],
-  "image": "food-bank.webp"
-},
+      "match": [
+        "pope",
+        "vatican",
+        "catholic",
+        "catholics",
+        "pontiff",
+        "holy see",
+        "vatican city",
+        "papal",
+        "global day of prayer"
+      ],
+      "image": "vatican-pope.webp"
+    },
+
     {
-  "match": [
-    "SpaceX",
-    "Starship",
-    "Super Heavy",
-    "Starbase",
-    "Raptor engine",
-    "Raptor engines",
-    "Starship flight",
-    "Starship test flight"
-  ],
-  "image": "spacex-starship-launch.webp"
-},
+      "match": [
+        "peace talks",
+        "ceasefire talks",
+        "diplomatic talks",
+        "diplomatic negotiations",
+        "diplomatic delegation",
+        "peace negotiations",
+        "talks collapse",
+        "talks fail",
+        "summit talks",
+        "envoy",
+        "foreign minister"
+      ],
+      "image": "diplomacy-meeting.webp"
+    },
+
     {
-  "match": [
-    "chemical leak",
-    "chemical spill",
-    "toxic leak",
-    "hazmat",
-    "hazmat crews",
-    "hazardous materials",
-    "industrial chemical",
-    "chemical exposure"
-  ],
-  "image": "chemical-refinery-response.webp"
-}
+      "match": [
+        "food bank",
+        "food banks",
+        "food assistance",
+        "food aid",
+        "food insecurity",
+        "food relief",
+        "hunger",
+        "aid network"
+      ],
+      "image": "food-bank.webp"
+    },
+
+    {
+      "match": [
+        "SpaceX",
+        "Starship",
+        "Super Heavy",
+        "Starbase",
+        "Raptor engine",
+        "Raptor engines",
+        "Starship flight",
+        "Starship test flight"
+      ],
+      "image": "spacex-starship-launch.webp"
+    },
+
+    {
+      "match": [
+        "chemical leak",
+        "chemical spill",
+        "toxic leak",
+        "hazmat",
+        "hazmat crews",
+        "hazardous materials",
+        "industrial chemical",
+        "chemical exposure"
+      ],
+      "image": "chemical-refinery-response.webp"
+    }
+
   ]
 }
