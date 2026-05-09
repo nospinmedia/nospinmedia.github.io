@@ -188,7 +188,19 @@
     },
 
     {
-      "match": ["WHO", "World Health", "health campaign"],
+      "match": [
+        "World Health Organization",
+        "World Health Organization report",
+        "World Health Organization warning",
+        "WHO director",
+        "WHO report",
+        "WHO warning",
+        "WHO officials",
+        "WHO declares",
+        "WHO confirmed",
+        "global health emergency",
+        "public health emergency"
+      ],
       "image": "who-hq.webp"
     },
 
