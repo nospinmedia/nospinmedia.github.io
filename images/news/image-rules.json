@@ -93,15 +93,13 @@
 
     {
       "match": [
-        "police",
-        "police officer",
-        "police officers",
-        "sheriff",
-        "sheriff's deputy",
-        "county deputy",
-        "law enforcement",
-        "trooper",
-        "state police"
+        "police shooting",
+        "officer involved shooting",
+        "police chase",
+        "police standoff",
+        "police investigation",
+        "suspect in custody",
+        "law enforcement operation"
       ],
       "image": "police-generic.webp"
     },
@@ -117,7 +115,20 @@
       ],
       "image": "ice-enforcement.webp"
     },
-
+    {
+  "match": [
+    "volcano",
+    "volcanic eruption",
+    "eruption",
+    "volcanic ash",
+    "ash plume",
+    "lava flow",
+    "volcanic activity",
+    "active volcano",
+    "crater eruption"
+  ],
+  "image": "volcano-eruption.webp"
+},
     {
       "match": ["wildfire", "wildfires", "brush fire", "forest fire", "bushfire"],
       "image": "wildfire-forest-smoke.webp"
