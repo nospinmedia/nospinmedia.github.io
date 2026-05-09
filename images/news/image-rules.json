@@ -90,7 +90,23 @@
       ],
       "image": "ai-brain.webp"
     },
-
+    {
+      "match": [
+        "cyberattack",
+        "cyber attack",
+        "ransomware",
+        "data breach",
+        "hacking group",
+        "hackers",
+        "system breach",
+        "network intrusion",
+        "cybersecurity",
+        "systems offline",
+        "database breach",
+        "malware attack"
+      ],
+      "image": "cyberattack-data-breach.webp"
+    },
     {
       "match": [
         "police shooting",
