@@ -3,6 +3,26 @@
 
     {
       "match": [
+        "peace talks",
+        "ceasefire talks",
+        "diplomatic talks",
+        "diplomatic negotiations",
+        "diplomatic delegation",
+        "peace negotiations",
+        "talks collapse",
+        "talks fail",
+        "summit talks",
+        "envoy",
+        "foreign minister",
+        "secretary of state",
+        "u.s. secretary of state",
+        "bilateral talks",
+        "state department"
+      ],
+      "image": "diplomacy-meeting.webp"
+    },
+    {
+      "match": [
         "drone strike",
         "drone attack",
         "military drone",
