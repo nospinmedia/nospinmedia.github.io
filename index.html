@@ -530,8 +530,8 @@ async function renderFeed(stories){
 }
 
 /* LOAD MORE */
-let _displayedCount=60;
-const PAGE_SIZE=30;
+let _displayedCount=18;
+const PAGE_SIZE=18;
 function showLoadMore(total){
   const ex=document.getElementById('load-more-wrap');if(ex)ex.remove();
   if(_displayedCount>=total)return;
