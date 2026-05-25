@@ -155,40 +155,31 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .gear-rule{width:82%;height:1px;background:linear-gradient(to right,transparent,#d4a843 25%,#d4a843 75%,transparent);margin-bottom:7px}
 .gear-sub{font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;line-height:1.5}
 .gear-brand{position:absolute;bottom:7px;left:26px;right:26px;text-align:center;font-family:Arial,sans-serif}
-/* gear-brand-name and gear-brand-sub defined in gear-brand-bottom block below */
 
 /* ── IMPROVED AFFILIATE TILE STYLES ── */
-/* Book tile enhancements */
 .book-title-lg{font-size:24px!important;line-height:1.07!important;letter-spacing:-.018em}
 .book-sub-readable{font-size:11.5px!important;color:rgba(221,208,168,.92)!important;line-height:1.55!important;font-style:italic;margin-top:2px}
-.book-brand-bottom{
-  margin-top:auto;padding-top:14px;
-  border-top:none!important;
-  text-align:center
-}
+.book-brand-bottom{margin-top:auto;padding-top:14px;border-top:none!important;text-align:center}
 .book-brand-rule{height:1px;opacity:.4;margin-bottom:9px;background:rgba(255,255,255,.45);width:60%;margin-left:auto;margin-right:auto}
 .book-brand-name{font-size:11px!important;font-weight:700;letter-spacing:.03em;color:#fff;line-height:1.35;text-align:center}
 .book-brand-sub{font-size:8px!important;color:rgba(255,255,255,.65);font-style:italic;margin-top:3px;line-height:1.3;text-align:center}
-/* Gear brand at bottom */
-.gear-brand-bottom{
-  position:absolute;bottom:20px;left:16px;right:16px;
-  text-align:center;font-family:Arial,sans-serif
-}
+.gear-brand-bottom{position:absolute;bottom:20px;left:16px;right:16px;text-align:center;font-family:Arial,sans-serif}
 .gear-brand-rule{height:1px;background:rgba(212,168,67,.45);margin-bottom:9px;width:50%;margin-left:auto;margin-right:auto}
 .gear-brand-name{font-size:11px!important;font-weight:700;color:#fff;letter-spacing:.03em;line-height:1.35;text-align:center}
 .gear-brand-sub{font-size:8px!important;color:rgba(255,255,255,.65);font-style:italic;margin-top:3px;line-height:1.3;text-align:center}
-/* Hover lift on both tile types — more pronounced than base .aff-card */
-.aff-card-book:hover,.aff-card-gear:hover{
-  transform:translateY(-5px)!important;
-  box-shadow:0 10px 28px rgba(0,0,0,.22)!important
-}
-/* Disclosure line styling */
-.aff-disclosure{
-  text-align:center;font-size:.68rem;color:var(--dimmed);
-  font-style:italic;margin-bottom:.9rem;margin-top:.3rem;
-  letter-spacing:.01em
-}
+.aff-card-book:hover,.aff-card-gear:hover{transform:translateY(-5px)!important;box-shadow:0 10px 28px rgba(0,0,0,.22)!important}
+.aff-disclosure{text-align:center;font-size:.68rem;color:var(--dimmed);font-style:italic;margin-bottom:.9rem;margin-top:.3rem;letter-spacing:.01em}
 @media(max-width:860px){.aff-disclosure{font-size:.78rem;line-height:1.6;padding:0 .5rem}}
+
+/* Affiliate tile standalone (centered in 3-col grid, no flanking story re-renders) */
+.aff-tile-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem;align-items:stretch}
+.aff-tile-center{min-height:240px}
+.aff-tile-mobile{display:none;margin-bottom:1rem;min-height:200px}
+@media(max-width:860px){
+  .aff-tile-row{display:none}
+  .aff-tile-mobile{display:block}
+}
+
 .feed-loading{text-align:center;padding:4rem;color:var(--dimmed)}
 .spinner{width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 1rem}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -200,15 +191,6 @@ footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-t
   .hero-hl-line1{font-size:1.15rem}
   .cards-grid-3{grid-template-columns:1fr}
   .cards-grid-2{grid-template-columns:1fr}
-  .aff-grid-desktop{display:none}
-  /* Mobile stories row (2-col) visible on mobile */
-  .aff-mobile-stories{display:grid!important;grid-template-columns:1fr!important}
-  /* Mobile tile: show the actual ad tile below the stories */
-  .aff-mobile-tile{display:block;margin-bottom:1rem;min-height:200px}
-}
-@media(min-width:861px){
-  .aff-mobile-stories{display:none!important}
-  .aff-mobile-tile{display:none!important}
 }
 </style>
 <script>
@@ -224,7 +206,7 @@ const TOPICS_ORDER=['politics','economy','legal','health','science','ai','techno
 const KW_IMG={politics:'politics',economy:'economy',health:'health',legal:'court',war:'war',crime:'crime',science:'science',technology:'technology',ai:'ai',world:'world',environment:'environment',military:'military'};
 let allStories=[],activeTopic='all',_aff=null,_kw=null,_imgCache={},_imgRules=null,_bannerPinned=false;
 
-/* BANNER */
+/* ── BANNER ── */
 function initBanner(){
   const b=document.getElementById('mission-banner');
   if(!b)return;
@@ -257,7 +239,7 @@ function wireLogoHover(){
   });
 }
 
-/* IMAGE RESOLUTION */
+/* ── IMAGE RESOLUTION ── */
 async function resolveImg(url,headline){
   if(_imgCache[url]!==undefined)return _imgCache[url];
   for(const ext of['webp','jpg','png']){
@@ -276,7 +258,7 @@ async function resolveImg(url,headline){
 }
 async function preloadImages(stories){await Promise.all(stories.map(s=>resolveImg(s.url,(s.headline||'')+' '+(s.summary||''))))}
 
-/* UTILS */
+/* ── UTILS ── */
 function timeSince(ds){
   if(!ds)return '';const d=new Date(ds);if(isNaN(d))return '';
   const m=Math.floor((Date.now()-d)/60000);
@@ -305,14 +287,14 @@ function topBG(url,t){
 }
 function topCls(t){return'tp-bg-'+(t||'world')}
 
-/* SHARE */
+/* ── SHARE ── */
 function shareStory(id,btn){
   const url=SHARE+id;
   if(navigator.share){navigator.share({url}).catch(()=>{})}
   else{navigator.clipboard.writeText(url).then(()=>{const o=btn.innerHTML;btn.innerHTML='\u2705';setTimeout(()=>btn.innerHTML=o,1800)}).catch(()=>window.open(url,'_blank'))}
 }
 
-/* HERO */
+/* ── HERO ── */
 function heroHTML(s){
   const p=parseHL(s.headline),sum=randSummary(s),t=s.topic||'world',ts=timeSince(s.posted_at),maj=s.importance==='major';
   return'<div class="hero-card" onclick="window.location=\''+STORY+s.url+'\'">'
@@ -333,15 +315,18 @@ function heroHTML(s){
     +'</div></div></div></div>';
 }
 
-/* CARD */
-function cardHTML(s){
+/* ── CARD ── */
+/* showPill=true  → white pill in image header (used in mixed "Latest" sections)
+   showPill=false → no pill (used inside named topic sections — label already says the topic) */
+function cardHTML(s,showPill){
+  if(showPill===undefined)showPill=true;
   const p=parseHL(s.headline),sum=randSummary(s),t=s.topic||'world',ts=timeSince(s.posted_at);
   return'<div class="story-card" onclick="window.location=\''+STORY+s.url+'\'">'
     +'<div class="card-top '+topCls(t)+'">'
     +'<div class="card-top-bg" style="'+topBG(s.url,t)+'"></div>'
     +'<div class="card-top-scrim"></div>'
     +'<div class="card-top-content">'
-    +'<div class="card-pill-row">'+pillW(t)+'</div>'
+    +(showPill?'<div class="card-pill-row">'+pillW(t)+'</div>':'')
     +'<span class="card-hl-line1">'+p.line1+'</span>'+(p.line2?'<span class="card-hl-line2">'+p.line2+'</span>':'')
     +'</div></div>'
     +'<div class="card-body">'
@@ -354,12 +339,13 @@ function cardHTML(s){
     +'</div></div></div></div>';
 }
 
-/* TEXT CARD */
-function textCardHTML(s){
+/* ── TEXT CARD ── */
+function textCardHTML(s,showPill){
+  if(showPill===undefined)showPill=true;
   const p=parseHL(s.headline),sum=randSummary(s),t=s.topic||'world',ts=timeSince(s.posted_at);
   const hl=p.line2?p.line1+' '+p.line2:p.line1;
   return'<div class="text-card" onclick="window.location=\''+STORY+s.url+'\'">'
-    +pillC(t)
+    +(showPill?pillC(t):'')
     +'<div class="text-card-headline">'+hl+'</div>'
     +'<div class="text-card-summary" data-id="'+s.url+'">'+sum+'</div>'
     +'<div class="card-footer">'
@@ -370,7 +356,7 @@ function textCardHTML(s){
     +'</div></div></div>';
 }
 
-/* AFFILIATE */
+/* ── AFFILIATE ── */
 async function getAff(){if(_aff)return _aff;try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_aff=await r.json()}catch(e){}return _aff||{}}
 async function getKw(){if(_kw)return _kw;try{const r=await fetch('/affiliate/keyword-affiliates.json');if(r.ok)_kw=await r.json()}catch(e){}return _kw||{rules:[]}}
 function wordMatch(hay,kw){const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-zA-Z])'+esc+'(?![a-zA-Z])','i').test(hay)}
@@ -380,7 +366,7 @@ function topTwoRules(stories,rules){
   const top5=[...sc.filter(s=>s.total>0).sort((a,b)=>b.total-a.total)].slice(0,5).sort(()=>0.5-Math.random());
   return{bookRule:top5[0]?top5[0].rule:null,gearRule:top5[1]?top5[1].rule:null};
 }
-/* Rotating support messages for affiliate tiles */
+
 const NSM_SUPPORT_MSGS=[
   'Supports independent journalism',
   'Helps keep NSM free',
@@ -436,7 +422,9 @@ function gearTileHTML(g){
     +'</div>'
     +'</div></a>';
 }
+
 let _allAffData=null,_allKwData=null,_globalBookRule=null,_globalGearRule=null,_affPlacementToggle=0;
+
 function pickAffTileForSection(sectionStories){
   const kwRules=(_allKwData&&_allKwData.rules)||[];
   let best=null,bestScore=0;
@@ -447,30 +435,29 @@ function pickAffTileForSection(sectionStories){
   const rule=best||(_affPlacementToggle===0?_globalBookRule:_globalGearRule)||_globalBookRule||_globalGearRule;
   if(!rule)return null;
   let tile=null;
-  if(_affPlacementToggle===0){tile=rule.books?bookTileHTML(rule.books):(rule.gear?gearTileHTML(rule.gear):null);if(!tile&&_globalBookRule&&_globalBookRule.books)tile=bookTileHTML(_globalBookRule.books)}
-  else{tile=rule.gear?gearTileHTML(rule.gear):(rule.books?bookTileHTML(rule.books):null);if(!tile&&_globalGearRule&&_globalGearRule.gear)tile=gearTileHTML(_globalGearRule.gear)}
+  if(_affPlacementToggle===0){
+    tile=rule.books?bookTileHTML(rule.books):(rule.gear?gearTileHTML(rule.gear):null);
+    if(!tile&&_globalBookRule&&_globalBookRule.books)tile=bookTileHTML(_globalBookRule.books);
+  } else {
+    tile=rule.gear?gearTileHTML(rule.gear):(rule.books?bookTileHTML(rule.books):null);
+    if(!tile&&_globalGearRule&&_globalGearRule.gear)tile=gearTileHTML(_globalGearRule.gear);
+  }
   _affPlacementToggle=1-_affPlacementToggle;
   return tile;
 }
-const AFF_DISCLOSURES=[
-  '\uD83E\uDDED NSM Picks support independent journalism',
-  '\uD83E\uDDED Selecting an item supports NSM at no extra cost',
-  '\uD83E\uDDED Recommended reading and gear from No Spin Media'
-];
-function randDisclosure(){return AFF_DISCLOSURES[Math.floor(Math.random()*AFF_DISCLOSURES.length)]}
 
-function affRow(s1,s2,tile){
-  if(!tile)return s2?'<div class="cards-grid-2">'+cardHTML(s1)+cardHTML(s2)+'</div>':'<div class="cards-grid-2">'+cardHTML(s1)+'</div>';
-  return'<div class="cards-grid-3 aff-grid-desktop" style="align-items:stretch;">'
-    +'<div>'+cardHTML(s1)+'</div>'
-    +'<div style="min-height:240px;">'+tile+'</div>'
-    +'<div>'+(s2?cardHTML(s2):'')+'</div>'
+/* Render an affiliate tile on its own row — no story cards duplicated */
+function affTileRowHTML(tile){
+  if(!tile)return'';
+  return'<div class="aff-tile-row">'
+    +'<div></div>'
+    +'<div class="aff-tile-center">'+tile+'</div>'
+    +'<div></div>'
     +'</div>'
-    +'<div class="cards-grid-2 aff-mobile-stories">'+cardHTML(s1)+(s2?cardHTML(s2):'')+'</div>'
-    +'<div class="aff-mobile-tile">'+tile+'</div>';
+    +'<div class="aff-tile-mobile">'+tile+'</div>';
 }
 
-/* SHUFFLE */
+/* ── SHUFFLE SUMMARIES ── */
 function rotateSummaries(){
   document.querySelectorAll('[data-id]').forEach(el=>{
     const s=allStories.find(x=>x.url===el.dataset.id);if(!s)return;
@@ -481,7 +468,7 @@ function rotateSummaries(){
   });
 }
 
-/* TABS */
+/* ── TABS ── */
 function buildTabs(stories){
   const topics=[...new Set(stories.map(s=>s.topic).filter(Boolean))];
   const el=document.getElementById('feed-tabs');
@@ -491,79 +478,174 @@ function buildTabs(stories){
   el.querySelectorAll('.feed-tab').forEach(tab=>{
     tab.addEventListener('click',()=>{
       el.querySelectorAll('.feed-tab').forEach(t=>t.classList.remove('active'));
-      tab.classList.add('active');activeTopic=tab.dataset.topic;_affPlacementToggle=0;_displayedCount=PAGE_SIZE;
+      tab.classList.add('active');
+      activeTopic=tab.dataset.topic;
+      _affPlacementToggle=0;
+      _displayedCount=PAGE_SIZE;
       const f=activeTopic==='all'?allStories:allStories.filter(s=>s.topic===activeTopic);
-      preloadImages(f.slice(0,_displayedCount)).then(()=>{renderFeed(f.slice(0,_displayedCount));showLoadMore(f.length)});
+      preloadImages(f.slice(0,_displayedCount)).then(()=>{
+        renderFeed(f.slice(0,_displayedCount));
+        showLoadMore(f.length);
+      });
     });
   });
 }
 
-/* RENDER */
+/* ── RENDER FEED ── */
+/* Each story appears exactly once. Category pills are shown in the mixed
+   "Latest" section (where topics are varied) but suppressed inside named
+   topic sections (the section label already identifies the topic).
+   Sections with only 1 story borrow from the global "overflow" pool so
+   that every visible section has at least 2 stories. */
 async function renderFeed(stories){
   const feed=document.getElementById('nsm-feed');
   if(!stories.length){feed.innerHTML='<div class="feed-loading"><p>No stories in this category yet.</p></div>';return}
+
   _affPlacementToggle=0;
-  let html='<div class="refresh-bar"><span class="story-count">Latest Updates \u00b7 '+stories.length+' stories</span>'
-    +'<button class="refresh-btn" onclick="rotateSummaries()"><span class="spin-icon">\u21bb</span> Shuffle Feed</button></div>';
+
+  let html='<div class="refresh-bar">'
+    +'<span class="story-count">Latest Updates \u00b7 '+stories.length+' stories</span>'
+    +'<button class="refresh-btn" onclick="rotateSummaries()"><span class="spin-icon">\u21bb</span> Shuffle Feed</button>'
+    +'</div>';
+
+  /* ── Slot 0: Hero card (always has its topic pill in the footer meta row) ── */
   html+=heroHTML(stories[0]);
+
+  /* ── Slots 1–3: "Latest" mixed grid — pills ON (topics vary) ── */
   const g1=stories.slice(1,4);
-  if(g1.length){html+='<div class="section-label">Latest</div><div class="cards-grid-3">'+g1.map(cardHTML).join('')+'</div>'}
-  const aff1=stories.slice(4,6);
-  if(aff1.length){html+=affRow(aff1[0],aff1[1]||null,pickAffTileForSection(aff1))}
+  if(g1.length){
+    html+='<div class="section-label">Latest</div>'
+      +'<div class="cards-grid-3">'+g1.map(s=>cardHTML(s,true)).join('')+'</div>';
+  }
+
+  /* ── Slots 4–5: Second pair — pills ON (still mixed, no section label) ── */
+  const g2=stories.slice(4,6);
+  if(g2.length){
+    html+='<div class="cards-grid-'+(g2.length===1?1:2)+'">'+g2.map(s=>cardHTML(s,true)).join('')+'</div>';
+  }
+
+  /* ── Slots 6+: Group by topic ──
+     Track used URL set to guarantee no duplicates. */
+  const usedUrls=new Set(stories.slice(0,6).map(s=>s.url));
+
+  /* Build per-topic buckets from slots 6+ */
   const byTopic={};
-  stories.slice(6).forEach(s=>{const t=s.topic||'world';if(!byTopic[t])byTopic[t]=[];byTopic[t].push(s)});
-  const present=TOPICS_ORDER.filter(t=>byTopic[t]&&byTopic[t].length);
-  present.forEach((topic,ti)=>{
-    const grp=byTopic[topic];
-    html+='<div class="section-label">'+TOPIC_LABELS[topic]+'</div>';
-    if(grp.length<=2){html+='<div class="cards-grid-2">'+grp.map(cardHTML).join('')+'</div>'}
-    else{
-      html+='<div class="cards-grid-3">'+grp.slice(0,3).map(cardHTML).join('')+'</div>';
-      const rest=grp.slice(3);if(rest.length)html+='<div class="cards-grid-3">'+rest.map(textCardHTML).join('')+'</div>';
-    }
-    if((ti+1)%2===0){
-      const tile=pickAffTileForSection(grp);
-      if(tile&&grp.length>=1){const s1=grp[Math.max(0,grp.length-2)],s2=grp[grp.length-1]||null;html+=affRow(s1,s1!==s2?s2:null,tile)}
+  stories.slice(6).forEach(s=>{
+    if(usedUrls.has(s.url))return; /* safety guard — should never fire */
+    usedUrls.add(s.url);
+    const t=s.topic||'world';
+    if(!byTopic[t])byTopic[t]=[];
+    byTopic[t].push(s);
+  });
+
+  /* ── Section balancing: pad single-story sections to 2 ──
+     Walk allStories beyond the current slice to find same-topic extras.
+     Never re-use a URL already in usedUrls. Max 2 extra stories total
+     to keep page size roughly bounded. */
+  let extrasUsed=0;
+  const MAX_EXTRAS=4; /* allow up to 4 borrowed stories across all sections */
+  TOPICS_ORDER.forEach(topic=>{
+    if(!byTopic[topic]||byTopic[topic].length!==1||extrasUsed>=MAX_EXTRAS)return;
+    /* Look for a same-topic story not yet displayed */
+    const donor=allStories.find(s=>
+      (s.topic||'world')===topic &&
+      !usedUrls.has(s.url)
+    );
+    if(donor){
+      byTopic[topic].push(donor);
+      usedUrls.add(donor.url);
+      extrasUsed++;
     }
   });
+
+  const present=TOPICS_ORDER.filter(t=>byTopic[t]&&byTopic[t].length);
+
+  present.forEach((topic,ti)=>{
+    const grp=byTopic[topic];
+
+    /* Section label — pills are suppressed on cards below */
+    html+='<div class="section-label">'+TOPIC_LABELS[topic]+'</div>';
+
+    if(grp.length<=2){
+      /* 1–2 stories: image cards side by side, no pills */
+      html+='<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
+    } else {
+      /* 3+ stories: first row image cards (no pills), overflow as text cards (no pills) */
+      html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
+      const rest=grp.slice(3);
+      if(rest.length){
+        html+='<div class="cards-grid-3">'+rest.map(s=>textCardHTML(s,false)).join('')+'</div>';
+      }
+    }
+
+    /* Affiliate tile every 2nd topic section — tile only, no story re-renders */
+    if((ti+1)%2===0){
+      const tile=pickAffTileForSection(grp);
+      if(tile)html+=affTileRowHTML(tile);
+    }
+  });
+
   feed.innerHTML=html;
 }
 
-/* LOAD MORE */
+/* ── LOAD MORE ── */
 let _displayedCount=18;
 const PAGE_SIZE=18;
+
 function showLoadMore(total){
   const ex=document.getElementById('load-more-wrap');if(ex)ex.remove();
   if(_displayedCount>=total)return;
   const remaining=Math.min(PAGE_SIZE,total-_displayedCount);
-  const wrap=document.createElement('div');wrap.id='load-more-wrap';
+  const wrap=document.createElement('div');
+  wrap.id='load-more-wrap';
   wrap.style.cssText='text-align:center;padding:1.5rem 0 .5rem;';
   wrap.innerHTML='<button onclick="loadMore()" style="font-size:13px;font-weight:600;color:var(--blue);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:9px 24px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow);">'
     +'Show Me More \u2192 <span style="font-size:11px;font-weight:400;color:var(--dimmed);">'+remaining+' more stories</span>'
     +'</button>';
   document.getElementById('nsm-feed').after(wrap);
 }
+
 async function loadMore(){
   _displayedCount=Math.min(_displayedCount+PAGE_SIZE,allStories.length);
-  const btn=document.querySelector('#load-more-wrap button');if(btn){btn.textContent='Loading\u2026';btn.disabled=true}
-  const slice=activeTopic==='all'?allStories.slice(0,_displayedCount):allStories.filter(s=>s.topic===activeTopic).slice(0,_displayedCount);
-  await preloadImages(slice);await renderFeed(slice);
-  const total=activeTopic==='all'?allStories.length:allStories.filter(s=>s.topic===activeTopic).length;
+  const btn=document.querySelector('#load-more-wrap button');
+  if(btn){btn.textContent='Loading\u2026';btn.disabled=true}
+  const slice=activeTopic==='all'
+    ?allStories.slice(0,_displayedCount)
+    :allStories.filter(s=>s.topic===activeTopic).slice(0,_displayedCount);
+  await preloadImages(slice);
+  await renderFeed(slice);
+  const total=activeTopic==='all'
+    ?allStories.length
+    :allStories.filter(s=>s.topic===activeTopic).length;
   showLoadMore(total);
 }
 
-/* INIT */
+/* ── INIT ── */
 async function loadStories(){
   try{
-    const res=await fetch(SB_URL+'?select=headline,posted_at,url,summary,style,topic,importance,social_bluesky,social_facebook,social_threads&used=eq.true&order=posted_at.desc&limit=200&apikey='+SB_KEY);
-    allStories=await res.json();if(!Array.isArray(allStories))throw new Error('Bad data');
+    /* Fetch 60 from Supabase but only display PAGE_SIZE (18) on first render.
+       The extra records are held in allStories for Load More. */
+    const res=await fetch(SB_URL+'?select=headline,posted_at,url,summary,style,topic,importance,social_bluesky,social_facebook,social_threads&used=eq.true&order=posted_at.desc&limit=60&apikey='+SB_KEY);
+    allStories=await res.json();
+    if(!Array.isArray(allStories))throw new Error('Bad data');
+
     const[affData,kwData]=await Promise.all([getAff(),getKw()]);
-    _allAffData=affData;_allKwData=kwData;
+    _allAffData=affData;
+    _allKwData=kwData;
+
     const tr=topTwoRules(allStories,(kwData&&kwData.rules)||[]);
-    _globalBookRule=tr.bookRule;_globalGearRule=tr.gearRule;
+    _globalBookRule=tr.bookRule;
+    _globalGearRule=tr.gearRule;
+
     const firstBatch=allStories.slice(0,_displayedCount);
-    await preloadImages(firstBatch);buildTabs(allStories);await renderFeed(firstBatch);showLoadMore(allStories.length);
-  }catch(e){document.getElementById('nsm-feed').innerHTML='<div class="feed-loading"><p>Could not load stories. Please refresh.</p></div>';console.error(e)}
+    await preloadImages(firstBatch);
+    buildTabs(allStories);
+    await renderFeed(firstBatch);
+    showLoadMore(allStories.length);
+  }catch(e){
+    document.getElementById('nsm-feed').innerHTML='<div class="feed-loading"><p>Could not load stories. Please refresh.</p></div>';
+    console.error(e);
+  }
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
@@ -571,7 +653,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   fetch('header.html').then(r=>r.text()).then(html=>{
     document.getElementById('site-header').innerHTML=html;
     const ham=document.getElementById('hamburger'),nav=document.getElementById('mobile-nav');
-    if(ham&&nav){ham.onclick=()=>{nav.classList.toggle('open');ham.classList.toggle('active')};nav.querySelectorAll('a').forEach(a=>{a.onclick=()=>{nav.classList.remove('open');ham.classList.remove('active')}})}
+    if(ham&&nav){
+      ham.onclick=()=>{nav.classList.toggle('open');ham.classList.toggle('active')};
+      nav.querySelectorAll('a').forEach(a=>{a.onclick=()=>{nav.classList.remove('open');ham.classList.remove('active')}});
+    }
     wireLogoHover();
   }).finally(()=>loadStories());
 });
