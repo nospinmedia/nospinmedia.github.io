@@ -23,8 +23,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .ne-layout{max-width:1160px;margin:0 auto;padding:1.25rem 1.25rem 2rem}
 .ne-main{width:100%}
 
-
-
 /* ── TABS ── */
 .feed-tabs{display:flex;gap:5px;margin-bottom:1rem;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
 .feed-tabs::-webkit-scrollbar{display:none}
@@ -90,7 +88,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .hero-hl-line1{font-family:var(--font-h);font-size:clamp(1.25rem,2.2vw,1.7rem);line-height:1.18;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5);display:block;margin-bottom:3px}
 .hero-hl-line2{font-family:var(--font-b);font-size:.9rem;font-weight:400;color:rgba(255,255,255,.82);display:block;line-height:1.3}
 .hero-body{padding:.95rem 1.5rem 1rem}
-/* Show full first paragraph — no clamp */
 .hero-summary{font-size:.9rem;line-height:1.68;color:var(--muted);margin-bottom:.85rem}
 .hero-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .hero-meta{display:flex;align-items:center;gap:8px}
@@ -117,7 +114,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .card-hl-line1{font-family:var(--font-h);font-size:1rem;line-height:1.2;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.6);display:block;margin-bottom:2px}
 .card-hl-line2{font-family:var(--font-b);font-size:.72rem;font-weight:400;color:rgba(255,255,255,.8);display:block;line-height:1.3}
 .card-body{padding:.75rem .88rem .75rem;flex:1;display:flex;flex-direction:column}
-/* Show first paragraph fully */
 .card-summary{font-size:.8rem;line-height:1.58;color:var(--muted);flex:1;margin-bottom:.65rem}
 .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:.55rem;border-top:1px solid var(--border);gap:6px}
 .card-time{font-size:10px;color:var(--dimmed)}
@@ -133,7 +129,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .text-card-headline{font-family:var(--font-h);font-size:.88rem;line-height:1.3;color:var(--text);margin:.4rem 0 .4rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .text-card-summary{font-size:.76rem;line-height:1.5;color:var(--muted);flex:1;margin-bottom:.6rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
-/* ── AFFILIATE TILES (full CSS) ── */
+/* ── AFFILIATE TILES ── */
 .aff-card{border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s;display:block;text-decoration:none;height:100%}
 .aff-card:hover{box-shadow:var(--shadow-h);transform:translateY(-3px)}
 .book-card-wrap{display:flex;height:100%;min-height:225px;font-family:Georgia,'Times New Roman',serif}
@@ -148,7 +144,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .book-brand{margin-top:12px;padding-top:8px;border-top:1px solid rgba(255,255,255,.18)}
 .book-brand-name{font-size:10px;font-weight:800;font-family:Arial,sans-serif;color:#fff;letter-spacing:.02em}
 .book-brand-sub{font-size:7.5px;color:rgba(255,255,255,.55);font-family:Arial,sans-serif;margin-top:1px;font-style:italic}
-/* Book tile enhancements */
 .book-title-lg{font-size:24px!important;line-height:1.07!important;letter-spacing:-.018em}
 .book-sub-readable{font-size:11.5px!important;color:rgba(221,208,168,.92)!important;line-height:1.55!important;font-style:italic;margin-top:2px}
 .book-brand-bottom{margin-top:auto;padding-top:14px;border-top:none!important;text-align:center}
@@ -160,44 +155,27 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .gear-clip-b{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:42px;height:8px;background:#333;border-radius:5px;border:1px solid #444}
 .gear-clip-l{position:absolute;left:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#303030;border-radius:3px;border:1px solid #444}
 .gear-clip-r{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#303030;border-radius:3px;border:1px solid #444}
-/* gear-content defined in gear-brand-bottom block above */
-.gear-cat{font-size:9px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;border-top:1.5px solid #d4a843;border-bottom:1.5px solid #d4a843;padding:4px 0 3px;width:85%;margin-bottom:9px}
+.gear-content{position:absolute;inset:14px 26px 62px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.gear-cat{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;border-top:1.5px solid #d4a843;border-bottom:1.5px solid #d4a843;padding:4px 0 3px;width:85%;margin-bottom:9px}
 .gear-title{font-family:'Arial Black',Impact,Arial,sans-serif;font-weight:900;color:#f0e4c8;letter-spacing:.04em;line-height:.95}
-.gear-icon{font-size:18px;margin:7px 0 5px}
+.gear-icon{font-size:18px;margin:13px 0 5px}
 .gear-rule{width:82%;height:1px;background:linear-gradient(to right,transparent,#d4a843 25%,#d4a843 75%,transparent);margin-bottom:7px}
 .gear-sub{font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;line-height:1.5}
-.gear-brand{position:absolute;bottom:7px;left:26px;right:26px;text-align:center;font-family:Arial,sans-serif}
-/* gear-brand-name and sub defined in gear-brand-bottom block */
 .gear-brand-bottom{position:absolute;bottom:20px;left:16px;right:16px;text-align:center;font-family:Arial,sans-serif}
 .gear-brand-rule{height:1px;background:rgba(212,168,67,.45);margin-bottom:9px;width:50%;margin-left:auto;margin-right:auto}
 .gear-brand-name{font-size:11px!important;font-weight:700;color:#fff;letter-spacing:.03em;line-height:1.35;text-align:center}
 .gear-brand-sub{font-size:8px!important;color:rgba(255,255,255,.65);font-style:italic;margin-top:3px;line-height:1.3;text-align:center}
-.gear-icon{font-size:18px;margin:13px 0 5px}
-.gear-content{position:absolute;inset:14px 26px 62px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-.gear-cat{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;border-top:1.5px solid #d4a843;border-bottom:1.5px solid #d4a843;padding:4px 0 3px;width:85%;margin-bottom:9px}
 .aff-card-book:hover,.aff-card-gear:hover{transform:translateY(-5px)!important;box-shadow:0 10px 28px rgba(0,0,0,.22)!important}
 .aff-disclosure{text-align:center;font-size:.65rem;color:var(--dimmed);font-style:italic;margin-bottom:.9rem;margin-top:.25rem}
-@media(max-width:860px){
-  .aff-disclosure{font-size:.78rem;line-height:1.6;padding:0 .5rem}
-  .ne-layout{padding:.75rem .75rem 1.5rem}
-  .cards-grid-3{grid-template-columns:1fr}
-  .cards-grid-2{grid-template-columns:1fr}
-  .aff-grid-desktop{display:none}
-  .aff-mobile-single{display:block;margin-bottom:1rem;min-height:220px}
-  body{background:#EBEBEB}
-  .hero-top{min-height:130px;padding:1rem 1.1rem}
-  .hero-hl-line1{font-size:1.15rem}
-}
-@media(min-width:861px){.aff-mobile-single{display:none}}
 
-/* Mobile affiliate */
-.mobile-aff-insert{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;margin-bottom:.75rem;box-shadow:var(--shadow)}
-.mobile-aff-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);padding-bottom:.5rem;margin-bottom:.65rem;border-bottom:2px solid var(--blue)}
-.mobile-aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.mobile-aff-grid a{display:block;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);transition:transform .15s}
-.mobile-aff-grid a:active{transform:scale(.98)}
-.mobile-aff-grid img{width:100%;display:block;border-radius:var(--r)}
-.mobile-aff-disc{margin-top:.5rem;font-size:.6rem;color:#ccc;font-style:italic;line-height:1.4}
+/* Affiliate tile standalone — centered in 3-col grid, no flanking story re-renders */
+.aff-tile-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem;align-items:stretch}
+.aff-tile-center{min-height:240px}
+.aff-tile-mobile{display:none;margin-bottom:1rem;min-height:200px}
+@media(max-width:860px){
+  .aff-tile-row{display:none}
+  .aff-tile-mobile{display:block}
+}
 
 /* ── LOADING ── */
 .feed-loading{text-align:center;padding:4rem;color:var(--dimmed)}
@@ -206,7 +184,15 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 
 footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-top:1px solid var(--border);margin-top:1rem}
 
-/* ── MOBILE ── */
+@media(max-width:860px){
+  body{background:#EBEBEB}
+  .ne-layout{padding:.75rem .75rem 1.5rem}
+  .hero-top{min-height:130px;padding:1rem 1.1rem}
+  .hero-hl-line1{font-size:1.15rem}
+  .cards-grid-3{grid-template-columns:1fr}
+  .cards-grid-2{grid-template-columns:1fr}
+  .aff-disclosure{font-size:.78rem;line-height:1.6;padding:0 .5rem}
+}
 </style>
 
 <script>
@@ -217,29 +203,19 @@ const IMG_K='https://nospin.media/images/keyword/';
 const STORY_PAGE='ne_story.html';
 
 /* ══════════════════════════════════════════
-   SAFE KEYWORD → TOPIC INFERENCE
-   Rules are ordered by priority (first match wins).
-   Keywords are conservative — chosen to avoid false
-   positives. Word-boundary matched, case-insensitive.
-   Adds two NE-specific topics: education, newengland
+   KEYWORD → TOPIC INFERENCE
+   Rules ordered by priority (first match wins).
+   Word-boundary matched, case-insensitive.
    ══════════════════════════════════════════ */
-const TOPIC_RULES = [
-  // Education first — very NE-relevant, low collision risk
-  { topic:'education',  kws:['school','schools','university','universities','college','colleges','student','students','teacher','teachers','curriculum','tuition','campus','classroom','education','graduation','superintendent','school board','school district'] },
-  // Environment — NE cares deeply
-  { topic:'environment',kws:['climate','flood','flooding','storm','hurricane','wildfire','wildfire','drought','pollution','environmental','conservation','wildlife','habitat','clean energy','solar','wind turbine','offshore wind','fishing','fishery','fisheries','lobster','seacoast','watershed'] },
-  // Health
-  { topic:'health',     kws:['hospital','hospitals','healthcare','health care','medical','medicine','patient','patients','nurse','nurses','doctor','doctors','opioid','fentanyl','overdose','mental health','addiction','vaccine','vaccination','flu','cancer','medicaid','medicare','public health','pharmacy','pharmacies','ambulance'] },
-  // Economy
-  { topic:'economy',    kws:['economy','economic','budget','tax','taxes','spending','revenue','deficit','inflation','unemployment','jobs','labor','workforce','wage','wages','housing','rent','mortgage','property','development','business','businesses','commerce','trade','tariff','tariffs','prices','cost of living','fiscal'] },
-  // Legal / courts
-  { topic:'legal',      kws:['court','courts','judge','ruling','lawsuit','verdict','charged','indicted','arrested','prosecution','trial','sentence','appeal','attorney general','supreme court','federal court','civil rights','injunction','constitution','legislation'] },
-  // Crime — specific enough to not collide
-  { topic:'crime',      kws:['shooting','homicide','murder','robbery','assault','theft','arson','drug bust','arrested for','convicted','sentenced to','fentanyl bust','trafficking','gang','shooting investigation','domestic violence'] },
-  // Politics — broad but last resort for this category
-  { topic:'politics',   kws:['governor','legislature','senate','senator','house of representatives','representative','congressman','congresswoman','election','ballot','primary','campaign','vote','voted','voter','democrat','republican','independent','mayor','city council','town meeting','selectboard','state house','statehouse','policy','law','bill','legislation'] },
-  // New England regional catch-all (geography, culture)
-  { topic:'newengland', kws:['new hampshire','vermont','maine','massachusetts','connecticut','rhode island','boston','manchester','concord','portland','burlington','providence','new haven','cape cod','white mountains','acadia','foliage','maple syrup','lobster roll','patriots','red sox','celtics','bruins'] },
+const TOPIC_RULES=[
+  {topic:'education', kws:['school','schools','university','universities','college','colleges','student','students','teacher','teachers','curriculum','tuition','campus','classroom','education','graduation','superintendent','school board','school district']},
+  {topic:'environment',kws:['climate','flood','flooding','storm','hurricane','wildfire','drought','pollution','environmental','conservation','wildlife','habitat','clean energy','solar','wind turbine','offshore wind','fishing','fishery','fisheries','lobster','seacoast','watershed']},
+  {topic:'health',    kws:['hospital','hospitals','healthcare','health care','medical','medicine','patient','patients','nurse','nurses','doctor','doctors','opioid','fentanyl','overdose','mental health','addiction','vaccine','vaccination','flu','cancer','medicaid','medicare','public health','pharmacy','pharmacies','ambulance']},
+  {topic:'economy',   kws:['economy','economic','budget','tax','taxes','spending','revenue','deficit','inflation','unemployment','jobs','labor','workforce','wage','wages','housing','rent','mortgage','property','development','business','businesses','commerce','trade','tariff','tariffs','prices','cost of living','fiscal']},
+  {topic:'legal',     kws:['court','courts','judge','ruling','lawsuit','verdict','charged','indicted','arrested','prosecution','trial','sentence','appeal','attorney general','supreme court','federal court','civil rights','injunction','constitution','legislation']},
+  {topic:'crime',     kws:['shooting','homicide','murder','robbery','assault','theft','arson','drug bust','arrested for','convicted','sentenced to','fentanyl bust','trafficking','gang','shooting investigation','domestic violence']},
+  {topic:'politics',  kws:['governor','legislature','senate','senator','house of representatives','representative','congressman','congresswoman','election','ballot','primary','campaign','vote','voted','voter','democrat','republican','independent','mayor','city council','town meeting','selectboard','state house','statehouse','policy','law','bill','legislation']},
+  {topic:'newengland',kws:['new hampshire','vermont','maine','massachusetts','connecticut','rhode island','boston','manchester','concord','portland','burlington','providence','new haven','cape cod','white mountains','acadia','foliage','maple syrup','lobster roll','patriots','red sox','celtics','bruins']},
 ];
 
 const TOPIC_LABELS={
@@ -248,37 +224,36 @@ const TOPIC_LABELS={
   newengland:'New England',science:'Science',technology:'Technology'
 };
 
+/* Canonical order for section rendering */
+const TOPICS_ORDER=['politics','economy','legal','health','crime','environment','education','newengland','science','technology'];
+
 const KW_IMG={
   politics:'politics',economy:'economy',health:'health',legal:'court',
   crime:'crime',environment:'environment',education:'education',
   newengland:'newengland',science:'science',technology:'technology'
 };
 
-/* Word-boundary safe match */
-function wordMatch(hay,kw){
-  const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  return new RegExp('(?<![a-zA-Z])'+esc+'(?![a-zA-Z])','i').test(hay);
-}
-
-/* Infer topic from headline + first paragraph of summary */
-function inferTopic(s){
-  const text=[s.headline||'',stripMd((s.summary||'').split('\n\n')[0])].join(' ');
-  for(const rule of TOPIC_RULES){
-    if(rule.kws.some(kw=>wordMatch(text,kw)))return rule.topic;
-  }
-  return 'newengland'; // safe default for NE feed
-}
-
 let allStories=[],activeTopic='all';
 let _aff=null,_kw=null,_imgRules=null,_imgCache={};
 let _allKwData=null,_globalBookRule=null,_globalGearRule=null,_affToggle=0;
 
 /* ── UTILS ── */
+function wordMatch(hay,kw){
+  const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return new RegExp('(?<![a-zA-Z])'+esc+'(?![a-zA-Z])','i').test(hay);
+}
+function inferTopic(s){
+  const text=[s.headline||'',stripMd((s.summary||'').split('\n\n')[0])].join(' ');
+  for(const rule of TOPIC_RULES){
+    if(rule.kws.some(kw=>wordMatch(text,kw)))return rule.topic;
+  }
+  return'newengland';
+}
 function timeSince(ds){
-  if(!ds)return '';const d=new Date(ds);if(isNaN(d))return '';
+  if(!ds)return'';const d=new Date(ds);if(isNaN(d))return'';
   const m=Math.floor((Date.now()-d)/60000);
-  if(m<2)return 'Just now';if(m<60)return m+'m ago';if(m<1440)return Math.floor(m/60)+'h ago';
-  if(m<2880)return 'Yesterday';if(m<10080)return Math.floor(m/1440)+'d ago';
+  if(m<2)return'Just now';if(m<60)return m+'m ago';if(m<1440)return Math.floor(m/60)+'h ago';
+  if(m<2880)return'Yesterday';if(m<10080)return Math.floor(m/1440)+'d ago';
   return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
 }
 function stripMd(t){return(t||'').replace(/\*\*(.*?)\*\*/g,'$1').replace(/\*(.*?)\*/g,'$1').replace(/\\n/g,' ').replace(/\n/g,' ').trim()}
@@ -290,8 +265,7 @@ function parseHL(raw){
 function getFirstPara(summary){
   const md=summary||'';
   const raw=md.replace(/\\n\\n/g,'\n\n').replace(/\\n/g,'\n');
-  const para=raw.split('\n\n')[0];
-  return stripMd(para);
+  return stripMd(raw.split('\n\n')[0]);
 }
 function pillW(t){return'<span class="pill pill-white">'+(TOPIC_LABELS[t]||t||'Local')+'</span>'}
 function pillC(t){return'<span class="pill tp-'+(t||'newengland')+'">'+(TOPIC_LABELS[t]||t||'Local')+'</span>'}
@@ -331,25 +305,25 @@ async function preloadImages(stories){await Promise.all(stories.map(s=>resolveIm
 /* ── AFFILIATE ── */
 async function getAff(){if(_aff)return _aff;try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_aff=await r.json()}catch(e){}return _aff||{}}
 async function getKw(){if(_kw)return _kw;try{const r=await fetch('/affiliate/keyword-affiliates.json');if(r.ok)_kw=await r.json()}catch(e){}return _kw||{rules:[]}}
+
 function findTopTwoRules(stories,rules){
   if(!stories?.length||!rules?.length)return{bookRule:null,gearRule:null};
   const sc=rules.map(rule=>({rule,total:stories.filter(s=>(rule.keywords||[]).some(kw=>wordMatch([s.headline||'',s.summary||''].join(' '),kw))).length}));
   const top5=[...sc.filter(s=>s.total>0).sort((a,b)=>b.total-a.total)].slice(0,5).sort(()=>0.5-Math.random());
   return{bookRule:top5[0]?.rule||null,gearRule:top5[1]?.rule||null};
 }
-function isNEItem(item){return(item.title||'').startsWith('NE')}
-function pickNE(arr,n){
-  const ne=arr.filter(isNEItem);const must=arr.filter(i=>!isNEItem(i)&&i.must_show);
-  const opt=[...arr.filter(i=>!isNEItem(i)&&!i.must_show)].sort(()=>0.5-Math.random());
-  const seen=new Set();const result=[];
-  for(const item of[...ne,...must,...opt]){if(!seen.has(item.title)&&result.length<n){seen.add(item.title);result.push(item)}}
-  return result;
-}
-function pickOneMobileNE(arr){const ne=arr.filter(isNEItem);const must=arr.filter(i=>!isNEItem(i)&&i.must_show);const pool=ne.length?ne:must.length?must:arr;return pool[Math.floor(Math.random()*pool.length)]}
-function getRandomLink(item){return(item.links||[])[Math.floor(Math.random()*(item.links||[]).length)]||'#'}
-function renderImgTile(item){return'<a href="'+neAffUrl(getRandomLink(item))+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+item.image+'" alt="'+item.title+'" loading="lazy"></a>'}
 
-/* Rotating support messages */
+/* Prepend "new england" to Amazon k= param for regional relevance */
+function neAffUrl(url){
+  if(!url)return url;
+  try{
+    const u=new URL(url);
+    const k=u.searchParams.get('k');
+    if(k&&!k.toLowerCase().startsWith('new england')){u.searchParams.set('k','new+england+'+k);return u.toString()}
+  }catch(e){}
+  return url;
+}
+
 const NSM_SUPPORT_MSGS=[
   'Supports independent journalism',
   'Helps keep NSM free',
@@ -362,26 +336,14 @@ const NSM_SUPPORT_MSGS=[
 ];
 function randSupport(){return NSM_SUPPORT_MSGS[Math.floor(Math.random()*NSM_SUPPORT_MSGS.length)]}
 
-/* Prepend "new england" to Amazon k= param for regional relevance */
-function neAffUrl(url){
-  if(!url)return url;
-  try{
-    const u=new URL(url);
-    const k=u.searchParams.get('k');
-    if(k&&!k.toLowerCase().startsWith('new england')){
-      u.searchParams.set('k','new+england+'+k);
-      return u.toString();
-    }
-  }catch(e){}
-  return url;
-}
-
 function bookTileHTML(b){
   const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
   const sub=(b.subtitle||'').replace(/\\n/g,'<br>');
   const href=neAffUrl(b.url);
-  return'<a href="'+href+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-book" title="Recommended reading '+'—'+' supports NSM at no extra cost">'
-    +'<div class="book-card-wrap"><div class="book-spine" style="background:'+b.spine_color+';"></div><div class="book-pages"></div>'
+  return'<a href="'+href+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-book" title="Recommended reading \u2014 supports NSM at no extra cost">'
+    +'<div class="book-card-wrap">'
+    +'<div class="book-spine" style="background:'+b.spine_color+';"></div>'
+    +'<div class="book-pages"></div>'
     +'<div class="book-cover" style="background:'+b.cover_color+';">'
     +'<div class="book-cover-sheen"></div>'
     +'<div class="book-cat" style="color:'+b.accent_color+';border-color:'+b.accent_color+';">'+b.category_label+'</div>'
@@ -391,7 +353,7 @@ function bookTileHTML(b){
     +'<div style="flex:1;"></div>'
     +'<div class="book-brand book-brand-bottom">'
     +'<div class="book-brand-rule" style="background:'+b.accent_color+';"></div>'
-    +'<div class="book-brand-name">🧭  No Spin Media Pick</div>'
+    +'<div class="book-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div>'
     +'<div class="book-brand-sub">'+randSupport()+'</div>'
     +'</div>'
     +'</div></div></a>';
@@ -402,19 +364,25 @@ function gearTileHTML(g){
   const tl=(g.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
   const sub=(g.subtitle||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
   const href=neAffUrl(g.url);
-  return'<a href="'+href+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-gear" title="Recommended gear '+'—'+' supports NSM at no extra cost">'
-    +'<div class="gear-card-wrap"><div class="gear-sheen"></div><div class="gear-inner-border"></div>'
+  return'<a href="'+href+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-gear" title="Recommended gear \u2014 supports NSM at no extra cost">'
+    +'<div class="gear-card-wrap">'
+    +'<div class="gear-sheen"></div><div class="gear-inner-border"></div>'
     +'<div class="gear-clip-t"></div><div class="gear-clip-b"></div><div class="gear-clip-l"></div><div class="gear-clip-r"></div>'
-    +'<div class="gear-content"><div class="gear-cat">'+( g.category_label||'')+'</div>'
+    +'<div class="gear-content">'
+    +'<div class="gear-cat">'+(g.category_label||'')+'</div>'
     +'<div class="gear-title" style="font-size:'+tSize+'px;">'+tl+'</div>'
-    +'<div class="gear-icon">'+(g.icon||'⚙️')+'</div>'
-    +'<div class="gear-rule"></div><div class="gear-sub">'+sub+'</div></div>'
+    +'<div class="gear-icon">'+(g.icon||'\u2699\uFE0F')+'</div>'
+    +'<div class="gear-rule"></div>'
+    +'<div class="gear-sub">'+sub+'</div>'
+    +'</div>'
     +'<div class="gear-brand gear-brand-bottom">'
     +'<div class="gear-brand-rule"></div>'
-    +'<div class="gear-brand-name">🧭  No Spin Media Pick</div>'
+    +'<div class="gear-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div>'
     +'<div class="gear-brand-sub">'+randSupport()+'</div>'
-    +'</div></div></a>';
+    +'</div>'
+    +'</div></a>';
 }
+
 function pickAffTileForSection(sectionStories){
   const kwRules=(_allKwData?.rules)||[];
   let best=null,bestScore=0;
@@ -425,42 +393,34 @@ function pickAffTileForSection(sectionStories){
   const rule=best||(_affToggle===0?_globalBookRule:_globalGearRule)||_globalBookRule||_globalGearRule;
   if(!rule)return null;
   let tile=null;
-  if(_affToggle===0){tile=rule.books?bookTileHTML(rule.books):(rule.gear?gearTileHTML(rule.gear):null);if(!tile&&_globalBookRule?.books)tile=bookTileHTML(_globalBookRule.books)}
-  else{tile=rule.gear?gearTileHTML(rule.gear):(rule.books?bookTileHTML(rule.books):null);if(!tile&&_globalGearRule?.gear)tile=gearTileHTML(_globalGearRule.gear)}
+  if(_affToggle===0){
+    tile=rule.books?bookTileHTML(rule.books):(rule.gear?gearTileHTML(rule.gear):null);
+    if(!tile&&_globalBookRule?.books)tile=bookTileHTML(_globalBookRule.books);
+  }else{
+    tile=rule.gear?gearTileHTML(rule.gear):(rule.books?bookTileHTML(rule.books):null);
+    if(!tile&&_globalGearRule?.gear)tile=gearTileHTML(_globalGearRule.gear);
+  }
   _affToggle=1-_affToggle;
   return tile;
 }
 
-function affRow(s1,s2,tile){
-  if(!tile)return s2?'<div class="cards-grid-2">'+cardHTML(s1)+cardHTML(s2)+'</div>':'<div class="cards-grid-2">'+cardHTML(s1)+'</div>';
-  return'<div class="cards-grid-3 aff-grid-desktop" style="align-items:stretch;">'
-    +'<div>'+cardHTML(s1)+'</div>'
-    +'<div style="min-height:240px;">'+tile+'</div>'
-    +'<div>'+(s2?cardHTML(s2):'')+'</div>'
+/* Affiliate tile on its own row — no story cards duplicated */
+function affTileRowHTML(tile){
+  if(!tile)return'';
+  return'<div class="aff-tile-row">'
+    +'<div></div>'
+    +'<div class="aff-tile-center">'+tile+'</div>'
+    +'<div></div>'
     +'</div>'
-    +'<div class="cards-grid-2 aff-mobile-single">'+cardHTML(s1)+(s2?cardHTML(s2):'')+'</div>'
-    ;
+    +'<div class="aff-tile-mobile">'+tile+'</div>';
 }
 
 async function loadAffiliateSidebars(stories){
-  const affData=await getAff();const kwData=await getKw();
+  const kwData=await getKw();
   _allKwData=kwData;
   const{bookRule,gearRule}=findTopTwoRules(stories,kwData.rules||[]);
-  _globalBookRule=bookRule;_globalGearRule=gearRule;
-  const books=affData.books?.items||[];const gear=affData.gear?.items||[];
-
-  // Mobile insert
-  let bHTML='',gHTML='';
-  if(bookRule?.books)bHTML='<div style="border-radius:8px;overflow:hidden;">'+bookTileHTML(bookRule.books)+'</div>';
-  else{const mb=pickOneMobileNE(books);if(mb)bHTML='<a href="'+neAffUrl(getRandomLink(mb))+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+mb.image+'" alt="'+mb.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>'}
-  if(gearRule?.gear)gHTML='<div style="border-radius:8px;overflow:hidden;">'+gearTileHTML(gearRule.gear)+'</div>';
-  else{const mg=pickOneMobileNE(gear);if(mg)gHTML='<a href="'+neAffUrl(getRandomLink(mg))+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+mg.image+'" alt="'+mg.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>'}
-
-  window.mobileAffHTML='<div class="mobile-aff-insert">'
-    +'<div class="mobile-aff-label">\uD83E\uDDED NSM Picks</div>'
-    +'<div class="mobile-aff-grid">'+bHTML+gHTML+'</div>'
-    +'<div class="mobile-aff-disc">Selecting an item supports independent journalism at no extra cost.</div>'
-    +'</div>';
+  _globalBookRule=bookRule;
+  _globalGearRule=gearRule;
 }
 
 /* ── CARD HTML ── */
@@ -486,7 +446,10 @@ function heroHTML(s){
     +'</div></div></div></div>';
 }
 
-function cardHTML(s){
+/* showPill=true  → white pill in card image header (mixed "Latest" sections)
+   showPill=false → no pill (named topic sections — label already says the topic) */
+function cardHTML(s,showPill){
+  if(showPill===undefined)showPill=true;
   const p=parseHL(s.headline),t=s._topic,ts=timeSince(s.posted_at);
   const sum=getFirstPara(s.summary);
   return'<div class="story-card" onclick="window.location=\''+STORY_PAGE+'?story='+encodeURIComponent(s.url)+'\'">'
@@ -494,7 +457,7 @@ function cardHTML(s){
     +'<div class="card-top-bg" style="'+topBG(s.url,t)+'"></div>'
     +'<div class="card-top-scrim"></div>'
     +'<div class="card-top-content">'
-    +'<div class="card-pill-row">'+pillW(t)+'</div>'
+    +(showPill?'<div class="card-pill-row">'+pillW(t)+'</div>':'')
     +'<span class="card-hl-line1">'+p.line1+'</span>'
     +(p.line2?'<span class="card-hl-line2">'+p.line2+'</span>':'')
     +'</div></div>'
@@ -508,12 +471,13 @@ function cardHTML(s){
     +'</div></div></div></div>';
 }
 
-function textCardHTML(s){
+function textCardHTML(s,showPill){
+  if(showPill===undefined)showPill=true;
   const p=parseHL(s.headline),t=s._topic,ts=timeSince(s.posted_at);
   const hl=p.line2?p.line1+' '+p.line2:p.line1;
   const sum=getFirstPara(s.summary).substring(0,140);
   return'<div class="text-card" onclick="window.location=\''+STORY_PAGE+'?story='+encodeURIComponent(s.url)+'\'">'
-    +pillC(t)
+    +(showPill?pillC(t):'')
     +'<div class="text-card-headline">'+hl+'</div>'
     +'<div class="text-card-summary">'+sum+'</div>'
     +'<div class="card-footer">'
@@ -526,13 +490,14 @@ function textCardHTML(s){
 
 /* ── TABS ── */
 function buildTabs(stories){
-  const topics=[...new Set(stories.map(s=>s._topic).filter(Boolean))];
+  /* Only show a topic tab when 2+ stories exist for it */
+  const counts={};
+  stories.forEach(s=>counts[s._topic]=(counts[s._topic]||0)+1);
   const el=document.getElementById('feed-tabs');
   let html='<div class="feed-tab active" data-topic="all">All Stories</div>';
-  // Show tabs only for topics that appear 2+ times (avoid single-story tabs)
-  const counts={};stories.forEach(s=>counts[s._topic]=(counts[s._topic]||0)+1);
-  const present=Object.keys(TOPIC_LABELS).filter(t=>topics.includes(t)&&counts[t]>=2);
-  present.forEach(t=>{html+='<div class="feed-tab" data-topic="'+t+'">'+TOPIC_LABELS[t]+'</div>'});
+  TOPICS_ORDER.filter(t=>counts[t]>=2).forEach(t=>{
+    html+='<div class="feed-tab" data-topic="'+t+'">'+TOPIC_LABELS[t]+'</div>';
+  });
   el.innerHTML=html;
   el.querySelectorAll('.feed-tab').forEach(tab=>{
     tab.addEventListener('click',()=>{
@@ -546,73 +511,135 @@ function buildTabs(stories){
   });
 }
 
-/* ── RENDER ── */
+/* ── RENDER FEED ── */
+/* Each story appears exactly once. Category pills shown in mixed "Latest"
+   sections, suppressed inside named topic sections. Single-story sections
+   borrow a same-topic story from allStories to reach minimum 2. */
 function renderFeed(stories){
   const feed=document.getElementById('nsm-feed');
   if(!stories.length){feed.innerHTML='<div style="padding:3rem;text-align:center;color:var(--dimmed);">No stories in this category.</div>';return}
+
   _affToggle=0;
-  let html='';
-  html+='<div class="refresh-bar">'
+
+  let html='<div class="refresh-bar">'
     +'<span class="story-count">Latest Updates \u00b7 '+stories.length+' stories</span>'
     +'<button class="refresh-btn" onclick="shuffleFeed()"><span class="spin-icon">\u21bb</span> Shuffle Feed</button>'
     +'</div>';
 
-  // Hero
+  /* ── Slot 0: Hero ── */
   html+=heroHTML(stories[0]);
 
-  // 3-grid latest
+  /* ── Slots 1–3: "Latest" mixed grid — pills ON ── */
   const g1=stories.slice(1,4);
-  if(g1.length){html+='<div class="section-label">Latest</div><div class="cards-grid-3">'+g1.map(cardHTML).join('')+'</div>'}
+  if(g1.length){
+    html+='<div class="section-label">Latest</div>'
+      +'<div class="cards-grid-3">'+g1.map(s=>cardHTML(s,true)).join('')+'</div>';
+  }
 
-  // First aff row
-  const aff1=stories.slice(4,6);
-  if(aff1.length){html+=affRow(aff1[0],aff1[1]||null,pickAffTileForSection(aff1))}
+  /* ── Slots 4–5: Second pair — pills ON (mixed, no section label) ── */
+  const g2=stories.slice(4,6);
+  if(g2.length){
+    html+='<div class="cards-grid-'+(g2.length===1?1:2)+'">'+g2.map(s=>cardHTML(s,true)).join('')+'</div>';
+  }
 
-  // Topic sections from story 6+
+  /* ── Slots 6+: Group by topic ── */
+  const usedUrls=new Set(stories.slice(0,6).map(s=>s.url));
+
   const byTopic={};
-  stories.slice(6).forEach(s=>{if(!byTopic[s._topic])byTopic[s._topic]=[];byTopic[s._topic].push(s)});
-  const present=Object.keys(TOPIC_LABELS).filter(t=>byTopic[t]?.length);
+  stories.slice(6).forEach(s=>{
+    if(usedUrls.has(s.url))return;
+    usedUrls.add(s.url);
+    const t=s._topic;
+    if(!byTopic[t])byTopic[t]=[];
+    byTopic[t].push(s);
+  });
+
+  /* ── Section balancing: pad single-story sections to 2 ──
+     Borrow same-topic stories from full allStories pool (never reuse a URL). */
+  let extrasUsed=0;
+  const MAX_EXTRAS=4;
+  TOPICS_ORDER.forEach(topic=>{
+    if(!byTopic[topic]||byTopic[topic].length!==1||extrasUsed>=MAX_EXTRAS)return;
+    const donor=allStories.find(s=>s._topic===topic&&!usedUrls.has(s.url));
+    if(donor){byTopic[topic].push(donor);usedUrls.add(donor.url);extrasUsed++;}
+  });
+
+  const present=TOPICS_ORDER.filter(t=>byTopic[t]&&byTopic[t].length);
 
   present.forEach((topic,ti)=>{
     const grp=byTopic[topic];
+
+    /* Section label — pills suppressed on cards below */
     html+='<div class="section-label">'+TOPIC_LABELS[topic]+'</div>';
-    if(grp.length<=2){html+='<div class="cards-grid-2">'+grp.map(cardHTML).join('')+'</div>'}
-    else{
-      html+='<div class="cards-grid-3">'+grp.slice(0,3).map(cardHTML).join('')+'</div>';
-      const rest=grp.slice(3);if(rest.length)html+='<div class="cards-grid-3">'+rest.map(textCardHTML).join('')+'</div>';
+
+    if(grp.length<=2){
+      html+='<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
+    }else{
+      html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
+      const rest=grp.slice(3);
+      if(rest.length)html+='<div class="cards-grid-3">'+rest.map(s=>textCardHTML(s,false)).join('')+'</div>';
     }
+
+    /* Affiliate tile every 2nd topic section — tile only, no story re-renders */
     if((ti+1)%2===0){
       const tile=pickAffTileForSection(grp);
-      if(tile&&grp.length>=1){const s1=grp[Math.max(0,grp.length-2)],s2=grp[grp.length-1]||null;html+=affRow(s1,s1!==s2?s2:null,tile)}
+      if(tile)html+=affTileRowHTML(tile);
     }
   });
 
   feed.innerHTML=html;
-
-  // Mobile aff after card 3
-  if(window.innerWidth<=860&&window.mobileAffHTML){
-    const cards=feed.querySelectorAll('.story-card,.text-card');
-    if(cards[2]){const div=document.createElement('div');div.innerHTML=window.mobileAffHTML;cards[2].after(div.firstElementChild)}
-  }
 }
 
-/* Shuffle just re-randomizes which platform summary shows (NE has no social text, so just re-renders) */
+/* Shuffle just re-renders (NE stories have no social fields to rotate) */
 function shuffleFeed(){
   const f=activeTopic==='all'?allStories:allStories.filter(s=>s._topic===activeTopic);
   renderFeed(f);
 }
 
+/* ── LOAD MORE ── */
+let _displayedCount=18;
+const PAGE_SIZE=18;
+
+function showLoadMore(total){
+  const ex=document.getElementById('load-more-wrap');if(ex)ex.remove();
+  if(_displayedCount>=total)return;
+  const remaining=Math.min(PAGE_SIZE,total-_displayedCount);
+  const wrap=document.createElement('div');
+  wrap.id='load-more-wrap';
+  wrap.style.cssText='text-align:center;padding:1.5rem 0 .5rem;';
+  wrap.innerHTML='<button onclick="loadMore()" style="font-size:13px;font-weight:600;color:var(--blue);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:9px 24px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow);">'
+    +'Show Me More \u2192 <span style="font-size:11px;font-weight:400;color:var(--dimmed);">'+remaining+' more stories</span>'
+    +'</button>';
+  document.getElementById('nsm-feed').after(wrap);
+}
+
+function loadMore(){
+  _displayedCount=Math.min(_displayedCount+PAGE_SIZE,allStories.length);
+  const btn=document.querySelector('#load-more-wrap button');
+  if(btn){btn.textContent='Loading\u2026';btn.disabled=true;}
+  const slice=activeTopic==='all'
+    ?allStories.slice(0,_displayedCount)
+    :allStories.filter(s=>s._topic===activeTopic).slice(0,_displayedCount);
+  renderFeed(slice);
+  const total=activeTopic==='all'
+    ?allStories.length
+    :allStories.filter(s=>s._topic===activeTopic).length;
+  showLoadMore(total);
+}
+
 /* ── LOAD ── */
 async function loadStories(){
   try{
-    const res=await fetch(SB_URL+'/news_ne?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=50',{headers:{apikey:SB_KEY}});
+    /* Fetch 60 from Supabase; display first 18 on load, rest available via Load More */
+    const res=await fetch(SB_URL+'/news_ne?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=60',{headers:{apikey:SB_KEY}});
     const raw=await res.json();
-    // Annotate each story with inferred topic
     allStories=raw.map(s=>({...s,_topic:inferTopic(s)}));
-    await preloadImages(allStories);
+    await preloadImages(allStories.slice(0,_displayedCount));
     await loadAffiliateSidebars(allStories);
     buildTabs(allStories);
-    renderFeed(allStories);
+    const firstBatch=allStories.slice(0,_displayedCount);
+    renderFeed(firstBatch);
+    showLoadMore(allStories.length);
   }catch(e){
     document.getElementById('nsm-feed').innerHTML='<div style="padding:3rem;text-align:center;color:var(--dimmed);">Could not load stories. Please refresh.</div>';
     console.error(e);
@@ -634,19 +661,16 @@ document.addEventListener('DOMContentLoaded',()=>{
 </head>
 <body>
 <div id="site-header"></div>
-
 <div class="ne-layout">
-  <!-- Main feed -->
   <div class="ne-main">
     <div id="feed-tabs" class="feed-tabs"></div>
     <div id="nsm-feed">
-      <div class="feed-loading"><div class="spinner"></div>Loading New England stories...</div>
+      <div class="feed-loading"><div class="spinner"></div>Loading New England stories&hellip;</div>
     </div>
   </div>
-
 </div>
 <footer>
-  &copy; 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
+  &copy; 2026 &#x1F9ED; No Spin Media. Independent. Truth-focused.<br>
   <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
 </footer>
 </body>
