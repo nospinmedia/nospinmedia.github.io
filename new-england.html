@@ -203,19 +203,230 @@ const IMG_K='https://nospin.media/images/keyword/';
 const STORY_PAGE='ne_story.html';
 
 /* ══════════════════════════════════════════
-   KEYWORD → TOPIC INFERENCE
-   Rules ordered by priority (first match wins).
-   Word-boundary matched, case-insensitive.
+   WEIGHTED TOPIC CLASSIFIER
+   Each keyword carries an explicit point value.
+   All matches across the full headline + full
+   summary are summed. Highest score wins.
+   Ties broken by TOPIC_PRIORITY order.
+   "Weak" categories (education, economy,
+   newengland) use low weights so a single
+   generic word never overpowers strong signals
+   from crime, legal, health, or politics.
    ══════════════════════════════════════════ */
-const TOPIC_RULES=[
-  {topic:'education', kws:['school','schools','university','universities','college','colleges','student','students','teacher','teachers','curriculum','tuition','campus','classroom','education','graduation','superintendent','school board','school district']},
-  {topic:'environment',kws:['climate','flood','flooding','storm','hurricane','wildfire','drought','pollution','environmental','conservation','wildlife','habitat','clean energy','solar','wind turbine','offshore wind','fishing','fishery','fisheries','lobster','seacoast','watershed']},
-  {topic:'health',    kws:['hospital','hospitals','healthcare','health care','medical','medicine','patient','patients','nurse','nurses','doctor','doctors','opioid','fentanyl','overdose','mental health','addiction','vaccine','vaccination','flu','cancer','medicaid','medicare','public health','pharmacy','pharmacies','ambulance']},
-  {topic:'economy',   kws:['economy','economic','budget','tax','taxes','spending','revenue','deficit','inflation','unemployment','jobs','labor','workforce','wage','wages','housing','rent','mortgage','property','development','business','businesses','commerce','trade','tariff','tariffs','prices','cost of living','fiscal']},
-  {topic:'legal',     kws:['court','courts','judge','ruling','lawsuit','verdict','charged','indicted','arrested','prosecution','trial','sentence','appeal','attorney general','supreme court','federal court','civil rights','injunction','constitution','legislation']},
-  {topic:'crime',     kws:['shooting','homicide','murder','robbery','assault','theft','arson','drug bust','arrested for','convicted','sentenced to','fentanyl bust','trafficking','gang','shooting investigation','domestic violence']},
-  {topic:'politics',  kws:['governor','legislature','senate','senator','house of representatives','representative','congressman','congresswoman','election','ballot','primary','campaign','vote','voted','voter','democrat','republican','independent','mayor','city council','town meeting','selectboard','state house','statehouse','policy','law','bill','legislation']},
-  {topic:'newengland',kws:['new hampshire','vermont','maine','massachusetts','connecticut','rhode island','boston','manchester','concord','portland','burlington','providence','new haven','cape cod','white mountains','acadia','foliage','maple syrup','lobster roll','patriots','red sox','celtics','bruins']},
+
+/* Each entry: [keyword, points, topic] */
+const SCORED_KEYWORDS=[
+
+  /* ── CRIME — strong signals ── */
+  ['shooting',          12, 'crime'],
+  ['shot and killed',   12, 'crime'],
+  ['manhunt',           12, 'crime'],
+  ['homicide',          12, 'crime'],
+  ['murder',            12, 'crime'],
+  ['stabbing',          11, 'crime'],
+  ['standoff',          11, 'crime'],
+  ['suspect fled',      11, 'crime'],
+  ['armed suspect',     11, 'crime'],
+  ['robbery',           10, 'crime'],
+  ['trafficking',       10, 'crime'],
+  ['fentanyl bust',     10, 'crime'],
+  ['drug bust',         10, 'crime'],
+  ['arson',             10, 'crime'],
+  ['domestic violence', 10, 'crime'],
+  ['gang',               9, 'crime'],
+  ['assault',            9, 'crime'],
+  ['theft',              8, 'crime'],
+  ['carjacking',        10, 'crime'],
+  ['kidnapping',        10, 'crime'],
+  ['pleaded guilty',     9, 'crime'],
+  ['convicted',          8, 'crime'],
+  ['sentenced to',       8, 'crime'],
+  ['arrested for',       7, 'crime'],
+  ['shelter in place',   7, 'crime'],
+  ['police search',      7, 'crime'],
+  ['suspect',            6, 'crime'],
+  ['police',             4, 'crime'],
+  ['officer',            3, 'crime'],
+  ['investigation',      2, 'crime'],
+
+  /* ── LEGAL — strong signals ── */
+  ['federal court',     10, 'legal'],
+  ['supreme court',     10, 'legal'],
+  ['injunction',        10, 'legal'],
+  ['lawsuit',            9, 'legal'],
+  ['judge',              9, 'legal'],
+  ['ruling',             9, 'legal'],
+  ['appeal',             8, 'legal'],
+  ['verdict',            9, 'legal'],
+  ['indicted',           9, 'legal'],
+  ['prosecution',        8, 'legal'],
+  ['trial',              8, 'legal'],
+  ['court',              7, 'legal'],
+  ['attorney general',   7, 'legal'],
+  ['civil rights',       6, 'legal'],
+  ['charged',            6, 'legal'],
+  ['sentence',           5, 'legal'],
+  ['constitution',       4, 'legal'],
+  ['legislation',        3, 'legal'],
+  ['law',                2, 'legal'],
+
+  /* ── HEALTH — strong signals ── */
+  ['fentanyl',          10, 'health'],
+  ['opioid',            10, 'health'],
+  ['overdose',          10, 'health'],
+  ['mental health',      9, 'health'],
+  ['addiction',          9, 'health'],
+  ['hospital',           8, 'health'],
+  ['healthcare',         8, 'health'],
+  ['health care',        8, 'health'],
+  ['medicaid',           8, 'health'],
+  ['medicare',           8, 'health'],
+  ['public health',      8, 'health'],
+  ['vaccine',            7, 'health'],
+  ['vaccination',        7, 'health'],
+  ['cancer',             7, 'health'],
+  ['medical',            5, 'health'],
+  ['doctor',             5, 'health'],
+  ['nurse',              5, 'health'],
+  ['patient',            4, 'health'],
+  ['ambulance',          5, 'health'],
+  ['pharmacy',           5, 'health'],
+  ['flu',                4, 'health'],
+  ['medicine',           3, 'health'],
+
+  /* ── POLITICS — moderate signals ── */
+  ['governor',           7, 'politics'],
+  ['election',           7, 'politics'],
+  ['legislature',        7, 'politics'],
+  ['statehouse',         7, 'politics'],
+  ['state house',        7, 'politics'],
+  ['selectboard',        7, 'politics'],
+  ['town meeting',       6, 'politics'],
+  ['ballot',             6, 'politics'],
+  ['primary',            6, 'politics'],
+  ['senator',            6, 'politics'],
+  ['senate',             5, 'politics'],
+  ['representative',     5, 'politics'],
+  ['congressman',        6, 'politics'],
+  ['congresswoman',      6, 'politics'],
+  ['city council',       5, 'politics'],
+  ['mayor',              5, 'politics'],
+  ['campaign',           5, 'politics'],
+  ['democrat',           5, 'politics'],
+  ['republican',         5, 'politics'],
+  ['vote',               4, 'politics'],
+  ['voter',              4, 'politics'],
+  ['bill',               4, 'politics'],
+  ['policy',             3, 'politics'],
+  ['independent',        2, 'politics'],
+
+  /* ── ENVIRONMENT — moderate signals ── */
+  ['offshore wind',      9, 'environment'],
+  ['clean energy',       8, 'environment'],
+  ['wind turbine',       8, 'environment'],
+  ['climate',            7, 'environment'],
+  ['environmental',      7, 'environment'],
+  ['flooding',           7, 'environment'],
+  ['hurricane',          7, 'environment'],
+  ['wildfire',           7, 'environment'],
+  ['watershed',          7, 'environment'],
+  ['conservation',       6, 'environment'],
+  ['wildlife',           6, 'environment'],
+  ['fishery',            6, 'environment'],
+  ['fisheries',          6, 'environment'],
+  ['seacoast',           5, 'environment'],
+  ['pollution',          5, 'environment'],
+  ['habitat',            5, 'environment'],
+  ['solar',              4, 'environment'],
+  ['flood',              4, 'environment'],
+  ['drought',            4, 'environment'],
+  ['storm',              3, 'environment'],
+
+  /* ── ECONOMY — weak signals (generic words kept low) ── */
+  ['inflation',          8, 'economy'],
+  ['unemployment',       8, 'economy'],
+  ['interest rate',      8, 'economy'],
+  ['housing market',     7, 'economy'],
+  ['cost of living',     7, 'economy'],
+  ['layoffs',            7, 'economy'],
+  ['tariff',             6, 'economy'],
+  ['tariffs',            6, 'economy'],
+  ['mortgage',           5, 'economy'],
+  ['workforce',          5, 'economy'],
+  ['fiscal',             5, 'economy'],
+  ['economic',           4, 'economy'],
+  ['economy',            4, 'economy'],
+  ['commerce',           4, 'economy'],
+  ['trade',              3, 'economy'],
+  ['wage',               3, 'economy'],
+  ['wages',              3, 'economy'],
+  ['revenue',            3, 'economy'],
+  ['deficit',            3, 'economy'],
+  ['jobs',               2, 'economy'],
+  ['labor',              2, 'economy'],
+  ['spending',           2, 'economy'],
+  ['budget',             1, 'economy'],
+  ['tax',                1, 'economy'],
+  ['taxes',              1, 'economy'],
+  ['rent',               1, 'economy'],
+  ['housing',            1, 'economy'],
+  ['property',           1, 'economy'],
+  ['development',        1, 'economy'],
+  ['business',           1, 'economy'],
+  ['prices',             1, 'economy'],
+
+  /* ── EDUCATION — weak signals (generic words kept low) ── */
+  ['school district',    8, 'education'],
+  ['school board',       8, 'education'],
+  ['superintendent',     8, 'education'],
+  ['curriculum',         7, 'education'],
+  ['graduation',         6, 'education'],
+  ['tuition',            6, 'education'],
+  ['classroom',          5, 'education'],
+  ['education',          5, 'education'],
+  ['university',         4, 'education'],
+  ['universities',       4, 'education'],
+  ['college',            3, 'education'],
+  ['colleges',           3, 'education'],
+  ['campus',             3, 'education'],
+  ['teacher',            2, 'education'],
+  ['teachers',           2, 'education'],
+  ['student',            2, 'education'],
+  ['students',           2, 'education'],
+  ['school',             1, 'education'],
+  ['schools',            1, 'education'],
+
+  /* ── NEW ENGLAND — low-weight geographic/cultural catch-all ── */
+  ['cape cod',           3, 'newengland'],
+  ['white mountains',    3, 'newengland'],
+  ['acadia',             3, 'newengland'],
+  ['lobster roll',       3, 'newengland'],
+  ['maple syrup',        3, 'newengland'],
+  ['red sox',            3, 'newengland'],
+  ['patriots',           2, 'newengland'],
+  ['celtics',            2, 'newengland'],
+  ['bruins',             2, 'newengland'],
+  ['new hampshire',      1, 'newengland'],
+  ['vermont',            1, 'newengland'],
+  ['maine',              1, 'newengland'],
+  ['massachusetts',      1, 'newengland'],
+  ['connecticut',        1, 'newengland'],
+  ['rhode island',       1, 'newengland'],
+  ['boston',             1, 'newengland'],
+  ['manchester',         1, 'newengland'],
+  ['concord',            1, 'newengland'],
+  ['portland',           1, 'newengland'],
+  ['burlington',         1, 'newengland'],
+  ['providence',         1, 'newengland'],
+  ['new haven',          1, 'newengland'],
+  ['foliage',            2, 'newengland'],
+];
+
+/* Tie-break order: when two topics are within 15% of each other,
+   the one higher in this list wins. Strong/distinct topics first. */
+const TOPIC_PRIORITY=[
+  'crime','legal','health','politics',
+  'economy','environment','education','newengland'
 ];
 
 const TOPIC_LABELS={
@@ -242,12 +453,37 @@ function wordMatch(hay,kw){
   const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   return new RegExp('(?<![a-zA-Z])'+esc+'(?![a-zA-Z])','i').test(hay);
 }
+
+/* Weighted scoring classifier.
+   Scans full headline + full summary (not just paragraph 1).
+   Accumulates per-topic scores across all matching keywords.
+   Ties broken by TOPIC_PRIORITY order. */
 function inferTopic(s){
-  const text=[s.headline||'',stripMd((s.summary||'').split('\n\n')[0])].join(' ');
-  for(const rule of TOPIC_RULES){
-    if(rule.kws.some(kw=>wordMatch(text,kw)))return rule.topic;
+  /* Use full summary, not just first paragraph */
+  const text=[s.headline||'',stripMd(s.summary||'')].join(' ');
+
+  const scores={};
+  for(const [kw,pts,topic] of SCORED_KEYWORDS){
+    if(wordMatch(text,kw)){
+      scores[topic]=(scores[topic]||0)+pts;
+    }
   }
-  return'newengland';
+
+  /* Find the winning topic */
+  const entries=Object.entries(scores);
+  if(!entries.length)return'newengland';
+
+  /* Sort by score descending, break ties by TOPIC_PRIORITY */
+  entries.sort((a,b)=>{
+    if(b[1]!==a[1])return b[1]-a[1];
+    return TOPIC_PRIORITY.indexOf(a[0])-TOPIC_PRIORITY.indexOf(b[0]);
+  });
+
+  const [topTopic,topScore]=entries[0];
+
+  /* If there's a second contender within 15% of the winner,
+     let TOPIC_PRIORITY decide (already sorted above, so topTopic wins) */
+  return topTopic;
 }
 function timeSince(ds){
   if(!ds)return'';const d=new Date(ds);if(isNaN(d))return'';
