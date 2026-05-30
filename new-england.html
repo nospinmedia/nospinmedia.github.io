@@ -55,6 +55,10 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .tp-bg-environment{background:linear-gradient(160deg,#083A08,#1A7A1A)}
 .tp-bg-education{background:linear-gradient(160deg,#1A3A6B,#2E5FA0)}
 .tp-bg-newengland{background:linear-gradient(160deg,#1A3A1A,#2E6B2E)}
+/* ── NEW CATEGORIES ── */
+.tp-bg-transportation{background:linear-gradient(160deg,#1A2A4A,#2E4A7A)}
+.tp-bg-energy{background:linear-gradient(160deg,#3A2800,#7A5800)}
+.tp-bg-publicsafety{background:linear-gradient(160deg,#3A1A00,#8B3A00)}
 
 /* ── PILLS ── */
 .pill{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:20px}
@@ -71,6 +75,10 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .tp-environment{background:#DDFAE8;color:#004400}
 .tp-education{background:#E8F0FF;color:#003388}
 .tp-newengland{background:#E8F5E8;color:#1A5C1A}
+/* ── NEW PILL COLORS ── */
+.tp-transportation{background:#E0E8F8;color:#1A2A6B}
+.tp-energy{background:#FFF5DD;color:#7A4400}
+.tp-publicsafety{background:#FFF0E8;color:#7A2A00}
 
 /* ── IMP DOT ── */
 .imp-dot{width:6px;height:6px;border-radius:50%;display:inline-block;vertical-align:middle;margin-right:3px}
@@ -204,27 +212,132 @@ const STORY_PAGE='ne_story.html';
 
 /* ══════════════════════════════════════════
    WEIGHTED TOPIC CLASSIFIER
-   Each keyword carries an explicit point value.
-   All matches across the full headline + full
-   summary are summed. Highest score wins.
-   Ties broken by TOPIC_PRIORITY order.
-   "Weak" categories (education, economy,
-   newengland) use low weights so a single
-   generic word never overpowers strong signals
-   from crime, legal, health, or politics.
+   3 new categories: transportation, energy, publicsafety
+   Environment tightened to conservation/ecosystem only.
+   Crime tightened to violent crime / arrests / courts.
+   Public Safety covers crashes, accidents, safety reviews,
+   emergency response, infrastructure risk.
+   Transportation covers transit, roads, bridges, rail, aviation.
+   Energy & Utilities covers power grid, utilities, billing,
+   solar policy, gas supply, rate cases.
+   New England is now a true catch-all fallback only.
    ══════════════════════════════════════════ */
 
-/* Each entry: [keyword, points, topic] */
 const SCORED_KEYWORDS=[
 
-  /* ── CRIME — strong signals ── */
+  /* ── PUBLIC SAFETY — new, strong signals ── */
+  ['fatal crash',       13, 'publicsafety'],
+  ['fatal accident',    13, 'publicsafety'],
+  ['killed in crash',   13, 'publicsafety'],
+  ['crash victims',     13, 'publicsafety'],
+  ['bus crash',         12, 'publicsafety'],
+  ['train derailment',  12, 'publicsafety'],
+  ['plane crash',       12, 'publicsafety'],
+  ['multi-vehicle',     11, 'publicsafety'],
+  ['hazmat',            11, 'publicsafety'],
+  ['hazardous material',11, 'publicsafety'],
+  ['shelter in place',  11, 'publicsafety'],
+  ['emergency response',10, 'publicsafety'],
+  ['evacuation',        10, 'publicsafety'],
+  ['evacuated',         10, 'publicsafety'],
+  ['safety review',     10, 'publicsafety'],
+  ['safety inspection', 10, 'publicsafety'],
+  ['ntsb',              10, 'publicsafety'],
+  ['national transportation safety board', 12, 'publicsafety'],
+  ['bridge failure',    10, 'publicsafety'],
+  ['bridge collapse',   12, 'publicsafety'],
+  ['structural failure', 9, 'publicsafety'],
+  ['wildfire smoke',     9, 'publicsafety'],
+  ['air quality alert',  9, 'publicsafety'],
+  ['manhunt',           10, 'publicsafety'],
+  ['active search',      8, 'publicsafety'],
+  ['missing person',     7, 'publicsafety'],
+  ['search and rescue',  9, 'publicsafety'],
+  ['mass casualty',     12, 'publicsafety'],
+  ['highway accident',  10, 'publicsafety'],
+  ['highway crash',     10, 'publicsafety'],
+  ['interstate crash',  10, 'publicsafety'],
+  ['crash investigation',8,'publicsafety'],
+  ['victims',            4, 'publicsafety'],
+  ['casualties',         5, 'publicsafety'],
+  ['injured',            3, 'publicsafety'],
+  ['accident',           3, 'publicsafety'],
+
+  /* ── TRANSPORTATION — new, strong signals ── */
+  ['mbta',              12, 'transportation'],
+  ['t delay',           10, 'transportation'],
+  ['red line',           9, 'transportation'],
+  ['orange line',        9, 'transportation'],
+  ['green line',         9, 'transportation'],
+  ['blue line',          9, 'transportation'],
+  ['commuter rail',     10, 'transportation'],
+  ['amtrak',             9, 'transportation'],
+  ['transit authority',  9, 'transportation'],
+  ['public transit',     8, 'transportation'],
+  ['bus route',          8, 'transportation'],
+  ['bridge inspection',  9, 'transportation'],
+  ['bridge safety',      9, 'transportation'],
+  ['bridge repair',      8, 'transportation'],
+  ['road closure',       7, 'transportation'],
+  ['highway construction',7,'transportation'],
+  ['interstate 95',      6, 'transportation'],
+  ['interstate 93',      6, 'transportation'],
+  ['turnpike',           6, 'transportation'],
+  ['toll',               5, 'transportation'],
+  ['transportation department', 8, 'transportation'],
+  ['dot',                5, 'transportation'],
+  ['airport',            6, 'transportation'],
+  ['flight delays',      7, 'transportation'],
+  ['logan airport',      8, 'transportation'],
+  ['rideshare',          5, 'transportation'],
+  ['ferry',              5, 'transportation'],
+  ['bike lane',          5, 'transportation'],
+  ['traffic',            3, 'transportation'],
+  ['infrastructure',     4, 'transportation'],
+
+  /* ── ENERGY & UTILITIES — new, strong signals ── */
+  ['eversource',        12, 'energy'],
+  ['national grid',     12, 'energy'],
+  ['unitil',            12, 'energy'],
+  ['avangrid',          12, 'energy'],
+  ['utility rate',      10, 'energy'],
+  ['utility bill',      10, 'energy'],
+  ['electricity rate',  10, 'energy'],
+  ['electricity bill',  10, 'energy'],
+  ['rate case',         10, 'energy'],
+  ['ratepayer',          9, 'energy'],
+  ['ratepayers',         9, 'energy'],
+  ['power grid',         9, 'energy'],
+  ['grid reliability',   9, 'energy'],
+  ['gas pipeline',       9, 'energy'],
+  ['natural gas',        8, 'energy'],
+  ['net metering',       9, 'energy'],
+  ['solar credits',      8, 'energy'],
+  ['solar incentive',    8, 'energy'],
+  ['plug-in solar',      8, 'energy'],
+  ['battery storage',    7, 'energy'],
+  ['renewable energy',   7, 'energy'],
+  ['energy costs',       7, 'energy'],
+  ['heating costs',      7, 'energy'],
+  ['fuel assistance',    7, 'energy'],
+  ['liheap',             8, 'energy'],
+  ['public utilities',   7, 'energy'],
+  ['utility commission', 8, 'energy'],
+  ['billing probe',      9, 'energy'],
+  ['overcharge',         7, 'energy'],
+  ['power outage',       7, 'energy'],
+  ['blackout',           6, 'energy'],
+  ['solar',              4, 'energy'],
+  ['wind turbine',       5, 'energy'],
+  ['offshore wind',      6, 'energy'],
+
+  /* ── CRIME — violent crime, arrests, convictions ── */
   ['shooting',          12, 'crime'],
   ['shot and killed',   12, 'crime'],
-  ['manhunt',           12, 'crime'],
   ['homicide',          12, 'crime'],
   ['murder',            12, 'crime'],
   ['stabbing',          11, 'crime'],
-  ['standoff',          11, 'crime'],
+  ['standoff',          10, 'crime'],
   ['suspect fled',      11, 'crime'],
   ['armed suspect',     11, 'crime'],
   ['robbery',           10, 'crime'],
@@ -242,14 +355,13 @@ const SCORED_KEYWORDS=[
   ['convicted',          8, 'crime'],
   ['sentenced to',       8, 'crime'],
   ['arrested for',       7, 'crime'],
-  ['shelter in place',   7, 'crime'],
   ['police search',      7, 'crime'],
   ['suspect',            6, 'crime'],
-  ['police',             4, 'crime'],
-  ['officer',            3, 'crime'],
-  ['investigation',      2, 'crime'],
+  ['police',             3, 'crime'],
+  ['officer',            2, 'crime'],
+  ['investigation',      1, 'crime'],
 
-  /* ── LEGAL — strong signals ── */
+  /* ── LEGAL — courts, rulings, lawsuits ── */
   ['federal court',     10, 'legal'],
   ['supreme court',     10, 'legal'],
   ['injunction',        10, 'legal'],
@@ -270,7 +382,7 @@ const SCORED_KEYWORDS=[
   ['legislation',        3, 'legal'],
   ['law',                2, 'legal'],
 
-  /* ── HEALTH — strong signals ── */
+  /* ── HEALTH ── */
   ['fentanyl',          10, 'health'],
   ['opioid',            10, 'health'],
   ['overdose',          10, 'health'],
@@ -294,7 +406,7 @@ const SCORED_KEYWORDS=[
   ['flu',                4, 'health'],
   ['medicine',           3, 'health'],
 
-  /* ── POLITICS — moderate signals ── */
+  /* ── POLITICS ── */
   ['governor',           7, 'politics'],
   ['election',           7, 'politics'],
   ['legislature',        7, 'politics'],
@@ -320,29 +432,34 @@ const SCORED_KEYWORDS=[
   ['policy',             3, 'politics'],
   ['independent',        2, 'politics'],
 
-  /* ── ENVIRONMENT — moderate signals ── */
-  ['offshore wind',      9, 'environment'],
-  ['clean energy',       8, 'environment'],
-  ['wind turbine',       8, 'environment'],
-  ['climate',            7, 'environment'],
-  ['environmental',      7, 'environment'],
-  ['flooding',           7, 'environment'],
-  ['hurricane',          7, 'environment'],
-  ['wildfire',           7, 'environment'],
-  ['watershed',          7, 'environment'],
-  ['conservation',       6, 'environment'],
-  ['wildlife',           6, 'environment'],
-  ['fishery',            6, 'environment'],
-  ['fisheries',          6, 'environment'],
-  ['seacoast',           5, 'environment'],
-  ['pollution',          5, 'environment'],
-  ['habitat',            5, 'environment'],
-  ['solar',              4, 'environment'],
+  /* ── ENVIRONMENT — tightened to conservation/ecosystem only ── */
+  ['conservation',       9, 'environment'],
+  ['wildlife',           9, 'environment'],
+  ['fishery',            9, 'environment'],
+  ['fisheries',          9, 'environment'],
+  ['watershed',          9, 'environment'],
+  ['habitat',            8, 'environment'],
+  ['ecosystem',          8, 'environment'],
+  ['pollution',          8, 'environment'],
+  ['seacoast',           7, 'environment'],
+  ['marine',             7, 'environment'],
+  ['wetlands',           7, 'environment'],
+  ['endangered species', 8, 'environment'],
+  ['climate',            6, 'environment'],
+  ['climate change',     8, 'environment'],
+  ['carbon',             6, 'environment'],
+  ['emissions',          6, 'environment'],
+  ['environmental regulation', 7, 'environment'],
+  ['environmental review',     6, 'environment'],
   ['flood',              4, 'environment'],
-  ['drought',            4, 'environment'],
-  ['storm',              3, 'environment'],
+  ['flooding',           5, 'environment'],
+  ['drought',            5, 'environment'],
+  ['hurricane',          5, 'environment'],
+  ['wildfire',           5, 'environment'],
+  ['storm',              2, 'environment'],
+  /* NOTE: 'environmental' alone deliberately removed — too many false positives */
 
-  /* ── ECONOMY — weak signals (generic words kept low) ── */
+  /* ── ECONOMY — kept generic, weak weights ── */
   ['inflation',          8, 'economy'],
   ['unemployment',       8, 'economy'],
   ['interest rate',      8, 'economy'],
@@ -375,7 +492,7 @@ const SCORED_KEYWORDS=[
   ['business',           1, 'economy'],
   ['prices',             1, 'economy'],
 
-  /* ── EDUCATION — weak signals (generic words kept low) ── */
+  /* ── EDUCATION ── */
   ['school district',    8, 'education'],
   ['school board',       8, 'education'],
   ['superintendent',     8, 'education'],
@@ -396,7 +513,7 @@ const SCORED_KEYWORDS=[
   ['school',             1, 'education'],
   ['schools',            1, 'education'],
 
-  /* ── NEW ENGLAND — low-weight geographic/cultural catch-all ── */
+  /* ── NEW ENGLAND — true catch-all only, kept very low weight ── */
   ['cape cod',           3, 'newengland'],
   ['white mountains',    3, 'newengland'],
   ['acadia',             3, 'newengland'],
@@ -422,25 +539,40 @@ const SCORED_KEYWORDS=[
   ['foliage',            2, 'newengland'],
 ];
 
-/* Tie-break order: when two topics are within 15% of each other,
-   the one higher in this list wins. Strong/distinct topics first. */
+/* Tie-break priority: stronger/more specific topics first.
+   New England is last — true fallback only. */
 const TOPIC_PRIORITY=[
-  'crime','legal','health','politics',
-  'economy','environment','education','newengland'
+  'publicsafety','crime','legal','health','transportation',
+  'energy','politics','economy','environment','education','newengland'
 ];
 
 const TOPIC_LABELS={
-  politics:'Politics',economy:'Economy',legal:'Legal',health:'Health',
-  crime:'Crime',environment:'Environment',education:'Education',
-  newengland:'New England',science:'Science',technology:'Technology'
+  politics:'Politics',
+  economy:'Economy',
+  legal:'Legal',
+  health:'Health',
+  crime:'Crime',
+  publicsafety:'Public Safety',
+  transportation:'Transportation',
+  energy:'Energy & Utilities',
+  environment:'Environment',
+  education:'Education',
+  newengland:'New England',
+  science:'Science',
+  technology:'Technology'
 };
 
-/* Canonical order for section rendering */
-const TOPICS_ORDER=['politics','economy','legal','health','crime','environment','education','newengland','science','technology'];
+/* Canonical section rendering order */
+const TOPICS_ORDER=[
+  'politics','economy','legal','health','crime',
+  'publicsafety','transportation','energy',
+  'environment','education','newengland','science','technology'
+];
 
 const KW_IMG={
   politics:'politics',economy:'economy',health:'health',legal:'court',
-  crime:'crime',environment:'environment',education:'education',
+  crime:'crime',publicsafety:'crime',transportation:'transportation',
+  energy:'economy',environment:'environment',education:'education',
   newengland:'newengland',science:'science',technology:'technology'
 };
 
@@ -454,37 +586,21 @@ function wordMatch(hay,kw){
   return new RegExp('(?<![a-zA-Z])'+esc+'(?![a-zA-Z])','i').test(hay);
 }
 
-/* Weighted scoring classifier.
-   Scans full headline + full summary (not just paragraph 1).
-   Accumulates per-topic scores across all matching keywords.
-   Ties broken by TOPIC_PRIORITY order. */
 function inferTopic(s){
-  /* Use full summary, not just first paragraph */
   const text=[s.headline||'',stripMd(s.summary||'')].join(' ');
-
   const scores={};
   for(const [kw,pts,topic] of SCORED_KEYWORDS){
-    if(wordMatch(text,kw)){
-      scores[topic]=(scores[topic]||0)+pts;
-    }
+    if(wordMatch(text,kw)) scores[topic]=(scores[topic]||0)+pts;
   }
-
-  /* Find the winning topic */
   const entries=Object.entries(scores);
   if(!entries.length)return'newengland';
-
-  /* Sort by score descending, break ties by TOPIC_PRIORITY */
   entries.sort((a,b)=>{
     if(b[1]!==a[1])return b[1]-a[1];
     return TOPIC_PRIORITY.indexOf(a[0])-TOPIC_PRIORITY.indexOf(b[0]);
   });
-
-  const [topTopic,topScore]=entries[0];
-
-  /* If there's a second contender within 15% of the winner,
-     let TOPIC_PRIORITY decide (already sorted above, so topTopic wins) */
-  return topTopic;
+  return entries[0][0];
 }
+
 function timeSince(ds){
   if(!ds)return'';const d=new Date(ds);if(isNaN(d))return'';
   const m=Math.floor((Date.now()-d)/60000);
@@ -549,7 +665,6 @@ function findTopTwoRules(stories,rules){
   return{bookRule:top5[0]?.rule||null,gearRule:top5[1]?.rule||null};
 }
 
-/* Prepend "new england" to Amazon k= param for regional relevance */
 function neAffUrl(url){
   if(!url)return url;
   try{
@@ -640,7 +755,6 @@ function pickAffTileForSection(sectionStories){
   return tile;
 }
 
-/* Affiliate tile on its own row — no story cards duplicated */
 function affTileRowHTML(tile){
   if(!tile)return'';
   return'<div class="aff-tile-row">'
@@ -682,8 +796,6 @@ function heroHTML(s){
     +'</div></div></div></div>';
 }
 
-/* showPill=true  → white pill in card image header (mixed "Latest" sections)
-   showPill=false → no pill (named topic sections — label already says the topic) */
 function cardHTML(s,showPill){
   if(showPill===undefined)showPill=true;
   const p=parseHL(s.headline),t=s._topic,ts=timeSince(s.posted_at);
@@ -726,7 +838,6 @@ function textCardHTML(s,showPill){
 
 /* ── TABS ── */
 function buildTabs(stories){
-  /* Only show a topic tab when 2+ stories exist for it */
   const counts={};
   stories.forEach(s=>counts[s._topic]=(counts[s._topic]||0)+1);
   const el=document.getElementById('feed-tabs');
@@ -748,9 +859,6 @@ function buildTabs(stories){
 }
 
 /* ── RENDER FEED ── */
-/* Each story appears exactly once. Category pills shown in mixed "Latest"
-   sections, suppressed inside named topic sections. Single-story sections
-   borrow a same-topic story from allStories to reach minimum 2. */
 function renderFeed(stories){
   const feed=document.getElementById('nsm-feed');
   if(!stories.length){feed.innerHTML='<div style="padding:3rem;text-align:center;color:var(--dimmed);">No stories in this category.</div>';return}
@@ -762,23 +870,19 @@ function renderFeed(stories){
     +'<button class="refresh-btn" onclick="shuffleFeed()"><span class="spin-icon">\u21bb</span> Shuffle Feed</button>'
     +'</div>';
 
-  /* ── Slot 0: Hero ── */
   html+=heroHTML(stories[0]);
 
-  /* ── Slots 1–3: "Latest" mixed grid — pills ON ── */
   const g1=stories.slice(1,4);
   if(g1.length){
     html+='<div class="section-label">Latest</div>'
       +'<div class="cards-grid-3">'+g1.map(s=>cardHTML(s,true)).join('')+'</div>';
   }
 
-  /* ── Slots 4–5: Second pair — pills ON (mixed, no section label) ── */
   const g2=stories.slice(4,6);
   if(g2.length){
     html+='<div class="cards-grid-'+(g2.length===1?1:2)+'">'+g2.map(s=>cardHTML(s,true)).join('')+'</div>';
   }
 
-  /* ── Slots 6+: Group by topic ── */
   const usedUrls=new Set(stories.slice(0,6).map(s=>s.url));
 
   const byTopic={};
@@ -790,8 +894,6 @@ function renderFeed(stories){
     byTopic[t].push(s);
   });
 
-  /* ── Section balancing: pad single-story sections to 2 ──
-     Borrow same-topic stories from full allStories pool (never reuse a URL). */
   let extrasUsed=0;
   const MAX_EXTRAS=4;
   TOPICS_ORDER.forEach(topic=>{
@@ -804,10 +906,7 @@ function renderFeed(stories){
 
   present.forEach((topic,ti)=>{
     const grp=byTopic[topic];
-
-    /* Section label — pills suppressed on cards below */
     html+='<div class="section-label">'+TOPIC_LABELS[topic]+'</div>';
-
     if(grp.length<=2){
       html+='<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
     }else{
@@ -815,8 +914,6 @@ function renderFeed(stories){
       const rest=grp.slice(3);
       if(rest.length)html+='<div class="cards-grid-3">'+rest.map(s=>textCardHTML(s,false)).join('')+'</div>';
     }
-
-    /* Affiliate tile every 2nd topic section — tile only, no story re-renders */
     if((ti+1)%2===0){
       const tile=pickAffTileForSection(grp);
       if(tile)html+=affTileRowHTML(tile);
@@ -826,7 +923,6 @@ function renderFeed(stories){
   feed.innerHTML=html;
 }
 
-/* Shuffle just re-renders (NE stories have no social fields to rotate) */
 function shuffleFeed(){
   const f=activeTopic==='all'?allStories:allStories.filter(s=>s._topic===activeTopic);
   renderFeed(f);
@@ -866,7 +962,6 @@ function loadMore(){
 /* ── LOAD ── */
 async function loadStories(){
   try{
-    /* Fetch 60 from Supabase; display first 18 on load, rest available via Load More */
     const res=await fetch(SB_URL+'/news_ne?select=headline,summary,posted_at,url&used=eq.true&order=posted_at.desc&limit=60',{headers:{apikey:SB_KEY}});
     const raw=await res.json();
     allStories=raw.map(s=>({...s,_topic:inferTopic(s)}));
