@@ -172,28 +172,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
   font-size:.88rem;font-weight:500;color:#004499;line-height:1.55
 }
 
-/* ── REDDIT ENGAGEMENT ── */
-.reddit-card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--r);box-shadow:var(--shadow);
-  padding:1rem 1.25rem;margin-bottom:.75rem;
-  border-left:3px solid #FF4500
-}
-.reddit-label{
-  font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--dimmed);margin-bottom:.6rem
-}
-.reddit-stats{font-size:.88rem;color:var(--muted);margin-bottom:.6rem;line-height:1.6}
-.reddit-stats a{color:var(--muted);text-decoration:none}
-.reddit-stats a:hover{color:#FF4500;text-decoration:underline}
-.conversation-meter{
-  font-size:.85rem;font-weight:600;color:var(--text);
-  display:flex;align-items:center;justify-content:space-between;gap:6px;
-  margin-bottom:.5rem
-}
-.meter-bar-wrap{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
-.meter-bar-fill{height:100%;border-radius:2px;background:#FF4500;width:0;transition:width .8s ease}
-
 /* ── SOURCE LINK ── */
 .source-card{
   background:var(--surface2);border:1px solid var(--border);
@@ -415,7 +393,6 @@ function gearTileHTML(g){
     +'</div></a>';
 }
 
-
 /* ══════════════════════════════════════════
    NE TOPIC INFERENCE
    ══════════════════════════════════════════ */
@@ -520,44 +497,6 @@ async function getStoryImage(id,headline){
   return null;
 }
 
-/* ── REDDIT ENGAGEMENT ── */
-async function fetchRedditJson(url,ms){
-  const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),ms);
-  try{const r=await fetch(url,{signal:ctrl.signal,headers:{Accept:'application/json'}});clearTimeout(t);if(!r.ok)return null;return JSON.parse(await r.text())}
-  catch(e){clearTimeout(t);return null}
-}
-async function loadRedditEngagement(redditUrl){
-  try{
-    const m=redditUrl.match(/\/comments\/([a-z0-9]+)/i);if(!m)return;
-    const jsonUrl='https://www.reddit.com/comments/'+m[1]+'.json';
-    let data=await fetchRedditJson(jsonUrl,6000);
-    if(!data){await new Promise(r=>setTimeout(r,800));data=await fetchRedditJson(jsonUrl,5000)}
-    if(!data)return;
-    const post=data?.[0]?.data?.children?.[0]?.data;if(!post)return;
-    const upvotes=post.score??0,comments=post.num_comments??0;
-    window._redditStats={upvotes,comments};
-    const score=(comments*2)+upvotes;
-    const pct=Math.min(100,Math.round((score/200)*100));
-    let label,emoji,color;
-    if(score<=10){label='Quiet';emoji='\uD83D\uDE36';color='#aaa'}
-    else if(score<=30){label='Active';emoji='\uD83D\uDCAC';color='#4a9eff'}
-    else if(score<=60){label='Heated';emoji='\uD83D\uDD25';color='#ff8c00'}
-    else if(score<=150){label='On Fire';emoji='\uD83D\uDEA8\uD83D\uDD25';color='#e63000'}
-    else{label='Volcanic';emoji='\uD83C\uDF0B';color='#8b0000'}
-    const card=document.getElementById('reddit-card');if(!card)return;
-    document.getElementById('reddit-stats').innerHTML=
-      '<a href="'+redditUrl+'" target="_blank" rel="noopener">\uD83D\uDC4D '+upvotes.toLocaleString()+' upvotes</a>'
-      +'&nbsp;\u00b7&nbsp;'
-      +'<a href="'+redditUrl+'" target="_blank" rel="noopener">\uD83D\uDCAC '+comments.toLocaleString()+' comments</a>';
-    document.getElementById('conversation-meter').innerHTML=
-      '<span>NSM Conversation Meter</span><span>'+emoji+' '+label+'</span>';
-    const fill=document.querySelector('.meter-bar-fill');
-    fill.style.background=color;setTimeout(()=>{fill.style.width=pct+'%'},80);
-    card.style.display='block';
-    const btn=document.getElementById('share-opt-reddit');if(btn)btn.style.display='block';
-  }catch(e){console.log('Reddit unavailable:',e.message)}
-}
-
 /* ── SHARE ── */
 function _copyToClipboard(text,msg){
   const fb=document.getElementById('share-feedback');
@@ -579,12 +518,6 @@ function copyWithTitle(){
   _closeShare();
   const hl=(window._storyHeadline||'').replace(/\n/g,': ').trim();
   _copyToClipboard(hl+'\n'+(window._storyUrl||location.href),'\u2705 Copied with title!');
-}
-function copyWithReddit(){
-  _closeShare();
-  const hl=(window._storyHeadline||'').replace(/\n/g,': ').trim();
-  const st=window._redditStats;
-  _copyToClipboard([hl,'','On Reddit:','\uD83D\uDC4D '+st.upvotes.toLocaleString()+' upvotes \u00b7 \uD83D\uDCAC '+st.comments.toLocaleString()+' comments',window._storyUrl||location.href].join('\n'),'\u2705 Copied with Reddit!');
 }
 function nativeShare(){
   if(navigator.share){navigator.share({title:window._storyHeadline||'No Spin Media',url:window._storyUrl||location.href}).catch(()=>{})}
@@ -626,7 +559,6 @@ async function loadStory(){
 
   window._storyHeadline=s.headline;
   window._storyUrl=location.origin+'/ne_story.html?story='+storyId;
-  window._redditStats=null;
 
   // Parse headline into two lines
   const hl=(s.headline||'').trim();
@@ -635,7 +567,6 @@ async function loadStory(){
   const line2=nl>-1?hl.substring(nl+1).trim():'';
 
   // Topic
-  // topic already set from neInferTopic above
   const topicBg=NE_TOPIC_BG[topic]||NE_TOPIC_BG.newengland;
   const topicLabel=NE_TOPIC_LABELS[topic]||'New England';
   const pillCls='story-pill tp-'+(topic||'newengland');
@@ -680,7 +611,7 @@ async function loadStory(){
   }
   const bodyHTML=bodyParas.map(p=>'<p>'+p+'</p>').join('');
 
-  // Reddit
+  // Reddit post link (for "Join the discussion" button only)
   let redditLink='';
   if(s.reddit_post_id){
     try{const parsed=JSON.parse(s.reddit_post_id);if(parsed.jquery?.[10]?.[3]?.[0])redditLink=parsed.jquery[10][3][0]}
@@ -725,10 +656,9 @@ async function loadStory(){
     +(discussionQ?'<div class="discussion-label">Community Discussion</div><div class="story-discussion">\uD83D\uDCAC '+discussionQ+'</div>':'')
     +'</div>'
 
-
-
     // Actions
     +'<div class="story-actions-card">'
+    +(redditLink?'<a href="'+redditLink+'" target="_blank" rel="noopener" class="action-btn action-btn-reddit">Join the discussion on Reddit →</a>':'')
     +'<a href="https://reddit.com/r/NewEnglandContext" target="_blank" rel="noopener" class="action-btn action-btn-secondary">r/NewEnglandContext</a>'
     +'<div class="share-wrap" id="share-wrap">'
     +'<button class="action-btn action-btn-secondary" onclick="toggleShareMenu()">\uD83D\uDD17 Share \u25BE</button>'
@@ -736,11 +666,9 @@ async function loadStory(){
     +'<button onclick="nativeShare()"><span class="share-opt-label">\uD83D\uDCF1 Share</span><span class="share-opt-desc">Native share / copy link</span></button>'
     +'<button onclick="copyLinkOnly()"><span class="share-opt-label">\uD83D\uDD17 Copy link</span><span class="share-opt-desc">Just the URL</span></button>'
     +'<button onclick="copyWithTitle()"><span class="share-opt-label">\uD83D\uDCCB Copy with headline</span><span class="share-opt-desc">Headline + link</span></button>'
-    +'<button id="share-opt-reddit" onclick="copyWithReddit()" style="display:none;"><span class="share-opt-label">\uD83D\uDCAC Copy with Reddit stats</span><span class="share-opt-desc">Headline + upvotes + link</span></button>'
     +'</div></div>'
     +'<span class="share-feedback" id="share-feedback"></span>'
     +'</div>';
-
 
   // Mobile affiliate insert
   if(window.innerWidth<=900&&window.mobileAffiliateHTML){
