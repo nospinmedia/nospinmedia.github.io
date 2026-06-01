@@ -401,6 +401,7 @@ function updateAdminPreview(){
 
 function showAdminPanel(){const panel=document.getElementById('reddit-admin-panel');if(!panel)return;panel.classList.add('open');setTimeout(()=>{const t=document.getElementById('reddit-paste-input');if(t)t.focus()},50)}
 function hideAdminPanel(){const panel=document.getElementById('reddit-admin-panel');if(panel)panel.classList.remove('open');const s=document.getElementById('radmin-status');if(s)s.textContent=''}
+function toggleAdminPanel(){const panel=document.getElementById('reddit-admin-panel');if(panel&&panel.classList.contains('open'))hideAdminPanel();else showAdminPanel()}
 
 /* ── MAIN STORY LOADER ── */
 async function loadStory(){
@@ -485,13 +486,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     +'<div class="radmin-hint">Trigger: <strong>Shift + `</strong> (backtick) &nbsp;·&nbsp; Overwrites existing values</div>'
     +'</div>'
   );
-  document.addEventListener('keydown',function(e){
-    if(e.key==='`'&&e.shiftKey){
-      e.preventDefault();
-      const panel=document.getElementById('reddit-admin-panel');
-      if(panel&&panel.classList.contains('open'))hideAdminPanel();else showAdminPanel();
-    }
-  });
   fetch('header.html').then(r=>r.text()).then(html=>{
     document.getElementById('site-header').innerHTML=html;
     const ham=document.getElementById('hamburger'),nav=document.getElementById('mobile-nav');
@@ -522,7 +516,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   </div>
 </div>
 <footer>
-  &copy; 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
+  &copy; 2026 <span id="footer-compass" onclick="toggleAdminPanel()" style="cursor:default;user-select:none;">🧭</span> No Spin Media. Independent. Truth-focused.<br>
   <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
 </footer>
 </body>
