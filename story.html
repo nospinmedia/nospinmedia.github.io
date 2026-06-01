@@ -80,15 +80,12 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .reaction-btn.selected .reaction-count{color:var(--blue)}
 .reaction-btn.selected:hover{background:rgba(0,102,204,.1)}
 
-/* ── REDDIT ENGAGEMENT ROW ── */
-.reddit-engagement-row{display:flex;align-items:center;gap:6px;padding:0 0 8px 0;margin-bottom:8px;border-bottom:1px solid var(--border)}
-.reddit-stat-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:8px;background:transparent;border:1px solid transparent;color:var(--muted);font-family:var(--font-b);line-height:1;cursor:default;user-select:none}
-.reddit-stat-btn.clickable{cursor:pointer;transition:background .12s,border-color .12s;text-decoration:none}
-.reddit-stat-btn.clickable:hover{background:#FFF4F0;border-color:#FFCDB8;color:#FF4500}
-.reddit-stat-emoji{font-size:1.65rem;line-height:1;display:block}
-.reddit-stat-count{font-size:.68rem;font-weight:600;color:var(--dimmed);min-width:12px;letter-spacing:-.01em;line-height:1}
-.reddit-stat-btn.clickable:hover .reddit-stat-count{color:#FF4500}
-.reddit-divider{width:1px;height:28px;background:var(--border);margin:0 2px}
+/* ── REDDIT INLINE ITEMS ── */
+.reddit-static{cursor:default!important;pointer-events:none;}
+.reddit-comment-link{pointer-events:auto!important;cursor:pointer!important;text-decoration:none;}
+.reddit-comment-link:hover{background:#FFF4F0!important;border-color:#FFCDB8!important;}
+.reddit-comment-link:hover .reaction-count{color:#FF4500!important;}
+.reaction-grid-divider{width:1px;height:28px;background:var(--border);margin:0 4px;display:inline-block;vertical-align:middle;}
 
 /* ── REDDIT ADMIN PANEL ── */
 #reddit-admin-panel{display:none;position:fixed;bottom:24px;right:24px;z-index:9000;width:300px;background:var(--surface);border:1.5px solid #d0d0cc;border-radius:var(--r);box-shadow:0 8px 32px rgba(0,0,0,.18);padding:14px 16px 16px;font-family:var(--font-b)}
@@ -289,47 +286,60 @@ function getStoredReaction(storyId){return localStorage.getItem('reaction_'+stor
 function setStoredReaction(storyId,key){if(key)localStorage.setItem('reaction_'+storyId,key);else localStorage.removeItem('reaction_'+storyId)}
 
 /* ── REDDIT ENGAGEMENT DISPLAY ── */
-function redditEngagementRowHTML(totals,redditLink){
+function redditGridItemsHTML(totals,redditLink){
   const seed=(totals&&totals.reddit_seed)||0;
   const comments=(totals&&totals.reddit_comments)||0;
   const helpful=(totals&&totals.helpful)||0;
   const displayUpvotes=helpful+seed;
   if(displayUpvotes===0&&comments===0)return'';
-  const upBtn='<span class="reddit-stat-btn" id="reddit-upvote-btn"><span class="reddit-stat-emoji">👍</span><span class="reddit-stat-count" id="reddit-upvote-count">'+(displayUpvotes>0?displayUpvotes:'')+'</span></span>';
-  const divider='<div class="reddit-divider"></div>';
+  const upBtn='<span class="reaction-btn reddit-static" id="reddit-upvote-btn" title="Reactions">'
+    +'<span class="reaction-emoji">👍</span>'
+    +'<span class="reaction-count" id="reddit-upvote-count">'+(displayUpvotes>0?displayUpvotes:'')+'</span>'
+    +'</span>';
   const cmBtn=redditLink
-    ?'<a href="'+redditLink+'" target="_blank" rel="noopener" class="reddit-stat-btn clickable" title="Join discussion on Reddit" id="reddit-comment-btn"><span class="reddit-stat-emoji">💬</span><span class="reddit-stat-count" id="reddit-comment-count">'+(comments>0?comments:'')+'</span></a>'
-    :'<span class="reddit-stat-btn" id="reddit-comment-btn"><span class="reddit-stat-emoji">💬</span><span class="reddit-stat-count" id="reddit-comment-count">'+(comments>0?comments:'')+'</span></span>';
-  return'<div class="reddit-engagement-row" id="reddit-engagement-row">'+upBtn+divider+cmBtn+'</div>';
+    ?'<a href="'+redditLink+'" target="_blank" rel="noopener" class="reaction-btn reddit-static reddit-comment-link" id="reddit-comment-btn" title="Join discussion on Reddit">'
+      +'<span class="reaction-emoji">💬</span>'
+      +'<span class="reaction-count" id="reddit-comment-count">'+(comments>0?comments:'')+'</span>'
+      +'</a>'
+    :'<span class="reaction-btn reddit-static" id="reddit-comment-btn" title="Comments">'
+      +'<span class="reaction-emoji">💬</span>'
+      +'<span class="reaction-count" id="reddit-comment-count">'+(comments>0?comments:'')+'</span>'
+      +'</span>';
+  return upBtn+'<span class="reaction-grid-divider"></span>'+cmBtn+'<span class="reaction-grid-divider"></span>';
 }
 
 function updateRedditDisplay(seed,comments,helpful){
   const displayUpvotes=((helpful||0)+(seed||0));
-  const displayComments=comments||0;
   const upEl=document.getElementById('reddit-upvote-count');
   const cmEl=document.getElementById('reddit-comment-count');
-  const rowEl=document.getElementById('reddit-engagement-row');
   if(upEl)upEl.textContent=displayUpvotes>0?displayUpvotes:'';
-  if(cmEl)cmEl.textContent=displayComments>0?displayComments:'';
-  if(!rowEl&&(displayUpvotes>0||displayComments>0)){
-    const card=document.querySelector('.reactions-card');
-    if(card){
-      const newRow=document.createElement('div');
-      newRow.className='reddit-engagement-row';newRow.id='reddit-engagement-row';
-      newRow.innerHTML='<span class="reddit-stat-btn" id="reddit-upvote-btn"><span class="reddit-stat-emoji">👍</span><span class="reddit-stat-count" id="reddit-upvote-count">'+(displayUpvotes>0?displayUpvotes:'')+'</span></span><div class="reddit-divider"></div><span class="reddit-stat-btn" id="reddit-comment-btn"><span class="reddit-stat-emoji">💬</span><span class="reddit-stat-count" id="reddit-comment-count">'+(displayComments>0?displayComments:'')+'</span></span>';
-      const label=card.querySelector('.reactions-label');if(label)card.insertBefore(newRow,label);else card.prepend(newRow);
+  if(cmEl)cmEl.textContent=(comments||0)>0?(comments||0):'';
+  // If items didn't exist yet (seed was 0 on load), prepend them now
+  if(!upEl){
+    const grid=document.getElementById('reactions-grid');
+    if(grid){
+      const frag=document.createElement('div');
+      frag.innerHTML=redditGridItemsHTML({reddit_seed:seed,reddit_comments:comments,helpful:helpful},window._redditLink||'');
+      while(frag.firstChild)grid.prepend(frag.firstChild);  // prepend in reverse
+      // Fix order: insertBefore first child
+      const items=[...frag.childNodes];
+      grid.prepend(...Array.from(frag.childNodes));
     }
   }
 }
 
 function reactionsHTML(storyId,totals,selected,redditLink){
-  const engRow=redditEngagementRowHTML(totals,redditLink);
+  window._redditLink=redditLink||'';
+  const redditItems=redditGridItemsHTML(totals,redditLink);
   const items=REACTIONS.map(r=>{
     const count=totals?(totals[r.key]||0):0;const isSel=selected===r.key;
     return'<button class="reaction-btn'+(isSel?' selected':'')+'" data-key="'+r.key+'" title="'+r.label+'" aria-label="'+r.label+'" onclick="handleReaction(\''+storyId+'\',\''+r.key+'\')">'
       +'<span class="reaction-emoji">'+r.emoji+'</span><span class="reaction-count">'+(count>0?count:'')+'</span></button>';
   }).join('');
-  return'<div class="reactions-card">'+engRow+'<div class="reactions-label">\uD83E\uDDED HOW NSM READERS REACTED TO THIS STORY</div><div class="reactions-grid" id="reactions-grid">'+items+'</div></div>';
+  return'<div class="reactions-card">'
+    +'<div class="reactions-label">\uD83E\uDDED HOW NSM READERS REACTED TO THIS STORY</div>'
+    +'<div class="reactions-grid" id="reactions-grid">'+redditItems+items+'</div>'
+    +'</div>';
 }
 
 async function handleReaction(storyId,key){
