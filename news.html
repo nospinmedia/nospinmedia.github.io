@@ -748,7 +748,7 @@ async function searchArchive(){
 
   const params=new URLSearchParams();
   params.set('select','headline,summary,social_bluesky,social_threads,social_facebook,posted_at,url,topic,importance,style');
-  params.append('used','eq.true');
+  if(db==='news_posts')params.append('used','eq.true');
   params.append('order','posted_at.desc');
   params.append('limit','200');
   buildDateFilters(params,year,month);
@@ -796,13 +796,16 @@ function clearSearch(){
 async function loadRecent(){
   const feed=document.getElementById('news-feed');
   const countEl=document.getElementById('results-count');
+  const db=document.getElementById('database')?.value||'news_posts';
   feed.innerHTML='<div class="feed-loading"><div class="spinner"></div>Loading recent stories...</div>';
   countEl.innerHTML='';
   try{
-    const res=await fetch(SB_URL+'/news_posts?select=headline,summary,social_bluesky,social_threads,social_facebook,posted_at,url,topic,importance,style&used=eq.true&order=posted_at.desc&limit=30',{headers:{apikey:SB_KEY}});
+    const usedFilter=db==='news_posts'?'&used=eq.true':'';
+    const res=await fetch(SB_URL+'/'+db+'?select=headline,summary,social_bluesky,social_threads,social_facebook,posted_at,url,topic,importance,style'+usedFilter+'&order=posted_at.desc&limit=30',{headers:{apikey:SB_KEY}});
     const stories=await res.json();
-    countEl.innerHTML='<span style="color:var(--dimmed);font-size:11px;">Showing recent stories \u2014 use filters above to search the full archive</span>';
-    await displayStories(stories,'news_posts');
+    const label=db==='news_ne'?'New England':'Main News';
+    countEl.innerHTML='<span style="color:var(--dimmed);font-size:11px;">Showing recent '+label+' stories \u2014 use filters above to search the full archive</span>';
+    await displayStories(stories,db);
   }catch(e){
     feed.innerHTML='<div class="no-results">Could not load stories. Please refresh.</div>';
   }
@@ -833,7 +836,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       <span class="archive-subtitle">Search the No Spin Media archive by topic, keyword, or date</span>
     </div>
     <div class="search-form">
-      <select id="database" class="search-select">
+      <select id="database" class="search-select" onchange="loadRecent()">
         <option value="news_posts">📰 Main News</option>
         <option value="news_ne">📍 New England</option>
       </select>
