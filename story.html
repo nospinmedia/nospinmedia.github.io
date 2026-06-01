@@ -77,7 +77,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
   border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);margin-bottom:.75rem
 }
 
-/* Hero image area with gradient — same as index2 cards */
+/* Hero image area */
 .story-hero-img{
   position:relative;min-height:220px;overflow:hidden;
 }
@@ -99,7 +99,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
   margin-bottom:.7rem
 }
 
-/* Headline: line1 large serif, line2 smaller sans */
+/* Headline */
 .story-hl-line1{
   font-family:var(--font-h);font-size:clamp(1.5rem,3vw,2.1rem);
   line-height:1.15;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5);
@@ -110,7 +110,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
   color:rgba(255,255,255,.82);display:block;line-height:1.35
 }
 
-/* Header meta row below image */
+/* Header meta row */
 .story-meta-row{
   display:flex;align-items:center;justify-content:space-between;
   padding:.85rem 1.6rem;border-top:1px solid var(--border);
@@ -121,7 +121,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .imp-dot{width:6px;height:6px;border-radius:50%;display:inline-block;vertical-align:middle;margin-right:3px}
 .imp-major{background:var(--red)}.imp-normal{background:var(--blue)}.imp-minor{background:#CCC}
 
-/* Topic pills colored */
+/* Topic pills */
 .tp-politics{background:#DDEEFF;color:#0044AA}
 .tp-economy{background:#DDFAE8;color:#006622}
 .tp-health{background:#FFEEDD;color:#883300}
@@ -157,7 +157,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .story-content strong{color:#111;font-weight:600}
 .story-content em{font-style:italic;color:#444}
 
-/* Discussion question — styled as a pull-quote */
+/* Discussion question */
 .discussion-label{
   font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
   color:var(--dimmed);margin:1.5rem 0 .4rem
@@ -168,6 +168,39 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
   border-radius:0 var(--r) var(--r) 0;
   font-size:.88rem;font-weight:500;color:#004499;line-height:1.55
 }
+
+/* ── REACTIONS WIDGET ── */
+.reactions-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);box-shadow:var(--shadow);
+  padding:1rem 1.25rem;margin-bottom:.75rem
+}
+.reactions-label{
+  font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--dimmed);margin-bottom:.75rem
+}
+.reactions-grid{
+  display:flex;flex-wrap:wrap;gap:8px
+}
+.reaction-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.8rem;font-weight:500;
+  padding:7px 13px;border-radius:20px;cursor:pointer;
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--muted);transition:all .15s;user-select:none;
+  font-family:var(--font-b)
+}
+.reaction-btn:hover{border-color:#bbb;color:var(--text);transform:translateY(-1px)}
+.reaction-btn.selected{
+  background:var(--blue-lt);border-color:var(--blue);
+  color:var(--blue);font-weight:600
+}
+.reaction-btn.selected:hover{background:#D0E6F8}
+.reaction-count{
+  font-size:.75rem;font-weight:600;
+  color:var(--dimmed);min-width:14px;text-align:right
+}
+.reaction-btn.selected .reaction-count{color:var(--blue)}
 
 /* ── SOURCE LINK ── */
 .source-card{
@@ -203,7 +236,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .share-dropdown{
   display:none;position:absolute;bottom:calc(100% + 6px);left:0;
   background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
-  box-shadow:var(--shadow-h);min-width:230px;z-index:100;overflow:hidden
+  box-shadow:var(--shadow-h);min-width:240px;z-index:100;overflow:hidden
 }
 .share-wrap.open .share-dropdown{display:block}
 .share-dropdown button{
@@ -232,7 +265,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .mobile-aff-grid img{width:100%;display:block;border-radius:var(--r)}
 .mobile-aff-disc{margin-top:.5rem;font-size:.6rem;color:#ccc;font-style:italic;line-height:1.4}
 
-/* Affiliate book/gear tiles (same CSS as index2) */
+/* Affiliate book/gear tiles */
 .aff-card{border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s;display:block;text-decoration:none;height:100%}
 .aff-card:hover{box-shadow:var(--shadow-h);transform:translateY(-3px)}
 .aff-card-book:hover,.aff-card-gear:hover{transform:translateY(-5px)!important;box-shadow:0 10px 28px rgba(0,0,0,.22)!important}
@@ -241,17 +274,15 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .book-pages{width:7px;min-width:7px;background:repeating-linear-gradient(to bottom,#f6f1e9 0,#f6f1e9 1px,#e9e4db 2px,#e9e4db 3px)}
 .book-cover{flex:1;border-radius:0 var(--r) var(--r) 0;padding:18px 15px 13px;display:flex;flex-direction:column;overflow:hidden;position:relative;box-shadow:inset 2px 0 12px rgba(0,0,0,.12)}
 .book-cover-sheen{position:absolute;inset:0;border-radius:0 var(--r) var(--r) 0;background:linear-gradient(140deg,rgba(255,255,255,.07) 0%,transparent 45%);pointer-events:none}
-.book-cat{font-size:9px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;font-family:Arial,sans-serif;border-top:1.5px solid;border-bottom:1.5px solid;padding:5px 0 4px;margin-bottom:14px;text-align:center}
+.book-cat{font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;font-family:Arial,sans-serif;border-top:1.5px solid;border-bottom:1.5px solid;padding:5px 0 4px;margin-bottom:12px;text-align:center}
 .book-title{font-size:19px;font-weight:800;line-height:1.08;color:#f9f1e0;flex:1;letter-spacing:-.01em}
 .book-rule{width:32px;height:1.5px;margin:12px 0 10px;opacity:.8}
 .book-sub{font-size:10px;line-height:1.5;color:#ddd0a8;font-style:italic}
 .book-brand{margin-top:12px;padding-top:8px;border-top:1px solid rgba(255,255,255,.18)}
 .book-brand-name{font-size:10px;font-weight:800;font-family:Arial,sans-serif;color:#fff;letter-spacing:.02em}
 .book-brand-sub{font-size:7.5px;color:rgba(255,255,255,.55);font-family:Arial,sans-serif;margin-top:1px;font-style:italic}
-/* Book tile enhancements */
 .book-title-lg{font-size:24px!important;line-height:1.07!important;letter-spacing:-.018em}
 .book-sub-readable{font-size:11.5px!important;color:rgba(221,208,168,.92)!important;line-height:1.55!important;font-style:italic;margin-top:2px}
-.book-cat{font-size:9px;letter-spacing:.14em!important;text-transform:uppercase;font-weight:700;font-family:Arial,sans-serif;border-top:1.5px solid;border-bottom:1.5px solid;padding:5px 0 4px;margin-bottom:12px;text-align:center}
 .book-brand-bottom{margin-top:auto;padding-top:14px;border-top:none!important;text-align:center}
 .book-brand-rule{height:1px;opacity:.4;margin-bottom:9px;background:rgba(255,255,255,.45);width:60%;margin-left:auto;margin-right:auto}
 .gear-card-wrap{position:relative;width:100%;min-height:225px;height:100%;background:#2a2a2a;border-radius:var(--r);box-shadow:inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e;display:flex;align-items:center;justify-content:center;overflow:hidden}
@@ -261,21 +292,16 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .gear-clip-b{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:42px;height:8px;background:#333;border-radius:5px;border:1px solid #444}
 .gear-clip-l{position:absolute;left:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#303030;border-radius:3px;border:1px solid #444}
 .gear-clip-r{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:7px;height:22px;background:#303030;border-radius:3px;border:1px solid #444}
-.gear-content{position:absolute;inset:20px 26px 32px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-.gear-cat{font-size:9px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;border-top:1.5px solid #d4a843;border-bottom:1.5px solid #d4a843;padding:4px 0 3px;width:85%;margin-bottom:9px}
+.gear-content{position:absolute;inset:14px 26px 62px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.gear-cat{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;border-top:1.5px solid #d4a843;border-bottom:1.5px solid #d4a843;padding:4px 0 3px;width:85%;margin-bottom:9px}
 .gear-title{font-family:'Arial Black',Impact,Arial,sans-serif;font-weight:900;color:#f0e4c8;letter-spacing:.04em;line-height:.95}
-.gear-icon{font-size:18px;margin:7px 0 5px}
+.gear-icon{font-size:18px;margin:13px 0 5px}
 .gear-rule{width:82%;height:1px;background:linear-gradient(to right,transparent,#d4a843 25%,#d4a843 75%,transparent);margin-bottom:7px}
 .gear-sub{font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;line-height:1.5}
-.gear-brand{position:absolute;bottom:7px;left:26px;right:26px;text-align:center;font-family:Arial,sans-serif}
-/* gear-brand-name and gear-brand-sub defined below */
 .gear-brand-bottom{position:absolute;bottom:20px;left:16px;right:16px;text-align:center;font-family:Arial,sans-serif}
 .gear-brand-rule{height:1px;background:rgba(212,168,67,.45);margin-bottom:9px;width:50%;margin-left:auto;margin-right:auto}
 .gear-brand-name{font-size:11px!important;font-weight:700;color:#fff;letter-spacing:.03em;line-height:1.35;text-align:center}
 .gear-brand-sub{font-size:8px!important;color:rgba(255,255,255,.65);font-style:italic;margin-top:3px;line-height:1.3;text-align:center}
-.gear-cat{font-size:9px;font-weight:700;letter-spacing:.13em!important;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;border-top:1.5px solid #d4a843;border-bottom:1.5px solid #d4a843;padding:4px 0 3px;width:85%;margin-bottom:9px}
-.gear-icon{font-size:18px;margin:13px 0 5px}
-.gear-content{position:absolute;inset:14px 26px 62px 26px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 
 footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-top:1px solid var(--border);margin-top:1rem}
 
@@ -294,9 +320,17 @@ footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-t
   .story-hero-content{padding:1rem 1rem .9rem}
   .story-img-caption{padding:7px 1rem}
   .story-actions-card{padding:.85rem 1rem}
+  .reactions-card{padding:.85rem 1rem}
+  .reaction-btn{font-size:.75rem;padding:6px 10px;gap:5px}
 }
 </style>
+
 <script>
+/* ── CONSTANTS ── */
+const SB_URL = 'https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts';
+const SB_KEY = 'sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
+const SB_REACTIONS = 'https://dckmflnbprhmaqysuued.supabase.co/rest/v1/story_reaction_totals';
+
 /* ── TOPIC GRADIENT CLASSES ── */
 const TOPIC_BG={
   politics:'linear-gradient(160deg,#0D3270,#1E5BB8)',
@@ -313,6 +347,15 @@ const TOPIC_BG={
   military:'linear-gradient(160deg,#3A1A04,#6A3810)'
 };
 const TOPIC_LABELS={politics:'Politics',economy:'Economy',legal:'Legal',health:'Health',science:'Science',ai:'AI',technology:'Technology',war:'War',military:'Military',crime:'Crime',environment:'Environment',world:'World'};
+
+/* ── REACTIONS CONFIG ── */
+const REACTIONS = [
+  { key: 'helpful',    emoji: '👍', label: 'Helpful'        },
+  { key: 'thinking',   emoji: '🤔', label: 'Makes me think' },
+  { key: 'surprised',  emoji: '😮', label: 'Unexpected'     },
+  { key: 'concerning', emoji: '⚠️', label: 'Concerning'     },
+  { key: 'important',  emoji: '📌', label: 'Important'      }
+];
 
 /* ── BACK LINK ── */
 function resolveBackLink(){
@@ -332,7 +375,7 @@ function resolveBackLink(){
   return{href:'index.html',label:'← Latest News'};
 }
 
-/* ── AFFILIATE SYSTEM (same as index.html) ── */
+/* ── AFFILIATE SYSTEM ── */
 let _affiliateData=null,_keywordAffiliateData=null;
 async function loadAffiliateData(){
   if(_affiliateData)return _affiliateData;
@@ -368,7 +411,6 @@ function pickItems(items,count){
 function pickOneMobile(items){const must=items.filter(i=>i.must_show);const pool=must.length?must:items;return pool[Math.floor(Math.random()*pool.length)]}
 function renderTileHTML(item){return'<a href="'+getRandomLink(item)+'" target="_blank" rel="noopener nofollow sponsored" title="Browse on Amazon"><img src="/affiliate/'+item.image+'" alt="'+item.title+'" loading="lazy"></a>'}
 
-/* Rotating support messages */
 const NSM_SUPPORT_MSGS=[
   'Supports independent journalism',
   'Helps keep NSM free',
@@ -386,18 +428,18 @@ function bookTileHTML(b){
   const sub=(b.subtitle||'').replace(/\\n/g,'<br>');
   return'<a href="'+b.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-book" title="Recommended reading — supports NSM at no extra cost">'
     +'<div class="book-card-wrap">'
-    +'<div class="book-spine" style="background:'+b.spine_color+';">' + '</div>'
+    +'<div class="book-spine" style="background:'+b.spine_color+';"></div>'
     +'<div class="book-pages"></div>'
     +'<div class="book-cover" style="background:'+b.cover_color+';">'
     +'<div class="book-cover-sheen"></div>'
     +'<div class="book-cat" style="color:'+b.accent_color+';border-color:'+b.accent_color+';">'+b.category_label+'</div>'
     +'<div class="book-title book-title-lg">'+tl+'</div>'
-    +'<div class="book-rule" style="background:'+b.accent_color+';">' + '</div>'
+    +'<div class="book-rule" style="background:'+b.accent_color+';"></div>'
     +'<div class="book-sub book-sub-readable">'+sub+'</div>'
     +'<div style="flex:1;"></div>'
     +'<div class="book-brand book-brand-bottom">'
-    +'<div class="book-brand-rule" style="background:'+b.accent_color+';">' + '</div>'
-    +'<div class="book-brand-name">🧭  No Spin Media Pick</div>'
+    +'<div class="book-brand-rule" style="background:'+b.accent_color+';"></div>'
+    +'<div class="book-brand-name">🧭&nbsp; No Spin Media Pick</div>'
     +'<div class="book-brand-sub">'+randSupport()+'</div>'
     +'</div>'
     +'</div></div></a>';
@@ -419,7 +461,7 @@ function gearTileHTML(g){
     +'</div>'
     +'<div class="gear-brand gear-brand-bottom">'
     +'<div class="gear-brand-rule"></div>'
-    +'<div class="gear-brand-name">🧭  No Spin Media Pick</div>'
+    +'<div class="gear-brand-name">🧭&nbsp; No Spin Media Pick</div>'
     +'<div class="gear-brand-sub">'+randSupport()+'</div>'
     +'</div></div></a>';
 }
@@ -506,7 +548,18 @@ function copyLinkOnly(){_closeShare();_copyToClipboard(window._storyUrl||locatio
 function copyWithTitle(){
   _closeShare();
   const hl=(window._storyHeadline||'').replace(/\n/g,': ').trim();
-  _copyToClipboard(hl+'\n'+(window._storyUrl||location.href),'\u2705 Copied with title!');
+  _copyToClipboard(hl+'\n'+(window._storyUrl||location.href),'\u2705 Copied with headline!');
+}
+function copyWithSummary(){
+  _closeShare();
+  /* Pick from social variants; fall back to plain summary */
+  const s=window._storyData||{};
+  const opts=[s.social_bluesky,s.social_threads,s.social_facebook].filter(x=>x&&x.trim().length>20);
+  const summary=opts.length
+    ? opts[Math.floor(Math.random()*opts.length)]
+    : (s.summary||'').substring(0,280);
+  const text=summary.trim()+'\n\n'+(window._storyUrl||location.href);
+  _copyToClipboard(text,'\u2705 Copied with summary!');
 }
 function nativeShare(){
   if(navigator.share){navigator.share({title:window._storyHeadline||'No Spin Media',url:window._storyUrl||location.href}).catch(()=>{})}
@@ -522,20 +575,152 @@ function convertMarkdown(text){
   return text;
 }
 
+/* ── REACTIONS ── */
+async function loadReactions(storyId){
+  try{
+    const res=await fetch(
+      SB_REACTIONS+'?story_id=eq.'+storyId+'&select=helpful,thinking,surprised,concerning,important',
+      {headers:{apikey:SB_KEY}}
+    );
+    const data=await res.json();
+    return(data&&data[0])?data[0]:null;
+  }catch(e){return null;}
+}
+
+async function upsertReaction(storyId,field,delta){
+  const cur=await loadReactions(storyId);
+  const current=cur?(cur[field]||0):0;
+  const newVal=Math.max(0,current+delta);
+
+  const payload={story_id:storyId,helpful:0,thinking:0,surprised:0,concerning:0,important:0};
+  if(cur)Object.assign(payload,cur);
+  payload[field]=newVal;
+
+  const res=await fetch(SB_REACTIONS,{
+    method:'POST',
+    headers:{
+      apikey:SB_KEY,
+      'Content-Type':'application/json',
+      'Prefer':'resolution=merge-duplicates'
+    },
+    body:JSON.stringify(payload)
+  });
+
+  if(!res.ok)throw new Error('Supabase write failed: '+res.status);
+  return newVal;
+}
+
+function getStoredReaction(storyId){return localStorage.getItem('reaction_'+storyId)||null;}
+function setStoredReaction(storyId,key){
+  if(key)localStorage.setItem('reaction_'+storyId,key);
+  else localStorage.removeItem('reaction_'+storyId);
+}
+
+function reactionsHTML(storyId,totals,selected){
+  const rows=REACTIONS.map(r=>{
+    const count=totals?(totals[r.key]||0):0;
+    const isSel=selected===r.key;
+    return'<button class="reaction-btn'+(isSel?' selected':'')+'" '
+      +'data-key="'+r.key+'" '
+      +'aria-label="'+r.label+'" '
+      +'onclick="handleReaction(\''+storyId+'\',\''+r.key+'\')">'
+      +'<span>'+r.emoji+'</span>'
+      +'<span>'+r.label+'</span>'
+      +'<span class="reaction-count">'+(count>0?count:'')+'</span>'
+      +'</button>';
+  }).join('');
+  return'<div class="reactions-card">'
+    +'<div class="reactions-label">How readers reacted</div>'
+    +'<div class="reactions-grid" id="reactions-grid">'+rows+'</div>'
+    +'</div>';
+}
+
+async function handleReaction(storyId,key){
+  const prev=getStoredReaction(storyId);
+  const isSame=prev===key;
+
+  const grid=document.getElementById('reactions-grid');
+  if(!grid)return;
+
+  /* Snapshot for rollback */
+  const snapshot={};
+  grid.querySelectorAll('.reaction-btn').forEach(btn=>{
+    snapshot[btn.dataset.key]={
+      count:parseInt(btn.querySelector('.reaction-count').textContent)||0,
+      selected:btn.classList.contains('selected')
+    };
+  });
+
+  /* Deltas */
+  const deltas={};
+  if(isSame){
+    deltas[key]=-1;
+  }else{
+    if(prev)deltas[prev]=-1;
+    deltas[key]=1;
+  }
+
+  /* Optimistic UI */
+  grid.querySelectorAll('.reaction-btn').forEach(btn=>{
+    const k=btn.dataset.key;
+    const countEl=btn.querySelector('.reaction-count');
+    const cur=parseInt(countEl.textContent)||0;
+    if(deltas[k]){
+      const next=Math.max(0,cur+deltas[k]);
+      countEl.textContent=next>0?next:'';
+    }
+    if(isSame){
+      btn.classList.remove('selected');
+    }else{
+      btn.classList.toggle('selected',k===key);
+    }
+  });
+
+  /* Optimistic localStorage */
+  setStoredReaction(storyId,isSame?null:key);
+
+  /* Persist — rollback on failure */
+  try{
+    if(isSame){
+      await upsertReaction(storyId,key,-1);
+    }else{
+      if(prev)await upsertReaction(storyId,prev,-1);
+      await upsertReaction(storyId,key,1);
+    }
+  }catch(e){
+    /* Rollback UI */
+    grid.querySelectorAll('.reaction-btn').forEach(btn=>{
+      const k=btn.dataset.key;
+      const countEl=btn.querySelector('.reaction-count');
+      countEl.textContent=snapshot[k].count>0?snapshot[k].count:'';
+      btn.classList.toggle('selected',snapshot[k].selected);
+    });
+    /* Rollback localStorage */
+    setStoredReaction(storyId,prev);
+  }
+}
+
 /* ── MAIN STORY LOADER ── */
 async function loadStory(){
   const storyId=new URLSearchParams(location.search).get('story');
   if(!storyId){document.getElementById('story-container').innerHTML='<p style="padding:2rem;color:#999;">Story not found.</p>';return}
 
-  const res=await fetch('https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=*&url=eq.'+storyId,{headers:{apikey:'sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB'}});
+  const res=await fetch('https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts?select=*&url=eq.'+storyId,{headers:{apikey:SB_KEY}});
   const data=await res.json();
   if(!data.length){document.getElementById('story-container').innerHTML='<p style="padding:2rem;color:#999;">Story not found.</p>';return}
   const s=data[0];
 
-  // Keyword scan + affiliate tiles
+  /* Store story data globally for share functions */
+  window._storyData=s;
+
+  // Affiliate tiles + reactions in parallel
   const kwData=await loadKeywordAffiliateData();
   const matchedRule=findKeywordMatch([s.headline||'',s.summary||''].join(' '),kwData.rules||[]);
-  await loadAllAffiliateTiles(matchedRule);
+  const [,reactTotals]=await Promise.all([
+    loadAllAffiliateTiles(matchedRule),
+    loadReactions(storyId)
+  ]);
+  const storedReaction=getStoredReaction(storyId);
 
   // Update meta tags
   document.querySelector('meta[property="og:title"]').setAttribute('content',(s.headline||'').replace('\n',' '));
@@ -547,7 +732,7 @@ async function loadStory(){
   window._storyHeadline=s.headline;
   window._storyUrl=location.origin+'/story.html?story='+storyId;
 
-  // Parse headline into two lines
+  // Parse headline
   const hl=(s.headline||'').trim();
   const nl=hl.indexOf('\n');
   const line1=nl>-1?hl.substring(0,nl).trim():hl;
@@ -576,7 +761,7 @@ async function loadStory(){
     }
   }
 
-  // Date — relative time, fall back to full date after 7 days
+  // Date
   function timeSince(ds){
     if(!ds)return '';const d=new Date(ds);if(isNaN(d))return '';
     const m=Math.floor((Date.now()-d)/60000);
@@ -585,13 +770,11 @@ async function loadStory(){
     return d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   }
   const dateStr=timeSince(s.posted_at);
-  const imp=s.importance||'normal';
 
   // Body
   const cleanText=convertMarkdown(s.summary||'');
   const paras=cleanText.split('\n\n');
 
-  // Split discussion question from last paragraph if it ends with '?'
   let bodyParas=[],discussionQ='';
   for(const p of paras){
     if(p.trim().endsWith('?')&&paras.indexOf(p)===paras.length-1){discussionQ=p.trim()}
@@ -599,27 +782,19 @@ async function loadStory(){
   }
   const bodyHTML=bodyParas.map(p=>'<p>'+p+'</p>').join('');
 
-  // Reddit post link (for "Join the discussion" button only)
+  // Reddit post link
   let redditLink='';
   if(s.reddit_post_id){
     try{const parsed=JSON.parse(s.reddit_post_id);if(parsed.jquery?.[10]?.[3]?.[0])redditLink=parsed.jquery[10][3][0]}
     catch(e){console.warn('Reddit parse failed')}
   }
 
-  // Source URL
-  let sourceUrl='',sourceDisplay='';
-  if(s.original_url){
-    const parts=s.original_url.split('|');
-    sourceUrl=parts[0].trim();
-    sourceDisplay=sourceUrl.replace(/^https?:\/\/(www\.)?/,'').split('/')[0];
-  }
-
   const back=resolveBackLink();
 
   document.getElementById('story-container').innerHTML=
-    '<a href="'+back.href+'" class="back-link">\u2190 '+back.label+'</a>'
+    '<a href="'+back.href+'" class="back-link">'+back.label+'</a>'
 
-    // Header card with hero image
+    // Header card
     +'<div class="story-header">'
     +'<div class="story-hero-img" style="background:'+topicBg+';">'
     +'<div class="story-hero-bg" style="'+heroBgStyle+'"></div>'
@@ -644,9 +819,12 @@ async function loadStory(){
     +(discussionQ?'<div class="discussion-label">Community Discussion</div><div class="story-discussion">\uD83D\uDCAC '+discussionQ+'</div>':'')
     +'</div>'
 
-    // Actions
+    // ── REACTIONS WIDGET ──
+    +reactionsHTML(storyId,reactTotals,storedReaction)
+
+    // Actions / share card
     +'<div class="story-actions-card">'
-    +(redditLink?'<a href="'+redditLink+'" target="_blank" rel="noopener" class="action-btn action-btn-reddit">Join the discussion on Reddit →</a>':'')
+    +(redditLink?'<a href="'+redditLink+'" target="_blank" rel="noopener" class="action-btn action-btn-reddit">Join the discussion on Reddit \u2192</a>':'')
     +'<a href="https://reddit.com/r/NoSpinMedia" target="_blank" rel="noopener" class="action-btn action-btn-secondary">r/NoSpinMedia</a>'
     +'<div class="share-wrap" id="share-wrap">'
     +'<button class="action-btn action-btn-secondary" onclick="toggleShareMenu()">\uD83D\uDD17 Share \u25BE</button>'
@@ -654,6 +832,7 @@ async function loadStory(){
     +'<button onclick="nativeShare()"><span class="share-opt-label">\uD83D\uDCF1 Share</span><span class="share-opt-desc">Native share / copy link</span></button>'
     +'<button onclick="copyLinkOnly()"><span class="share-opt-label">\uD83D\uDD17 Copy link</span><span class="share-opt-desc">Just the URL</span></button>'
     +'<button onclick="copyWithTitle()"><span class="share-opt-label">\uD83D\uDCCB Copy with headline</span><span class="share-opt-desc">Headline + link</span></button>'
+    +'<button onclick="copyWithSummary()"><span class="share-opt-label">\uD83D\uDCDD Copy with summary</span><span class="share-opt-desc">Story summary + link</span></button>'
     +'</div></div>'
     +'<span class="share-feedback" id="share-feedback"></span>'
     +'</div>';
