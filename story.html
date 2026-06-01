@@ -286,59 +286,43 @@ function getStoredReaction(storyId){return localStorage.getItem('reaction_'+stor
 function setStoredReaction(storyId,key){if(key)localStorage.setItem('reaction_'+storyId,key);else localStorage.removeItem('reaction_'+storyId)}
 
 /* ── REDDIT ENGAGEMENT DISPLAY ── */
-function redditGridItemsHTML(totals,redditLink){
-  const seed=(totals&&totals.reddit_seed)||0;
+/* reddit_seed is stored globally so handleReaction can add it to the display count */
+function commentsItemHTML(totals,redditLink){
   const comments=(totals&&totals.reddit_comments)||0;
-  const helpful=(totals&&totals.helpful)||0;
-  const displayUpvotes=helpful+seed;
-  if(displayUpvotes===0&&comments===0)return'';
-  const upBtn='<span class="reaction-btn reddit-static" id="reddit-upvote-btn" title="Reactions">'
-    +'<span class="reaction-emoji">👍</span>'
-    +'<span class="reaction-count" id="reddit-upvote-count">'+(displayUpvotes>0?displayUpvotes:'')+'</span>'
-    +'</span>';
-  const cmBtn=redditLink
-    ?'<a href="'+redditLink+'" target="_blank" rel="noopener" class="reaction-btn reddit-static reddit-comment-link" id="reddit-comment-btn" title="Join discussion on Reddit">'
-      +'<span class="reaction-emoji">💬</span>'
-      +'<span class="reaction-count" id="reddit-comment-count">'+(comments>0?comments:'')+'</span>'
-      +'</a>'
-    :'<span class="reaction-btn reddit-static" id="reddit-comment-btn" title="Comments">'
-      +'<span class="reaction-emoji">💬</span>'
-      +'<span class="reaction-count" id="reddit-comment-count">'+(comments>0?comments:'')+'</span>'
-      +'</span>';
-  return upBtn+'<span class="reaction-grid-divider"></span>'+cmBtn+'<span class="reaction-grid-divider"></span>';
+  if(comments===0)return'';
+  return redditLink
+    ?'<a href="'+redditLink+'" target="_blank" rel="noopener" class="reaction-btn reddit-comment-link" id="reddit-comment-btn" title="Join discussion on Reddit">'
+      +'<span class="reaction-emoji">💬</span><span class="reaction-count" id="reddit-comment-count">'+comments+'</span></a>'
+      +'<span class="reaction-grid-divider"></span>'
+    :'<span class="reaction-btn reddit-static" id="reddit-comment-btn">'
+      +'<span class="reaction-emoji">💬</span><span class="reaction-count" id="reddit-comment-count">'+comments+'</span></span>'
+      +'<span class="reaction-grid-divider"></span>';
 }
 
 function updateRedditDisplay(seed,comments,helpful){
-  const displayUpvotes=((helpful||0)+(seed||0));
-  const upEl=document.getElementById('reddit-upvote-count');
+  /* Update the merged 👍 button count */
+  const helpfulBtn=document.querySelector('.reaction-btn[data-key="helpful"] .reaction-count');
+  if(helpfulBtn)helpfulBtn.textContent=((helpful||0)+(seed||0))||'';
+  /* Update comments */
   const cmEl=document.getElementById('reddit-comment-count');
-  if(upEl)upEl.textContent=displayUpvotes>0?displayUpvotes:'';
   if(cmEl)cmEl.textContent=(comments||0)>0?(comments||0):'';
-  // If items didn't exist yet (seed was 0 on load), prepend them now
-  if(!upEl){
-    const grid=document.getElementById('reactions-grid');
-    if(grid){
-      const frag=document.createElement('div');
-      frag.innerHTML=redditGridItemsHTML({reddit_seed:seed,reddit_comments:comments,helpful:helpful},window._redditLink||'');
-      while(frag.firstChild)grid.prepend(frag.firstChild);  // prepend in reverse
-      // Fix order: insertBefore first child
-      const items=[...frag.childNodes];
-      grid.prepend(...Array.from(frag.childNodes));
-    }
-  }
 }
 
 function reactionsHTML(storyId,totals,selected,redditLink){
   window._redditLink=redditLink||'';
-  const redditItems=redditGridItemsHTML(totals,redditLink);
+  window._redditSeed=(totals&&totals.reddit_seed)||0;
+  const comments=commentsItemHTML(totals,redditLink);
   const items=REACTIONS.map(r=>{
-    const count=totals?(totals[r.key]||0):0;const isSel=selected===r.key;
+    const isSel=selected===r.key;
+    /* For 👍, display count = helpful + reddit_seed */
+    let count=totals?(totals[r.key]||0):0;
+    if(r.key==='helpful')count=count+(window._redditSeed||0);
     return'<button class="reaction-btn'+(isSel?' selected':'')+'" data-key="'+r.key+'" title="'+r.label+'" aria-label="'+r.label+'" onclick="handleReaction(\''+storyId+'\',\''+r.key+'\')">'
       +'<span class="reaction-emoji">'+r.emoji+'</span><span class="reaction-count">'+(count>0?count:'')+'</span></button>';
   }).join('');
   return'<div class="reactions-card">'
     +'<div class="reactions-label">\uD83E\uDDED HOW NSM READERS REACTED TO THIS STORY</div>'
-    +'<div class="reactions-grid" id="reactions-grid">'+redditItems+items+'</div>'
+    +'<div class="reactions-grid" id="reactions-grid">'+items+comments+'</div>'
     +'</div>';
 }
 
