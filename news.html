@@ -747,7 +747,10 @@ async function searchArchive(){
   countEl.textContent='';
 
   const params=new URLSearchParams();
-  params.set('select','headline,summary,social_bluesky,social_threads,social_facebook,posted_at,url,topic,importance,style');
+  const selectCols=db==='news_ne'
+    ?'headline,summary,posted_at,url'
+    :'headline,summary,social_bluesky,social_threads,social_facebook,posted_at,url,topic,importance,style';
+  params.set('select',selectCols);
   if(db==='news_posts')params.append('used','eq.true');
   params.append('order','posted_at.desc');
   params.append('limit','200');
@@ -801,7 +804,8 @@ async function loadRecent(){
   countEl.innerHTML='';
   try{
     const usedFilter=db==='news_posts'?'&used=eq.true':'';
-    const res=await fetch(SB_URL+'/'+db+'?select=headline,summary,social_bluesky,social_threads,social_facebook,posted_at,url,topic,importance,style'+usedFilter+'&order=posted_at.desc&limit=30',{headers:{apikey:SB_KEY}});
+    const recentCols=db==='news_ne'?'headline,summary,posted_at,url':'headline,summary,social_bluesky,social_threads,social_facebook,posted_at,url,topic,importance,style';
+    const res=await fetch(SB_URL+'/'+db+'?select='+recentCols+usedFilter+'&order=posted_at.desc&limit=30',{headers:{apikey:SB_KEY}});
     const stories=await res.json();
     const label=db==='news_ne'?'New England':'Main News';
     countEl.innerHTML='<span style="color:var(--dimmed);font-size:11px;">Showing recent '+label+' stories \u2014 use filters above to search the full archive</span>';
