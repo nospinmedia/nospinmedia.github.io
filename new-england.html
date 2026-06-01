@@ -513,7 +513,7 @@ function shareDropdownHTML(id,headline,wrapId,fbId,isSm){
   const btnCls=isSm?'btn-sm-share':'btn-share';
   const btnTxt=isSm?'\uD83D\uDD17 \u25BE':'\uD83D\uDD17 Share \u25BE';
   return'<div class="share-wrap" id="'+wrapId+'">'
-    +'<button class="'+btnCls+'" onclick="event.stopPropagation();toggleShareNE(\''+wrapId+'\'">'+btnTxt+'</button>'
+    +'<button class="'+btnCls+'" onclick="event.stopPropagation();toggleShareNE(\''+wrapId+'\')">'+btnTxt+'</button>'
     +'<div class="share-dropdown">'
     +'<button onclick="event.stopPropagation();shareNENative(\''+id+'\')">'
     +'<span class="share-opt-label">\uD83D\uDCF1 Share</span><span class="share-opt-desc">Native share / copy link</span></button>'
