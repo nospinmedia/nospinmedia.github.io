@@ -177,39 +177,36 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 }
 .reactions-label{
   font-size:.63rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;
-  color:var(--dimmed);margin-bottom:.7rem;line-height:1.4
+  color:var(--dimmed);margin-bottom:.75rem;line-height:1.4
 }
 .reactions-grid{
-  display:flex;flex-wrap:wrap;gap:4px 2px;align-items:center
+  display:flex;flex-wrap:wrap;gap:2px;align-items:center
 }
 .reaction-btn{
-  display:inline-flex;align-items:center;gap:3px;
-  padding:5px 9px;border-radius:8px;cursor:pointer;
+  display:inline-flex;align-items:center;gap:4px;
+  padding:5px 10px;border-radius:8px;cursor:pointer;
   background:transparent;border:1px solid transparent;
   color:var(--muted);transition:background .12s,border-color .12s,transform .12s;
   user-select:none;font-family:var(--font-b);line-height:1
 }
 .reaction-btn:hover{
-  background:var(--surface2);border-color:var(--border);
+  background:var(--surface2);border-color:#E8E8E4;
   transform:translateY(-1px)
 }
-.reaction-emoji{font-size:1.45rem;line-height:1;display:block}
+.reaction-emoji{font-size:1.65rem;line-height:1;display:block}
 .reaction-count{
-  font-size:.7rem;font-weight:600;color:var(--dimmed);
+  font-size:.68rem;font-weight:600;color:var(--dimmed);
   min-width:12px;letter-spacing:-.01em;line-height:1
 }
-/* Selected state — soft tint, subtle outline, no heavy button */
+/* Selected — featherlight tint, whisper outline, glow on emoji only */
 .reaction-btn.selected{
-  background:var(--blue-lt);border-color:#B8D4EE
+  background:rgba(0,102,204,.06);border-color:rgba(0,102,204,.18)
 }
-.reaction-btn.selected .reaction-emoji{filter:drop-shadow(0 0 3px rgba(0,102,204,.35))}
+.reaction-btn.selected .reaction-emoji{
+  filter:drop-shadow(0 0 4px rgba(0,102,204,.3))
+}
 .reaction-btn.selected .reaction-count{color:var(--blue)}
-.reaction-btn.selected:hover{background:#D0E6F8}
-/* Divider between reactions */
-.reaction-divider{
-  width:1px;height:22px;background:var(--border);
-  margin:0 4px;flex-shrink:0;align-self:center
-}
+.reaction-btn.selected:hover{background:rgba(0,102,204,.1)}
 
 /* ── SOURCE LINK ── */
 .source-card{
@@ -330,8 +327,8 @@ footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-t
   .story-img-caption{padding:7px 1rem}
   .story-actions-card{padding:.85rem 1rem}
   .reactions-card{padding:.75rem .9rem .8rem}
-  .reaction-emoji{font-size:1.25rem}
-  .reaction-divider{display:none}
+  .reaction-emoji{font-size:1.4rem}
+  .reaction-btn{padding:5px 8px}
 }
 </style>
 
@@ -589,7 +586,7 @@ function convertMarkdown(text){
 async function loadReactions(storyId){
   try{
     const res=await fetch(
-      SB_REACTIONS+'?story_id=eq.'+storyId+'&select=helpful,thinking,surprised,concerning,important',
+      SB_REACTIONS+'?story_id=eq.'+storyId+'&select=helpful,thinking,surprised,concerning,important,story_page_reactions,summary_page_reactions',
       {headers:{apikey:SB_KEY}}
     );
     const data=await res.json();
@@ -597,14 +594,26 @@ async function loadReactions(storyId){
   }catch(e){return null;}
 }
 
-async function upsertReaction(storyId,field,delta){
+/* source: 'story' | 'summary' — determines which source counter to touch */
+async function upsertReaction(storyId,field,delta,source){
   const cur=await loadReactions(storyId);
   const current=cur?(cur[field]||0):0;
   const newVal=Math.max(0,current+delta);
 
-  const payload={story_id:storyId,helpful:0,thinking:0,surprised:0,concerning:0,important:0};
+  const payload={
+    story_id:storyId,
+    helpful:0,thinking:0,surprised:0,concerning:0,important:0,
+    story_page_reactions:0,summary_page_reactions:0
+  };
   if(cur)Object.assign(payload,cur);
   payload[field]=newVal;
+
+  /* Increment or decrement the source counter */
+  if(source==='story'){
+    payload.story_page_reactions=Math.max(0,(payload.story_page_reactions||0)+delta);
+  }else if(source==='summary'){
+    payload.summary_page_reactions=Math.max(0,(payload.summary_page_reactions||0)+delta);
+  }
 
   const res=await fetch(SB_REACTIONS,{
     method:'POST',
@@ -627,10 +636,9 @@ function setStoredReaction(storyId,key){
 }
 
 function reactionsHTML(storyId,totals,selected){
-  const items=REACTIONS.map((r,i)=>{
+  const items=REACTIONS.map(r=>{
     const count=totals?(totals[r.key]||0):0;
     const isSel=selected===r.key;
-    const divider=i<REACTIONS.length-1?'<span class="reaction-divider"></span>':'';
     return'<button class="reaction-btn'+(isSel?' selected':'')+'" '
       +'data-key="'+r.key+'" '
       +'title="'+r.label+'" '
@@ -638,10 +646,10 @@ function reactionsHTML(storyId,totals,selected){
       +'onclick="handleReaction(\''+storyId+'\',\''+r.key+'\')">'
       +'<span class="reaction-emoji">'+r.emoji+'</span>'
       +'<span class="reaction-count">'+(count>0?count:'')+'</span>'
-      +'</button>'+divider;
+      +'</button>';
   }).join('');
   return'<div class="reactions-card">'
-    +'<div class="reactions-label">\uD83E\uDDED NSM READERS REACTED TO THIS STORY</div>'
+    +'<div class="reactions-label">\uD83E\uDDED HOW NSM READERS REACTED TO THIS STORY</div>'
     +'<div class="reactions-grid" id="reactions-grid">'+items+'</div>'
     +'</div>';
 }
@@ -693,10 +701,10 @@ async function handleReaction(storyId,key){
   /* Persist — rollback on failure */
   try{
     if(isSame){
-      await upsertReaction(storyId,key,-1);
+      await upsertReaction(storyId,key,-1,'story');
     }else{
-      if(prev)await upsertReaction(storyId,prev,-1);
-      await upsertReaction(storyId,key,1);
+      if(prev)await upsertReaction(storyId,prev,-1,'story');
+      await upsertReaction(storyId,key,1,'story');
     }
   }catch(e){
     /* Rollback UI */
