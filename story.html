@@ -173,34 +173,43 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .reactions-card{
   background:var(--surface);border:1px solid var(--border);
   border-radius:var(--r);box-shadow:var(--shadow);
-  padding:1rem 1.25rem;margin-bottom:.75rem
+  padding:.85rem 1.25rem .9rem;margin-bottom:.75rem
 }
 .reactions-label{
-  font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--dimmed);margin-bottom:.75rem
+  font-size:.63rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--dimmed);margin-bottom:.7rem;line-height:1.4
 }
 .reactions-grid{
-  display:flex;flex-wrap:wrap;gap:8px
+  display:flex;flex-wrap:wrap;gap:4px 2px;align-items:center
 }
 .reaction-btn{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:.8rem;font-weight:500;
-  padding:7px 13px;border-radius:20px;cursor:pointer;
-  background:var(--surface2);border:1px solid var(--border);
-  color:var(--muted);transition:all .15s;user-select:none;
-  font-family:var(--font-b)
+  display:inline-flex;align-items:center;gap:3px;
+  padding:5px 9px;border-radius:8px;cursor:pointer;
+  background:transparent;border:1px solid transparent;
+  color:var(--muted);transition:background .12s,border-color .12s,transform .12s;
+  user-select:none;font-family:var(--font-b);line-height:1
 }
-.reaction-btn:hover{border-color:#bbb;color:var(--text);transform:translateY(-1px)}
-.reaction-btn.selected{
-  background:var(--blue-lt);border-color:var(--blue);
-  color:var(--blue);font-weight:600
+.reaction-btn:hover{
+  background:var(--surface2);border-color:var(--border);
+  transform:translateY(-1px)
 }
-.reaction-btn.selected:hover{background:#D0E6F8}
+.reaction-emoji{font-size:1.45rem;line-height:1;display:block}
 .reaction-count{
-  font-size:.75rem;font-weight:600;
-  color:var(--dimmed);min-width:14px;text-align:right
+  font-size:.7rem;font-weight:600;color:var(--dimmed);
+  min-width:12px;letter-spacing:-.01em;line-height:1
 }
+/* Selected state — soft tint, subtle outline, no heavy button */
+.reaction-btn.selected{
+  background:var(--blue-lt);border-color:#B8D4EE
+}
+.reaction-btn.selected .reaction-emoji{filter:drop-shadow(0 0 3px rgba(0,102,204,.35))}
 .reaction-btn.selected .reaction-count{color:var(--blue)}
+.reaction-btn.selected:hover{background:#D0E6F8}
+/* Divider between reactions */
+.reaction-divider{
+  width:1px;height:22px;background:var(--border);
+  margin:0 4px;flex-shrink:0;align-self:center
+}
 
 /* ── SOURCE LINK ── */
 .source-card{
@@ -320,8 +329,9 @@ footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-t
   .story-hero-content{padding:1rem 1rem .9rem}
   .story-img-caption{padding:7px 1rem}
   .story-actions-card{padding:.85rem 1rem}
-  .reactions-card{padding:.85rem 1rem}
-  .reaction-btn{font-size:.75rem;padding:6px 10px;gap:5px}
+  .reactions-card{padding:.75rem .9rem .8rem}
+  .reaction-emoji{font-size:1.25rem}
+  .reaction-divider{display:none}
 }
 </style>
 
@@ -617,21 +627,22 @@ function setStoredReaction(storyId,key){
 }
 
 function reactionsHTML(storyId,totals,selected){
-  const rows=REACTIONS.map(r=>{
+  const items=REACTIONS.map((r,i)=>{
     const count=totals?(totals[r.key]||0):0;
     const isSel=selected===r.key;
+    const divider=i<REACTIONS.length-1?'<span class="reaction-divider"></span>':'';
     return'<button class="reaction-btn'+(isSel?' selected':'')+'" '
       +'data-key="'+r.key+'" '
+      +'title="'+r.label+'" '
       +'aria-label="'+r.label+'" '
       +'onclick="handleReaction(\''+storyId+'\',\''+r.key+'\')">'
-      +'<span>'+r.emoji+'</span>'
-      +'<span>'+r.label+'</span>'
+      +'<span class="reaction-emoji">'+r.emoji+'</span>'
       +'<span class="reaction-count">'+(count>0?count:'')+'</span>'
-      +'</button>';
+      +'</button>'+divider;
   }).join('');
   return'<div class="reactions-card">'
-    +'<div class="reactions-label">How readers reacted</div>'
-    +'<div class="reactions-grid" id="reactions-grid">'+rows+'</div>'
+    +'<div class="reactions-label">\uD83E\uDDED NSM READERS REACTED TO THIS STORY</div>'
+    +'<div class="reactions-grid" id="reactions-grid">'+items+'</div>'
     +'</div>';
 }
 
