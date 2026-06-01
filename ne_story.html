@@ -32,27 +32,19 @@
   --r:11px;--shadow:0 1px 8px rgba(0,0,0,.08);--shadow-h:0 5px 20px rgba(0,0,0,.13)
 }
 body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-top:70px}
-
-/* ── LAYOUT ── */
 .story-wrap{display:flex;max-width:1400px;margin:0 auto;padding:1.25rem 1.25rem 3rem;gap:2rem;align-items:flex-start}
 .story-sidebar-l,.story-sidebar-r{width:210px;min-width:210px;flex-shrink:0;position:sticky;top:90px}
 .story-sidebar-l{border-right:1px solid var(--border);padding-right:1.25rem}
 .story-sidebar-r{border-left:1px solid var(--border);padding-left:1.25rem}
 .story-main{flex:1;min-width:0;max-width:780px;margin:0 auto}
-
-/* ── SIDEBAR ── */
 .sidebar-label{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--blue)}
 #book-tiles,#gear-tiles{display:flex;flex-direction:column;gap:12px}
 #book-tiles a,#gear-tiles a{display:block;border-radius:var(--r);overflow:hidden;transition:transform .2s,box-shadow .2s;box-shadow:var(--shadow)}
 #book-tiles a:hover,#gear-tiles a:hover{transform:translateY(-3px);box-shadow:var(--shadow-h)}
 #book-tiles img,#gear-tiles img{width:100%;display:block;border-radius:var(--r)}
 .sidebar-disclosure{margin-top:10px;font-size:.62rem;color:#ccc;line-height:1.4;font-style:italic}
-
-/* ── BACK LINK ── */
 .back-link{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600;color:var(--blue);text-decoration:none;padding:5px 11px;background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);margin-bottom:1.1rem;transition:all .15s}
 .back-link:hover{border-color:#bbb;box-shadow:var(--shadow-h)}
-
-/* ── STORY HEADER ── */
 .story-header{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);margin-bottom:.75rem}
 .story-hero-img{position:relative;min-height:220px;overflow:hidden}
 .story-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .4s ease}
@@ -66,24 +58,10 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .story-date{font-size:.8rem;color:var(--dimmed)}
 .imp-dot{width:6px;height:6px;border-radius:50%;display:inline-block;vertical-align:middle;margin-right:3px}
 .imp-major{background:var(--red)}.imp-normal{background:var(--blue)}.imp-minor{background:#CCC}
-
-/* Topic pills */
-.tp-politics{background:#DDEEFF;color:#0044AA}.tp-economy{background:#DDFAE8;color:#006622}
-.tp-health{background:#FFEEDD;color:#883300}.tp-legal{background:#EEE0FF;color:#5500AA}
-.tp-war{background:#FFDDDD;color:#AA1100}.tp-crime{background:#FFDDDD;color:#AA1100}
-.tp-science{background:#DDEEFC;color:#005577}.tp-technology{background:#DDEEFF;color:#003399}
-.tp-ai{background:#EEE0FF;color:#440099}.tp-world{background:#EEEEEE;color:#555555}
-.tp-environment{background:#DDFAE8;color:#004400}.tp-military{background:#FFEEDD;color:#663300}
-.tp-education{background:#E8F0FF;color:#003388}.tp-newengland{background:#E8F5E8;color:#1A5C1A}
-.tp-transportation{background:#E0E8F8;color:#1A2A6B}.tp-energy{background:#FFF5DD;color:#7A4400}
-.tp-publicsafety{background:#FFF0E8;color:#7A2A00}
+.tp-politics{background:#DDEEFF;color:#0044AA}.tp-economy{background:#DDFAE8;color:#006622}.tp-health{background:#FFEEDD;color:#883300}.tp-legal{background:#EEE0FF;color:#5500AA}.tp-war{background:#FFDDDD;color:#AA1100}.tp-crime{background:#FFDDDD;color:#AA1100}.tp-science{background:#DDEEFC;color:#005577}.tp-technology{background:#DDEEFF;color:#003399}.tp-ai{background:#EEE0FF;color:#440099}.tp-world{background:#EEEEEE;color:#555555}.tp-environment{background:#DDFAE8;color:#004400}.tp-military{background:#FFEEDD;color:#663300}.tp-education{background:#E8F0FF;color:#003388}.tp-newengland{background:#E8F5E8;color:#1A5C1A}.tp-transportation{background:#E0E8F8;color:#1A2A6B}.tp-energy{background:#FFF5DD;color:#7A4400}.tp-publicsafety{background:#FFF0E8;color:#7A2A00}
 .story-pill{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:20px}
-
-/* Image caption */
 .story-img-caption{padding:8px 1.6rem;background:var(--surface2);border-top:1px solid var(--border);font-size:.72rem;color:var(--dimmed);line-height:1.5}
 .story-img-credit{font-size:.68rem;color:#bbb;display:block;margin-top:2px}
-
-/* ── STORY BODY ── */
 .story-body-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:1.75rem 2rem 1.5rem;margin-bottom:.75rem}
 .story-content{font-family:var(--font-b);font-size:1.07rem;line-height:1.82;color:#1a1a1a}
 .story-content p{margin-bottom:1.35rem}
@@ -92,8 +70,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .story-content em{font-style:italic;color:#444}
 .discussion-label{font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);margin:1.5rem 0 .4rem}
 .story-discussion{margin:0;padding:1rem 1.25rem;background:var(--blue-lt);border-left:3px solid var(--blue);border-radius:0 var(--r) var(--r) 0;font-size:.88rem;font-weight:500;color:#004499;line-height:1.55}
-
-/* ── REACTIONS WIDGET ── */
 .reactions-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:.85rem 1.25rem .9rem;margin-bottom:.75rem}
 .reactions-label{font-size:.63rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--dimmed);margin-bottom:.75rem;line-height:1.4}
 .reactions-grid{display:flex;flex-wrap:wrap;gap:2px;align-items:center}
@@ -106,23 +82,43 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .reaction-btn.selected .reaction-count{color:var(--blue)}
 .reaction-btn.selected:hover{background:rgba(0,102,204,.1)}
 
-/* ── SOURCE LINK ── */
+/* ── REDDIT INLINE ITEMS ── */
+.reddit-static{cursor:default!important;pointer-events:none;}
+.reddit-comment-link{pointer-events:auto!important;cursor:pointer!important;text-decoration:none;}
+.reddit-comment-link:hover{background:#FFF4F0!important;border-color:#FFCDB8!important;}
+.reddit-comment-link:hover .reaction-count{color:#FF4500!important;}
+.reaction-grid-divider{width:1px;height:28px;background:var(--border);margin:0 4px;display:inline-block;vertical-align:middle;}
+
+/* ── REDDIT ADMIN PANEL ── */
+#reddit-admin-panel{display:none;position:fixed;bottom:24px;right:24px;z-index:9000;width:300px;background:var(--surface);border:1.5px solid #d0d0cc;border-radius:var(--r);box-shadow:0 8px 32px rgba(0,0,0,.18);padding:14px 16px 16px;font-family:var(--font-b)}
+#reddit-admin-panel.open{display:block}
+.radmin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.radmin-title{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed)}
+.radmin-close{background:none;border:none;cursor:pointer;font-size:1rem;color:var(--dimmed);line-height:1;padding:2px 4px;border-radius:4px}
+.radmin-close:hover{background:var(--surface2);color:var(--text)}
+.radmin-label{font-size:.75rem;font-weight:600;color:var(--muted);margin-bottom:5px;display:block}
+#reddit-paste-input{width:100%;height:72px;resize:vertical;font-family:var(--font-b);font-size:.82rem;border:1px solid var(--border);border-radius:7px;padding:8px 10px;color:var(--text);background:var(--surface2);line-height:1.5;outline:none}
+#reddit-paste-input:focus{border-color:var(--blue);background:#fff}
+.radmin-preview{margin-top:8px;font-size:.75rem;color:var(--muted);min-height:18px;padding:5px 8px;background:var(--surface2);border-radius:6px;border:1px solid var(--border)}
+.radmin-preview span{font-weight:700;color:var(--text)}
+.radmin-actions{display:flex;gap:8px;margin-top:10px;align-items:center}
+.radmin-save{flex:1;padding:7px 0;border-radius:20px;border:none;background:var(--blue);color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;font-family:var(--font-b);transition:background .15s}
+.radmin-save:hover{background:#0055BB}
+.radmin-save:disabled{background:#aaa;cursor:default}
+.radmin-status{font-size:.75rem;font-weight:600;min-height:16px}
+.radmin-status.ok{color:green}
+.radmin-status.err{color:var(--red)}
+.radmin-hint{margin-top:10px;font-size:.67rem;color:#bbb;line-height:1.5;border-top:1px solid var(--border);padding-top:8px}
+
 .source-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:.7rem 1.1rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.6rem;font-size:.78rem;color:var(--dimmed)}
 .source-card a{color:var(--blue);text-decoration:none;font-weight:500}
 .source-card a:hover{text-decoration:underline}
-
-/* ── ACTIONS ── */
 .story-actions-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:1rem 1.25rem;margin-bottom:.75rem;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
 .action-btn{font-size:12px;font-weight:600;padding:7px 16px;border-radius:20px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:all .15s;border:1px solid var(--border)}
-.action-btn-primary{color:#fff;background:var(--blue);border-color:var(--blue)}
-.action-btn-primary:hover{background:#0055BB}
-.action-btn-secondary{color:var(--muted);background:var(--surface2)}
-.action-btn-secondary:hover{border-color:#bbb;color:var(--text)}
-.action-btn-reddit{color:#FF4500;background:#FFF4F0;border-color:#FFCDB8}
-.action-btn-reddit:hover{background:#FFE8E0}
+.action-btn-primary{color:#fff;background:var(--blue);border-color:var(--blue)}.action-btn-primary:hover{background:#0055BB}
+.action-btn-secondary{color:var(--muted);background:var(--surface2)}.action-btn-secondary:hover{border-color:#bbb;color:var(--text)}
+.action-btn-reddit{color:#FF4500;background:#FFF4F0;border-color:#FFCDB8}.action-btn-reddit:hover{background:#FFE8E0}
 .share-feedback{font-size:.8rem;color:green;font-weight:600;margin-left:4px}
-
-/* Share dropdown */
 .share-wrap{position:relative;display:inline-block}
 .share-dropdown{display:none;position:absolute;bottom:calc(100% + 6px);left:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow-h);min-width:240px;z-index:100;overflow:hidden}
 .share-wrap.open .share-dropdown{display:block}
@@ -131,8 +127,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .share-dropdown button:hover{background:var(--blue-lt);color:var(--blue)}
 .share-opt-label{font-weight:600;display:block}
 .share-opt-desc{font-size:.72rem;color:var(--dimmed);display:block;margin-top:1px}
-
-/* ── MOBILE AFFILIATE INSERT ── */
 .mobile-aff-insert{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;margin-bottom:.75rem;box-shadow:var(--shadow)}
 .mobile-aff-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);padding-bottom:.5rem;margin-bottom:.65rem;border-bottom:2px solid var(--blue)}
 .mobile-aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -140,8 +134,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .mobile-aff-grid a:active{transform:scale(.98)}
 .mobile-aff-grid img{width:100%;display:block;border-radius:var(--r)}
 .mobile-aff-disc{margin-top:.5rem;font-size:.6rem;color:#ccc;font-style:italic;line-height:1.4}
-
-/* Affiliate tiles */
 .aff-card{border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s;display:block;text-decoration:none;height:100%}
 .aff-card:hover{box-shadow:var(--shadow-h);transform:translateY(-3px)}
 .book-card-wrap{display:flex;height:100%;min-height:240px;font-family:Georgia,'Times New Roman',serif}
@@ -177,10 +169,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .gear-brand-name{font-size:11px!important;font-weight:700;color:#fff;letter-spacing:.03em;line-height:1.35;text-align:center}
 .gear-brand-sub{font-size:8px!important;color:rgba(255,255,255,.65);font-style:italic;margin-top:3px;line-height:1.3;text-align:center}
 .aff-card-book:hover,.aff-card-gear:hover{transform:translateY(-5px)!important;box-shadow:0 10px 28px rgba(0,0,0,.22)!important}
-
 footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-top:1px solid var(--border);margin-top:1rem}
-
-/* ── MOBILE ── */
 @media(max-width:900px){
   body{background:#EBEBEB}
   .story-wrap{flex-direction:column;padding:0;gap:0}
@@ -198,6 +187,7 @@ footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-t
   .reactions-card{padding:.75rem .9rem .8rem}
   .reaction-emoji{font-size:1.4rem}
   .reaction-btn{padding:5px 8px}
+  #reddit-admin-panel{right:12px;bottom:12px;width:calc(100vw - 24px);max-width:340px}
 }
 </style>
 
@@ -206,7 +196,7 @@ footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-t
 const SB_KEY='sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
 const SB_REACTIONS='https://dckmflnbprhmaqysuued.supabase.co/rest/v1/story_reaction_totals';
 
-/* ── NE TOPIC INFERENCE — preserved exactly ── */
+/* ── NE TOPIC INFERENCE ── */
 const NE_TOPIC_RULES=[
   {topic:'education',kws:['school','schools','university','universities','college','colleges','student','students','teacher','teachers','curriculum','tuition','campus','classroom','education','graduation','superintendent','school board','school district']},
   {topic:'environment',kws:['climate','flood','flooding','storm','hurricane','wildfire','drought','pollution','environmental','conservation','wildlife','habitat','clean energy','solar','wind turbine','offshore wind','fishing','fishery','fisheries','lobster','seacoast','watershed']},
@@ -219,53 +209,27 @@ const NE_TOPIC_RULES=[
 ];
 const NE_TOPIC_LABELS={education:'Education',environment:'Environment',health:'Health',economy:'Economy',legal:'Legal',crime:'Crime',politics:'Politics',newengland:'New England',transportation:'Transportation',energy:'Energy & Utilities',publicsafety:'Public Safety'};
 const NE_TOPIC_BG={
-  education:'linear-gradient(160deg,#1A3A6B,#2E5FA0)',
-  environment:'linear-gradient(160deg,#083A08,#1A7A1A)',
-  health:'linear-gradient(160deg,#6B2E00,#C05A0A)',
-  economy:'linear-gradient(160deg,#0A3D1F,#1A7A3C)',
-  legal:'linear-gradient(160deg,#320A6B,#6A28C0)',
-  crime:'linear-gradient(160deg,#4A0A0A,#952020)',
-  politics:'linear-gradient(160deg,#0D3270,#1E5BB8)',
-  newengland:'linear-gradient(160deg,#1A3A1A,#2E6B2E)',
-  transportation:'linear-gradient(160deg,#1A2A4A,#2E4A7A)',
-  energy:'linear-gradient(160deg,#3A2800,#7A5800)',
+  education:'linear-gradient(160deg,#1A3A6B,#2E5FA0)',environment:'linear-gradient(160deg,#083A08,#1A7A1A)',
+  health:'linear-gradient(160deg,#6B2E00,#C05A0A)',economy:'linear-gradient(160deg,#0A3D1F,#1A7A3C)',
+  legal:'linear-gradient(160deg,#320A6B,#6A28C0)',crime:'linear-gradient(160deg,#4A0A0A,#952020)',
+  politics:'linear-gradient(160deg,#0D3270,#1E5BB8)',newengland:'linear-gradient(160deg,#1A3A1A,#2E6B2E)',
+  transportation:'linear-gradient(160deg,#1A2A4A,#2E4A7A)',energy:'linear-gradient(160deg,#3A2800,#7A5800)',
   publicsafety:'linear-gradient(160deg,#3A1A00,#8B3A00)'
 };
 function wordMatch(hay,kw){const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-zA-Z])'+esc+'(?![a-zA-Z])','i').test(hay)}
-function neInferTopic(s){
-  const text=[s.headline||'',(s.summary||'').split('\n\n')[0]].join(' ');
-  for(const rule of NE_TOPIC_RULES){if(rule.kws.some(kw=>wordMatch(text,kw)))return rule.topic}
-  return'newengland';
-}
+function neInferTopic(s){const text=[s.headline||'',(s.summary||'').split('\n\n')[0]].join(' ');for(const rule of NE_TOPIC_RULES){if(rule.kws.some(kw=>wordMatch(text,kw)))return rule.topic}return'newengland'}
 
-/* ── BACK LINK — preserved exactly ── */
 function resolveBackLink(){
   const ref=document.referrer;
-  if(ref){
-    try{
-      const u=new URL(ref);
-      if(u.hostname===window.location.hostname){
-        const pg=u.pathname.split('/').pop();
-        if(pg==='ne_index.html'||pg==='new-england.html')return{href:pg,label:'← New England News'};
-        if(pg==='news.html')return{href:'news.html',label:'← Archive'};
-        if(pg===''||pg==='index.html'||pg==='/')return{href:'index.html',label:'← Latest News'};
-        return{href:ref,label:'← Back'};
-      }
-    }catch(e){}
-  }
+  if(ref){try{const u=new URL(ref);if(u.hostname===window.location.hostname){const pg=u.pathname.split('/').pop();if(pg==='ne_index.html'||pg==='new-england.html')return{href:pg,label:'← New England News'};if(pg==='news.html')return{href:'news.html',label:'← Archive'};if(pg===''||pg==='index.html'||pg==='/')return{href:'index.html',label:'← Latest News'};return{href:ref,label:'← Back'}}}catch(e){}}
   return{href:'ne_index.html',label:'← New England News'};
 }
 
-/* ── AFFILIATE — NE-specific preserved ── */
+/* ── AFFILIATE ── */
 let _affiliateData=null,_keywordAffiliateData=null;
 async function loadAffiliateData(){if(_affiliateData)return _affiliateData;try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_affiliateData=await r.json()}catch(e){}return _affiliateData||{}}
 async function loadKeywordAffiliateData(){if(_keywordAffiliateData)return _keywordAffiliateData;try{const r=await fetch('/affiliate/keyword-affiliates.json');if(r.ok)_keywordAffiliateData=await r.json()}catch(e){}return _keywordAffiliateData||{rules:[]}}
-function findKeywordMatch(text,rules){
-  if(!text||!rules||!rules.length)return null;
-  let best=null,bestScore=0;
-  for(const rule of rules){const score=(rule.keywords||[]).filter(kw=>wordMatch(text,kw)).length;if(score>bestScore){bestScore=score;best=rule}}
-  return best;
-}
+function findKeywordMatch(text,rules){if(!text||!rules||!rules.length)return null;let best=null,bestScore=0;for(const rule of rules){const score=(rule.keywords||[]).filter(kw=>wordMatch(text,kw)).length;if(score>bestScore){bestScore=score;best=rule}}return best}
 function getRandomLink(item){return(item.links||[])[Math.floor(Math.random()*(item.links||[]).length)]||'#'}
 function pickItems(items,count){const must=items.filter(i=>i.must_show);const opt=[...items.filter(i=>!i.must_show)].sort(()=>0.5-Math.random());const pool=[...must,...opt];const seen=new Set();const result=[];for(const item of pool){if(!seen.has(item.title)&&result.length<count){seen.add(item.title);result.push(item)}}return result}
 function pickOneMobile(items){const must=items.filter(i=>i.must_show);const pool=must.length?must:items;return pool[Math.floor(Math.random()*pool.length)]}
@@ -273,86 +237,28 @@ function renderTileHTML(item){return'<a href="'+getRandomLink(item)+'" target="_
 function isNEItem(item){return(item.title||'').startsWith('NE')}
 function pickItemsNE(arr,n){const ne=arr.filter(isNEItem);const must=arr.filter(i=>!isNEItem(i)&&i.must_show);const opt=[...arr.filter(i=>!isNEItem(i)&&!i.must_show)].sort(()=>0.5-Math.random());const seen=new Set();const result=[];for(const item of[...ne,...must,...opt]){if(!seen.has(item.title)&&result.length<n){seen.add(item.title);result.push(item)}}return result}
 function pickOneMobileNE(arr){const ne=arr.filter(isNEItem);const must=arr.filter(i=>!isNEItem(i)&&i.must_show);const pool=ne.length?ne:must.length?must:arr;return pool[Math.floor(Math.random()*pool.length)]}
-
 const NSM_SUPPORT_MSGS=['Supports independent journalism','Helps keep NSM free','Curated by No Spin Media','Reader-supported journalism','Recommended by the NSM newsroom','Hand-picked by No Spin Media','Helps fund independent reporting','NSM reader recommendation'];
 function randSupport(){return NSM_SUPPORT_MSGS[Math.floor(Math.random()*NSM_SUPPORT_MSGS.length)]}
-
-function bookTileHTML(b){
-  const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
-  const sub=(b.subtitle||'').replace(/\\n/g,'<br>');
-  return'<a href="'+b.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-book" title="Recommended reading \u2014 supports NSM at no extra cost">'
-    +'<div class="book-card-wrap"><div class="book-spine" style="background:'+b.spine_color+';"></div><div class="book-pages"></div>'
-    +'<div class="book-cover" style="background:'+b.cover_color+';">'
-    +'<div class="book-cover-sheen"></div>'
-    +'<div class="book-cat" style="color:'+b.accent_color+';border-color:'+b.accent_color+';">'+b.category_label+'</div>'
-    +'<div class="book-title book-title-lg">'+tl+'</div>'
-    +'<div class="book-rule" style="background:'+b.accent_color+';"></div>'
-    +'<div class="book-sub book-sub-readable">'+sub+'</div>'
-    +'<div style="flex:1;"></div>'
-    +'<div class="book-brand book-brand-bottom">'
-    +'<div class="book-brand-rule" style="background:'+b.accent_color+';"></div>'
-    +'<div class="book-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div>'
-    +'<div class="book-brand-sub">'+randSupport()+'</div>'
-    +'</div></div></div></a>';
-}
-function gearTileHTML(g){
-  const tLen=(g.title||'').replace(/\\n/g,'').length;
-  const tSize=tLen<=6?38:tLen<=8?32:tLen<=10?28:tLen<=13?24:20;
-  const tl=(g.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
-  const sub=(g.subtitle||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
-  return'<a href="'+g.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-gear" title="Recommended gear \u2014 supports NSM at no extra cost">'
-    +'<div class="gear-card-wrap"><div class="gear-sheen"></div><div class="gear-inner-border"></div>'
-    +'<div class="gear-clip-t"></div><div class="gear-clip-b"></div><div class="gear-clip-l"></div><div class="gear-clip-r"></div>'
-    +'<div class="gear-content"><div class="gear-cat">'+(g.category_label||'')+'</div>'
-    +'<div class="gear-title" style="font-size:'+tSize+'px;">'+tl+'</div>'
-    +'<div class="gear-icon">'+(g.icon||'\u2699\uFE0F')+'</div>'
-    +'<div class="gear-rule"></div><div class="gear-sub">'+sub+'</div></div>'
-    +'<div class="gear-brand gear-brand-bottom"><div class="gear-brand-rule"></div>'
-    +'<div class="gear-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div>'
-    +'<div class="gear-brand-sub">'+randSupport()+'</div>'
-    +'</div></div></a>';
-}
-
+function bookTileHTML(b){const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');const sub=(b.subtitle||'').replace(/\\n/g,'<br>');return'<a href="'+b.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-book" title="Recommended reading \u2014 supports NSM at no extra cost"><div class="book-card-wrap"><div class="book-spine" style="background:'+b.spine_color+';"></div><div class="book-pages"></div><div class="book-cover" style="background:'+b.cover_color+';"><div class="book-cover-sheen"></div><div class="book-cat" style="color:'+b.accent_color+';border-color:'+b.accent_color+';">'+b.category_label+'</div><div class="book-title book-title-lg">'+tl+'</div><div class="book-rule" style="background:'+b.accent_color+';"></div><div class="book-sub book-sub-readable">'+sub+'</div><div style="flex:1;"></div><div class="book-brand book-brand-bottom"><div class="book-brand-rule" style="background:'+b.accent_color+';"></div><div class="book-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div><div class="book-brand-sub">'+randSupport()+'</div></div></div></div></a>'}
+function gearTileHTML(g){const tLen=(g.title||'').replace(/\\n/g,'').length;const tSize=tLen<=6?38:tLen<=8?32:tLen<=10?28:tLen<=13?24:20;const tl=(g.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');const sub=(g.subtitle||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');return'<a href="'+g.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-gear" title="Recommended gear \u2014 supports NSM at no extra cost"><div class="gear-card-wrap"><div class="gear-sheen"></div><div class="gear-inner-border"></div><div class="gear-clip-t"></div><div class="gear-clip-b"></div><div class="gear-clip-l"></div><div class="gear-clip-r"></div><div class="gear-content"><div class="gear-cat">'+(g.category_label||'')+'</div><div class="gear-title" style="font-size:'+tSize+'px;">'+tl+'</div><div class="gear-icon">'+(g.icon||'\u2699\uFE0F')+'</div><div class="gear-rule"></div><div class="gear-sub">'+sub+'</div></div><div class="gear-brand gear-brand-bottom"><div class="gear-brand-rule"></div><div class="gear-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div><div class="gear-brand-sub">'+randSupport()+'</div></div></div></a>'}
 async function loadAllAffiliateTiles(matchedRule){
-  const data=await loadAffiliateData();
-  const bookItems=data.books?.items||[];
-  const gearItems=data.gear?.items||[];
+  const data=await loadAffiliateData();const bookItems=data.books?.items||[];const gearItems=data.gear?.items||[];
   const bookEl=document.getElementById('book-tiles');
-  if(bookEl){
-    let html='';
-    if(matchedRule?.books)html+='<div style="margin-bottom:12px;">'+bookTileHTML(matchedRule.books)+'</div>';
-    pickItemsNE(bookItems,matchedRule?.books?2:3).forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderTileHTML(item)+'</div>'});
-    bookEl.innerHTML=html;
-  }
+  if(bookEl){let html='';if(matchedRule?.books)html+='<div style="margin-bottom:12px;">'+bookTileHTML(matchedRule.books)+'</div>';pickItemsNE(bookItems,matchedRule?.books?2:3).forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderTileHTML(item)+'</div>'});bookEl.innerHTML=html}
   const gearEl=document.getElementById('gear-tiles');
-  if(gearEl){
-    let html='';
-    if(matchedRule?.gear)html+='<div style="margin-bottom:12px;">'+gearTileHTML(matchedRule.gear)+'</div>';
-    pickItemsNE(gearItems,matchedRule?.gear?2:3).forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderTileHTML(item)+'</div>'});
-    gearEl.innerHTML=html;
-  }
+  if(gearEl){let html='';if(matchedRule?.gear)html+='<div style="margin-bottom:12px;">'+gearTileHTML(matchedRule.gear)+'</div>';pickItemsNE(gearItems,matchedRule?.gear?2:3).forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderTileHTML(item)+'</div>'});gearEl.innerHTML=html}
   let bHTML='',gHTML='';
-  if(matchedRule?.books){bHTML='<div style="border-radius:8px;overflow:hidden;">'+bookTileHTML(matchedRule.books)+'</div>'}
+  if(matchedRule?.books)bHTML='<div style="border-radius:8px;overflow:hidden;">'+bookTileHTML(matchedRule.books)+'</div>';
   else{const mb=pickOneMobileNE(bookItems);if(mb)bHTML='<a href="'+getRandomLink(mb)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+mb.image+'" alt="'+mb.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>'}
-  if(matchedRule?.gear){gHTML='<div style="border-radius:8px;overflow:hidden;">'+gearTileHTML(matchedRule.gear)+'</div>'}
+  if(matchedRule?.gear)gHTML='<div style="border-radius:8px;overflow:hidden;">'+gearTileHTML(matchedRule.gear)+'</div>';
   else{const mg=pickOneMobileNE(gearItems);if(mg)gHTML='<a href="'+getRandomLink(mg)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+mg.image+'" alt="'+mg.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>'}
-  window.mobileAffiliateHTML='<div class="mobile-aff-insert">'
-    +'<div class="mobile-aff-label">\uD83E\uDDED NSM Picks</div>'
-    +'<div class="mobile-aff-grid">'+bHTML+gHTML+'</div>'
-    +'<div class="mobile-aff-disc">Selecting an item supports independent journalism at no extra cost.</div>'
-    +'</div>';
+  window.mobileAffiliateHTML='<div class="mobile-aff-insert"><div class="mobile-aff-label">\uD83E\uDDED NSM Picks</div><div class="mobile-aff-grid">'+bHTML+gHTML+'</div><div class="mobile-aff-disc">Selecting an item supports independent journalism at no extra cost.</div></div>';
 }
 
 /* ── IMAGE RESOLUTION ── */
 let _imgRulesCache=null;
 async function resolveStoryImage(storyId){for(const ext of['webp','jpg','png']){try{const r=await fetch('/images/news/'+storyId+'.'+ext,{method:'HEAD'});if(r.ok)return'/images/news/'+storyId+'.'+ext}catch(e){}}return null}
-async function resolveFallbackImage(headline){
-  try{
-    if(!_imgRulesCache){const r=await fetch('/images/news/image-rules.json');if(r.ok)_imgRulesCache=await r.json()}
-    if(_imgRulesCache){const h=(headline||'').toLowerCase();for(const rule of(_imgRulesCache.keywords||[])){if(rule.match.some(kw=>{const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-z])'+esc+'(?![a-z])','i').test(h)}))return'/images/news/'+rule.image}}
-  }catch(e){}
-  return null;
-}
+async function resolveFallbackImage(headline){try{if(!_imgRulesCache){const r=await fetch('/images/news/image-rules.json');if(r.ok)_imgRulesCache=await r.json()}if(_imgRulesCache){const h=(headline||'').toLowerCase();for(const rule of(_imgRulesCache.keywords||[])){if(rule.match.some(kw=>{const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-z])'+esc+'(?![a-z])','i').test(h)}))return'/images/news/'+rule.image}}}catch(e){}return null}
 async function fetchImageMeta(p){try{const r=await fetch(p.replace(/\.[^.]+$/,'.json'));if(r.ok)return await r.json()}catch(e){}return null}
 async function getStoryImage(id,headline){const si=await resolveStoryImage(id);if(si)return{url:si,meta:await fetchImageMeta(si)};const fi=await resolveFallbackImage(headline);if(fi)return{url:fi,meta:await fetchImageMeta(fi)};return null}
 
@@ -367,20 +273,17 @@ const REACTIONS=[
 
 async function loadReactions(storyId){
   try{
-    const res=await fetch(SB_REACTIONS+'?story_id=eq.'+storyId+'&select=helpful,thinking,surprised,concerning,important,story_page_reactions,summary_page_reactions',{headers:{apikey:SB_KEY}});
-    const data=await res.json();
-    return(data&&data[0])?data[0]:null;
+    const res=await fetch(SB_REACTIONS+'?story_id=eq.'+storyId+'&select=helpful,thinking,surprised,concerning,important,story_page_reactions,summary_page_reactions,reddit_seed,reddit_comments',{headers:{apikey:SB_KEY}});
+    const data=await res.json();return(data&&data[0])?data[0]:null;
   }catch(e){return null}
 }
 
-async function upsertReaction(storyId,field,delta){
+async function upsertReaction(storyId,field,delta,source){
   const cur=await loadReactions(storyId);
-  const current=cur?(cur[field]||0):0;
-  const newVal=Math.max(0,current+delta);
-  const payload={story_id:storyId,helpful:0,thinking:0,surprised:0,concerning:0,important:0,story_page_reactions:0,summary_page_reactions:0};
-  if(cur)Object.assign(payload,cur);
-  payload[field]=newVal;
-  payload.story_page_reactions=Math.max(0,(payload.story_page_reactions||0)+delta);
+  const current=cur?(cur[field]||0):0;const newVal=Math.max(0,current+delta);
+  const payload={story_id:storyId,helpful:0,thinking:0,surprised:0,concerning:0,important:0,story_page_reactions:0,summary_page_reactions:0,reddit_seed:0,reddit_comments:0};
+  if(cur)Object.assign(payload,cur);payload[field]=newVal;
+  if(source==='story')payload.story_page_reactions=Math.max(0,(payload.story_page_reactions||0)+delta);
   const res=await fetch(SB_REACTIONS,{method:'POST',headers:{apikey:SB_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},body:JSON.stringify(payload)});
   if(!res.ok)throw new Error('Supabase write failed: '+res.status);
   return newVal;
@@ -389,9 +292,31 @@ async function upsertReaction(storyId,field,delta){
 function getStoredReaction(storyId){return localStorage.getItem('reaction_'+storyId)||null}
 function setStoredReaction(storyId,key){if(key)localStorage.setItem('reaction_'+storyId,key);else localStorage.removeItem('reaction_'+storyId)}
 
-function reactionsHTML(storyId,totals,selected){
+/* ── REDDIT DISPLAY (merged into reactions grid) ── */
+function commentsItemHTML(totals,redditLink){
+  const comments=(totals&&totals.reddit_comments)||0;
+  if(comments===0)return'';
+  const divider='<span class="reaction-grid-divider"></span>';
+  return divider+(redditLink
+    ?'<a href="'+redditLink+'" target="_blank" rel="noopener" class="reaction-btn reddit-comment-link" id="reddit-comment-btn" title="Join discussion on Reddit">'
+      +'<span class="reaction-emoji">💬</span><span class="reaction-count" id="reddit-comment-count">'+comments+'</span></a>'
+    :'<span class="reaction-btn reddit-static" id="reddit-comment-btn">'
+      +'<span class="reaction-emoji">💬</span><span class="reaction-count" id="reddit-comment-count">'+comments+'</span></span>');
+}
+
+function updateRedditDisplay(seed,comments,helpful){
+  const helpfulBtn=document.querySelector('.reaction-btn[data-key="helpful"] .reaction-count');
+  if(helpfulBtn)helpfulBtn.textContent=((helpful||0)+(seed||0))||'';
+  const cmEl=document.getElementById('reddit-comment-count');
+  if(cmEl)cmEl.textContent=(comments||0)>0?(comments||0):'';
+}
+
+function reactionsHTML(storyId,totals,selected,redditLink){
+  window._redditSeed=(totals&&totals.reddit_seed)||0;
+  const cmHTML=commentsItemHTML(totals,redditLink);
   const items=REACTIONS.map(r=>{
-    const count=totals?(totals[r.key]||0):0;
+    let count=totals?(totals[r.key]||0):0;
+    if(r.key==='helpful')count=count+(window._redditSeed||0);
     const isSel=selected===r.key;
     return'<button class="reaction-btn'+(isSel?' selected':'')+'" data-key="'+r.key+'" title="'+r.label+'" aria-label="'+r.label+'" onclick="handleReaction(\''+storyId+'\',\''+r.key+'\')">'
       +'<span class="reaction-emoji">'+r.emoji+'</span>'
@@ -400,204 +325,146 @@ function reactionsHTML(storyId,totals,selected){
   }).join('');
   return'<div class="reactions-card">'
     +'<div class="reactions-label">\uD83E\uDDED HOW NSM READERS REACTED TO THIS STORY</div>'
-    +'<div class="reactions-grid" id="reactions-grid">'+items+'</div>'
+    +'<div class="reactions-grid" id="reactions-grid">'+items+cmHTML+'</div>'
     +'</div>';
 }
 
 async function handleReaction(storyId,key){
-  const prev=getStoredReaction(storyId);
-  const isSame=prev===key;
-  const grid=document.getElementById('reactions-grid');
-  if(!grid)return;
+  const prev=getStoredReaction(storyId);const isSame=prev===key;
+  const grid=document.getElementById('reactions-grid');if(!grid)return;
   const snapshot={};
-  grid.querySelectorAll('.reaction-btn').forEach(btn=>{snapshot[btn.dataset.key]={count:parseInt(btn.querySelector('.reaction-count').textContent)||0,selected:btn.classList.contains('selected')}});
-  const deltas={};
-  if(isSame){deltas[key]=-1}else{if(prev)deltas[prev]=-1;deltas[key]=1}
-  grid.querySelectorAll('.reaction-btn').forEach(btn=>{
-    const k=btn.dataset.key;
-    const countEl=btn.querySelector('.reaction-count');
-    const cur=parseInt(countEl.textContent)||0;
+  grid.querySelectorAll('.reaction-btn[data-key]').forEach(btn=>{snapshot[btn.dataset.key]={count:parseInt(btn.querySelector('.reaction-count').textContent)||0,selected:btn.classList.contains('selected')}});
+  const deltas={};if(isSame){deltas[key]=-1}else{if(prev)deltas[prev]=-1;deltas[key]=1}
+  grid.querySelectorAll('.reaction-btn[data-key]').forEach(btn=>{
+    const k=btn.dataset.key;const countEl=btn.querySelector('.reaction-count');const cur=parseInt(countEl.textContent)||0;
     if(deltas[k]){const next=Math.max(0,cur+deltas[k]);countEl.textContent=next>0?next:''}
-    if(isSame){btn.classList.remove('selected')}else{btn.classList.toggle('selected',k===key)}
+    if(isSame)btn.classList.remove('selected');else btn.classList.toggle('selected',k===key);
   });
   setStoredReaction(storyId,isSame?null:key);
   try{
-    if(isSame){await upsertReaction(storyId,key,-1)}
-    else{if(prev)await upsertReaction(storyId,prev,-1);await upsertReaction(storyId,key,1)}
+    if(isSame)await upsertReaction(storyId,key,-1,'story');
+    else{if(prev)await upsertReaction(storyId,prev,-1,'story');await upsertReaction(storyId,key,1,'story')}
+    const fresh=await loadReactions(storyId);
+    if(fresh)updateRedditDisplay(fresh.reddit_seed,fresh.reddit_comments,fresh.helpful);
   }catch(e){
-    grid.querySelectorAll('.reaction-btn').forEach(btn=>{
-      const k=btn.dataset.key;
-      btn.querySelector('.reaction-count').textContent=snapshot[k].count>0?snapshot[k].count:'';
-      btn.classList.toggle('selected',snapshot[k].selected);
-    });
+    grid.querySelectorAll('.reaction-btn[data-key]').forEach(btn=>{const k=btn.dataset.key;const countEl=btn.querySelector('.reaction-count');countEl.textContent=snapshot[k].count>0?snapshot[k].count:'';btn.classList.toggle('selected',snapshot[k].selected)});
     setStoredReaction(storyId,prev);
   }
 }
 
-/* ── SHARE ── */
-function _copyToClipboard(text,msg){
-  const fb=document.getElementById('share-feedback');
-  const done=()=>{if(fb){fb.textContent=msg;setTimeout(()=>fb.textContent='',2500)}};
-  navigator.clipboard.writeText(text).then(done).catch(()=>{
-    const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:0;left:-9999px';
-    document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();
-  });
-}
-function _closeShare(){const w=document.getElementById('share-wrap');if(w)w.classList.remove('open')}
-function toggleShareMenu(){
-  const w=document.getElementById('share-wrap');w.classList.toggle('open');
-  if(w.classList.contains('open')){
-    setTimeout(()=>{document.addEventListener('click',function h(e){if(!w.contains(e.target)){w.classList.remove('open');document.removeEventListener('click',h)}})},0);
-  }
-}
-function copyLinkOnly(){_closeShare();_copyToClipboard(window._storyUrl||location.href,'\u2705 Link copied!')}
-function copyWithTitle(){
-  _closeShare();
-  const hl=(window._storyHeadline||'').replace(/\n/g,': ').trim();
-  _copyToClipboard(hl+'\n'+(window._storyUrl||location.href),'\u2705 Copied with headline!');
-}
-function copyWithSummary(){
-  _closeShare();
-  const s=window._storyData||{};
-  const opts=[s.social_bluesky,s.social_threads,s.social_facebook].filter(x=>x&&x.trim().length>20);
-  /* NE stories may not have social fields — fall back to first para of summary */
-  const summary=opts.length
-    ?opts[Math.floor(Math.random()*opts.length)]
-    :(s.summary||'').split('\n\n')[0].replace(/\\n/g,' ').replace(/\*\*(.*?)\*\*/g,'$1').substring(0,280);
-  _copyToClipboard(summary.trim()+'\n\n'+(window._storyUrl||location.href),'\u2705 Copied with summary!');
-}
-function nativeShare(){
-  if(navigator.share){navigator.share({title:window._storyHeadline||'No Spin Media',url:window._storyUrl||location.href}).catch(()=>{})}
-  else copyLinkOnly();
+/* ══════════════════════════════════════════
+   ── REDDIT ADMIN PANEL ──
+   Trigger: footer 🧭 click
+   ══════════════════════════════════════════ */
+function parseRedditPaste(raw){
+  if(!raw||!raw.trim())return null;
+  const nums=raw.match(/\d+/g);if(!nums||!nums.length)return null;
+  return{seed:parseInt(nums[0])||0,comments:nums.length>=2?parseInt(nums[1])||0:0};
 }
 
-/* ── MARKDOWN ── */
-function convertMarkdown(text){
-  if(!text)return'';
-  text=text.replace(/\\n\\n/g,'\n\n').replace(/\\n/g,'\n');
-  text=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
-  text=text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,'<em>$1</em>');
-  return text;
+async function saveRedditStats(){
+  const storyId=new URLSearchParams(location.search).get('story');if(!storyId)return;
+  const textarea=document.getElementById('reddit-paste-input');
+  const statusEl=document.getElementById('radmin-status');
+  const saveBtn=document.getElementById('radmin-save-btn');
+  const parsed=parseRedditPaste(textarea.value);
+  if(!parsed){statusEl.className='radmin-status err';statusEl.textContent='No numbers found — check paste';return}
+  saveBtn.disabled=true;statusEl.className='radmin-status';statusEl.textContent='Saving…';
+  try{
+    const cur=await loadReactions(storyId);
+    const payload={story_id:storyId,helpful:0,thinking:0,surprised:0,concerning:0,important:0,story_page_reactions:0,summary_page_reactions:0,reddit_seed:0,reddit_comments:0};
+    if(cur)Object.assign(payload,cur);
+    payload.reddit_seed=parsed.seed;payload.reddit_comments=parsed.comments;
+    const res=await fetch(SB_REACTIONS,{method:'POST',headers:{apikey:SB_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},body:JSON.stringify(payload)});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    updateRedditDisplay(parsed.seed,parsed.comments,payload.helpful);
+    statusEl.className='radmin-status ok';
+    statusEl.textContent='✅ Saved — 👍 '+(payload.helpful+parsed.seed)+' 💬 '+parsed.comments;
+    updateAdminPreview();
+  }catch(e){statusEl.className='radmin-status err';statusEl.textContent='Error: '+e.message}
+  finally{saveBtn.disabled=false}
 }
+
+function updateAdminPreview(){
+  const textarea=document.getElementById('reddit-paste-input');const previewEl=document.getElementById('radmin-preview');
+  if(!textarea||!previewEl)return;
+  const parsed=parseRedditPaste(textarea.value);
+  if(!parsed){previewEl.innerHTML='<span style="color:#bbb;">Paste Reddit stats above</span>';return}
+  previewEl.innerHTML='reddit_seed = <span>'+parsed.seed+'</span> &nbsp;·&nbsp; reddit_comments = <span>'+parsed.comments+'</span>';
+}
+
+function showAdminPanel(){const panel=document.getElementById('reddit-admin-panel');if(!panel)return;panel.classList.add('open');setTimeout(()=>{const t=document.getElementById('reddit-paste-input');if(t)t.focus()},50)}
+function hideAdminPanel(){const panel=document.getElementById('reddit-admin-panel');if(panel)panel.classList.remove('open');const s=document.getElementById('radmin-status');if(s)s.textContent=''}
+function toggleAdminPanel(){const panel=document.getElementById('reddit-admin-panel');if(panel&&panel.classList.contains('open'))hideAdminPanel();else showAdminPanel()}
+
+/* ── SHARE ── */
+function _copyToClipboard(text,msg){const fb=document.getElementById('share-feedback');const done=()=>{if(fb){fb.textContent=msg;setTimeout(()=>fb.textContent='',2500)}};navigator.clipboard.writeText(text).then(done).catch(()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:0;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done()})}
+function _closeShare(){const w=document.getElementById('share-wrap');if(w)w.classList.remove('open')}
+function toggleShareMenu(){const w=document.getElementById('share-wrap');w.classList.toggle('open');if(w.classList.contains('open')){setTimeout(()=>{document.addEventListener('click',function h(e){if(!w.contains(e.target)){w.classList.remove('open');document.removeEventListener('click',h)}})},0)}}
+function copyLinkOnly(){_closeShare();_copyToClipboard(window._storyUrl||location.href,'\u2705 Link copied!')}
+function copyWithTitle(){_closeShare();const hl=(window._storyHeadline||'').replace(/\n/g,': ').trim();_copyToClipboard(hl+'\n'+(window._storyUrl||location.href),'\u2705 Copied with headline!')}
+function copyWithSummary(){_closeShare();const s=window._storyData||{};const opts=[s.social_bluesky,s.social_threads,s.social_facebook].filter(x=>x&&x.trim().length>20);const summary=opts.length?opts[Math.floor(Math.random()*opts.length)]:(s.summary||'').split('\n\n')[0].replace(/\\n/g,' ').replace(/\*\*(.*?)\*\*/g,'$1').substring(0,280);_copyToClipboard(summary.trim()+'\n\n'+(window._storyUrl||location.href),'\u2705 Copied with summary!')}
+function nativeShare(){if(navigator.share)navigator.share({title:window._storyHeadline||'No Spin Media',url:window._storyUrl||location.href}).catch(()=>{});else copyLinkOnly()}
+
+function convertMarkdown(text){if(!text)return'';text=text.replace(/\\n\\n/g,'\n\n').replace(/\\n/g,'\n');text=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');text=text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,'<em>$1</em>');return text}
 
 /* ── MAIN STORY LOADER ── */
 async function loadStory(){
   const storyId=new URLSearchParams(location.search).get('story');
   if(!storyId){document.getElementById('story-container').innerHTML='<p style="padding:2rem;color:#999;">Story not found.</p>';return}
-
   const res=await fetch('https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_ne?select=*&url=eq.'+storyId,{headers:{apikey:SB_KEY}});
   const data=await res.json();
   if(!data.length){document.getElementById('story-container').innerHTML='<p style="padding:2rem;color:#999;">Story not found.</p>';return}
   const s=data[0];
-
-  /* Store for share functions */
   window._storyData=s;
-
-  s._topic=neInferTopic(s);
-  const topic=s._topic;
-
-  /* Affiliate tiles + reactions in parallel */
+  s._topic=neInferTopic(s);const topic=s._topic;
   const kwData=await loadKeywordAffiliateData();
   const matchedRule=findKeywordMatch([s.headline||'',s.summary||''].join(' '),kwData.rules||[]);
-  const [,reactTotals]=await Promise.all([
-    loadAllAffiliateTiles(matchedRule),
-    loadReactions(storyId)
-  ]);
+  const [,reactTotals]=await Promise.all([loadAllAffiliateTiles(matchedRule),loadReactions(storyId)]);
   const storedReaction=getStoredReaction(storyId);
-
-  /* Update meta tags */
   document.querySelector('meta[property="og:title"]').setAttribute('content',(s.headline||'').replace('\n',' '));
   document.querySelector('meta[property="og:description"]').setAttribute('content',(s.summary||'').substring(0,180));
   document.querySelector('meta[property="og:url"]').setAttribute('content',location.href);
   document.querySelector('meta[name="twitter:title"]').setAttribute('content',(s.headline||'').replace('\n',' '));
   document.querySelector('meta[name="twitter:description"]').setAttribute('content',(s.summary||'').substring(0,180));
-
   window._storyHeadline=s.headline;
   window._storyUrl=location.origin+'/ne_story.html?story='+storyId;
-
-  /* Parse headline */
-  const hl=(s.headline||'').trim();
-  const nl=hl.indexOf('\n');
-  const line1=nl>-1?hl.substring(0,nl).trim():hl;
-  const line2=nl>-1?hl.substring(nl+1).trim():'';
-
-  /* Topic */
+  const hl=(s.headline||'').trim();const nl=hl.indexOf('\n');
+  const line1=nl>-1?hl.substring(0,nl).trim():hl;const line2=nl>-1?hl.substring(nl+1).trim():'';
   const topicBg=NE_TOPIC_BG[topic]||NE_TOPIC_BG.newengland;
   const topicLabel=NE_TOPIC_LABELS[topic]||'New England';
   const pillCls='story-pill tp-'+(topic||'newengland');
-
-  /* Image */
   const imgResult=await getStoryImage(storyId,s.headline);
-  let heroBgStyle=imgResult
-    ?'background-image:url(\''+imgResult.url+'\');background-size:cover;background-position:center;'
-    :'background:'+topicBg+';';
-
+  let heroBgStyle=imgResult?'background-image:url(\''+imgResult.url+'\');background-size:cover;background-position:center;':'background:'+topicBg+';';
   let captionHTML='';
-  if(imgResult){
-    const meta=imgResult.meta;
-    let cap='',cred='';
-    if(meta){cap=meta.caption||'';cred=meta.credit||''}
-    else if(s.image_caption){const pts=s.image_caption.split(/\nCredit:/i);cap=pts[0].trim();if(pts[1])cred=pts[1].trim()}
-    if(cap||cred)captionHTML='<div class="story-img-caption">'+cap+(cred?'<span class="story-img-credit">Credit: '+cred+'</span>':'')+'</div>';
-  }
-
-  /* Date */
-  function timeSince(ds){
-    if(!ds)return'';const d=new Date(ds);if(isNaN(d))return'';
-    const m=Math.floor((Date.now()-d)/60000);
-    if(m<2)return'Just now';if(m<60)return m+'m ago';if(m<1440)return Math.floor(m/60)+'h ago';
-    if(m<2880)return'Yesterday';if(m<10080)return Math.floor(m/1440)+'d ago';
-    return d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-  }
+  if(imgResult){const meta=imgResult.meta;let cap='',cred='';if(meta){cap=meta.caption||'';cred=meta.credit||''}else if(s.image_caption){const pts=s.image_caption.split(/\nCredit:/i);cap=pts[0].trim();if(pts[1])cred=pts[1].trim()}if(cap||cred)captionHTML='<div class="story-img-caption">'+cap+(cred?'<span class="story-img-credit">Credit: '+cred+'</span>':'')+'</div>'}
+  function timeSince(ds){if(!ds)return'';const d=new Date(ds);if(isNaN(d))return'';const m=Math.floor((Date.now()-d)/60000);if(m<2)return'Just now';if(m<60)return m+'m ago';if(m<1440)return Math.floor(m/60)+'h ago';if(m<2880)return'Yesterday';if(m<10080)return Math.floor(m/1440)+'d ago';return d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}
   const dateStr=timeSince(s.posted_at);
-
-  /* Body */
-  const cleanText=convertMarkdown(s.summary||'');
-  const paras=cleanText.split('\n\n');
+  const cleanText=convertMarkdown(s.summary||'');const paras=cleanText.split('\n\n');
   let bodyParas=[],discussionQ='';
-  for(const p of paras){
-    if(p.trim().endsWith('?')&&paras.indexOf(p)===paras.length-1){discussionQ=p.trim()}
-    else bodyParas.push(p);
-  }
+  for(const p of paras){if(p.trim().endsWith('?')&&paras.indexOf(p)===paras.length-1)discussionQ=p.trim();else bodyParas.push(p)}
   const bodyHTML=bodyParas.map(p=>'<p>'+p+'</p>').join('');
-
-  /* Reddit */
   let redditLink='';
-  if(s.reddit_post_id){
-    try{const parsed=JSON.parse(s.reddit_post_id);if(parsed.jquery?.[10]?.[3]?.[0])redditLink=parsed.jquery[10][3][0]}
-    catch(e){console.warn('Reddit parse failed')}
-  }
-
+  if(s.reddit_post_id){try{const parsed=JSON.parse(s.reddit_post_id);if(parsed.jquery?.[10]?.[3]?.[0])redditLink=parsed.jquery[10][3][0]}catch(e){console.warn('Reddit parse failed')}}
   const back=resolveBackLink();
-
   document.getElementById('story-container').innerHTML=
     '<a href="'+back.href+'" class="back-link">\u2190 '+back.label+'</a>'
-
     +'<div class="story-header">'
     +'<div class="story-hero-img" style="background:'+topicBg+';">'
     +'<div class="story-hero-bg" style="'+heroBgStyle+'"></div>'
     +'<div class="story-hero-scrim"></div>'
     +'<div class="story-hero-content">'
     +'<span class="story-topic-pill">'+topicLabel+'</span><br>'
-    +'<span class="story-hl-line1">'+line1+'</span>'
-    +(line2?'<span class="story-hl-line2">'+line2+'</span>':'')
+    +'<span class="story-hl-line1">'+line1+'</span>'+(line2?'<span class="story-hl-line2">'+line2+'</span>':'')
     +'</div></div>'
     +captionHTML
-    +'<div class="story-meta-row">'
-    +'<div class="story-meta-left">'
-    +'<span class="'+pillCls+'">'+topicLabel+'</span>'
-    +(dateStr?'<span class="story-date">'+dateStr+'</span>':'')
-    +'</div>'
-    +'</div>'
-    +'</div>'
-
-    +'<div class="story-body-card">'
-    +'<div class="story-content">'+bodyHTML+'</div>'
+    +'<div class="story-meta-row"><div class="story-meta-left">'
+    +'<span class="'+pillCls+'">'+topicLabel+'</span>'+(dateStr?'<span class="story-date">'+dateStr+'</span>':'')
+    +'</div></div></div>'
+    +'<div class="story-body-card"><div class="story-content">'+bodyHTML+'</div>'
     +(discussionQ?'<div class="discussion-label">Community Discussion</div><div class="story-discussion">\uD83D\uDCAC '+discussionQ+'</div>':'')
     +'</div>'
-
-    +reactionsHTML(storyId,reactTotals,storedReaction)
-
+    +reactionsHTML(storyId,reactTotals,storedReaction,redditLink)
     +'<div class="story-actions-card">'
     +(redditLink?'<a href="'+redditLink+'" target="_blank" rel="noopener" class="action-btn action-btn-reddit">Join the discussion on Reddit \u2192</a>':'')
     +'<a href="https://reddit.com/r/NewEnglandContext" target="_blank" rel="noopener" class="action-btn action-btn-secondary">r/NewEnglandContext</a>'
@@ -611,22 +478,25 @@ async function loadStory(){
     +'</div></div>'
     +'<span class="share-feedback" id="share-feedback"></span>'
     +'</div>';
-
-  if(window.innerWidth<=900&&window.mobileAffiliateHTML){
-    const div=document.createElement('div');div.innerHTML=window.mobileAffiliateHTML;
-    document.getElementById('story-container').appendChild(div.firstElementChild);
-  }
+  if(window.innerWidth<=900&&window.mobileAffiliateHTML){const div=document.createElement('div');div.innerHTML=window.mobileAffiliateHTML;document.getElementById('story-container').appendChild(div.firstElementChild)}
 }
 
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded',()=>{
+  document.body.insertAdjacentHTML('beforeend',
+    '<div id="reddit-admin-panel">'
+    +'<div class="radmin-header"><span class="radmin-title">📋 Reddit Stats</span><button class="radmin-close" onclick="hideAdminPanel()" title="Close">✕</button></div>'
+    +'<label class="radmin-label" for="reddit-paste-input">Paste Reddit mobile snippet:</label>'
+    +'<textarea id="reddit-paste-input" placeholder="Upvote 26\nDownvote 9\nGo to comments" oninput="updateAdminPreview()"></textarea>'
+    +'<div class="radmin-preview" id="radmin-preview"><span style="color:#bbb;">Paste Reddit stats above</span></div>'
+    +'<div class="radmin-actions"><button class="radmin-save" id="radmin-save-btn" onclick="saveRedditStats()">Save</button><span class="radmin-status" id="radmin-status"></span></div>'
+    +'<div class="radmin-hint">Click 🧭 in footer &nbsp;·&nbsp; Overwrites existing values</div>'
+    +'</div>'
+  );
   fetch('header.html').then(r=>r.text()).then(html=>{
     document.getElementById('site-header').innerHTML=html;
     const ham=document.getElementById('hamburger'),nav=document.getElementById('mobile-nav');
-    if(ham&&nav){
-      ham.onclick=()=>{nav.classList.toggle('open');ham.classList.toggle('active')};
-      nav.querySelectorAll('a').forEach(a=>{a.onclick=()=>{nav.classList.remove('open');ham.classList.remove('active')}});
-    }
+    if(ham&&nav){ham.onclick=()=>{nav.classList.toggle('open');ham.classList.toggle('active')};nav.querySelectorAll('a').forEach(a=>{a.onclick=()=>{nav.classList.remove('open');ham.classList.remove('active')}})}
     loadStory();
   });
 });
@@ -650,7 +520,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   </div>
 </div>
 <footer>
-  &copy; 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
+  &copy; 2026 <span id="footer-compass" onclick="toggleAdminPanel()" style="cursor:default;user-select:none;">🧭</span> No Spin Media. Independent. Truth-focused.<br>
   <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
 </footer>
 </body>
