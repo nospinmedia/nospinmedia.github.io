@@ -90,16 +90,20 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 /* ── REDDIT ADMIN PANEL ── */
 #reddit-admin-panel{display:none;position:fixed;bottom:24px;right:24px;z-index:9000;width:300px;background:var(--surface);border:1.5px solid #d0d0cc;border-radius:var(--r);box-shadow:0 8px 32px rgba(0,0,0,.18);padding:14px 16px 16px;font-family:var(--font-b)}
 #reddit-admin-panel.open{display:block}
-.radmin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.radmin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
 .radmin-title{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed)}
 .radmin-close{background:none;border:none;cursor:pointer;font-size:1rem;color:var(--dimmed);line-height:1;padding:2px 4px;border-radius:4px}
 .radmin-close:hover{background:var(--surface2);color:var(--text)}
-.radmin-label{font-size:.75rem;font-weight:600;color:var(--muted);margin-bottom:5px;display:block}
-#reddit-paste-input{width:100%;height:72px;resize:vertical;font-family:var(--font-b);font-size:.82rem;border:1px solid var(--border);border-radius:7px;padding:8px 10px;color:var(--text);background:var(--surface2);line-height:1.5;outline:none}
-#reddit-paste-input:focus{border-color:var(--blue);background:#fff}
-.radmin-preview{margin-top:8px;font-size:.75rem;color:var(--muted);min-height:18px;padding:5px 8px;background:var(--surface2);border-radius:6px;border:1px solid var(--border)}
-.radmin-preview span{font-weight:700;color:var(--text)}
-.radmin-actions{display:flex;gap:8px;margin-top:10px;align-items:center}
+/* last-updated line */
+.radmin-updated{font-size:.67rem;color:#bbb;margin-bottom:10px;min-height:14px;line-height:1.4}
+.radmin-updated span{font-weight:600;color:#999}
+/* two-field row */
+.radmin-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.radmin-field label{font-size:.72rem;font-weight:700;color:var(--muted);display:block;margin-bottom:4px}
+.radmin-field input{width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-family:var(--font-b);font-size:.9rem;color:var(--text);background:var(--surface2);outline:none;text-align:center}
+.radmin-field input:focus{border-color:var(--blue);background:#fff}
+.radmin-field input::placeholder{color:#ccc}
+.radmin-actions{display:flex;gap:8px;align-items:center}
 .radmin-save{flex:1;padding:7px 0;border-radius:20px;border:none;background:var(--blue);color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;font-family:var(--font-b);transition:background .15s}
 .radmin-save:hover{background:#0055BB}
 .radmin-save:disabled{background:#aaa;cursor:default}
@@ -268,7 +272,7 @@ function convertMarkdown(text){if(!text)return'';text=text.replace(/\\n\\n/g,'\n
 /* ── REACTIONS ── */
 async function loadReactions(storyId){
   try{
-    const res=await fetch(SB_REACTIONS+'?story_id=eq.'+storyId+'&select=helpful,thinking,surprised,concerning,important,story_page_reactions,summary_page_reactions,reddit_seed,reddit_comments',{headers:{apikey:SB_KEY}});
+    const res=await fetch(SB_REACTIONS+'?story_id=eq.'+storyId+'&select=helpful,thinking,surprised,concerning,important,story_page_reactions,summary_page_reactions,reddit_seed,reddit_comments,updated_at',{headers:{apikey:SB_KEY}});
     const data=await res.json();return(data&&data[0])?data[0]:null;
   }catch(e){return null}
 }
@@ -286,7 +290,6 @@ function getStoredReaction(storyId){return localStorage.getItem('reaction_'+stor
 function setStoredReaction(storyId,key){if(key)localStorage.setItem('reaction_'+storyId,key);else localStorage.removeItem('reaction_'+storyId)}
 
 /* ── REDDIT ENGAGEMENT DISPLAY ── */
-/* reddit_seed is stored globally so handleReaction can add it to the display count */
 function commentsItemHTML(totals,redditLink){
   const comments=(totals&&totals.reddit_comments)||0;
   if(comments===0)return'';
@@ -300,10 +303,8 @@ function commentsItemHTML(totals,redditLink){
 }
 
 function updateRedditDisplay(seed,comments,helpful){
-  /* Update the merged 👍 button count */
   const helpfulBtn=document.querySelector('.reaction-btn[data-key="helpful"] .reaction-count');
   if(helpfulBtn)helpfulBtn.textContent=((helpful||0)+(seed||0))||'';
-  /* Update comments */
   const cmEl=document.getElementById('reddit-comment-count');
   if(cmEl)cmEl.textContent=(comments||0)>0?(comments||0):'';
 }
@@ -314,7 +315,6 @@ function reactionsHTML(storyId,totals,selected,redditLink){
   const comments=commentsItemHTML(totals,redditLink);
   const items=REACTIONS.map(r=>{
     const isSel=selected===r.key;
-    /* For 👍, display count = helpful + reddit_seed */
     let count=totals?(totals[r.key]||0):0;
     if(r.key==='helpful')count=count+(window._redditSeed||0);
     return'<button class="reaction-btn'+(isSel?' selected':'')+'" data-key="'+r.key+'" title="'+r.label+'" aria-label="'+r.label+'" onclick="handleReaction(\''+storyId+'\',\''+r.key+'\')">'
@@ -353,49 +353,94 @@ async function handleReaction(storyId,key){
    ── REDDIT ADMIN PANEL ──
    Trigger: Shift + ` (backtick)
    ══════════════════════════════════════════ */
-function parseRedditPaste(raw){
-  if(!raw||!raw.trim())return null;
-  const nums=raw.match(/\d+/g);
-  if(!nums||!nums.length)return null;
-  return{seed:parseInt(nums[0])||0,comments:nums.length>=2?parseInt(nums[1])||0:0};
+
+/* PATCHED: load existing values when panel opens; save only fields the user edited */
+async function showAdminPanel(){
+  const panel=document.getElementById('reddit-admin-panel');if(!panel)return;
+  panel.classList.add('open');
+  /* Load current values from DB */
+  const storyId=new URLSearchParams(location.search).get('story');
+  const updatedEl=document.getElementById('radmin-updated');
+  const seedInput=document.getElementById('radmin-seed-input');
+  const commentsInput=document.getElementById('radmin-comments-input');
+  if(storyId){
+    if(updatedEl)updatedEl.innerHTML='Loading current values…';
+    try{
+      const cur=await loadReactions(storyId);
+      if(cur){
+        if(seedInput)seedInput.placeholder=String(cur.reddit_seed||0);
+        if(commentsInput)commentsInput.placeholder=String(cur.reddit_comments||0);
+        /* Show last updated time */
+        if(updatedEl){
+          if(cur.updated_at){
+            const d=new Date(cur.updated_at);
+            const mins=Math.floor((Date.now()-d)/60000);
+            let when=mins<2?'just now':mins<60?mins+'m ago':mins<1440?Math.floor(mins/60)+'h ago':d.toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+            updatedEl.innerHTML='Current: 👍 <span>'+(cur.reddit_seed||0)+'</span> &nbsp;💬 <span>'+(cur.reddit_comments||0)+'</span> &nbsp;·&nbsp; updated <span>'+when+'</span>';
+          }else{
+            updatedEl.innerHTML='Current: 👍 <span>'+(cur.reddit_seed||0)+'</span> &nbsp;💬 <span>'+(cur.reddit_comments||0)+'</span>';
+          }
+        }
+      }else{
+        if(updatedEl)updatedEl.innerHTML='No existing record for this story.';
+        if(seedInput)seedInput.placeholder='0';
+        if(commentsInput)commentsInput.placeholder='0';
+      }
+    }catch(e){
+      if(updatedEl)updatedEl.innerHTML='Could not load current values.';
+    }
+  }
+  /* Focus first input */
+  setTimeout(()=>{if(seedInput)seedInput.focus()},50);
+}
+
+function hideAdminPanel(){
+  const panel=document.getElementById('reddit-admin-panel');if(panel)panel.classList.remove('open');
+  /* Clear inputs and status on close */
+  const s=document.getElementById('radmin-status');if(s)s.textContent='';
+  const si=document.getElementById('radmin-seed-input');if(si)si.value='';
+  const ci=document.getElementById('radmin-comments-input');if(ci)ci.value='';
+}
+
+function toggleAdminPanel(){
+  const panel=document.getElementById('reddit-admin-panel');
+  if(panel&&panel.classList.contains('open'))hideAdminPanel();else showAdminPanel();
 }
 
 async function saveRedditStats(){
   const storyId=new URLSearchParams(location.search).get('story');if(!storyId)return;
-  const textarea=document.getElementById('reddit-paste-input');
+  const seedInput=document.getElementById('radmin-seed-input');
+  const commentsInput=document.getElementById('radmin-comments-input');
   const statusEl=document.getElementById('radmin-status');
   const saveBtn=document.getElementById('radmin-save-btn');
-  const parsed=parseRedditPaste(textarea.value);
-  if(!parsed){statusEl.className='radmin-status err';statusEl.textContent='No numbers found — check paste';return}
+  /* Only update fields the user actually typed into */
+  const seedVal=seedInput.value.trim();
+  const commentsVal=commentsInput.value.trim();
+  if(seedVal===''&&commentsVal===''){
+    statusEl.className='radmin-status err';statusEl.textContent='Enter at least one value to save';return;
+  }
   saveBtn.disabled=true;statusEl.className='radmin-status';statusEl.textContent='Saving…';
   try{
     const cur=await loadReactions(storyId);
     const payload={story_id:storyId,helpful:0,thinking:0,surprised:0,concerning:0,important:0,story_page_reactions:0,summary_page_reactions:0,reddit_seed:0,reddit_comments:0};
     if(cur)Object.assign(payload,cur);
-    payload.reddit_seed=parsed.seed;   // OVERWRITE
-    payload.reddit_comments=parsed.comments; // OVERWRITE
+    /* Only overwrite fields that were typed */
+    if(seedVal!=='')payload.reddit_seed=Math.max(0,parseInt(seedVal)||0);
+    if(commentsVal!=='')payload.reddit_comments=Math.max(0,parseInt(commentsVal)||0);
     const res=await fetch(SB_REACTIONS,{method:'POST',headers:{apikey:SB_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},body:JSON.stringify(payload)});
     if(!res.ok)throw new Error('HTTP '+res.status);
-    updateRedditDisplay(parsed.seed,parsed.comments,payload.helpful);
+    updateRedditDisplay(payload.reddit_seed,payload.reddit_comments,payload.helpful);
     statusEl.className='radmin-status ok';
-    statusEl.textContent='✅ Saved — 👍 '+(payload.helpful+parsed.seed)+' 💬 '+parsed.comments;
-    updateAdminPreview();
+    statusEl.textContent='✅ Saved — 👍 '+(payload.helpful+payload.reddit_seed)+' 💬 '+payload.reddit_comments;
+    /* Refresh the "current" line */
+    const updatedEl=document.getElementById('radmin-updated');
+    if(updatedEl)updatedEl.innerHTML='Current: 👍 <span>'+payload.reddit_seed+'</span> &nbsp;💬 <span>'+payload.reddit_comments+'</span> &nbsp;·&nbsp; updated <span>just now</span>';
+    /* Clear inputs so placeholders show new values */
+    if(seedVal!==''){seedInput.value='';seedInput.placeholder=String(payload.reddit_seed);}
+    if(commentsVal!==''){commentsInput.value='';commentsInput.placeholder=String(payload.reddit_comments);}
   }catch(e){statusEl.className='radmin-status err';statusEl.textContent='Error: '+e.message}
   finally{saveBtn.disabled=false}
 }
-
-function updateAdminPreview(){
-  const textarea=document.getElementById('reddit-paste-input');
-  const previewEl=document.getElementById('radmin-preview');
-  if(!textarea||!previewEl)return;
-  const parsed=parseRedditPaste(textarea.value);
-  if(!parsed){previewEl.innerHTML='<span style="color:#bbb;">Paste Reddit stats above</span>';return}
-  previewEl.innerHTML='reddit_seed = <span>'+parsed.seed+'</span> &nbsp;·&nbsp; reddit_comments = <span>'+parsed.comments+'</span>';
-}
-
-function showAdminPanel(){const panel=document.getElementById('reddit-admin-panel');if(!panel)return;panel.classList.add('open');setTimeout(()=>{const t=document.getElementById('reddit-paste-input');if(t)t.focus()},50)}
-function hideAdminPanel(){const panel=document.getElementById('reddit-admin-panel');if(panel)panel.classList.remove('open');const s=document.getElementById('radmin-status');if(s)s.textContent=''}
-function toggleAdminPanel(){const panel=document.getElementById('reddit-admin-panel');if(panel&&panel.classList.contains('open'))hideAdminPanel();else showAdminPanel()}
 
 /* ── MAIN STORY LOADER ── */
 async function loadStory(){
@@ -470,16 +515,20 @@ async function loadStory(){
 
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded',()=>{
+  /* PATCHED: two number inputs instead of textarea; last-updated line at top */
   document.body.insertAdjacentHTML('beforeend',
     '<div id="reddit-admin-panel">'
     +'<div class="radmin-header"><span class="radmin-title">📋 Reddit Stats</span><button class="radmin-close" onclick="hideAdminPanel()" title="Close">✕</button></div>'
-    +'<label class="radmin-label" for="reddit-paste-input">Paste Reddit mobile snippet:</label>'
-    +'<textarea id="reddit-paste-input" placeholder="Upvote 26\nDownvote 9\nGo to comments" oninput="updateAdminPreview()"></textarea>'
-    +'<div class="radmin-preview" id="radmin-preview"><span style="color:#bbb;">Paste Reddit stats above</span></div>'
+    +'<div class="radmin-updated" id="radmin-updated"></div>'
+    +'<div class="radmin-fields">'
+    +'<div class="radmin-field"><label for="radmin-seed-input">👍 Upvotes</label><input type="number" id="radmin-seed-input" min="0" placeholder="—"></div>'
+    +'<div class="radmin-field"><label for="radmin-comments-input">💬 Comments</label><input type="number" id="radmin-comments-input" min="0" placeholder="—"></div>'
+    +'</div>'
     +'<div class="radmin-actions"><button class="radmin-save" id="radmin-save-btn" onclick="saveRedditStats()">Save</button><span class="radmin-status" id="radmin-status"></span></div>'
-    +'<div class="radmin-hint">Trigger: <strong>Shift + `</strong> (backtick) &nbsp;·&nbsp; Overwrites existing values</div>'
+    +'<div class="radmin-hint">Trigger: <strong>Shift + `</strong> &nbsp;·&nbsp; Leave a field blank to keep existing value</div>'
     +'</div>'
   );
+  document.addEventListener('keydown',e=>{if(e.shiftKey&&e.key==='`')toggleAdminPanel()});
   fetch('header.html').then(r=>r.text()).then(html=>{
     document.getElementById('site-header').innerHTML=html;
     const ham=document.getElementById('hamburger'),nav=document.getElementById('mobile-nav');
