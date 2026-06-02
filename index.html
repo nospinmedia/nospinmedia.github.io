@@ -585,7 +585,8 @@ function textCardHTML(s,showPill){
 }
 
 /* ── RENDER FEED ── */
-function renderFeed(stories){
+/* PATCHED: now async — fetches reactions for donor stories before building HTML */
+async function renderFeed(stories){
   const feed=document.getElementById('nsm-feed');
   if(!stories.length){feed.innerHTML='<div class="feed-loading"><p>No stories in this category yet.</p></div>';return}
   _affPlacementToggle=0;
@@ -607,6 +608,14 @@ function renderFeed(stories){
     const donor=allStories.find(s=>(s.topic||'world')===topic&&!usedUrls.has(s.url));
     if(donor){byTopic[topic].push(donor);usedUrls.add(donor.url);extrasUsed++}
   });
+
+  /* ── PATCH: fetch reactions for any donor/extra stories missing from cache ── */
+  const allRendered=[...stories.slice(0,6)];
+  Object.values(byTopic).forEach(grp=>grp.forEach(s=>allRendered.push(s)));
+  const missingRxn=allRendered.filter(s=>!_rxnCache[s.url]).map(s=>s.url);
+  if(missingRxn.length)await batchLoadReactions(missingRxn);
+  /* ── END PATCH ── */
+
   const present=TOPICS_ORDER.filter(t=>byTopic[t]&&byTopic[t].length);
   present.forEach((topic,ti)=>{
     const grp=byTopic[topic];
