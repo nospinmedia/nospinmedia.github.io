@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B2CDHQWR45"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-B2CDHQWR45');
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>NSM Archive — No Spin Media</title>
 <link rel="stylesheet" href="style.css"/>
@@ -67,7 +75,9 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .text-card:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
 .text-card-headline{font-family:var(--font-h);font-size:.88rem;line-height:1.3;color:var(--text);margin:.4rem 0 .4rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .text-card-summary{font-size:.76rem;line-height:1.5;color:var(--muted);flex:1;margin-bottom:.5rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.card-reactions{display:flex;align-items:center;gap:1px;margin-bottom:.5rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+/* ── REACTION STRIP ── */
+.card-reactions{display:flex;align-items:center;gap:1px;margin-bottom:.5rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);justify-content:space-between}
+.rxn-buttons{display:flex;align-items:center;gap:1px}
 .rxn{display:inline-flex;align-items:center;gap:2px;padding:3px 5px;border-radius:6px;cursor:pointer;background:transparent;border:none;font-family:var(--font-b);line-height:1;transition:background .1s;user-select:none}
 .rxn:hover{background:var(--surface2)}
 .rxn.selected{background:rgba(0,102,204,.07)}
@@ -75,6 +85,9 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .rxn.selected .rxn-count{color:var(--blue)}
 .rxn-emoji{font-size:1.05rem;line-height:1;display:block}
 .rxn-count{font-size:.68rem;font-weight:600;color:var(--dimmed);line-height:1;min-width:0}
+/* ── ENGAGEMENT INDICATOR ── */
+.eng-indicator{display:inline-flex;align-items:center;gap:4px;font-size:.75rem;font-weight:600;color:var(--dimmed);white-space:nowrap;cursor:default;padding:2px 4px;border-radius:6px;flex-shrink:0;margin-left:4px}
+.eng-indicator-icon{font-size:1.05rem;line-height:1}
 .btn-sm-read{font-size:11px;font-weight:600;color:var(--blue);background:var(--blue-lt);border:none;border-radius:20px;padding:4px 11px;cursor:pointer;text-decoration:none;transition:background .15s}
 .btn-sm-read:hover{background:#D0E6F8}
 .btn-sm-share{font-size:11px;color:var(--dimmed);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 9px;cursor:pointer;transition:all .15s;line-height:1}
@@ -171,6 +184,30 @@ const REACTIONS=[
   {key:'important',emoji:'📌',label:'Important'}
 ];
 
+/* ── ENGAGEMENT INDICATOR ── */
+const ENG_LEVELS=[
+  null,
+  {icon:'👍', tip:'This story is getting attention on NSM.'},
+  {icon:'💬', tip:'Readers are actively discussing this story on NSM.'},
+  {icon:'🌋', tip:'This story is volcanically hot on NSM.'},
+  {icon:'🚀', tip:'This story is launching with NSM readers.'}
+];
+function engScore(totals){
+  if(!totals)return 0;
+  return (totals.helpful||0)+(totals.reddit_seed||0)+((totals.reddit_comments||0)*3);
+}
+function engLevel(score){
+  if(score<=0)return 0;if(score<25)return 1;if(score<75)return 2;if(score<150)return 3;return 4;
+}
+function engIndicatorHTML(storyId){
+  const lvl=engLevel(engScore(_rxnCache[storyId]));
+  if(!lvl)return'';
+  const def=ENG_LEVELS[lvl];
+  return'<span class="eng-indicator" title="'+def.tip+'">'
+    +'<span class="eng-indicator-icon">'+def.icon+'</span>'
+    +'</span>';
+}
+
 let _aff=null,_kw=null,_imgRules=null,_imgCache={};
 let _allAffData=null,_allKwData=null,_globalBookRule=null,_globalGearRule=null;
 let _affPlacementToggle=0;
@@ -200,7 +237,6 @@ function escapeHtml(t){if(!t)return'';const d=document.createElement('div');d.te
 function getStoryPage(db){return db==='news_ne'?'ne_story.html':'story.html'}
 
 /* ── REACTIONS: BATCH LOAD ── */
-/* PATCHED: added reddit_seed,reddit_comments to select */
 async function batchLoadReactions(storyIds){
   if(!storyIds.length)return;
   const needed=storyIds.filter(id=>!_rxnCache[id]);
@@ -264,7 +300,6 @@ async function handleReactionNews(storyId,key,gridId){
 }
 
 /* ── REACTIONS: STRIP HTML ── */
-/* PATCHED: 👍 shows helpful+reddit_seed; 💬 appended at end if reddit_comments > 0 */
 function rxnStripHTML(storyId){
   const totals=_rxnCache[storyId]||{};
   const selected=localStorage.getItem('reaction_'+storyId)||null;
@@ -284,7 +319,6 @@ function rxnStripHTML(storyId){
       +'<span class="rxn-count">'+(count>0?count:'')+'</span>'
       +'</button>';
   }).join('');
-  /* 💬 comment count at end with thin divider — links to Reddit post if available */
   let cmBtn='';
   if(comments>0){
     const s=_currentStories.find(x=>x.url===storyId)||{};
@@ -297,7 +331,11 @@ function rxnStripHTML(storyId){
       :'<span class="rxn" style="cursor:default;pointer-events:none;">'
         +'<span class="rxn-emoji">💬</span><span class="rxn-count">'+comments+'</span></span>');
   }
-  return'<div class="card-reactions" id="'+gridId+'">'+btns+cmBtn+'</div>';
+  const indicator=engIndicatorHTML(storyId);
+  return'<div class="card-reactions" id="'+gridId+'">'
+    +'<div class="rxn-buttons">'+btns+cmBtn+'</div>'
+    +indicator
+    +'</div>';
 }
 
 /* ── SHARE ── */
@@ -455,14 +493,22 @@ async function displayStories(stories,db){
 /* ── DATE FILTER BUILDER ── */
 function buildDateFilters(params,year,month){
   if(!year&&!month)return;
-  if(year&&!month){params.append('posted_at','gte.'+year+'-01-01T00:00:00');params.append('posted_at','lt.'+(Number(year)+1)+'-01-01T00:00:00');return}
+  if(year&&!month){
+    params.append('posted_at','gte.'+year+'-01-01T00:00:00');
+    params.append('posted_at','lt.'+(Number(year)+1)+'-01-01T00:00:00');
+    return;
+  }
   if(year&&month){
-    const start=year+'-'+month+'-01T00:00:00';let ny=Number(year),nm=Number(month)+1;
+    const start=year+'-'+month+'-01T00:00:00';
+    let ny=Number(year),nm=Number(month)+1;
     if(nm===13){nm=1;ny+=1}
     const nms=String(nm).padStart(2,'0');
-    params.append('posted_at','gte.'+start);params.append('posted_at','lt.'+ny+'-'+nms+'-01T00:00:00');return;
+    params.append('posted_at','gte.'+start);
+    params.append('posted_at','lt.'+ny+'-'+nms+'-01T00:00:00');
+    return;
   }
-  params.append('_month_only',month);
+  /* month only, no year — handled client-side after fetch */
+  params.set('_month_only',month);
 }
 function passesMonthOnly(postedAt,month){
   if(!month)return true;if(!postedAt)return false;
@@ -470,8 +516,11 @@ function passesMonthOnly(postedAt,month){
   return String(d.getMonth()+1).padStart(2,'0')===month;
 }
 
-/* ── SEARCH ── */
-/* PATCHED: added reddit_post_id to selectCols for main news */
+/* ── SEARCH ── 
+   KEY FIX: When keywords are present, use server-side ilike filtering so the
+   full archive is searched (no 200-record cap). Date filters still apply.
+   When browsing without keywords, cap at 200 for performance.
+── */
 async function searchArchive(){
   const db=document.getElementById('database').value;
   const month=document.getElementById('month').value;
@@ -481,29 +530,49 @@ async function searchArchive(){
   const countEl=document.getElementById('results-count');
   feed.innerHTML='<div class="feed-loading"><div class="spinner"></div>Searching the archive...</div>';
   countEl.textContent='';
-  const params=new URLSearchParams();
+
   const selectCols=db==='news_ne'
     ?'headline,summary,posted_at,url,reddit_post_id'
     :'headline,summary,social_bluesky,social_threads,social_facebook,posted_at,url,topic,importance,style,reddit_post_id';
+
+  const params=new URLSearchParams();
   params.set('select',selectCols);
   if(db==='news_posts')params.append('used','eq.true');
   params.append('order','posted_at.desc');
-  params.append('limit','200');
+
+  /* Date filters */
   buildDateFilters(params,year,month);
-  const monthOnly=params.get('_month_only');if(monthOnly)params.delete('_month_only');
+  const monthOnly=params.get('_month_only');
+  if(monthOnly)params.delete('_month_only');
+
+  /* Keyword filtering:
+     With keywords  → server-side ilike on headline OR summary for each term, NO limit
+     Without keywords → limit=200 (browse mode) */
+  const terms=kw?kw.split(/[\s,]+/).map(t=>t.trim()).filter(t=>t.length>0):[];
+  if(terms.length){
+    /* Each term must match headline OR summary (AND between terms) */
+    terms.forEach(term=>{
+      const like='*'+term+'*';
+      params.append('or','(headline.ilike.'+like+',summary.ilike.'+like+')');
+    });
+    /* No limit — search entire archive */
+  }else{
+    params.append('limit','200');
+  }
+
   try{
     const res=await fetch(SB_URL+'/'+db+'?'+params.toString(),{headers:{apikey:SB_KEY}});
     if(!res.ok)throw new Error('Supabase '+res.status);
     let stories=await res.json();
+
+    /* Month-only client filter (when year not selected) */
     if(monthOnly)stories=stories.filter(s=>passesMonthOnly(s.posted_at,monthOnly));
-    if(kw){
-      const terms=kw.split(/[\s,]+/).map(t=>t.trim()).filter(t=>t.length>0);
-      stories=stories.filter(s=>{const txt=[s.headline||'',s.summary||''].join(' ');return terms.every(term=>{const esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-zA-Z])'+esc+'(?![a-zA-Z])','i').test(txt)})});
-    }
+
     const tags=[];
     if(db==='news_ne')tags.push('New England');else tags.push('Main News');
     if(month){const mo=document.querySelector('#month option[value="'+month+'"]');if(mo)tags.push(mo.textContent)}
-    if(year)tags.push(year);if(kw)tags.push('"'+kw+'"');
+    if(year)tags.push(year);
+    if(kw)tags.push('"'+kw+'"');
     const tagsHTML=tags.map(t=>'<span class="results-tag">'+t+'</span>').join('');
     countEl.innerHTML='<span style="color:var(--dimmed);font-size:11px;">'+stories.length+' result'+(stories.length===1?'':'s')+'</span> '+tagsHTML;
     await displayStories(stories,db);
@@ -520,7 +589,6 @@ function clearSearch(){
   loadRecent();
 }
 
-/* PATCHED: added reddit_post_id to recentCols */
 async function loadRecent(){
   const feed=document.getElementById('news-feed');const countEl=document.getElementById('results-count');
   const db=document.getElementById('database')?.value||'news_posts';
