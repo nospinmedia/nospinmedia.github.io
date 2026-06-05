@@ -23,7 +23,6 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --blue:#0066CC;--blue-lt:#E8F1FA;--red:#CC2200;
-  --hot:#E65100;--hot-lt:#FFF3E0;
   --bg:#EEEEEC;--surface:#FFFFFF;--surface2:#F6F6F4;--border:#E0E0DC;
   --text:#111111;--muted:#555555;--dimmed:#999999;
   --font-h:'DM Serif Display',Georgia,serif;--font-b:'DM Sans',Arial,sans-serif;
@@ -93,10 +92,8 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .imp-dot{width:6px;height:6px;border-radius:50%;display:inline-block;vertical-align:middle;margin-right:3px}
 .imp-major{background:var(--red)}.imp-normal{background:var(--blue)}.imp-minor{background:#CCC}
 
-/* ── HOT BADGE ── */
+/* ── HOT PILL (category label only) ── */
 .pill-hot{background:linear-gradient(135deg,#FF6D00,#E65100);color:#fff;border:none;box-shadow:0 1px 4px rgba(230,81,0,.35)}
-.pill-hot-white{background:rgba(255,109,0,.22);color:#FFD54F;border:1px solid rgba(255,180,50,.4)}
-.hero-hot-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:20px;background:linear-gradient(135deg,#FF6D00,#E65100);color:#fff;box-shadow:0 2px 6px rgba(230,81,0,.4);cursor:default}
 
 /* ── HERO CARD ── */
 .hero-card{border-radius:var(--r);overflow:hidden;background:var(--surface);box-shadow:var(--shadow);margin-bottom:1rem;cursor:pointer;transition:box-shadow .2s,transform .2s}
@@ -107,7 +104,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .hero-top-scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.78) 0%,rgba(0,0,0,.2) 60%,rgba(0,0,0,.02) 100%)}
 .hero-top-content{position:relative;z-index:1}
 .hero-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--red);color:#fff;padding:3px 9px;border-radius:20px;margin-bottom:.6rem}
-.hero-badge-row{display:flex;align-items:center;gap:6px;margin-bottom:.6rem;flex-wrap:wrap}
 .hero-hl-line1{font-family:var(--font-h);font-size:clamp(1.25rem,2.2vw,1.7rem);line-height:1.18;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5);display:block;margin-bottom:3px}
 .hero-hl-line2{font-family:var(--font-b);font-size:.9rem;font-weight:400;color:rgba(255,255,255,.82);display:block;line-height:1.3}
 .hero-body{padding:.95rem 1.5rem 1rem}
@@ -143,8 +139,16 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .text-card-summary{font-size:.76rem;line-height:1.5;color:var(--muted);flex:1;margin-bottom:.5rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
 /* ── INLINE REACTION STRIP ── */
-.card-reactions{display:flex;align-items:center;gap:1px;margin-bottom:.5rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
-.hero-reactions{display:flex;align-items:center;gap:2px;margin-bottom:.65rem}
+.card-reactions{display:flex;align-items:center;gap:1px;margin-bottom:.5rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);justify-content:space-between}
+.hero-reactions{display:flex;align-items:center;gap:2px;margin-bottom:.65rem;justify-content:space-between}
+.rxn-buttons{display:flex;align-items:center;gap:1px}
+.hero-reactions .rxn-buttons{gap:2px}
+/* ── ENGAGEMENT INDICATOR ── */
+.eng-indicator{display:inline-flex;align-items:center;gap:4px;font-size:.75rem;font-weight:600;color:var(--dimmed);white-space:nowrap;cursor:default;padding:2px 4px;border-radius:6px;flex-shrink:0;margin-left:4px}
+.eng-indicator-icon{font-size:1.05rem;line-height:1}
+.eng-indicator-label{font-size:.7rem;font-weight:600;color:var(--muted)}
+.hero-reactions .eng-indicator-icon{font-size:1.2rem}
+.hero-reactions .eng-indicator-label{font-size:.76rem}
 .rxn{display:inline-flex;align-items:center;gap:2px;padding:3px 5px;border-radius:6px;cursor:pointer;background:transparent;border:none;font-family:var(--font-b);line-height:1;transition:background .1s;user-select:none}
 .rxn:hover{background:var(--surface2)}
 .rxn.selected{background:rgba(0,102,204,.07)}
@@ -361,16 +365,33 @@ function topBG(url,t){
 }
 function topCls(t){return'tp-bg-'+(t||'world')}
 
-/* ── HOT PILL HTML HELPERS ── */
-const HOT_TOOLTIP='This story is generating exceptional engagement on No Spin Media.';
-function hotPillWhite(){
-  return'<span class="pill pill-hot-white" title="'+HOT_TOOLTIP+'">🔥 HOT</span>';
+/* ── ENGAGEMENT INDICATOR ── */
+/* Levels: 0=none, 1=👍 (1–24), 2=💬 (25–74), 3=🌋 (75–149), 4=🚀 (150+) */
+const ENG_LEVELS=[
+  null,
+  {icon:'👍', label:'Getting Attention',  tip:'This story is getting attention on NSM.'},
+  {icon:'💬', label:'Active Discussion',  tip:'Readers are actively discussing this story on NSM.'},
+  {icon:'🌋', label:'Volcanic',           tip:'This story is volcanically hot on NSM.'},
+  {icon:'🚀', label:'Launching',          tip:'This story is launching with NSM readers.'}
+];
+function engLevel(score){
+  if(score<=0)return 0;
+  if(score<25)return 1;
+  if(score<75)return 2;
+  if(score<150)return 3;
+  return 4;
 }
-function hotPillColor(){
-  return'<span class="pill pill-hot" title="'+HOT_TOOLTIP+'">🔥 HOT</span>';
-}
-function hotHeroBadge(){
-  return'<span class="hero-hot-badge" title="'+HOT_TOOLTIP+'">🔥 HOT</span>';
+/* isLarge=true → show icon + label; false → icon only */
+function engIndicatorHTML(storyId,isLarge){
+  const score=engagementScore(storyId);
+  const lvl=engLevel(score);
+  if(!lvl)return'';
+  const def=ENG_LEVELS[lvl];
+  const label=isLarge?'<span class="eng-indicator-label">'+def.label+'</span>':'';
+  return'<span class="eng-indicator" title="'+def.tip+'">'
+    +'<span class="eng-indicator-icon">'+def.icon+'</span>'
+    +label
+    +'</span>';
 }
 
 /* ── REACTIONS: BATCH LOAD ── */
@@ -452,7 +473,8 @@ async function handleReactionIndex(storyId,key,gridId){
 }
 
 /* ── REACTIONS: STRIP HTML ── */
-function rxnStripHTML(storyId,isHero){
+/* isLarge=true → engagement indicator shows icon + label (hero / large cards) */
+function rxnStripHTML(storyId,isHero,isLarge){
   const totals=_rxnCache[storyId]||{};
   const selected=localStorage.getItem('reaction_'+storyId)||null;
   const gridId='rxn-'+storyId;
@@ -484,7 +506,11 @@ function rxnStripHTML(storyId,isHero){
       :'<span class="rxn" style="cursor:default;pointer-events:none;">'
         +'<span class="rxn-emoji">💬</span><span class="rxn-count">'+comments+'</span></span>');
   }
-  return'<div class="'+wrapCls+'" id="'+gridId+'">'+btns+cmBtn+'</div>';
+  const indicator=engIndicatorHTML(storyId,!!isLarge);
+  return'<div class="'+wrapCls+'" id="'+gridId+'">'
+    +'<div class="rxn-buttons">'+btns+cmBtn+'</div>'
+    +indicator
+    +'</div>';
 }
 
 /* ── SHARE ── */
@@ -559,25 +585,20 @@ function buildTabs(stories){
 }
 
 /* ── HERO CARD ── */
-function heroHTML(s,isHot){
+function heroHTML(s){
   const p=parseHL(s.headline),sum=randSummary(s),t=s.topic||'world',ts=timeSince(s.posted_at),maj=s.importance==='major';
   const wrapId='sw-hero-'+s.url,fbId='sf-hero-'+s.url;
-  /* Build badge row: Breaking badge + optional HOT badge */
-  const breakingBadge='<span class="hero-badge"'+(maj?'':' style="background:rgba(255,255,255,.16);"')+'>'
-    +(maj?'\uD83D\uDD34 Breaking':'\uD83D\uDCF0 Top Story')+'</span>';
-  const hotBadge=isHot?hotHeroBadge():'';
-  const badgeRow='<div class="hero-badge-row">'+breakingBadge+hotBadge+'</div>';
   return'<div class="hero-card" onclick="window.location=\''+STORY+s.url+'\'">'
     +'<div class="hero-top '+topCls(t)+'">'
     +'<div class="hero-top-bg" style="'+topBG(s.url,t)+'"></div>'
     +'<div class="hero-top-scrim"></div>'
     +'<div class="hero-top-content">'
-    +badgeRow
+    +'<div class="hero-badge"'+(maj?'':' style="background:rgba(255,255,255,.16);"')+'>'+(maj?'\uD83D\uDD34 Breaking':'\uD83D\uDCF0 Top Story')+'</div>'
     +'<span class="hero-hl-line1">'+p.line1+'</span>'+(p.line2?'<span class="hero-hl-line2">'+p.line2+'</span>':'')
     +'</div></div>'
     +'<div class="hero-body">'
     +'<div class="hero-summary" data-id="'+s.url+'">'+sum+'</div>'
-    +rxnStripHTML(s.url,true)
+    +rxnStripHTML(s.url,true,true)
     +'<div class="hero-footer">'
     +'<div class="hero-meta">'+pillC(t)+'<span class="hero-time">'+impDot(s.importance)+ts+'</span></div>'
     +'<div class="hero-actions">'+shareDropdownHTML(s.url,s.headline||'',wrapId,fbId,false)
@@ -586,14 +607,11 @@ function heroHTML(s,isHot){
 }
 
 /* ── STORY CARD ── */
-function cardHTML(s,showPill,isHot){
+function cardHTML(s,showPill){
   if(showPill===undefined)showPill=true;
   const p=parseHL(s.headline),sum=randSummary(s),t=s.topic||'world',ts=timeSince(s.posted_at);
   const wrapId='sw-'+s.url,fbId='sf-'+s.url;
-  /* Pill row: topic pill + optional HOT pill */
-  const pillRow=(showPill||isHot)
-    ?'<div class="card-pill-row">'+(showPill?pillW(t):'')+(isHot?hotPillWhite():'')+'</div>'
-    :'';
+  const pillRow=showPill?'<div class="card-pill-row">'+pillW(t)+'</div>':'';
   return'<div class="story-card" onclick="window.location=\''+STORY+s.url+'\'">'
     +'<div class="card-top '+topCls(t)+'">'
     +'<div class="card-top-bg" style="'+topBG(s.url,t)+'"></div>'
@@ -604,7 +622,7 @@ function cardHTML(s,showPill,isHot){
     +'</div></div>'
     +'<div class="card-body">'
     +'<div class="card-summary" data-id="'+s.url+'">'+sum+'</div>'
-    +rxnStripHTML(s.url,false)
+    +rxnStripHTML(s.url,false,false)
     +'<div class="card-footer">'
     +'<span class="card-time">'+impDot(s.importance)+ts+'</span>'
     +'<div class="card-actions">'+shareDropdownHTML(s.url,s.headline||'',wrapId,fbId,true)
@@ -613,16 +631,16 @@ function cardHTML(s,showPill,isHot){
 }
 
 /* ── TEXT CARD ── */
-function textCardHTML(s,showPill,isHot){
+function textCardHTML(s,showPill){
   if(showPill===undefined)showPill=true;
   const p=parseHL(s.headline),sum=randSummary(s),t=s.topic||'world',ts=timeSince(s.posted_at);
   const hl=p.line2?p.line1+' '+p.line2:p.line1;
   const wrapId='sw-tc-'+s.url,fbId='sf-tc-'+s.url;
   return'<div class="text-card" onclick="window.location=\''+STORY+s.url+'\'">'
-    +(showPill?pillC(t):'')+(isHot?hotPillColor():'')
+    +(showPill?pillC(t):'')
     +'<div class="text-card-headline">'+hl+'</div>'
     +'<div class="text-card-summary" data-id="'+s.url+'">'+sum+'</div>'
-    +rxnStripHTML(s.url,false)
+    +rxnStripHTML(s.url,false,false)
     +'<div class="card-footer">'
     +'<span class="card-time">'+impDot(s.importance)+ts+'</span>'
     +'<div class="card-actions">'+shareDropdownHTML(s.url,s.headline||'',wrapId,fbId,true)
@@ -636,41 +654,26 @@ async function renderFeed(stories){
   if(!stories.length){feed.innerHTML='<div class="feed-loading"><p>No stories in this category yet.</p></div>';return}
   _affPlacementToggle=0;
 
-  /* ── HOT STORY CALCULATION ── */
-  /* Calculate engagement scores for all stories in this batch */
-  const hotUrl=findHotStoryUrl(stories);
   const heroStory=stories[0];
-  const heroIsHot=hotUrl&&heroStory.url===hotUrl;
 
   let html='<div class="refresh-bar">'
     +'<span class="story-count">Latest Updates \u00b7 '+stories.length+' stories</span>'
     +'<button class="refresh-btn" onclick="rotateSummaries()"><span class="spin-icon">\u21bb</span> Shuffle Feed</button>'
     +'</div>';
 
-  /* Hero: pass isHot flag */
-  html+=heroHTML(heroStory,heroIsHot);
+  html+=heroHTML(heroStory);
 
-  /* ── BUILD GRID: exclude hero; if HOT is hero, pull a replacement ── */
-  /* Start with stories after the hero */
-  let gridPool=stories.slice(1);
+  /* Grid pool: everything after the hero */
+  const gridPool=stories.slice(1);
 
-  /* If HOT story is NOT the hero, it stays in gridPool normally — it'll get a badge */
-  /* (No dedup needed since it wasn't the hero) */
-
-  /* If HOT story IS the hero, it's already excluded by slice(1) — pull next available */
-  if(heroIsHot){
-    /* heroStory is already excluded from gridPool by slice(1).
-       gridPool has the right count. Nothing extra needed — the hero URL is not in gridPool. */
-  }
-
-  /* Slots 2–4 (index 1–3 of original): first 3 from gridPool */
+  /* Slots 2–4 */
   const g1=gridPool.slice(0,3);
   if(g1.length)html+='<div class="section-label">Latest</div><div class="cards-grid-3">'
-    +g1.map(s=>cardHTML(s,true,hotUrl&&s.url===hotUrl)).join('')+'</div>';
+    +g1.map(s=>cardHTML(s,true)).join('')+'</div>';
 
   /* Slots 5–6 */
   const g2=gridPool.slice(3,5);
-  if(g2.length)html+='<div class="cards-grid-'+(g2.length===1?1:2)+'">'+g2.map(s=>cardHTML(s,true,hotUrl&&s.url===hotUrl)).join('')+'</div>';
+  if(g2.length)html+='<div class="cards-grid-'+(g2.length===1?1:2)+'">'+g2.map(s=>cardHTML(s,true)).join('')+'</div>';
 
   /* Topic sections from remainder of gridPool */
   const usedUrls=new Set([heroStory.url,...gridPool.slice(0,5).map(s=>s.url)]);
@@ -682,9 +685,6 @@ async function renderFeed(stories){
     if(!byTopic[t])byTopic[t]=[];
     byTopic[t].push(s);
   });
-
-  /* Also bucket any from g1/g2 that weren't already from gridPool.slice(5) 
-     — actually the topic grouping is for stories beyond g1/g2, which is correct */
 
   /* Fill lone-topic sections with a donor story */
   let extrasUsed=0;const MAX_EXTRAS=4;
@@ -710,11 +710,11 @@ async function renderFeed(stories){
 
     html+='<div class="section-label">'+TOPIC_LABELS[topic]+'</div>';
     if(grp.length<=2){
-      html+='<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false,hotUrl&&s.url===hotUrl)).join('')+'</div>';
+      html+='<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
     }else{
-      html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false,hotUrl&&s.url===hotUrl)).join('')+'</div>';
+      html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
       const rest=grp.slice(3);
-      if(rest.length)html+='<div class="cards-grid-3">'+rest.map(s=>textCardHTML(s,false,hotUrl&&s.url===hotUrl)).join('')+'</div>';
+      if(rest.length)html+='<div class="cards-grid-3">'+rest.map(s=>textCardHTML(s,false)).join('')+'</div>';
     }
     if((ti+1)%2===0){const tile=pickAffTileForSection(grp);if(tile)html+=affTileRowHTML(tile)}
   });
