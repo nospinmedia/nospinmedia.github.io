@@ -607,7 +607,7 @@ function heroHTML(s){
 }
 
 /* ── STORY CARD ── */
-function cardHTML(s,showPill){
+function cardHTML(s,showPill,isLarge){
   if(showPill===undefined)showPill=true;
   const p=parseHL(s.headline),sum=randSummary(s),t=s.topic||'world',ts=timeSince(s.posted_at);
   const wrapId='sw-'+s.url,fbId='sf-'+s.url;
@@ -622,7 +622,7 @@ function cardHTML(s,showPill){
     +'</div></div>'
     +'<div class="card-body">'
     +'<div class="card-summary" data-id="'+s.url+'">'+sum+'</div>'
-    +rxnStripHTML(s.url,false,false)
+    +rxnStripHTML(s.url,false,!!isLarge)
     +'<div class="card-footer">'
     +'<span class="card-time">'+impDot(s.importance)+ts+'</span>'
     +'<div class="card-actions">'+shareDropdownHTML(s.url,s.headline||'',wrapId,fbId,true)
@@ -673,7 +673,7 @@ async function renderFeed(stories){
 
   /* Slots 5–6 */
   const g2=gridPool.slice(3,5);
-  if(g2.length)html+='<div class="cards-grid-'+(g2.length===1?1:2)+'">'+g2.map(s=>cardHTML(s,true)).join('')+'</div>';
+  if(g2.length)html+='<div class="cards-grid-'+(g2.length===1?1:2)+'">'+g2.map(s=>cardHTML(s,true,true)).join('')+'</div>';
 
   /* Topic sections from remainder of gridPool */
   const usedUrls=new Set([heroStory.url,...gridPool.slice(0,5).map(s=>s.url)]);
@@ -710,7 +710,7 @@ async function renderFeed(stories){
 
     html+='<div class="section-label">'+TOPIC_LABELS[topic]+'</div>';
     if(grp.length<=2){
-      html+='<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
+      html+='<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false,true)).join('')+'</div>';
     }else{
       html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
       const rest=grp.slice(3);
