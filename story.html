@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B2CDHQWR45"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-B2CDHQWR45');
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>No Spin Media</title>
 <meta property="og:site_name" content="No Spin Media">
@@ -80,6 +88,13 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .reaction-btn.selected .reaction-count{color:var(--blue)}
 .reaction-btn.selected:hover{background:rgba(0,102,204,.1)}
 
+/* ── ENGAGEMENT INDICATOR (story page) ── */
+.eng-story-row{display:flex;align-items:center;gap:10px;margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border)}
+.eng-story-icon{font-size:1.55rem;line-height:1;flex-shrink:0}
+.eng-story-text{}
+.eng-story-label{font-size:.82rem;font-weight:700;color:var(--text);display:block;line-height:1.3}
+.eng-story-tip{font-size:.72rem;color:var(--dimmed);display:block;margin-top:2px;line-height:1.4}
+
 /* ── REDDIT INLINE ITEMS ── */
 .reddit-static{cursor:default!important;pointer-events:none;}
 .reddit-comment-link{pointer-events:auto!important;cursor:pointer!important;text-decoration:none;}
@@ -94,10 +109,8 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .radmin-title{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed)}
 .radmin-close{background:none;border:none;cursor:pointer;font-size:1rem;color:var(--dimmed);line-height:1;padding:2px 4px;border-radius:4px}
 .radmin-close:hover{background:var(--surface2);color:var(--text)}
-/* last-updated line */
 .radmin-updated{font-size:.67rem;color:#bbb;margin-bottom:10px;min-height:14px;line-height:1.4}
 .radmin-updated span{font-weight:600;color:#999}
-/* two-field row */
 .radmin-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .radmin-field label{font-size:.72rem;font-weight:700;color:var(--muted);display:block;margin-bottom:4px}
 .radmin-field input{width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-family:var(--font-b);font-size:.9rem;color:var(--text);background:var(--surface2);outline:none;text-align:center}
@@ -220,6 +233,60 @@ const REACTIONS=[
   {key:'important',emoji:'📌',label:'Important'}
 ];
 
+/* ── ENGAGEMENT INDICATOR ── */
+const ENG_LEVELS=[
+  null,
+  {icon:'👍', label:'Getting Attention',  tip:'This story is getting attention on NSM.'},
+  {icon:'💬', label:'Active Discussion',  tip:'Readers are actively discussing this story on NSM.'},
+  {icon:'🌋', label:'Volcanic',           tip:'This story is volcanically hot on NSM.'},
+  {icon:'🚀', label:'Launching',          tip:'This story is launching with NSM readers.'}
+];
+function storyEngScore(totals){
+  if(!totals)return 0;
+  const thumbsUp=(totals.helpful||0)+(totals.reddit_seed||0);
+  const comments=totals.reddit_comments||0;
+  return thumbsUp+(comments*3);
+}
+function storyEngLevel(score){
+  if(score<=0)return 0;
+  if(score<25)return 1;
+  if(score<75)return 2;
+  if(score<150)return 3;
+  return 4;
+}
+/* Renders the indicator row below the reactions grid, or '' if score=0 */
+function engStoryRowHTML(totals){
+  const score=storyEngScore(totals);
+  const lvl=storyEngLevel(score);
+  if(!lvl)return'';
+  const def=ENG_LEVELS[lvl];
+  return'<div class="eng-story-row" title="'+def.tip+'">'
+    +'<span class="eng-story-icon">'+def.icon+'</span>'
+    +'<span class="eng-story-text">'
+    +'<span class="eng-story-label">'+def.label+'</span>'
+    +'<span class="eng-story-tip">'+def.tip+'</span>'
+    +'</span>'
+    +'</div>';
+}
+/* Called after a reaction is saved to refresh the indicator in place */
+function refreshEngIndicator(totals){
+  const existing=document.getElementById('eng-story-indicator');
+  const html=engStoryRowHTML(totals);
+  if(existing){
+    if(html)existing.outerHTML=html.replace('<div class="eng-story-row"','<div class="eng-story-row" id="eng-story-indicator"');
+    else existing.remove();
+  }else{
+    if(html){
+      const grid=document.getElementById('reactions-grid');
+      if(grid){
+        const wrapper=document.createElement('div');
+        wrapper.innerHTML=html.replace('<div class="eng-story-row"','<div class="eng-story-row" id="eng-story-indicator"');
+        grid.parentNode.insertBefore(wrapper.firstElementChild,grid.nextSibling);
+      }
+    }
+  }
+}
+
 function resolveBackLink(){
   const ref=document.referrer;
   if(ref){try{const u=new URL(ref);if(u.hostname===window.location.hostname){const pg=u.pathname.split('/').pop();if(pg==='news.html')return{href:'news.html',label:'← Archive'};if(pg==='index2.html')return{href:'index2.html',label:'← Latest News'};if(pg===''||pg==='index.html'||pg==='/')return{href:'index.html',label:'← Latest News'};return{href:ref,label:'← Back'};}}catch(e){}}
@@ -320,9 +387,14 @@ function reactionsHTML(storyId,totals,selected,redditLink){
     return'<button class="reaction-btn'+(isSel?' selected':'')+'" data-key="'+r.key+'" title="'+r.label+'" aria-label="'+r.label+'" onclick="handleReaction(\''+storyId+'\',\''+r.key+'\')">'
       +'<span class="reaction-emoji">'+r.emoji+'</span><span class="reaction-count">'+(count>0?count:'')+'</span></button>';
   }).join('');
+  /* Engagement indicator — shown below the grid with full label */
+  const engRow=engStoryRowHTML(totals)
+    ? engStoryRowHTML(totals).replace('<div class="eng-story-row"','<div class="eng-story-row" id="eng-story-indicator"')
+    : '';
   return'<div class="reactions-card">'
     +'<div class="reactions-label">\uD83E\uDDED HOW NSM READERS REACTED TO THIS STORY</div>'
     +'<div class="reactions-grid" id="reactions-grid">'+items+comments+'</div>'
+    +engRow
     +'</div>';
 }
 
@@ -342,7 +414,10 @@ async function handleReaction(storyId,key){
     if(isSame)await upsertReaction(storyId,key,-1,'story');
     else{if(prev)await upsertReaction(storyId,prev,-1,'story');await upsertReaction(storyId,key,1,'story')}
     const fresh=await loadReactions(storyId);
-    if(fresh)updateRedditDisplay(fresh.reddit_seed,fresh.reddit_comments,fresh.helpful);
+    if(fresh){
+      updateRedditDisplay(fresh.reddit_seed,fresh.reddit_comments,fresh.helpful);
+      refreshEngIndicator(fresh);
+    }
   }catch(e){
     grid.querySelectorAll('.reaction-btn').forEach(btn=>{const k=btn.dataset.key;const countEl=btn.querySelector('.reaction-count');countEl.textContent=snapshot[k].count>0?snapshot[k].count:'';btn.classList.toggle('selected',snapshot[k].selected)});
     setStoredReaction(storyId,prev);
@@ -353,12 +428,9 @@ async function handleReaction(storyId,key){
    ── REDDIT ADMIN PANEL ──
    Trigger: Shift + ` (backtick)
    ══════════════════════════════════════════ */
-
-/* PATCHED: load existing values when panel opens; save only fields the user edited */
 async function showAdminPanel(){
   const panel=document.getElementById('reddit-admin-panel');if(!panel)return;
   panel.classList.add('open');
-  /* Load current values from DB */
   const storyId=new URLSearchParams(location.search).get('story');
   const updatedEl=document.getElementById('radmin-updated');
   const seedInput=document.getElementById('radmin-seed-input');
@@ -370,7 +442,6 @@ async function showAdminPanel(){
       if(cur){
         if(seedInput)seedInput.placeholder=String(cur.reddit_seed||0);
         if(commentsInput)commentsInput.placeholder=String(cur.reddit_comments||0);
-        /* Show last updated time */
         if(updatedEl){
           if(cur.updated_at){
             const d=new Date(cur.updated_at);
@@ -390,13 +461,11 @@ async function showAdminPanel(){
       if(updatedEl)updatedEl.innerHTML='Could not load current values.';
     }
   }
-  /* Focus first input */
   setTimeout(()=>{if(seedInput)seedInput.focus()},50);
 }
 
 function hideAdminPanel(){
   const panel=document.getElementById('reddit-admin-panel');if(panel)panel.classList.remove('open');
-  /* Clear inputs and status on close */
   const s=document.getElementById('radmin-status');if(s)s.textContent='';
   const si=document.getElementById('radmin-seed-input');if(si)si.value='';
   const ci=document.getElementById('radmin-comments-input');if(ci)ci.value='';
@@ -413,7 +482,6 @@ async function saveRedditStats(){
   const commentsInput=document.getElementById('radmin-comments-input');
   const statusEl=document.getElementById('radmin-status');
   const saveBtn=document.getElementById('radmin-save-btn');
-  /* Only update fields the user actually typed into */
   const seedVal=seedInput.value.trim();
   const commentsVal=commentsInput.value.trim();
   if(seedVal===''&&commentsVal===''){
@@ -424,18 +492,16 @@ async function saveRedditStats(){
     const cur=await loadReactions(storyId);
     const payload={story_id:storyId,helpful:0,thinking:0,surprised:0,concerning:0,important:0,story_page_reactions:0,summary_page_reactions:0,reddit_seed:0,reddit_comments:0};
     if(cur)Object.assign(payload,cur);
-    /* Only overwrite fields that were typed */
     if(seedVal!=='')payload.reddit_seed=Math.max(0,parseInt(seedVal)||0);
     if(commentsVal!=='')payload.reddit_comments=Math.max(0,parseInt(commentsVal)||0);
     const res=await fetch(SB_REACTIONS,{method:'POST',headers:{apikey:SB_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},body:JSON.stringify(payload)});
     if(!res.ok)throw new Error('HTTP '+res.status);
     updateRedditDisplay(payload.reddit_seed,payload.reddit_comments,payload.helpful);
+    refreshEngIndicator(payload);
     statusEl.className='radmin-status ok';
     statusEl.textContent='✅ Saved — 👍 '+(payload.helpful+payload.reddit_seed)+' 💬 '+payload.reddit_comments;
-    /* Refresh the "current" line */
     const updatedEl=document.getElementById('radmin-updated');
     if(updatedEl)updatedEl.innerHTML='Current: 👍 <span>'+payload.reddit_seed+'</span> &nbsp;💬 <span>'+payload.reddit_comments+'</span> &nbsp;·&nbsp; updated <span>just now</span>';
-    /* Clear inputs so placeholders show new values */
     if(seedVal!==''){seedInput.value='';seedInput.placeholder=String(payload.reddit_seed);}
     if(commentsVal!==''){commentsInput.value='';commentsInput.placeholder=String(payload.reddit_comments);}
   }catch(e){statusEl.className='radmin-status err';statusEl.textContent='Error: '+e.message}
@@ -515,7 +581,6 @@ async function loadStory(){
 
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded',()=>{
-  /* PATCHED: two number inputs instead of textarea; last-updated line at top */
   document.body.insertAdjacentHTML('beforeend',
     '<div id="reddit-admin-panel">'
     +'<div class="radmin-header"><span class="radmin-title">📋 Reddit Stats</span><button class="radmin-close" onclick="hideAdminPanel()" title="Close">✕</button></div>'
