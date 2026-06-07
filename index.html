@@ -714,26 +714,41 @@ async function renderFeed(stories){
     grp.sort((a,b)=>engagementScore(b.url)-engagementScore(a.url));
 
     html+='<div class="section-label">'+TOPIC_LABELS[topic]+'</div>';
-    if(grp.length<=2){
+
+    if(grp.length===1){
+      /* Single story: pair with an ad tile in a 2-col layout, or find a donor story */
+      const tile=pickAffTileForSection(grp);
+      if(tile){
+        /* Ad on the right, story on the left */
+        html+='<div class="cards-grid-2"><div>'+cardHTML(grp[0],false,true)+'</div><div class="aff-tile-center">'+tile+'</div></div>';
+      }else{
+        /* No ad available: just render the single card at half width */
+        html+='<div class="cards-grid-2">'+cardHTML(grp[0],false,true)+'</div>';
+      }
+    }else if(grp.length===2){
       html+='<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false,true)).join('')+'</div>';
+      /* After a 2-story section try to insert a flanked ad row */
+      if((ti+1)%2===0){
+        const tile=pickAffTileForSection(grp);
+        if(tile){
+          const flankPool=stories.filter(s=>!usedUrls.has(s.url));
+          const lS=flankPool[0]||null;
+          const rS=flankPool[1]||null;
+          if(lS&&rS){usedUrls.add(lS.url);usedUrls.add(rS.url);html+=affTileRowHTML(tile,lS,rS);}
+        }
+      }
     }else{
       html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
       const rest=grp.slice(3);
       if(rest.length)html+='<div class="cards-grid-3">'+rest.map(s=>textCardHTML(s,false)).join('')+'</div>';
-    }
-
-    /* Every 2nd topic section: insert affiliate tile flanked by 2 unused stories */
-    if((ti+1)%2===0){
-      const tile=pickAffTileForSection(grp);
-      if(tile){
-        const flankPool=stories.filter(s=>!usedUrls.has(s.url));
-        const lS=flankPool[0]||null;
-        const rS=flankPool[1]||null;
-        /* Only show flanked ad row if we have stories for BOTH sides */
-        if(lS&&rS){
-          usedUrls.add(lS.url);
-          usedUrls.add(rS.url);
-          html+=affTileRowHTML(tile,lS,rS);
+      /* After a 3+ story section try to insert a flanked ad row */
+      if((ti+1)%2===0){
+        const tile=pickAffTileForSection(grp);
+        if(tile){
+          const flankPool=stories.filter(s=>!usedUrls.has(s.url));
+          const lS=flankPool[0]||null;
+          const rS=flankPool[1]||null;
+          if(lS&&rS){usedUrls.add(lS.url);usedUrls.add(rS.url);html+=affTileRowHTML(tile,lS,rS);}
         }
       }
     }
