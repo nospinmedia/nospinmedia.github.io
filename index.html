@@ -87,6 +87,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .tp-bg-world{background:linear-gradient(160deg,#282828,#555555)}
 .tp-bg-environment{background:linear-gradient(160deg,#083A08,#1A7A1A)}
 .tp-bg-military{background:linear-gradient(160deg,#3A1A04,#6A3810)}
+.tp-bg-sports{background:linear-gradient(160deg,#0A3052,#1060A0)}
 
 /* ── PILLS ── */
 .pill{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:20px}
@@ -234,6 +235,9 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .aff-tile-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem;align-items:stretch}
 .aff-tile-center{min-height:240px}
 .aff-tile-mobile{display:none;margin-bottom:1rem;min-height:200px}
+.aff-flank{display:flex;flex-direction:column}
+.aff-flank .story-card{flex:1}
+.aff-flank-empty{visibility:hidden;pointer-events:none}
 @media(max-width:860px){.aff-tile-row{display:none}.aff-tile-mobile{display:block}}
 @media(max-width:860px){.aff-disclosure{font-size:.78rem;line-height:1.6;padding:0 .5rem}}
 
@@ -358,7 +362,8 @@ function topBG(url,t){
   const pri=res?'url(\''+res+'\')':'url(\''+IMG_S+url+'.jpg\')';
   return'background-image:'+pri+',url(\''+IMG_K+kw+'.jpg\');background-size:cover;background-position:center;';
 }
-function topCls(t){return'tp-bg-'+(t||'world')}
+const KNOWN_TOPICS=new Set(['politics','economy','legal','health','science','ai','technology','war','military','crime','environment','world','sports']);
+function topCls(t){return'tp-bg-'+(KNOWN_TOPICS.has(t)?t:'world')}
 
 /* ── ENGAGEMENT INDICATOR ── */
 const ENG_LEVELS=[
@@ -555,8 +560,8 @@ function pickAffTileForSection(sectionStories){const kwRules=(_allKwData&&_allKw
 /* ── AFFILIATE TILE ROW — flanked by story cards ── */
 function affTileRowHTML(tile,leftStory,rightStory){
   if(!tile)return'';
-  const lHTML=leftStory?cardHTML(leftStory,false):'<div></div>';
-  const rHTML=rightStory?cardHTML(rightStory,false):'<div></div>';
+  const lHTML=leftStory?'<div class="aff-flank">'+cardHTML(leftStory,false)+'</div>':'<div class="aff-flank aff-flank-empty"></div>';
+  const rHTML=rightStory?'<div class="aff-flank">'+cardHTML(rightStory,false)+'</div>':'<div class="aff-flank aff-flank-empty"></div>';
   return'<div class="aff-tile-row">'+lHTML+'<div class="aff-tile-center">'+tile+'</div>'+rHTML+'</div>'
     +'<div class="aff-tile-mobile">'+tile+'</div>';
 }
@@ -724,9 +729,12 @@ async function renderFeed(stories){
         const flankPool=stories.filter(s=>!usedUrls.has(s.url));
         const lS=flankPool[0]||null;
         const rS=flankPool[1]||null;
-        if(lS)usedUrls.add(lS.url);
-        if(rS)usedUrls.add(rS.url);
-        html+=affTileRowHTML(tile,lS,rS);
+        /* Only show flanked ad row if we have stories for BOTH sides */
+        if(lS&&rS){
+          usedUrls.add(lS.url);
+          usedUrls.add(rS.url);
+          html+=affTileRowHTML(tile,lS,rS);
+        }
       }
     }
   });
