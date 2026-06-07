@@ -288,19 +288,6 @@ function engagementScore(storyId){
   return thumbsUp+(comments*3);
 }
 
-/* ── HOT STORY ── */
-/* Returns the url of the highest-engagement story among the provided list */
-function findHotStoryUrl(stories){
-  if(!stories||!stories.length)return null;
-  let best=null,bestScore=-1;
-  stories.forEach(s=>{
-    const score=engagementScore(s.url);
-    if(score>bestScore){bestScore=score;best=s.url}
-  });
-  /* Only award HOT if there's any actual engagement */
-  return bestScore>0?best:null;
-}
-
 /* ── BANNER ── */
 function initBanner(){
   const b=document.getElementById('mission-banner');
@@ -374,7 +361,6 @@ function topBG(url,t){
 function topCls(t){return'tp-bg-'+(t||'world')}
 
 /* ── ENGAGEMENT INDICATOR ── */
-/* Levels: 0=none, 1=👍 (1–24), 2=💬 (25–74), 3=🌋 (75–149), 4=🚀 (150+) */
 const ENG_LEVELS=[
   null,
   {icon:'👍', label:'Getting Attention',  tip:'This story is getting attention on NSM.'},
@@ -389,7 +375,6 @@ function engLevel(score){
   if(score<150)return 3;
   return 4;
 }
-/* isLarge=true → show icon + label; false → icon only */
 function engIndicatorHTML(storyId,isLarge){
   const score=engagementScore(storyId);
   const lvl=engLevel(score);
@@ -481,7 +466,6 @@ async function handleReactionIndex(storyId,key,gridId){
 }
 
 /* ── REACTIONS: STRIP HTML ── */
-/* isLarge=true → engagement indicator shows icon + label (hero / large cards) */
 function rxnStripHTML(storyId,isHero,isLarge){
   const totals=_rxnCache[storyId]||{};
   const selected=localStorage.getItem('reaction_'+storyId)||null;
@@ -567,7 +551,15 @@ function bookTileHTML(b){const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'<
 function gearTileHTML(g){const tLen=(g.title||'').replace(/\\n/g,'').length;const tSize=tLen<=6?38:tLen<=8?32:tLen<=10?28:tLen<=13?24:20;const tl=(g.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');const sub=(g.subtitle||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');return'<a href="'+g.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-gear" title="Recommended gear — supports NSM at no extra cost"><div class="gear-card-wrap"><div class="gear-sheen"></div><div class="gear-inner-border"></div><div class="gear-clip-t"></div><div class="gear-clip-b"></div><div class="gear-clip-l"></div><div class="gear-clip-r"></div><div class="gear-content"><div class="gear-cat">'+(g.category_label||'')+'</div><div class="gear-title" style="font-size:'+tSize+'px;">'+tl+'</div><div class="gear-icon">'+(g.icon||'\u2699\uFE0F')+'</div><div class="gear-rule"></div><div class="gear-sub">'+sub+'</div></div><div class="gear-brand gear-brand-bottom"><div class="gear-brand-rule"></div><div class="gear-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div><div class="gear-brand-sub">'+randSupport()+'</div></div></div></a>'}
 let _allAffData=null,_allKwData=null,_globalBookRule=null,_globalGearRule=null,_affPlacementToggle=0;
 function pickAffTileForSection(sectionStories){const kwRules=(_allKwData&&_allKwData.rules)||[];let best=null,bestScore=0;for(const rule of kwRules){const score=sectionStories.filter(s=>(rule.keywords||[]).some(kw=>wordMatch([s.headline||'',s.summary||''].join(' '),kw))).length;if(score>bestScore){bestScore=score;best=rule}}const rule=best||(_affPlacementToggle===0?_globalBookRule:_globalGearRule)||_globalBookRule||_globalGearRule;if(!rule)return null;let tile=null;if(_affPlacementToggle===0){tile=rule.books?bookTileHTML(rule.books):(rule.gear?gearTileHTML(rule.gear):null);if(!tile&&_globalBookRule&&_globalBookRule.books)tile=bookTileHTML(_globalBookRule.books)}else{tile=rule.gear?gearTileHTML(rule.gear):(rule.books?bookTileHTML(rule.books):null);if(!tile&&_globalGearRule&&_globalGearRule.gear)tile=gearTileHTML(_globalGearRule.gear)}_affPlacementToggle=1-_affPlacementToggle;return tile}
-function affTileRowHTML(tile){if(!tile)return'';return'<div class="aff-tile-row"><div></div><div class="aff-tile-center">'+tile+'</div><div></div></div><div class="aff-tile-mobile">'+tile+'</div>'}
+
+/* ── AFFILIATE TILE ROW — flanked by story cards ── */
+function affTileRowHTML(tile,leftStory,rightStory){
+  if(!tile)return'';
+  const lHTML=leftStory?cardHTML(leftStory,false):'<div></div>';
+  const rHTML=rightStory?cardHTML(rightStory,false):'<div></div>';
+  return'<div class="aff-tile-row">'+lHTML+'<div class="aff-tile-center">'+tile+'</div>'+rHTML+'</div>'
+    +'<div class="aff-tile-mobile">'+tile+'</div>';
+}
 
 /* ── SHUFFLE SUMMARIES ── */
 function rotateSummaries(){document.querySelectorAll('[data-id]').forEach(el=>{const s=allStories.find(x=>x.url===el.dataset.id);if(!s)return;const opts=[s.social_bluesky,s.social_threads,s.social_facebook].filter(x=>x&&x.trim().length>20);if(!opts.length)return;el.style.opacity='0';setTimeout(()=>{el.textContent=opts[Math.floor(Math.random()*opts.length)];el.style.transition='opacity .22s';el.style.opacity='1'},110)})}
@@ -694,11 +686,11 @@ async function renderFeed(stories){
     byTopic[t].push(s);
   });
 
-  /* Fill lone-topic sections with a donor story */
+  /* Fill lone-topic sections with a donor story — scoped to current render slice only */
   let extrasUsed=0;const MAX_EXTRAS=4;
   TOPICS_ORDER.forEach(topic=>{
     if(!byTopic[topic]||byTopic[topic].length!==1||extrasUsed>=MAX_EXTRAS)return;
-    const donor=allStories.find(s=>(s.topic||'world')===topic&&!usedUrls.has(s.url));
+    const donor=stories.find(s=>(s.topic||'world')===topic&&!usedUrls.has(s.url));
     if(donor){byTopic[topic].push(donor);usedUrls.add(donor.url);extrasUsed++}
   });
 
@@ -724,7 +716,19 @@ async function renderFeed(stories){
       const rest=grp.slice(3);
       if(rest.length)html+='<div class="cards-grid-3">'+rest.map(s=>textCardHTML(s,false)).join('')+'</div>';
     }
-    if((ti+1)%2===0){const tile=pickAffTileForSection(grp);if(tile)html+=affTileRowHTML(tile)}
+
+    /* Every 2nd topic section: insert affiliate tile flanked by 2 unused stories */
+    if((ti+1)%2===0){
+      const tile=pickAffTileForSection(grp);
+      if(tile){
+        const flankPool=stories.filter(s=>!usedUrls.has(s.url));
+        const lS=flankPool[0]||null;
+        const rS=flankPool[1]||null;
+        if(lS)usedUrls.add(lS.url);
+        if(rS)usedUrls.add(rS.url);
+        html+=affTileRowHTML(tile,lS,rS);
+      }
+    }
   });
 
   feed.innerHTML=html;
