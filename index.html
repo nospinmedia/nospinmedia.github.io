@@ -232,13 +232,10 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .gear-brand-sub{font-size:8px!important;color:rgba(255,255,255,.65);font-style:italic;margin-top:3px;line-height:1.3;text-align:center}
 .aff-card-book:hover,.aff-card-gear:hover{transform:translateY(-5px)!important;box-shadow:0 10px 28px rgba(0,0,0,.22)!important}
 .aff-disclosure{text-align:center;font-size:.68rem;color:var(--dimmed);font-style:italic;margin-bottom:.9rem;margin-top:.3rem;letter-spacing:.01em}
-.aff-tile-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem;align-items:stretch}
 .aff-tile-center{min-height:240px}
-.aff-tile-mobile{display:none;margin-bottom:1rem;min-height:200px}
 .aff-flank{display:flex;flex-direction:column}
 .aff-flank .story-card{flex:1}
 .aff-flank-empty{visibility:hidden;pointer-events:none}
-@media(max-width:860px){.aff-tile-row{display:none}.aff-tile-mobile{display:block}}
 @media(max-width:860px){.aff-disclosure{font-size:.78rem;line-height:1.6;padding:0 .5rem}}
 
 /* ── LOADING ── */
@@ -557,15 +554,6 @@ function gearTileHTML(g){const tLen=(g.title||'').replace(/\\n/g,'').length;cons
 let _allAffData=null,_allKwData=null,_globalBookRule=null,_globalGearRule=null,_affPlacementToggle=0;
 function pickAffTileForSection(sectionStories){const kwRules=(_allKwData&&_allKwData.rules)||[];let best=null,bestScore=0;for(const rule of kwRules){const score=sectionStories.filter(s=>(rule.keywords||[]).some(kw=>wordMatch([s.headline||'',s.summary||''].join(' '),kw))).length;if(score>bestScore){bestScore=score;best=rule}}const rule=best||(_affPlacementToggle===0?_globalBookRule:_globalGearRule)||_globalBookRule||_globalGearRule;if(!rule)return null;let tile=null;if(_affPlacementToggle===0){tile=rule.books?bookTileHTML(rule.books):(rule.gear?gearTileHTML(rule.gear):null);if(!tile&&_globalBookRule&&_globalBookRule.books)tile=bookTileHTML(_globalBookRule.books)}else{tile=rule.gear?gearTileHTML(rule.gear):(rule.books?bookTileHTML(rule.books):null);if(!tile&&_globalGearRule&&_globalGearRule.gear)tile=gearTileHTML(_globalGearRule.gear)}_affPlacementToggle=1-_affPlacementToggle;return tile}
 
-/* ── AFFILIATE TILE ROW — flanked by story cards ── */
-function affTileRowHTML(tile,leftStory,rightStory){
-  if(!tile)return'';
-  const lHTML=leftStory?'<div class="aff-flank">'+cardHTML(leftStory,false)+'</div>':'<div class="aff-flank aff-flank-empty"></div>';
-  const rHTML=rightStory?'<div class="aff-flank">'+cardHTML(rightStory,false)+'</div>':'<div class="aff-flank aff-flank-empty"></div>';
-  return'<div class="aff-tile-row">'+lHTML+'<div class="aff-tile-center">'+tile+'</div>'+rHTML+'</div>'
-    +'<div class="aff-tile-mobile">'+tile+'</div>';
-}
-
 /* ── SHUFFLE SUMMARIES ── */
 function rotateSummaries(){document.querySelectorAll('[data-id]').forEach(el=>{const s=allStories.find(x=>x.url===el.dataset.id);if(!s)return;const opts=[s.social_bluesky,s.social_threads,s.social_facebook].filter(x=>x&&x.trim().length>20);if(!opts.length)return;el.style.opacity='0';setTimeout(()=>{el.textContent=opts[Math.floor(Math.random()*opts.length)];el.style.transition='opacity .22s';el.style.opacity='1'},110)})}
 
@@ -715,42 +703,49 @@ async function renderFeed(stories){
 
     html+='<div class="section-label">'+TOPIC_LABELS[topic]+'</div>';
 
+    const tile=pickAffTileForSection(grp);
+
     if(grp.length===1){
-      /* Single story: pair with an ad tile in a 2-col layout, or find a donor story */
-      const tile=pickAffTileForSection(grp);
+      /* 1 story: pair with tile in 2-col */
       if(tile){
-        /* Ad on the right, story on the left */
         html+='<div class="cards-grid-2"><div>'+cardHTML(grp[0],false,true)+'</div><div class="aff-tile-center">'+tile+'</div></div>';
       }else{
-        /* No ad available: just render the single card at half width */
         html+='<div class="cards-grid-2">'+cardHTML(grp[0],false,true)+'</div>';
       }
     }else if(grp.length===2){
-      html+='<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false,true)).join('')+'</div>';
-      /* After a 2-story section try to insert a flanked ad row */
-      if((ti+1)%2===0){
-        const tile=pickAffTileForSection(grp);
-        if(tile){
-          const flankPool=stories.filter(s=>!usedUrls.has(s.url));
-          const lS=flankPool[0]||null;
-          const rS=flankPool[1]||null;
-          if(lS&&rS){usedUrls.add(lS.url);usedUrls.add(rS.url);html+=affTileRowHTML(tile,lS,rS);}
-        }
+      /* 2 stories: fill the empty 3rd slot with a tile */
+      if(tile){
+        html+='<div class="cards-grid-3">'+cardHTML(grp[0],false,true)+cardHTML(grp[1],false,true)+'<div class="aff-tile-center">'+tile+'</div></div>';
+      }else{
+        html+='<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false,true)).join('')+'</div>';
+      }
+    }else if(grp.length===3){
+      /* Full 3-col, no gap */
+      html+='<div class="cards-grid-3">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
+    }else if(grp.length===4){
+      /* 3 top + 1 bottom: 2 empty slots — fill with up to 2 tiles */
+      html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
+      const tile2=pickAffTileForSection(grp);
+      if(tile&&tile2){
+        html+='<div class="cards-grid-3">'+cardHTML(grp[3],false,true)+'<div class="aff-tile-center">'+tile+'</div><div class="aff-tile-center">'+tile2+'</div></div>';
+      }else if(tile){
+        html+='<div class="cards-grid-2">'+cardHTML(grp[3],false,true)+'<div class="aff-tile-center">'+tile+'</div></div>';
+      }else{
+        html+='<div class="cards-grid-2">'+cardHTML(grp[3],false,true)+'</div>';
+      }
+    }else if(grp.length===5){
+      /* 3 top + 2 bottom: fill empty 3rd slot with a tile */
+      html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
+      if(tile){
+        html+='<div class="cards-grid-3">'+cardHTML(grp[3],false,true)+cardHTML(grp[4],false,true)+'<div class="aff-tile-center">'+tile+'</div></div>';
+      }else{
+        html+='<div class="cards-grid-3">'+grp.slice(3).map(s=>cardHTML(s,false,true)).join('')+'</div>';
       }
     }else{
+      /* 6+ stories: full rows, text cards for overflow */
       html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
       const rest=grp.slice(3);
       if(rest.length)html+='<div class="cards-grid-3">'+rest.map(s=>textCardHTML(s,false)).join('')+'</div>';
-      /* After a 3+ story section try to insert a flanked ad row */
-      if((ti+1)%2===0){
-        const tile=pickAffTileForSection(grp);
-        if(tile){
-          const flankPool=stories.filter(s=>!usedUrls.has(s.url));
-          const lS=flankPool[0]||null;
-          const rS=flankPool[1]||null;
-          if(lS&&rS){usedUrls.add(lS.url);usedUrls.add(rS.url);html+=affTileRowHTML(tile,lS,rS);}
-        }
-      }
     }
   });
 
