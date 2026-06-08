@@ -135,7 +135,7 @@
       {
         "title": "Support No Spin Media",
         "image": "amazon/nsm-amazon.webp",
-        "must_show": true,
+        "must_show": false,
         "links": [
           "https://www.amazon.com/?tag=nospinmedia-20"
         ]
