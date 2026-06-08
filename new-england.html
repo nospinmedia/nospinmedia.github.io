@@ -152,10 +152,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .gear-brand-sub{font-size:8px!important;color:rgba(255,255,255,.65);font-style:italic;margin-top:3px;line-height:1.3;text-align:center}
 .aff-card-book:hover,.aff-card-gear:hover{transform:translateY(-5px)!important;box-shadow:0 10px 28px rgba(0,0,0,.22)!important}
 .aff-disclosure{text-align:center;font-size:.65rem;color:var(--dimmed);font-style:italic;margin-bottom:.9rem;margin-top:.25rem}
-.aff-tile-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem;align-items:stretch}
 .aff-tile-center{min-height:240px}
-.aff-tile-mobile{display:none;margin-bottom:1rem;min-height:200px}
-@media(max-width:860px){.aff-tile-row{display:none}.aff-tile-mobile{display:block}}
 .feed-loading{text-align:center;padding:4rem;color:var(--dimmed)}
 .spinner{width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 1rem}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -314,7 +311,6 @@ function topCls(t){return'tp-bg-'+(t||'newengland')}
 function topBG(url,t){const kw=KW_IMG[t]||'newengland',res=_imgCache[url];const pri=res?'url(\''+res+'\')':'url(\''+IMG_S+url+'.jpg\')';return'background-image:'+pri+',url(\''+IMG_K+kw+'.jpg\');background-size:cover;background-position:center;'}
 
 /* ── REACTIONS: BATCH LOAD ── */
-/* PATCHED: added reddit_seed,reddit_comments to select */
 async function batchLoadReactions(storyIds){
   if(!storyIds.length)return;
   const needed=storyIds.filter(id=>!_rxnCache[id]);if(!needed.length)return;
@@ -365,8 +361,6 @@ async function handleReactionNE(storyId,key,gridId){
   }
 }
 
-/* ── REACTIONS: STRIP HTML ── */
-/* PATCHED: 👍 shows helpful+reddit_seed; 💬 appended at end if reddit_comments > 0 */
 function rxnStripHTML(storyId,isHero){
   const totals=_rxnCache[storyId]||{};
   const selected=localStorage.getItem('reaction_'+storyId)||null;
@@ -383,7 +377,6 @@ function rxnStripHTML(storyId,isHero){
       +'<span class="rxn-count">'+(count>0?count:'')+'</span>'
       +'</button>';
   }).join('');
-  /* 💬 comment count at end with thin divider — links to Reddit post if available */
   let cmBtn='';
   if(comments>0){
     const s=allStories.find(x=>x.url===storyId)||{};
@@ -444,7 +437,6 @@ function randSupport(){return NSM_SUPPORT_MSGS[Math.floor(Math.random()*NSM_SUPP
 function bookTileHTML(b){const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');const sub=(b.subtitle||'').replace(/\\n/g,'<br>');const href=neAffUrl(b.url);return'<a href="'+href+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-book" title="Recommended reading \u2014 supports NSM at no extra cost"><div class="book-card-wrap"><div class="book-spine" style="background:'+b.spine_color+';"></div><div class="book-pages"></div><div class="book-cover" style="background:'+b.cover_color+';"><div class="book-cover-sheen"></div><div class="book-cat" style="color:'+b.accent_color+';border-color:'+b.accent_color+';">'+b.category_label+'</div><div class="book-title book-title-lg">'+tl+'</div><div class="book-rule" style="background:'+b.accent_color+';"></div><div class="book-sub book-sub-readable">'+sub+'</div><div style="flex:1;"></div><div class="book-brand book-brand-bottom"><div class="book-brand-rule" style="background:'+b.accent_color+';"></div><div class="book-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div><div class="book-brand-sub">'+randSupport()+'</div></div></div></div></a>'}
 function gearTileHTML(g){const tLen=(g.title||'').replace(/\\n/g,'').length;const tSize=tLen<=6?38:tLen<=8?32:tLen<=10?28:tLen<=13?24:20;const tl=(g.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');const sub=(g.subtitle||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');const href=neAffUrl(g.url);return'<a href="'+href+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-gear" title="Recommended gear \u2014 supports NSM at no extra cost"><div class="gear-card-wrap"><div class="gear-sheen"></div><div class="gear-inner-border"></div><div class="gear-clip-t"></div><div class="gear-clip-b"></div><div class="gear-clip-l"></div><div class="gear-clip-r"></div><div class="gear-content"><div class="gear-cat">'+(g.category_label||'')+'</div><div class="gear-title" style="font-size:'+tSize+'px;">'+tl+'</div><div class="gear-icon">'+(g.icon||'\u2699\uFE0F')+'</div><div class="gear-rule"></div><div class="gear-sub">'+sub+'</div></div><div class="gear-brand gear-brand-bottom"><div class="gear-brand-rule"></div><div class="gear-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div><div class="gear-brand-sub">'+randSupport()+'</div></div></div></a>'}
 function pickAffTileForSection(sectionStories){const kwRules=(_allKwData?.rules)||[];let best=null,bestScore=0;for(const rule of kwRules){const score=sectionStories.filter(s=>(rule.keywords||[]).some(kw=>wordMatch([s.headline||'',s.summary||''].join(' '),kw))).length;if(score>bestScore){bestScore=score;best=rule}}const rule=best||(_affToggle===0?_globalBookRule:_globalGearRule)||_globalBookRule||_globalGearRule;if(!rule)return null;let tile=null;if(_affToggle===0){tile=rule.books?bookTileHTML(rule.books):(rule.gear?gearTileHTML(rule.gear):null);if(!tile&&_globalBookRule?.books)tile=bookTileHTML(_globalBookRule.books)}else{tile=rule.gear?gearTileHTML(rule.gear):(rule.books?bookTileHTML(rule.books):null);if(!tile&&_globalGearRule?.gear)tile=gearTileHTML(_globalGearRule.gear)}_affToggle=1-_affToggle;return tile}
-function affTileRowHTML(tile){if(!tile)return'';return'<div class="aff-tile-row"><div></div><div class="aff-tile-center">'+tile+'</div><div></div></div><div class="aff-tile-mobile">'+tile+'</div>'}
 async function loadAffiliateSidebars(stories){const kwData=await getKw();_allKwData=kwData;const{bookRule,gearRule}=findTopTwoRules(stories,kwData.rules||[]);_globalBookRule=bookRule;_globalGearRule=gearRule}
 
 function heroHTML(s){
@@ -529,9 +521,51 @@ function renderFeed(stories){
   present.forEach((topic,ti)=>{
     const grp=byTopic[topic];
     html+='<div class="section-label">'+TOPIC_LABELS[topic]+'</div>';
-    if(grp.length<=2)html+='<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
-    else{html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';const rest=grp.slice(3);if(rest.length)html+='<div class="cards-grid-3">'+rest.map(s=>textCardHTML(s,false)).join('')+'</div>'}
-    if((ti+1)%2===0){const tile=pickAffTileForSection(grp);if(tile)html+=affTileRowHTML(tile)}
+
+    const tile=pickAffTileForSection(grp);
+
+    if(grp.length===1){
+      /* 1 story: pair with tile in 2-col */
+      if(tile){
+        html+='<div class="cards-grid-2"><div>'+cardHTML(grp[0],false)+'</div><div class="aff-tile-center">'+tile+'</div></div>';
+      }else{
+        html+='<div class="cards-grid-2">'+cardHTML(grp[0],false)+'</div>';
+      }
+    }else if(grp.length===2){
+      /* 2 stories: fill the empty 3rd slot with a tile */
+      if(tile){
+        html+='<div class="cards-grid-3">'+cardHTML(grp[0],false)+cardHTML(grp[1],false)+'<div class="aff-tile-center">'+tile+'</div></div>';
+      }else{
+        html+='<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
+      }
+    }else if(grp.length===3){
+      /* Full 3-col, no gap */
+      html+='<div class="cards-grid-3">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
+    }else if(grp.length===4){
+      /* 3 top + 1 bottom: 2 empty slots — fill with up to 2 tiles */
+      html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
+      const tile2=pickAffTileForSection(grp);
+      if(tile&&tile2){
+        html+='<div class="cards-grid-3">'+cardHTML(grp[3],false)+'<div class="aff-tile-center">'+tile+'</div><div class="aff-tile-center">'+tile2+'</div></div>';
+      }else if(tile){
+        html+='<div class="cards-grid-2">'+cardHTML(grp[3],false)+'<div class="aff-tile-center">'+tile+'</div></div>';
+      }else{
+        html+='<div class="cards-grid-2">'+cardHTML(grp[3],false)+'</div>';
+      }
+    }else if(grp.length===5){
+      /* 3 top + 2 bottom: fill empty 3rd slot with a tile */
+      html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
+      if(tile){
+        html+='<div class="cards-grid-3">'+cardHTML(grp[3],false)+cardHTML(grp[4],false)+'<div class="aff-tile-center">'+tile+'</div></div>';
+      }else{
+        html+='<div class="cards-grid-3">'+grp.slice(3).map(s=>cardHTML(s,false)).join('')+'</div>';
+      }
+    }else{
+      /* 6+ stories: full rows, text cards for overflow */
+      html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
+      const rest=grp.slice(3);
+      if(rest.length)html+='<div class="cards-grid-3">'+rest.map(s=>textCardHTML(s,false)).join('')+'</div>';
+    }
   });
   feed.innerHTML=html;
 }
@@ -555,8 +589,6 @@ async function loadMore(){
   renderFeed(f.slice(0,_displayedCount));showLoadMore(f.length);
 }
 
-/* ── LOAD STORIES ── */
-/* PATCHED: added reddit_post_id to select */
 async function loadStories(){
   try{
     const res=await fetch(SB_URL+'/news_ne?select=headline,summary,posted_at,url,reddit_post_id&order=posted_at.desc&limit=60',{headers:{apikey:SB_KEY}});
