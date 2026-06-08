@@ -10,6 +10,14 @@
       ]
     },
       {
+  "title": "Prime Day Deals",
+  "image": "amazon/NSM_Prime_Day.webp",
+  "must_show": true,
+  "links": [
+    "https://www.amazon.com/primeday?&linkCode=ll2&tag=nospinmedia-20&linkId=b67422b09c41be146a44add3787eda45&language=en_US&ref_=as_li_ss_tl"
+  ]
+},
+      {
         "title": "History Books",
         "image": "books/history.png",
         "must_show": false,
