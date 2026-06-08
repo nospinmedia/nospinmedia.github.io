@@ -18,6 +18,22 @@
   ]
 },
       {
+  "title": "Prime Day Deals",
+  "image": "amazon/NSM_Prime_Day2.webp",
+  "must_show": false,
+  "links": [
+    "https://www.amazon.com/primeday?&linkCode=ll2&tag=nospinmedia-20&linkId=b67422b09c41be146a44add3787eda45&language=en_US&ref_=as_li_ss_tl"
+  ]
+      },
+       {
+  "title": "Prime Day Deals",
+  "image": "amazon/NSM_Prime_Day3.webp",
+  "must_show": false,
+  "links": [
+    "https://www.amazon.com/primeday?&linkCode=ll2&tag=nospinmedia-20&linkId=b67422b09c41be146a44add3787eda45&language=en_US&ref_=as_li_ss_tl"
+  ]
+      },
+      {
         "title": "History Books",
         "image": "books/history.png",
         "must_show": false,
