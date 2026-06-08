@@ -37,7 +37,18 @@
   --r:11px;--shadow:0 1px 8px rgba(0,0,0,.08);--shadow-h:0 5px 20px rgba(0,0,0,.13)
 }
 body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-top:70px}
-.page-wrap{max-width:1160px;margin:0 auto;padding:1.1rem 1.1rem 2rem}
+.index-wrap{display:flex;max-width:1400px;margin:0 auto;padding:1.1rem 1.25rem 2rem;gap:2rem;align-items:flex-start}
+.index-sidebar-l,.index-sidebar-r{width:210px;min-width:210px;flex-shrink:0;position:sticky;top:90px;max-height:calc(100vh - 110px);overflow-y:auto;scrollbar-width:none}
+.index-sidebar-l::-webkit-scrollbar,.index-sidebar-r::-webkit-scrollbar{display:none}
+.index-sidebar-l{border-right:1px solid var(--border);padding-right:1.25rem}
+.index-sidebar-r{border-left:1px solid var(--border);padding-left:1.25rem}
+.index-main{flex:1;min-width:0}
+.sidebar-label{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--blue)}
+#book-tiles,#gear-tiles{display:flex;flex-direction:column;gap:12px}
+#book-tiles a,#gear-tiles a{display:block;border-radius:var(--r);overflow:hidden;transition:transform .2s,box-shadow .2s;box-shadow:var(--shadow)}
+#book-tiles a:hover,#gear-tiles a:hover{transform:translateY(-3px);box-shadow:var(--shadow-h)}
+#book-tiles img,#gear-tiles img{width:100%;display:block;border-radius:var(--r)}
+.sidebar-disclosure{margin-top:10px;font-size:.62rem;color:#ccc;line-height:1.4;font-style:italic}
 
 /* ── MISSION BANNER ── */
 .mission-banner{
@@ -247,13 +258,17 @@ footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-t
 /* ── MOBILE ── */
 @media(max-width:860px){
   body{background:#EBEBEB}
-  .page-wrap{padding:.75rem .75rem 1.5rem}
+  .index-wrap{flex-direction:column;padding:.75rem .75rem 1.5rem;gap:0}
+  .index-sidebar-l,.index-sidebar-r{display:none}
+  .index-main{width:100%}
   .hero-top{min-height:130px;padding:1rem 1.1rem}
   .hero-hl-line1{font-size:1.15rem}
   .cards-grid-3{grid-template-columns:1fr}
   .cards-grid-2{grid-template-columns:1fr}
   .rxn-emoji{font-size:.95rem}
   .hero-reactions .rxn-emoji{font-size:1.05rem}
+  .mission-banner{border-radius:0;padding:.5rem 16px}
+  .mission-text{font-size:.72rem}
 }
 </style>
 
@@ -541,6 +556,24 @@ function shareDropdownHTML(id,headline,wrapId,fbId,isSm){
 async function getAff(){if(_aff)return _aff;try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_aff=await r.json()}catch(e){}return _aff||{}}
 async function getKw(){if(_kw)return _kw;try{const r=await fetch('/affiliate/keyword-affiliates.json');if(r.ok)_kw=await r.json()}catch(e){}return _kw||{rules:[]}}
 function wordMatch(hay,kw){const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-zA-Z])'+esc+'(?![a-zA-Z])','i').test(hay)}
+
+/* ── SIDEBAR IMAGE TILES ── */
+let _affData=null;
+async function loadAffData(){if(_affData)return _affData;try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_affData=await r.json()}catch(e){}return _affData||{}}
+function getRandomLink(item){return(item.links||[])[Math.floor(Math.random()*(item.links||[]).length)]||'#'}
+function pickItems(items,count){const must=items.filter(i=>i.must_show);const opt=[...items.filter(i=>!i.must_show)].sort(()=>0.5-Math.random());const pool=[...must,...opt];const seen=new Set();const result=[];for(const item of pool){if(!seen.has(item.title)&&result.length<count){seen.add(item.title);result.push(item)}}return result}
+function renderImgTileHTML(item){return'<a href="'+getRandomLink(item)+'" target="_blank" rel="noopener nofollow sponsored" title="Browse on Amazon"><img src="/affiliate/'+item.image+'" alt="'+item.title+'" loading="lazy"></a>'}
+function findKeywordMatch(text,rules){if(!text||!rules||!rules.length)return null;let best=null,bestScore=0;for(const rule of rules){const score=(rule.keywords||[]).filter(kw=>wordMatch(text,kw)).length;if(score>bestScore){bestScore=score;best=rule}}return best}
+async function loadSidebarTiles(stories){
+  const[affData,kwData]=await Promise.all([loadAffData(),getKw()]);
+  const bookItems=affData.books?.items||[];const gearItems=affData.gear?.items||[];
+  const allText=stories.map(s=>[s.headline||'',s.summary||''].join(' ')).join(' ');
+  const matchedRule=findKeywordMatch(allText,(kwData&&kwData.rules)||[]);
+  const bookEl=document.getElementById('book-tiles');
+  if(bookEl){let html='';if(matchedRule?.books)html+='<div style="margin-bottom:12px;">'+bookTileHTML(matchedRule.books)+'</div>';pickItems(bookItems,matchedRule?.books?2:3).forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderImgTileHTML(item)+'</div>'});bookEl.innerHTML=html}
+  const gearEl=document.getElementById('gear-tiles');
+  if(gearEl){let html='';if(matchedRule?.gear)html+='<div style="margin-bottom:12px;">'+gearTileHTML(matchedRule.gear)+'</div>';pickItems(gearItems,matchedRule?.gear?2:3).forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderImgTileHTML(item)+'</div>'});gearEl.innerHTML=html}
+}
 function topTwoRules(stories,rules){
   if(!stories||!rules||!stories.length||!rules.length)return{bookRule:null,gearRule:null};
   const sc=rules.map(rule=>({rule,total:stories.filter(s=>(rule.keywords||[]).some(kw=>wordMatch([s.headline||'',s.summary||''].join(' '),kw))).length}));
@@ -788,7 +821,7 @@ async function loadStories(){
     const tr=topTwoRules(allStories,(kwData&&kwData.rules)||[]);
     _globalBookRule=tr.bookRule;_globalGearRule=tr.gearRule;
     const firstBatch=allStories.slice(0,_displayedCount);
-    await Promise.all([preloadImages(firstBatch),batchLoadReactions(firstBatch.map(s=>s.url))]);
+    await Promise.all([preloadImages(firstBatch),batchLoadReactions(firstBatch.map(s=>s.url)),loadSidebarTiles(allStories)]);
     buildTabs(allStories);renderFeed(firstBatch);showLoadMore(allStories.length);
   }catch(e){
     document.getElementById('nsm-feed').innerHTML='<div class="feed-loading"><p>Could not load stories. Please refresh.</p></div>';
@@ -812,13 +845,25 @@ document.addEventListener('DOMContentLoaded',()=>{
 </head>
 <body>
 <div id="site-header"></div>
-<div class="page-wrap">
-  <div class="mission-banner banner-hidden" id="mission-banner">
-    <span class="mission-name">&#x1F9ED; No Spin Media</span>
-    <p class="mission-text">Independent reporting on national policy, science, technology, and global events. Neutral summaries of verified institutional reporting. No commentary. No spin.</p>
+<div class="index-wrap">
+  <div class="index-sidebar-l">
+    <div class="sidebar-label">&#x1F9ED; NSM Reading List</div>
+    <div id="book-tiles"></div>
+    <div class="sidebar-disclosure">Selecting a title supports independent journalism at no extra cost.</div>
   </div>
-  <div id="feed-tabs" class="feed-tabs"></div>
-  <div id="nsm-feed"><div class="feed-loading"><div class="spinner"></div>Loading stories&#x2026;</div></div>
+  <div class="index-main">
+    <div class="mission-banner banner-hidden" id="mission-banner">
+      <span class="mission-name">&#x1F9ED; No Spin Media</span>
+      <p class="mission-text">Independent reporting on national policy, science, technology, and global events. Neutral summaries of verified institutional reporting. No commentary. No spin.</p>
+    </div>
+    <div id="feed-tabs" class="feed-tabs"></div>
+    <div id="nsm-feed"><div class="feed-loading"><div class="spinner"></div>Loading stories&#x2026;</div></div>
+  </div>
+  <div class="index-sidebar-r">
+    <div class="sidebar-label">&#x1F9ED; NSM Field Gear</div>
+    <div id="gear-tiles"></div>
+    <div class="sidebar-disclosure">Selecting an item supports independent journalism at no extra cost.</div>
+  </div>
 </div>
 <footer>
   &copy; 2026 &#x1F9ED; No Spin Media. Independent. Truth-focused.<br>
