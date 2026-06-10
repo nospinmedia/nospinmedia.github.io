@@ -605,9 +605,9 @@ async function loadSidebarTiles(stories){
 
   /* Combine all items, deduplicate by title */
   const allItems=[...bookItems,...gearItems];
-  const seenTitles=new Set();
+  const seenImages=new Set();
   const deduped=[];
-  for(const item of allItems){if(!seenTitles.has(item.title)){seenTitles.add(item.title);deduped.push(item)}}
+  for(const item of allItems){if(!seenImages.has(item.image)){seenImages.add(item.image);deduped.push(item)}}
 
   /* Alternate must_show items L/R/L/R, then fill remaining slots with shuffled optionals */
   const mustShow=deduped.filter(i=>i.must_show);
