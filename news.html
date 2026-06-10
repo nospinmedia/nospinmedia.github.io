@@ -532,11 +532,18 @@ async function loadAffiliateTiles(stories){
   const{bookRule,gearRule}=findTopTwoRules(stories,kwData.rules||[]);
   const books=affData.books?.items||[];const gear=affData.gear?.items||[];
   _globalBookRule=bookRule;_globalGearRule=gearRule;_allKwData=kwData;_allAffData=affData;
-  let bHTML='',gHTML='';
-  if(bookRule?.books)bHTML='<div style="border-radius:8px;overflow:hidden;">'+bookTileHTML(bookRule.books)+'</div>';
-  else{const mb=pickOneMobile(books);if(mb)bHTML='<a href="'+getRandomLink(mb)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+mb.image+'" alt="'+mb.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>'}
-  if(gearRule?.gear)gHTML='<div style="border-radius:8px;overflow:hidden;">'+gearTileHTML(gearRule.gear)+'</div>';
-  else{const mg=pickOneMobile(gear);if(mg)gHTML='<a href="'+getRandomLink(mg)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+mg.image+'" alt="'+mg.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>'}
+
+  /* Mobile: pick 2 from combined pool, must_show first, deduped by image */
+  const allItems=[...books,...gear];
+  const seenImages=new Set();const deduped=[];
+  for(const item of allItems){if(!seenImages.has(item.image)){seenImages.add(item.image);deduped.push(item)}}
+  const mustShow=deduped.filter(i=>i.must_show);
+  const optional=[...deduped.filter(i=>!i.must_show)].sort(()=>0.5-Math.random());
+  const mobilePool=[...mustShow,...optional];
+  const m1=mobilePool[0]||null;const m2=mobilePool[1]||null;
+  const bHTML=m1?'<a href="'+getRandomLink(m1)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+m1.image+'" alt="'+m1.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>':'';
+  const gHTML=m2?'<a href="'+getRandomLink(m2)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+m2.image+'" alt="'+m2.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>':'';
+
   window.mobileAffHTML='<div class="mobile-aff-insert"><div class="mobile-aff-label">\uD83E\uDDED NSM Picks</div><div class="mobile-aff-grid">'+bHTML+gHTML+'</div><div class="mobile-aff-disc">Selecting an item supports independent journalism at no extra cost.</div></div>';
 }
 function pickAffTileForSection(sectionStories){
