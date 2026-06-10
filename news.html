@@ -28,7 +28,22 @@
   --r:11px;--shadow:0 1px 8px rgba(0,0,0,.08);--shadow-h:0 5px 20px rgba(0,0,0,.13)
 }
 body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-top:70px}
-.page-wrap{max-width:1160px;margin:0 auto;padding:1.1rem 1.1rem 2rem}
+
+/* ── LAYOUT ── */
+.index-wrap{display:flex;max-width:1400px;margin:0 auto;padding:1.1rem 1.25rem 2rem;gap:2rem;align-items:flex-start}
+.index-sidebar-l,.index-sidebar-r{width:210px;min-width:210px;flex-shrink:0;position:sticky;top:90px;max-height:calc(100vh - 110px);overflow-y:auto;scrollbar-width:none}
+.index-sidebar-l::-webkit-scrollbar,.index-sidebar-r::-webkit-scrollbar{display:none}
+.index-sidebar-l{border-right:1px solid var(--border);padding-right:1.25rem}
+.index-sidebar-r{border-left:1px solid var(--border);padding-left:1.25rem}
+.index-main{flex:1;min-width:0}
+.sidebar-label{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--blue)}
+#book-tiles,#gear-tiles{display:flex;flex-direction:column;gap:12px}
+#book-tiles a,#gear-tiles a{display:block;border-radius:var(--r);overflow:hidden;transition:transform .2s,box-shadow .2s;box-shadow:var(--shadow)}
+#book-tiles a:hover,#gear-tiles a:hover{transform:translateY(-3px);box-shadow:var(--shadow-h)}
+#book-tiles img,#gear-tiles img{width:100%;display:block;border-radius:var(--r)}
+.sidebar-disclosure{margin-top:10px;font-size:.62rem;color:#ccc;line-height:1.4;font-style:italic}
+
+/* ── ARCHIVE HEADER ── */
 .archive-header{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:1.1rem 1.4rem 1rem;margin-bottom:1rem;border-left:3px solid var(--blue)}
 .archive-header-top{display:flex;align-items:baseline;gap:.65rem;flex-wrap:wrap;margin-bottom:.85rem}
 .archive-title{font-family:var(--font-h);font-size:1.4rem;color:var(--text);line-height:1.2}
@@ -49,11 +64,43 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .results-tag{font-size:10px;font-weight:600;letter-spacing:.04em;padding:2px 9px;border-radius:20px;background:var(--blue-lt);color:var(--blue);border:1px solid rgba(0,102,204,.15)}
 .section-label{display:flex;align-items:center;gap:10px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);margin:1.3rem 0 .75rem}
 .section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── HERO CARD ── */
+.hero-card{border-radius:var(--r);overflow:hidden;background:var(--surface);box-shadow:var(--shadow);margin-bottom:1rem;cursor:pointer;transition:box-shadow .2s,transform .2s}
+.hero-card:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
+.hero-top{position:relative;min-height:160px;display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem 1.5rem 1.1rem;overflow:hidden}
+.hero-top-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .35s}
+.hero-card:hover .hero-top-bg{transform:scale(1.03)}
+.hero-top-scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.78) 0%,rgba(0,0,0,.2) 60%,rgba(0,0,0,.02) 100%)}
+.hero-top-content{position:relative;z-index:1}
+.hero-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--red);color:#fff;padding:3px 9px;border-radius:20px;margin-bottom:.6rem}
+.hero-hl-line1{font-family:var(--font-h);font-size:clamp(1.25rem,2.2vw,1.7rem);line-height:1.18;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5);display:block;margin-bottom:3px}
+.hero-hl-line2{font-family:var(--font-b);font-size:.9rem;font-weight:400;color:rgba(255,255,255,.82);display:block;line-height:1.3}
+.hero-body{padding:.95rem 1.5rem 1rem}
+.hero-summary{font-size:.9rem;line-height:1.68;color:var(--muted);margin-bottom:.6rem}
+.hero-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.hero-meta{display:flex;align-items:center;gap:8px}
+.hero-time{font-size:11px;color:var(--dimmed)}
+.hero-actions{display:flex;gap:8px;position:relative}
+.hero-reactions{display:flex;align-items:center;gap:2px;margin-bottom:.65rem;justify-content:space-between}
+.hero-reactions .rxn-buttons{gap:2px}
+.hero-reactions .rxn-emoji{font-size:1.2rem}
+.hero-reactions .rxn-count{font-size:.72rem}
+.hero-reactions .rxn{padding:4px 6px;gap:3px}
+.hero-reactions .eng-indicator-icon{font-size:1.2rem}
+.hero-reactions .eng-indicator-label{font-size:.76rem}
+.eng-indicator-label{font-size:.7rem;font-weight:600;color:var(--muted)}
+
+/* ── TOPIC GRADIENTS ── */
 .tp-bg-politics{background:linear-gradient(160deg,#0D3270,#1E5BB8)}.tp-bg-economy{background:linear-gradient(160deg,#0A3D1F,#1A7A3C)}.tp-bg-health{background:linear-gradient(160deg,#6B2E00,#C05A0A)}.tp-bg-legal{background:linear-gradient(160deg,#320A6B,#6A28C0)}.tp-bg-war{background:linear-gradient(160deg,#6B0A0A,#B52020)}.tp-bg-crime{background:linear-gradient(160deg,#4A0A0A,#952020)}.tp-bg-science{background:linear-gradient(160deg,#063A52,#0F7EA0)}.tp-bg-technology{background:linear-gradient(160deg,#0A2252,#1845A0)}.tp-bg-ai{background:linear-gradient(160deg,#280A52,#5520A0)}.tp-bg-world{background:linear-gradient(160deg,#282828,#555555)}.tp-bg-environment{background:linear-gradient(160deg,#083A08,#1A7A1A)}.tp-bg-military{background:linear-gradient(160deg,#3A1A04,#6A3810)}
+
+/* ── PILLS ── */
 .pill{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:20px}
 .pill-white{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.28)}
 .tp-politics{background:#DDEEFF;color:#0044AA}.tp-economy{background:#DDFAE8;color:#006622}.tp-health{background:#FFEEDD;color:#883300}.tp-legal{background:#EEE0FF;color:#5500AA}.tp-war{background:#FFDDDD;color:#AA1100}.tp-crime{background:#FFDDDD;color:#AA1100}.tp-science{background:#DDEEFC;color:#005577}.tp-technology{background:#DDEEFF;color:#003399}.tp-ai{background:#EEE0FF;color:#440099}.tp-world{background:#EEEEEE;color:#555555}.tp-environment{background:#DDFAE8;color:#004400}.tp-military{background:#FFEEDD;color:#663300}
 .imp-dot{width:6px;height:6px;border-radius:50%;display:inline-block;vertical-align:middle;margin-right:3px}.imp-major{background:var(--red)}.imp-normal{background:var(--blue)}.imp-minor{background:#CCC}
+
+/* ── STORY CARDS ── */
 .cards-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
 .cards-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1rem}
 .story-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:box-shadow .18s,transform .18s}
@@ -75,6 +122,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .text-card:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
 .text-card-headline{font-family:var(--font-h);font-size:.88rem;line-height:1.3;color:var(--text);margin:.4rem 0 .4rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .text-card-summary{font-size:.76rem;line-height:1.5;color:var(--muted);flex:1;margin-bottom:.5rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
 /* ── REACTION STRIP ── */
 .card-reactions{display:flex;align-items:center;gap:1px;margin-bottom:.5rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);justify-content:space-between}
 .rxn-buttons{display:flex;align-items:center;gap:1px}
@@ -85,13 +133,32 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .rxn.selected .rxn-count{color:var(--blue)}
 .rxn-emoji{font-size:1.05rem;line-height:1;display:block}
 .rxn-count{font-size:.68rem;font-weight:600;color:var(--dimmed);line-height:1;min-width:0}
+
+/* ── 3-WIDE REACTION STRIP (desktop only) ── */
+@media(min-width:861px){
+  .cards-grid-3 .rxn-emoji{font-size:.88rem}
+  .cards-grid-3 .rxn-count{font-size:.58rem}
+  .cards-grid-3 .rxn{padding:2px 3px}
+  .cards-grid-3 .card-time{font-size:9px}
+  .cards-grid-3 .btn-sm-read{font-size:10px;padding:4px 9px}
+  .cards-grid-3 .btn-sm-share{font-size:10px;padding:4px 7px}
+}
+
 /* ── ENGAGEMENT INDICATOR ── */
 .eng-indicator{display:inline-flex;align-items:center;gap:4px;font-size:.75rem;font-weight:600;color:var(--dimmed);white-space:nowrap;cursor:default;padding:2px 4px;border-radius:6px;flex-shrink:0;margin-left:4px}
 .eng-indicator-icon{font-size:1.05rem;line-height:1}
+
+/* ── BUTTONS ── */
+.btn-read{font-size:12px;font-weight:600;color:#fff;background:var(--blue);border:none;border-radius:20px;padding:7px 16px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:background .15s,transform .15s}
+.btn-read:hover{background:#0055BB;transform:translateY(-1px)}
+.btn-share{font-size:12px;font-weight:500;color:var(--muted);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:7px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:all .15s}
+.btn-share:hover{border-color:#bbb;color:var(--text)}
 .btn-sm-read{font-size:11px;font-weight:600;color:var(--blue);background:var(--blue-lt);border:none;border-radius:20px;padding:4px 11px;cursor:pointer;text-decoration:none;transition:background .15s}
 .btn-sm-read:hover{background:#D0E6F8}
 .btn-sm-share{font-size:11px;color:var(--dimmed);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 9px;cursor:pointer;transition:all .15s;line-height:1}
 .btn-sm-share:hover{border-color:#bbb;color:var(--muted)}
+
+/* ── SHARE DROPDOWN ── */
 .share-wrap{position:relative;display:inline-block}
 .share-dropdown{display:none;position:absolute;bottom:calc(100% + 6px);right:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow-h);min-width:240px;z-index:200;overflow:hidden}
 .share-wrap.open .share-dropdown{display:block}
@@ -102,6 +169,8 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .share-opt-desc{font-size:.7rem;color:var(--dimmed);display:block;margin-top:1px}
 .share-feedback-inline{font-size:.72rem;color:green;font-weight:600;position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:3px 9px;box-shadow:var(--shadow);pointer-events:none;opacity:0;transition:opacity .15s}
 .share-feedback-inline.visible{opacity:1}
+
+/* ── AFFILIATE TILES ── */
 .aff-card{border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s;display:block;text-decoration:none;height:100%}
 .aff-card:hover{box-shadow:var(--shadow-h);transform:translateY(-3px)}
 .book-card-wrap{display:flex;height:100%;min-height:240px;font-family:Georgia,'Times New Roman',serif}
@@ -145,15 +214,21 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .mobile-aff-grid a:active{transform:scale(.98)}
 .mobile-aff-grid img{width:100%;display:block;border-radius:var(--r)}
 .mobile-aff-disc{margin-top:.5rem;font-size:.6rem;color:#ccc;font-style:italic;line-height:1.4}
+
+/* ── LOADING / EMPTY ── */
 .feed-loading{text-align:center;padding:3rem;color:var(--dimmed)}
 .spinner{width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 1rem}
 @keyframes spin{to{transform:rotate(360deg)}}
 .no-results{text-align:center;padding:3rem;color:var(--dimmed);font-size:.9rem}
 footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-top:1px solid var(--border);margin-top:1rem}
+
+/* ── MOBILE ── */
 @media(max-width:860px){
   body{background:#EBEBEB}
-  .page-wrap{padding:.75rem .75rem 1.5rem}
-  .archive-header{border-radius:0;border-left:none;border-right:none;border-top:none;margin:0 -.75rem .75rem}
+  .index-wrap{flex-direction:column;padding:.75rem .75rem 1.5rem;gap:0}
+  .index-sidebar-l,.index-sidebar-r{display:none}
+  .index-main{width:100%}
+  .archive-header{border-radius:0;border-left:none;border-right:none;border-top:none;margin:0 0 .75rem}
   .search-form{display:grid;grid-template-columns:1fr 1fr;gap:6px}
   .search-select{font-size:.85rem}
   .search-input{grid-column:1/-1}
@@ -164,6 +239,8 @@ footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-t
   .aff-grid-desktop{display:none}
   .aff-mobile-single{display:block;margin-bottom:1rem;min-height:220px}
   .rxn-emoji{font-size:.95rem}
+  .hero-top{min-height:130px;padding:1rem 1.1rem}
+  .hero-hl-line1{font-size:1.15rem}
 }
 @media(min-width:861px){.aff-mobile-single{display:none}}
 </style>
@@ -184,6 +261,13 @@ const REACTIONS=[
   {key:'important',emoji:'📌',label:'Important'}
 ];
 
+/* ── SIDEBAR LABELS ── */
+const SIDEBAR_LABELS=['NSM Editor Picks','NSM Essentials','NSM Curated Picks','NSM Resources'];
+function pickSidebarLabels(){
+  const shuffled=[...SIDEBAR_LABELS].sort(()=>0.5-Math.random());
+  return{left:shuffled[0],right:shuffled[1]};
+}
+
 /* ── ENGAGEMENT INDICATOR ── */
 const ENG_LEVELS=[
   null,
@@ -199,12 +283,14 @@ function engScore(totals){
 function engLevel(score){
   if(score<=0)return 0;if(score<25)return 1;if(score<75)return 2;if(score<150)return 3;return 4;
 }
-function engIndicatorHTML(storyId){
+function engIndicatorHTML(storyId,isLarge){
   const lvl=engLevel(engScore(_rxnCache[storyId]));
   if(!lvl)return'';
   const def=ENG_LEVELS[lvl];
+  const label=isLarge?'<span class="eng-indicator-label">'+def.tip+'</span>':'';
   return'<span class="eng-indicator" title="'+def.tip+'">'
     +'<span class="eng-indicator-icon">'+def.icon+'</span>'
+    +label
     +'</span>';
 }
 
@@ -213,6 +299,7 @@ let _allAffData=null,_allKwData=null,_globalBookRule=null,_globalGearRule=null;
 let _affPlacementToggle=0;
 let _rxnCache={};
 let _currentStories=[];
+let _preloadStories=[];  /* stories loaded for pre-search hero display */
 
 /* ── UTILS ── */
 function timeSince(ds){
@@ -227,7 +314,8 @@ function parseHL(raw){const h=(raw||'').trim(),nl=h.indexOf('\n');if(nl>-1)retur
 function pillW(t){return'<span class="pill pill-white">'+(TOPIC_LABELS[t]||t||'News')+'</span>'}
 function pillC(t){return'<span class="pill tp-'+(t||'world')+'">'+(TOPIC_LABELS[t]||t||'News')+'</span>'}
 function impDot(i){return i?'<span class="imp-dot imp-'+i+'"></span>':''}
-function topCls(t){return'tp-bg-'+(t||'world')}
+const KNOWN_TOPICS=new Set(['politics','economy','legal','health','science','ai','technology','war','military','crime','environment','world','sports']);
+function topCls(t){return'tp-bg-'+(KNOWN_TOPICS.has(t)?t:'world')}
 function topBG(url,t){
   const kw=KW_IMG[t]||'news',res=_imgCache[url];
   const pri=res?'url(\''+res+'\')':'url(\'https://nospin.media/images/story/'+url+'.jpg\')';
@@ -300,12 +388,14 @@ async function handleReactionNews(storyId,key,gridId){
 }
 
 /* ── REACTIONS: STRIP HTML ── */
-function rxnStripHTML(storyId){
+function rxnStripHTML(storyId,isHero){
   const totals=_rxnCache[storyId]||{};
   const selected=localStorage.getItem('reaction_'+storyId)||null;
   const gridId='rxn-'+storyId;
+  const wrapCls=isHero?'hero-reactions':'card-reactions';
   const seed=totals.reddit_seed||0;
   const comments=totals.reddit_comments||0;
+  const allStories=[..._currentStories,..._preloadStories];
   const btns=REACTIONS.map(r=>{
     let count=totals[r.key]||0;
     if(r.key==='helpful')count=count+seed;
@@ -321,7 +411,7 @@ function rxnStripHTML(storyId){
   }).join('');
   let cmBtn='';
   if(comments>0){
-    const s=_currentStories.find(x=>x.url===storyId)||{};
+    const s=allStories.find(x=>x.url===storyId)||{};
     let redditLink='';
     if(s.reddit_post_id){try{const p=JSON.parse(s.reddit_post_id);if(p.jquery?.[10]?.[3]?.[0])redditLink=p.jquery[10][3][0]}catch(e){}}
     const divider='<span style="display:inline-block;width:1px;height:20px;background:var(--border);margin:0 3px;vertical-align:middle;"></span>';
@@ -331,8 +421,8 @@ function rxnStripHTML(storyId){
       :'<span class="rxn" style="cursor:default;pointer-events:none;">'
         +'<span class="rxn-emoji">💬</span><span class="rxn-count">'+comments+'</span></span>');
   }
-  const indicator=engIndicatorHTML(storyId);
-  return'<div class="card-reactions" id="'+gridId+'">'
+  const indicator=engIndicatorHTML(storyId,!!isHero);
+  return'<div class="'+wrapCls+'" id="'+gridId+'">'
     +'<div class="rxn-buttons">'+btns+cmBtn+'</div>'
     +indicator
     +'</div>';
@@ -351,15 +441,19 @@ function shareNewsTitle(id,db,headline,wrapId,fbId){document.getElementById(wrap
 function shareNewsSummary(id,db,wrapId,fbId){
   document.getElementById(wrapId)?.classList.remove('open');
   const url=window.location.origin+'/'+getStoryPage(db)+'?story='+encodeURIComponent(id);
-  const s=_currentStories.find(x=>x.url===id)||{};
+  const allStories=[..._currentStories,..._preloadStories];
+  const s=allStories.find(x=>x.url===id)||{};
   const opts=[s.social_bluesky,s.social_threads,s.social_facebook].filter(x=>x&&x.trim().length>20);
   const summary=opts.length?opts[Math.floor(Math.random()*opts.length)]:(s.summary||'').substring(0,280);
   _copyNews(summary.trim()+'\n\n'+url,'\u2705 Copied!',fbId);
 }
-function shareDropdownHTML(id,db,headline,wrapId,fbId){
+function shareDropdownHTML(id,db,headline,wrapId,fbId,isSm){
+  const btnCls=isSm===false?'btn-share':'btn-sm-share';
+  const btnTxt=isSm===false?'\uD83D\uDD17 Share':'\uD83D\uDD17 \u25BE';
   const safeHl=(headline||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' ');
   return'<div class="share-wrap" id="'+wrapId+'">'
-    +'<button class="btn-sm-share" onclick="event.stopPropagation();toggleShareNews(\''+wrapId+'\')">\uD83D\uDD17 \u25BE</button>'
+    +'<button class="'+btnCls+'" onclick="event.stopPropagation();toggleShareNews(\''+wrapId+'\')">'
+    +btnTxt+(isSm===false?' \u25BE':'')+'</button>'
     +'<div class="share-dropdown">'
     +'<button onclick="event.stopPropagation();shareNewsNative(\''+id+'\',\''+db+'\')">'
     +'<span class="share-opt-label">\uD83D\uDCF1 Share</span><span class="share-opt-desc">Native share / copy link</span></button>'
@@ -396,9 +490,43 @@ function findTopTwoRules(stories,rules){if(!stories?.length||!rules?.length)retu
 function bookTileHTML(b){const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');const sub=(b.subtitle||'').replace(/\\n/g,'<br>');return'<a href="'+b.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-book" title="Recommended reading — supports NSM at no extra cost"><div class="book-card-wrap"><div class="book-spine" style="background:'+b.spine_color+';"></div><div class="book-pages"></div><div class="book-cover" style="background:'+b.cover_color+';"><div class="book-cover-sheen"></div><div class="book-cat" style="color:'+b.accent_color+';border-color:'+b.accent_color+';">'+b.category_label+'</div><div class="book-title book-title-lg">'+tl+'</div><div class="book-rule" style="background:'+b.accent_color+';"></div><div class="book-sub book-sub-readable">'+sub+'</div><div style="flex:1;"></div><div class="book-brand book-brand-bottom"><div class="book-brand-rule" style="background:'+b.accent_color+';"></div><div class="book-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div><div class="book-brand-sub">'+randSupport()+'</div></div></div></div></a>'}
 function gearTileHTML(g){const tLen=(g.title||'').replace(/\\n/g,'').length;const tSize=tLen<=6?38:tLen<=8?32:tLen<=10?28:tLen<=13?24:20;const tl=(g.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');const sub=(g.subtitle||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');return'<a href="'+g.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-gear" title="Recommended gear — supports NSM at no extra cost"><div class="gear-card-wrap"><div class="gear-sheen"></div><div class="gear-inner-border"></div><div class="gear-clip-t"></div><div class="gear-clip-b"></div><div class="gear-clip-l"></div><div class="gear-clip-r"></div><div class="gear-content"><div class="gear-cat">'+(g.category_label||'')+'</div><div class="gear-title" style="font-size:'+tSize+'px;">'+tl+'</div><div class="gear-icon">'+(g.icon||'\u2699\uFE0F')+'</div><div class="gear-rule"></div><div class="gear-sub">'+sub+'</div></div><div class="gear-brand gear-brand-bottom"><div class="gear-brand-rule"></div><div class="gear-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div><div class="gear-brand-sub">'+randSupport()+'</div></div></div></a>'}
 function getRandomLink(item){return(item.links||[])[Math.floor(Math.random()*(item.links||[]).length)]||'#'}
-function pickItems(arr,n){const must=arr.filter(i=>i.must_show);const opt=[...arr.filter(i=>!i.must_show)].sort(()=>0.5-Math.random());return[...must,...opt].slice(0,n)}
 function pickOneMobile(arr){const must=arr.filter(i=>i.must_show);const pool=must.length?must:arr;return pool[Math.floor(Math.random()*pool.length)]}
 function renderImgTile(item){return'<a href="'+getRandomLink(item)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+item.image+'" alt="'+item.title+'" loading="lazy"></a>'}
+
+/* ── SIDEBAR TILES (same alternating must_show logic as index.html) ── */
+async function loadSidebarTiles(stories){
+  const[affData,kwData]=await Promise.all([getAff(),getKw()]);
+  const bookItems=affData.books?.items||[];
+  const gearItems=affData.gear?.items||[];
+
+  const{left:leftLabel,right:rightLabel}=pickSidebarLabels();
+  const lEl=document.querySelector('.index-sidebar-l .sidebar-label');
+  const rEl=document.querySelector('.index-sidebar-r .sidebar-label');
+  if(lEl)lEl.textContent='\uD83E\uDDED '+leftLabel;
+  if(rEl)rEl.textContent='\uD83E\uDDED '+rightLabel;
+
+  const allItems=[...bookItems,...gearItems];
+  const seenImages=new Set();
+  const deduped=[];
+  for(const item of allItems){if(!seenImages.has(item.image)){seenImages.add(item.image);deduped.push(item)}}
+
+  const mustShow=deduped.filter(i=>i.must_show);
+  const optional=[...deduped.filter(i=>!i.must_show)].sort(()=>0.5-Math.random());
+
+  const leftItems=[];const rightItems=[];
+  mustShow.forEach((item,idx)=>{if(idx%2===0)leftItems.push(item);else rightItems.push(item)});
+  for(const item of optional){
+    if(leftItems.length<3)leftItems.push(item);
+    else if(rightItems.length<3)rightItems.push(item);
+    else break;
+  }
+
+  const bookEl=document.getElementById('book-tiles');
+  if(bookEl){let html='';leftItems.forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderImgTile(item)+'</div>'});bookEl.innerHTML=html}
+  const gearEl=document.getElementById('gear-tiles');
+  if(gearEl){let html='';rightItems.forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderImgTile(item)+'</div>'});gearEl.innerHTML=html}
+}
+
 async function loadAffiliateTiles(stories){
   const affData=await getAff();const kwData=await getKw();
   const{bookRule,gearRule}=findTopTwoRules(stories,kwData.rules||[]);
@@ -427,6 +555,32 @@ function affRow(s1,s2,tile,db){
     +'<div class="aff-disclosure">\uD83E\uDDED NSM Picks \u2014 Supports independent journalism. No extra cost.</div>';
 }
 
+/* ── HERO CARD (pre-search top story) ── */
+function heroHTML(s,db,badgeText){
+  const p=parseHL(s.headline),t=s.topic||'world',ts=timeSince(s.posted_at),maj=s.importance==='major';
+  const pg=getStoryPage(db);
+  const sum=stripMd((s.summary||'').split('\n\n')[0]).substring(0,220);
+  const wrapId='sw-hero-'+s.url,fbId='sf-hero-'+s.url;
+  const badge=badgeText||(maj?'\uD83D\uDD34 Breaking':'\uD83D\uDCF0 Top Story');
+  return'<div class="hero-card" onclick="window.location=\''+pg+'?story='+encodeURIComponent(s.url)+'\'">'
+    +'<div class="hero-top '+topCls(t)+'">'
+    +'<div class="hero-top-bg" style="'+topBG(s.url,t)+'"></div>'
+    +'<div class="hero-top-scrim"></div>'
+    +'<div class="hero-top-content">'
+    +'<div class="hero-badge">'+badge+'</div>'
+    +'<span class="hero-hl-line1">'+escapeHtml(p.line1)+'</span>'+(p.line2?'<span class="hero-hl-line2">'+escapeHtml(p.line2)+'</span>':'')
+    +'</div></div>'
+    +'<div class="hero-body">'
+    +'<div class="hero-summary">'+sum+'</div>'
+    +rxnStripHTML(s.url,true)
+    +'<div class="hero-footer">'
+    +'<div class="hero-meta">'+pillC(t)+'<span class="hero-time">'+impDot(s.importance)+ts+'</span></div>'
+    +'<div class="hero-actions">'
+    +shareDropdownHTML(s.url,db,s.headline||'',wrapId,fbId,false)
+    +'<a class="btn-read" href="'+pg+'?story='+encodeURIComponent(s.url)+'" onclick="event.stopPropagation()">View Story \u2192</a>'
+    +'</div></div></div></div>';
+}
+
 /* ── CARD BUILDERS ── */
 function cardHTML(s,db){
   const p=parseHL(s.headline),t=s.topic||'world',ts=timeSince(s.posted_at);
@@ -439,9 +593,9 @@ function cardHTML(s,db){
     +'<span class="card-hl-line1">'+escapeHtml(p.line1)+'</span>'+(p.line2?'<span class="card-hl-line2">'+escapeHtml(p.line2)+'</span>':'')
     +'</div></div>'
     +'<div class="card-body"><div class="card-summary">'+sum+'</div>'
-    +rxnStripHTML(s.url)
+    +rxnStripHTML(s.url,false)
     +'<div class="card-footer"><span class="card-time">'+impDot(s.importance)+ts+'</span>'
-    +'<div class="card-actions">'+shareDropdownHTML(s.url,db,s.headline||'',wrapId,fbId)
+    +'<div class="card-actions">'+shareDropdownHTML(s.url,db,s.headline||'',wrapId,fbId,true)
     +'<a class="btn-sm-read" href="'+pg+'?story='+url+'" onclick="event.stopPropagation()">View Story \u2192</a>'
     +'</div></div></div></div>';
 }
@@ -453,14 +607,84 @@ function textCardHTML(s,db){
   return'<div class="text-card" onclick="window.location=\''+pg+'?story='+url+'\'">'
     +pillC(t)+'<div class="text-card-headline">'+hl+'</div>'
     +'<div class="text-card-summary">'+sum+'</div>'
-    +rxnStripHTML(s.url)
+    +rxnStripHTML(s.url,false)
     +'<div class="card-footer"><span class="card-time">'+impDot(s.importance)+ts+'</span>'
-    +'<div class="card-actions">'+shareDropdownHTML(s.url,db,s.headline||'',wrapId,fbId)
+    +'<div class="card-actions">'+shareDropdownHTML(s.url,db,s.headline||'',wrapId,fbId,true)
     +'<a class="btn-sm-read" href="'+pg+'?story='+url+'" onclick="event.stopPropagation()">View Story \u2192</a>'
     +'</div></div></div>';
 }
 
-/* ── DISPLAY RESULTS ── */
+/* ── PRE-SEARCH HERO DISPLAY ── */
+async function showPreSearchHero(){
+  const db=document.getElementById('database')?.value||'news_posts';
+  const feed=document.getElementById('news-feed');
+  const countEl=document.getElementById('results-count');
+  feed.innerHTML='<div class="feed-loading"><div class="spinner"></div>Loading latest stories\u2026</div>';
+  try{
+    const cols=db==='news_ne'
+      ?'headline,summary,posted_at,url,topic,importance,reddit_post_id'
+      :'headline,summary,social_bluesky,social_threads,social_facebook,posted_at,url,topic,importance,style,reddit_post_id';
+    const usedFilter=db==='news_posts'?'&used=eq.true':'';
+
+    /* Fetch latest 30 for top story, plus last 48h for hottest */
+    const [recentRes, hotRes] = await Promise.all([
+      fetch(SB_URL+'/'+db+'?select='+cols+usedFilter+'&order=posted_at.desc&limit=30',{headers:{apikey:SB_KEY}}),
+      fetch(SB_URL+'/'+db+'?select='+cols+usedFilter+'&posted_at=gte.'+(new Date(Date.now()-172800000).toISOString())+'&order=posted_at.desc&limit=50',{headers:{apikey:SB_KEY}})
+    ]);
+    const recent=await recentRes.json();
+    const hotPool=await hotRes.json();
+
+    if(!Array.isArray(recent)||!recent.length){
+      feed.innerHTML='<div class="no-results">No stories found.</div>';return;
+    }
+
+    _preloadStories=[...new Map([...recent,...(Array.isArray(hotPool)?hotPool:[])].map(s=>[s.url,s])).values()];
+
+    await Promise.all([
+      preloadImages(_preloadStories.slice(0,10)),
+      batchLoadReactions(_preloadStories.map(s=>s.url)),
+      loadSidebarTiles(_preloadStories)
+    ]);
+
+    const topStory=recent[0];
+
+    /* Find hottest story in last 48h by engagement score, different from topStory */
+    let hottestStory=null;
+    if(Array.isArray(hotPool)&&hotPool.length){
+      const candidates=hotPool.filter(s=>s.url!==topStory.url);
+      if(candidates.length){
+        hottestStory=candidates.reduce((best,s)=>engScore(_rxnCache[s.url])>engScore(_rxnCache[best.url])?s:best,candidates[0]);
+        /* Only show if it actually has engagement */
+        if(engScore(_rxnCache[hottestStory.url])===0)hottestStory=null;
+      }
+    }
+
+    let html='';
+    html+='<div class="section-label">Latest Story</div>';
+    html+=heroHTML(topStory,db,'\uD83D\uDCF0 Top Story');
+
+    if(hottestStory){
+      html+='<div class="section-label">\uD83D\uDD25 Hottest in Last 48 Hours</div>';
+      html+=heroHTML(hottestStory,db,'\uD83D\uDD25 Trending Now');
+    }
+
+    /* Show next 6 stories as cards below */
+    const rest=recent.filter(s=>s.url!==topStory.url&&(!hottestStory||s.url!==hottestStory.url)).slice(0,6);
+    if(rest.length){
+      html+='<div class="section-label">Recent Stories</div>';
+      html+='<div class="cards-grid-3">'+rest.slice(0,3).map(s=>cardHTML(s,db)).join('')+'</div>';
+      if(rest.length>3)html+='<div class="cards-grid-3">'+rest.slice(3,6).map(s=>cardHTML(s,db)).join('')+'</div>';
+    }
+
+    countEl.innerHTML='<span style="color:var(--dimmed);font-size:11px;">Showing latest \u2014 use filters above to search the full archive</span>';
+    feed.innerHTML=html;
+  }catch(e){
+    console.error(e);
+    feed.innerHTML='<div class="no-results">Could not load stories. Please refresh.</div>';
+  }
+}
+
+/* ── DISPLAY SEARCH RESULTS ── */
 async function displayStories(stories,db){
   const feed=document.getElementById('news-feed');
   if(!stories||!stories.length){feed.innerHTML='<div class="no-results">\uD83D\uDD0D No stories found. Try different filters.</div>';return}
@@ -493,21 +717,15 @@ async function displayStories(stories,db){
 /* ── DATE FILTER BUILDER ── */
 function buildDateFilters(params,year,month){
   if(!year&&!month)return;
-  if(year&&!month){
-    params.append('posted_at','gte.'+year+'-01-01T00:00:00');
-    params.append('posted_at','lt.'+(Number(year)+1)+'-01-01T00:00:00');
-    return;
-  }
+  if(year&&!month){params.append('posted_at','gte.'+year+'-01-01T00:00:00');params.append('posted_at','lt.'+(Number(year)+1)+'-01-01T00:00:00');return}
   if(year&&month){
     const start=year+'-'+month+'-01T00:00:00';
     let ny=Number(year),nm=Number(month)+1;
     if(nm===13){nm=1;ny+=1}
-    const nms=String(nm).padStart(2,'0');
     params.append('posted_at','gte.'+start);
-    params.append('posted_at','lt.'+ny+'-'+nms+'-01T00:00:00');
+    params.append('posted_at','lt.'+ny+'-'+String(nm).padStart(2,'0')+'-01T00:00:00');
     return;
   }
-  /* month only, no year — handled client-side after fetch */
   params.set('_month_only',month);
 }
 function passesMonthOnly(postedAt,month){
@@ -516,11 +734,7 @@ function passesMonthOnly(postedAt,month){
   return String(d.getMonth()+1).padStart(2,'0')===month;
 }
 
-/* ── SEARCH ── 
-   KEY FIX: When keywords are present, use server-side ilike filtering so the
-   full archive is searched (no 200-record cap). Date filters still apply.
-   When browsing without keywords, cap at 200 for performance.
-── */
+/* ── SEARCH ── */
 async function searchArchive(){
   const db=document.getElementById('database').value;
   const month=document.getElementById('month').value;
@@ -528,7 +742,7 @@ async function searchArchive(){
   const kw=document.getElementById('keywords').value.trim();
   const feed=document.getElementById('news-feed');
   const countEl=document.getElementById('results-count');
-  feed.innerHTML='<div class="feed-loading"><div class="spinner"></div>Searching the archive...</div>';
+  feed.innerHTML='<div class="feed-loading"><div class="spinner"></div>Searching the archive\u2026</div>';
   countEl.textContent='';
 
   const selectCols=db==='news_ne'
@@ -540,22 +754,13 @@ async function searchArchive(){
   if(db==='news_posts')params.append('used','eq.true');
   params.append('order','posted_at.desc');
 
-  /* Date filters */
   buildDateFilters(params,year,month);
   const monthOnly=params.get('_month_only');
   if(monthOnly)params.delete('_month_only');
 
-  /* Keyword filtering:
-     With keywords  → server-side ilike on headline OR summary for each term, NO limit
-     Without keywords → limit=200 (browse mode) */
   const terms=kw?kw.split(/[\s,]+/).map(t=>t.trim()).filter(t=>t.length>0):[];
   if(terms.length){
-    /* Each term must match headline OR summary (AND between terms) */
-    terms.forEach(term=>{
-      const like='*'+term+'*';
-      params.append('or','(headline.ilike.'+like+',summary.ilike.'+like+')');
-    });
-    /* No limit — search entire archive */
+    terms.forEach(term=>{const like='*'+term+'*';params.append('or','(headline.ilike.'+like+',summary.ilike.'+like+')')});
   }else{
     params.append('limit','200');
   }
@@ -564,10 +769,7 @@ async function searchArchive(){
     const res=await fetch(SB_URL+'/'+db+'?'+params.toString(),{headers:{apikey:SB_KEY}});
     if(!res.ok)throw new Error('Supabase '+res.status);
     let stories=await res.json();
-
-    /* Month-only client filter (when year not selected) */
     if(monthOnly)stories=stories.filter(s=>passesMonthOnly(s.posted_at,monthOnly));
-
     const tags=[];
     if(db==='news_ne')tags.push('New England');else tags.push('Main News');
     if(month){const mo=document.querySelector('#month option[value="'+month+'"]');if(mo)tags.push(mo.textContent)}
@@ -575,6 +777,8 @@ async function searchArchive(){
     if(kw)tags.push('"'+kw+'"');
     const tagsHTML=tags.map(t=>'<span class="results-tag">'+t+'</span>').join('');
     countEl.innerHTML='<span style="color:var(--dimmed);font-size:11px;">'+stories.length+' result'+(stories.length===1?'':'s')+'</span> '+tagsHTML;
+    /* Also load sidebars if not yet loaded */
+    if(!document.getElementById('book-tiles')?.innerHTML)loadSidebarTiles(stories);
     await displayStories(stories,db);
   }catch(e){
     console.error(e);feed.innerHTML='<div class="no-results">Search failed. Please try again.</div>';
@@ -586,27 +790,8 @@ function clearSearch(){
   document.getElementById('month').value='';
   document.getElementById('year').value='';
   document.getElementById('keywords').value='';
-  loadRecent();
-}
-
-async function loadRecent(){
-  const feed=document.getElementById('news-feed');const countEl=document.getElementById('results-count');
-  const db=document.getElementById('database')?.value||'news_posts';
-  feed.innerHTML='<div class="feed-loading"><div class="spinner"></div>Loading recent stories...</div>';
-  countEl.innerHTML='';
-  try{
-    const usedFilter=db==='news_posts'?'&used=eq.true':'';
-    const recentCols=db==='news_ne'
-      ?'headline,summary,posted_at,url,reddit_post_id'
-      :'headline,summary,social_bluesky,social_threads,social_facebook,posted_at,url,topic,importance,style,reddit_post_id';
-    const res=await fetch(SB_URL+'/'+db+'?select='+recentCols+usedFilter+'&order=posted_at.desc&limit=30',{headers:{apikey:SB_KEY}});
-    const stories=await res.json();
-    const label=db==='news_ne'?'New England':'Main News';
-    countEl.innerHTML='<span style="color:var(--dimmed);font-size:11px;">Showing recent '+label+' stories \u2014 use filters above to search the full archive</span>';
-    await displayStories(stories,db);
-  }catch(e){
-    feed.innerHTML='<div class="no-results">Could not load stories. Please refresh.</div>';
-  }
+  _preloadStories=[];_currentStories=[];
+  showPreSearchHero();
 }
 
 /* ── INIT ── */
@@ -618,50 +803,67 @@ document.addEventListener('DOMContentLoaded',()=>{
       ham.onclick=()=>{nav.classList.toggle('open');ham.classList.toggle('active')};
       nav.querySelectorAll('a').forEach(a=>{a.onclick=()=>{nav.classList.remove('open');ham.classList.remove('active')}});
     }
-    loadRecent();
+    showPreSearchHero();
   });
   document.getElementById('keywords').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();searchArchive()}});
+  /* Re-run pre-search hero when database dropdown changes without searching */
+  document.getElementById('database').addEventListener('change',()=>{
+    _preloadStories=[];_currentStories=[];
+    showPreSearchHero();
+  });
 });
 </script>
 </head>
 <body>
 <div id="site-header"></div>
-<div class="page-wrap">
-  <div class="archive-header">
-    <div class="archive-header-top">
-      <span class="archive-title">🧭 NSM Archive</span>
-      <span class="archive-subtitle">Search the No Spin Media archive by topic, keyword, or date</span>
-    </div>
-    <div class="search-form">
-      <select id="database" class="search-select" onchange="loadRecent()">
-        <option value="news_posts">📰 Main News</option>
-        <option value="news_ne">📍 New England</option>
-      </select>
-      <select id="month" class="search-select">
-        <option value="">Month</option>
-        <option value="01">January</option><option value="02">February</option>
-        <option value="03">March</option><option value="04">April</option>
-        <option value="05">May</option><option value="06">June</option>
-        <option value="07">July</option><option value="08">August</option>
-        <option value="09">September</option><option value="10">October</option>
-        <option value="11">November</option><option value="12">December</option>
-      </select>
-      <select id="year" class="search-select">
-        <option value="">Year</option>
-        <option value="2026">2026</option>
-        <option value="2025">2025</option>
-        <option value="2024">2024</option>
-      </select>
-      <input type="text" id="keywords" class="search-input" placeholder="&#128269; Keywords..."/>
-      <button type="button" onclick="searchArchive()" class="search-btn">Search Archive</button>
-      <button type="button" onclick="clearSearch()" class="clear-btn">Clear</button>
-    </div>
+<div class="index-wrap">
+  <div class="index-sidebar-l">
+    <div class="sidebar-label">&#x1F9ED; NSM Picks</div>
+    <div id="book-tiles"></div>
+    <div class="sidebar-disclosure">Selecting a title supports independent journalism at no extra cost.</div>
   </div>
-  <div class="results-bar"><div id="results-count"></div></div>
-  <div id="news-feed"><div class="feed-loading"><div class="spinner"></div>Loading stories...</div></div>
+  <div class="index-main">
+    <div class="archive-header">
+      <div class="archive-header-top">
+        <span class="archive-title">&#x1F9ED; NSM Archive</span>
+        <span class="archive-subtitle">Search the No Spin Media archive by topic, keyword, or date</span>
+      </div>
+      <div class="search-form">
+        <select id="database" class="search-select">
+          <option value="news_posts">&#x1F4F0; Main News</option>
+          <option value="news_ne">&#x1F4CD; New England</option>
+        </select>
+        <select id="month" class="search-select">
+          <option value="">Month</option>
+          <option value="01">January</option><option value="02">February</option>
+          <option value="03">March</option><option value="04">April</option>
+          <option value="05">May</option><option value="06">June</option>
+          <option value="07">July</option><option value="08">August</option>
+          <option value="09">September</option><option value="10">October</option>
+          <option value="11">November</option><option value="12">December</option>
+        </select>
+        <select id="year" class="search-select">
+          <option value="">Year</option>
+          <option value="2026">2026</option>
+          <option value="2025">2025</option>
+          <option value="2024">2024</option>
+        </select>
+        <input type="text" id="keywords" class="search-input" placeholder="&#128269; Keywords..."/>
+        <button type="button" onclick="searchArchive()" class="search-btn">Search Archive</button>
+        <button type="button" onclick="clearSearch()" class="clear-btn">Clear</button>
+      </div>
+    </div>
+    <div class="results-bar"><div id="results-count"></div></div>
+    <div id="news-feed"><div class="feed-loading"><div class="spinner"></div>Loading stories\u2026</div></div>
+  </div>
+  <div class="index-sidebar-r">
+    <div class="sidebar-label">&#x1F9ED; NSM Picks</div>
+    <div id="gear-tiles"></div>
+    <div class="sidebar-disclosure">Selecting an item supports independent journalism at no extra cost.</div>
+  </div>
 </div>
 <footer>
-  &copy; 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
+  &copy; 2026 &#x1F9ED; No Spin Media. Independent. Truth-focused.<br>
   <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
 </footer>
 </body>
