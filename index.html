@@ -180,6 +180,16 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .hero-reactions .rxn-count{font-size:.72rem}
 .hero-reactions .rxn{padding:4px 6px;gap:3px}
 
+/* ── 3-WIDE CARD: TIGHTER REACTION STRIP (desktop only) ── */
+@media(min-width:861px){
+  .cards-grid-3 .rxn-emoji{font-size:.88rem}
+  .cards-grid-3 .rxn-count{font-size:.58rem}
+  .cards-grid-3 .rxn{padding:2px 3px}
+  .cards-grid-3 .card-time{font-size:9px}
+  .cards-grid-3 .btn-sm-read{font-size:10px;padding:4px 9px}
+  .cards-grid-3 .btn-sm-share{font-size:10px;padding:4px 7px}
+}
+
 /* ── BUTTONS ── */
 .btn-read{font-size:12px;font-weight:600;color:#fff;background:var(--blue);border:none;border-radius:20px;padding:7px 16px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:background .15s,transform .15s}
 .btn-read:hover{background:#0055BB;transform:translateY(-1px)}
@@ -302,6 +312,13 @@ const REACTIONS=[
   {key:'concerning',emoji:'⚠️',label:'Concerning'},
   {key:'important',emoji:'📌',label:'Important'}
 ];
+
+/* ── SIDEBAR LABELS ── */
+const SIDEBAR_LABELS=['NSM Editor Picks','NSM Essentials','NSM Curated Picks','NSM Resources'];
+function pickSidebarLabels(){
+  const shuffled=[...SIDEBAR_LABELS].sort(()=>0.5-Math.random());
+  return{left:shuffled[0],right:shuffled[1]};
+}
 
 let allStories=[],activeTopic='all',_aff=null,_kw=null,_imgCache={},_imgRules=null,_bannerPinned=false;
 let _rxnCache={};
@@ -576,13 +593,48 @@ function renderImgTileHTML(item){return'<a href="'+getRandomLink(item)+'" target
 function findKeywordMatch(text,rules){if(!text||!rules||!rules.length)return null;let best=null,bestScore=0;for(const rule of rules){const score=(rule.keywords||[]).filter(kw=>wordMatch(text,kw)).length;if(score>bestScore){bestScore=score;best=rule}}return best}
 async function loadSidebarTiles(stories){
   const[affData,kwData]=await Promise.all([loadAffData(),getKw()]);
-  const bookItems=affData.books?.items||[];const gearItems=affData.gear?.items||[];
-  const allText=stories.map(s=>[s.headline||'',s.summary||''].join(' ')).join(' ');
-  const matchedRule=findKeywordMatch(allText,(kwData&&kwData.rules)||[]);
+  const bookItems=affData.books?.items||[];
+  const gearItems=affData.gear?.items||[];
+
+  /* Pick random label pair — never the same on both sides */
+  const{left:leftLabel,right:rightLabel}=pickSidebarLabels();
+  const lEl=document.querySelector('.index-sidebar-l .sidebar-label');
+  const rEl=document.querySelector('.index-sidebar-r .sidebar-label');
+  if(lEl)lEl.textContent='\uD83E\uDDED '+leftLabel;
+  if(rEl)rEl.textContent='\uD83E\uDDED '+rightLabel;
+
+  /* Combine all items across both categories */
+  const allItems=[...bookItems,...gearItems];
+
+  /* must_show anchors top of left sidebar; everything else shuffled */
+  const mustShow=allItems.filter(i=>i.must_show);
+  const optional=[...allItems.filter(i=>!i.must_show)].sort(()=>0.5-Math.random());
+  const pool=[...mustShow,...optional];
+
+  /* Deduplicate by title */
+  const seen=new Set();
+  const deduped=[];
+  for(const item of pool){if(!seen.has(item.title)){seen.add(item.title);deduped.push(item)}}
+
+  /* Left: must_show first then fill to 3 */
+  const leftItems=deduped.slice(0,3);
+
+  /* Right: remaining pool re-shuffled so it never mirrors left */
+  const rightPool=[...deduped.slice(3)].sort(()=>0.5-Math.random());
+  const rightItems=rightPool.slice(0,3);
+
   const bookEl=document.getElementById('book-tiles');
-  if(bookEl){let html='';if(matchedRule?.books)html+='<div style="margin-bottom:12px;">'+bookTileHTML(matchedRule.books)+'</div>';pickItems(bookItems,matchedRule?.books?2:3).forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderImgTileHTML(item)+'</div>'});bookEl.innerHTML=html}
+  if(bookEl){
+    let html='';
+    leftItems.forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderImgTileHTML(item)+'</div>'});
+    bookEl.innerHTML=html;
+  }
   const gearEl=document.getElementById('gear-tiles');
-  if(gearEl){let html='';if(matchedRule?.gear)html+='<div style="margin-bottom:12px;">'+gearTileHTML(matchedRule.gear)+'</div>';pickItems(gearItems,matchedRule?.gear?2:3).forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderImgTileHTML(item)+'</div>'});gearEl.innerHTML=html}
+  if(gearEl){
+    let html='';
+    rightItems.forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderImgTileHTML(item)+'</div>'});
+    gearEl.innerHTML=html;
+  }
 }
 function topTwoRules(stories,rules){
   if(!stories||!rules||!stories.length||!rules.length)return{bookRule:null,gearRule:null};
@@ -716,19 +768,15 @@ async function renderFeed(stories){
 
   html+=heroHTML(heroStory);
 
-  /* Grid pool: everything after the hero */
   const gridPool=stories.slice(1);
 
-  /* Slots 2–4 */
   const g1=gridPool.slice(0,3);
   if(g1.length)html+='<div class="section-label">Latest</div><div class="cards-grid-3">'
     +g1.map(s=>cardHTML(s,true)).join('')+'</div>';
 
-  /* Slots 5–6 */
   const g2=gridPool.slice(3,5);
   if(g2.length)html+='<div class="cards-grid-'+(g2.length===1?1:2)+'">'+g2.map(s=>cardHTML(s,true,true)).join('')+'</div>';
 
-  /* Topic sections from remainder of gridPool */
   const usedUrls=new Set([heroStory.url,...gridPool.slice(0,5).map(s=>s.url)]);
   const byTopic={};
   gridPool.slice(5).forEach(s=>{
@@ -739,7 +787,6 @@ async function renderFeed(stories){
     byTopic[t].push(s);
   });
 
-  /* Fill lone-topic sections with a donor story — scoped to current render slice only */
   let extrasUsed=0;const MAX_EXTRAS=4;
   TOPICS_ORDER.forEach(topic=>{
     if(!byTopic[topic]||byTopic[topic].length!==1||extrasUsed>=MAX_EXTRAS)return;
@@ -747,37 +794,26 @@ async function renderFeed(stories){
     if(donor){byTopic[topic].push(donor);usedUrls.add(donor.url);extrasUsed++}
   });
 
-  /* Fetch reactions for any donor stories not yet cached */
   const allRendered=[heroStory,...gridPool.slice(0,5)];
   Object.values(byTopic).forEach(grp=>grp.forEach(s=>allRendered.push(s)));
   const missingRxn=allRendered.filter(s=>!_rxnCache[s.url]).map(s=>s.url);
   if(missingRxn.length)await batchLoadReactions(missingRxn);
 
-  /* Sort within each topic group by engagement score, descending */
   const present=TOPICS_ORDER.filter(t=>byTopic[t]&&byTopic[t].length);
   present.forEach((topic,ti)=>{
     const grp=byTopic[topic];
-
-    /* Sort by engagement score descending */
     grp.sort((a,b)=>engagementScore(b.url)-engagementScore(a.url));
-
     html+='<div class="section-label">'+TOPIC_LABELS[topic]+'</div>';
-
-    /* Sidebars handle ads on desktop — center feed is pure stories.
-       Grid sizing: fill naturally, never leave empty slots. */
     if(grp.length===1){
-      /* 1 story: full width single card */
       html+='<div class="cards-grid-1" style="display:grid;gap:10px;margin-bottom:1rem;">'+cardHTML(grp[0],false,true)+'</div>';
     }else if(grp.length===2){
       html+='<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false,true)).join('')+'</div>';
     }else if(grp.length===3){
       html+='<div class="cards-grid-3">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
     }else if(grp.length===4){
-      /* 3+1: top row of 3, bottom single full-width */
       html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
       html+='<div class="cards-grid-1" style="display:grid;gap:10px;margin-bottom:1rem;">'+cardHTML(grp[3],false,true)+'</div>';
     }else if(grp.length===5){
-      /* 3+2: top row of 3, bottom row of 2 */
       html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
       html+='<div class="cards-grid-2">'+grp.slice(3).map(s=>cardHTML(s,false,true)).join('')+'</div>';
     }else{
@@ -785,8 +821,6 @@ async function renderFeed(stories){
       const rest=grp.slice(3);
       if(rest.length)html+='<div class="cards-grid-3">'+rest.map(s=>textCardHTML(s,false)).join('')+'</div>';
     }
-
-    /* Mobile-only picks card: inject after every 3rd topic section */
     if((ti+1)%3===0)html+=mobilePicks();
   });
 
@@ -855,7 +889,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 <div id="site-header"></div>
 <div class="index-wrap">
   <div class="index-sidebar-l">
-    <div class="sidebar-label">&#x1F9ED; NSM Reading List</div>
+    <div class="sidebar-label">&#x1F9ED; NSM Picks</div>
     <div id="book-tiles"></div>
     <div class="sidebar-disclosure">Selecting a title supports independent journalism at no extra cost.</div>
   </div>
@@ -868,7 +902,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     <div id="nsm-feed"><div class="feed-loading"><div class="spinner"></div>Loading stories&#x2026;</div></div>
   </div>
   <div class="index-sidebar-r">
-    <div class="sidebar-label">&#x1F9ED; NSM Field Gear</div>
+    <div class="sidebar-label">&#x1F9ED; NSM Picks</div>
     <div id="gear-tiles"></div>
     <div class="sidebar-disclosure">Selecting an item supports independent journalism at no extra cost.</div>
   </div>
