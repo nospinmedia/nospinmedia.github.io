@@ -622,7 +622,7 @@ async function showPreSearchHero(){
   feed.innerHTML='<div class="feed-loading"><div class="spinner"></div>Loading latest stories\u2026</div>';
   try{
     const cols=db==='news_ne'
-      ?'headline,summary,posted_at,url,topic,importance,reddit_post_id'
+      ?'headline,summary,posted_at,url,reddit_post_id'
       :'headline,summary,social_bluesky,social_threads,social_facebook,posted_at,url,topic,importance,style,reddit_post_id';
     const usedFilter=db==='news_posts'?'&used=eq.true':'';
 
@@ -643,7 +643,8 @@ async function showPreSearchHero(){
     await Promise.all([
       preloadImages(_preloadStories.slice(0,10)),
       batchLoadReactions(_preloadStories.map(s=>s.url)),
-      loadSidebarTiles(_preloadStories)
+      loadSidebarTiles(_preloadStories),
+      loadAffiliateTiles(_preloadStories)
     ]);
 
     const topStory=recent[0];
@@ -678,6 +679,12 @@ async function showPreSearchHero(){
 
     countEl.innerHTML='<span style="color:var(--dimmed);font-size:11px;">Showing latest \u2014 use filters above to search the full archive</span>';
     feed.innerHTML=html;
+
+    /* Mobile ad injection — after 3rd card if present */
+    if(window.innerWidth<=860&&window.mobileAffHTML){
+      const cards=feed.querySelectorAll('.story-card,.text-card');
+      if(cards[2]){const div=document.createElement('div');div.innerHTML=window.mobileAffHTML;cards[2].after(div.firstElementChild)}
+    }
   }catch(e){
     console.error(e);
     feed.innerHTML='<div class="no-results">Could not load stories. Please refresh.</div>';
