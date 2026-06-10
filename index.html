@@ -603,25 +603,31 @@ async function loadSidebarTiles(stories){
   if(lEl)lEl.textContent='\uD83E\uDDED '+leftLabel;
   if(rEl)rEl.textContent='\uD83E\uDDED '+rightLabel;
 
-  /* Combine all items across both categories */
+  /* Combine all items, deduplicate by title */
   const allItems=[...bookItems,...gearItems];
-
-  /* must_show anchors top of left sidebar; everything else shuffled */
-  const mustShow=allItems.filter(i=>i.must_show);
-  const optional=[...allItems.filter(i=>!i.must_show)].sort(()=>0.5-Math.random());
-  const pool=[...mustShow,...optional];
-
-  /* Deduplicate by title */
-  const seen=new Set();
+  const seenTitles=new Set();
   const deduped=[];
-  for(const item of pool){if(!seen.has(item.title)){seen.add(item.title);deduped.push(item)}}
+  for(const item of allItems){if(!seenTitles.has(item.title)){seenTitles.add(item.title);deduped.push(item)}}
 
-  /* Left: must_show first then fill to 3 */
-  const leftItems=deduped.slice(0,3);
+  /* Alternate must_show items L/R/L/R, then fill remaining slots with shuffled optionals */
+  const mustShow=deduped.filter(i=>i.must_show);
+  const optional=[...deduped.filter(i=>!i.must_show)].sort(()=>0.5-Math.random());
 
-  /* Right: remaining pool re-shuffled so it never mirrors left */
-  const rightPool=[...deduped.slice(3)].sort(()=>0.5-Math.random());
-  const rightItems=rightPool.slice(0,3);
+  const leftItems=[];
+  const rightItems=[];
+
+  /* Place must_show items alternating left then right */
+  mustShow.forEach((item,idx)=>{
+    if(idx%2===0)leftItems.push(item);
+    else rightItems.push(item);
+  });
+
+  /* Fill each side to 3 with optional items */
+  for(const item of optional){
+    if(leftItems.length<3)leftItems.push(item);
+    else if(rightItems.length<3)rightItems.push(item);
+    else break;
+  }
 
   const bookEl=document.getElementById('book-tiles');
   if(bookEl){
