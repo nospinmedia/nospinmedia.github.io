@@ -136,9 +136,9 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 /* ── STORY CARDS ── */
 .cards-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
 .cards-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1rem}
-.story-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:box-shadow .18s,transform .18s}
+.story-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:visible;cursor:pointer;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:box-shadow .18s,transform .18s}
 .story-card:hover{box-shadow:var(--shadow-h);transform:translateY(-3px)}
-.card-top{position:relative;min-height:90px;display:flex;flex-direction:column;justify-content:flex-end;padding:.65rem .85rem .7rem;overflow:hidden;flex-shrink:0}
+.card-top{position:relative;min-height:90px;display:flex;flex-direction:column;justify-content:flex-end;padding:.65rem .85rem .7rem;overflow:hidden;flex-shrink:0;border-radius:var(--r) var(--r) 0 0}
 .card-top-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .3s}
 .story-card:hover .card-top-bg{transform:scale(1.05)}
 .card-top-scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.35) 55%,rgba(0,0,0,.02) 100%)}
@@ -660,8 +660,16 @@ function mobilePicks(){
   if(!_affData)return'';
   const bookItems=_affData.books?.items||[];
   const gearItems=_affData.gear?.items||[];
-  function pickOne(items){const must=items.filter(i=>i.must_show);const pool=must.length?must:items;return pool[Math.floor(Math.random()*pool.length)]||null}
-  const b=pickOne(bookItems),g=pickOne(gearItems);
+
+  /* Combined pool, must_show first, deduped by image — same logic as sidebar */
+  const allItems=[...bookItems,...gearItems];
+  const seenImages=new Set();const deduped=[];
+  for(const item of allItems){if(!seenImages.has(item.image)){seenImages.add(item.image);deduped.push(item)}}
+  const mustShow=deduped.filter(i=>i.must_show);
+  const optional=[...deduped.filter(i=>!i.must_show)].sort(()=>0.5-Math.random());
+  const pool=[...mustShow,...optional];
+  const b=pool[0]||null;const g=pool[1]||null;
+
   const bHTML=b?'<a href="'+getRandomLink(b)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+b.image+'" alt="'+b.title+'" loading="lazy"></a>':'';
   const gHTML=g?'<a href="'+getRandomLink(g)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+g.image+'" alt="'+g.title+'" loading="lazy"></a>':'';
   if(!bHTML&&!gHTML)return'';
