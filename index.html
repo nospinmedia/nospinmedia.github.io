@@ -312,6 +312,9 @@ const REACTIONS=[
   {key:'concerning',emoji:'⚠️',label:'Concerning'},
   {key:'important',emoji:'📌',label:'Important'}
 ];
+/* Reddit-sourced seed votes + comment counts — temporarily disabled.
+   Flip to true to bring back Reddit numbers without touching anything else below. */
+const REDDIT_STATS_ENABLED=false;
 
 /* ── SIDEBAR LABELS ── */
 const SIDEBAR_LABELS=['NSM Editor Picks','NSM Essentials','NSM Curated Picks','NSM Resources'];
@@ -326,8 +329,8 @@ let _rxnCache={};
 /* ── ENGAGEMENT SCORE ── */
 function engagementScore(storyId){
   const r=_rxnCache[storyId]||{};
-  const thumbsUp=(r.helpful||0)+(r.reddit_seed||0);
-  const comments=r.reddit_comments||0;
+  const thumbsUp=(r.helpful||0)+(REDDIT_STATS_ENABLED?(r.reddit_seed||0):0);
+  const comments=REDDIT_STATS_ENABLED?(r.reddit_comments||0):0;
   return thumbsUp+(comments*3);
 }
 
@@ -515,8 +518,8 @@ function rxnStripHTML(storyId,isHero,isLarge){
   const selected=localStorage.getItem('reaction_'+storyId)||null;
   const gridId='rxn-'+storyId;
   const wrapCls=isHero?'hero-reactions':'card-reactions';
-  const seed=totals.reddit_seed||0;
-  const comments=totals.reddit_comments||0;
+  const seed=REDDIT_STATS_ENABLED?(totals.reddit_seed||0):0;
+  const comments=REDDIT_STATS_ENABLED?(totals.reddit_comments||0):0;
   const btns=REACTIONS.map(r=>{
     let count=totals[r.key]||0;
     if(r.key==='helpful')count=count+seed;
