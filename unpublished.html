@@ -73,6 +73,7 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .story-link,.btn-review{font-size:.8rem;font-weight:600;color:var(--blue);background:none;border:none;padding:0;cursor:pointer;font-family:var(--font-b)}
 .story-link:hover,.btn-review:hover{text-decoration:underline}
 .share-confirm{font-size:.72rem;color:green;font-weight:600;margin-left:2px}
+.post-time-tag{font-size:.8rem;font-weight:600;color:var(--text);margin-left:auto;white-space:nowrap}
 .feedback-panel{background:var(--surface2);border-top:1px solid var(--border);padding:1rem;display:none}
 .feedback-panel.open{display:block}
 .feedback-panel h4{font-size:.82rem;font-weight:700;margin-bottom:.6rem}
@@ -110,6 +111,7 @@ const IMG_K='https://nospin.media/images/keyword/';
 const KW_IMG={politics:'politics',economy:'economy',health:'health',legal:'court',war:'war',crime:'crime',science:'science',technology:'technology',ai:'ai',world:'world',environment:'environment',military:'military'};
 
 let _affiliateData=null,_keywordAffiliateData=null,_imageRulesCache=null;
+const _storyRaw={};
 
 async function loadAffiliateData(){
   if(_affiliateData)return _affiliateData;
@@ -299,6 +301,55 @@ async function shareUnpublished(id,headline,btn){
 }
 window.shareUnpublished=shareUnpublished;
 
+async function copyRichText(html,plain,confEl){
+  try{
+    if(navigator.clipboard&&window.ClipboardItem){
+      const item=new ClipboardItem({
+        'text/html':new Blob([html],{type:'text/html'}),
+        'text/plain':new Blob([plain],{type:'text/plain'})
+      });
+      await navigator.clipboard.write([item]);
+    }else{
+      await navigator.clipboard.writeText(plain);
+    }
+    if(confEl){confEl.textContent='\u2705 Copied!';setTimeout(()=>{confEl.textContent=''},2000)}
+  }catch(e){
+    if(confEl){confEl.textContent='\u274C Failed';setTimeout(()=>{confEl.textContent=''},2000)}
+  }
+}
+
+function buildStoryClipboardHTML(summary){
+  const converted=convertRedditMarkdown(summary||'');
+  const paras=converted.split(/\n{2,}/).filter(p=>p.trim().length);
+  return paras.map(p=>'<p>'+p.replace(/\n/g,'<br>')+'</p>').join('');
+}
+function buildStoryClipboardPlain(summary){
+  let t=(summary||'').replace(/\\n/g,'\n');
+  t=t.replace(/\n{3,}/g,'\n\n');
+  return t.trim();
+}
+
+function copyTitleOnly(id,btn){
+  const d=_storyRaw[id];if(!d)return;
+  const text=(d.headline||'').replace(/\n/g,' \u2014 ').trim();
+  const conf=btn.querySelector('.share-confirm-title');
+  navigator.clipboard.writeText(text).then(()=>{
+    if(conf){conf.textContent='\u2705 Copied!';setTimeout(()=>{conf.textContent=''},2000)}
+  }).catch(()=>{
+    if(conf){conf.textContent='\u274C Failed';setTimeout(()=>{conf.textContent=''},2000)}
+  });
+}
+window.copyTitleOnly=copyTitleOnly;
+
+function copyStoryOnly(id,btn){
+  const d=_storyRaw[id];if(!d)return;
+  const html=buildStoryClipboardHTML(d.summary);
+  const plain=buildStoryClipboardPlain(d.summary);
+  const conf=btn.querySelector('.share-confirm-story');
+  copyRichText(html,plain,conf);
+}
+window.copyStoryOnly=copyStoryOnly;
+
 window.submitReviewPanel=function(storyUrl,btn){
   const panel=document.getElementById('review-panel-'+storyUrl);if(!panel)return;
   const name=panel.querySelector('.rp-name').value.trim();
@@ -453,6 +504,8 @@ async function loadStories(){
       const restPara=paras.slice(1).join('\n\n');
       const hasMore=restPara.trim().length>0;
 
+      _storyRaw[story.url]={headline:story.headline||'',summary:story.summary||''};
+
       let badgeHTML='';
       if(storyRule&&(storyRule.books||storyRule.gear)){
         const bl=storyRule.books?.category_label||'';
@@ -486,6 +539,9 @@ async function loadStories(){
         +'<button class="btn-review" onclick="toggleReview(\''+safeUrl+'\',\''+safeHL+'\')">&#x270F;&#xFE0F; Review</button>'
         +'<button class="story-link" onclick="shareUnpublished(\''+safeUrl+'\',\''+safeHL+'\',this)">&#x1F4CB; Title+Link <span class="share-confirm"></span></button>'
         +'<button class="story-link" onclick="shareUrlOnly(\''+safeUrl+'\'  ,this)">&#x1F517; Link only <span class="share-confirm-url"></span></button>'
+        +'<span class="post-time-tag"><strong>Post Time:</strong> '+timeLabel+' EST</span>'
+        +'<button class="story-link" onclick="copyTitleOnly(\''+safeUrl+'\',this)">&#x1F4DD; Title <span class="share-confirm-title"></span></button>'
+        +'<button class="story-link" onclick="copyStoryOnly(\''+safeUrl+'\',this)">&#x1F4F0; Story <span class="share-confirm-story"></span></button>'
         +'</div></div>';
 
       const reviewPanel=document.createElement('div');
