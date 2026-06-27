@@ -743,6 +743,7 @@ async function renderFeed(stories){
 
   const g2=gridPool.slice(3,5);
   if(g2.length)html+='<div class="cards-grid-'+(g2.length===1?1:2)+'">'+g2.map(s=>cardHTML(s,true,true)).join('')+'</div>';
+  html+=mobilePicks();
 
   const usedUrls=new Set([heroStory.url,...gridPool.slice(0,5).map(s=>s.url)]);
   const byTopic={};
