@@ -89,15 +89,11 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .reaction-btn.selected .reaction-emoji{filter:drop-shadow(0 0 4px rgba(0,102,204,.3))}
 .reaction-btn.selected .reaction-count{color:var(--blue)}
 .reaction-btn.selected:hover{background:rgba(0,102,204,.1)}
-
-/* ── REDDIT INLINE ITEMS ── */
 .reddit-static{cursor:default!important;pointer-events:none;}
 .reddit-comment-link{pointer-events:auto!important;cursor:pointer!important;text-decoration:none;}
 .reddit-comment-link:hover{background:#FFF4F0!important;border-color:#FFCDB8!important;}
 .reddit-comment-link:hover .reaction-count{color:#FF4500!important;}
 .reaction-grid-divider{width:1px;height:28px;background:var(--border);margin:0 4px;display:inline-block;vertical-align:middle;}
-
-/* ── REDDIT ADMIN PANEL ── */
 #reddit-admin-panel{display:none;position:fixed;bottom:24px;right:24px;z-index:9000;width:300px;background:var(--surface);border:1.5px solid #d0d0cc;border-radius:var(--r);box-shadow:0 8px 32px rgba(0,0,0,.18);padding:14px 16px 16px;font-family:var(--font-b)}
 #reddit-admin-panel.open{display:block}
 .radmin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
@@ -117,7 +113,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .radmin-status.ok{color:green}
 .radmin-status.err{color:var(--red)}
 .radmin-hint{margin-top:10px;font-size:.67rem;color:#bbb;line-height:1.5;border-top:1px solid var(--border);padding-top:8px}
-
 .source-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:.7rem 1.1rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.6rem;font-size:.78rem;color:var(--dimmed)}
 .source-card a{color:var(--blue);text-decoration:none;font-weight:500}
 .source-card a:hover{text-decoration:underline}
@@ -200,11 +195,9 @@ footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-t
 </style>
 
 <script>
-/* ── CONSTANTS ── */
 const SB_KEY='sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
 const SB_REACTIONS='https://dckmflnbprhmaqysuued.supabase.co/rest/v1/story_reaction_totals';
 
-/* ── NE TOPIC INFERENCE ── */
 const NE_TOPIC_RULES=[
   {topic:'education',kws:['school','schools','university','universities','college','colleges','student','students','teacher','teachers','curriculum','tuition','campus','classroom','education','graduation','superintendent','school board','school district']},
   {topic:'environment',kws:['climate','flood','flooding','storm','hurricane','wildfire','drought','pollution','environmental','conservation','wildlife','habitat','clean energy','solar','wind turbine','offshore wind','fishing','fishery','fisheries','lobster','seacoast','watershed']},
@@ -229,37 +222,55 @@ function neInferTopic(s){const text=[s.headline||'',(s.summary||'').split('\n\n'
 
 function resolveBackLink(){
   const ref=document.referrer;
-  if(ref){try{const u=new URL(ref);if(u.hostname===window.location.hostname){const pg=u.pathname.split('/').pop();if(pg==='ne_index.html'||pg==='new-england.html')return{href:pg,label:'← New England News'};if(pg==='news.html')return{href:'news.html',label:'← Archive'};if(pg===''||pg==='index.html'||pg==='/')return{href:'index.html',label:'← Latest News'};return{href:ref,label:'← Back'}}}catch(e){}}
-  return{href:'ne_index.html',label:'← New England News'};
+  if(ref){try{const u=new URL(ref);if(u.hostname===window.location.hostname){const pg=u.pathname.split('/').pop();if(pg==='ne_index.html'||pg==='new-england.html'||pg==='ne.html')return{href:pg,label:'New England News'};if(pg==='news.html')return{href:'news.html',label:'Archive'};if(pg===''||pg==='index.html'||pg==='/')return{href:'index.html',label:'Latest News'};return{href:ref,label:'Back'}}}catch(e){}}
+  return{href:'ne.html',label:'New England News'};
 }
 
 /* ── AFFILIATE ── */
+/* must_show values: true = pinned, false = normal pool, "hide" = excluded */
 let _affiliateData=null,_keywordAffiliateData=null;
 async function loadAffiliateData(){if(_affiliateData)return _affiliateData;try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_affiliateData=await r.json()}catch(e){}return _affiliateData||{}}
 async function loadKeywordAffiliateData(){if(_keywordAffiliateData)return _keywordAffiliateData;try{const r=await fetch('/affiliate/keyword-affiliates.json');if(r.ok)_keywordAffiliateData=await r.json()}catch(e){}return _keywordAffiliateData||{rules:[]}}
 function findKeywordMatch(text,rules){if(!text||!rules||!rules.length)return null;let best=null,bestScore=0;for(const rule of rules){const score=(rule.keywords||[]).filter(kw=>wordMatch(text,kw)).length;if(score>bestScore){bestScore=score;best=rule}}return best}
 function getRandomLink(item){return(item.links||[])[Math.floor(Math.random()*(item.links||[]).length)]||'#'}
-function pickItems(items,count){const must=items.filter(i=>i.must_show);const opt=[...items.filter(i=>!i.must_show)].sort(()=>0.5-Math.random());const pool=[...must,...opt];const seen=new Set();const result=[];for(const item of pool){if(!seen.has(item.title)&&result.length<count){seen.add(item.title);result.push(item)}}return result}
-function pickOneMobile(items){const must=items.filter(i=>i.must_show);const pool=must.length?must:items;return pool[Math.floor(Math.random()*pool.length)]}
+
+/* Exclude "hide" items, then pinned first, then random pool */
+function pickItems(items,count){
+  const visible=items.filter(i=>i.must_show!=='hide');
+  const must=visible.filter(i=>i.must_show===true);
+  const opt=[...visible.filter(i=>i.must_show!==true)].sort(()=>0.5-Math.random());
+  const pool=[...must,...opt];
+  const seen=new Set();const result=[];
+  for(const item of pool){if(!seen.has(item.title)&&result.length<count){seen.add(item.title);result.push(item)}}
+  return result;
+}
+function pickOneMobile(items){
+  const visible=items.filter(i=>i.must_show!=='hide');
+  const must=visible.filter(i=>i.must_show===true);
+  const pool=must.length?must:visible;
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
 function renderTileHTML(item){return'<a href="'+getRandomLink(item)+'" target="_blank" rel="noopener nofollow sponsored" title="Browse on Amazon"><img src="/affiliate/'+item.image+'" alt="'+item.title+'" loading="lazy"></a>'}
-function isNEItem(item){return(item.title||'').startsWith('NE')}
-function pickItemsNE(arr,n){const ne=arr.filter(isNEItem);const must=arr.filter(i=>!isNEItem(i)&&i.must_show);const opt=[...arr.filter(i=>!isNEItem(i)&&!i.must_show)].sort(()=>0.5-Math.random());const seen=new Set();const result=[];for(const item of[...ne,...must,...opt]){if(!seen.has(item.title)&&result.length<n){seen.add(item.title);result.push(item)}}return result}
-function pickOneMobileNE(arr){const ne=arr.filter(isNEItem);const must=arr.filter(i=>!isNEItem(i)&&i.must_show);const pool=ne.length?ne:must.length?must:arr;return pool[Math.floor(Math.random()*pool.length)]}
 const NSM_SUPPORT_MSGS=['Supports independent journalism','Helps keep NSM free','Curated by No Spin Media','Reader-supported journalism','Recommended by the NSM newsroom','Hand-picked by No Spin Media','Helps fund independent reporting','NSM reader recommendation'];
 function randSupport(){return NSM_SUPPORT_MSGS[Math.floor(Math.random()*NSM_SUPPORT_MSGS.length)]}
 function bookTileHTML(b){const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');const sub=(b.subtitle||'').replace(/\\n/g,'<br>');return'<a href="'+b.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-book" title="Recommended reading \u2014 supports NSM at no extra cost"><div class="book-card-wrap"><div class="book-spine" style="background:'+b.spine_color+';"></div><div class="book-pages"></div><div class="book-cover" style="background:'+b.cover_color+';"><div class="book-cover-sheen"></div><div class="book-cat" style="color:'+b.accent_color+';border-color:'+b.accent_color+';">'+b.category_label+'</div><div class="book-title book-title-lg">'+tl+'</div><div class="book-rule" style="background:'+b.accent_color+';"></div><div class="book-sub book-sub-readable">'+sub+'</div><div style="flex:1;"></div><div class="book-brand book-brand-bottom"><div class="book-brand-rule" style="background:'+b.accent_color+';"></div><div class="book-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div><div class="book-brand-sub">'+randSupport()+'</div></div></div></div></a>'}
 function gearTileHTML(g){const tLen=(g.title||'').replace(/\\n/g,'').length;const tSize=tLen<=6?38:tLen<=8?32:tLen<=10?28:tLen<=13?24:20;const tl=(g.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');const sub=(g.subtitle||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');return'<a href="'+g.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-gear" title="Recommended gear \u2014 supports NSM at no extra cost"><div class="gear-card-wrap"><div class="gear-sheen"></div><div class="gear-inner-border"></div><div class="gear-clip-t"></div><div class="gear-clip-b"></div><div class="gear-clip-l"></div><div class="gear-clip-r"></div><div class="gear-content"><div class="gear-cat">'+(g.category_label||'')+'</div><div class="gear-title" style="font-size:'+tSize+'px;">'+tl+'</div><div class="gear-icon">'+(g.icon||'\u2699\uFE0F')+'</div><div class="gear-rule"></div><div class="gear-sub">'+sub+'</div></div><div class="gear-brand gear-brand-bottom"><div class="gear-brand-rule"></div><div class="gear-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div><div class="gear-brand-sub">'+randSupport()+'</div></div></div></a>'}
+
 async function loadAllAffiliateTiles(matchedRule){
-  const data=await loadAffiliateData();const bookItems=data.books?.items||[];const gearItems=data.gear?.items||[];
+  const data=await loadAffiliateData();
+  /* Filter out hidden items at the source */
+  const bookItems=(data.books?.items||[]).filter(i=>i.must_show!=='hide');
+  const gearItems=(data.gear?.items||[]).filter(i=>i.must_show!=='hide');
   const bookEl=document.getElementById('book-tiles');
-  if(bookEl){let html='';if(matchedRule?.books)html+='<div style="margin-bottom:12px;">'+bookTileHTML(matchedRule.books)+'</div>';pickItemsNE(bookItems,matchedRule?.books?2:3).forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderTileHTML(item)+'</div>'});bookEl.innerHTML=html}
+  if(bookEl){let html='';if(matchedRule?.books)html+='<div style="margin-bottom:12px;">'+bookTileHTML(matchedRule.books)+'</div>';pickItems(bookItems,matchedRule?.books?2:3).forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderTileHTML(item)+'</div>'});bookEl.innerHTML=html}
   const gearEl=document.getElementById('gear-tiles');
-  if(gearEl){let html='';if(matchedRule?.gear)html+='<div style="margin-bottom:12px;">'+gearTileHTML(matchedRule.gear)+'</div>';pickItemsNE(gearItems,matchedRule?.gear?2:3).forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderTileHTML(item)+'</div>'});gearEl.innerHTML=html}
+  if(gearEl){let html='';if(matchedRule?.gear)html+='<div style="margin-bottom:12px;">'+gearTileHTML(matchedRule.gear)+'</div>';pickItems(gearItems,matchedRule?.gear?2:3).forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderTileHTML(item)+'</div>'});gearEl.innerHTML=html}
   let bHTML='',gHTML='';
   if(matchedRule?.books)bHTML='<div style="border-radius:8px;overflow:hidden;">'+bookTileHTML(matchedRule.books)+'</div>';
-  else{const mb=pickOneMobileNE(bookItems);if(mb)bHTML='<a href="'+getRandomLink(mb)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+mb.image+'" alt="'+mb.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>'}
+  else{const mb=pickOneMobile(bookItems);if(mb)bHTML='<a href="'+getRandomLink(mb)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+mb.image+'" alt="'+mb.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>'}
   if(matchedRule?.gear)gHTML='<div style="border-radius:8px;overflow:hidden;">'+gearTileHTML(matchedRule.gear)+'</div>';
-  else{const mg=pickOneMobileNE(gearItems);if(mg)gHTML='<a href="'+getRandomLink(mg)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+mg.image+'" alt="'+mg.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>'}
+  else{const mg=pickOneMobile(gearItems);if(mg)gHTML='<a href="'+getRandomLink(mg)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+mg.image+'" alt="'+mg.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>'}
   window.mobileAffiliateHTML='<div class="mobile-aff-insert"><div class="mobile-aff-label">\uD83E\uDDED NSM Picks</div><div class="mobile-aff-grid">'+bHTML+gHTML+'</div><div class="mobile-aff-disc">Selecting an item supports independent journalism at no extra cost.</div></div>';
 }
 
@@ -285,7 +296,6 @@ async function loadReactions(storyId){
     const data=await res.json();return(data&&data[0])?data[0]:null;
   }catch(e){return null}
 }
-
 async function upsertReaction(storyId,field,delta,source){
   const cur=await loadReactions(storyId);
   const current=cur?(cur[field]||0):0;const newVal=Math.max(0,current+delta);
@@ -296,11 +306,9 @@ async function upsertReaction(storyId,field,delta,source){
   if(!res.ok)throw new Error('Supabase write failed: '+res.status);
   return newVal;
 }
-
 function getStoredReaction(storyId){return localStorage.getItem('reaction_'+storyId)||null}
 function setStoredReaction(storyId,key){if(key)localStorage.setItem('reaction_'+storyId,key);else localStorage.removeItem('reaction_'+storyId)}
 
-/* ── REDDIT DISPLAY (merged into reactions grid) ── */
 function commentsItemHTML(totals,redditLink){
   const comments=(totals&&totals.reddit_comments)||0;
   if(comments===0)return'';
@@ -360,16 +368,12 @@ async function handleReaction(storyId,key){
   }
 }
 
-/* ══════════════════════════════════════════
-   ── REDDIT ADMIN PANEL ──
-   Trigger: footer 🧭 click
-   ══════════════════════════════════════════ */
+/* ── REDDIT ADMIN PANEL ── */
 function parseRedditPaste(raw){
   if(!raw||!raw.trim())return null;
   const nums=raw.match(/\d+/g);if(!nums||!nums.length)return null;
   return{seed:parseInt(nums[0])||0,comments:nums.length>=2?parseInt(nums[1])||0:0};
 }
-
 async function saveRedditStats(){
   const storyId=new URLSearchParams(location.search).get('story');if(!storyId)return;
   const textarea=document.getElementById('reddit-paste-input');
@@ -392,7 +396,6 @@ async function saveRedditStats(){
   }catch(e){statusEl.className='radmin-status err';statusEl.textContent='Error: '+e.message}
   finally{saveBtn.disabled=false}
 }
-
 function updateAdminPreview(){
   const textarea=document.getElementById('reddit-paste-input');const previewEl=document.getElementById('radmin-preview');
   if(!textarea||!previewEl)return;
@@ -400,7 +403,6 @@ function updateAdminPreview(){
   if(!parsed){previewEl.innerHTML='<span style="color:#bbb;">Paste Reddit stats above</span>';return}
   previewEl.innerHTML='reddit_seed = <span>'+parsed.seed+'</span> &nbsp;·&nbsp; reddit_comments = <span>'+parsed.comments+'</span>';
 }
-
 function showAdminPanel(){const panel=document.getElementById('reddit-admin-panel');if(!panel)return;panel.classList.add('open');setTimeout(()=>{const t=document.getElementById('reddit-paste-input');if(t)t.focus()},50)}
 function hideAdminPanel(){const panel=document.getElementById('reddit-admin-panel');if(panel)panel.classList.remove('open');const s=document.getElementById('radmin-status');if(s)s.textContent=''}
 function toggleAdminPanel(){const panel=document.getElementById('reddit-admin-panel');if(panel&&panel.classList.contains('open'))hideAdminPanel();else showAdminPanel()}
@@ -413,7 +415,6 @@ function copyLinkOnly(){_closeShare();_copyToClipboard(window._storyUrl||locatio
 function copyWithTitle(){_closeShare();const hl=(window._storyHeadline||'').replace(/\n/g,': ').trim();_copyToClipboard(hl+'\n'+(window._storyUrl||location.href),'\u2705 Copied with headline!')}
 function copyWithSummary(){_closeShare();const s=window._storyData||{};const opts=[s.social_bluesky,s.social_threads,s.social_facebook].filter(x=>x&&x.trim().length>20);const summary=opts.length?opts[Math.floor(Math.random()*opts.length)]:(s.summary||'').split('\n\n')[0].replace(/\\n/g,' ').replace(/\*\*(.*?)\*\*/g,'$1').substring(0,280);_copyToClipboard(summary.trim()+'\n\n'+(window._storyUrl||location.href),'\u2705 Copied with summary!')}
 function nativeShare(){if(navigator.share)navigator.share({title:window._storyHeadline||'No Spin Media',url:window._storyUrl||location.href}).catch(()=>{});else copyLinkOnly()}
-
 function convertMarkdown(text){if(!text)return'';text=text.replace(/\\n\\n/g,'\n\n').replace(/\\n/g,'\n');text=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');text=text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,'<em>$1</em>');return text}
 
 /* ── MAIN STORY LOADER ── */
