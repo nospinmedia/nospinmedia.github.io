@@ -28,8 +28,6 @@
   --r:11px;--shadow:0 1px 8px rgba(0,0,0,.08);--shadow-h:0 5px 20px rgba(0,0,0,.13)
 }
 body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-top:70px}
-
-/* ── LAYOUT ── */
 .index-wrap{display:flex;max-width:1400px;margin:0 auto;padding:1.1rem 1.25rem 2rem;gap:2rem;align-items:flex-start}
 .index-sidebar-l,.index-sidebar-r{width:210px;min-width:210px;flex-shrink:0;position:sticky;top:90px;max-height:calc(100vh - 110px);overflow-y:auto;scrollbar-width:none}
 .index-sidebar-l::-webkit-scrollbar,.index-sidebar-r::-webkit-scrollbar{display:none}
@@ -42,8 +40,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 #book-tiles a:hover,#gear-tiles a:hover{transform:translateY(-3px);box-shadow:var(--shadow-h)}
 #book-tiles img,#gear-tiles img{width:100%;display:block;border-radius:var(--r)}
 .sidebar-disclosure{margin-top:10px;font-size:.62rem;color:#ccc;line-height:1.4;font-style:italic}
-
-/* ── ARCHIVE HEADER ── */
 .archive-header{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:1.1rem 1.4rem 1rem;margin-bottom:1rem;border-left:3px solid var(--blue)}
 .archive-header-top{display:flex;align-items:baseline;gap:.65rem;flex-wrap:wrap;margin-bottom:.85rem}
 .archive-title{font-family:var(--font-h);font-size:1.4rem;color:var(--text);line-height:1.2}
@@ -64,8 +60,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .results-tag{font-size:10px;font-weight:600;letter-spacing:.04em;padding:2px 9px;border-radius:20px;background:var(--blue-lt);color:var(--blue);border:1px solid rgba(0,102,204,.15)}
 .section-label{display:flex;align-items:center;gap:10px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);margin:1.3rem 0 .75rem}
 .section-label::after{content:'';flex:1;height:1px;background:var(--border)}
-
-/* ── HERO CARD ── */
 .hero-card{border-radius:var(--r);overflow:hidden;background:var(--surface);box-shadow:var(--shadow);margin-bottom:1rem;cursor:pointer;transition:box-shadow .2s,transform .2s}
 .hero-card:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
 .hero-top{position:relative;min-height:160px;display:flex;flex-direction:column;justify-content:flex-end;padding:1.2rem 1.5rem 1.1rem;overflow:hidden}
@@ -90,17 +84,11 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .hero-reactions .eng-indicator-icon{font-size:1.2rem}
 .hero-reactions .eng-indicator-label{font-size:.76rem}
 .eng-indicator-label{font-size:.7rem;font-weight:600;color:var(--muted)}
-
-/* ── TOPIC GRADIENTS ── */
 .tp-bg-politics{background:linear-gradient(160deg,#0D3270,#1E5BB8)}.tp-bg-economy{background:linear-gradient(160deg,#0A3D1F,#1A7A3C)}.tp-bg-health{background:linear-gradient(160deg,#6B2E00,#C05A0A)}.tp-bg-legal{background:linear-gradient(160deg,#320A6B,#6A28C0)}.tp-bg-war{background:linear-gradient(160deg,#6B0A0A,#B52020)}.tp-bg-crime{background:linear-gradient(160deg,#4A0A0A,#952020)}.tp-bg-science{background:linear-gradient(160deg,#063A52,#0F7EA0)}.tp-bg-technology{background:linear-gradient(160deg,#0A2252,#1845A0)}.tp-bg-ai{background:linear-gradient(160deg,#280A52,#5520A0)}.tp-bg-world{background:linear-gradient(160deg,#282828,#555555)}.tp-bg-environment{background:linear-gradient(160deg,#083A08,#1A7A1A)}.tp-bg-military{background:linear-gradient(160deg,#3A1A04,#6A3810)}
-
-/* ── PILLS ── */
 .pill{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:20px}
 .pill-white{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.28)}
 .tp-politics{background:#DDEEFF;color:#0044AA}.tp-economy{background:#DDFAE8;color:#006622}.tp-health{background:#FFEEDD;color:#883300}.tp-legal{background:#EEE0FF;color:#5500AA}.tp-war{background:#FFDDDD;color:#AA1100}.tp-crime{background:#FFDDDD;color:#AA1100}.tp-science{background:#DDEEFC;color:#005577}.tp-technology{background:#DDEEFF;color:#003399}.tp-ai{background:#EEE0FF;color:#440099}.tp-world{background:#EEEEEE;color:#555555}.tp-environment{background:#DDFAE8;color:#004400}.tp-military{background:#FFEEDD;color:#663300}
 .imp-dot{width:6px;height:6px;border-radius:50%;display:inline-block;vertical-align:middle;margin-right:3px}.imp-major{background:var(--red)}.imp-normal{background:var(--blue)}.imp-minor{background:#CCC}
-
-/* ── STORY CARDS ── */
 .cards-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
 .cards-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1rem}
 .story-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:visible;cursor:pointer;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:box-shadow .18s,transform .18s}
@@ -122,8 +110,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .text-card:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
 .text-card-headline{font-family:var(--font-h);font-size:.88rem;line-height:1.3;color:var(--text);margin:.4rem 0 .4rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .text-card-summary{font-size:.76rem;line-height:1.5;color:var(--muted);flex:1;margin-bottom:.5rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-
-/* ── REACTION STRIP ── */
 .card-reactions{display:flex;align-items:center;gap:1px;margin-bottom:.5rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);justify-content:space-between}
 .rxn-buttons{display:flex;align-items:center;gap:1px}
 .rxn{display:inline-flex;align-items:center;gap:2px;padding:3px 5px;border-radius:6px;cursor:pointer;background:transparent;border:none;font-family:var(--font-b);line-height:1;transition:background .1s;user-select:none}
@@ -133,8 +119,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .rxn.selected .rxn-count{color:var(--blue)}
 .rxn-emoji{font-size:1.05rem;line-height:1;display:block}
 .rxn-count{font-size:.68rem;font-weight:600;color:var(--dimmed);line-height:1;min-width:0}
-
-/* ── 3-WIDE REACTION STRIP (desktop only) ── */
 @media(min-width:861px){
   .cards-grid-3 .rxn-emoji{font-size:.88rem}
   .cards-grid-3 .rxn-count{font-size:.58rem}
@@ -143,12 +127,8 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
   .cards-grid-3 .btn-sm-read{font-size:10px;padding:4px 9px}
   .cards-grid-3 .btn-sm-share{font-size:10px;padding:4px 7px}
 }
-
-/* ── ENGAGEMENT INDICATOR ── */
 .eng-indicator{display:inline-flex;align-items:center;gap:4px;font-size:.75rem;font-weight:600;color:var(--dimmed);white-space:nowrap;cursor:default;padding:2px 4px;border-radius:6px;flex-shrink:0;margin-left:4px}
 .eng-indicator-icon{font-size:1.05rem;line-height:1}
-
-/* ── BUTTONS ── */
 .btn-read{font-size:12px;font-weight:600;color:#fff;background:var(--blue);border:none;border-radius:20px;padding:7px 16px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:background .15s,transform .15s}
 .btn-read:hover{background:#0055BB;transform:translateY(-1px)}
 .btn-share{font-size:12px;font-weight:500;color:var(--muted);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:7px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:all .15s}
@@ -157,8 +137,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .btn-sm-read:hover{background:#D0E6F8}
 .btn-sm-share{font-size:11px;color:var(--dimmed);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 9px;cursor:pointer;transition:all .15s;line-height:1}
 .btn-sm-share:hover{border-color:#bbb;color:var(--muted)}
-
-/* ── SHARE DROPDOWN ── */
 .share-wrap{position:relative;display:inline-block}
 .share-dropdown{display:none;position:absolute;bottom:calc(100% + 6px);right:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow-h);min-width:240px;z-index:200;overflow:hidden}
 .share-wrap.open .share-dropdown{display:block}
@@ -169,8 +147,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .share-opt-desc{font-size:.7rem;color:var(--dimmed);display:block;margin-top:1px}
 .share-feedback-inline{font-size:.72rem;color:green;font-weight:600;position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:3px 9px;box-shadow:var(--shadow);pointer-events:none;opacity:0;transition:opacity .15s}
 .share-feedback-inline.visible{opacity:1}
-
-/* ── AFFILIATE TILES ── */
 .aff-card{border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s;display:block;text-decoration:none;height:100%}
 .aff-card:hover{box-shadow:var(--shadow-h);transform:translateY(-3px)}
 .book-card-wrap{display:flex;height:100%;min-height:240px;font-family:Georgia,'Times New Roman',serif}
@@ -214,15 +190,11 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .mobile-aff-grid a:active{transform:scale(.98)}
 .mobile-aff-grid img{width:100%;display:block;border-radius:var(--r)}
 .mobile-aff-disc{margin-top:.5rem;font-size:.6rem;color:#ccc;font-style:italic;line-height:1.4}
-
-/* ── LOADING / EMPTY ── */
 .feed-loading{text-align:center;padding:3rem;color:var(--dimmed)}
 .spinner{width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 1rem}
 @keyframes spin{to{transform:rotate(360deg)}}
 .no-results{text-align:center;padding:3rem;color:var(--dimmed);font-size:.9rem}
 footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-top:1px solid var(--border);margin-top:1rem}
-
-/* ── MOBILE ── */
 @media(max-width:860px){
   body{background:#EBEBEB}
   .index-wrap{flex-direction:column;padding:.75rem .75rem 1.5rem;gap:0}
@@ -246,7 +218,6 @@ footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-t
 </style>
 
 <script>
-/* ── CONSTANTS ── */
 const SB_URL='https://dckmflnbprhmaqysuued.supabase.co/rest/v1';
 const SB_KEY='sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
 const SB_REACTIONS='https://dckmflnbprhmaqysuued.supabase.co/rest/v1/story_reaction_totals';
@@ -261,14 +232,12 @@ const REACTIONS=[
   {key:'important',emoji:'📌',label:'Important'}
 ];
 
-/* ── SIDEBAR LABELS ── */
 const SIDEBAR_LABELS=['NSM Editor Picks','NSM Essentials','NSM Curated Picks','NSM Resources'];
 function pickSidebarLabels(){
   const shuffled=[...SIDEBAR_LABELS].sort(()=>0.5-Math.random());
   return{left:shuffled[0],right:shuffled[1]};
 }
 
-/* ── ENGAGEMENT INDICATOR ── */
 const ENG_LEVELS=[
   null,
   {icon:'👍', tip:'This story is getting attention on NSM.'},
@@ -299,9 +268,8 @@ let _allAffData=null,_allKwData=null,_globalBookRule=null,_globalGearRule=null;
 let _affPlacementToggle=0;
 let _rxnCache={};
 let _currentStories=[];
-let _preloadStories=[];  /* stories loaded for pre-search hero display */
+let _preloadStories=[];
 
-/* ── UTILS ── */
 function timeSince(ds){
   if(!ds)return '';const d=new Date(ds);if(isNaN(d))return '';
   const m=Math.floor((Date.now()-d)/60000);
@@ -324,7 +292,6 @@ function topBG(url,t){
 function escapeHtml(t){if(!t)return'';const d=document.createElement('div');d.textContent=t;return d.innerHTML}
 function getStoryPage(db){return db==='news_ne'?'ne_story.html':'story.html'}
 
-/* ── REACTIONS: BATCH LOAD ── */
 async function batchLoadReactions(storyIds){
   if(!storyIds.length)return;
   const needed=storyIds.filter(id=>!_rxnCache[id]);
@@ -345,7 +312,6 @@ async function batchLoadReactions(storyIds){
   }));
 }
 
-/* ── REACTIONS: UPSERT ── */
 async function upsertReactionNews(storyId,field,delta){
   let cur=null;
   try{
@@ -363,7 +329,6 @@ async function upsertReactionNews(storyId,field,delta){
   return newVal;
 }
 
-/* ── REACTIONS: HANDLE CLICK ── */
 async function handleReactionNews(storyId,key,gridId){
   const prev=localStorage.getItem('reaction_'+storyId)||null;const isSame=prev===key;
   const grid=document.getElementById(gridId);if(!grid)return;
@@ -387,7 +352,6 @@ async function handleReactionNews(storyId,key,gridId){
   }
 }
 
-/* ── REACTIONS: STRIP HTML ── */
 function rxnStripHTML(storyId,isHero){
   const totals=_rxnCache[storyId]||{};
   const selected=localStorage.getItem('reaction_'+storyId)||null;
@@ -428,7 +392,6 @@ function rxnStripHTML(storyId,isHero){
     +'</div>';
 }
 
-/* ── SHARE ── */
 function _copyNews(text,msg,fbId){
   const fb=document.getElementById(fbId);
   const done=()=>{if(fb){fb.textContent=msg;fb.classList.add('visible');setTimeout(()=>fb.classList.remove('visible'),2200)}};
@@ -468,7 +431,6 @@ function shareDropdownHTML(id,db,headline,wrapId,fbId,isSm){
     +'</div>';
 }
 
-/* ── IMAGE RESOLUTION ── */
 async function resolveImg(url,headline){
   if(_imgCache[url]!==undefined)return _imgCache[url];
   for(const ext of['webp','jpg','png']){try{const r=await fetch('/images/news/'+url+'.'+ext,{method:'HEAD'});if(r.ok){_imgCache[url]='/images/news/'+url+'.'+ext;return _imgCache[url]}}catch(e){}}
@@ -481,6 +443,7 @@ async function resolveImg(url,headline){
 async function preloadImages(stories){await Promise.all(stories.map(s=>resolveImg(s.url,s.headline)))}
 
 /* ── AFFILIATE ── */
+/* must_show values: true = pinned, false = normal pool, "hide" = excluded */
 const NSM_SUPPORT_MSGS=['Supports independent journalism','Helps keep NSM free','Curated by No Spin Media','Reader-supported journalism','Recommended by the NSM newsroom','Hand-picked by No Spin Media','Helps fund independent reporting','NSM reader recommendation'];
 function randSupport(){return NSM_SUPPORT_MSGS[Math.floor(Math.random()*NSM_SUPPORT_MSGS.length)]}
 async function getAff(){if(_aff)return _aff;try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_aff=await r.json()}catch(e){}return _aff||{}}
@@ -490,10 +453,9 @@ function findTopTwoRules(stories,rules){if(!stories?.length||!rules?.length)retu
 function bookTileHTML(b){const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');const sub=(b.subtitle||'').replace(/\\n/g,'<br>');return'<a href="'+b.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-book" title="Recommended reading — supports NSM at no extra cost"><div class="book-card-wrap"><div class="book-spine" style="background:'+b.spine_color+';"></div><div class="book-pages"></div><div class="book-cover" style="background:'+b.cover_color+';"><div class="book-cover-sheen"></div><div class="book-cat" style="color:'+b.accent_color+';border-color:'+b.accent_color+';">'+b.category_label+'</div><div class="book-title book-title-lg">'+tl+'</div><div class="book-rule" style="background:'+b.accent_color+';"></div><div class="book-sub book-sub-readable">'+sub+'</div><div style="flex:1;"></div><div class="book-brand book-brand-bottom"><div class="book-brand-rule" style="background:'+b.accent_color+';"></div><div class="book-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div><div class="book-brand-sub">'+randSupport()+'</div></div></div></div></a>'}
 function gearTileHTML(g){const tLen=(g.title||'').replace(/\\n/g,'').length;const tSize=tLen<=6?38:tLen<=8?32:tLen<=10?28:tLen<=13?24:20;const tl=(g.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');const sub=(g.subtitle||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');return'<a href="'+g.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-gear" title="Recommended gear — supports NSM at no extra cost"><div class="gear-card-wrap"><div class="gear-sheen"></div><div class="gear-inner-border"></div><div class="gear-clip-t"></div><div class="gear-clip-b"></div><div class="gear-clip-l"></div><div class="gear-clip-r"></div><div class="gear-content"><div class="gear-cat">'+(g.category_label||'')+'</div><div class="gear-title" style="font-size:'+tSize+'px;">'+tl+'</div><div class="gear-icon">'+(g.icon||'\u2699\uFE0F')+'</div><div class="gear-rule"></div><div class="gear-sub">'+sub+'</div></div><div class="gear-brand gear-brand-bottom"><div class="gear-brand-rule"></div><div class="gear-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div><div class="gear-brand-sub">'+randSupport()+'</div></div></div></a>'}
 function getRandomLink(item){return(item.links||[])[Math.floor(Math.random()*(item.links||[]).length)]||'#'}
-function pickOneMobile(arr){const must=arr.filter(i=>i.must_show);const pool=must.length?must:arr;return pool[Math.floor(Math.random()*pool.length)]}
 function renderImgTile(item){return'<a href="'+getRandomLink(item)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+item.image+'" alt="'+item.title+'" loading="lazy"></a>'}
 
-/* ── SIDEBAR TILES (same alternating must_show logic as index.html) ── */
+/* ── SIDEBAR TILES ── */
 async function loadSidebarTiles(stories){
   const[affData,kwData]=await Promise.all([getAff(),getKw()]);
   const bookItems=affData.books?.items||[];
@@ -505,13 +467,18 @@ async function loadSidebarTiles(stories){
   if(lEl)lEl.textContent='\uD83E\uDDED '+leftLabel;
   if(rEl)rEl.textContent='\uD83E\uDDED '+rightLabel;
 
+  /* Combine, deduplicate by image, exclude hidden */
   const allItems=[...bookItems,...gearItems];
   const seenImages=new Set();
   const deduped=[];
-  for(const item of allItems){if(!seenImages.has(item.image)){seenImages.add(item.image);deduped.push(item)}}
+  for(const item of allItems){
+    if(!seenImages.has(item.image)&&item.must_show!=='hide'){
+      seenImages.add(item.image);deduped.push(item);
+    }
+  }
 
-  const mustShow=deduped.filter(i=>i.must_show);
-  const optional=[...deduped.filter(i=>!i.must_show)].sort(()=>0.5-Math.random());
+  const mustShow=deduped.filter(i=>i.must_show===true);
+  const optional=[...deduped.filter(i=>i.must_show!==true&&i.must_show!=='hide')].sort(()=>0.5-Math.random());
 
   const leftItems=[];const rightItems=[];
   mustShow.forEach((item,idx)=>{if(idx%2===0)leftItems.push(item);else rightItems.push(item)});
@@ -533,12 +500,16 @@ async function loadAffiliateTiles(stories){
   const books=affData.books?.items||[];const gear=affData.gear?.items||[];
   _globalBookRule=bookRule;_globalGearRule=gearRule;_allKwData=kwData;_allAffData=affData;
 
-  /* Mobile: pick 2 from combined pool, must_show first, deduped by image */
+  /* Mobile: combine pool, exclude hidden, dedup by image, must_show first */
   const allItems=[...books,...gear];
   const seenImages=new Set();const deduped=[];
-  for(const item of allItems){if(!seenImages.has(item.image)){seenImages.add(item.image);deduped.push(item)}}
-  const mustShow=deduped.filter(i=>i.must_show);
-  const optional=[...deduped.filter(i=>!i.must_show)].sort(()=>0.5-Math.random());
+  for(const item of allItems){
+    if(!seenImages.has(item.image)&&item.must_show!=='hide'){
+      seenImages.add(item.image);deduped.push(item);
+    }
+  }
+  const mustShow=deduped.filter(i=>i.must_show===true);
+  const optional=[...deduped.filter(i=>i.must_show!==true&&i.must_show!=='hide')].sort(()=>0.5-Math.random());
   const mobilePool=[...mustShow,...optional];
   const m1=mobilePool[0]||null;const m2=mobilePool[1]||null;
   const bHTML=m1?'<a href="'+getRandomLink(m1)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+m1.image+'" alt="'+m1.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>':'';
@@ -546,6 +517,7 @@ async function loadAffiliateTiles(stories){
 
   window.mobileAffHTML='<div class="mobile-aff-insert"><div class="mobile-aff-label">\uD83E\uDDED NSM Picks</div><div class="mobile-aff-grid">'+bHTML+gHTML+'</div><div class="mobile-aff-disc">Selecting an item supports independent journalism at no extra cost.</div></div>';
 }
+
 function pickAffTileForSection(sectionStories){
   const kwRules=(_allKwData?.rules)||[];let best=null,bestScore=0;
   for(const rule of kwRules){const score=sectionStories.filter(s=>(rule.keywords||[]).some(kw=>wordMatch([s.headline||'',s.summary||''].join(' '),kw))).length;if(score>bestScore){bestScore=score;best=rule}}
@@ -555,6 +527,7 @@ function pickAffTileForSection(sectionStories){
   else{tile=rule.gear?gearTileHTML(rule.gear):(rule.books?bookTileHTML(rule.books):null);if(!tile&&_globalGearRule?.gear)tile=gearTileHTML(_globalGearRule.gear)}
   _affPlacementToggle=1-_affPlacementToggle;return tile;
 }
+
 function affRow(s1,s2,tile,db){
   if(!tile)return s2?'<div class="cards-grid-2">'+cardHTML(s1,db)+cardHTML(s2,db)+'</div>':'<div class="cards-grid-2">'+cardHTML(s1,db)+'</div>';
   return'<div class="cards-grid-3 aff-grid-desktop" style="align-items:stretch;"><div>'+cardHTML(s1,db)+'</div><div style="min-height:240px;">'+tile+'</div><div>'+(s2?cardHTML(s2,db):'')+'</div></div>'
@@ -562,7 +535,24 @@ function affRow(s1,s2,tile,db){
     +'<div class="aff-disclosure">\uD83E\uDDED NSM Picks \u2014 Supports independent journalism. No extra cost.</div>';
 }
 
-/* ── HERO CARD (pre-search top story) ── */
+/* Helper: inject mobile ad into feed after hero or first cards */
+function injectMobileAd(feed){
+  if(window.innerWidth>860||!window.mobileAffHTML)return;
+  const hero=feed.querySelector('.hero-card');
+  if(hero){
+    const div=document.createElement('div');
+    div.innerHTML=window.mobileAffHTML;
+    hero.after(div.firstElementChild);
+    return;
+  }
+  const cards=feed.querySelectorAll('.story-card,.text-card');
+  if(cards[2]){
+    const div=document.createElement('div');
+    div.innerHTML=window.mobileAffHTML;
+    cards[2].after(div.firstElementChild);
+  }
+}
+
 function heroHTML(s,db,badgeText){
   const p=parseHL(s.headline),t=s.topic||'world',ts=timeSince(s.posted_at),maj=s.importance==='major';
   const pg=getStoryPage(db);
@@ -588,7 +578,6 @@ function heroHTML(s,db,badgeText){
     +'</div></div></div></div>';
 }
 
-/* ── CARD BUILDERS ── */
 function cardHTML(s,db){
   const p=parseHL(s.headline),t=s.topic||'world',ts=timeSince(s.posted_at);
   const pg=getStoryPage(db);const sum=stripMd((s.summary||'').split('\n\n')[0]).substring(0,180);
@@ -606,6 +595,7 @@ function cardHTML(s,db){
     +'<a class="btn-sm-read" href="'+pg+'?story='+url+'" onclick="event.stopPropagation()">View Story \u2192</a>'
     +'</div></div></div></div>';
 }
+
 function textCardHTML(s,db){
   const p=parseHL(s.headline),t=s.topic||'world',ts=timeSince(s.posted_at);
   const pg=getStoryPage(db);const sum=stripMd((s.summary||'').split('\n\n')[0]).substring(0,140);
@@ -621,7 +611,6 @@ function textCardHTML(s,db){
     +'</div></div></div>';
 }
 
-/* ── PRE-SEARCH HERO DISPLAY ── */
 async function showPreSearchHero(){
   const db=document.getElementById('database')?.value||'news_posts';
   const feed=document.getElementById('news-feed');
@@ -633,7 +622,6 @@ async function showPreSearchHero(){
       :'headline,summary,social_bluesky,social_threads,social_facebook,posted_at,url,topic,importance,style,reddit_post_id';
     const usedFilter=db==='news_posts'?'&used=eq.true':'';
 
-    /* Fetch latest 30 for top story, plus last 48h for hottest */
     const [recentRes, hotRes] = await Promise.all([
       fetch(SB_URL+'/'+db+'?select='+cols+usedFilter+'&order=posted_at.desc&limit=30',{headers:{apikey:SB_KEY}}),
       fetch(SB_URL+'/'+db+'?select='+cols+usedFilter+'&posted_at=gte.'+(new Date(Date.now()-172800000).toISOString())+'&order=posted_at.desc&limit=50',{headers:{apikey:SB_KEY}})
@@ -656,13 +644,11 @@ async function showPreSearchHero(){
 
     const topStory=recent[0];
 
-    /* Find hottest story in last 48h by engagement score, different from topStory */
     let hottestStory=null;
     if(Array.isArray(hotPool)&&hotPool.length){
       const candidates=hotPool.filter(s=>s.url!==topStory.url);
       if(candidates.length){
         hottestStory=candidates.reduce((best,s)=>engScore(_rxnCache[s.url])>engScore(_rxnCache[best.url])?s:best,candidates[0]);
-        /* Only show if it actually has engagement */
         if(engScore(_rxnCache[hottestStory.url])===0)hottestStory=null;
       }
     }
@@ -676,7 +662,6 @@ async function showPreSearchHero(){
       html+=heroHTML(hottestStory,db,'\uD83D\uDD25 Trending Now');
     }
 
-    /* Show next 6 stories as cards below */
     const rest=recent.filter(s=>s.url!==topStory.url&&(!hottestStory||s.url!==hottestStory.url)).slice(0,6);
     if(rest.length){
       html+='<div class="section-label">Recent Stories</div>';
@@ -687,18 +672,14 @@ async function showPreSearchHero(){
     countEl.innerHTML='<span style="color:var(--dimmed);font-size:11px;">Showing latest \u2014 use filters above to search the full archive</span>';
     feed.innerHTML=html;
 
-    /* Mobile ad injection — after 3rd card if present */
-    if(window.innerWidth<=860&&window.mobileAffHTML){
-      const cards=feed.querySelectorAll('.story-card,.text-card');
-      if(cards[2]){const div=document.createElement('div');div.innerHTML=window.mobileAffHTML;cards[2].after(div.firstElementChild)}
-    }
+    /* Guaranteed mobile ad — after first hero card */
+    injectMobileAd(feed);
   }catch(e){
     console.error(e);
     feed.innerHTML='<div class="no-results">Could not load stories. Please refresh.</div>';
   }
 }
 
-/* ── DISPLAY SEARCH RESULTS ── */
 async function displayStories(stories,db){
   const feed=document.getElementById('news-feed');
   if(!stories||!stories.length){feed.innerHTML='<div class="no-results">\uD83D\uDD0D No stories found. Try different filters.</div>';return}
@@ -722,13 +703,11 @@ async function displayStories(stories,db){
     }
   }
   feed.innerHTML=html;
-  if(window.innerWidth<=860&&window.mobileAffHTML){
-    const cards=feed.querySelectorAll('.story-card,.text-card');
-    if(cards[2]){const div=document.createElement('div');div.innerHTML=window.mobileAffHTML;cards[2].after(div.firstElementChild)}
-  }
+
+  /* Guaranteed mobile ad — after first hero or first cards */
+  injectMobileAd(feed);
 }
 
-/* ── DATE FILTER BUILDER ── */
 function buildDateFilters(params,year,month){
   if(!year&&!month)return;
   if(year&&!month){params.append('posted_at','gte.'+year+'-01-01T00:00:00');params.append('posted_at','lt.'+(Number(year)+1)+'-01-01T00:00:00');return}
@@ -748,7 +727,6 @@ function passesMonthOnly(postedAt,month){
   return String(d.getMonth()+1).padStart(2,'0')===month;
 }
 
-/* ── SEARCH ── */
 async function searchArchive(){
   const db=document.getElementById('database').value;
   const month=document.getElementById('month').value;
@@ -791,7 +769,6 @@ async function searchArchive(){
     if(kw)tags.push('"'+kw+'"');
     const tagsHTML=tags.map(t=>'<span class="results-tag">'+t+'</span>').join('');
     countEl.innerHTML='<span style="color:var(--dimmed);font-size:11px;">'+stories.length+' result'+(stories.length===1?'':'s')+'</span> '+tagsHTML;
-    /* Also load sidebars if not yet loaded */
     if(!document.getElementById('book-tiles')?.innerHTML)loadSidebarTiles(stories);
     await displayStories(stories,db);
   }catch(e){
@@ -808,7 +785,6 @@ function clearSearch(){
   showPreSearchHero();
 }
 
-/* ── INIT ── */
 document.addEventListener('DOMContentLoaded',()=>{
   fetch('header.html').then(r=>r.text()).then(html=>{
     document.getElementById('site-header').innerHTML=html;
@@ -820,7 +796,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     showPreSearchHero();
   });
   document.getElementById('keywords').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();searchArchive()}});
-  /* Re-run pre-search hero when database dropdown changes without searching */
   document.getElementById('database').addEventListener('change',()=>{
     _preloadStories=[];_currentStories=[];
     showPreSearchHero();
@@ -868,7 +843,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       </div>
     </div>
     <div class="results-bar"><div id="results-count"></div></div>
-    <div id="news-feed"><div class="feed-loading"><div class="spinner"></div>Loading stories\u2026</div></div>
+    <div id="news-feed"><div class="feed-loading"><div class="spinner"></div>Loading stories&#x2026;</div></div>
   </div>
   <div class="index-sidebar-r">
     <div class="sidebar-label">&#x1F9ED; NSM Picks</div>
