@@ -591,7 +591,7 @@ function wordMatch(hay,kw){const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');re
 let _affData=null;
 async function loadAffData(){if(_affData)return _affData;try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_affData=await r.json()}catch(e){}return _affData||{}}
 function getRandomLink(item){return(item.links||[])[Math.floor(Math.random()*(item.links||[]).length)]||'#'}
-function pickItems(items,count){const must=items.filter(i=>i.must_show);const opt=[...items.filter(i=>!i.must_show)].sort(()=>0.5-Math.random());const pool=[...must,...opt];const seen=new Set();const result=[];for(const item of pool){if(!seen.has(item.title)&&result.length<count){seen.add(item.title);result.push(item)}}return result}
+function pickItems(items,count){const must=items.filter(i=>i.must_show===true);const opt=[...items.filter(i=>i.must_show===false)].sort(()=>0.5-Math.random());const pool=[...must,...opt];const seen=new Set();const result=[];for(const item of pool){if(!seen.has(item.title)&&result.length<count){seen.add(item.title);result.push(item)}}return result}
 function renderImgTileHTML(item){return'<a href="'+getRandomLink(item)+'" target="_blank" rel="noopener nofollow sponsored" title="Browse on Amazon"><img src="/affiliate/'+item.image+'" alt="'+item.title+'" loading="lazy"></a>'}
 function findKeywordMatch(text,rules){if(!text||!rules||!rules.length)return null;let best=null,bestScore=0;for(const rule of rules){const score=(rule.keywords||[]).filter(kw=>wordMatch(text,kw)).length;if(score>bestScore){bestScore=score;best=rule}}return best}
 async function loadSidebarTiles(stories){
@@ -613,8 +613,8 @@ async function loadSidebarTiles(stories){
   for(const item of allItems){if(!seenImages.has(item.image)){seenImages.add(item.image);deduped.push(item)}}
 
   /* Alternate must_show items L/R/L/R, then fill remaining slots with shuffled optionals */
-  const mustShow=deduped.filter(i=>i.must_show);
-  const optional=[...deduped.filter(i=>!i.must_show)].sort(()=>0.5-Math.random());
+  const mustShow=deduped.filter(i=>i.must_show===true);
+  const optional=[...deduped.filter(i=>i.must_show===false)].sort(()=>0.5-Math.random());
 
   const leftItems=[];
   const rightItems=[];
@@ -668,8 +668,8 @@ function mobilePicks(){
   const allItems=[...bookItems,...gearItems];
   const seenImages=new Set();const deduped=[];
   for(const item of allItems){if(!seenImages.has(item.image)){seenImages.add(item.image);deduped.push(item)}}
-  const mustShow=deduped.filter(i=>i.must_show);
-  const optional=[...deduped.filter(i=>!i.must_show)].sort(()=>0.5-Math.random());
+  const mustShow=deduped.filter(i=>i.must_show===true);
+  const optional=[...deduped.filter(i=>i.must_show===false)].sort(()=>0.5-Math.random());
   const pool=[...mustShow,...optional];
   const b=pool[0]||null;const g=pool[1]||null;
 
