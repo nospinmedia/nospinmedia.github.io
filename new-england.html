@@ -28,8 +28,31 @@
   --r:11px;--shadow:0 1px 8px rgba(0,0,0,.08);--shadow-h:0 5px 20px rgba(0,0,0,.13)
 }
 body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-top:70px}
-.ne-layout{max-width:1160px;margin:0 auto;padding:1.25rem 1.25rem 2rem}
-.ne-main{width:100%}
+
+/* ── LAYOUT ── */
+.ne-wrap{display:flex;max-width:1400px;margin:0 auto;padding:1.1rem 1.25rem 2rem;gap:2rem;align-items:flex-start}
+.ne-sidebar-l,.ne-sidebar-r{width:210px;min-width:210px;flex-shrink:0;position:sticky;top:90px;max-height:calc(100vh - 110px);overflow-y:auto;scrollbar-width:none}
+.ne-sidebar-l::-webkit-scrollbar,.ne-sidebar-r::-webkit-scrollbar{display:none}
+.ne-sidebar-l{border-right:1px solid var(--border);padding-right:1.25rem}
+.ne-sidebar-r{border-left:1px solid var(--border);padding-left:1.25rem}
+.ne-main{flex:1;min-width:0}
+.sidebar-label{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--blue)}
+#book-tiles,#gear-tiles{display:flex;flex-direction:column;gap:12px}
+#book-tiles a,#gear-tiles a{display:block;border-radius:var(--r);overflow:hidden;transition:transform .2s,box-shadow .2s;box-shadow:var(--shadow)}
+#book-tiles a:hover,#gear-tiles a:hover{transform:translateY(-3px);box-shadow:var(--shadow-h)}
+#book-tiles img,#gear-tiles img{width:100%;display:block;border-radius:var(--r)}
+.sidebar-disclosure{margin-top:10px;font-size:.62rem;color:#ccc;line-height:1.4;font-style:italic}
+
+/* ── MOBILE PICKS ── */
+.mobile-picks-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;margin-bottom:1rem;box-shadow:var(--shadow);display:none}
+.mobile-picks-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);padding-bottom:.5rem;margin-bottom:.65rem;border-bottom:2px solid var(--blue)}
+.mobile-picks-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mobile-picks-grid a{display:block;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);transition:transform .15s}
+.mobile-picks-grid a:active{transform:scale(.98)}
+.mobile-picks-grid img{width:100%;display:block;border-radius:var(--r)}
+.mobile-picks-disc{margin-top:.5rem;font-size:.6rem;color:#ccc;font-style:italic;line-height:1.4}
+@media(max-width:860px){.mobile-picks-card{display:block}}
+
 .feed-tabs{display:flex;gap:5px;margin-bottom:1rem;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
 .feed-tabs::-webkit-scrollbar{display:none}
 .feed-tab{font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;cursor:pointer;white-space:nowrap;color:var(--dimmed);background:var(--surface);border:1px solid var(--border);transition:all .15s;user-select:none}
@@ -100,8 +123,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .hero-reactions .rxn{padding:4px 6px;gap:3px}
 .btn-read{font-size:12px;font-weight:600;color:#fff;background:var(--blue);border:none;border-radius:20px;padding:7px 16px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:background .15s,transform .15s}
 .btn-read:hover{background:#0055BB;transform:translateY(-1px)}
-.btn-share{font-size:12px;font-weight:500;color:var(--muted);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:7px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:all .15s}
-.btn-share:hover{border-color:#bbb;color:var(--text)}
 .btn-sm-read{font-size:11px;font-weight:600;color:var(--blue);background:var(--blue-lt);border:none;border-radius:20px;padding:4px 11px;cursor:pointer;text-decoration:none;transition:background .15s}
 .btn-sm-read:hover{background:#D0E6F8}
 .btn-sm-share{font-size:11px;color:var(--dimmed);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 9px;cursor:pointer;transition:all .15s;line-height:1}
@@ -159,7 +180,9 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-top:1px solid var(--border);margin-top:1rem}
 @media(max-width:860px){
   body{background:#EBEBEB}
-  .ne-layout{padding:.75rem .75rem 1.5rem}
+  .ne-wrap{flex-direction:column;padding:.75rem .75rem 1.5rem;gap:0}
+  .ne-sidebar-l,.ne-sidebar-r{display:none}
+  .ne-main{width:100%}
   .hero-top{min-height:130px;padding:1rem 1.1rem}
   .hero-hl-line1{font-size:1.15rem}
   .cards-grid-3{grid-template-columns:1fr}
@@ -171,7 +194,6 @@ footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-t
 </style>
 
 <script>
-/* ── CONSTANTS ── */
 const SB_URL='https://dckmflnbprhmaqysuued.supabase.co/rest/v1';
 const SB_KEY='sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
 const SB_REACTIONS='https://dckmflnbprhmaqysuued.supabase.co/rest/v1/story_reaction_totals';
@@ -282,13 +304,20 @@ const TOPIC_PRIORITY=['publicsafety','crime','legal','health','transportation','
 const TOPIC_LABELS={politics:'Politics',economy:'Economy',legal:'Legal',health:'Health',crime:'Crime',publicsafety:'Public Safety',transportation:'Transportation',energy:'Energy & Utilities',environment:'Environment',education:'Education',newengland:'New England',science:'Science',technology:'Technology'};
 const TOPICS_ORDER=['politics','economy','legal','health','crime','publicsafety','transportation','energy','environment','education','newengland','science','technology'];
 const KW_IMG={politics:'politics',economy:'economy',health:'health',legal:'court',crime:'crime',publicsafety:'crime',transportation:'transportation',energy:'economy',environment:'environment',education:'education',newengland:'newengland',science:'science',technology:'technology'};
+const SIDEBAR_LABELS=['NSM Editor Picks','NSM Essentials','NSM Curated Picks','NSM Resources'];
 
 let allStories=[],activeTopic='all';
 let _aff=null,_kw=null,_imgRules=null,_imgCache={};
+let _affData=null;
 let _allKwData=null,_globalBookRule=null,_globalGearRule=null,_affToggle=0;
 let _rxnCache={};
 let _displayedCount=18;
 const PAGE_SIZE=18;
+
+function pickSidebarLabels(){
+  const shuffled=[...SIDEBAR_LABELS].sort(()=>0.5-Math.random());
+  return{left:shuffled[0],right:shuffled[1]};
+}
 
 function wordMatch(hay,kw){const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-zA-Z])'+esc+'(?![a-zA-Z])','i').test(hay)}
 function inferTopic(s){
@@ -310,7 +339,7 @@ function pillC(t){return'<span class="pill tp-'+(t||'newengland')+'">'+(TOPIC_LA
 function topCls(t){return'tp-bg-'+(t||'newengland')}
 function topBG(url,t){const kw=KW_IMG[t]||'newengland',res=_imgCache[url];const pri=res?'url(\''+res+'\')':'url(\''+IMG_S+url+'.jpg\')';return'background-image:'+pri+',url(\''+IMG_K+kw+'.jpg\');background-size:cover;background-position:center;'}
 
-/* ── REACTIONS: BATCH LOAD ── */
+/* ── REACTIONS ── */
 async function batchLoadReactions(storyIds){
   if(!storyIds.length)return;
   const needed=storyIds.filter(id=>!_rxnCache[id]);if(!needed.length)return;
@@ -392,6 +421,7 @@ function rxnStripHTML(storyId,isHero){
   return'<div class="'+wrapCls+'" id="'+gridId+'">'+btns+cmBtn+'</div>';
 }
 
+/* ── SHARE ── */
 function _copyNE(text,msg,fbId){const fb=document.getElementById(fbId);const done=()=>{if(fb){fb.textContent=msg;fb.classList.add('visible');setTimeout(()=>fb.classList.remove('visible'),2200)}};navigator.clipboard.writeText(text).then(done).catch(()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:0;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done()})}
 function toggleShareNE(wrapId){const w=document.getElementById(wrapId);if(!w)return;w.classList.toggle('open');if(w.classList.contains('open')){setTimeout(()=>{document.addEventListener('click',function h(e){if(!w.contains(e.target)){w.classList.remove('open');document.removeEventListener('click',h)}})},0)}}
 function shareNENative(id){const url=window.location.origin+'/'+STORY_PAGE+'?story='+encodeURIComponent(id);if(navigator.share)navigator.share({url}).catch(()=>{});else navigator.clipboard.writeText(url).catch(()=>{})}
@@ -417,6 +447,7 @@ function shareDropdownHTML(id,headline,wrapId,fbId,isSm){
     +'</div>';
 }
 
+/* ── IMAGE RESOLUTION ── */
 async function resolveImg(url,headline){
   if(_imgCache[url]!==undefined)return _imgCache[url];
   for(const ext of['webp','jpg','png']){try{const r=await fetch('/images/news/'+url+'.'+ext,{method:'HEAD'});if(r.ok){_imgCache[url]='/images/news/'+url+'.'+ext;return _imgCache[url]}}catch(e){}}
@@ -428,17 +459,100 @@ async function resolveImg(url,headline){
 }
 async function preloadImages(stories){await Promise.all(stories.map(s=>resolveImg(s.url,s.headline)))}
 
+/* ── AFFILIATE ── */
+/* must_show values: true = pinned, false = normal pool, "hide" = excluded */
 async function getAff(){if(_aff)return _aff;try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_aff=await r.json()}catch(e){}return _aff||{}}
 async function getKw(){if(_kw)return _kw;try{const r=await fetch('/affiliate/keyword-affiliates.json');if(r.ok)_kw=await r.json()}catch(e){}return _kw||{rules:[]}}
+async function loadAffData(){if(_affData)return _affData;try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_affData=await r.json()}catch(e){}return _affData||{}}
+function getRandomLink(item){return(item.links||[])[Math.floor(Math.random()*(item.links||[]).length)]||'#'}
 function findTopTwoRules(stories,rules){if(!stories?.length||!rules?.length)return{bookRule:null,gearRule:null};const sc=rules.map(rule=>({rule,total:stories.filter(s=>(rule.keywords||[]).some(kw=>wordMatch([s.headline||'',s.summary||''].join(' '),kw))).length}));const top5=[...sc.filter(s=>s.total>0).sort((a,b)=>b.total-a.total)].slice(0,5).sort(()=>0.5-Math.random());return{bookRule:top5[0]?.rule||null,gearRule:top5[1]?.rule||null}}
 function neAffUrl(url){if(!url)return url;try{const u=new URL(url);const k=u.searchParams.get('k');if(k&&!k.toLowerCase().startsWith('new england')){u.searchParams.set('k','new+england+'+k);return u.toString()}}catch(e){}return url}
 const NSM_SUPPORT_MSGS=['Supports independent journalism','Helps keep NSM free','Curated by No Spin Media','Reader-supported journalism','Recommended by the NSM newsroom','Hand-picked by No Spin Media','Helps fund independent reporting','NSM reader recommendation'];
 function randSupport(){return NSM_SUPPORT_MSGS[Math.floor(Math.random()*NSM_SUPPORT_MSGS.length)]}
 function bookTileHTML(b){const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');const sub=(b.subtitle||'').replace(/\\n/g,'<br>');const href=neAffUrl(b.url);return'<a href="'+href+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-book" title="Recommended reading \u2014 supports NSM at no extra cost"><div class="book-card-wrap"><div class="book-spine" style="background:'+b.spine_color+';"></div><div class="book-pages"></div><div class="book-cover" style="background:'+b.cover_color+';"><div class="book-cover-sheen"></div><div class="book-cat" style="color:'+b.accent_color+';border-color:'+b.accent_color+';">'+b.category_label+'</div><div class="book-title book-title-lg">'+tl+'</div><div class="book-rule" style="background:'+b.accent_color+';"></div><div class="book-sub book-sub-readable">'+sub+'</div><div style="flex:1;"></div><div class="book-brand book-brand-bottom"><div class="book-brand-rule" style="background:'+b.accent_color+';"></div><div class="book-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div><div class="book-brand-sub">'+randSupport()+'</div></div></div></div></a>'}
 function gearTileHTML(g){const tLen=(g.title||'').replace(/\\n/g,'').length;const tSize=tLen<=6?38:tLen<=8?32:tLen<=10?28:tLen<=13?24:20;const tl=(g.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');const sub=(g.subtitle||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');const href=neAffUrl(g.url);return'<a href="'+href+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-gear" title="Recommended gear \u2014 supports NSM at no extra cost"><div class="gear-card-wrap"><div class="gear-sheen"></div><div class="gear-inner-border"></div><div class="gear-clip-t"></div><div class="gear-clip-b"></div><div class="gear-clip-l"></div><div class="gear-clip-r"></div><div class="gear-content"><div class="gear-cat">'+(g.category_label||'')+'</div><div class="gear-title" style="font-size:'+tSize+'px;">'+tl+'</div><div class="gear-icon">'+(g.icon||'\u2699\uFE0F')+'</div><div class="gear-rule"></div><div class="gear-sub">'+sub+'</div></div><div class="gear-brand gear-brand-bottom"><div class="gear-brand-rule"></div><div class="gear-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div><div class="gear-brand-sub">'+randSupport()+'</div></div></div></a>'}
-function pickAffTileForSection(sectionStories){const kwRules=(_allKwData?.rules)||[];let best=null,bestScore=0;for(const rule of kwRules){const score=sectionStories.filter(s=>(rule.keywords||[]).some(kw=>wordMatch([s.headline||'',s.summary||''].join(' '),kw))).length;if(score>bestScore){bestScore=score;best=rule}}const rule=best||(_affToggle===0?_globalBookRule:_globalGearRule)||_globalBookRule||_globalGearRule;if(!rule)return null;let tile=null;if(_affToggle===0){tile=rule.books?bookTileHTML(rule.books):(rule.gear?gearTileHTML(rule.gear):null);if(!tile&&_globalBookRule?.books)tile=bookTileHTML(_globalBookRule.books)}else{tile=rule.gear?gearTileHTML(rule.gear):(rule.books?bookTileHTML(rule.books):null);if(!tile&&_globalGearRule?.gear)tile=gearTileHTML(_globalGearRule.gear)}_affToggle=1-_affToggle;return tile}
-async function loadAffiliateSidebars(stories){const kwData=await getKw();_allKwData=kwData;const{bookRule,gearRule}=findTopTwoRules(stories,kwData.rules||[]);_globalBookRule=bookRule;_globalGearRule=gearRule}
+function renderImgTileHTML(item){return'<a href="'+getRandomLink(item)+'" target="_blank" rel="noopener nofollow sponsored" title="Browse on Amazon"><img src="/affiliate/'+item.image+'" alt="'+item.title+'" loading="lazy"></a>'}
 
+/* ── SIDEBAR TILES ── */
+async function loadSidebarTiles(stories){
+  const[affData,kwData]=await Promise.all([loadAffData(),getKw()]);
+  const bookItems=affData.books?.items||[];
+  const gearItems=affData.gear?.items||[];
+
+  const{left:leftLabel,right:rightLabel}=pickSidebarLabels();
+  const lEl=document.querySelector('.ne-sidebar-l .sidebar-label');
+  const rEl=document.querySelector('.ne-sidebar-r .sidebar-label');
+  if(lEl)lEl.textContent='\uD83E\uDDED '+leftLabel;
+  if(rEl)rEl.textContent='\uD83E\uDDED '+rightLabel;
+
+  /* Combine, deduplicate by image, exclude hidden */
+  const allItems=[...bookItems,...gearItems];
+  const seenImages=new Set();const deduped=[];
+  for(const item of allItems){
+    if(!seenImages.has(item.image)&&item.must_show!=='hide'){
+      seenImages.add(item.image);deduped.push(item);
+    }
+  }
+  const mustShow=deduped.filter(i=>i.must_show===true);
+  const optional=[...deduped.filter(i=>i.must_show!==true&&i.must_show!=='hide')].sort(()=>0.5-Math.random());
+
+  const leftItems=[];const rightItems=[];
+  mustShow.forEach((item,idx)=>{if(idx%2===0)leftItems.push(item);else rightItems.push(item)});
+  for(const item of optional){
+    if(leftItems.length<3)leftItems.push(item);
+    else if(rightItems.length<3)rightItems.push(item);
+    else break;
+  }
+
+  const bookEl=document.getElementById('book-tiles');
+  if(bookEl){let html='';leftItems.forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderImgTileHTML(item)+'</div>'});bookEl.innerHTML=html}
+  const gearEl=document.getElementById('gear-tiles');
+  if(gearEl){let html='';rightItems.forEach(item=>{html+='<div style="margin-bottom:12px;">'+renderImgTileHTML(item)+'</div>'});gearEl.innerHTML=html}
+}
+
+/* ── MOBILE PICKS ── */
+function mobilePicks(){
+  if(!_affData)return'';
+  const bookItems=_affData.books?.items||[];
+  const gearItems=_affData.gear?.items||[];
+  const allItems=[...bookItems,...gearItems];
+  const seenImages=new Set();const deduped=[];
+  for(const item of allItems){
+    if(!seenImages.has(item.image)&&item.must_show!=='hide'){
+      seenImages.add(item.image);deduped.push(item);
+    }
+  }
+  const mustShow=deduped.filter(i=>i.must_show===true);
+  const optional=[...deduped.filter(i=>i.must_show!==true&&i.must_show!=='hide')].sort(()=>0.5-Math.random());
+  const pool=[...mustShow,...optional];
+  const b=pool[0]||null;const g=pool[1]||null;
+  const bHTML=b?'<a href="'+getRandomLink(b)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+b.image+'" alt="'+b.title+'" loading="lazy"></a>':'';
+  const gHTML=g?'<a href="'+getRandomLink(g)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+g.image+'" alt="'+g.title+'" loading="lazy"></a>':'';
+  if(!bHTML&&!gHTML)return'';
+  return'<div class="mobile-picks-card">'
+    +'<div class="mobile-picks-label">\uD83E\uDDED NSM Picks</div>'
+    +'<div class="mobile-picks-grid">'+bHTML+gHTML+'</div>'
+    +'<div class="mobile-picks-disc">Selecting an item supports independent journalism at no extra cost.</div>'
+    +'</div>';
+}
+
+/* ── INLINE AFFILIATE TILES (keyword-matched) ── */
+async function loadAffiliateSidebars(stories){
+  const kwData=await getKw();_allKwData=kwData;
+  const{bookRule,gearRule}=findTopTwoRules(stories,kwData.rules||[]);
+  _globalBookRule=bookRule;_globalGearRule=gearRule;
+}
+function pickAffTileForSection(sectionStories){
+  const kwRules=(_allKwData?.rules)||[];let best=null,bestScore=0;
+  for(const rule of kwRules){const score=sectionStories.filter(s=>(rule.keywords||[]).some(kw=>wordMatch([s.headline||'',s.summary||''].join(' '),kw))).length;if(score>bestScore){bestScore=score;best=rule}}
+  const rule=best||(_affToggle===0?_globalBookRule:_globalGearRule)||_globalBookRule||_globalGearRule;if(!rule)return null;
+  let tile=null;
+  if(_affToggle===0){tile=rule.books?bookTileHTML(rule.books):(rule.gear?gearTileHTML(rule.gear):null);if(!tile&&_globalBookRule?.books)tile=bookTileHTML(_globalBookRule.books)}
+  else{tile=rule.gear?gearTileHTML(rule.gear):(rule.books?bookTileHTML(rule.books):null);if(!tile&&_globalGearRule?.gear)tile=gearTileHTML(_globalGearRule.gear)}
+  _affToggle=1-_affToggle;return tile;
+}
+
+/* ── CARD BUILDERS ── */
 function heroHTML(s){
   const p=parseHL(s.headline),t=s._topic,ts=timeSince(s.posted_at);
   const sum=getFirstPara(s.summary);const wrapId='sw-hero-'+s.url,fbId='sf-hero-'+s.url;
@@ -487,6 +601,7 @@ function textCardHTML(s,showPill){
     +'</div></div></div>';
 }
 
+/* ── TABS ── */
 function buildTabs(stories){
   const counts={};stories.forEach(s=>counts[s._topic]=(counts[s._topic]||0)+1);
   const el=document.getElementById('feed-tabs');
@@ -503,6 +618,7 @@ function buildTabs(stories){
   });
 }
 
+/* ── RENDER FEED ── */
 function renderFeed(stories){
   const feed=document.getElementById('nsm-feed');
   if(!stories.length){feed.innerHTML='<div style="padding:3rem;text-align:center;color:var(--dimmed);">No stories in this category.</div>';return}
@@ -510,6 +626,10 @@ function renderFeed(stories){
   let html='<div class="refresh-bar"><span class="story-count">Latest Updates \u00b7 '+stories.length+' stories</span>'
     +'<button class="refresh-btn" onclick="shuffleFeed()"><span class="spin-icon">\u21bb</span> Shuffle Feed</button></div>';
   html+=heroHTML(stories[0]);
+
+  /* Guaranteed mobile picks right after hero */
+  html+=mobilePicks();
+
   const g1=stories.slice(1,4);if(g1.length)html+='<div class="section-label">Latest</div><div class="cards-grid-3">'+g1.map(s=>cardHTML(s,true)).join('')+'</div>';
   const g2=stories.slice(4,6);if(g2.length)html+='<div class="cards-grid-'+(g2.length===1?1:2)+'">'+g2.map(s=>cardHTML(s,true)).join('')+'</div>';
   const usedUrls=new Set(stories.slice(0,6).map(s=>s.url));
@@ -521,47 +641,23 @@ function renderFeed(stories){
   present.forEach((topic,ti)=>{
     const grp=byTopic[topic];
     html+='<div class="section-label">'+TOPIC_LABELS[topic]+'</div>';
-
     const tile=pickAffTileForSection(grp);
-
     if(grp.length===1){
-      /* 1 story: pair with tile in 2-col */
-      if(tile){
-        html+='<div class="cards-grid-2"><div>'+cardHTML(grp[0],false)+'</div><div class="aff-tile-center">'+tile+'</div></div>';
-      }else{
-        html+='<div class="cards-grid-2">'+cardHTML(grp[0],false)+'</div>';
-      }
+      html+=tile?'<div class="cards-grid-2"><div>'+cardHTML(grp[0],false)+'</div><div class="aff-tile-center">'+tile+'</div></div>':'<div class="cards-grid-2">'+cardHTML(grp[0],false)+'</div>';
     }else if(grp.length===2){
-      /* 2 stories: fill the empty 3rd slot with a tile */
-      if(tile){
-        html+='<div class="cards-grid-3">'+cardHTML(grp[0],false)+cardHTML(grp[1],false)+'<div class="aff-tile-center">'+tile+'</div></div>';
-      }else{
-        html+='<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
-      }
+      html+=tile?'<div class="cards-grid-3">'+cardHTML(grp[0],false)+cardHTML(grp[1],false)+'<div class="aff-tile-center">'+tile+'</div></div>':'<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
     }else if(grp.length===3){
-      /* Full 3-col, no gap */
       html+='<div class="cards-grid-3">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
     }else if(grp.length===4){
-      /* 3 top + 1 bottom: 2 empty slots — fill with up to 2 tiles */
       html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
       const tile2=pickAffTileForSection(grp);
-      if(tile&&tile2){
-        html+='<div class="cards-grid-3">'+cardHTML(grp[3],false)+'<div class="aff-tile-center">'+tile+'</div><div class="aff-tile-center">'+tile2+'</div></div>';
-      }else if(tile){
-        html+='<div class="cards-grid-2">'+cardHTML(grp[3],false)+'<div class="aff-tile-center">'+tile+'</div></div>';
-      }else{
-        html+='<div class="cards-grid-2">'+cardHTML(grp[3],false)+'</div>';
-      }
+      if(tile&&tile2){html+='<div class="cards-grid-3">'+cardHTML(grp[3],false)+'<div class="aff-tile-center">'+tile+'</div><div class="aff-tile-center">'+tile2+'</div></div>'}
+      else if(tile){html+='<div class="cards-grid-2">'+cardHTML(grp[3],false)+'<div class="aff-tile-center">'+tile+'</div></div>'}
+      else{html+='<div class="cards-grid-2">'+cardHTML(grp[3],false)+'</div>'}
     }else if(grp.length===5){
-      /* 3 top + 2 bottom: fill empty 3rd slot with a tile */
       html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
-      if(tile){
-        html+='<div class="cards-grid-3">'+cardHTML(grp[3],false)+cardHTML(grp[4],false)+'<div class="aff-tile-center">'+tile+'</div></div>';
-      }else{
-        html+='<div class="cards-grid-3">'+grp.slice(3).map(s=>cardHTML(s,false)).join('')+'</div>';
-      }
+      html+=tile?'<div class="cards-grid-3">'+cardHTML(grp[3],false)+cardHTML(grp[4],false)+'<div class="aff-tile-center">'+tile+'</div></div>':'<div class="cards-grid-3">'+grp.slice(3).map(s=>cardHTML(s,false)).join('')+'</div>';
     }else{
-      /* 6+ stories: full rows, text cards for overflow */
       html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
       const rest=grp.slice(3);
       if(rest.length)html+='<div class="cards-grid-3">'+rest.map(s=>textCardHTML(s,false)).join('')+'</div>';
@@ -589,13 +685,20 @@ async function loadMore(){
   renderFeed(f.slice(0,_displayedCount));showLoadMore(f.length);
 }
 
+/* ── INIT ── */
 async function loadStories(){
   try{
     const res=await fetch(SB_URL+'/news_ne?select=headline,summary,posted_at,url,reddit_post_id&order=posted_at.desc&limit=60',{headers:{apikey:SB_KEY}});
     const raw=await res.json();
     allStories=raw.map(s=>({...s,_topic:inferTopic(s)}));
     const firstBatch=allStories.slice(0,_displayedCount);
-    await Promise.all([preloadImages(firstBatch),loadAffiliateSidebars(allStories),batchLoadReactions(firstBatch.map(s=>s.url))]);
+    await Promise.all([
+      preloadImages(firstBatch),
+      loadAffiliateSidebars(allStories),
+      batchLoadReactions(firstBatch.map(s=>s.url)),
+      loadSidebarTiles(allStories),
+      loadAffData()
+    ]);
     buildTabs(allStories);renderFeed(firstBatch);showLoadMore(allStories.length);
   }catch(e){
     document.getElementById('nsm-feed').innerHTML='<div style="padding:3rem;text-align:center;color:var(--dimmed);">Could not load stories. Please refresh.</div>';
@@ -615,12 +718,22 @@ document.addEventListener('DOMContentLoaded',()=>{
 </head>
 <body>
 <div id="site-header"></div>
-<div class="ne-layout">
+<div class="ne-wrap">
+  <div class="ne-sidebar-l">
+    <div class="sidebar-label">&#x1F9ED; NSM Picks</div>
+    <div id="book-tiles"></div>
+    <div class="sidebar-disclosure">Selecting a title supports independent journalism at no extra cost.</div>
+  </div>
   <div class="ne-main">
     <div id="feed-tabs" class="feed-tabs"></div>
     <div id="nsm-feed">
       <div class="feed-loading"><div class="spinner"></div>Loading New England stories&hellip;</div>
     </div>
+  </div>
+  <div class="ne-sidebar-r">
+    <div class="sidebar-label">&#x1F9ED; NSM Picks</div>
+    <div id="gear-tiles"></div>
+    <div class="sidebar-disclosure">Selecting an item supports independent journalism at no extra cost.</div>
   </div>
 </div>
 <footer>
