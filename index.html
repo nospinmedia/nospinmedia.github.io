@@ -828,7 +828,7 @@ async function loadStories(){
     const tr=topTwoRules(allStories,(kwData&&kwData.rules)||[]);
     _globalBookRule=tr.bookRule;_globalGearRule=tr.gearRule;
     const firstBatch=allStories.slice(0,_displayedCount);
-    await Promise.all([preloadImages(firstBatch),batchLoadReactions(firstBatch.map(s=>s.url)),loadSidebarTiles(allStories)]);
+    await Promise.all([preloadImages(firstBatch),batchLoadReactions(firstBatch.map(s=>s.url)),loadSidebarTiles(allStories),loadAffData()]);
     buildTabs(allStories);renderFeed(firstBatch);showLoadMore(allStories.length);
   }catch(e){
     document.getElementById('nsm-feed').innerHTML='<div class="feed-loading"><p>Could not load stories. Please refresh.</p></div>';
