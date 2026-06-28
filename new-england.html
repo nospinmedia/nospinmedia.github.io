@@ -53,6 +53,10 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .mobile-picks-disc{margin-top:.5rem;font-size:.6rem;color:#ccc;font-style:italic;line-height:1.4}
 @media(max-width:860px){.mobile-picks-card{display:block}}
 
+/* ── INLINE AFFILIATE TILES: desktop-hidden, mobile-visible ── */
+.inline-aff-wrap{display:none}
+@media(max-width:860px){.inline-aff-wrap{display:contents}}
+
 .feed-tabs{display:flex;gap:5px;margin-bottom:1rem;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
 .feed-tabs::-webkit-scrollbar{display:none}
 .feed-tab{font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;cursor:pointer;white-space:nowrap;color:var(--dimmed);background:var(--surface);border:1px solid var(--border);transition:all .15s;user-select:none}
@@ -638,25 +642,29 @@ function renderFeed(stories){
   let extrasUsed=0;
   TOPICS_ORDER.forEach(topic=>{if(!byTopic[topic]||byTopic[topic].length!==1||extrasUsed>=4)return;const donor=allStories.find(s=>s._topic===topic&&!usedUrls.has(s.url));if(donor){byTopic[topic].push(donor);usedUrls.add(donor.url);extrasUsed++}});
   const present=TOPICS_ORDER.filter(t=>byTopic[t]&&byTopic[t].length);
+
+  /* T(tile) wraps inline affiliate tiles — hidden on desktop, visible on mobile */
+  const T=(t)=>'<div class="inline-aff-wrap"><div class="aff-tile-center">'+t+'</div></div>';
+
   present.forEach((topic,ti)=>{
     const grp=byTopic[topic];
     html+='<div class="section-label">'+TOPIC_LABELS[topic]+'</div>';
     const tile=pickAffTileForSection(grp);
     if(grp.length===1){
-      html+=tile?'<div class="cards-grid-2"><div>'+cardHTML(grp[0],false)+'</div><div class="aff-tile-center">'+tile+'</div></div>':'<div class="cards-grid-2">'+cardHTML(grp[0],false)+'</div>';
+      html+=tile?'<div class="cards-grid-2"><div>'+cardHTML(grp[0],false)+'</div>'+T(tile)+'</div>':'<div class="cards-grid-2">'+cardHTML(grp[0],false)+'</div>';
     }else if(grp.length===2){
-      html+=tile?'<div class="cards-grid-3">'+cardHTML(grp[0],false)+cardHTML(grp[1],false)+'<div class="aff-tile-center">'+tile+'</div></div>':'<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
+      html+=tile?'<div class="cards-grid-3">'+cardHTML(grp[0],false)+cardHTML(grp[1],false)+T(tile)+'</div>':'<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
     }else if(grp.length===3){
       html+='<div class="cards-grid-3">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
     }else if(grp.length===4){
       html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
       const tile2=pickAffTileForSection(grp);
-      if(tile&&tile2){html+='<div class="cards-grid-3">'+cardHTML(grp[3],false)+'<div class="aff-tile-center">'+tile+'</div><div class="aff-tile-center">'+tile2+'</div></div>'}
-      else if(tile){html+='<div class="cards-grid-2">'+cardHTML(grp[3],false)+'<div class="aff-tile-center">'+tile+'</div></div>'}
+      if(tile&&tile2){html+='<div class="cards-grid-3">'+cardHTML(grp[3],false)+T(tile)+T(tile2)+'</div>'}
+      else if(tile){html+='<div class="cards-grid-2">'+cardHTML(grp[3],false)+T(tile)+'</div>'}
       else{html+='<div class="cards-grid-2">'+cardHTML(grp[3],false)+'</div>'}
     }else if(grp.length===5){
       html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
-      html+=tile?'<div class="cards-grid-3">'+cardHTML(grp[3],false)+cardHTML(grp[4],false)+'<div class="aff-tile-center">'+tile+'</div></div>':'<div class="cards-grid-3">'+grp.slice(3).map(s=>cardHTML(s,false)).join('')+'</div>';
+      html+=tile?'<div class="cards-grid-3">'+cardHTML(grp[3],false)+cardHTML(grp[4],false)+T(tile)+'</div>':'<div class="cards-grid-3">'+grp.slice(3).map(s=>cardHTML(s,false)).join('')+'</div>';
     }else{
       html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
       const rest=grp.slice(3);
