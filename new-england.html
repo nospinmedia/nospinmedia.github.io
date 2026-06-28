@@ -654,8 +654,8 @@ function renderFeed(stories){
        T(tile) is hidden on desktop via .inline-aff-wrap{display:none} and only
        shows on mobile where it fills a natural grid slot. */
     if(grp.length===1){
-      /* 1 story → 1-wide; tile appended (mobile only) */
-      html+='<div class="cards-grid-2"><div>'+cardHTML(grp[0],false)+'</div>'+(tile?T(tile):'')+'</div>';
+      /* 1 story → full-width on desktop; tile appended mobile-only after */
+      html+='<div style="margin-bottom:1rem;">'+cardHTML(grp[0],false)+'</div>'+(tile?T(tile):'');
     }else if(grp.length===2){
       /* 2 stories → always 2-wide on desktop; tile appended for mobile */
       html+='<div class="cards-grid-2">'+cardHTML(grp[0],false)+cardHTML(grp[1],false)+(tile?T(tile):'')+'</div>';
