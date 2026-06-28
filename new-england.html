@@ -650,21 +650,29 @@ function renderFeed(stories){
     const grp=byTopic[topic];
     html+='<div class="section-label">'+TOPIC_LABELS[topic]+'</div>';
     const tile=pickAffTileForSection(grp);
+    /* Grid class is always based on story count so desktop never has ghost columns.
+       T(tile) is hidden on desktop via .inline-aff-wrap{display:none} and only
+       shows on mobile where it fills a natural grid slot. */
     if(grp.length===1){
-      html+=tile?'<div class="cards-grid-2"><div>'+cardHTML(grp[0],false)+'</div>'+T(tile)+'</div>':'<div class="cards-grid-2">'+cardHTML(grp[0],false)+'</div>';
+      /* 1 story → 1-wide; tile appended (mobile only) */
+      html+='<div class="cards-grid-2"><div>'+cardHTML(grp[0],false)+'</div>'+(tile?T(tile):'')+'</div>';
     }else if(grp.length===2){
-      html+=tile?'<div class="cards-grid-3">'+cardHTML(grp[0],false)+cardHTML(grp[1],false)+T(tile)+'</div>':'<div class="cards-grid-2">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
+      /* 2 stories → always 2-wide on desktop; tile appended for mobile */
+      html+='<div class="cards-grid-2">'+cardHTML(grp[0],false)+cardHTML(grp[1],false)+(tile?T(tile):'')+'</div>';
     }else if(grp.length===3){
-      html+='<div class="cards-grid-3">'+grp.map(s=>cardHTML(s,false)).join('')+'</div>';
+      /* 3 stories → 3-wide; tile appended for mobile */
+      html+='<div class="cards-grid-3">'+grp.map(s=>cardHTML(s,false)).join('')+(tile?T(tile):'')+'</div>';
     }else if(grp.length===4){
+      /* 3 + 1 rows */
       html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
       const tile2=pickAffTileForSection(grp);
-      if(tile&&tile2){html+='<div class="cards-grid-3">'+cardHTML(grp[3],false)+T(tile)+T(tile2)+'</div>'}
-      else if(tile){html+='<div class="cards-grid-2">'+cardHTML(grp[3],false)+T(tile)+'</div>'}
-      else{html+='<div class="cards-grid-2">'+cardHTML(grp[3],false)+'</div>'}
+      /* Second row: 1 story → 1-wide on desktop; tiles mobile-only */
+      html+='<div class="cards-grid-2">'+cardHTML(grp[3],false)+(tile?T(tile):'')+(tile2?T(tile2):'')+'</div>';
     }else if(grp.length===5){
+      /* 3 + 2 rows */
       html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
-      html+=tile?'<div class="cards-grid-3">'+cardHTML(grp[3],false)+cardHTML(grp[4],false)+T(tile)+'</div>':'<div class="cards-grid-3">'+grp.slice(3).map(s=>cardHTML(s,false)).join('')+'</div>';
+      /* Second row: 2 stories → 2-wide on desktop; tile mobile-only */
+      html+='<div class="cards-grid-2">'+cardHTML(grp[3],false)+cardHTML(grp[4],false)+(tile?T(tile):'')+'</div>';
     }else{
       html+='<div class="cards-grid-3">'+grp.slice(0,3).map(s=>cardHTML(s,false)).join('')+'</div>';
       const rest=grp.slice(3);
