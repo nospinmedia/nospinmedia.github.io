@@ -50,6 +50,14 @@ body{font-family:Arial,sans-serif;margin:0;padding:0;background:#f4f4f4;color:#2
 .post-type{font-size:.8rem;font-weight:bold;color:#fff;background:#555;display:inline-block;padding:2px 10px;border-radius:20px;margin-bottom:10px}
 .post-content{line-height:1.7;font-size:1rem;margin-top:10px;display:none}
 .post-content.show{display:block}
+.post-content h1{font-size:1.5rem;margin:1.4rem 0 .5rem;color:#111;border-bottom:2px solid #e0e0e0;padding-bottom:6px}
+.post-content h2{font-size:1.25rem;margin:1.3rem 0 .45rem;color:#222}
+.post-content h3{font-size:1.1rem;margin:1.1rem 0 .4rem;color:#333}
+.post-content p{margin:.6rem 0 .9rem}
+.post-content ul,.post-content ol{margin:.4rem 0 .9rem;padding-left:1.6rem}
+.post-content li{margin-bottom:.35rem}
+.post-content blockquote{border-left:4px solid #0066cc;margin:.8rem 0;padding:.5rem 1rem;background:#f0f6ff;color:#333;border-radius:0 4px 4px 0}
+.post-content hr{border:none;border-top:1px solid #e0e0e0;margin:1.2rem 0}
 .post-preview{line-height:1.6;font-size:1rem;color:#444;margin-top:8px}
 .card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;flex-wrap:wrap;gap:8px}
 .story-link{font-weight:bold;text-decoration:none;color:#0066cc;cursor:pointer}
@@ -92,7 +100,6 @@ const SUPABASE_KEY='sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
 let allPosts=[];
 
 /* ── AFFILIATE ── */
-/* must_show values: true = pinned, false = normal pool, "hide" = excluded */
 let _affiliateData=null;
 
 async function loadAffiliateData(){
@@ -113,7 +120,6 @@ function getRandomLink(item){
   return item.links[Math.floor(Math.random()*item.links.length)];
 }
 
-/* Exclude hidden, pinned first, then random pool */
 function pickItems(items,count){
   const visible=items.filter(i=>i.must_show!=='hide');
   const mustShow=visible.filter(i=>i.must_show===true);
@@ -141,19 +147,16 @@ function renderTileHTML(item){
 async function loadAffiliateTiles(){
   const data=await loadAffiliateData();
 
-  /* Desktop left: books (3 slots) — filter hidden at source */
   const bookItems=(data.books?.items||[]).filter(i=>i.must_show!=='hide');
   const bookDesktop=pickItems(bookItems,3);
   const bookContainer=document.getElementById('book-tiles');
   if(bookContainer)bookContainer.innerHTML=bookDesktop.map(renderTileHTML).join('');
 
-  /* Desktop right: gear (3 slots) — filter hidden at source */
   const gearItems=(data.gear?.items||[]).filter(i=>i.must_show!=='hide');
   const gearDesktop=pickItems(gearItems,3);
   const gearContainer=document.getElementById('gear-tiles');
   if(gearContainer)gearContainer.innerHTML=gearDesktop.map(renderTileHTML).join('');
 
-  /* Mobile: 2-column insert (1 book + 1 gear) */
   const mobileBook=bookItems.length>0?pickOneMobile(bookItems):null;
   const mobileGear=gearItems.length>0?pickOneMobile(gearItems):null;
   if(!mobileBook&&!mobileGear)return;
@@ -162,6 +165,70 @@ async function loadAffiliateTiles(){
   const gearTileHTML=mobileGear?`<a href="${getRandomLink(mobileGear)}" target="_blank" rel="noopener nofollow sponsored" title="Browse on Amazon — supports NSM at no extra cost"><img src="/affiliate/${mobileGear.image}" alt="${mobileGear.title}" loading="lazy"></a>`:'';
 
   window.mobileAffiliateHTML=`<div class="mobile-affiliate-insert"><div class="affiliate-label">🧭 NSM Picks</div><div class="mobile-affiliate-grid">${bookTileHTML}${gearTileHTML}</div><div class="reading-disclosure">Selecting an item supports independent journalism at no extra cost to you.</div></div>`;
+}
+
+/* ── MARKDOWN → HTML ── */
+function markdownToHTML(text){
+  if(!text)return'';
+  let html=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+
+  // Horizontal rules
+  html=html.replace(/^---+$/gm,'<hr>');
+
+  // Headings
+  html=html.replace(/^### (.+)$/gm,'<h3>$1</h3>');
+  html=html.replace(/^## (.+)$/gm,'<h2>$1</h2>');
+  html=html.replace(/^# (.+)$/gm,'<h1>$1</h1>');
+
+  // Inline: bold+italic, bold, italic
+  html=html.replace(/\*\*\*(.*?)\*\*\*/g,'<strong><em>$1</em></strong>');
+  html=html.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  html=html.replace(/\*(.*?)\*/g,'<em>$1</em>');
+  html=html.replace(/_(.*?)_/g,'<em>$1</em>');
+
+  // Blockquotes
+  html=html.replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>');
+
+  // Unordered lists
+  html=html.replace(/((?:^[*\-] .+\n?)+)/gm,function(block){
+    const items=block.trim().split('\n').map(line=>'<li>'+line.replace(/^[*\-] /,'')+' </li>').join('');
+    return'<ul>'+items+'</ul>\n';
+  });
+
+  // Ordered lists
+  html=html.replace(/((?:^\d+\. .+\n?)+)/gm,function(block){
+    const items=block.trim().split('\n').map(line=>'<li>'+line.replace(/^\d+\. /,'')+' </li>').join('');
+    return'<ol>'+items+'</ol>\n';
+  });
+
+  // Paragraphs
+  const blocks=html.split(/\n\n+/);
+  html=blocks.map(block=>{
+    block=block.trim();
+    if(!block)return'';
+    if(/^<(h[1-6]|ul|ol|li|blockquote|hr|p)/.test(block))return block;
+    block=block.replace(/\n/g,'<br>');
+    return'<p>'+block+'</p>';
+  }).join('\n');
+
+  return html;
+}
+
+/* Extract plain-text preview: first non-heading, non-empty line */
+function extractPreview(text){
+  if(!text)return'';
+  const lines=text.split('\n');
+  for(const line of lines){
+    const t=line.trim();
+    if(!t)continue;
+    if(/^#+/.test(t))continue;
+    return t
+      .replace(/\*\*(.*?)\*\*/g,'$1')
+      .replace(/\*(.*?)\*/g,'$1')
+      .replace(/_(.*?)_/g,'$1')
+      .slice(0,220)+(t.length>220?'…':'');
+  }
+  return'';
 }
 
 /* ── DAILY POSTS LOGIC ── */
@@ -179,14 +246,6 @@ function formatDateLabel(dateStr){
 function formatType(type){
   if(!type)return'';
   return type.split('_').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
-}
-
-function formatContent(text){
-  if(!text)return'';
-  return text
-    .replace(/\\n/g,'<br>')
-    .replace(/\n/g,'<br>')
-    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
 }
 
 async function sharePost(id,btn){
@@ -215,7 +274,6 @@ function renderPosts(posts,autoExpand){
     return;
   }
 
-  /* Group by date */
   const groups={};
   posts.forEach(p=>{
     const key=p.post_date||'Undated';
@@ -239,9 +297,9 @@ function renderPosts(posts,autoExpand){
       card.className='story-card';
 
       const typeLabel=formatType(p.post_type);
-      const contentHtml=formatContent(p.comment_text);
+      const contentHtml=markdownToHTML(p.comment_text);
       const expanded=autoExpand;
-      const previewText=contentHtml.split('<br>')[0];
+      const previewText=extractPreview(p.comment_text);
 
       card.innerHTML=`
         <h3>${p.headline_text||'Untitled'}</h3>
@@ -267,7 +325,6 @@ function renderPosts(posts,autoExpand){
       container.appendChild(card);
       cardCount++;
 
-      /* Mobile: inject affiliate after card 3 */
       if(window.innerWidth<=900&&cardCount===3&&!mobileInserted&&window.mobileAffiliateHTML){
         const insert=document.createElement('div');
         insert.innerHTML=window.mobileAffiliateHTML;
@@ -277,7 +334,6 @@ function renderPosts(posts,autoExpand){
     });
   }
 
-  /* If mobile and we never hit 3 cards, inject anyway */
   if(window.innerWidth<=900&&!mobileInserted&&window.mobileAffiliateHTML&&cardCount>0){
     const insert=document.createElement('div');
     insert.innerHTML=window.mobileAffiliateHTML;
