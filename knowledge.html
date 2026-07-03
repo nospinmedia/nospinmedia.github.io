@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B2CDHQWR45"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-B2CDHQWR45', { page_title: 'Knowledge Base', page_location: 'https://nospin.media/knowledge.html' });
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>No Spin Media – Knowledge Base</title>
+<meta property="og:site_name" content="No Spin Media">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://nospin.media/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:title" content="No Spin Media – Knowledge Base">
+<meta property="og:description" content="In-depth explainers and knowledge articles from No Spin Media.">
+<meta property="og:url" content="https://nospin.media/knowledge.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nospin.media/preview.png">
+<link rel="stylesheet" href="style.css"/>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053277983719011" crossorigin="anonymous"></script>
+
+<style>
+body{font-family:Arial,sans-serif;margin:0;padding:0;background:#f4f4f4;color:#222;padding-top:70px}
+.container{display:flex;max-width:1600px;margin:0 auto;padding:1.5rem;gap:2rem;align-items:flex-start}
+.left-ad{width:210px;min-width:210px;flex-shrink:0;position:sticky;top:90px;border-right:1px solid #e0e0e0;padding-right:20px}
+.right-ad{width:210px;min-width:210px;flex-shrink:0;position:sticky;top:90px;border-left:1px solid #e0e0e0;padding-left:20px}
+.main{flex:1;min-width:0;max-width:1200px;margin:0 auto}
+.reading-label{font-family:Arial,sans-serif;font-size:.82rem;font-weight:700;color:#333;letter-spacing:.06em;text-transform:uppercase;margin:0 0 12px 0;padding-bottom:8px;border-bottom:2px solid #0066cc}
+#book-tiles{display:flex;flex-direction:column;gap:12px}
+#book-tiles a{display:block;border-radius:6px;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+#book-tiles a:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,.18)}
+#book-tiles img{width:100%;display:block;border-radius:6px}
+#gear-tiles{display:flex;flex-direction:column;gap:42px}
+#gear-tiles a{display:block;border-radius:6px;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+#gear-tiles a:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,.18)}
+#gear-tiles img{width:100%;display:block;border-radius:6px}
+.reading-disclosure{margin-top:12px;font-size:.65rem;color:#bbb;line-height:1.4;font-style:italic}
+
+/* ── Knowledge page header area ── */
+.page-header{margin-bottom:1.2rem}
+.page-header h1{font-size:1.6rem;margin:0 0 4px 0;color:#111}
+.page-header p{margin:0;font-size:.95rem;color:#555}
+
+/* ── Tag filter ── */
+.filter-bar{background:#fff;padding:1rem;margin-bottom:1.2rem;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.08);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.filter-bar label{font-weight:bold;font-size:.95rem}
+.filter-bar select{padding:8px 12px;font-size:.95rem;border:1px solid #ccc;border-radius:6px;background:#fff;cursor:pointer}
+
+/* ── Knowledge cards ── */
+.date-header{background:#333;color:#fff;padding:.5rem 1rem;border-radius:4px;font-weight:bold;font-size:1.1rem;margin-bottom:.8rem;margin-top:1.5rem}
+.story-card{background:#fff;padding:1.4rem;margin-bottom:1.2rem;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.story-card h3{margin:0 0 6px 0;font-size:1.4rem;line-height:1.4;color:#111}
+.post-tag{font-size:.8rem;font-weight:bold;color:#fff;background:#2a7a2a;display:inline-block;padding:2px 10px;border-radius:20px;margin-bottom:10px}
+.post-preview{line-height:1.6;font-size:1rem;color:#444;margin-top:8px}
+
+/* ── Full article content (markdown → HTML) ── */
+.post-content{display:none;margin-top:14px;line-height:1.75;font-size:1rem;color:#222}
+.post-content.show{display:block}
+.post-content h1{font-size:1.5rem;margin:1.4rem 0 .5rem;color:#111;border-bottom:2px solid #e0e0e0;padding-bottom:6px}
+.post-content h2{font-size:1.25rem;margin:1.3rem 0 .45rem;color:#222}
+.post-content h3{font-size:1.1rem;margin:1.1rem 0 .4rem;color:#333}
+.post-content p{margin:.6rem 0 .9rem}
+.post-content ul,.post-content ol{margin:.4rem 0 .9rem;padding-left:1.6rem}
+.post-content li{margin-bottom:.35rem}
+.post-content strong{font-weight:700}
+.post-content em{font-style:italic}
+.post-content hr{border:none;border-top:1px solid #e0e0e0;margin:1.2rem 0}
+.post-content blockquote{border-left:4px solid #0066cc;margin:.8rem 0;padding:.5rem 1rem;background:#f0f6ff;color:#333;border-radius:0 4px 4px 0}
+
+.card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;flex-wrap:wrap;gap:8px}
+.story-link{font-weight:bold;text-decoration:none;color:#0066cc;cursor:pointer;background:none;border:none;padding:0;font-size:1rem;font-family:inherit}
+.story-link:hover{text-decoration:underline}
+
+/* ── Suggest box (right sidebar) ── */
+.suggest-box{background:#fff;padding:1.2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:1.5rem}
+.suggest-box h2{font-size:1rem;font-weight:bold;color:#222;margin:0 0 .4rem 0}
+.suggest-box p{font-size:.85rem;color:#555;margin:0 0 .8rem 0}
+.suggest-box input,.suggest-box textarea{width:100%;padding:8px;margin:4px 0;border:1px solid #ccc;border-radius:4px;box-sizing:border-box;font-family:Arial,sans-serif;font-size:.9rem;background:#fff}
+.suggest-box textarea{resize:vertical}
+.suggest-box button{background:#2a7a2a;color:#fff;border:none;padding:10px;width:100%;font-weight:bold;border-radius:4px;cursor:pointer;font-size:.95rem;margin-top:4px}
+.suggest-box button:hover{background:#1e5e1e}
+#suggestStatus{font-size:.85em;color:green;margin:5px 0;text-align:center}
+
+footer{text-align:center;padding:1rem;font-size:.9rem;color:#666}
+footer a{color:#0066cc;text-decoration:none}
+footer a:hover{text-decoration:underline}
+
+/* ── Mobile ── */
+@media(max-width:900px){
+  body{background:#ebebeb}
+  .container{flex-direction:column;padding:0;gap:0}
+  .left-ad,.right-ad{display:none}
+  .main{max-width:100%;padding:0}
+  .main .page-header{padding:13px 16px 11px;margin:0;background:#fff;border-bottom:3px solid #2a7a2a}
+  .main .page-header h1{font-size:1rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#444;margin:0 0 2px 0}
+  .main .page-header p{font-size:.78rem;color:#777}
+  .filter-bar{border-radius:0;box-shadow:none;border-bottom:1px solid #e0e0e0;margin-bottom:0;padding:10px 16px;background:#fff}
+  .filter-bar label{font-size:.82rem;color:#555}
+  .filter-bar select{font-size:.88rem;padding:7px 10px;flex:1}
+  #kb-container{background:#ebebeb;display:flex;flex-direction:column;gap:6px;padding:6px 0}
+  .date-header{background:#333;color:#fff;padding:8px 16px;border-radius:0;font-size:.9rem;margin:0}
+  .story-card{background:#fff;border-radius:0;box-shadow:none;padding:16px 16px 0;margin-bottom:0}
+  .story-card h3{font-size:1.05rem;line-height:1.38;margin:0 0 6px 0;font-weight:700;color:#111}
+  .post-preview{font-size:.91rem;line-height:1.56;color:#444;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-top:6px}
+  .post-content{font-size:.91rem;line-height:1.6;color:#333;margin-top:10px}
+  .card-footer{padding:9px 0 13px;margin-top:10px;border-top:1px solid #f2f2f2;gap:0;flex-wrap:nowrap}
+  .story-link{font-size:.8rem;font-weight:700;color:#0055bb;letter-spacing:.01em}
+  .mobile-affiliate-insert{background:#fff;padding:13px 16px 14px;border-radius:0;box-shadow:none}
+  .mobile-affiliate-insert .affiliate-label{font-size:.7rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#444;border-bottom:2px solid #2a7a2a;padding-bottom:6px;margin-bottom:10px}
+  .mobile-affiliate-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .mobile-affiliate-grid a{display:block;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.10);transition:transform .15s ease}
+  .mobile-affiliate-grid a:active{transform:scale(.98)}
+  .mobile-affiliate-grid img{width:100%;display:block;border-radius:8px}
+  .mobile-affiliate-insert .reading-disclosure{margin-top:8px;font-size:.6rem;color:#bbb;font-style:italic;line-height:1.4}
+  footer{font-size:.76rem;padding:1.4rem 1rem;color:#999;background:#fff;border-top:1px solid #ddd;margin-top:6px}
+}
+</style>
+
+<script>
+const SUPABASE_URL = 'https://dckmflnbprhmaqysuued.supabase.co/rest/v1';
+const SUPABASE_KEY = 'sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
+
+let allPosts = [];
+
+/* ── MARKDOWN → HTML CONVERTER ── */
+function markdownToHTML(text) {
+  if (!text) return '';
+
+  // Normalize line endings
+  let html = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+  // Escape any existing HTML entities to prevent injection
+  // (content is trusted from our own DB, but good practice)
+
+  // Horizontal rules
+  html = html.replace(/^---+$/gm, '<hr>');
+
+  // Headings (must be at start of line)
+  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+  // Bold and italic (inline)
+  html = html.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  html = html.replace(/_(.*?)_/g, '<em>$1</em>');
+
+  // Blockquotes
+  html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+
+  // Unordered lists — collect consecutive bullet lines into <ul>
+  html = html.replace(/((?:^[*\-] .+\n?)+)/gm, function(block) {
+    const items = block.trim().split('\n').map(line =>
+      '<li>' + line.replace(/^[*\-] /, '') + '</li>'
+    ).join('');
+    return '<ul>' + items + '</ul>\n';
+  });
+
+  // Ordered lists
+  html = html.replace(/((?:^\d+\. .+\n?)+)/gm, function(block) {
+    const items = block.trim().split('\n').map(line =>
+      '<li>' + line.replace(/^\d+\. /, '') + '</li>'
+    ).join('');
+    return '<ol>' + items + '</ol>\n';
+  });
+
+  // Paragraphs: wrap double-newline-separated blocks that aren't already HTML tags
+  const blocks = html.split(/\n\n+/);
+  html = blocks.map(block => {
+    block = block.trim();
+    if (!block) return '';
+    // Already an HTML block tag — leave alone
+    if (/^<(h[1-6]|ul|ol|li|blockquote|hr|p)/.test(block)) return block;
+    // Single newlines within a paragraph → <br>
+    block = block.replace(/\n/g, '<br>');
+    return '<p>' + block + '</p>';
+  }).join('\n');
+
+  return html;
+}
+
+/* ── AFFILIATE ── */
+let _affiliateData = null;
+
+async function loadAffiliateData() {
+  if (_affiliateData) return _affiliateData;
+  try {
+    const res = await fetch('/affiliate/affiliate.json');
+    if (!res.ok) throw new Error('affiliate.json not found');
+    _affiliateData = await res.json();
+  } catch (e) {
+    console.warn('Affiliate data failed to load:', e);
+    _affiliateData = {};
+  }
+  return _affiliateData;
+}
+
+function getRandomLink(item) {
+  if (!item.links || item.links.length === 0) return '#';
+  return item.links[Math.floor(Math.random() * item.links.length)];
+}
+
+function pickItems(items, count) {
+  const visible = items.filter(i => i.must_show !== 'hide');
+  const mustShow = visible.filter(i => i.must_show === true);
+  const optional = [...visible.filter(i => i.must_show !== true)].sort(() => 0.5 - Math.random());
+  const pool = [...mustShow, ...optional];
+  const seen = new Set(); const result = [];
+  for (const item of pool) {
+    if (!seen.has(item.title) && result.length < count) { seen.add(item.title); result.push(item); }
+  }
+  return result;
+}
+
+function pickOneMobile(items) {
+  const visible = items.filter(i => i.must_show !== 'hide');
+  const mustShow = visible.filter(i => i.must_show === true);
+  const pool = mustShow.length > 0 ? mustShow : visible;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function renderTileHTML(item) {
+  const link = getRandomLink(item);
+  return `<a href="${link}" target="_blank" rel="noopener nofollow sponsored" title="Browse on Amazon — supports NSM at no extra cost"><img src="/affiliate/${item.image}" alt="${item.title}" loading="lazy"></a>`;
+}
+
+async function loadAffiliateTiles() {
+  const data = await loadAffiliateData();
+
+  const bookItems = (data.books?.items || []).filter(i => i.must_show !== 'hide');
+  const bookDesktop = pickItems(bookItems, 3);
+  const bookContainer = document.getElementById('book-tiles');
+  if (bookContainer) bookContainer.innerHTML = bookDesktop.map(renderTileHTML).join('');
+
+  const gearItems = (data.gear?.items || []).filter(i => i.must_show !== 'hide');
+  const gearDesktop = pickItems(gearItems, 3);
+  const gearContainer = document.getElementById('gear-tiles');
+  if (gearContainer) gearContainer.innerHTML = gearDesktop.map(renderTileHTML).join('');
+
+  const mobileBook = bookItems.length > 0 ? pickOneMobile(bookItems) : null;
+  const mobileGear = gearItems.length > 0 ? pickOneMobile(gearItems) : null;
+  if (!mobileBook && !mobileGear) return;
+
+  const bookTileHTML = mobileBook ? `<a href="${getRandomLink(mobileBook)}" target="_blank" rel="noopener nofollow sponsored" title="Browse on Amazon — supports NSM at no extra cost"><img src="/affiliate/${mobileBook.image}" alt="${mobileBook.title}" loading="lazy"></a>` : '';
+  const gearTileHTML = mobileGear ? `<a href="${getRandomLink(mobileGear)}" target="_blank" rel="noopener nofollow sponsored" title="Browse on Amazon — supports NSM at no extra cost"><img src="/affiliate/${mobileGear.image}" alt="${mobileGear.title}" loading="lazy"></a>` : '';
+
+  window.mobileAffiliateHTML = `<div class="mobile-affiliate-insert"><div class="affiliate-label">🧭 NSM Picks</div><div class="mobile-affiliate-grid">${bookTileHTML}${gearTileHTML}</div><div class="reading-disclosure">Selecting an item supports independent journalism at no extra cost to you.</div></div>`;
+}
+
+/* ── UTILITIES ── */
+function getQueryParam(param) {
+  return new URLSearchParams(window.location.search).get(param);
+}
+
+function formatDateLabel(dateStr) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr || 'Undated';
+  const [y, m, d] = dateStr.split('-');
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const weekdays = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const dt = new Date(Number(y), Number(m) - 1, Number(d));
+  return `${weekdays[dt.getDay()]}, ${months[Number(m) - 1]} ${Number(d)}, ${y}`;
+}
+
+/* Extract plain-text preview from markdown (first non-heading, non-empty line) */
+function extractPreview(text) {
+  if (!text) return '';
+  const lines = text.split('\n');
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    if (/^#+/.test(trimmed)) continue; // skip headings
+    // Strip markdown formatting for preview
+    return trimmed
+      .replace(/\*\*(.*?)\*\*/g, '$1')
+      .replace(/\*(.*?)\*/g, '$1')
+      .replace(/_(.*?)_/g, '$1')
+      .slice(0, 220) + (trimmed.length > 220 ? '…' : '');
+  }
+  return '';
+}
+
+async function sharePost(url, btn) {
+  const shareUrl = `${window.location.origin}/knowledge.html?id=${encodeURIComponent(url)}`;
+  try {
+    await navigator.clipboard.writeText(shareUrl);
+    btn.innerHTML = '✅ Copied!';
+    setTimeout(() => { btn.innerHTML = '🔗 Share'; }, 2000);
+  } catch (err) {
+    alert('Could not copy link. Please copy manually from the address bar.');
+  }
+}
+
+function togglePost(btn, contentEl, previewEl) {
+  const showing = contentEl.classList.toggle('show');
+  previewEl.style.display = showing ? 'none' : '';
+  btn.innerHTML = showing ? 'Hide article ▲' : 'Read full article ▼';
+}
+
+/* ── RENDER ── */
+function renderPosts(posts, autoExpand) {
+  const container = document.getElementById('kb-container');
+  container.innerHTML = '';
+
+  if (!posts || posts.length === 0) {
+    container.innerHTML = "<p style='padding:12px 16px;'>No articles found.</p>";
+    return;
+  }
+
+  // Group by date
+  const groups = {};
+  posts.forEach(p => {
+    const key = p.post_date || 'Undated';
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(p);
+  });
+
+  let cardCount = 0;
+  let mobileInserted = false;
+
+  for (const date in groups) {
+    if (!autoExpand) {
+      const header = document.createElement('div');
+      header.className = 'date-header';
+      header.textContent = formatDateLabel(date);
+      container.appendChild(header);
+    }
+
+    groups[date].forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'story-card';
+
+      const tagLabel = p.post_tag || 'Knowledge';
+      const preview = extractPreview(p.comment_text);
+      const fullHTML = markdownToHTML(p.comment_text);
+
+      card.innerHTML = `
+        <h3>${p.headline_text || 'Untitled'}</h3>
+        <span class="post-tag">${tagLabel}</span>
+        <div class="post-preview">${preview}</div>
+        <div class="post-content${autoExpand ? ' show' : ''}">${fullHTML}</div>
+        <div class="card-footer">
+          <button class="story-link toggle-link">${autoExpand ? 'Hide article ▲' : 'Read full article ▼'}</button>
+          <button class="story-link share-link">🔗 Share</button>
+        </div>
+      `;
+
+      const toggleBtn = card.querySelector('.toggle-link');
+      const contentEl = card.querySelector('.post-content');
+      const previewEl = card.querySelector('.post-preview');
+      const shareBtn = card.querySelector('.share-link');
+
+      toggleBtn.addEventListener('click', () => togglePost(toggleBtn, contentEl, previewEl));
+      shareBtn.addEventListener('click', () => sharePost(p.url, shareBtn));
+
+      if (autoExpand) previewEl.style.display = 'none';
+
+      container.appendChild(card);
+      cardCount++;
+
+      // Mobile: inject affiliate after card 3
+      if (window.innerWidth <= 900 && cardCount === 3 && !mobileInserted && window.mobileAffiliateHTML) {
+        const insert = document.createElement('div');
+        insert.innerHTML = window.mobileAffiliateHTML;
+        container.appendChild(insert.firstElementChild);
+        mobileInserted = true;
+      }
+    });
+  }
+
+  if (window.innerWidth <= 900 && !mobileInserted && window.mobileAffiliateHTML && cardCount > 0) {
+    const insert = document.createElement('div');
+    insert.innerHTML = window.mobileAffiliateHTML;
+    container.appendChild(insert.firstElementChild);
+  }
+}
+
+/* ── DATA LOAD ── */
+async function loadPosts() {
+  const sharedId = getQueryParam('id');
+
+  if (sharedId) {
+    // Single article view — load by url field
+    const res = await fetch(
+      `${SUPABASE_URL}/daily_posts?select=*&post_type=eq.knowledge&url=eq.${encodeURIComponent(sharedId)}`,
+      { headers: { apikey: SUPABASE_KEY } }
+    );
+    const data = await res.json();
+    document.getElementById('filter-bar').style.display = 'none';
+    renderPosts(data, true);
+    return;
+  }
+
+  // List view — all knowledge posts, newest first
+  const res = await fetch(
+    `${SUPABASE_URL}/daily_posts?select=*&post_type=eq.knowledge&order=id.desc&limit=50`,
+    { headers: { apikey: SUPABASE_KEY } }
+  );
+  allPosts = await res.json();
+
+  // Build tag filter from actual data
+  const tagSelect = document.getElementById('tagFilter');
+  tagSelect.innerHTML = '<option value="all">All Topics</option>';
+  const tags = [...new Set(allPosts.map(p => p.post_tag).filter(Boolean))].sort();
+  tags.forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t; opt.textContent = t;
+    tagSelect.appendChild(opt);
+  });
+
+  renderPosts(allPosts, false);
+}
+
+function applyFilter() {
+  const selected = document.getElementById('tagFilter').value;
+  const filtered = selected === 'all' ? allPosts : allPosts.filter(p => p.post_tag === selected);
+  renderPosts(filtered, false);
+}
+
+/* ── SUGGEST FORM ── */
+async function submitSuggestion(e) {
+  e.preventDefault();
+  if (document.getElementById('kb-honeypot').value) return; // honeypot
+  const status = document.getElementById('suggestStatus');
+  status.textContent = '⏳ Sending...';
+  const data = {
+    name:    document.getElementById('kb-name').value || 'Someone',
+    email:   document.getElementById('kb-email').value,
+    subject: `Knowledge Base Suggestion — ${document.getElementById('kb-topic').value || 'General'}`,
+    message: document.getElementById('kb-message').value
+  };
+  try {
+    const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(data)
+    });
+    let result = {};
+    try { result = await res.json(); } catch { result = { status: 'success' }; }
+    if (result.status === 'success') {
+      status.textContent = '✅ Thanks! Your suggestion was sent.';
+      document.getElementById('suggestForm').reset();
+    } else {
+      status.textContent = '❌ Error sending. Please try again.';
+    }
+    setTimeout(() => { status.textContent = ''; }, 5000);
+  } catch (err) {
+    status.textContent = '❌ Failed to send. Check your connection.';
+    setTimeout(() => { status.textContent = ''; }, 5000);
+  }
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', function () {
+  fetch('header.html')
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('site-header').innerHTML = html;
+      const hamburger = document.getElementById('hamburger');
+      const mobileNav = document.getElementById('mobile-nav');
+      if (hamburger && mobileNav) {
+        hamburger.onclick = () => { mobileNav.classList.toggle('open'); hamburger.classList.toggle('active'); };
+        mobileNav.querySelectorAll('a').forEach(link => {
+          link.onclick = () => { mobileNav.classList.remove('open'); hamburger.classList.remove('active'); };
+        });
+      }
+      loadAffiliateTiles();
+      loadPosts();
+    });
+
+  document.getElementById('tagFilter').addEventListener('change', applyFilter);
+  document.getElementById('suggestForm').addEventListener('submit', submitSuggestion);
+});
+</script>
+</head>
+<body>
+<div id="site-header"></div>
+
+<div class="container">
+
+  <!-- Left: book tiles -->
+  <div class="left-ad" id="left-ad">
+    <div class="reading-label">🧭 NSM Reading List</div>
+    <div id="book-tiles"></div>
+    <div class="reading-disclosure">Selecting a title supports independent journalism at no extra cost to you.</div>
+  </div>
+
+  <!-- Center: knowledge articles -->
+  <div class="main">
+    <div class="page-header">
+      <h1>🧭 Knowledge Base</h1>
+      <p>In-depth explainers on topics that matter — clear, factual, and spin-free.</p>
+    </div>
+
+    <div class="filter-bar" id="filter-bar">
+      <label for="tagFilter">Topic:</label>
+      <select id="tagFilter"><option value="all">All Topics</option></select>
+    </div>
+
+    <div id="kb-container"></div>
+  </div>
+
+  <!-- Right: gear tiles + suggest box -->
+  <div class="right-ad" id="right-ad">
+    <div class="reading-label">🧭 NSM Field Gear</div>
+    <div id="gear-tiles"></div>
+    <div class="reading-disclosure">Selecting an item supports independent journalism at no extra cost to you.</div>
+
+    <div style="margin-top:2rem;">
+      <div class="suggest-box">
+        <h2>💡 Suggest a Topic</h2>
+        <p>Know something worth explaining? We'd love to hear it.</p>
+        <form id="suggestForm">
+          <input type="text" id="kb-name" placeholder="Your first name">
+          <input type="email" id="kb-email" placeholder="you@email.com" required>
+          <input type="text" id="kb-topic" placeholder="Topic or question...">
+          <textarea id="kb-message" rows="4" placeholder="Tell us more..." required></textarea>
+          <!-- Honeypot -->
+          <input type="text" id="kb-honeypot" name="website" style="display:none;" tabindex="-1" autocomplete="off">
+          <p id="suggestStatus"></p>
+          <button type="submit">💬 Send Suggestion</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
+  <span style="font-size:.8rem;color:#aaa;">Some links on this site are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
+</footer>
+</body>
+</html>
