@@ -48,16 +48,18 @@ body{font-family:Arial,sans-serif;margin:0;padding:0;background:#f4f4f4;color:#2
 .page-header p{margin:0;font-size:.95rem;color:#555}
 
 /* ── Tag filter ── */
-.filter-bar{background:#fff;padding:1rem;margin-bottom:1.2rem;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.08);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.filter-bar label{font-weight:bold;font-size:.95rem}
-.filter-bar select{padding:8px 12px;font-size:.95rem;border:1px solid #ccc;border-radius:6px;background:#fff;cursor:pointer}
+.filter-bar{background:#fff;padding:14px 18px;margin-bottom:1.4rem;border-radius:10px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 6px 18px rgba(0,0,0,.06);display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid #edeef0}
+.filter-bar label{font-weight:700;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;color:#666}
+.filter-bar select{padding:9px 14px;font-size:.92rem;font-weight:600;border:1px solid #dcdfe3;border-radius:8px;background:#fafbfc;color:#222;cursor:pointer;transition:border-color .15s ease}
+.filter-bar select:hover{border-color:#0066cc}
 
 /* ── Knowledge cards ── */
-.date-header{background:#333;color:#fff;padding:.5rem 1rem;border-radius:4px;font-weight:bold;font-size:1.1rem;margin-bottom:.8rem;margin-top:1.5rem}
-.story-card{background:#fff;padding:1.4rem;margin-bottom:1.2rem;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
-.story-card h3{margin:0 0 6px 0;font-size:1.4rem;line-height:1.4;color:#111}
-.post-tag{font-size:.8rem;font-weight:bold;color:#fff;background:#2a7a2a;display:inline-block;padding:2px 10px;border-radius:20px;margin-bottom:10px}
-.post-preview{line-height:1.6;font-size:1rem;color:#444;margin-top:8px}
+.date-header{background:#1a1c20;color:#fff;padding:.55rem 1.1rem;border-radius:8px;font-weight:700;font-size:1rem;letter-spacing:.02em;margin-bottom:.9rem;margin-top:1.8rem}
+.story-card{background:#fff;padding:1.7rem 1.9rem;margin-bottom:1.3rem;border-radius:12px;border-left:5px solid var(--tag-color,#0066cc);box-shadow:0 1px 3px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.05);transition:transform .2s ease,box-shadow .2s ease}
+.story-card:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,.06),0 14px 30px rgba(0,0,0,.09)}
+.story-card h3{margin:0 0 10px 0;font-size:1.45rem;line-height:1.35;font-weight:800;letter-spacing:-.01em;color:#101215}
+.post-tag{font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--tag-color,#2a7a2a);background:var(--tag-tint,rgba(42,122,42,.1));border:1px solid var(--tag-color,#2a7a2a);display:inline-block;padding:4px 12px;border-radius:20px;margin-bottom:12px}
+.post-preview{line-height:1.75;font-size:1.05rem;color:#3a3f47;margin-top:4px}
 
 /* ── Full article content (markdown → HTML) ── */
 .post-content{display:none;margin-top:14px;line-height:1.75;font-size:1rem;color:#222}
@@ -73,9 +75,12 @@ body{font-family:Arial,sans-serif;margin:0;padding:0;background:#f4f4f4;color:#2
 .post-content hr{border:none;border-top:1px solid #e0e0e0;margin:1.2rem 0}
 .post-content blockquote{border-left:4px solid #0066cc;margin:.8rem 0;padding:.5rem 1rem;background:#f0f6ff;color:#333;border-radius:0 4px 4px 0}
 
-.card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;flex-wrap:wrap;gap:8px}
-.story-link{font-weight:bold;text-decoration:none;color:#0066cc;cursor:pointer;background:none;border:none;padding:0;font-size:1rem;font-family:inherit}
-.story-link:hover{text-decoration:underline}
+.card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:16px;border-top:1px solid #f0f1f3;flex-wrap:wrap;gap:10px}
+.story-link{font-weight:700;cursor:pointer;font-family:inherit;border-radius:999px;transition:background .15s ease,transform .15s ease,box-shadow .15s ease}
+.toggle-link{background:#0066cc;color:#fff;border:none;padding:10px 20px;font-size:.92rem;box-shadow:0 2px 8px rgba(0,102,204,.25)}
+.toggle-link:hover{background:#0055ab;transform:translateY(-1px)}
+.share-link{background:#fff;color:#555;border:1px solid #e2e4e8;padding:9px 16px;font-size:.85rem}
+.share-link:hover{background:#f4f5f7;border-color:#c9cdd3}
 
 /* ── Suggest box (right sidebar) ── */
 .suggest-box{background:#fff;padding:1.2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:1.5rem}
@@ -101,16 +106,18 @@ footer a:hover{text-decoration:underline}
   .main .page-header h1{font-size:1rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#444;margin:0 0 2px 0}
   .main .page-header p{font-size:.78rem;color:#777}
   .filter-bar{border-radius:0;box-shadow:none;border-bottom:1px solid #e0e0e0;margin-bottom:0;padding:10px 16px;background:#fff}
-  .filter-bar label{font-size:.82rem;color:#555}
-  .filter-bar select{font-size:.88rem;padding:7px 10px;flex:1}
-  #kb-container{background:#ebebeb;display:flex;flex-direction:column;gap:6px;padding:6px 0}
-  .date-header{background:#333;color:#fff;padding:8px 16px;border-radius:0;font-size:.9rem;margin:0}
-  .story-card{background:#fff;border-radius:0;box-shadow:none;padding:16px 16px 0;margin-bottom:0}
-  .story-card h3{font-size:1.05rem;line-height:1.38;margin:0 0 6px 0;font-weight:700;color:#111}
-  .post-preview{font-size:.91rem;line-height:1.56;color:#444;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-top:6px}
-  .post-content{font-size:.91rem;line-height:1.6;color:#333;margin-top:10px}
-  .card-footer{padding:9px 0 13px;margin-top:10px;border-top:1px solid #f2f2f2;gap:0;flex-wrap:nowrap}
-  .story-link{font-size:.8rem;font-weight:700;color:#0055bb;letter-spacing:.01em}
+  .filter-bar label{font-size:.78rem;color:#666}
+  .filter-bar select{font-size:.88rem;padding:8px 10px;flex:1}
+  #kb-container{background:#ebebeb;display:flex;flex-direction:column;gap:8px;padding:8px 0}
+  .date-header{background:#1a1c20;color:#fff;padding:8px 16px;border-radius:0;font-size:.85rem;margin:0}
+  .story-card{background:#fff;border-radius:0;border-left:4px solid var(--tag-color,#0066cc);box-shadow:none;padding:16px 16px 0;margin-bottom:0}
+  .story-card h3{font-size:1.08rem;line-height:1.4;margin:0 0 8px 0;font-weight:800;color:#101215}
+  .post-tag{font-size:.66rem;padding:3px 10px;margin-bottom:10px}
+  .post-preview{font-size:.93rem;line-height:1.6;color:#3a3f47;margin-top:4px}
+  .post-content{font-size:.93rem;line-height:1.65;color:#333;margin-top:10px}
+  .card-footer{padding:12px 0 16px;margin-top:12px;border-top:1px solid #f2f2f2;gap:8px;flex-wrap:nowrap}
+  .toggle-link{flex:1;text-align:center;padding:10px 14px;font-size:.85rem}
+  .share-link{padding:10px 14px;font-size:.8rem}
   .mobile-affiliate-insert{background:#fff;padding:13px 16px 14px;border-radius:0;box-shadow:none}
   .mobile-affiliate-insert .affiliate-label{font-size:.7rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#444;border-bottom:2px solid #2a7a2a;padding-bottom:6px;margin-bottom:10px}
   .mobile-affiliate-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -268,6 +275,43 @@ function formatDateLabel(dateStr) {
   return `${weekdays[dt.getDay()]}, ${months[Number(m) - 1]} ${Number(d)}, ${y}`;
 }
 
+/* ── TOPIC COLORS ── each tag gets a consistent accent so readers can scan by subject ── */
+const TAG_COLORS = {
+  history:  '#b5651d',
+  health:   '#0f8b8d',
+  politics: '#5b4b8a',
+  science:  '#1d6fa5',
+  economy:  '#946200',
+  business: '#946200',
+  war:      '#8a1f2d',
+  security: '#8a1f2d',
+  world:    '#1d6fa5',
+  law:      '#5b4b8a',
+  technology:'#1d6fa5',
+  environment:'#0f8b8d'
+};
+function getTagColor(tag) {
+  const key = (tag || '').toLowerCase().trim();
+  return TAG_COLORS[key] || '#2a7a2a';
+}
+function hexToRgba(hex, alpha) {
+  const h = hex.replace('#','');
+  const r = parseInt(h.substring(0,2),16), g = parseInt(h.substring(2,4),16), b = parseInt(h.substring(4,6),16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+/* Format the editorial summary (post_comment) — real sentences, not a clipped fragment.
+   Falls back to the old first-line extraction if post_comment isn't set yet. */
+function formatSummary(post) {
+  const raw = (post.post_comment && post.post_comment.trim()) ? post.post_comment.trim() : extractPreview(post.comment_text);
+  return raw
+    .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/\n{2,}/g, '</p><p>')
+    .replace(/\n/g, '<br>');
+}
+
 /* Extract plain-text preview from markdown (first non-heading, non-empty line) */
 function extractPreview(text) {
   if (!text) return '';
@@ -300,7 +344,7 @@ async function sharePost(url, btn) {
 function togglePost(btn, contentEl, previewEl) {
   const showing = contentEl.classList.toggle('show');
   previewEl.style.display = showing ? 'none' : '';
-  btn.innerHTML = showing ? 'Hide article ▲' : 'Read full article ▼';
+  btn.innerHTML = showing ? 'Hide the full breakdown ▲' : 'Read the full breakdown →';
 }
 
 /* ── RENDER ── */
@@ -337,16 +381,20 @@ function renderPosts(posts, autoExpand) {
       card.className = 'story-card';
 
       const tagLabel = p.post_tag || 'Knowledge';
-      const preview = extractPreview(p.comment_text);
+      const tagColor = getTagColor(tagLabel);
+      card.style.setProperty('--tag-color', tagColor);
+      card.style.setProperty('--tag-tint', hexToRgba(tagColor, .1));
+
+      const summary = formatSummary(p);
       const fullHTML = markdownToHTML(p.comment_text);
 
       card.innerHTML = `
         <h3>${p.headline_text || 'Untitled'}</h3>
         <span class="post-tag">${tagLabel}</span>
-        <div class="post-preview">${preview}</div>
+        <div class="post-preview">${summary}</div>
         <div class="post-content${autoExpand ? ' show' : ''}">${fullHTML}</div>
         <div class="card-footer">
-          <button class="story-link toggle-link">${autoExpand ? 'Hide article ▲' : 'Read full article ▼'}</button>
+          <button class="story-link toggle-link">${autoExpand ? 'Hide the full breakdown ▲' : 'Read the full breakdown →'}</button>
           <button class="story-link share-link">🔗 Share</button>
         </div>
       `;
