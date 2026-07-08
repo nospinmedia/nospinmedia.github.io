@@ -43,23 +43,41 @@ body{font-family:Arial,sans-serif;margin:0;padding:0;background:#f4f4f4;color:#2
 .reading-disclosure{margin-top:12px;font-size:.65rem;color:#bbb;line-height:1.4;font-style:italic}
 
 /* ── Knowledge page header area ── */
-.page-header{margin-bottom:1.2rem}
-.page-header h1{font-size:1.6rem;margin:0 0 4px 0;color:#111}
-.page-header p{margin:0;font-size:.95rem;color:#555}
+.page-header{margin-bottom:1.6rem}
+.page-header h1{font-size:2.1rem;font-weight:800;letter-spacing:-.02em;margin:0 0 8px 0;color:#101215}
+.page-header p{margin:0;font-size:1.05rem;line-height:1.5;color:#5a5f68;max-width:640px}
 
-/* ── Tag filter ── */
-.filter-bar{background:#fff;padding:14px 18px;margin-bottom:1.4rem;border-radius:10px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 6px 18px rgba(0,0,0,.06);display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid #edeef0}
-.filter-bar label{font-weight:700;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;color:#666}
-.filter-bar select{padding:9px 14px;font-size:.92rem;font-weight:600;border:1px solid #dcdfe3;border-radius:8px;background:#fafbfc;color:#222;cursor:pointer;transition:border-color .15s ease}
-.filter-bar select:hover{border-color:#0066cc}
+/* ── Hero search + topic row ── */
+.kb-hero{background:#fff;padding:20px 22px;margin-bottom:1.6rem;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 22px rgba(0,0,0,.06);border:1px solid #edeef0}
+.kb-search-box{display:flex;align-items:center;gap:10px;background:#f7f8fa;border:1px solid #e2e4e8;border-radius:10px;padding:12px 16px;transition:border-color .15s ease,box-shadow .15s ease}
+.kb-search-box:focus-within{border-color:#0066cc;box-shadow:0 0 0 3px rgba(0,102,204,.12);background:#fff}
+.kb-search-box svg{flex-shrink:0;color:#8a8f99}
+.kb-search-box input{flex:1;border:none;background:transparent;outline:none;font-size:1rem;color:#181a1e;font-family:inherit}
+.kb-search-box input::placeholder{color:#9aa0aa}
+.kb-topic-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid #f0f1f3}
+.kb-topic-row label{font-weight:600;font-size:.85rem;color:#6a6f78}
+.kb-topic-row select{padding:8px 14px;font-size:.88rem;font-weight:600;border:1px solid #dcdfe3;border-radius:8px;background:#fafbfc;color:#222;cursor:pointer;transition:border-color .15s ease}
+.kb-topic-row select:hover{border-color:#0066cc}
+
+/* ── Empty state ── */
+.kb-empty{background:#fff;border-radius:14px;border:1px solid #edeef0;padding:3rem 2rem;text-align:center;color:#5a5f68}
+.kb-empty .kb-empty-icon{font-size:2.2rem;margin-bottom:.6rem}
+.kb-empty h4{margin:0 0 6px 0;font-size:1.15rem;color:#101215}
+.kb-empty p{margin:0 0 1.1rem 0;font-size:.95rem}
+.kb-empty button{background:#0066cc;color:#fff;border:none;padding:10px 20px;border-radius:999px;font-weight:700;font-size:.88rem;cursor:pointer;transition:background .15s ease}
+.kb-empty button:hover{background:#0055ab}
 
 /* ── Knowledge cards ── */
-.date-header{background:#1a1c20;color:#fff;padding:.55rem 1.1rem;border-radius:8px;font-weight:700;font-size:1rem;letter-spacing:.02em;margin-bottom:.9rem;margin-top:1.8rem}
-.story-card{background:#fff;padding:1.7rem 1.9rem;margin-bottom:1.3rem;border-radius:12px;border-left:5px solid var(--tag-color,#0066cc);box-shadow:0 1px 3px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.05);transition:transform .2s ease,box-shadow .2s ease}
-.story-card:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,.06),0 14px 30px rgba(0,0,0,.09)}
-.story-card h3{margin:0 0 10px 0;font-size:1.45rem;line-height:1.35;font-weight:800;letter-spacing:-.01em;color:#101215}
-.post-tag{font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--tag-color,#2a7a2a);background:var(--tag-tint,rgba(42,122,42,.1));border:1px solid var(--tag-color,#2a7a2a);display:inline-block;padding:4px 12px;border-radius:20px;margin-bottom:12px}
-.post-preview{line-height:1.75;font-size:1.05rem;color:#3a3f47;margin-top:4px}
+.date-header{background:linear-gradient(135deg,#2b2d33,#232529);color:#eceef0;padding:.5rem 1.1rem;border-radius:10px;font-weight:700;font-size:.92rem;letter-spacing:.03em;margin-bottom:1rem;margin-top:2rem}
+.story-card{position:relative;background:#fff;padding:2.1rem 2.3rem;margin-bottom:1.4rem;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,.04),0 6px 16px rgba(0,0,0,.045);transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s cubic-bezier(.2,.8,.2,1)}
+.story-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.08)}
+.story-card h3{margin:0 60px 14px 0;font-size:1.45rem;line-height:1.35;font-weight:800;letter-spacing:-.01em;color:#101215}
+.post-tag{font-size:.76rem;font-weight:700;letter-spacing:.02em;color:var(--tag-color,#2a7a2a);background:var(--tag-tint,rgba(42,122,42,.1));border:none;display:inline-block;padding:5px 14px;border-radius:999px;margin-bottom:16px;cursor:pointer;transition:filter .15s ease,transform .1s ease}
+.post-tag:hover{filter:brightness(0.92);transform:translateY(-1px)}
+.post-preview{line-height:1.75;font-size:1.02rem;color:#3a3f47;margin-top:2px}
+.share-icon-btn{position:absolute;top:24px;right:24px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid transparent;border-radius:999px;color:#9aa0aa;cursor:pointer;opacity:.55;transition:opacity .2s ease,background .15s ease,color .15s ease,border-color .15s ease}
+.story-card:hover .share-icon-btn{opacity:1}
+.share-icon-btn:hover,.share-icon-btn:focus-visible{opacity:1;background:#f4f5f7;border-color:#e2e4e8;color:#0066cc}
 
 /* ── Full article content (markdown → HTML) ── */
 .post-content{display:none;margin-top:14px;line-height:1.75;font-size:1rem;color:#222}
@@ -75,12 +93,12 @@ body{font-family:Arial,sans-serif;margin:0;padding:0;background:#f4f4f4;color:#2
 .post-content hr{border:none;border-top:1px solid #e0e0e0;margin:1.2rem 0}
 .post-content blockquote{border-left:4px solid #0066cc;margin:.8rem 0;padding:.5rem 1rem;background:#f0f6ff;color:#333;border-radius:0 4px 4px 0}
 
-.card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:16px;border-top:1px solid #f0f1f3;flex-wrap:wrap;gap:10px}
+.card-footer{display:flex;margin-top:18px}
 .story-link{font-weight:700;cursor:pointer;font-family:inherit;border-radius:999px;transition:background .15s ease,transform .15s ease,box-shadow .15s ease}
-.toggle-link{background:#0066cc;color:#fff;border:none;padding:10px 20px;font-size:.92rem;box-shadow:0 2px 8px rgba(0,102,204,.25)}
+.toggle-link{display:inline-flex;align-items:center;gap:8px;background:#0066cc;color:#fff;border:none;padding:11px 22px;font-size:.92rem;box-shadow:0 2px 8px rgba(0,102,204,.25)}
 .toggle-link:hover{background:#0055ab;transform:translateY(-1px)}
-.share-link{background:#fff;color:#555;border:1px solid #e2e4e8;padding:9px 16px;font-size:.85rem}
-.share-link:hover{background:#f4f5f7;border-color:#c9cdd3}
+.toggle-link .cta-arrow{display:inline-block;transition:transform .2s ease}
+.toggle-link:hover .cta-arrow{transform:translateX(4px)}
 
 /* ── Suggest box (right sidebar) ── */
 .suggest-box{background:#fff;padding:1.2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:1.5rem}
@@ -96,28 +114,34 @@ footer{text-align:center;padding:1rem;font-size:.9rem;color:#666}
 footer a{color:#0066cc;text-decoration:none}
 footer a:hover{text-decoration:underline}
 
+/* ── Accessibility: visible focus for keyboard users ── */
+button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid #0066cc;outline-offset:2px}
+
 /* ── Mobile ── */
 @media(max-width:900px){
   body{background:#ebebeb}
   .container{flex-direction:column;padding:0;gap:0}
   .left-ad,.right-ad{display:none}
   .main{max-width:100%;padding:0}
-  .main .page-header{padding:13px 16px 11px;margin:0;background:#fff;border-bottom:3px solid #2a7a2a}
+  .main .page-header{padding:16px 16px 13px;margin:0;background:#fff;border-bottom:3px solid #2a7a2a}
   .main .page-header h1{font-size:1rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#444;margin:0 0 2px 0}
-  .main .page-header p{font-size:.78rem;color:#777}
-  .filter-bar{border-radius:0;box-shadow:none;border-bottom:1px solid #e0e0e0;margin-bottom:0;padding:10px 16px;background:#fff}
-  .filter-bar label{font-size:.78rem;color:#666}
-  .filter-bar select{font-size:.88rem;padding:8px 10px;flex:1}
+  .main .page-header p{font-size:.78rem;color:#777;max-width:none}
+  .kb-hero{border-radius:0;box-shadow:none;border:none;border-bottom:1px solid #e0e0e0;margin-bottom:0;padding:12px 16px}
+  .kb-search-box{padding:10px 14px}
+  .kb-search-box input{font-size:.92rem}
+  .kb-topic-row{margin-top:10px;padding-top:10px}
+  .kb-topic-row label{font-size:.78rem}
+  .kb-topic-row select{font-size:.86rem;padding:7px 10px;flex:1}
   #kb-container{background:#ebebeb;display:flex;flex-direction:column;gap:8px;padding:8px 0}
-  .date-header{background:#1a1c20;color:#fff;padding:8px 16px;border-radius:0;font-size:.85rem;margin:0}
-  .story-card{background:#fff;border-radius:0;border-left:4px solid var(--tag-color,#0066cc);box-shadow:none;padding:16px 16px 0;margin-bottom:0}
-  .story-card h3{font-size:1.08rem;line-height:1.4;margin:0 0 8px 0;font-weight:800;color:#101215}
-  .post-tag{font-size:.66rem;padding:3px 10px;margin-bottom:10px}
+  .date-header{background:linear-gradient(135deg,#2b2d33,#232529);color:#eceef0;padding:7px 16px;border-radius:0;font-size:.82rem;margin:0}
+  .story-card{background:#fff;border-radius:0;box-shadow:none;padding:18px 16px 4px;margin-bottom:0}
+  .story-card h3{font-size:1.08rem;line-height:1.4;margin:0 44px 10px 0;font-weight:800;color:#101215}
+  .post-tag{font-size:.7rem;padding:4px 12px;margin-bottom:12px}
   .post-preview{font-size:.93rem;line-height:1.6;color:#3a3f47;margin-top:4px}
   .post-content{font-size:.93rem;line-height:1.65;color:#333;margin-top:10px}
-  .card-footer{padding:12px 0 16px;margin-top:12px;border-top:1px solid #f2f2f2;gap:8px;flex-wrap:nowrap}
-  .toggle-link{flex:1;text-align:center;padding:10px 14px;font-size:.85rem}
-  .share-link{padding:10px 14px;font-size:.8rem}
+  .share-icon-btn{top:16px;right:14px;width:32px;height:32px;opacity:.65}
+  .card-footer{margin-top:16px;padding-bottom:18px}
+  .toggle-link{flex:1;justify-content:center;padding:11px 14px;font-size:.85rem}
   .mobile-affiliate-insert{background:#fff;padding:13px 16px 14px;border-radius:0;box-shadow:none}
   .mobile-affiliate-insert .affiliate-label{font-size:.7rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#444;border-bottom:2px solid #2a7a2a;padding-bottom:6px;margin-bottom:10px}
   .mobile-affiliate-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -332,10 +356,12 @@ function extractPreview(text) {
 
 async function sharePost(url, btn) {
   const shareUrl = `${window.location.origin}/knowledge.html?id=${encodeURIComponent(url)}`;
+  const originalHTML = btn.innerHTML;
   try {
     await navigator.clipboard.writeText(shareUrl);
-    btn.innerHTML = '✅ Copied!';
-    setTimeout(() => { btn.innerHTML = '🔗 Share'; }, 2000);
+    btn.innerHTML = '✅';
+    btn.style.opacity = '1';
+    setTimeout(() => { btn.innerHTML = originalHTML; }, 2000);
   } catch (err) {
     alert('Could not copy link. Please copy manually from the address bar.');
   }
@@ -344,7 +370,9 @@ async function sharePost(url, btn) {
 function togglePost(btn, contentEl, previewEl) {
   const showing = contentEl.classList.toggle('show');
   previewEl.style.display = showing ? 'none' : '';
-  btn.innerHTML = showing ? 'Hide the full breakdown ▲' : 'Read the full breakdown →';
+  btn.innerHTML = showing
+    ? 'Hide the full breakdown <span class="cta-arrow">▲</span>'
+    : 'Read the full breakdown <span class="cta-arrow">→</span>';
 }
 
 /* ── RENDER ── */
@@ -353,7 +381,15 @@ function renderPosts(posts, autoExpand) {
   container.innerHTML = '';
 
   if (!posts || posts.length === 0) {
-    container.innerHTML = "<p style='padding:12px 16px;'>No articles found.</p>";
+    container.innerHTML = `
+      <div class="kb-empty">
+        <div class="kb-empty-icon">🧭</div>
+        <h4>No explainers match that yet</h4>
+        <p>Try a different search term or topic — or clear your filters to see everything.</p>
+        <button id="kb-clear-filters">Clear filters</button>
+      </div>`;
+    const clearBtn = document.getElementById('kb-clear-filters');
+    if (clearBtn) clearBtn.addEventListener('click', clearFilters);
     return;
   }
 
@@ -389,23 +425,27 @@ function renderPosts(posts, autoExpand) {
       const fullHTML = markdownToHTML(p.comment_text);
 
       card.innerHTML = `
+        <button class="share-icon-btn" title="Copy link to this article" aria-label="Copy link to ${(p.headline_text || 'this article').replace(/"/g,'&quot;')}">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="10.5" x2="15.4" y2="6.5"></line><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line></svg>
+        </button>
         <h3>${p.headline_text || 'Untitled'}</h3>
-        <span class="post-tag">${tagLabel}</span>
+        <button class="post-tag" data-tag="${tagLabel.replace(/"/g,'&quot;')}">${tagLabel}</button>
         <div class="post-preview">${summary}</div>
         <div class="post-content${autoExpand ? ' show' : ''}">${fullHTML}</div>
         <div class="card-footer">
-          <button class="story-link toggle-link">${autoExpand ? 'Hide the full breakdown ▲' : 'Read the full breakdown →'}</button>
-          <button class="story-link share-link">🔗 Share</button>
+          <button class="story-link toggle-link">${autoExpand ? 'Hide the full breakdown <span class="cta-arrow">▲</span>' : 'Read the full breakdown <span class="cta-arrow">→</span>'}</button>
         </div>
       `;
 
       const toggleBtn = card.querySelector('.toggle-link');
       const contentEl = card.querySelector('.post-content');
       const previewEl = card.querySelector('.post-preview');
-      const shareBtn = card.querySelector('.share-link');
+      const shareBtn = card.querySelector('.share-icon-btn');
+      const tagBtn = card.querySelector('.post-tag');
 
       toggleBtn.addEventListener('click', () => togglePost(toggleBtn, contentEl, previewEl));
       shareBtn.addEventListener('click', () => sharePost(p.url, shareBtn));
+      tagBtn.addEventListener('click', () => filterByTag(tagLabel));
 
       if (autoExpand) previewEl.style.display = 'none';
 
@@ -440,7 +480,7 @@ async function loadPosts() {
       { headers: { apikey: SUPABASE_KEY } }
     );
     const data = await res.json();
-    document.getElementById('filter-bar').style.display = 'none';
+    document.getElementById('kb-hero').style.display = 'none';
     renderPosts(data, true);
     return;
   }
@@ -466,9 +506,34 @@ async function loadPosts() {
 }
 
 function applyFilter() {
-  const selected = document.getElementById('tagFilter').value;
-  const filtered = selected === 'all' ? allPosts : allPosts.filter(p => p.post_tag === selected);
+  const selectedTag = document.getElementById('tagFilter').value;
+  const query = document.getElementById('kbSearch').value.trim().toLowerCase();
+
+  let filtered = selectedTag === 'all' ? allPosts : allPosts.filter(p => p.post_tag === selectedTag);
+
+  if (query) {
+    filtered = filtered.filter(p => {
+      const haystack = `${p.headline_text || ''} ${p.post_comment || ''} ${p.comment_text || ''}`.toLowerCase();
+      return haystack.includes(query);
+    });
+  }
+
   renderPosts(filtered, false);
+}
+
+function filterByTag(tag) {
+  const select = document.getElementById('tagFilter');
+  if (select) select.value = tag;
+  applyFilter();
+  window.scrollTo({ top: document.getElementById('kb-hero').offsetTop - 90, behavior: 'smooth' });
+}
+
+function clearFilters() {
+  const select = document.getElementById('tagFilter');
+  const search = document.getElementById('kbSearch');
+  if (select) select.value = 'all';
+  if (search) search.value = '';
+  renderPosts(allPosts, false);
 }
 
 /* ── SUGGEST FORM ── */
@@ -523,6 +588,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
   document.getElementById('tagFilter').addEventListener('change', applyFilter);
+  document.getElementById('kbSearch').addEventListener('input', applyFilter);
   document.getElementById('suggestForm').addEventListener('submit', submitSuggestion);
 });
 </script>
@@ -543,12 +609,18 @@ document.addEventListener('DOMContentLoaded', function () {
   <div class="main">
     <div class="page-header">
       <h1>🧭 Knowledge Base</h1>
-      <p>In-depth explainers on topics that matter — clear, factual, and spin-free.</p>
+      <p>Trusted, evergreen explainers that answer the questions behind today's news.</p>
     </div>
 
-    <div class="filter-bar" id="filter-bar">
-      <label for="tagFilter">Topic:</label>
-      <select id="tagFilter"><option value="all">All Topics</option></select>
+    <div class="kb-hero" id="kb-hero">
+      <div class="kb-search-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="kbSearch" placeholder="Search the Knowledge Base..." aria-label="Search the Knowledge Base">
+      </div>
+      <div class="kb-topic-row">
+        <label for="tagFilter">Browse by topic:</label>
+        <select id="tagFilter"><option value="all">All Topics</option></select>
+      </div>
     </div>
 
     <div id="kb-container"></div>
