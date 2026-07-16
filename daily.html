@@ -171,6 +171,7 @@ async function loadAffiliateTiles(){
 function markdownToHTML(text){
   if(!text)return'';
   let html=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+  html=html.replace(/\\r\\n/g,'\n').replace(/\\n/g,'\n'); // <-- NEW: unescape literal \n sequences
 
   // Horizontal rules
   html=html.replace(/^---+$/gm,'<hr>');
@@ -217,6 +218,7 @@ function markdownToHTML(text){
 /* Extract plain-text preview: first non-heading, non-empty line */
 function extractPreview(text){
   if(!text)return'';
+  text=text.replace(/\\r\\n/g,'\n').replace(/\\n/g,'\n'); // unescape literal \n sequences
   const lines=text.split('\n');
   for(const line of lines){
     const t=line.trim();
