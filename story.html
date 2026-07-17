@@ -367,7 +367,8 @@ async function loadRelatedAndLearnMore(storyId,storyTags){
     html+='<div class="learnmore-card"><div class="related-label">'+heading+'</div><div class="kb-list">'
       +learnMore.map(k=>{
         const desc=firstSentence(k.comment_text,145);
-        const href=k.url?k.url:('knowledge.html?id='+k.id);
+        const kbId=k.url?k.url:k.id;
+        const href='knowledge.html?id='+encodeURIComponent(kbId);
         return'<a class="kb-item" href="'+href+'">'
           +'<span class="kb-item-title">📖 '+(k.headline_text||'')+'</span>'
           +(desc?'<span class="kb-item-desc">'+desc+'</span>':'')
