@@ -100,6 +100,22 @@ body{font-family:Arial,sans-serif;margin:0;padding:0;background:#f4f4f4;color:#2
 .toggle-link .cta-arrow{display:inline-block;transition:transform .2s ease}
 .toggle-link:hover .cta-arrow{transform:translateX(4px)}
 
+/* ── Related News / Related Knowledge (shown on single-article view) ── */
+.related-card,.learnmore-card{background:#fff;border:1px solid #edeef0;border-radius:14px;box-shadow:0 1px 3px rgba(0,0,0,.04),0 6px 16px rgba(0,0,0,.045);padding:1.1rem 1.3rem 1.2rem;margin-bottom:1.4rem}
+.related-label{font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#6a6f78;margin-bottom:.8rem}
+.related-list{display:flex;flex-direction:column}
+.related-item{display:block;padding:.7rem 0;text-decoration:none;border-bottom:1px solid #f0f1f3}
+.related-item:last-child{border-bottom:none}
+.related-item-title{font-size:1rem;font-weight:700;color:#101215;line-height:1.4;display:block}
+.related-item:hover .related-item-title{color:#0066cc}
+.related-item-date{font-size:.8rem;color:#9aa0aa;display:block;margin-top:3px}
+.kb-list{display:flex;flex-direction:column;gap:8px}
+.kb-item{display:block;padding:.7rem .9rem;border:1px solid #edeef0;border-radius:10px;text-decoration:none;transition:background .15s ease,border-color .15s ease}
+.kb-item:hover{background:#f0f6ff;border-color:#cfe0f5}
+.kb-item-title{font-size:.96rem;font-weight:700;color:#101215;line-height:1.4;display:block}
+.kb-item:hover .kb-item-title{color:#0066cc}
+.kb-item-desc{font-size:.83rem;color:#6a6f78;line-height:1.5;display:block;margin-top:3px}
+
 /* ── Suggest box (right sidebar) ── */
 .suggest-box{background:#fff;padding:1.2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:1.5rem}
 .suggest-box h2{font-size:1rem;font-weight:bold;color:#222;margin:0 0 .4rem 0}
@@ -142,6 +158,8 @@ button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{ou
   .share-icon-btn{top:16px;right:14px;width:32px;height:32px;opacity:.65}
   .card-footer{margin-top:16px;padding-bottom:18px}
   .toggle-link{flex:1;justify-content:center;padding:11px 14px;font-size:.85rem}
+  #kb-related-container{padding:0 16px}
+  .related-card,.learnmore-card{border-radius:10px;padding:.95rem 1rem 1.05rem;margin-bottom:.85rem}
   .mobile-affiliate-insert{background:#fff;padding:13px 16px 14px;border-radius:0;box-shadow:none}
   .mobile-affiliate-insert .affiliate-label{font-size:.7rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#444;border-bottom:2px solid #2a7a2a;padding-bottom:6px;margin-bottom:10px}
   .mobile-affiliate-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -156,8 +174,134 @@ button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{ou
 <script>
 const SUPABASE_URL = 'https://dckmflnbprhmaqysuued.supabase.co/rest/v1';
 const SUPABASE_KEY = 'sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
+const SB_NEWS_POSTS = SUPABASE_URL + '/news_posts';
+const SB_DAILY_POSTS_KB = SUPABASE_URL + '/daily_posts';
 
 let allPosts = [];
+
+/* ── RELATED NEWS / RELATED KNOWLEDGE — TAG MATCHING (mirrors story.html) ── */
+const LOW_WEIGHT_TAGS=['government','business','public health','international relations','weather','law enforcement'];
+const NSM_CACHE_TTL=3600000; // 1 hour
+
+function normTag(t){return(t||'').toString().trim().toLowerCase()}
+function parseTags(raw){
+  if(Array.isArray(raw))return raw;
+  if(typeof raw==='string'){try{const p=JSON.parse(raw);return Array.isArray(p)?p:[]}catch(e){return[]}}
+  return[];
+}
+function scoreTagOverlap(aTags,bTags){
+  const aSet=new Set(parseTags(aTags).map(normTag));
+  const bSet=new Set(parseTags(bTags).map(normTag));
+  let score=0,specificMatches=0;
+  aSet.forEach(tag=>{
+    if(!tag||!bSet.has(tag))return;
+    if(LOW_WEIGHT_TAGS.includes(tag))score+=1;
+    else{score+=3;specificMatches++;}
+  });
+  return{score,specificMatches};
+}
+function topMatches(currentTags,candidates,getTags,limit){
+  return candidates
+    .map(c=>({item:c,...scoreTagOverlap(currentTags,getTags(c))}))
+    .filter(r=>r.specificMatches>=1)
+    .sort((a,b)=>b.score-a.score||(b.item.id-a.item.id))
+    .slice(0,limit)
+    .map(r=>r.item);
+}
+function fmtFullDate(ds){
+  if(!ds)return'';
+  const d=new Date(ds);
+  if(isNaN(d))return'';
+  return d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+}
+function stripMarkdownForPreview(text){
+  if(!text)return'';
+  return text
+    .replace(/^#+\s*/gm,'')
+    .replace(/\*\*(.*?)\*\*/g,'$1')
+    .replace(/\*(.*?)\*/g,'$1')
+    .replace(/`(.*?)`/g,'$1')
+    .replace(/\[(.*?)\]\(.*?\)/g,'$1')
+    .trim();
+}
+function firstSentence(text,maxLen){
+  const clean=stripMarkdownForPreview(text);
+  if(!clean)return'';
+  const match=clean.match(/^.*?[.!?](?=\s|$)/);
+  let sentence=match?match[0].trim():clean;
+  if(sentence.length>maxLen)sentence=sentence.slice(0,maxLen).trim()+'…';
+  else if(sentence.length===clean.length&&clean.length>maxLen)sentence=sentence.slice(0,maxLen).trim()+'…';
+  return sentence;
+}
+
+function nsmCacheGet(key){
+  try{
+    const raw=localStorage.getItem(key);
+    if(!raw)return null;
+    const parsed=JSON.parse(raw);
+    if(!parsed||!Array.isArray(parsed.data))return null;
+    return parsed;
+  }catch(e){return null}
+}
+function nsmCacheSet(key,data){
+  try{localStorage.setItem(key,JSON.stringify({timestamp:Date.now(),data}))}
+  catch(e){console.warn('NSM cache write failed for '+key,e)}
+}
+function nsmCacheFresh(entry){return entry&&(Date.now()-entry.timestamp)<NSM_CACHE_TTL}
+
+async function nsmFetchCached(cacheKey,url){
+  const cached=nsmCacheGet(cacheKey);
+  if(nsmCacheFresh(cached))return cached.data;
+  try{
+    const res=await fetch(url,{headers:{apikey:SUPABASE_KEY}});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    nsmCacheSet(cacheKey,data);
+    return data;
+  }catch(e){
+    console.warn('NSM fetch failed for '+cacheKey+', falling back to cache if available:',e);
+    if(cached)return cached.data;
+    return [];
+  }
+}
+
+/* Renders "Latest News About This Topic" + "Related Knowledge" below a single KB article.
+   Uses the exact same weighted tag-matching engine as story.html, just with the
+   source/target tables swapped. */
+async function loadRelatedNewsAndKnowledge(currentPost){
+  const container=document.getElementById('kb-related-container');
+  if(!container)return;
+  const currentTags=currentPost.tags;
+  if(!parseTags(currentTags).length)return; // no tags on this KB article yet — nothing to match
+
+  const [newsStories,kbArticles]=await Promise.all([
+    nsmFetchCached('NSM_recentStories', SB_NEWS_POSTS+'?select=id,headline,url,tags,posted_at&order=id.desc&limit=300'),
+    nsmFetchCached('NSM_knowledgeArticles', SB_DAILY_POSTS_KB+'?select=id,headline_text,url,tags,comment_text&post_type=eq.knowledge&order=id.desc')
+  ]);
+
+  const relatedNews=topMatches(currentTags,newsStories,c=>c.tags,3);
+  const kbCandidates=kbArticles.filter(k=>k.id!==currentPost.id);
+  const relatedKB=topMatches(currentTags,kbCandidates,c=>c.tags,3);
+
+  let html='';
+  if(relatedNews.length){
+    html+='<div class="related-card"><div class="related-label">📰 LATEST NEWS ABOUT THIS TOPIC</div><div class="related-list">'
+      +relatedNews.map(r=>'<a class="related-item" href="story.html?story='+encodeURIComponent(r.url)+'"><span class="related-item-title">'+(r.headline||'').replace('\n',': ')+'</span>'+(r.posted_at?'<span class="related-item-date">'+fmtFullDate(r.posted_at)+'</span>':'')+'</a>').join('')
+      +'</div></div>';
+  }
+  if(relatedKB.length){
+    html+='<div class="learnmore-card"><div class="related-label">📚 RELATED KNOWLEDGE</div><div class="kb-list">'
+      +relatedKB.map(k=>{
+        const desc=firstSentence(k.comment_text,145);
+        const href='knowledge.html?id='+encodeURIComponent(k.url?k.url:k.id);
+        return'<a class="kb-item" href="'+href+'"><span class="kb-item-title">📖 '+(k.headline_text||'')+'</span>'
+          +(desc?'<span class="kb-item-desc">'+desc+'</span>':'')
+          +'</a>';
+      }).join('')
+      +'</div></div>';
+  }
+  container.innerHTML=html;
+}
 
 /* ── MARKDOWN → HTML CONVERTER ── */
 function markdownToHTML(text) {
@@ -482,6 +626,7 @@ async function loadPosts() {
     const data = await res.json();
     document.getElementById('kb-hero').style.display = 'none';
     renderPosts(data, true);
+    if (data && data[0]) loadRelatedNewsAndKnowledge(data[0]);
     return;
   }
 
@@ -624,6 +769,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 
     <div id="kb-container"></div>
+    <div id="kb-related-container"></div>
   </div>
 
   <!-- Right: gear tiles + suggest box -->
