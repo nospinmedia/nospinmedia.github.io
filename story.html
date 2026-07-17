@@ -102,6 +102,16 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .reddit-comment-link:hover .reaction-count{color:#FF4500!important;}
 .reaction-grid-divider{width:1px;height:28px;background:var(--border);margin:0 4px;display:inline-block;vertical-align:middle;}
 
+/* ── RELATED STORIES / LEARN MORE ── */
+.related-card,.learnmore-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:.85rem 1.25rem .9rem;margin-bottom:.75rem}
+.related-label{font-size:.63rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--dimmed);margin-bottom:.65rem;line-height:1.4}
+.related-list{display:flex;flex-direction:column}
+.related-item{display:block;padding:.55rem 0;text-decoration:none;border-bottom:1px solid var(--border)}
+.related-item:last-child{border-bottom:none}
+.related-item-title{font-size:.92rem;font-weight:600;color:var(--text);line-height:1.4;display:block}
+.related-item:hover .related-item-title{color:var(--blue)}
+.related-item-date{font-size:.74rem;color:var(--dimmed);display:block;margin-top:2px}
+
 /* ── REDDIT ADMIN PANEL ── */
 #reddit-admin-panel{display:none;position:fixed;bottom:24px;right:24px;z-index:9000;width:300px;background:var(--surface);border:1.5px solid #d0d0cc;border-radius:var(--r);box-shadow:0 8px 32px rgba(0,0,0,.18);padding:14px 16px 16px;font-family:var(--font-b)}
 #reddit-admin-panel.open{display:block}
@@ -215,6 +225,7 @@ footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-t
 const SB_URL = 'https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts';
 const SB_KEY = 'sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
 const SB_REACTIONS = 'https://dckmflnbprhmaqysuued.supabase.co/rest/v1/story_reaction_totals';
+const SB_DAILY_POSTS = 'https://dckmflnbprhmaqysuued.supabase.co/rest/v1/daily_posts';
 
 const TOPIC_BG={
   politics:'linear-gradient(160deg,#0D3270,#1E5BB8)',economy:'linear-gradient(160deg,#0A3D1F,#1A7A3C)',
@@ -232,6 +243,101 @@ const REACTIONS=[
   {key:'concerning',emoji:'⚠️',label:'Concerning'},
   {key:'important',emoji:'📌',label:'Important'}
 ];
+
+/* ── RELATED STORIES / LEARN MORE — TAG MATCHING ── */
+const LOW_WEIGHT_TAGS=['government','business','public health','international relations','weather','law enforcement'];
+const NSM_CACHE_TTL=3600000; // 1 hour
+
+function normTag(t){return(t||'').toString().trim().toLowerCase()}
+function parseTags(raw){
+  if(Array.isArray(raw))return raw;
+  if(typeof raw==='string'){try{const p=JSON.parse(raw);return Array.isArray(p)?p:[]}catch(e){return[]}}
+  return[];
+}
+function scoreTagOverlap(aTags,bTags){
+  const aSet=new Set(parseTags(aTags).map(normTag));
+  const bSet=new Set(parseTags(bTags).map(normTag));
+  let score=0,specificMatches=0;
+  aSet.forEach(tag=>{
+    if(!tag||!bSet.has(tag))return;
+    if(LOW_WEIGHT_TAGS.includes(tag))score+=1;
+    else{score+=3;specificMatches++;}
+  });
+  return{score,specificMatches};
+}
+function topMatches(currentTags,candidates,getTags,limit){
+  return candidates
+    .map(c=>({item:c,...scoreTagOverlap(currentTags,getTags(c))}))
+    .filter(r=>r.specificMatches>=1)
+    .sort((a,b)=>b.score-a.score||(b.item.id-a.item.id))
+    .slice(0,limit)
+    .map(r=>r.item);
+}
+function fmtFullDate(ds){
+  if(!ds)return'';
+  const d=new Date(ds);
+  if(isNaN(d))return'';
+  return d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+}
+
+function nsmCacheGet(key){
+  try{
+    const raw=localStorage.getItem(key);
+    if(!raw)return null;
+    const parsed=JSON.parse(raw);
+    if(!parsed||!Array.isArray(parsed.data))return null;
+    return parsed; // {timestamp, data}
+  }catch(e){return null}
+}
+function nsmCacheSet(key,data){
+  try{localStorage.setItem(key,JSON.stringify({timestamp:Date.now(),data}))}
+  catch(e){console.warn('NSM cache write failed for '+key,e)}
+}
+function nsmCacheFresh(entry){return entry&&(Date.now()-entry.timestamp)<NSM_CACHE_TTL}
+
+async function nsmFetchCached(cacheKey,url){
+  const cached=nsmCacheGet(cacheKey);
+  if(nsmCacheFresh(cached))return cached.data;
+  try{
+    const res=await fetch(url,{headers:{apikey:SB_KEY}});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    nsmCacheSet(cacheKey,data);
+    return data;
+  }catch(e){
+    console.warn('NSM fetch failed for '+cacheKey+', falling back to cache if available:',e);
+    if(cached)return cached.data; // stale but usable
+    return [];
+  }
+}
+
+async function loadRelatedAndLearnMore(storyId,storyTags){
+  const container=document.getElementById('related-learnmore-container');
+  if(!container)return;
+  if(!parseTags(storyTags).length)return; // no tags yet on this story — nothing to match
+
+  const [stories,kb]=await Promise.all([
+    nsmFetchCached('NSM_recentStories',SB_URL+'?select=id,headline,url,tags,posted_at&order=id.desc&limit=300'),
+    nsmFetchCached('NSM_knowledgeArticles',SB_DAILY_POSTS+'?select=id,headline_text,url,tags&post_type=eq.Knowledge&order=id.desc')
+  ]);
+
+  const relatedCandidates=stories.filter(s=>s.url!==storyId);
+  const related=topMatches(storyTags,relatedCandidates,c=>c.tags,3);
+  const learnMore=topMatches(storyTags,kb,c=>c.tags,3);
+
+  let html='';
+  if(related.length){
+    html+='<div class="related-card"><div class="related-label">📰 RELATED STORIES</div><div class="related-list">'
+      +related.map(r=>'<a class="related-item" href="story.html?story='+encodeURIComponent(r.url)+'"><span class="related-item-title">'+(r.headline||'').replace('\n',': ')+'</span>'+(r.posted_at?'<span class="related-item-date">'+fmtFullDate(r.posted_at)+'</span>':'')+'</a>').join('')
+      +'</div></div>';
+  }
+  if(learnMore.length){
+    html+='<div class="learnmore-card"><div class="related-label">📚 LEARN MORE</div><div class="related-list">'
+      +learnMore.map(k=>'<a class="related-item" href="'+k.url+'"><span class="related-item-title">'+(k.headline_text||'')+'</span></a>').join('')
+      +'</div></div>';
+  }
+  container.innerHTML=html;
+}
 
 /* ── ENGAGEMENT INDICATOR ── */
 const ENG_LEVELS=[
@@ -563,6 +669,7 @@ async function loadStory(){
     +(discussionQ?'<div class="discussion-label">Community Discussion</div><div class="story-discussion">\uD83D\uDCAC '+discussionQ+'</div>':'')
     +'</div>'
     +reactionsHTML(storyId,reactTotals,storedReaction,redditLink)
+    +'<div id="related-learnmore-container"></div>'
     +'<div class="story-actions-card">'
     +(redditLink?'<a href="'+redditLink+'" target="_blank" rel="noopener" class="action-btn action-btn-reddit">Join the discussion on Reddit \u2192</a>':'')
     +'<a href="https://reddit.com/r/NoSpinMedia" target="_blank" rel="noopener" class="action-btn action-btn-secondary">r/NoSpinMedia</a>'
@@ -577,6 +684,7 @@ async function loadStory(){
     +'<span class="share-feedback" id="share-feedback"></span>'
     +'</div>';
   if(window.innerWidth<=900&&window.mobileAffiliateHTML){const div=document.createElement('div');div.innerHTML=window.mobileAffiliateHTML;document.getElementById('story-container').appendChild(div.firstElementChild)}
+  loadRelatedAndLearnMore(storyId,s.tags);
 }
 
 /* ── INIT ── */
