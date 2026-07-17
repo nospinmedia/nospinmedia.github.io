@@ -318,7 +318,7 @@ async function loadRelatedAndLearnMore(storyId,storyTags){
 
   const [stories,kb]=await Promise.all([
     nsmFetchCached('NSM_recentStories',SB_URL+'?select=id,headline,url,tags,posted_at&order=id.desc&limit=300'),
-    nsmFetchCached('NSM_knowledgeArticles',SB_DAILY_POSTS+'?select=id,headline_text,url,tags&post_type=eq.Knowledge&order=id.desc')
+    nsmFetchCached('NSM_knowledgeArticles', SB_DAILY_POSTS+'?select=id,headline_text,url,tags&post_type=eq.knowledge&order=id.desc')
   ]);
 
   const relatedCandidates=stories.filter(s=>s.url!==storyId);
