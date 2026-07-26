@@ -7,10 +7,17 @@
 <meta name="description" content="A historical preservation project documenting Computer Castle BBS, the largest bulletin board system in New Hampshire, which operated in Newton, NH from 1987 to 1997.">
 <meta property="og:title" content="Computer Castle BBS Memorial">
 <meta property="og:description" content="Preserving the history of Computer Castle BBS (1987–1997) — Newton, New Hampshire's legendary dial-up bulletin board system.">
-<meta property="og:image" content="https://nospin.media/images/ComputerCastle/Logo.jpg">
+<meta property="og:image" content="https://nospin.media/images/ComputerCastle/LogoClean.webp">
 <meta property="og:type" content="website">
 
 <style>
+    @font-face{
+        font-family:'Perfect DOS VGA 437';
+        src:url('fonts/PerfectDOSVGA437.woff') format('woff');
+        font-weight:normal;
+        font-style:normal;
+        font-display:swap;
+    }
     :root{
         --bg:#0f131a;
         --panel:#151b24;
@@ -126,8 +133,26 @@
         display:block;
         width:min(830px, 100%);
         height:auto;
-        border-radius:4px;
+        border-radius:4px 4px 0 0;
     }
+
+    /* ── Live login stamp (matches the original ANSI screen's status line) ── */
+    .login-stamp{
+        background:#000;
+        border-radius:0 0 4px 4px;
+        padding:9px 10px 11px 14px;
+        text-align:left;
+        overflow-x:auto;
+        white-space:nowrap;
+    }
+    .login-stamp .stamp-text{
+        font-family:'Perfect DOS VGA 437', 'Consolas', 'Courier New', monospace;
+        font-size:clamp(10px, 2.17vw, 18px);
+        letter-spacing:0.5px;
+        -webkit-font-smoothing:none;
+    }
+    .login-stamp .ls-red{ color:#AA0000; }
+    .login-stamp .ls-yellow{ color:#FFFF55; }
     .hero h1{
         font-family:var(--serif);
         font-size:clamp(2rem, 5vw, 3.2rem);
@@ -381,7 +406,12 @@
 
 <div class="hero">
     <div class="hero-frame">
-        <img src="/images/ComputerCastle/Logo.jpg" alt="Computer Castle BBS logon screen, original ANSI artwork">
+        <img src="/images/ComputerCastle/LogoClean.webp" alt="Computer Castle BBS logon screen, original ANSI artwork">
+        <div class="login-stamp">
+            <span class="stamp-text">
+                <span class="ls-red">You are on </span><span class="ls-yellow">Node <span id="loginNode">1</span></span><span class="ls-red"> at </span><span class="ls-yellow">19200</span><span class="ls-red"> BPS / Date: </span><span class="ls-yellow" id="loginDate">Sunday, 01/01/26</span><span class="ls-red">  Time: </span><span class="ls-yellow" id="loginTime">12:00 AM</span>
+            </span>
+        </div>
     </div>
     <h1>Computer Castle BBS Memorial</h1>
     <p class="sub">Newton, New Hampshire &middot; 1987–1997</p>
@@ -515,6 +545,25 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Live login stamp — a fresh "connection" on every page load
+    (function() {
+        const node = Math.floor(Math.random() * 19) + 1;
+        const now = new Date();
+        const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        const dayName = days[now.getDay()];
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        const yy = String(now.getFullYear()).slice(-2);
+        let hours = now.getHours();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12;
+        const mins = String(now.getMinutes()).padStart(2, '0');
+
+        document.getElementById('loginNode').textContent = node;
+        document.getElementById('loginDate').textContent = `${dayName}, ${mm}/${dd}/${yy}`;
+        document.getElementById('loginTime').textContent = `${String(hours).padStart(2, '0')}:${mins} ${ampm}`;
+    })();
+
     // Topic pill selection
     let selectedTopic = "Share a Memory";
     const topicButtons = document.querySelectorAll('#topicButtons .topic-btn');
