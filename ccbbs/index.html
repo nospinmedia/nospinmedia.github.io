@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Computer Castle BBS Memorial — 1987–1997</title>
+<title>Computer Castle BBS Memorial | No Spin Media</title>
 <meta name="description" content="A historical preservation project documenting Computer Castle BBS, the largest bulletin board system in New Hampshire, which operated in Newton, NH from 1987 to 1997.">
 <meta property="og:title" content="Computer Castle BBS Memorial">
 <meta property="og:description" content="Preserving the history of Computer Castle BBS (1987–1997) — Newton, New Hampshire's legendary dial-up bulletin board system.">
@@ -29,7 +29,7 @@
 
     body{
         margin:0;
-        padding-top:70px;
+        padding-top:56px;
         background:var(--bg);
         color:var(--text);
         font-family:var(--sans);
@@ -38,10 +38,49 @@
 
     a{color:var(--gold-bright);}
 
+    /* ── Minimal top bar (No Spin Media) ───────── */
+    .site-topbar{
+        position:fixed;
+        top:0;
+        left:0;
+        right:0;
+        z-index:1000;
+        display:flex;
+        align-items:center;
+        gap:1.2rem;
+        height:56px;
+        padding:0 1.5rem;
+        background:#111;
+        border-bottom:1px solid var(--border);
+    }
+    .site-topbar .topbar-brand{
+        display:flex;
+        align-items:center;
+        gap:0.4rem;
+        color:#fff;
+        text-decoration:none;
+        font-weight:700;
+        font-size:1.05rem;
+        white-space:nowrap;
+    }
+    .site-topbar .topbar-brand:hover{ color:var(--gold-bright); }
+    .site-topbar .topbar-return{
+        color:var(--text-dim);
+        text-decoration:none;
+        font-size:0.85rem;
+        white-space:nowrap;
+    }
+    .site-topbar .topbar-return:hover{ color:var(--gold-bright); }
+    @media (max-width:480px){
+        .site-topbar{ gap:0.6rem; padding:0 1rem; }
+        .site-topbar .topbar-brand{ font-size:0.9rem; }
+        .site-topbar .topbar-return{ font-size:0.75rem; }
+    }
+
     /* ── In-page sub nav ───────────────────────── */
     .subnav{
         position:sticky;
-        top:70px;
+        top:56px;
         z-index:500;
         background:rgba(15,19,26,0.92);
         backdrop-filter:blur(6px);
@@ -85,7 +124,7 @@
     }
     .hero-frame img{
         display:block;
-        max-width:100%;
+        width:min(830px, 100%);
         height:auto;
         border-radius:4px;
     }
@@ -106,11 +145,19 @@
         color:var(--text-dim);
         font-size:0.95rem;
     }
+    .hero .welcome-note{
+        max-width:560px;
+        margin:1.4rem auto 0;
+        color:var(--text);
+        font-size:1rem;
+        line-height:1.7;
+    }
 
     /* ── Section scaffolding ────────────────────── */
     section{
         padding:3.5rem 1.5rem;
         border-bottom:1px solid var(--border);
+        scroll-margin-top:140px;
     }
     section:nth-of-type(even){ background:var(--panel); }
     section:nth-of-type(odd){ background:var(--panel-alt); }
@@ -316,7 +363,10 @@
 </head>
 <body>
 
-<div id="site-header"></div>
+<div class="site-topbar">
+    <a href="https://nospin.media/index.html" class="topbar-brand">🧭 No Spin Media</a>
+    <a href="https://nospin.media/index.html" class="topbar-return">&larr; Return to No Spin Media</a>
+</div>
 
 <nav class="subnav">
     <div class="subnav-inner">
@@ -335,7 +385,8 @@
     </div>
     <h1>Computer Castle BBS Memorial</h1>
     <p class="sub">Newton, New Hampshire &middot; 1987–1997</p>
-    <p class="tagline">A memorial and living archive for New Hampshire's largest BBS.</p>
+    <p class="tagline">Preserving the history of one of New Hampshire's largest Bulletin Board Systems.</p>
+    <p class="welcome-note">Welcome back. Whether you called Computer Castle once or a thousand times, we hope this site brings back a few memories. If you have photographs, screenshots, documentation, or stories from the Castle, we'd love to help preserve them for future generations.</p>
 </div>
 
 <section id="welcome">
@@ -464,42 +515,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('../header.html')
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById('site-header').innerHTML = html;
-
-            const hamburger = document.getElementById('hamburger');
-            const mobileNav = document.getElementById('mobile-nav');
-
-            if (hamburger && mobileNav) {
-                function toggleMobileNav() {
-                    mobileNav.classList.toggle('open');
-                    hamburger.classList.toggle('active');
-                }
-                hamburger.addEventListener('click', toggleMobileNav);
-                hamburger.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
-                    toggleMobileNav();
-                }, { passive: false });
-
-                mobileNav.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', () => {
-                        mobileNav.classList.remove('open');
-                        hamburger.classList.remove('active');
-                    });
-                });
-
-                window.addEventListener('resize', function() {
-                    if (window.innerWidth > 768) {
-                        mobileNav.classList.remove('open');
-                        hamburger.classList.remove('active');
-                    }
-                });
-            }
-        })
-        .catch(err => console.error("Error loading header.html:", err));
-
     // Topic pill selection
     let selectedTopic = "Share a Memory";
     const topicButtons = document.querySelectorAll('#topicButtons .topic-btn');
