@@ -144,6 +144,12 @@
         text-align:left;
         overflow-x:auto;
         white-space:nowrap;
+        /* width:0 + min-width:100% keeps this nowrap content from being used
+           as an input to .hero-frame's shrink-to-fit sizing (it's inline-block) —
+           without this, a long unbreakable line here stretches the frame (and
+           the black bar) wider than the image itself. */
+        width:0;
+        min-width:100%;
     }
     .login-stamp .stamp-text{
         font-family:'Perfect DOS VGA 437', 'Consolas', 'Courier New', monospace;
@@ -409,7 +415,7 @@
         <img src="/images/ComputerCastle/LogoClean.webp" alt="Computer Castle BBS logon screen, original ANSI artwork">
         <div class="login-stamp">
             <span class="stamp-text">
-                <span class="ls-red">You are on </span><span class="ls-yellow">Node <span id="loginNode">1</span></span><span class="ls-red"> at </span><span class="ls-yellow">19200</span><span class="ls-red"> BPS / Date: </span><span class="ls-yellow" id="loginDate">Sunday, 01/01/26</span><span class="ls-red">  Time: </span><span class="ls-yellow" id="loginTime">12:00 AM</span>
+                <span class="ls-red">You are on </span><span class="ls-yellow">Node <span id="loginNode">1</span></span><span class="ls-red"> at </span><span class="ls-yellow" id="loginBPS">28800</span><span class="ls-red"> BPS / Date: </span><span class="ls-yellow" id="loginDate">Sunday, 01/01/26</span><span class="ls-red">  Time: </span><span class="ls-yellow" id="loginTime">12:00 AM</span>
             </span>
         </div>
     </div>
@@ -548,6 +554,43 @@ document.addEventListener('DOMContentLoaded', function() {
     // Live login stamp — a fresh "connection" on every page load
     (function() {
         const node = Math.floor(Math.random() * 19) + 1;
+
+        // Modem speeds Computer Castle actually supported (US Robotics HST/
+        // Courier gear, per computercastle.net) — weighted so the more
+        // common mid/late-90s speeds show up more often than the rare
+        // low-end or bleeding-edge 56K connects.
+        const modemSpeeds = [
+            { bps: '300',     w: 1 },  // Bell 103 / V.21
+            { bps: '1200',    w: 1 },  // Bell 212A / V.22
+            { bps: '1200/75', w: 1 },  // V.23 split
+            { bps: '2400',    w: 2 },  // V.22bis
+            { bps: '4800',    w: 3 },  // V.32
+            { bps: '7200',    w: 3 },  // V.32
+            { bps: '9600',    w: 4 },  // V.32
+            { bps: '12000',   w: 3 },  // V.32bis
+            { bps: '14400',   w: 4 },  // V.32bis
+            { bps: '16800',   w: 5 },  // USR HST
+            { bps: '19200',   w: 5 },  // V.32 terbo
+            { bps: '21600',   w: 5 },  // V.32 terbo + ASL
+            { bps: '24000',   w: 5 },  // V.34
+            { bps: '26400',   w: 5 },  // V.34
+            { bps: '28800',   w: 7 },  // V.34
+            { bps: '31200',   w: 6 },  // V.34
+            { bps: '33600',   w: 7 },  // V.34
+            { bps: '44000',   w: 2 },  // V.90/V.92 56K tier
+            { bps: '46667',   w: 2 },  // V.90/V.92 56K tier
+            { bps: '49333',   w: 2 },  // V.90/V.92 56K tier
+            { bps: '52000',   w: 1 },  // V.90/V.92 56K tier
+            { bps: '56000',   w: 1 },  // V.90/V.92 max (outside NA)
+        ];
+        const totalWeight = modemSpeeds.reduce((sum, s) => sum + s.w, 0);
+        let roll = Math.random() * totalWeight;
+        let bps = modemSpeeds[modemSpeeds.length - 1].bps;
+        for (const speed of modemSpeeds) {
+            if (roll < speed.w) { bps = speed.bps; break; }
+            roll -= speed.w;
+        }
+
         const now = new Date();
         const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
         const dayName = days[now.getDay()];
@@ -560,6 +603,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const mins = String(now.getMinutes()).padStart(2, '0');
 
         document.getElementById('loginNode').textContent = node;
+        document.getElementById('loginBPS').textContent = bps;
         document.getElementById('loginDate').textContent = `${dayName}, ${mm}/${dd}/${yy}`;
         document.getElementById('loginTime').textContent = `${String(hours).padStart(2, '0')}:${mins} ${ampm}`;
     })();
