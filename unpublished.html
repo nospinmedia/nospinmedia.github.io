@@ -291,6 +291,10 @@ async function getCardImage(id,headline,summary,hasStoryImages){
 function convertRedditMarkdown(text){
   if(!text)return'';
   text=text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  text=text.replace(/^(#{1,6})[ \t]+(.*)$/gm,function(_,hashes,body){
+    const level=hashes.length;
+    return '<h'+level+'>'+body.trim()+'</h'+level+'>';
+  });
   text=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
   text=text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,'<em>$1</em>');
   text=text.replace(/\\n/g,'\n');text=text.replace(/\n{3,}/g,'\n\n');
