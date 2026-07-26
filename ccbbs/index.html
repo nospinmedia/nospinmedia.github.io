@@ -122,16 +122,20 @@
     }
     .hero-frame{
         display:inline-block;
+        /* Definite width (not shrink-to-fit auto/max-width) so no child's
+           intrinsic content size — the nowrap login-stamp text, in particular —
+           can ever influence how wide this frame is. 850px = 830px image + the
+           10px padding on each side below. */
+        width:min(850px, 90vw);
         padding:10px;
         background:linear-gradient(160deg, #232b38, #171c25);
         border:1px solid var(--gold);
         border-radius:10px;
         box-shadow:0 0 40px rgba(212,175,106,0.12), 0 10px 30px rgba(0,0,0,0.5);
-        max-width:90%;
     }
     .hero-frame img{
         display:block;
-        width:min(830px, 100%);
+        width:100%;
         height:auto;
         border-radius:4px 4px 0 0;
     }
@@ -144,12 +148,6 @@
         text-align:left;
         overflow-x:auto;
         white-space:nowrap;
-        /* width:0 + min-width:100% keeps this nowrap content from being used
-           as an input to .hero-frame's shrink-to-fit sizing (it's inline-block) —
-           without this, a long unbreakable line here stretches the frame (and
-           the black bar) wider than the image itself. */
-        width:0;
-        min-width:100%;
     }
     .login-stamp .stamp-text{
         font-family:'Perfect DOS VGA 437', 'Consolas', 'Courier New', monospace;
