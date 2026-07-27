@@ -1,6 +1,5 @@
 {
   "keywords": [
-
     {
       "match": [
         "peace talks",
@@ -38,7 +37,6 @@
       ],
       "image": "military-drone.webp"
     },
-
     {
       "match": [
         "missile strike",
@@ -52,7 +50,6 @@
       ],
       "image": "missile-launch.webp"
     },
-
     {
       "match": [
         "fighter jet",
@@ -67,7 +64,6 @@
       ],
       "image": "fighter-jet.webp"
     },
-
     {
       "match": [
         "warship",
@@ -84,12 +80,14 @@
       ],
       "image": "us-navy-frigate.webp"
     },
-
     {
-      "match": ["NASA", "Artemis", "moon mission"],
+      "match": [
+        "NASA",
+        "Artemis",
+        "moon mission"
+      ],
       "image": "nasa-rocket.webp"
     },
-
     {
       "match": [
         "AI",
@@ -137,7 +135,6 @@
       ],
       "image": "police-generic.webp"
     },
-
     {
       "match": [
         "ICE",
@@ -152,20 +149,19 @@
       "image": "ice-enforcement.webp"
     },
     {
-  "match": [
-    "volcano",
-    "volcanic eruption",
-    "eruption",
-    "volcanic ash",
-    "ash plume",
-    "lava flow",
-    "volcanic activity",
-    "active volcano",
-    "crater eruption"
-  ],
-  "image": "volcano-eruption.webp"
-},
-    
+      "match": [
+        "volcano",
+        "volcanic eruption",
+        "eruption",
+        "volcanic ash",
+        "ash plume",
+        "lava flow",
+        "volcanic activity",
+        "active volcano",
+        "crater eruption"
+      ],
+      "image": "volcano-eruption.webp"
+    },
     {
       "match": [
         "FDA",
@@ -179,7 +175,6 @@
       ],
       "image": "fda-logo.webp"
     },
-
     {
       "match": [
         "World Health Organization",
@@ -196,7 +191,6 @@
       ],
       "image": "who-hq.webp"
     },
-
     {
       "match": [
         "white house",
@@ -248,7 +242,6 @@
       ],
       "image": "us-capitol.webp"
     },
-
     {
       "match": [
         "supreme court",
@@ -275,12 +268,14 @@
       ],
       "image": "court-gavel.webp"
     },
-
     {
-      "match": ["refinery", "petrochemical", "refining"],
+      "match": [
+        "refinery",
+        "petrochemical",
+        "refining"
+      ],
       "image": "refinery.webp"
     },
-
     {
       "match": [
         "strait of hormuz",
@@ -293,7 +288,6 @@
       ],
       "image": "strait-of-hormuz-satellite.webp"
     },
-
     {
       "match": [
         "crude oil",
@@ -309,7 +303,6 @@
       ],
       "image": "oil-pumpjack.webp"
     },
-
     {
       "match": [
         "tariff",
@@ -324,7 +317,6 @@
       ],
       "image": "cargo-containers.webp"
     },
-
     {
       "match": [
         "pope",
@@ -339,7 +331,6 @@
       ],
       "image": "vatican-pope.webp"
     },
-
     {
       "match": [
         "peace talks",
@@ -360,7 +351,6 @@
       ],
       "image": "diplomacy-meeting.webp"
     },
-
     {
       "match": [
         "food bank",
@@ -374,7 +364,6 @@
       ],
       "image": "food-bank.webp"
     },
-
     {
       "match": [
         "SpaceX",
@@ -389,15 +378,25 @@
       "image": "spacex-starship-launch.webp"
     },
     {
-      "match": ["wildfire", "wildfires", "brush fire", "forest fire", "bushfire"],
+      "match": [
+        "wildfire",
+        "wildfires",
+        "brush fire",
+        "forest fire",
+        "bushfire"
+      ],
       "image": "wildfire-forest-smoke.webp"
     },
-
     {
-      "match": ["heatwave", "extreme heat", "humidity", "wet-bulb", "record heat"],
+      "match": [
+        "heatwave",
+        "extreme heat",
+        "humidity",
+        "wet-bulb",
+        "record heat"
+      ],
       "image": "heatwave-warning-highway.webp"
     },
-
     {
       "match": [
         "chemical leak",
@@ -410,7 +409,20 @@
         "chemical exposure"
       ],
       "image": "chemical-refinery-response.webp"
+    },
+    {
+      "match": [
+        "Israeli government",
+        "Israeli cabinet",
+        "Israeli parliament",
+        "Knesset",
+        "Israeli domestic policy",
+        "Israeli elections",
+        "Israeli election",
+        "Israeli coalition government",
+        "Abraham Accords"
+      ],
+      "image": "israel-general.webp"
     }
-
   ]
 }
