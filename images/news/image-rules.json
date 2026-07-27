@@ -412,6 +412,17 @@
     },
     {
       "match": [
+        "Iran",
+        "Iranian",
+        "Tehran",
+        "IRGC",
+        "Khamenei",
+        "Iran nuclear"
+      ],
+      "image": "iran-general.webp"
+    },
+    {
+      "match": [
         "West Bank",
         "Palestinian Authority",
         "Palestinian towns",
