@@ -412,6 +412,22 @@
     },
     {
       "match": [
+        "West Bank",
+        "Palestinian Authority",
+        "Palestinian towns",
+        "Palestinian villages",
+        "Jewish settlements",
+        "settler violence",
+        "settler attack",
+        "Jenin",
+        "Nablus",
+        "Hebron",
+        "Ramallah"
+      ],
+      "image": "west-bank-general.webp"
+    },
+    {
+      "match": [
         "Israeli government",
         "Israeli cabinet",
         "Israeli parliament",
