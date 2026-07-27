@@ -252,6 +252,7 @@ const SB_URL='https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts';
 const SB_KEY='sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
 const SB_REACTIONS='https://dckmflnbprhmaqysuued.supabase.co/rest/v1/story_reaction_totals';
 const STORY='https://nospin.media/story.html?story=';
+const PREVIEW_STORY='https://data.nospin.media/preview/';
 const SHARE_BASE='https://nospin.media/share.html?story=';
 const IMG_S='https://nospin.media/images/story/';
 const IMG_K='https://nospin.media/images/keyword/';
@@ -500,10 +501,10 @@ function _copyIdx(text,msg,feedbackId){
   navigator.clipboard.writeText(text).then(done).catch(()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:0;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done()});
 }
 function toggleShareIdx(wrapId){const w=document.getElementById(wrapId);if(!w)return;w.classList.toggle('open');if(w.classList.contains('open')){setTimeout(()=>{document.addEventListener('click',function h(e){if(!w.contains(e.target)){w.classList.remove('open');document.removeEventListener('click',h)}})},0)}}
-function shareIdxNative(id){const url=STORY+id;if(navigator.share)navigator.share({url}).catch(()=>{});else navigator.clipboard.writeText(url).catch(()=>{})}
-function shareIdxLink(id,wrapId,fbId){document.getElementById(wrapId)?.classList.remove('open');_copyIdx(STORY+id,'\u2705 Link copied!',fbId)}
-function shareIdxTitle(id,headline,wrapId,fbId){document.getElementById(wrapId)?.classList.remove('open');const hl=(headline||'').replace(/\n/g,': ').trim();_copyIdx(hl+'\n'+STORY+id,'\u2705 Copied!',fbId)}
-function shareIdxSummary(id,wrapId,fbId){document.getElementById(wrapId)?.classList.remove('open');const s=allStories.find(x=>x.url===id)||{};const opts=[s.social_bluesky,s.social_threads,s.social_facebook].filter(x=>x&&x.trim().length>20);const summary=opts.length?opts[Math.floor(Math.random()*opts.length)]:(s.summary||'').substring(0,280);_copyIdx(summary.trim()+'\n\n'+STORY+id,'\u2705 Copied!',fbId)}
+function shareIdxNative(id){const url=PREVIEW_STORY+id;if(navigator.share)navigator.share({url}).catch(()=>{});else navigator.clipboard.writeText(url).catch(()=>{})}
+function shareIdxLink(id,wrapId,fbId){document.getElementById(wrapId)?.classList.remove('open');_copyIdx(PREVIEW_STORY+id,'\u2705 Link copied!',fbId)}
+function shareIdxTitle(id,headline,wrapId,fbId){document.getElementById(wrapId)?.classList.remove('open');const hl=(headline||'').replace(/\n/g,': ').trim();_copyIdx(hl+'\n'+PREVIEW_STORY+id,'\u2705 Copied!',fbId)}
+function shareIdxSummary(id,wrapId,fbId){document.getElementById(wrapId)?.classList.remove('open');const s=allStories.find(x=>x.url===id)||{};const opts=[s.social_bluesky,s.social_threads,s.social_facebook].filter(x=>x&&x.trim().length>20);const summary=opts.length?opts[Math.floor(Math.random()*opts.length)]:(s.summary||'').substring(0,280);_copyIdx(summary.trim()+'\n\n'+PREVIEW_STORY+id,'\u2705 Copied!',fbId)}
 function shareDropdownHTML(id,headline,wrapId,fbId,isSm){
   const btnCls=isSm?'btn-sm-share':'btn-share';const btnTxt=isSm?'\uD83D\uDD17':'\uD83D\uDD17 Share';
   return'<div class="share-wrap" id="'+wrapId+'">'
