@@ -467,9 +467,55 @@ async function loadAllAffiliateTiles(matchedRule){
 /* ── IMAGE RESOLUTION ── */
 let _imgRulesCache=null;
 async function resolveStoryImage(storyId){for(const ext of['webp','jpg','png']){try{const r=await fetch('/images/news/'+storyId+'.'+ext,{method:'HEAD'});if(r.ok)return'/images/news/'+storyId+'.'+ext}catch(e){}}return null}
-async function resolveFallbackImage(headline){try{if(!_imgRulesCache){const r=await fetch('/images/news/image-rules.json');if(r.ok)_imgRulesCache=await r.json()}if(_imgRulesCache){const h=(headline||'').toLowerCase();for(const rule of(_imgRulesCache.keywords||[])){if(rule.match.some(kw=>{const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-z])'+esc+'(?![a-z])','i').test(h)}))return'/images/news/'+rule.image;}}}catch(e){}return null}
+
+// ── Image-rule keyword scoring (kept separate from wordMatch()/
+// findKeywordMatch() above, which power the unrelated affiliate-tile
+// matching and must not change) ── Fixes a live incident: a Seattle
+// festival-shooting story showed the ICE-enforcement stock photo because
+// "detention" (meant to signal immigration detention) also matches "juvenile
+// detention" — an unrelated context. Root cause was architectural, not just
+// that one keyword: matching was first-rule-in-array-wins with no notion of
+// relevance, so a lone generic word could pre-empt a more specific match
+// elsewhere in the file. Mirrors the identical fix in index.html and
+// dropoff/app.py's _resolve_fallback_image() — same rules file, same scoring,
+// three implementations kept behaviorally in sync. See docs/image-matching.md.
+function _imgKwWeight(kw){return Math.max(1,kw.trim().split(/\s+/).length)}
+function _imgIsAcronym(kw){const c=kw.trim();return !c.includes(' ')&&/^[A-Z][A-Z.\-]*[A-Z]$|^[A-Z]{2,}$/.test(c)}
+function _imgKwHit(hayCI,hayCS,kw){
+  const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  if(_imgIsAcronym(kw)){
+    // Acronyms (ICE, WHO, AI, FDA, DOJ, DHS, NASA...) are matched
+    // case-SENSITIVELY: case-insensitive matching let "WHO" match the
+    // ordinary pronoun "who" in ~23% of a 200-story sample, and "ICE" is one
+    // typo/lowercase headline away from matching frozen water ("black ice").
+    return new RegExp('(?<![A-Za-z])'+esc+'(?![A-Za-z])').test(hayCS);
+  }
+  return new RegExp('(?<![a-z])'+esc.toLowerCase()+'(?![a-z])').test(hayCI);
+}
+const IMG_CONFIDENCE_THRESHOLD=2; // a single generic single-word hit (e.g. lone "detention") is not enough on its own
+const IMG_HEADLINE_MULTIPLIER=2;  // a headline mention is a stronger subject signal than an incidental mention in body text
+async function resolveFallbackImage(headline,summary){
+  try{
+    if(!_imgRulesCache){const r=await fetch('/images/news/image-rules.json');if(r.ok)_imgRulesCache=await r.json()}
+    if(_imgRulesCache){
+      const hCS=headline||'',sCS=summary||'',hCI=hCS.toLowerCase(),sCI=sCS.toLowerCase();
+      let bestRule=null,bestScore=0;
+      for(const rule of(_imgRulesCache.keywords||[])){
+        let score=0;
+        for(const kw of rule.match){
+          const w=_imgKwWeight(kw);
+          if(_imgKwHit(hCI,hCS,kw))score+=w*IMG_HEADLINE_MULTIPLIER;
+          else if(_imgKwHit(sCI,sCS,kw))score+=w;
+        }
+        if(score>bestScore){bestScore=score;bestRule=rule}
+      }
+      if(bestRule&&bestScore>=IMG_CONFIDENCE_THRESHOLD)return'/images/news/'+bestRule.image;
+    }
+  }catch(e){}
+  return null;
+}
 async function fetchImageMeta(p){try{const r=await fetch(p.replace(/\.[^.]+$/,'.json'));if(r.ok)return await r.json()}catch(e){}return null}
-async function getStoryImage(id,headline,summary){const si=await resolveStoryImage(id);if(si)return{url:si,meta:await fetchImageMeta(si)};const searchText=(headline||'')+' '+(summary||'');const fi=await resolveFallbackImage(searchText);if(fi)return{url:fi,meta:await fetchImageMeta(fi)};return null}
+async function getStoryImage(id,headline,summary){const si=await resolveStoryImage(id);if(si)return{url:si,meta:await fetchImageMeta(si)};const fi=await resolveFallbackImage(headline,summary);if(fi)return{url:fi,meta:await fetchImageMeta(fi)};return null}
 
 /* ── SHARE ── */
 function _copyToClipboard(text,msg){const fb=document.getElementById('share-feedback');const done=()=>{if(fb){fb.textContent=msg;setTimeout(()=>fb.textContent='',2500)}};navigator.clipboard.writeText(text).then(done).catch(()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:0;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();})}
