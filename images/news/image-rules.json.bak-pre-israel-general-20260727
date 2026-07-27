@@ -1,0 +1,416 @@
+{
+  "keywords": [
+
+    {
+      "match": [
+        "peace talks",
+        "ceasefire talks",
+        "diplomatic talks",
+        "diplomatic negotiations",
+        "diplomatic delegation",
+        "peace negotiations",
+        "talks collapse",
+        "talks fail",
+        "summit talks",
+        "envoy",
+        "foreign minister",
+        "secretary of state",
+        "u.s. secretary of state",
+        "bilateral talks",
+        "state department"
+      ],
+      "image": "diplomacy-meeting.webp"
+    },
+    {
+      "match": [
+        "drone strike",
+        "drone attack",
+        "military drone",
+        "combat drone",
+        "uav attack",
+        "armed drone",
+        "kamikaze drone",
+        "shahed drone",
+        "mq-9",
+        "reaper drone",
+        "uav",
+        "uavs"
+      ],
+      "image": "military-drone.webp"
+    },
+
+    {
+      "match": [
+        "missile strike",
+        "missile attack",
+        "missile launch",
+        "missile fire",
+        "missile system",
+        "interceptor missile",
+        "ballistic missile",
+        "cruise missile"
+      ],
+      "image": "missile-launch.webp"
+    },
+
+    {
+      "match": [
+        "fighter jet",
+        "fighter jets",
+        "warplane",
+        "warplanes",
+        "airstrike",
+        "air strike",
+        "airstrikes",
+        "military aircraft",
+        "jet fighters"
+      ],
+      "image": "fighter-jet.webp"
+    },
+
+    {
+      "match": [
+        "warship",
+        "warships",
+        "frigate",
+        "frigates",
+        "destroyer",
+        "destroyers",
+        "aircraft carrier",
+        "carrier strike group",
+        "fleet deployment",
+        "naval exercise",
+        "maritime patrol"
+      ],
+      "image": "us-navy-frigate.webp"
+    },
+
+    {
+      "match": ["NASA", "Artemis", "moon mission"],
+      "image": "nasa-rocket.webp"
+    },
+
+    {
+      "match": [
+        "AI",
+        "artificial intelligence",
+        "machine learning",
+        "generative AI",
+        "large language model",
+        "LLM",
+        "deep learning",
+        "AI system",
+        "AI model",
+        "AI regulation",
+        "AI safety",
+        "AI chip",
+        "AI training"
+      ],
+      "image": "ai-brain.webp"
+    },
+    {
+      "match": [
+        "cyberattack",
+        "cyber attack",
+        "ransomware",
+        "data breach",
+        "hacking group",
+        "hackers",
+        "system breach",
+        "network intrusion",
+        "cybersecurity",
+        "systems offline",
+        "database breach",
+        "malware attack"
+      ],
+      "image": "cyberattack-data-breach.webp"
+    },
+    {
+      "match": [
+        "police shooting",
+        "officer involved shooting",
+        "police chase",
+        "police standoff",
+        "police investigation",
+        "suspect in custody",
+        "law enforcement operation"
+      ],
+      "image": "police-generic.webp"
+    },
+
+    {
+      "match": [
+        "ICE",
+        "immigration",
+        "immigration detention",
+        "ICE detention",
+        "immigration enforcement",
+        "deportation",
+        "border enforcement",
+        "DHS"
+      ],
+      "image": "ice-enforcement.webp"
+    },
+    {
+  "match": [
+    "volcano",
+    "volcanic eruption",
+    "eruption",
+    "volcanic ash",
+    "ash plume",
+    "lava flow",
+    "volcanic activity",
+    "active volcano",
+    "crater eruption"
+  ],
+  "image": "volcano-eruption.webp"
+},
+    
+    {
+      "match": [
+        "FDA",
+        "Food and Drug Administration",
+        "drug approval",
+        "drug safety",
+        "drug recall",
+        "food recall",
+        "medical device",
+        "medical devices"
+      ],
+      "image": "fda-logo.webp"
+    },
+
+    {
+      "match": [
+        "World Health Organization",
+        "World Health Organization report",
+        "World Health Organization warning",
+        "WHO director",
+        "WHO report",
+        "WHO warning",
+        "WHO officials",
+        "WHO declares",
+        "WHO confirmed",
+        "global health emergency",
+        "public health emergency"
+      ],
+      "image": "who-hq.webp"
+    },
+
+    {
+      "match": [
+        "white house",
+        "oval office",
+        "executive order",
+        "administration officials",
+        "president trump",
+        "president biden",
+        "presidential order"
+      ],
+      "image": "white-house.webp"
+    },
+    {
+      "match": [
+        "acquisition",
+        "merger",
+        "buyout",
+        "takeover",
+        "shareholders",
+        "proxy battle",
+        "market value",
+        "cash and stock",
+        "corporate deal",
+        "unsolicited offer",
+        "hostile takeover",
+        "board approval",
+        "e-commerce sector"
+      ],
+      "image": "corporate-merger.webp"
+    },
+    {
+      "match": [
+        "congress",
+        "capitol hill",
+        "house of representatives",
+        "senate",
+        "lawmakers",
+        "house panel",
+        "senate panel",
+        "committee hearing",
+        "subcommittee",
+        "house subcommittee",
+        "senate subcommittee",
+        "congressional hearing",
+        "legislation",
+        "representative",
+        "rep.",
+        "senator"
+      ],
+      "image": "us-capitol.webp"
+    },
+
+    {
+      "match": [
+        "supreme court",
+        "appeals court",
+        "federal court",
+        "district court",
+        "federal judge",
+        "lawsuit",
+        "criminal trial",
+        "criminal charges",
+        "legal appeal",
+        "plea deal",
+        "guilty",
+        "conviction",
+        "convictions",
+        "sentencing",
+        "arrested",
+        "indict",
+        "indicted",
+        "ruling",
+        "DOJ",
+        "justice department",
+        "federal prosecutors"
+      ],
+      "image": "court-gavel.webp"
+    },
+
+    {
+      "match": ["refinery", "petrochemical", "refining"],
+      "image": "refinery.webp"
+    },
+
+    {
+      "match": [
+        "strait of hormuz",
+        "Strait of Hormuz",
+        "oil tanker",
+        "oil tankers",
+        "tanker traffic",
+        "persian gulf shipping",
+        "Persian Gulf shipping"
+      ],
+      "image": "strait-of-hormuz-satellite.webp"
+    },
+
+    {
+      "match": [
+        "crude oil",
+        "crude",
+        "barrel",
+        "OPEC",
+        "drilling",
+        "oilfield",
+        "oil prices",
+        "oil production",
+        "oil market",
+        "oil supply"
+      ],
+      "image": "oil-pumpjack.webp"
+    },
+
+    {
+      "match": [
+        "tariff",
+        "trade imports",
+        "trade exports",
+        "import tariffs",
+        "export ban",
+        "port of entry",
+        "shipping containers",
+        "trade deficit",
+        "trade surplus"
+      ],
+      "image": "cargo-containers.webp"
+    },
+
+    {
+      "match": [
+        "pope",
+        "vatican",
+        "catholic",
+        "catholics",
+        "pontiff",
+        "holy see",
+        "vatican city",
+        "papal",
+        "global day of prayer"
+      ],
+      "image": "vatican-pope.webp"
+    },
+
+    {
+      "match": [
+        "peace talks",
+        "ceasefire talks",
+        "diplomatic talks",
+        "diplomatic negotiations",
+        "diplomatic delegation",
+        "peace negotiations",
+        "talks collapse",
+        "talks fail",
+        "summit talks",
+        "envoy",
+        "foreign minister",
+        "secretary of state",
+        "u.s. secretary of state",
+        "bilateral talks",
+        "state department"
+      ],
+      "image": "diplomacy-meeting.webp"
+    },
+
+    {
+      "match": [
+        "food bank",
+        "food banks",
+        "food assistance",
+        "food aid",
+        "food insecurity",
+        "food relief",
+        "hunger",
+        "aid network"
+      ],
+      "image": "food-bank.webp"
+    },
+
+    {
+      "match": [
+        "SpaceX",
+        "Starship",
+        "Super Heavy",
+        "Starbase",
+        "Raptor engine",
+        "Raptor engines",
+        "Starship flight",
+        "Starship test flight"
+      ],
+      "image": "spacex-starship-launch.webp"
+    },
+    {
+      "match": ["wildfire", "wildfires", "brush fire", "forest fire", "bushfire"],
+      "image": "wildfire-forest-smoke.webp"
+    },
+
+    {
+      "match": ["heatwave", "extreme heat", "humidity", "wet-bulb", "record heat"],
+      "image": "heatwave-warning-highway.webp"
+    },
+
+    {
+      "match": [
+        "chemical leak",
+        "chemical spill",
+        "toxic leak",
+        "hazmat",
+        "hazmat crews",
+        "hazardous materials",
+        "industrial chemical",
+        "chemical exposure"
+      ],
+      "image": "chemical-refinery-response.webp"
+    }
+
+  ]
+}
