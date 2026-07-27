@@ -142,7 +142,9 @@
       "match": [
         "ICE",
         "immigration",
-        "detention",
+        "immigration detention",
+        "ICE detention",
+        "immigration enforcement",
         "deportation",
         "border enforcement",
         "DHS"
