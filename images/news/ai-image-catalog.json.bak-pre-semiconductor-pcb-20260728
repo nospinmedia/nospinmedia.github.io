@@ -1,0 +1,152 @@
+[
+  {
+    "filename": "ai-brain.webp",
+    "editorial_description": "General-purpose image for stories genuinely about artificial intelligence itself — AI models, machine learning research, AI regulation/safety, or the AI industry. Do not use for stories that merely use AI tools incidentally (e.g. an AI-assisted weapon or drone strike — see military-drone.webp/missile-launch.webp instead) or for generic technology/consumer-electronics stories with no AI-specific subject.",
+    "caption": "AI neural network concept illustration."
+  },
+  {
+    "filename": "cargo-containers.webp",
+    "editorial_description": "Use for stories about international trade policy: tariffs, import/export restrictions, trade deficits/surpluses, or shipping/port activity tied to trade policy. Do not use for general economic-indicator stories with no trade/shipping angle, and do not use for Strait of Hormuz/oil-tanker stories specifically (see strait-of-hormuz-satellite.webp).",
+    "caption": "Shipping containers are lifted by a crane at a commercial cargo port."
+  },
+  {
+    "filename": "chemical-refinery-response.webp",
+    "editorial_description": "Use specifically for stories about a chemical leak, spill, or hazardous-materials incident with an emergency-response angle (hazmat crews, evacuations, exposure). Do not use for a routine refinery/petrochemical operations story with no leak/spill/hazmat event (see refinery.webp), and not for a generic oil-price story (see oil-pumpjack.webp).",
+    "caption": "Illustration of hazmat crews responding to a refinery chemical leak."
+  },
+  {
+    "filename": "corporate-merger.webp",
+    "editorial_description": "Use for stories about a specific corporate acquisition, merger, buyout, or takeover — boardroom/deal-making context. Do not use for general stock-market or economic-indicator stories with no specific company deal (better left to a general economy/markets image if one exists), and not for antitrust/legal-ruling stories about a company (see court-gavel.webp).",
+    "caption": "Executives review a major corporate merger agreement."
+  },
+  {
+    "filename": "court-gavel.webp",
+    "editorial_description": "Generic U.S. legal/judicial image for stories about court rulings, criminal trials, indictments, convictions, sentencing, lawsuits, or DOJ/prosecutorial action. Do not use for a story that is really about a police operation/investigation with no court proceeding yet (see police-generic.webp), and not for immigration-enforcement-specific legal actions (see ice-enforcement.webp).",
+    "caption": "Illustration representing court rulings and legal proceedings."
+  },
+  {
+    "filename": "cyberattack-data-breach.webp",
+    "editorial_description": "Use for stories about a cyberattack, ransomware incident, data breach, or hacking campaign — the security-incident-response angle specifically. Do not use for general AI-industry stories with no security-breach event (see ai-brain.webp), and not for stories only about cybersecurity *policy* or regulation with no actual breach/attack having occurred.",
+    "caption": "Cybersecurity teams responding to a large-scale system breach."
+  },
+  {
+    "filename": "diplomacy-meeting.webp",
+    "editorial_description": "Generic image for stories about diplomatic talks, peace negotiations, envoys, or foreign-ministry/state-department meetings between governments — used when the story is genuinely about a negotiation or diplomatic meeting taking place, not just international relations in the abstract. Do not use for a story that's really about one specific country's domestic government or politics (see that country's dedicated general image, e.g. israel-general.webp, if one exists) or for a story about an active military strike/conflict rather than talks (see missile-launch.webp/fighter-jet.webp/military-drone.webp).",
+    "caption": "Diplomatic negotiations."
+  },
+  {
+    "filename": "fda-logo.webp",
+    "editorial_description": "Use specifically for stories about a U.S. Food and Drug Administration action: drug approvals, drug/food safety, recalls, or medical-device regulation. Do not use for general health/medical-research stories with no FDA action specifically (e.g. a lab breakthrough with no regulatory step yet).",
+    "caption": "Logo of the U.S. Food and Drug Administration (FDA)."
+  },
+  {
+    "filename": "fighter-jet.webp",
+    "editorial_description": "Use for stories specifically about fighter jets, warplanes, or airstrikes carried out by manned military aircraft. Do not use for drone-specific strikes (see military-drone.webp), missile-specific strikes with no aircraft involved (see missile-launch.webp), or naval-vessel stories with no aircraft (see us-navy-frigate.webp).",
+    "caption": "A U.S. Navy F/A-18 Hornet approaches Kadena Air Base in Okinawa, Japan."
+  },
+  {
+    "filename": "food-bank.webp",
+    "editorial_description": "Use for stories about food assistance, food banks, hunger/food-insecurity, or humanitarian food-aid distribution. Do not use for general economic-hardship stories with no food-specific angle, and not for war-zone humanitarian-crisis stories where a more specific regional image exists (e.g. a Gaza-specific image, once one is added).",
+    "caption": "Community food bank distribution."
+  },
+  {
+    "filename": "heatwave-warning-highway.webp",
+    "editorial_description": "Use specifically for extreme-heat/heatwave stories (record heat, heat advisories, wet-bulb temperature danger). Do not use for other severe-weather types — storms, hurricanes, tornadoes, flooding, winter weather — none of which this image depicts.",
+    "caption": "Highway sign warning of extreme heat."
+  },
+  {
+    "filename": "ice-enforcement.webp",
+    "editorial_description": "Use only for stories specifically about U.S. immigration enforcement: ICE operations, detention, or deportation actions. Do not use for general crime or policing stories with no immigration-enforcement angle (see police-generic.webp), and do not use just because a story mentions immigration policy in the abstract with no enforcement action taking place.",
+    "caption": "ICE immigration enforcement jacket."
+  },
+  {
+    "filename": "iran-general.webp",
+    "editorial_description": "General-purpose image for stories about the Iranian government, its leadership, nuclear program, internal politics/protests, or diplomacy — when the story is genuinely about Iran as a subject, not merely mentioning Iran in passing. Do not use for stories primarily about Israeli military strikes on Iran, the broader Iran-Israel/regional war (no dedicated conflict image exists yet — flag as a gap if this is the story's real subject), or Strait of Hormuz/tanker-shipping stories (see strait-of-hormuz-satellite.webp).",
+    "caption": "Panoramic view of Tehran with the Iranian flag and the Alborz Mountains under a clear daytime sky."
+  },
+  {
+    "filename": "israel-general.webp",
+    "editorial_description": "General-purpose image for stories about Israeli government, cabinet, parliament (Knesset), domestic politics, elections, or diplomatic normalization (e.g. Abraham Accords) — when the story is genuinely about Israel's own government/domestic affairs. Do not use for Gaza-specific stories, West Bank-specific stories (see west-bank-general.webp), IDF military operations, or the Iran-Israel conflict (no dedicated conflict image exists yet — flag as a gap if that's the real subject).",
+    "caption": "Panoramic view of Jerusalem with the Israeli flag displayed under a clear daytime sky."
+  },
+  {
+    "filename": "military-drone.webp",
+    "editorial_description": "Use for stories specifically about military drone strikes, attacks, or drone warfare (UAVs, armed drones, kamikaze/Shahed-type drones). Do not use for a fighter-jet/manned-aircraft strike (see fighter-jet.webp) or a missile-only strike with no drone involved (see missile-launch.webp).",
+    "caption": "A BQM-74E target drone launches from the U.S. Navy frigate USS Underwood during a live-fire exercise at sea."
+  },
+  {
+    "filename": "missile-launch.webp",
+    "editorial_description": "Use for stories specifically about a missile strike, launch, or missile-defense system (ballistic or cruise missiles). Do not use for a drone-specific strike (see military-drone.webp) or a manned-aircraft airstrike with no missile specifically mentioned (see fighter-jet.webp).",
+    "caption": "U.S. Navy missile launch during a naval weapons test."
+  },
+  {
+    "filename": "nasa-rocket.webp",
+    "editorial_description": "Use specifically for NASA missions — Artemis program, crewed spaceflight, or other official NASA launches. Do not use for private spaceflight companies (see spacex-starship-launch.webp for SpaceX/Starship specifically) or for general astronomy/space-science discovery stories with no NASA mission involved (no dedicated general-space image exists yet — flag as a gap if that's the real subject, e.g. an asteroid/comet/telescope discovery story).",
+    "caption": "NASA's Space Launch System launches the Orion spacecraft carrying the Artemis II crew from Kennedy Space Center on April 1, 2026."
+  },
+  {
+    "filename": "oil-pumpjack.webp",
+    "editorial_description": "Use for stories about crude oil production, prices, drilling, or OPEC decisions — the extraction/commodity-market side of oil. Do not use for refinery-operations stories (see refinery.webp), a chemical-leak/hazmat incident at a refinery (see chemical-refinery-response.webp), or Strait of Hormuz/tanker-shipping stories (see strait-of-hormuz-satellite.webp).",
+    "caption": "An oil pumpjack operates at a petroleum production site."
+  },
+  {
+    "filename": "police-generic.webp",
+    "editorial_description": "Generic U.S. law-enforcement image for stories about police operations, investigations, standoffs, or officer-involved incidents that are not specifically about immigration/ICE enforcement (see ice-enforcement.webp) and not a court/legal-proceedings story where the case has already reached the courts (see court-gavel.webp).",
+    "caption": "Police station exterior"
+  },
+  {
+    "filename": "refinery.webp",
+    "editorial_description": "Use for general stories about oil refinery/petrochemical operations with no leak, spill, or hazmat emergency involved (see chemical-refinery-response.webp for that case) and no upstream crude-production/pricing angle (see oil-pumpjack.webp for that case).",
+    "caption": "Oil refinery complex with distillation towers and industrial piping."
+  },
+  {
+    "filename": "spacex-starship-launch.webp",
+    "editorial_description": "Use specifically for SpaceX stories — Starship, Super Heavy, Starbase, or Raptor engine tests/flights. Do not use for NASA missions (see nasa-rocket.webp) or general space-science/astronomy stories with no SpaceX involvement.",
+    "caption": "SpaceX Starship launch at Starbase."
+  },
+  {
+    "filename": "strait-of-hormuz-satellite.webp",
+    "editorial_description": "Use specifically for stories about the Strait of Hormuz, oil tanker traffic through it, or Persian Gulf shipping chokepoints/closures. Do not use for general Iran stories with no Hormuz/tanker/shipping angle (see iran-general.webp) or general oil-price stories with no shipping-chokepoint angle (see oil-pumpjack.webp).",
+    "caption": "Satellite view of the Strait of Hormuz."
+  },
+  {
+    "filename": "us-capitol.webp",
+    "editorial_description": "Use for stories about the U.S. Congress: House/Senate votes, committee hearings, legislation, or individual lawmakers acting in their legislative capacity. Do not use for White House/executive-branch stories (see white-house.webp) or for a story about a federal court/DOJ action (see court-gavel.webp).",
+    "caption": "U.S. Capitol building in Washington, D.C."
+  },
+  {
+    "filename": "us-navy-frigate.webp",
+    "editorial_description": "Use for stories about U.S. Navy surface-ship operations — warships, frigates, destroyers, carrier strike groups, fleet deployments, or naval exercises. Do not use for a missile-strike-specific story with no ship focus (see missile-launch.webp) or a drone-strike story (see military-drone.webp), unless the ship itself is the actual subject of the story.",
+    "caption": "U.S. Navy guided-missile frigate USS Underwood (FFG-36) underway at sea."
+  },
+  {
+    "filename": "vatican-pope.webp",
+    "editorial_description": "Use for stories about the Pope, the Vatican, or the Catholic Church's official leadership/institutions. Do not use for general religious-freedom or interfaith stories with no Vatican/papal subject.",
+    "caption": "St. Peter’s Basilica, Vatican City."
+  },
+  {
+    "filename": "volcano-eruption.webp",
+    "editorial_description": "Use for stories about an active volcanic eruption — lava flow, ash plume, or volcanic activity. Not applicable to other natural-disaster types (earthquakes, storms, wildfires — see wildfire-forest-smoke.webp for wildfire specifically).",
+    "caption": "Volcanic eruption in Iceland at dawn."
+  },
+  {
+    "filename": "west-bank-general.webp",
+    "editorial_description": "General-purpose image for stories specifically about the West Bank — Palestinian towns/villages, the Palestinian Authority, settler activity, or specific West Bank locations (Jenin, Nablus, Hebron, Ramallah). Do not use for Gaza-specific stories (no dedicated Gaza image exists yet — flag as a gap if that's the real subject), general Israeli government/domestic-politics stories (see israel-general.webp), or IDF-specific military-operation stories where the West Bank angle is incidental.",
+    "caption": "Hillside community in the West Bank with traditional stone buildings and a mosque under a clear daytime sky."
+  },
+  {
+    "filename": "white-house.webp",
+    "editorial_description": "Use for stories about the White House, the President, executive orders, or the administration acting in its executive capacity. Do not use for Congressional/legislative stories (see us-capitol.webp) or for a story about a specific foreign country's own government (use that country's dedicated general image if one exists, e.g. israel-general.webp/iran-general.webp).",
+    "caption": "The White House in Washington, D.C."
+  },
+  {
+    "filename": "who-hq.webp",
+    "editorial_description": "Use specifically for stories about the World Health Organization itself — its declarations, reports, warnings, or officials. Do not use for general public-health or disease-outbreak stories with no WHO action specifically involved, and not for FDA-specific stories (see fda-logo.webp).",
+    "caption": "The headquarters of the World Health Organization in Geneva, Switzerland."
+  },
+  {
+    "filename": "wildfire-forest-smoke.webp",
+    "editorial_description": "Use specifically for wildfire/forest-fire/bushfire stories. Do not use for other disaster or extreme-weather types (see heatwave-warning-highway.webp for heat specifically); not applicable to structure fires or urban fires with no wildfire/forest component.",
+    "caption": "Wildfire burning through forest."
+  }
+]
