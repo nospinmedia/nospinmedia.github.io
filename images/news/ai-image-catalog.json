@@ -153,10 +153,5 @@
     "filename": "wildfire-forest-smoke.webp",
     "editorial_description": "Use specifically for wildfire/forest-fire/bushfire stories. Do not use for other disaster or extreme-weather types (see heatwave-warning-highway.webp for heat specifically); not applicable to structure fires or urban fires with no wildfire/forest component.",
     "caption": "Wildfire burning through forest."
-  },
-  {
-    "filename": "zzz-test-upload-verification.webp",
-    "editorial_description": "This is a throwaway test entry created to verify the /upload-ai-image atomic commit pipeline end-to-end. Not a real catalog image.",
-    "caption": "Throwaway test image, safe to delete."
   }
 ]
