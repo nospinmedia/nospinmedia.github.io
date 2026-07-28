@@ -644,7 +644,6 @@ async function showPreSearchHero(){
     _preloadStories=[...new Map([...recent,...(Array.isArray(hotPool)?hotPool:[])].map(s=>[s.url,s])).values()];
 
     await Promise.all([
-      preloadImages(_preloadStories.slice(0,10)),
       batchLoadReactions(_preloadStories.map(s=>s.url)),
       loadSidebarTiles(_preloadStories),
       loadAffiliateTiles(_preloadStories)
@@ -661,6 +660,16 @@ async function showPreSearchHero(){
       }
     }
 
+    const rest=recent.filter(s=>s.url!==topStory.url&&(!hottestStory||s.url!==hottestStory.url)).slice(0,6);
+
+    // Preload exactly the stories that will actually be rendered below --
+    // hottestStory is picked by engagement score, not recency, so it can
+    // fall outside any fixed "first N" slice of _preloadStories (e.g. a
+    // 2-day-old story with high engagement). Preloading the render set
+    // directly guarantees topBG() always has a resolved _imgCache entry
+    // by the time it reads one, regardless of where a story ranks by date.
+    await preloadImages([topStory,...(hottestStory?[hottestStory]:[]),...rest]);
+
     let html='';
     html+='<div class="section-label">Latest Story</div>';
     html+=heroHTML(topStory,db,'\uD83D\uDCF0 Top Story');
@@ -670,7 +679,6 @@ async function showPreSearchHero(){
       html+=heroHTML(hottestStory,db,'\uD83D\uDD25 Trending Now');
     }
 
-    const rest=recent.filter(s=>s.url!==topStory.url&&(!hottestStory||s.url!==hottestStory.url)).slice(0,6);
     if(rest.length){
       html+='<div class="section-label">Recent Stories</div>';
       html+='<div class="cards-grid-3">'+rest.slice(0,3).map(s=>cardHTML(s,db)).join('')+'</div>';
