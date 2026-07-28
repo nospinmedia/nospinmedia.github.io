@@ -515,7 +515,20 @@ async function resolveFallbackImage(headline,summary){
   return null;
 }
 async function fetchImageMeta(p){try{const r=await fetch(p.replace(/\.[^.]+$/,'.json'));if(r.ok)return await r.json()}catch(e){}return null}
-async function getStoryImage(id,headline,summary){const si=await resolveStoryImage(id);if(si)return{url:si,meta:await fetchImageMeta(si)};const fi=await resolveFallbackImage(headline,summary);if(fi)return{url:fi,meta:await fetchImageMeta(fi)};return null}
+async function getStoryImage(id,headline,summary,imageFilename,imageSource){
+  const si=await resolveStoryImage(id);
+  if(si)return{url:si,meta:await fetchImageMeta(si)};
+  // AI editorial pick (see ai-image-selection-design.md) -- checked after a
+  // real dedicated per-story photo (above, unchanged) but before the
+  // keyword system (below, unchanged). If the AI explicitly found no
+  // catalog match (imageSource==='ai' but imageFilename is null), this
+  // simply doesn't fire and control falls through to the existing keyword
+  // logic exactly as it always has.
+  if(imageSource==='ai'&&imageFilename){const aiUrl='/images/news/'+imageFilename;return{url:aiUrl,meta:await fetchImageMeta(aiUrl)}}
+  const fi=await resolveFallbackImage(headline,summary);
+  if(fi)return{url:fi,meta:await fetchImageMeta(fi)};
+  return null;
+}
 
 /* ── SHARE ── */
 function _copyToClipboard(text,msg){const fb=document.getElementById('share-feedback');const done=()=>{if(fb){fb.textContent=msg;setTimeout(()=>fb.textContent='',2500)}};navigator.clipboard.writeText(text).then(done).catch(()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:0;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();})}
@@ -722,7 +735,7 @@ async function loadStory(){
   const line1=nl>-1?hl.substring(0,nl).trim():hl;const line2=nl>-1?hl.substring(nl+1).trim():'';
   const topic=s.topic||'world';const topicBg=TOPIC_BG[topic]||TOPIC_BG.world;
   const topicLabel=TOPIC_LABELS[topic]||topic;const pillCls='story-pill tp-'+topic;
-  const imgResult=await getStoryImage(storyId,s.headline,s.summary);
+  const imgResult=await getStoryImage(storyId,s.headline,s.summary,s.image_filename,s.image_source);
   let heroBgStyle=imgResult?'background-image:url(\''+imgResult.url+'\');background-size:cover;background-position:center;':'background:'+topicBg+';';
   let captionHTML='';
   if(imgResult){const meta=imgResult.meta;let cap='',cred='';if(meta){cap=meta.caption||'';cred=meta.credit||''}else if(s.image_caption){const pts=s.image_caption.split(/\nCredit:/i);cap=pts[0].trim();if(pts[1])cred=pts[1].trim()}if(cap||cred)captionHTML='<div class="story-img-caption">'+cap+(cred?'<span class="story-img-credit">Credit: '+cred+'</span>':'')+'</div>'}
