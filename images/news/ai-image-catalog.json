@@ -100,6 +100,11 @@
     "caption": "Oil refinery complex with distillation towers and industrial piping."
   },
   {
+    "filename": "semiconductor-pcb.webp",
+    "editorial_description": "Use for stories primarily about semiconductor manufacturing or computer chip production: chip fabrication, DUV/EUV lithography, semiconductor foundries/fabs, integrated circuits, printed circuit boards (PCB), semiconductor manufacturing equipment, chip export controls, and electronics/microelectronics manufacturing generally. Prefer this over ai-brain.webp or a generic technology treatment whenever the story's actual subject is the physical production/manufacturing of chips or semiconductor equipment. Do not use for stories about AI software, models, or machine learning with no chip-manufacturing angle (see ai-brain.webp), and not for consumer-electronics/gadget stories with no semiconductor-fabrication angle.",
+    "caption": "Generic semiconductor microchip on a printed circuit board (PCB)."
+  },
+  {
     "filename": "spacex-starship-launch.webp",
     "editorial_description": "Use specifically for SpaceX stories — Starship, Super Heavy, Starbase, or Raptor engine tests/flights. Do not use for NASA missions (see nasa-rocket.webp) or general space-science/astronomy stories with no SpaceX involvement.",
     "caption": "SpaceX Starship launch at Starbase."
@@ -150,8 +155,8 @@
     "caption": "Wildfire burning through forest."
   },
   {
-    "filename": "semiconductor-pcb.webp",
-    "editorial_description": "Use for stories primarily about semiconductor manufacturing or computer chip production: chip fabrication, DUV/EUV lithography, semiconductor foundries/fabs, integrated circuits, printed circuit boards (PCB), semiconductor manufacturing equipment, chip export controls, and electronics/microelectronics manufacturing generally. Prefer this over ai-brain.webp or a generic technology treatment whenever the story's actual subject is the physical production/manufacturing of chips or semiconductor equipment. Do not use for stories about AI software, models, or machine learning with no chip-manufacturing angle (see ai-brain.webp), and not for consumer-electronics/gadget stories with no semiconductor-fabrication angle.",
-    "caption": "Generic semiconductor microchip on a printed circuit board (PCB)."
+    "filename": "zzz-test-upload-verification.webp",
+    "editorial_description": "This is a throwaway test entry created to verify the /upload-ai-image atomic commit pipeline end-to-end. Not a real catalog image.",
+    "caption": "Throwaway test image, safe to delete."
   }
 ]
