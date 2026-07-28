@@ -333,11 +333,19 @@ function _imgKwHit(hayCI,hayCS,kw){
 }
 const IMG_CONFIDENCE_THRESHOLD=2; // a single generic single-word hit (e.g. lone "detention") is not enough on its own
 const IMG_HEADLINE_MULTIPLIER=2;  // a headline mention is a stronger subject signal than an incidental mention in body text
-async function resolveImg(url,headline,summary){
+async function resolveImg(url,headline,summary,imageFilename,imageSource){
   if(_imgCache[url]!==undefined)return _imgCache[url];
   for(const ext of['webp','jpg','png']){
     try{const r=await fetch('/images/news/'+url+'.'+ext,{method:'HEAD'});if(r.ok){_imgCache[url]='/images/news/'+url+'.'+ext;return _imgCache[url]}}catch(e){}
   }
+  // AI editorial pick (see ai-image-selection-design.md) -- checked after a
+  // real dedicated per-story photo (above, unchanged) but before the
+  // keyword system (below, unchanged). If the AI explicitly found no
+  // catalog match (imageSource==='ai' but imageFilename is null), this
+  // simply doesn't fire and control falls through to the existing keyword
+  // logic exactly as it always has -- no special-casing needed for that
+  // case.
+  if(imageSource==='ai'&&imageFilename){_imgCache[url]='/images/news/'+imageFilename;return _imgCache[url]}
   try{
     if(!_imgRules){const r=await fetch('/images/news/image-rules.json');if(r.ok)_imgRules=await r.json()}
     if(_imgRules){
@@ -357,7 +365,7 @@ async function resolveImg(url,headline,summary){
   }catch(e){}
   _imgCache[url]=null;return null;
 }
-async function preloadImages(stories){await Promise.all(stories.map(s=>resolveImg(s.url,s.headline||'',s.summary||'')))}
+async function preloadImages(stories){await Promise.all(stories.map(s=>resolveImg(s.url,s.headline||'',s.summary||'',s.image_filename,s.image_source)))}
 
 function timeSince(ds){
   if(!ds)return '';const d=new Date(ds);if(isNaN(d))return '';
@@ -855,7 +863,7 @@ async function loadMore(){
 
 async function loadStories(){
   try{
-    const res=await fetch(SB_URL+'?select=headline,posted_at,url,summary,style,topic,importance,social_bluesky,social_facebook,social_threads,reddit_post_id&used=eq.true&order=posted_at.desc&limit=60&apikey='+SB_KEY);
+    const res=await fetch(SB_URL+'?select=headline,posted_at,url,summary,style,topic,importance,social_bluesky,social_facebook,social_threads,reddit_post_id,image_filename,image_source&used=eq.true&order=posted_at.desc&limit=60&apikey='+SB_KEY);
     allStories=await res.json();
     if(!Array.isArray(allStories))throw new Error('Bad data');
     const[affData,kwData]=await Promise.all([getAff(),getKw()]);
