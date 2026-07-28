@@ -114,7 +114,7 @@ const SB_KEY='sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
 const IMG_K='https://nospin.media/images/keyword/';
 const KW_IMG={politics:'politics',economy:'economy',health:'health',legal:'court',war:'war',crime:'crime',science:'science',technology:'technology',ai:'ai',world:'world',environment:'environment',military:'military'};
 
-let _affiliateData=null,_keywordAffiliateData=null,_imageRulesCache=null;
+let _affiliateData=null,_keywordAffiliateData=null;
 const _storyRaw={};
 
 // Config-driven queue definitions. Adding a new queue later = add one entry
@@ -269,23 +269,21 @@ async function resolveStoryImage(id){
   }
   return null;
 }
-async function resolveFallbackImage(headline,summary){
-  try{
-    if(!_imageRulesCache){const r=await fetch('/images/news/image-rules.json');if(r.ok)_imageRulesCache=await r.json()}
-    if(_imageRulesCache){
-      const h=((headline||'')+' '+(summary||'')).toLowerCase();
-      for(const rule of(_imageRulesCache.keywords||[])){
-        if(rule.match.some(kw=>{const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-z])'+esc+'(?![a-z])','i').test(h)}))return'/images/news/'+rule.image;
-      }
-    }
-  }catch(e){}
-  return null;
-}
-async function getCardImage(id,headline,summary,hasStoryImages){
+// AI-picked image only (see ai-image-selection-design.md). This queue no
+// longer runs the older, unscored keyword matcher that used to live here
+// (a separate, never-updated implementation of the image-rules.json
+// matching in index.html/story.html -- it predated the 2026-07-27 scoring
+// fix and never received it). Every story reaching this review queue is
+// expected to already be AI-classified (image_source='ai') before it's
+// posted. If it isn't yet, or the AI found no genuine match, this returns
+// null and the existing per-topic background image (KW_IMG/IMG_K below,
+// driven by story.topic) shows through instead, unchanged.
+async function getCardImage(story,idField,hasStoryImages){
   if(hasStoryImages){
-    const si=await resolveStoryImage(id);if(si)return si;
+    const si=await resolveStoryImage(story[idField]);if(si)return si;
   }
-  return await resolveFallbackImage(headline,summary);
+  if(story.image_source==='ai'&&story.image_filename)return'/images/news/'+story.image_filename;
+  return null;
 }
 
 function convertRedditMarkdown(text){
@@ -512,7 +510,7 @@ async function loadStories(){
 
   const imgUrls=await Promise.all(stories.map(s=>{
     const timeout=new Promise(r=>setTimeout(()=>r(null),3000));
-    return Promise.race([getCardImage(s[config.idField],s[config.headlineField],s[config.summaryField],config.hasStoryImages).catch(()=>null),timeout]);
+    return Promise.race([getCardImage(s,config.idField,config.hasStoryImages).catch(()=>null),timeout]);
   }));
 
   const storyRules=stories.map(story=>{
