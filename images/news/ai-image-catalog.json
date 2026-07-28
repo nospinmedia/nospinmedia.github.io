@@ -148,5 +148,10 @@
     "filename": "wildfire-forest-smoke.webp",
     "editorial_description": "Use specifically for wildfire/forest-fire/bushfire stories. Do not use for other disaster or extreme-weather types (see heatwave-warning-highway.webp for heat specifically); not applicable to structure fires or urban fires with no wildfire/forest component.",
     "caption": "Wildfire burning through forest."
+  },
+  {
+    "filename": "semiconductor-pcb.webp",
+    "editorial_description": "Use for stories primarily about semiconductor manufacturing or computer chip production: chip fabrication, DUV/EUV lithography, semiconductor foundries/fabs, integrated circuits, printed circuit boards (PCB), semiconductor manufacturing equipment, chip export controls, and electronics/microelectronics manufacturing generally. Prefer this over ai-brain.webp or a generic technology treatment whenever the story's actual subject is the physical production/manufacturing of chips or semiconductor equipment. Do not use for stories about AI software, models, or machine learning with no chip-manufacturing angle (see ai-brain.webp), and not for consumer-electronics/gadget stories with no semiconductor-fabrication angle.",
+    "caption": "Generic semiconductor microchip on a printed circuit board (PCB)."
   }
 ]
