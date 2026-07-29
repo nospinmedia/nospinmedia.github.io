@@ -43,13 +43,30 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .story-card:hover{box-shadow:var(--shadow-h)}
 .card-flex{display:flex;align-items:stretch}
 .card-main{flex:1;min-width:0}
-.card-preview-col{flex:0 0 220px;display:block;align-self:stretch;padding:.75rem;border-left:1px solid var(--border);background:var(--surface2)}
-.card-preview-col img{width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;box-shadow:var(--shadow);transition:transform .15s}
+/* Right-side generated-preview thumbnail. Sized to the image's real 1200x630
+   aspect ratio (not stretched to the card's full height) so object-fit:cover
+   has nothing left to crop -- this is what actually fixes the over-cropping,
+   the ~14% narrower width (220px->190px) on top of that is the requested size
+   reduction. */
+.card-preview-col{flex:0 0 190px;display:flex;align-items:center;justify-content:center;align-self:stretch;padding:.75rem;border-left:1px solid var(--border);background:var(--surface2)}
+.card-preview-col img{width:100%;aspect-ratio:1200/630;object-fit:cover;border-radius:8px;display:block;box-shadow:var(--shadow);transition:transform .15s}
 .card-preview-col:hover img{transform:scale(1.02)}
+/* Left hero: the SAME generated image, full-bleed behind the slot-pill/time
+   badge. object-position:bottom keeps the headline+teaser+branded footer
+   (which the Preview Builder draws in the lower portion of the image) in
+   frame even though the hero is shorter than the image's natural height at
+   this width -- the empty top portion of the photo is what gets cropped,
+   not the part that actually matters. See cardHeroFallback() for the
+   generated-image-missing fallback path (back to the pre-existing
+   thumb/keyword background + client-rendered headline text). */
+.card-color-top.card-hero{min-height:210px;text-decoration:none;color:inherit;display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer}
+.card-hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:bottom;display:block;transition:transform .3s}
+.story-card:hover .card-hero-img{transform:scale(1.03)}
+.card-hero-fallback-text{display:none}
 @media(max-width:860px){
   .card-flex{flex-direction:column}
   .card-preview-col{flex:none;border-left:none;border-top:1px solid var(--border);padding:.6rem}
-  .card-preview-col img{height:auto;max-height:180px}
+  .card-color-top.card-hero{min-height:170px}
 }
 .card-color-top{position:relative;min-height:95px;display:flex;flex-direction:column;justify-content:flex-end;padding:.7rem 1rem .75rem;overflow:hidden}
 .card-top-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .3s}
@@ -305,6 +322,23 @@ async function getCardImage(story,idField,hasStoryImages){
   if(story.image_source==='ai'&&story.image_filename)return'/images/news/'+story.image_filename;
   return null;
 }
+
+// Left-hero fallback: fires if the generated preview .webp 404s/fails to
+// load (not yet cached and the on-demand render also failed, cache cleared,
+// etc). Removes the broken <img>, reveals the pre-existing card-top-bg
+// (thumb/keyword background, already in the DOM with display:none -- no
+// extra fetch needed) and the client-rendered headline text that was
+// hidden alongside it, so the card falls back to exactly the layout it had
+// before this feature existed.
+function cardHeroFallback(imgEl){
+  const top=imgEl.closest('.card-color-top');
+  if(!top)return;
+  imgEl.remove();
+  const bg=top.querySelector('.card-top-bg');
+  if(bg)bg.style.display='';
+  top.querySelectorAll('.card-hero-fallback-text').forEach(function(el){el.style.display=''});
+}
+window.cardHeroFallback=cardHeroFallback;
 
 function convertRedditMarkdown(text){
   if(!text)return'';
@@ -625,17 +659,38 @@ async function loadStories(){
           +'</a>'
         :'';
 
+      // Left hero: same generated .webp as the right column, standing in
+      // for the old per-story/keyword photo as the card's primary image --
+      // this is what makes the queue show exactly what a share will look
+      // like. Wrapped in a link to the same /preview/<id> destination as
+      // the right column click (national only, same as previewColHTML
+      // above). card-top-bg (the old thumb/keyword background) is still
+      // rendered underneath, just hidden via inline style, so it's already
+      // in the DOM ready to reappear the instant cardHeroFallback() runs --
+      // no extra fetch needed for the fallback path. The client-rendered
+      // headline text (already baked into the generated image) starts
+      // hidden for the same reason and only reappears on fallback.
+      const heroTag=config.hasPreview?'a':'div';
+      const heroAttrs=config.hasPreview
+        ?' href="'+PREVIEW_BASE+'/preview/'+encodeURIComponent(idVal)+'" target="_blank" rel="noopener" title="Open social preview in a new tab"'
+        :'';
+      const heroImgHTML=config.hasPreview
+        ?'<img class="card-hero-img" src="'+PREVIEW_BASE+'/preview-image/'+encodeURIComponent(idVal)+'.webp" alt="Generated social-preview image for: '+safeHL.replace(/"/g,'&quot;')+'" loading="lazy" onerror="cardHeroFallback(this)">'
+        :'';
+      const fallbackTextClass=config.hasPreview?' card-hero-fallback-text':'';
+
       card.innerHTML=
         '<div class="card-flex">'
         +'<div class="card-main">'
-        +'<div class="card-color-top tp-bg-'+(topic||'world')+'">'
-        +'<div class="card-top-bg" style="'+bgStyle+'"></div>'
+        +'<'+heroTag+' class="card-color-top tp-bg-'+(topic||'world')+(config.hasPreview?' card-hero':'')+'"'+heroAttrs+'>'
+        +heroImgHTML
+        +'<div class="card-top-bg" style="'+bgStyle+(config.hasPreview?';display:none':'')+'"></div>'
         +'<div class="card-top-scrim"></div>'
         +'<div class="card-top-content">'
         +'<div class="slot-pill"><div class="slot-dot'+(isNext?' next':'')+'"></div>'+(isNext?'<strong>NEXT UP</strong> &middot; ':'')+timeLabel+' EST</div>'
-        +'<span class="card-headline">'+hl1+'</span>'
-        +(hl2?'<span class="card-hl2">'+hl2+'</span>':'')
-        +'</div></div>'
+        +'<span class="card-headline'+fallbackTextClass+'">'+hl1+'</span>'
+        +(hl2?'<span class="card-hl2'+fallbackTextClass+'">'+hl2+'</span>':'')
+        +'</div></'+heroTag+'>'
         +'<div class="card-body">'
         +badgeHTML
         +'<div class="story-summary-preview">'+firstPara+'</div>'
