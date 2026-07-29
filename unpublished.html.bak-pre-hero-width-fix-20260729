@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B2CDHQWR45"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-B2CDHQWR45');
+</script>
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Story Queue — No Spin Media</title>
+<link rel="stylesheet" href="style.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053277983719011" crossorigin="anonymous"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0066CC;--blue-lt:#E8F1FA;--red:#CC2200;
+  --bg:#EEEEEC;--surface:#FFFFFF;--surface2:#F6F6F4;--border:#E0E0DC;
+  --text:#111111;--muted:#555555;--dimmed:#999999;
+  --font-h:'DM Serif Display',Georgia,serif;--font-b:'DM Sans',Arial,sans-serif;
+  --r:11px;--shadow:0 1px 8px rgba(0,0,0,.08);--shadow-h:0 5px 20px rgba(0,0,0,.13)
+}
+body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-top:70px}
+.page-wrap{max-width:1160px;margin:0 auto;padding:1.1rem 1.1rem 2rem}
+.queue-header{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:.9rem 1.25rem;margin-bottom:1rem;display:flex;align-items:center;gap:.75rem;border-left:3px solid var(--blue)}
+.queue-title{font-family:var(--font-h);font-size:1.4rem;color:var(--text)}
+.queue-count{font-size:.78rem;color:var(--dimmed);margin-left:auto}
+.queue-selector{display:flex;gap:8px;margin-bottom:.85rem;flex-wrap:wrap}
+.qs-btn{font-family:var(--font-b);font-size:.82rem;font-weight:600;color:var(--blue);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:7px 16px;cursor:pointer;box-shadow:var(--shadow);transition:background .15s,color .15s}
+.qs-btn:hover{background:var(--blue-lt)}
+.qs-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.date-group{margin-bottom:1.5rem}
+.date-header{display:flex;align-items:center;gap:10px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);margin:1.3rem 0 .75rem}
+.date-header::after{content:'';flex:1;height:1px;background:var(--border)}
+.story-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);margin-bottom:.75rem;transition:box-shadow .18s}
+.story-card:hover{box-shadow:var(--shadow-h)}
+/* Left hero: the SAME generated image, shown whole -- object-fit:contain
+   instead of cover, so nothing is cropped (previously cover+object-position:
+   bottom cropped the top of the headline text on wide cards, and let the
+   image dominate the card). The box's own aspect-ratio matches the image's
+   real 1200x630 shape, capped by max-height so a wide card can't force a
+   very tall box; when that cap kicks in on wide desktop cards, the box
+   becomes more panoramic than the image and object-fit:contain letterboxes
+   it horizontally against the card's own topic-gradient background rather
+   than cropping -- on narrower cards (including mobile) the cap rarely
+   engages and the image renders edge-to-edge with no letterboxing at all.
+   See cardHeroFallback() for the generated-image-missing fallback path
+   (back to the pre-existing thumb/keyword background + client-rendered
+   headline text). */
+.card-color-top.card-hero{aspect-ratio:1200/630;max-height:300px;min-height:0;text-decoration:none;color:inherit;cursor:pointer}
+.card-hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;display:block;transition:transform .3s}
+.story-card:hover .card-hero-img{transform:scale(1.03)}
+/* Compound selector (not just .card-hero-fallback-text) deliberately, so
+   this beats .card-headline/.card-hl2's own display:block on specificity
+   rather than relying on source order -- those rules are declared later in
+   this stylesheet and would otherwise win the display:none/block tie. */
+.card-headline.card-hero-fallback-text,.card-hl2.card-hero-fallback-text{display:none}
+@media(max-width:860px){
+  .card-color-top.card-hero{max-height:220px}
+}
+.card-color-top{position:relative;min-height:95px;display:flex;flex-direction:column;justify-content:flex-end;padding:.7rem 1rem .75rem;overflow:hidden}
+.card-top-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .3s}
+.story-card:hover .card-top-bg{transform:scale(1.03)}
+.card-top-scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.3) 55%,rgba(0,0,0,.02) 100%)}
+.card-top-content{position:relative;z-index:1}
+.slot-pill{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:rgba(255,255,255,.9);background:rgba(0,0,0,.3);padding:2px 8px;border-radius:20px;margin-bottom:.4rem}
+.slot-dot{width:6px;height:6px;border-radius:50%;background:#4fc3f7;flex-shrink:0}
+.slot-dot.next{background:#ff9800;animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.card-headline{font-family:var(--font-h);font-size:1.05rem;line-height:1.2;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.6);display:block}
+.card-hl2{font-family:var(--font-b);font-size:.75rem;font-weight:400;color:rgba(255,255,255,.78);display:block;margin-top:2px}
+.tp-bg-politics{background:linear-gradient(160deg,#0D3270,#1E5BB8)}
+.tp-bg-economy{background:linear-gradient(160deg,#0A3D1F,#1A7A3C)}
+.tp-bg-health{background:linear-gradient(160deg,#6B2E00,#C05A0A)}
+.tp-bg-legal{background:linear-gradient(160deg,#320A6B,#6A28C0)}
+.tp-bg-war{background:linear-gradient(160deg,#6B0A0A,#B52020)}
+.tp-bg-crime{background:linear-gradient(160deg,#4A0A0A,#952020)}
+.tp-bg-science{background:linear-gradient(160deg,#063A52,#0F7EA0)}
+.tp-bg-technology{background:linear-gradient(160deg,#0A2252,#1845A0)}
+.tp-bg-ai{background:linear-gradient(160deg,#280A52,#5520A0)}
+.tp-bg-world{background:linear-gradient(160deg,#282828,#555555)}
+.tp-bg-environment{background:linear-gradient(160deg,#083A08,#1A7A1A)}
+.tp-bg-military{background:linear-gradient(160deg,#3A1A04,#6A3810)}
+.card-body{padding:.8rem 1rem .75rem}
+.aff-match-row{display:flex;align-items:center;gap:6px;margin-bottom:.5rem;flex-wrap:wrap}
+.aff-match-label{font-size:.63rem;font-weight:600;color:var(--dimmed);text-transform:uppercase;letter-spacing:.07em}
+.affiliate-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:.66rem;font-weight:600}
+.affiliate-badge.book{background:var(--blue-lt);color:var(--blue)}
+.affiliate-badge.gear{background:#FFF8ED;color:#7A4500}
+.affiliate-badge.none{display:none}
+.story-summary-preview{font-size:.85rem;line-height:1.65;color:var(--muted)}
+.story-summary-rest{font-size:.85rem;line-height:1.65;color:var(--muted);margin-top:.4rem;white-space:pre-line}
+.card-footer{display:flex;align-items:center;gap:8px;padding-top:.6rem;border-top:1px solid var(--border);flex-wrap:wrap;margin-top:.6rem}
+.story-link,.btn-review{font-size:.8rem;font-weight:600;color:var(--blue);background:none;border:none;padding:0;cursor:pointer;font-family:var(--font-b)}
+.story-link:hover,.btn-review:hover{text-decoration:underline}
+.share-confirm{font-size:.72rem;color:green;font-weight:600;margin-left:2px}
+.post-time-tag{font-size:.8rem;font-weight:600;color:var(--text);margin-left:auto;white-space:nowrap}
+.feedback-panel{background:var(--surface2);border-top:1px solid var(--border);padding:1rem;display:none}
+.feedback-panel.open{display:block}
+.feedback-panel h4{font-size:.82rem;font-weight:700;margin-bottom:.6rem}
+.feedback-panel input,.feedback-panel textarea{width:100%;padding:8px 10px;margin:4px 0;border:1px solid var(--border);border-radius:var(--r);font-size:.85rem;font-family:var(--font-b);background:var(--surface)}
+.feedback-panel textarea{resize:vertical;min-height:80px}
+.feedback-panel .rp-submit{margin-top:.5rem;font-size:.82rem;font-weight:600;color:#fff;background:var(--blue);border:none;border-radius:20px;padding:7px 16px;cursor:pointer}
+.feedback-panel .form-status{font-size:.78rem;margin-top:.4rem}
+.global-feedback{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:1.25rem;margin-top:1.5rem}
+.global-feedback h2{font-family:var(--font-h);font-size:1.1rem;margin-bottom:.9rem;padding-bottom:.6rem;border-bottom:2px solid var(--blue)}
+.global-feedback input,.global-feedback textarea{width:100%;padding:8px 10px;margin:4px 0;border:1px solid var(--border);border-radius:var(--r);font-size:.88rem;font-family:var(--font-b);background:var(--surface2)}
+.global-feedback textarea{resize:vertical;min-height:100px}
+.global-feedback button[type="submit"]{margin-top:.6rem;font-size:.88rem;font-weight:600;color:#fff;background:var(--blue);border:none;border-radius:20px;padding:8px 20px;cursor:pointer}
+.global-feedback .form-status{font-size:.8rem;margin-top:.4rem}
+.feed-loading{text-align:center;padding:4rem;color:var(--dimmed)}
+.spinner{width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 1rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-top:1px solid var(--border);margin-top:1rem}
+/* Mobile affiliate insert — always defined */
+.mobile-affiliate-insert{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.75rem;margin-bottom:.75rem;box-shadow:var(--shadow)}
+.mobile-affiliate-insert .affiliate-label{font-size:.68rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--dimmed);padding-bottom:.45rem;margin-bottom:.6rem;border-bottom:2px solid var(--blue)}
+.mobile-affiliate-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mobile-affiliate-grid a{display:block;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+.mobile-affiliate-grid img{width:100%;display:block;border-radius:var(--r)}
+
+@media(max-width:860px){
+  body{background:#EBEBEB}
+  .page-wrap{padding:.75rem .75rem 1.5rem}
+  .queue-count{display:none}
+  .aff-inline-wrap{max-width:100%!important}
+}
+</style>
+<script>
+const SB_KEY='sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
+const IMG_K='https://nospin.media/images/keyword/';
+// data.nospin.media's /preview/<id> (server-rendered og:image/twitter:image +
+// publish-state-aware redirect) and /preview-image/<id>.webp (the same
+// generated headline card image) -- national news (news_posts) only for now,
+// see hasPreview below. ai-image-selection-design.md / flask.md.
+const PREVIEW_BASE='https://data.nospin.media';
+const KW_IMG={politics:'politics',economy:'economy',health:'health',legal:'court',war:'war',crime:'crime',science:'science',technology:'technology',ai:'ai',world:'world',environment:'environment',military:'military'};
+
+let _affiliateData=null,_keywordAffiliateData=null;
+const _storyRaw={};
+
+// Config-driven queue definitions. Adding a new queue later = add one entry
+// here; loadStories()/setActiveSource() read everything from `config`.
+const QUEUE_CONFIGS={
+  national:{
+    key:'national',label:'National News',icon:'&#x1F9ED;',
+    docTitle:'Story Queue \u2014 No Spin Media',queueTitle:'No Spin Media News Queue',
+    api:'https://data.nospin.media/api/unpublished/news_posts',
+    slots:['06:15','08:45','10:15','11:45','13:15','14:30','15:45','17:15','18:30','20:45'],
+    idField:'url',headlineField:'headline',summaryField:'summary',
+    hasStoryImages:true,
+    // Preview URL + generated headline .webp: only news_posts is wired into
+    // the backend's preview pipeline today (generate_and_cache_preview_image()
+    // and /preview/<id> are both hardcoded to news_posts). Extending to
+    // New England is a separate backend change, not done here.
+    hasPreview:true,
+    supabaseTable:'news_posts',supabasePublishedFilter:'used=eq.true',
+    storyPage:'story.html',archivePage:'news.html'
+  },
+  ne:{
+    key:'ne',label:'New England News',icon:'&#x1F4CD;',
+    docTitle:'New England Unpublished Queue \u2014 No Spin Media',queueTitle:'New England Unpublished Queue',
+    api:'https://data.nospin.media/api/unpublished/news_ne',
+    slots:['08:45','12:30','15:45','18:30'],
+    idField:'url',headlineField:'headline',summaryField:'summary',
+    hasStoryImages:true,
+    supabaseTable:'news_ne',supabasePublishedFilter:'used=eq.true',
+    storyPage:'ne_story.html',archivePage:'new-england.html'
+  },
+  kb:{
+    key:'kb',label:'Knowledge Base',icon:'&#x1F4DA;',
+    docTitle:'Knowledge Base Unpublished Queue \u2014 No Spin Media',queueTitle:'Knowledge Base Unpublished Queue',
+    api:'https://data.nospin.media/api/unpublished/knowledge_base',
+    slots:['08:00'],
+    idField:'id',headlineField:'title',summaryField:'content',
+    hasStoryImages:false,
+    // Once published, KB articles are written to Supabase daily_posts (read by
+    // knowledge.html) — a different table/page than this queue's own
+    // unpublished-source data. No unpublished-side story/archive page exists
+    // yet, so these stay null on purpose (loadStories() omits those links
+    // when null rather than guessing) until one is built.
+    supabaseTable:null,supabasePublishedFilter:null,
+    storyPage:null,archivePage:null
+  }
+};
+let activeSource='national';
+
+function stripLeadingEmoji(text){
+  return(text||'').replace(/^[\p{Extended_Pictographic}\uFE0F\s]+/gu,'').trim();
+}
+
+async function loadAffiliateData(){
+  if(_affiliateData)return _affiliateData;
+  try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_affiliateData=await r.json()}catch(e){}
+  return _affiliateData||{};
+}
+async function loadKeywordAffiliateData(){
+  if(_keywordAffiliateData)return _keywordAffiliateData;
+  try{const r=await fetch('/affiliate/keyword-affiliates.json');if(r.ok)_keywordAffiliateData=await r.json()}catch(e){}
+  return _keywordAffiliateData||{rules:[]};
+}
+function wordMatch(hay,kw){
+  const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return new RegExp('(?<![a-zA-Z])'+esc+'(?![a-zA-Z])','i').test(hay);
+}
+function findTopTwoRules(stories,rules,headlineField,summaryField){
+  headlineField=headlineField||'headline';summaryField=summaryField||'summary';
+  if(!stories?.length||!rules?.length)return{bookRule:null,gearRule:null};
+  const sc=rules.map(rule=>({rule,total:stories.filter(s=>(rule.keywords||[]).some(kw=>wordMatch([s[headlineField]||'',s[summaryField]||''].join(' '),kw))).length}));
+  const ranked=sc.filter(s=>s.total>0).sort((a,b)=>b.total-a.total);
+  return{bookRule:ranked[0]?.rule||null,gearRule:ranked[1]?.rule||null};
+}
+function getRandomLink(item){return(item.links||[])[Math.floor(Math.random()*(item.links||[]).length)]||'#'}
+function pickItems(items,count){
+  const must=items.filter(i=>i.must_show),opt=[...items.filter(i=>!i.must_show)].sort(()=>0.5-Math.random());
+  const pool=[...must,...opt],seen=new Set(),result=[];
+  for(const item of pool){if(!seen.has(item.title)&&result.length<count){seen.add(item.title);result.push(item)}}
+  return result;
+}
+function pickOneMobile(items){const must=items.filter(i=>i.must_show);const pool=must.length?must:items;return pool[Math.floor(Math.random()*pool.length)]}
+function renderTileHTML(item){return'<a href="'+getRandomLink(item)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+item.image+'" alt="'+item.title+'" loading="lazy"></a>'}
+const NSM_SUPPORT_MSGS=['Supports independent journalism','Helps keep NSM free','Curated by No Spin Media','Reader-supported journalism','Hand-picked by No Spin Media','Helps fund independent reporting'];
+function randSupport(){return NSM_SUPPORT_MSGS[Math.floor(Math.random()*NSM_SUPPORT_MSGS.length)]}
+
+function bookTileHTML(b){
+  const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
+  const sub=(b.subtitle||'').replace(/\\n/g,'<br>');
+  return'<a href="'+b.url+'" target="_blank" rel="noopener nofollow sponsored" style="display:block;text-decoration:none;height:100%;">'
+    +'<div style="display:flex;height:100%;min-height:220px;border-radius:11px;overflow:hidden;font-family:Georgia,serif;box-shadow:0 1px 8px rgba(0,0,0,.12);">'
+    +'<div style="width:16px;min-width:16px;background:'+b.spine_color+';border-radius:11px 0 0 11px;box-shadow:inset -3px 0 7px rgba(0,0,0,.4);"></div>'
+    +'<div style="width:5px;min-width:5px;background:repeating-linear-gradient(to bottom,#f6f1e9 0,#f6f1e9 1px,#e9e4db 2px,#e9e4db 3px);"></div>'
+    +'<div style="flex:1;background:'+b.cover_color+';border-radius:0 11px 11px 0;padding:13px 11px 10px;display:flex;flex-direction:column;overflow:hidden;">'
+    +'<div style="font-size:8px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;font-family:Arial,sans-serif;color:'+b.accent_color+';border-top:1.5px solid '+b.accent_color+';border-bottom:1.5px solid '+b.accent_color+';padding:4px 0 3px;margin-bottom:9px;text-align:center;">'+b.category_label+'</div>'
+    +'<div style="font-size:17px;font-weight:800;line-height:1.1;color:#f9f1e0;flex:1;">'+tl+'</div>'
+    +'<div style="width:26px;height:1.5px;background:'+b.accent_color+';margin:9px 0 7px;opacity:.8;"></div>'
+    +'<div style="font-size:9.5px;line-height:1.4;color:#ddd0a8;font-style:italic;">'+sub+'</div>'
+    +'<div style="margin-top:auto;padding-top:8px;border-top:1px solid rgba(255,255,255,.15);text-align:center;">'
+    +'<div style="font-size:9.5px;font-weight:700;font-family:Arial,sans-serif;color:#fff;">&#x1F9ED; No Spin Media Pick</div>'
+    +'<div style="font-size:7px;color:rgba(255,255,255,.6);font-family:Arial,sans-serif;margin-top:1px;font-style:italic;">'+randSupport()+'</div>'
+    +'</div></div></div></a>';
+}
+function gearTileHTML(g){
+  const tLen=(g.title||'').replace(/\\n/g,'').length;
+  const tSize=tLen<=6?30:tLen<=8?24:tLen<=10?20:tLen<=13?17:14;
+  const tl=(g.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
+  const sub=(g.subtitle||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');
+  return'<a href="'+g.url+'" target="_blank" rel="noopener nofollow sponsored" style="display:block;text-decoration:none;height:100%;">'
+    +'<div style="position:relative;width:100%;padding-bottom:90%;border-radius:11px;background:#2a2a2a;box-shadow:inset 0 0 0 1.5px #3a3a3a,inset 0 0 0 3.5px #1e1e1e,0 1px 8px rgba(0,0,0,.18);overflow:hidden;">'
+    +'<div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 38%,rgba(255,255,255,.12) 0%,rgba(0,0,0,.12) 100%);pointer-events:none;"></div>'
+    +'<div style="position:absolute;top:4px;left:50%;transform:translateX(-50%);width:34px;height:7px;background:#333;border-radius:4px;border:1px solid #444;"></div>'
+    +'<div style="position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:34px;height:7px;background:#333;border-radius:4px;border:1px solid #444;"></div>'
+    +'<div style="position:absolute;inset:12px 20px 44px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">'
+    +'<div style="font-size:7.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;border-top:1.5px solid #d4a843;border-bottom:1.5px solid #d4a843;padding:3px 0;width:85%;margin-bottom:6px;">'+(g.category_label||'')+'</div>'
+    +'<div style="font-family:Arial Black,Impact,Arial,sans-serif;font-size:'+tSize+'px;font-weight:900;color:#f0e4c8;letter-spacing:.04em;line-height:.95;">'+tl+'</div>'
+    +'<div style="font-size:15px;margin:5px 0 4px;">'+(g.icon||'&#x2699;&#xFE0F;')+'</div>'
+    +'<div style="width:70%;height:1px;background:linear-gradient(to right,transparent,#d4a843 25%,#d4a843 75%,transparent);margin-bottom:4px;"></div>'
+    +'<div style="font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:Arial,sans-serif;color:#d4a843;line-height:1.4;">'+sub+'</div>'
+    +'</div>'
+    +'<div style="position:absolute;bottom:7px;left:12px;right:12px;text-align:center;font-family:Arial,sans-serif;">'
+    +'<div style="font-size:8.5px;font-weight:700;color:#fff;">&#x1F9ED; No Spin Media Pick</div>'
+    +'<div style="font-size:6.5px;color:rgba(255,255,255,.6);font-style:italic;margin-top:1px;">'+randSupport()+'</div>'
+    +'</div></div></a>';
+}
+
+let _cachedBookRule=null,_cachedGearRule=null,_affToggle=0;
+function pickInlineTile(){
+  const useBook=_affToggle===0;
+  _affToggle=1-_affToggle;
+  const rule=useBook?_cachedBookRule:_cachedGearRule;
+  if(!rule)return(_cachedBookRule?.books?bookTileHTML(_cachedBookRule.books):null)||(_cachedGearRule?.gear?gearTileHTML(_cachedGearRule.gear):null);
+  if(useBook&&rule.books)return bookTileHTML(rule.books);
+  if(!useBook&&rule.gear)return gearTileHTML(rule.gear);
+  if(rule.books)return bookTileHTML(rule.books);
+  if(rule.gear)return gearTileHTML(rule.gear);
+  return null;
+}
+
+async function loadAllAffiliateTiles(bookRule,gearRule){
+  const data=await loadAffiliateData();
+  const bookItems=data.books?.items||[],gearItems=data.gear?.items||[];
+  const bEl=document.getElementById('book-tiles');
+  if(bEl){let h='';pickItems(bookItems,3).forEach(i=>{h+='<div style="margin-bottom:12px;">'+renderTileHTML(i)+'</div>'});bEl.innerHTML=h}
+  const gEl=document.getElementById('gear-tiles');
+  if(gEl){let h='';pickItems(gearItems,3).forEach(i=>{h+='<div style="margin-bottom:12px;">'+renderTileHTML(i)+'</div>'});gEl.innerHTML=h}
+  // Mobile
+  const mb=bookItems.length?pickOneMobile(bookItems):null;
+  const mg=gearItems.length?pickOneMobile(gearItems):null;
+  const bHTML=mb?'<a href="'+getRandomLink(mb)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+mb.image+'" alt="'+mb.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>':'';
+  const gHTML=mg?'<a href="'+getRandomLink(mg)+'" target="_blank" rel="noopener nofollow sponsored"><img src="/affiliate/'+mg.image+'" alt="'+mg.title+'" loading="lazy" style="width:100%;display:block;border-radius:8px;"></a>':'';
+  window.mobileAffiliateHTML='<div class="mobile-affiliate-insert"><div class="affiliate-label">&#x1F9ED; NSM Picks</div><div class="mobile-affiliate-grid">'+bHTML+gHTML+'</div></div>';
+}
+
+async function resolveStoryImage(id){
+  for(const ext of['webp','jpg','png']){
+    try{const r=await fetch('/images/news/'+id+'.'+ext,{method:'HEAD'});if(r.ok)return'/images/news/'+id+'.'+ext}catch(e){}
+  }
+  return null;
+}
+// AI-picked image only (see ai-image-selection-design.md). This queue no
+// longer runs the older, unscored keyword matcher that used to live here
+// (a separate, never-updated implementation of the image-rules.json
+// matching in index.html/story.html -- it predated the 2026-07-27 scoring
+// fix and never received it). Every story reaching this review queue is
+// expected to already be AI-classified (image_source='ai') before it's
+// posted. If it isn't yet, or the AI found no genuine match, this returns
+// null and the existing per-topic background image (KW_IMG/IMG_K below,
+// driven by story.topic) shows through instead, unchanged.
+async function getCardImage(story,idField,hasStoryImages){
+  if(hasStoryImages){
+    const si=await resolveStoryImage(story[idField]);if(si)return si;
+  }
+  if(story.image_source==='ai'&&story.image_filename)return'/images/news/'+story.image_filename;
+  return null;
+}
+
+// Left-hero fallback: fires if the generated preview .webp 404s/fails to
+// load (not yet cached and the on-demand render also failed, cache cleared,
+// etc). Removes the broken <img>, reveals the pre-existing card-top-bg
+// (thumb/keyword background, already in the DOM with display:none -- no
+// extra fetch needed) and the client-rendered headline text that was
+// hidden alongside it, so the card falls back to exactly the layout it had
+// before this feature existed.
+function cardHeroFallback(imgEl){
+  const top=imgEl.closest('.card-color-top');
+  if(!top)return;
+  imgEl.remove();
+  const bg=top.querySelector('.card-top-bg');
+  if(bg)bg.style.display='';
+  top.querySelectorAll('.card-hero-fallback-text').forEach(function(el){el.style.display=''});
+}
+window.cardHeroFallback=cardHeroFallback;
+
+function convertRedditMarkdown(text){
+  if(!text)return'';
+  text=text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  text=text.replace(/^(#{1,6})[ \t]+(.*)$/gm,function(_,hashes,body){
+    const level=hashes.length;
+    return '<h'+level+'>'+body.trim()+'</h'+level+'>';
+  });
+  text=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  text=text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,'<em>$1</em>');
+  text=text.replace(/\\n/g,'\n');text=text.replace(/\n{3,}/g,'\n\n');
+  return text.trim();
+}
+
+async function submitFeedback(name,email,message,statusEl,formEl,subject){
+  statusEl.style.color='black';statusEl.innerHTML='Sending&hellip;';
+  try{
+    const res=await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec',{
+      method:'POST',headers:{'Content-Type':'text/plain'},
+      body:JSON.stringify({name,email,message,subject:subject||'NSM Story Queue Feedback'})
+    });
+    if(res.ok){statusEl.style.color='green';statusEl.innerHTML='&#x2705; Thanks!';if(formEl)formEl.reset()}
+    else{statusEl.style.color='red';statusEl.innerHTML='&#x274C; Error.'}
+  }catch(e){statusEl.style.color='red';statusEl.innerHTML='&#x274C; Could not connect.'}
+}
+
+function toggleReview(storyUrl,headline){
+  const panel=document.getElementById('review-panel-'+storyUrl);if(!panel)return;
+  panel.classList.toggle('open');
+  if(panel.classList.contains('open')){
+    const ta=panel.querySelector('textarea');
+    if(ta&&!ta.value)ta.value='Story: '+headline+'\n\nNotes:\n';
+    panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+}
+window.toggleReview=toggleReview;
+
+function toggleSummary(btn){
+  const card=btn.closest('.story-card');
+  const rest=card.querySelector('.story-summary-rest');if(!rest)return;
+  const isOpen=rest.style.display!=='none';
+  rest.style.display=isOpen?'none':'block';
+  btn.textContent=isOpen?'Show more \u2193':'Show less \u2191';
+}
+window.toggleSummary=toggleSummary;
+
+async function shareUrlOnly(id,btn){
+  const config=QUEUE_CONFIGS[activeSource];
+  const url=config.hasPreview
+    ?PREVIEW_BASE+'/preview/'+encodeURIComponent(id)
+    :window.location.origin+window.location.pathname+'?source='+activeSource+'&id='+id;
+  const conf=btn.querySelector('.share-confirm-url');
+  try{
+    await navigator.clipboard.writeText(url);
+    if(conf){conf.textContent='✅ Copied!';setTimeout(()=>{conf.textContent=''},2000)}
+  }catch(e){if(conf){conf.textContent='❌ Failed';setTimeout(()=>{conf.textContent=''},2000)}}
+}
+window.shareUrlOnly=shareUrlOnly;
+
+async function shareUnpublished(id,headline,btn){
+  const config=QUEUE_CONFIGS[activeSource];
+  const url=config.hasPreview
+    ?PREVIEW_BASE+'/preview/'+encodeURIComponent(id)
+    :window.location.origin+window.location.pathname+'?source='+activeSource+'&id='+id;
+  const hl=(headline||'').replace(/\n/g,' \u2014 ').trim();
+  const text=hl+'\n'+url;
+  const conf=btn.querySelector('.share-confirm');
+  try{
+    await navigator.clipboard.writeText(text);
+    if(conf){conf.textContent='\u2705 Copied!';setTimeout(()=>{conf.textContent=''},2000)}
+  }catch(e){if(conf){conf.textContent='\u274C Failed';setTimeout(()=>{conf.textContent=''},2000)}}
+}
+window.shareUnpublished=shareUnpublished;
+
+async function copyRichText(html,plain,confEl){
+  try{
+    if(navigator.clipboard&&window.ClipboardItem){
+      const item=new ClipboardItem({
+        'text/html':new Blob([html],{type:'text/html'}),
+        'text/plain':new Blob([plain],{type:'text/plain'})
+      });
+      await navigator.clipboard.write([item]);
+    }else{
+      await navigator.clipboard.writeText(plain);
+    }
+    if(confEl){confEl.textContent='\u2705 Copied!';setTimeout(()=>{confEl.textContent=''},2000)}
+  }catch(e){
+    if(confEl){confEl.textContent='\u274C Failed';setTimeout(()=>{confEl.textContent=''},2000)}
+  }
+}
+
+function buildStoryClipboardHTML(summary){
+  const converted=convertRedditMarkdown(summary||'');
+  const paras=converted.split(/\n{2,}/).filter(p=>p.trim().length);
+  return paras.map(p=>'<p>'+p.replace(/\n/g,'<br>')+'</p>').join('');
+}
+function buildStoryClipboardPlain(summary){
+  let t=(summary||'').replace(/\\n/g,'\n');
+  t=t.replace(/\n{3,}/g,'\n\n');
+  return t.trim();
+}
+
+function copyTitleOnly(id,btn){
+  const d=_storyRaw[id];if(!d)return;
+  const text=(d.headline||'').replace(/\n/g,' \u2014 ').trim();
+  const conf=btn.querySelector('.share-confirm-title');
+  navigator.clipboard.writeText(text).then(()=>{
+    if(conf){conf.textContent='\u2705 Copied!';setTimeout(()=>{conf.textContent=''},2000)}
+  }).catch(()=>{
+    if(conf){conf.textContent='\u274C Failed';setTimeout(()=>{conf.textContent=''},2000)}
+  });
+}
+window.copyTitleOnly=copyTitleOnly;
+
+function copyStoryOnly(id,btn){
+  const d=_storyRaw[id];if(!d)return;
+  const html=buildStoryClipboardHTML(d.summary);
+  const plain=buildStoryClipboardPlain(d.summary);
+  const conf=btn.querySelector('.share-confirm-story');
+  copyRichText(html,plain,conf);
+}
+window.copyStoryOnly=copyStoryOnly;
+
+window.submitReviewPanel=function(storyUrl,btn){
+  const panel=document.getElementById('review-panel-'+storyUrl);if(!panel)return;
+  const name=panel.querySelector('.rp-name').value.trim();
+  const email=panel.querySelector('.rp-email').value.trim();
+  const message=panel.querySelector('.rp-message').value.trim();
+  const statusEl=panel.querySelector('.form-status');
+  if(!email||!message){statusEl.style.color='red';statusEl.innerHTML='Email and message required.';return}
+  const subject='Story Review: '+(panel.dataset.subjectHeadline||'Untitled');
+  submitFeedback(name,email,message,statusEl,null,subject);
+};
+
+function assignSlots(stories,slotsArr){
+  let slotPointer=0,startDateEST;
+  (function initSlot(){
+    const nowEST=new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+    const todayStr=nowEST.toLocaleDateString('en-CA',{timeZone:'America/New_York'});
+    const jan=new Date(nowEST.getFullYear(),0,1),jul=new Date(nowEST.getFullYear(),6,1);
+    const stdOffset=Math.max(jan.getTimezoneOffset(),jul.getTimezoneOffset());
+    const isDST=nowEST.getTimezoneOffset()<stdOffset;
+    const tzOffset=isDST?'-04:00':'-05:00';
+    let found=false;
+    for(let i=0;i<slotsArr.length;i++){
+      const slotDT=new Date(todayStr+'T'+slotsArr[i]+':00'+tzOffset);
+      if(slotDT>nowEST){slotPointer=i;startDateEST=slotDT;found=true;break}
+    }
+    if(!found){
+      slotPointer=0;
+      const tomorrow=new Date(nowEST);tomorrow.setDate(tomorrow.getDate()+1);
+      const tStr=tomorrow.toLocaleDateString('en-CA',{timeZone:'America/New_York'});
+      startDateEST=new Date(tStr+'T'+slotsArr[0]+':00'+tzOffset);
+    }
+  })();
+  let currentDay=startDateEST;
+  const nowCheck=new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+  const janC=new Date(nowCheck.getFullYear(),0,1),julC=new Date(nowCheck.getFullYear(),6,1);
+  const stdC=Math.max(janC.getTimezoneOffset(),julC.getTimezoneOffset());
+  const isDSTC=nowCheck.getTimezoneOffset()<stdC;
+  const tzOff=isDSTC?'-04:00':'-05:00';
+  for(let i=0;i<stories.length;i++){
+    const dateStr=currentDay.toLocaleDateString('en-CA',{timeZone:'America/New_York'});
+    const scheduled=new Date(dateStr+'T'+slotsArr[slotPointer]+':00'+tzOff);
+    stories[i].scheduled=scheduled.toISOString();
+    slotPointer++;
+    if(slotPointer>=slotsArr.length){
+      slotPointer=0;
+      const next=new Date(currentDay);next.setDate(next.getDate()+1);
+      const nextDateStr=next.toLocaleDateString('en-CA',{timeZone:'America/New_York'});
+      currentDay=new Date(nextDateStr+'T'+slotsArr[0]+':00'+tzOff);
+    }
+  }
+  return stories;
+}
+
+async function loadStories(){
+  const config=QUEUE_CONFIGS[activeSource];
+  const storyId=new URLSearchParams(window.location.search).get('id');
+  const container=document.getElementById('news-container');
+  container.innerHTML='<div class="feed-loading"><div class="spinner"></div>Loading queue…</div>';
+
+  let stories;
+  try{
+    const res=await fetch(config.api);
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    stories=await res.json();
+    if(!Array.isArray(stories))throw new Error('Unexpected format');
+  }catch(e){
+    container.innerHTML='<div class="feed-loading"><p style="color:#cc2200;font-weight:600;">Could not load queue: '+e.message+'</p></div>';
+    return;
+  }
+
+  if(storyId){
+    stories=stories.filter(r=>String(r[config.idField]).trim()===String(storyId).trim());
+    if(stories.length===0){
+      if(config.supabaseTable){
+        try{
+          const filterPart=config.supabasePublishedFilter?('&'+config.supabasePublishedFilter):'';
+          const chk=await fetch('https://dckmflnbprhmaqysuued.supabase.co/rest/v1/'+config.supabaseTable+'?select='+config.idField+'&'+config.idField+'=eq.'+storyId+filterPart,{headers:{apikey:SB_KEY}});
+          const chkData=await chk.json();
+          if(Array.isArray(chkData)&&chkData.length>0&&config.storyPage){window.location.replace(config.storyPage+'?story='+storyId);return}
+        }catch(e){}
+      }
+      const archiveLink=config.archivePage?'<br><a href="'+config.archivePage+'" style="color:var(--blue);font-weight:600;">&#x1F50E; Search archive</a>':'';
+      container.innerHTML='<div class="feed-loading"><p>Story not found in queue.</p>'+archiveLink+'</div>';
+      return;
+    }
+  }
+
+  stories.sort((a,b)=>parseInt(a.order)-parseInt(b.order));
+  stories=stories.filter(s=>s[config.headlineField]);
+  stories=assignSlots(stories,config.slots);
+
+  const countEl=document.getElementById('queue-count');
+  if(countEl)countEl.textContent=stories.length+' stor'+(stories.length===1?'y':'ies')+' queued';
+  // Show back-to-queue nav when viewing a single story
+  const singleNav=document.getElementById('single-story-nav');
+  if(singleNav)singleNav.style.display=storyId?'block':'none';
+  const backLink=document.getElementById('single-story-back-link');
+  if(backLink)backLink.href=window.location.pathname+'?source='+config.key;
+
+  const kwData=await loadKeywordAffiliateData();
+  const{bookRule,gearRule}=findTopTwoRules(stories,kwData.rules||[],config.headlineField,config.summaryField);
+  _cachedBookRule=bookRule;_cachedGearRule=gearRule;
+  await loadAllAffiliateTiles(bookRule,gearRule);
+
+  const imgUrls=await Promise.all(stories.map(s=>{
+    const timeout=new Promise(r=>setTimeout(()=>r(null),3000));
+    return Promise.race([getCardImage(s,config.idField,config.hasStoryImages).catch(()=>null),timeout]);
+  }));
+
+  const storyRules=stories.map(story=>{
+    const text=[story[config.headlineField]||'',story[config.summaryField]||''].join(' ');
+    const sc=(kwData.rules||[]).map(rule=>({rule,score:(rule.keywords||[]).filter(kw=>wordMatch(text,kw)).length})).filter(s=>s.score>0).sort((a,b)=>b.score-a.score);
+    return sc[0]?.rule||null;
+  });
+
+  const groups={};
+  stories.forEach((r,i)=>{
+    const date=new Date(r.scheduled).toLocaleDateString('en-CA',{timeZone:'America/New_York'});
+    if(!groups[date])groups[date]=[];
+    groups[date].push({story:r,thumb:imgUrls[i],storyRule:storyRules[i]});
+  });
+
+  container.innerHTML='';
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const weekdays=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const nowEST=new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}));
+  let firstSlotMarked=false,cardCount=0,mobileInserted=false;
+
+  for(const date in groups){
+    const[y,m,d]=date.split('-');
+    const dt=new Date(Number(y),Number(m)-1,Number(d),12,0,0);
+    const label=weekdays[dt.getDay()]+', '+months[dt.getMonth()]+' '+dt.getDate()+', '+dt.getFullYear();
+    const dateGroup=document.createElement('div');
+    dateGroup.className='date-group';
+    dateGroup.innerHTML='<div class="date-header">'+label+'</div>';
+
+    groups[date].forEach(({story,thumb,storyRule})=>{
+      const idVal=story[config.idField];
+      const headlineVal=story[config.headlineField];
+      const summaryVal=story[config.summaryField];
+
+      const sched=new Date(story.scheduled);
+      const isNext=!firstSlotMarked&&sched>nowEST;
+      if(isNext)firstSlotMarked=true;
+      const timeLabel=sched.toLocaleTimeString('en-US',{timeZone:'America/New_York',hour:'numeric',minute:'2-digit'});
+      const topic=story.topic||'world';
+      const kw=KW_IMG[topic]||'world';
+      const bgStyle=thumb
+        ?'background-image:url(\''+thumb+'\'),url(\''+IMG_K+kw+'.jpg\');background-size:cover;background-position:center;'
+        :'background-image:url(\''+IMG_K+kw+'.jpg\');background-size:cover;background-position:center;';
+
+      const safeHL=(headlineVal||'').replace(/'/g,"\\'").replace(/\n/g,' ').replace(/\r/g,'');
+      const safeId=String(idVal||'').replace(/'/g,"\\'");
+
+      const hlRaw=(headlineVal||'').trim();
+      const nlIdx=hlRaw.indexOf('\n');
+      const hl1=nlIdx>-1?hlRaw.substring(0,nlIdx).trim():hlRaw;
+      const hl2=nlIdx>-1?hlRaw.substring(nlIdx+1).trim():'';
+      const subjectHeadline=stripLeadingEmoji(hl1);
+
+      const fullMd=convertRedditMarkdown(summaryVal||'');
+      const paras=fullMd.split(/\n\n+/);
+      const firstPara=paras[0]||'';
+      const restPara=paras.slice(1).join('\n\n');
+      const hasMore=restPara.trim().length>0;
+
+      _storyRaw[idVal]={headline:headlineVal||'',summary:summaryVal||''};
+
+      let badgeHTML='';
+      if(storyRule&&(storyRule.books||storyRule.gear)){
+        const bl=storyRule.books?.category_label||'';
+        const gl=storyRule.gear?.category_label||'';
+        badgeHTML='<div class="aff-match-row">'
+          +'<span class="aff-match-label">Affiliate match:</span>'
+          +(bl?'<span class="affiliate-badge book">&#x1F4DA; '+bl+'</span>':'')
+          +(gl?'<span class="affiliate-badge gear">&#x1F527; '+gl+'</span>':'')
+          +'</div>';
+      }
+
+      const card=document.createElement('div');
+      card.className='story-card';
+      if(storyId&&String(idVal).trim()===String(storyId).trim())card.style.outline='2px solid var(--blue)';
+
+      // Hero: the generated .webp used as the card's primary image --
+      // standing in for the old per-story/keyword photo, so the queue
+      // shows exactly what a share will look like. Wrapped in a link to
+      // /preview/<id> (national only, see hasPreview on the config). The
+      // separate right-side preview thumbnail this used to sit next to was
+      // removed (2026-07-29) as a duplicate now that the hero itself shows
+      // the real generated image. card-top-bg (the old thumb/keyword
+      // background) is still
+      // rendered underneath, just hidden via inline style, so it's already
+      // in the DOM ready to reappear the instant cardHeroFallback() runs --
+      // no extra fetch needed for the fallback path. The client-rendered
+      // headline text (already baked into the generated image) starts
+      // hidden for the same reason and only reappears on fallback.
+      const heroTag=config.hasPreview?'a':'div';
+      const heroAttrs=config.hasPreview
+        ?' href="'+PREVIEW_BASE+'/preview/'+encodeURIComponent(idVal)+'" target="_blank" rel="noopener" title="Open social preview in a new tab"'
+        :'';
+      const heroImgHTML=config.hasPreview
+        ?'<img class="card-hero-img" src="'+PREVIEW_BASE+'/preview-image/'+encodeURIComponent(idVal)+'.webp" alt="Generated social-preview image for: '+safeHL.replace(/"/g,'&quot;')+'" loading="lazy" onerror="cardHeroFallback(this)">'
+        :'';
+      const fallbackTextClass=config.hasPreview?' card-hero-fallback-text':'';
+
+      card.innerHTML=
+        '<'+heroTag+' class="card-color-top tp-bg-'+(topic||'world')+(config.hasPreview?' card-hero':'')+'"'+heroAttrs+'>'
+        +heroImgHTML
+        +'<div class="card-top-bg" style="'+bgStyle+(config.hasPreview?';display:none':'')+'"></div>'
+        +'<div class="card-top-scrim"></div>'
+        +'<div class="card-top-content">'
+        +'<div class="slot-pill"><div class="slot-dot'+(isNext?' next':'')+'"></div>'+(isNext?'<strong>NEXT UP</strong> &middot; ':'')+timeLabel+' EST</div>'
+        +'<span class="card-headline'+fallbackTextClass+'">'+hl1+'</span>'
+        +(hl2?'<span class="card-hl2'+fallbackTextClass+'">'+hl2+'</span>':'')
+        +'</div></'+heroTag+'>'
+        +'<div class="card-body">'
+        +badgeHTML
+        +'<div class="story-summary-preview">'+firstPara+'</div>'
+        +(hasMore?'<div class="story-summary-rest" style="display:'+(storyId?'block':'none')+';">'+restPara+'</div>':'')
+        +'<div class="card-footer">'
+        +(hasMore?'<button class="story-link" onclick="toggleSummary(this)">'+(storyId?'Show less ↑':'Show more ↓')+'</button>':'<span></span>')
+        +'<button class="btn-review" onclick="toggleReview(\''+safeId+'\',\''+safeHL+'\')">&#x270F;&#xFE0F; Review</button>'
+        +'<button class="story-link" onclick="shareUnpublished(\''+safeId+'\',\''+safeHL+'\',this)">&#x1F4CB; Title+Link <span class="share-confirm"></span></button>'
+        +'<button class="story-link" onclick="shareUrlOnly(\''+safeId+'\'  ,this)">&#x1F517; Link only <span class="share-confirm-url"></span></button>'
+        +'<span class="post-time-tag"><strong>Post Time:</strong> '+timeLabel+' EST</span>'
+        +'<button class="story-link" onclick="copyTitleOnly(\''+safeId+'\',this)">&#x1F4DD; Title <span class="share-confirm-title"></span></button>'
+        +'<button class="story-link" onclick="copyStoryOnly(\''+safeId+'\',this)">&#x1F4F0; Story <span class="share-confirm-story"></span></button>'
+        +'</div></div>';
+
+      const reviewPanel=document.createElement('div');
+      reviewPanel.className='feedback-panel';
+      reviewPanel.id='review-panel-'+idVal;
+      reviewPanel.dataset.subjectHeadline=subjectHeadline;
+      reviewPanel.innerHTML=
+        '<h4>&#x270F;&#xFE0F; Review: '+hl1+'</h4>'
+        +'<input type="text" class="rp-name" placeholder="Your first name">'
+        +'<input type="email" class="rp-email" placeholder="you@email.com">'
+        +'<textarea class="rp-message" rows="4" placeholder="Feedback or notes on this story..."></textarea>'
+        +'<p class="form-status"></p>'
+        +'<button type="submit" class="rp-submit" onclick="submitReviewPanel(\''+safeId+'\',this)">&#x1F4AC; Send Review</button>';
+
+      dateGroup.appendChild(card);
+      dateGroup.appendChild(reviewPanel);
+      cardCount++;
+
+      if(!storyId&&cardCount%4===0&&(_cachedBookRule||_cachedGearRule)){
+        const tile=pickInlineTile();
+        if(tile){
+          const affDiv=document.createElement('div');
+          affDiv.className='aff-inline-wrap';
+          affDiv.style.cssText='margin-bottom:.75rem;max-width:320px;width:100%;';
+          affDiv.innerHTML=tile;
+          dateGroup.appendChild(affDiv);
+        }
+      }
+
+      const mobileThreshold=storyId?1:3;
+      if(window.innerWidth<=900&&cardCount===mobileThreshold&&!mobileInserted&&window.mobileAffiliateHTML){
+        const ins=document.createElement('div');ins.innerHTML=window.mobileAffiliateHTML;
+        dateGroup.appendChild(ins.firstElementChild);mobileInserted=true;
+      }
+    });
+    container.appendChild(dateGroup);
+  }
+}
+
+function initGlobalFeedback(){
+  const form=document.getElementById('globalFeedbackForm');if(!form)return;
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();
+    await submitFeedback(
+      document.getElementById('gf-name').value.trim(),
+      document.getElementById('gf-email').value.trim(),
+      document.getElementById('gf-message').value.trim(),
+      document.getElementById('gf-status'),form
+    );
+  });
+}
+
+function setActiveSource(key,pushState){
+  if(!QUEUE_CONFIGS[key])key='national';
+  activeSource=key;
+  const config=QUEUE_CONFIGS[key];
+  document.title=config.docTitle;
+  const iconEl=document.getElementById('queue-icon');
+  if(iconEl)iconEl.innerHTML=config.icon;
+  const qt=document.getElementById('queue-title-text');
+  if(qt)qt.textContent=config.queueTitle;
+  document.querySelectorAll('.qs-btn').forEach(b=>b.classList.toggle('active',b.dataset.source===key));
+  if(pushState!==false){
+    const params=new URLSearchParams(window.location.search);
+    params.set('source',key);
+    params.delete('id');
+    const qs=params.toString();
+    history.replaceState(null,'',window.location.pathname+(qs?('?'+qs):''));
+  }
+  loadStories();
+}
+window.setActiveSource=setActiveSource;
+
+document.addEventListener('DOMContentLoaded',function(){
+  fetch('header.html').then(r=>r.text()).then(html=>{
+    document.getElementById('site-header').innerHTML=html;
+    const ham=document.getElementById('hamburger'),nav=document.getElementById('mobile-nav');
+    if(ham&&nav){
+      ham.onclick=()=>{nav.classList.toggle('open');ham.classList.toggle('active')};
+      nav.querySelectorAll('a').forEach(a=>{a.onclick=()=>{nav.classList.remove('open');ham.classList.remove('active')}});
+    }
+
+    document.querySelectorAll('.qs-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>setActiveSource(btn.dataset.source));
+    });
+
+    const initialSource=new URLSearchParams(window.location.search).get('source');
+    setActiveSource(QUEUE_CONFIGS[initialSource]?initialSource:'national',false);
+
+    initGlobalFeedback();
+  });
+});
+</script>
+</head>
+<body>
+<div id="site-header"></div>
+<div class="page-wrap">
+
+  <div class="queue-selector" id="queue-selector">
+    <button class="qs-btn" data-source="national">National News</button>
+    <button class="qs-btn" data-source="ne">New England News</button>
+    <button class="qs-btn" data-source="kb">Knowledge Base</button>
+  </div>
+
+  <div class="queue-header">
+    <span id="queue-icon" style="font-size:1.5rem;line-height:1">&#x1F9ED;</span>
+    <span class="queue-title" id="queue-title-text">No Spin Media News Queue</span>
+    <span class="queue-count" id="queue-count"></span>
+  </div>
+
+  <div id="single-story-nav" style="display:none;margin-bottom:.75rem;">
+    <a href="unpublished.html" id="single-story-back-link" style="display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600;color:var(--blue);text-decoration:none;padding:5px 11px;background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);">&#x2190; Full Story Queue</a>
+  </div>
+
+  <div id="news-container">
+    <div class="feed-loading"><div class="spinner"></div>Loading queue&hellip;</div>
+  </div>
+
+  <div class="global-feedback">
+    <h2>&#x1F499; General Feedback</h2>
+    <p style="font-size:.85rem;color:var(--muted);margin-bottom:.75rem;">Questions, tips, or general comments? Reach us here or at <strong>feedback@nospin.media</strong></p>
+    <form id="globalFeedbackForm">
+      <input type="text" id="gf-name" placeholder="Your first name">
+      <input type="email" id="gf-email" placeholder="you@email.com" required>
+      <textarea id="gf-message" rows="4" placeholder="Your feedback&hellip;" required></textarea>
+      <p id="gf-status" class="form-status"></p>
+      <button type="submit">&#x1F4AC; Send Feedback</button>
+    </form>
+  </div>
+
+</div>
+<footer>
+  &copy; 2026 &#x1F9ED; No Spin Media. Independent. Truth-focused.<br>
+  <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
+</footer>
+</body>
+</html>
