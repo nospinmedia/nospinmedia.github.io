@@ -41,16 +41,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .date-header::after{content:'';flex:1;height:1px;background:var(--border)}
 .story-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);margin-bottom:.75rem;transition:box-shadow .18s}
 .story-card:hover{box-shadow:var(--shadow-h)}
-.card-flex{display:flex;align-items:stretch}
-.card-main{flex:1;min-width:0}
-/* Right-side generated-preview thumbnail. Sized to the image's real 1200x630
-   aspect ratio (not stretched to the card's full height) so object-fit:cover
-   has nothing left to crop -- this is what actually fixes the over-cropping,
-   the ~14% narrower width (220px->190px) on top of that is the requested size
-   reduction. */
-.card-preview-col{flex:0 0 190px;display:flex;align-items:center;justify-content:center;align-self:stretch;padding:.75rem;border-left:1px solid var(--border);background:var(--surface2)}
-.card-preview-col img{width:100%;aspect-ratio:1200/630;object-fit:cover;border-radius:8px;display:block;box-shadow:var(--shadow);transition:transform .15s}
-.card-preview-col:hover img{transform:scale(1.02)}
 /* Left hero: the SAME generated image, shown whole -- object-fit:contain
    instead of cover, so nothing is cropped (previously cover+object-position:
    bottom cropped the top of the headline text on wide cards, and let the
@@ -73,8 +63,6 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
    this stylesheet and would otherwise win the display:none/block tie. */
 .card-headline.card-hero-fallback-text,.card-hl2.card-hero-fallback-text{display:none}
 @media(max-width:860px){
-  .card-flex{flex-direction:column}
-  .card-preview-col{flex:none;border-left:none;border-top:1px solid var(--border);padding:.6rem}
   .card-color-top.card-hero{max-height:220px}
 }
 .card-color-top{position:relative;min-height:95px;display:flex;flex-direction:column;justify-content:flex-end;padding:.7rem 1rem .75rem;overflow:hidden}
@@ -654,26 +642,14 @@ async function loadStories(){
       card.className='story-card';
       if(storyId&&String(idVal).trim()===String(storyId).trim())card.style.outline='2px solid var(--blue)';
 
-      // Right-side column: the ACTUAL generated social-preview .webp (same
-      // file crawlers/iMessage/Slack/Discord fetch as og:image), not a
-      // re-creation -- so what's shown here is exactly what sharing this
-      // story will look like. National only (see hasPreview on the config).
-      // Lazy-loaded so scrolling a long queue stays fast; onerror removes
-      // the whole column (rather than showing a broken-image icon) so a
-      // not-yet-cached/failed image just falls back to the pre-existing
-      // full-width layout, per requirement.
-      const previewColHTML=config.hasPreview
-        ?'<a class="card-preview-col" href="'+PREVIEW_BASE+'/preview/'+encodeURIComponent(idVal)+'" target="_blank" rel="noopener" title="Open social preview in a new tab">'
-          +'<img src="'+PREVIEW_BASE+'/preview-image/'+encodeURIComponent(idVal)+'.webp" alt="Generated social-preview image for: '+safeHL.replace(/"/g,'&quot;')+'" loading="lazy" onerror="this.closest(\'.card-preview-col\').remove()">'
-          +'</a>'
-        :'';
-
-      // Left hero: same generated .webp as the right column, standing in
-      // for the old per-story/keyword photo as the card's primary image --
-      // this is what makes the queue show exactly what a share will look
-      // like. Wrapped in a link to the same /preview/<id> destination as
-      // the right column click (national only, same as previewColHTML
-      // above). card-top-bg (the old thumb/keyword background) is still
+      // Hero: the generated .webp used as the card's primary image --
+      // standing in for the old per-story/keyword photo, so the queue
+      // shows exactly what a share will look like. Wrapped in a link to
+      // /preview/<id> (national only, see hasPreview on the config). The
+      // separate right-side preview thumbnail this used to sit next to was
+      // removed (2026-07-29) as a duplicate now that the hero itself shows
+      // the real generated image. card-top-bg (the old thumb/keyword
+      // background) is still
       // rendered underneath, just hidden via inline style, so it's already
       // in the DOM ready to reappear the instant cardHeroFallback() runs --
       // no extra fetch needed for the fallback path. The client-rendered
@@ -689,9 +665,7 @@ async function loadStories(){
       const fallbackTextClass=config.hasPreview?' card-hero-fallback-text':'';
 
       card.innerHTML=
-        '<div class="card-flex">'
-        +'<div class="card-main">'
-        +'<'+heroTag+' class="card-color-top tp-bg-'+(topic||'world')+(config.hasPreview?' card-hero':'')+'"'+heroAttrs+'>'
+        '<'+heroTag+' class="card-color-top tp-bg-'+(topic||'world')+(config.hasPreview?' card-hero':'')+'"'+heroAttrs+'>'
         +heroImgHTML
         +'<div class="card-top-bg" style="'+bgStyle+(config.hasPreview?';display:none':'')+'"></div>'
         +'<div class="card-top-scrim"></div>'
@@ -712,10 +686,7 @@ async function loadStories(){
         +'<span class="post-time-tag"><strong>Post Time:</strong> '+timeLabel+' EST</span>'
         +'<button class="story-link" onclick="copyTitleOnly(\''+safeId+'\',this)">&#x1F4DD; Title <span class="share-confirm-title"></span></button>'
         +'<button class="story-link" onclick="copyStoryOnly(\''+safeId+'\',this)">&#x1F4F0; Story <span class="share-confirm-story"></span></button>'
-        +'</div></div>'
-        +'</div>'
-        +previewColHTML
-        +'</div>';
+        +'</div></div>';
 
       const reviewPanel=document.createElement('div');
       reviewPanel.className='feedback-panel';
