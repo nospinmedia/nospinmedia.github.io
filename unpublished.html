@@ -41,6 +41,16 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .date-header::after{content:'';flex:1;height:1px;background:var(--border)}
 .story-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);margin-bottom:.75rem;transition:box-shadow .18s}
 .story-card:hover{box-shadow:var(--shadow-h)}
+.card-flex{display:flex;align-items:stretch}
+.card-main{flex:1;min-width:0}
+.card-preview-col{flex:0 0 220px;display:block;align-self:stretch;padding:.75rem;border-left:1px solid var(--border);background:var(--surface2)}
+.card-preview-col img{width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;box-shadow:var(--shadow);transition:transform .15s}
+.card-preview-col:hover img{transform:scale(1.02)}
+@media(max-width:860px){
+  .card-flex{flex-direction:column}
+  .card-preview-col{flex:none;border-left:none;border-top:1px solid var(--border);padding:.6rem}
+  .card-preview-col img{height:auto;max-height:180px}
+}
 .card-color-top{position:relative;min-height:95px;display:flex;flex-direction:column;justify-content:flex-end;padding:.7rem 1rem .75rem;overflow:hidden}
 .card-top-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .3s}
 .story-card:hover .card-top-bg{transform:scale(1.03)}
@@ -112,6 +122,11 @@ footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-t
 <script>
 const SB_KEY='sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
 const IMG_K='https://nospin.media/images/keyword/';
+// data.nospin.media's /preview/<id> (server-rendered og:image/twitter:image +
+// publish-state-aware redirect) and /preview-image/<id>.webp (the same
+// generated headline card image) -- national news (news_posts) only for now,
+// see hasPreview below. ai-image-selection-design.md / flask.md.
+const PREVIEW_BASE='https://data.nospin.media';
 const KW_IMG={politics:'politics',economy:'economy',health:'health',legal:'court',war:'war',crime:'crime',science:'science',technology:'technology',ai:'ai',world:'world',environment:'environment',military:'military'};
 
 let _affiliateData=null,_keywordAffiliateData=null;
@@ -127,6 +142,11 @@ const QUEUE_CONFIGS={
     slots:['06:15','08:45','10:15','11:45','13:15','14:30','15:45','17:15','18:30','20:45'],
     idField:'url',headlineField:'headline',summaryField:'summary',
     hasStoryImages:true,
+    // Preview URL + generated headline .webp: only news_posts is wired into
+    // the backend's preview pipeline today (generate_and_cache_preview_image()
+    // and /preview/<id> are both hardcoded to news_posts). Extending to
+    // New England is a separate backend change, not done here.
+    hasPreview:true,
     supabaseTable:'news_posts',supabasePublishedFilter:'used=eq.true',
     storyPage:'story.html',archivePage:'news.html'
   },
@@ -332,8 +352,10 @@ function toggleSummary(btn){
 window.toggleSummary=toggleSummary;
 
 async function shareUrlOnly(id,btn){
-  const base=window.location.origin+window.location.pathname;
-  const url=base+'?source='+activeSource+'&id='+id;
+  const config=QUEUE_CONFIGS[activeSource];
+  const url=config.hasPreview
+    ?PREVIEW_BASE+'/preview/'+encodeURIComponent(id)
+    :window.location.origin+window.location.pathname+'?source='+activeSource+'&id='+id;
   const conf=btn.querySelector('.share-confirm-url');
   try{
     await navigator.clipboard.writeText(url);
@@ -343,8 +365,10 @@ async function shareUrlOnly(id,btn){
 window.shareUrlOnly=shareUrlOnly;
 
 async function shareUnpublished(id,headline,btn){
-  const base=window.location.origin+window.location.pathname;
-  const url=base+'?source='+activeSource+'&id='+id;
+  const config=QUEUE_CONFIGS[activeSource];
+  const url=config.hasPreview
+    ?PREVIEW_BASE+'/preview/'+encodeURIComponent(id)
+    :window.location.origin+window.location.pathname+'?source='+activeSource+'&id='+id;
   const hl=(headline||'').replace(/\n/g,' \u2014 ').trim();
   const text=hl+'\n'+url;
   const conf=btn.querySelector('.share-confirm');
@@ -587,8 +611,24 @@ async function loadStories(){
       card.className='story-card';
       if(storyId&&String(idVal).trim()===String(storyId).trim())card.style.outline='2px solid var(--blue)';
 
+      // Right-side column: the ACTUAL generated social-preview .webp (same
+      // file crawlers/iMessage/Slack/Discord fetch as og:image), not a
+      // re-creation -- so what's shown here is exactly what sharing this
+      // story will look like. National only (see hasPreview on the config).
+      // Lazy-loaded so scrolling a long queue stays fast; onerror removes
+      // the whole column (rather than showing a broken-image icon) so a
+      // not-yet-cached/failed image just falls back to the pre-existing
+      // full-width layout, per requirement.
+      const previewColHTML=config.hasPreview
+        ?'<a class="card-preview-col" href="'+PREVIEW_BASE+'/preview/'+encodeURIComponent(idVal)+'" target="_blank" rel="noopener" title="Open social preview in a new tab">'
+          +'<img src="'+PREVIEW_BASE+'/preview-image/'+encodeURIComponent(idVal)+'.webp" alt="Generated social-preview image for: '+safeHL.replace(/"/g,'&quot;')+'" loading="lazy" onerror="this.closest(\'.card-preview-col\').remove()">'
+          +'</a>'
+        :'';
+
       card.innerHTML=
-        '<div class="card-color-top tp-bg-'+(topic||'world')+'">'
+        '<div class="card-flex">'
+        +'<div class="card-main">'
+        +'<div class="card-color-top tp-bg-'+(topic||'world')+'">'
         +'<div class="card-top-bg" style="'+bgStyle+'"></div>'
         +'<div class="card-top-scrim"></div>'
         +'<div class="card-top-content">'
@@ -608,7 +648,10 @@ async function loadStories(){
         +'<span class="post-time-tag"><strong>Post Time:</strong> '+timeLabel+' EST</span>'
         +'<button class="story-link" onclick="copyTitleOnly(\''+safeId+'\',this)">&#x1F4DD; Title <span class="share-confirm-title"></span></button>'
         +'<button class="story-link" onclick="copyStoryOnly(\''+safeId+'\',this)">&#x1F4F0; Story <span class="share-confirm-story"></span></button>'
-        +'</div></div>';
+        +'</div></div>'
+        +'</div>'
+        +previewColHTML
+        +'</div>';
 
       const reviewPanel=document.createElement('div');
       reviewPanel.className='feedback-panel';
