@@ -51,22 +51,27 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .card-preview-col{flex:0 0 190px;display:flex;align-items:center;justify-content:center;align-self:stretch;padding:.75rem;border-left:1px solid var(--border);background:var(--surface2)}
 .card-preview-col img{width:100%;aspect-ratio:1200/630;object-fit:cover;border-radius:8px;display:block;box-shadow:var(--shadow);transition:transform .15s}
 .card-preview-col:hover img{transform:scale(1.02)}
-/* Left hero: the SAME generated image, full-bleed behind the slot-pill/time
-   badge. object-position:bottom keeps the headline+teaser+branded footer
-   (which the Preview Builder draws in the lower portion of the image) in
-   frame even though the hero is shorter than the image's natural height at
-   this width -- the empty top portion of the photo is what gets cropped,
-   not the part that actually matters. See cardHeroFallback() for the
-   generated-image-missing fallback path (back to the pre-existing
-   thumb/keyword background + client-rendered headline text). */
-.card-color-top.card-hero{min-height:210px;text-decoration:none;color:inherit;display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer}
-.card-hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:bottom;display:block;transition:transform .3s}
+/* Left hero: the SAME generated image, shown whole -- object-fit:contain
+   instead of cover, so nothing is cropped (previously cover+object-position:
+   bottom cropped the top of the headline text on wide cards, and let the
+   image dominate the card). The box's own aspect-ratio matches the image's
+   real 1200x630 shape, capped by max-height so a wide card can't force a
+   very tall box; when that cap kicks in on wide desktop cards, the box
+   becomes more panoramic than the image and object-fit:contain letterboxes
+   it horizontally against the card's own topic-gradient background rather
+   than cropping -- on narrower cards (including mobile) the cap rarely
+   engages and the image renders edge-to-edge with no letterboxing at all.
+   See cardHeroFallback() for the generated-image-missing fallback path
+   (back to the pre-existing thumb/keyword background + client-rendered
+   headline text). */
+.card-color-top.card-hero{aspect-ratio:1200/630;max-height:300px;min-height:0;text-decoration:none;color:inherit;cursor:pointer}
+.card-hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;display:block;transition:transform .3s}
 .story-card:hover .card-hero-img{transform:scale(1.03)}
 .card-hero-fallback-text{display:none}
 @media(max-width:860px){
   .card-flex{flex-direction:column}
   .card-preview-col{flex:none;border-left:none;border-top:1px solid var(--border);padding:.6rem}
-  .card-color-top.card-hero{min-height:170px}
+  .card-color-top.card-hero{max-height:220px}
 }
 .card-color-top{position:relative;min-height:95px;display:flex;flex-direction:column;justify-content:flex-end;padding:.7rem 1rem .75rem;overflow:hidden}
 .card-top-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .3s}
