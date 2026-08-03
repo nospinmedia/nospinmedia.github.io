@@ -743,17 +743,7 @@ async function loadStory(){
   const dateStr=timeSince(s.posted_at);
   const cleanText=convertMarkdown(s.summary||'');const paras=cleanText.split('\n\n');
   let bodyParas=[],discussionQ='';
-  paras.forEach((p,i)=>{
-    const trimmed=p.trim();
-    if(i===paras.length-1&&trimmed.endsWith('?')){
-      const sentences=trimmed.match(/[^.!?]+[.!?]+(?:\s+|$)/g)||[trimmed];
-      discussionQ=sentences.pop().trim();
-      const rest=sentences.join('').trim();
-      if(rest)bodyParas.push(rest);
-    }else{
-      bodyParas.push(p);
-    }
-  });
+  for(const p of paras){if(p.trim().endsWith('?')&&paras.indexOf(p)===paras.length-1)discussionQ=p.trim();else bodyParas.push(p)}
   const bodyHTML=bodyParas.map(p=>'<p>'+p+'</p>').join('');
   let redditLink='';
   if(s.reddit_post_id){try{const parsed=JSON.parse(s.reddit_post_id);if(parsed.jquery?.[10]?.[3]?.[0])redditLink=parsed.jquery[10][3][0]}catch(e){console.warn('Reddit parse failed')}}
