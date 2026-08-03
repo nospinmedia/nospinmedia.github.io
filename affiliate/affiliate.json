@@ -2,15 +2,6 @@
     "books": {
         "items": [
             {
-                "title": "Facts First",
-                "image": "books/facts-first-nsm.webp",
-                "must_show": true,
-                "house": true,
-                "links": [
-                    "sponsor.html"
-                ]
-            },
-            {
                 "title": "Soccer History Book",
                 "image": "books/faulkner-soccer-book.webp",
                 "must_show": false,
