@@ -370,12 +370,19 @@ function randSupport(){return NSM_SUPPORT_MSGS[Math.floor(Math.random()*NSM_SUPP
    ship a shared generic placeholder photo (the same box/case image for
    every category), so showing it would look fake; their real per-topic
    distinctiveness is the icon/category_label/accent_color instead. */
+/* item.house marks NSM's own promotional pick (e.g. the "Facts First" book)
+   rather than a real Amazon affiliate item — it links internally, so it
+   gets real link attributes (no target=_blank/nofollow/sponsored, which
+   only make sense for an external paid link) and an honest tag instead of
+   "Affiliate". */
 function recCardHTML(item,label){
   const thumb=item.image?'<img class="rec-thumb" src="/affiliate/'+item.image+'" alt="" loading="lazy">':'';
+  const linkAttrs=item.house?'':' target="_blank" rel="noopener nofollow sponsored"';
+  const tag=item.house?'No Spin Media':'Affiliate';
   return'<div class="rec-card">'
     +'<div class="rec-eyebrow">'+(label||'Curated Pick')+'</div>'
-    +'<a class="rec-link-wrap" href="'+getRandomLink(item)+'" target="_blank" rel="noopener nofollow sponsored">'
-    +'<div class="rec-body">'+thumb+'<div class="rec-text"><span class="rec-title">'+item.title+'</span><span class="rec-sub">'+(item.categoryLabel||'Recommended by the NSM newsroom')+' <span class="rec-tag">· Affiliate</span></span></div></div>'
+    +'<a class="rec-link-wrap" href="'+getRandomLink(item)+'"'+linkAttrs+'>'
+    +'<div class="rec-body">'+thumb+'<div class="rec-text"><span class="rec-title">'+item.title+'</span><span class="rec-sub">'+(item.categoryLabel||'Recommended by the NSM newsroom')+' <span class="rec-tag">· '+tag+'</span></span></div></div>'
     +'</a></div>';
 }
 /* Desktop right-rail variant — a real magazine "pick" card: the actual cover/
@@ -384,12 +391,14 @@ function recCardHTML(item,label){
    would risk cutting that off — width:100%/height:auto instead). */
 function railRecCardHTML(item,label){
   const thumb=item.image?'<img class="rail-rec-thumb" src="/affiliate/'+item.image+'" alt="'+(item.title||'').replace(/"/g,'')+'" loading="lazy">':'';
-  return'<a class="rail-rec-card" href="'+getRandomLink(item)+'" target="_blank" rel="noopener nofollow sponsored">'
+  const linkAttrs=item.house?'':' target="_blank" rel="noopener nofollow sponsored"';
+  const tag=item.house?'From No Spin Media':'Affiliate link';
+  return'<a class="rail-rec-card" href="'+getRandomLink(item)+'"'+linkAttrs+'>'
     +thumb
     +'<div class="rail-rec-eyebrow">'+(label||'Curated Pick')+'</div>'
     +'<span class="rail-rec-title">'+item.title+'</span>'
     +'<span class="rail-rec-sub">'+(item.categoryLabel||'Recommended by the NSM newsroom')+'</span>'
-    +'<span class="rail-rec-tag">Affiliate link</span>'
+    +'<span class="rail-rec-tag">'+tag+'</span>'
     +'</a>';
 }
 /* Real imagery only — no generic placeholders. The keyword-matched "topical"
