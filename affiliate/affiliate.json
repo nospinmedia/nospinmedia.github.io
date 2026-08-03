@@ -44,7 +44,7 @@
             },
             {
                 "title": "History Books",
-                "image": "books/history.png",
+                "image": "books/history-nsm.webp",
                 "must_show": false,
                 "links": [
                     "https://www.amazon.com/s?k=history+books&tag=nospinmedia-20",
@@ -54,7 +54,7 @@
             },
             {
                 "title": "Military History",
-                "image": "books/military.png",
+                "image": "books/military-history-nsm.webp",
                 "must_show": false,
                 "links": [
                     "https://www.amazon.com/s?k=military+history+books&tag=nospinmedia-20",
@@ -64,7 +64,7 @@
             },
             {
                 "title": "Politics",
-                "image": "books/politics.png",
+                "image": "books/politics-nsm.webp",
                 "must_show": false,
                 "links": [
                     "https://www.amazon.com/s?k=politics+books&tag=nospinmedia-20",
@@ -74,7 +74,7 @@
             },
             {
                 "title": "Science Books",
-                "image": "books/science.png",
+                "image": "books/science-nsm.webp",
                 "must_show": false,
                 "links": [
                     "https://www.amazon.com/s?k=science+books&tag=nospinmedia-20",
@@ -84,7 +84,7 @@
             },
             {
                 "title": "Science Fiction",
-                "image": "books/scifi.png",
+                "image": "books/scifi-nsm.webp",
                 "must_show": false,
                 "links": [
                     "https://www.amazon.com/s?k=science+fiction+books&tag=nospinmedia-20",
@@ -94,7 +94,7 @@
             },
             {
                 "title": "Space Exploration",
-                "image": "books/space.png",
+                "image": "books/space-nsm.webp",
                 "must_show": false,
                 "links": [
                     "https://www.amazon.com/s?k=space+exploration+books&tag=nospinmedia-20",
