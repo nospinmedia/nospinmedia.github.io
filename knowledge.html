@@ -619,7 +619,16 @@ function extractPreview(text) {
 }
 
 async function sharePost(url, btn) {
-  const shareUrl = `${window.location.origin}/knowledge.html?id=${encodeURIComponent(url)}`;
+  // Copy Article Link: hands out the rich /preview/ URL (server-rendered
+  // OG/twitter meta + the generated Knowledge Base card image), not a
+  // direct knowledge.html link -- crawlers/social bots read the metadata
+  // from that page, then a real human visitor's browser gets JS-redirected
+  // back to this exact article. Same data.nospin.media/preview/<id>?source=
+  // mechanism unpublished.html's national/NE/KB share buttons already use;
+  // see PREVIEW_SOURCES in app.py. This is the ONLY thing this function
+  // changed for -- article loading, the page's own canonical URL, and its
+  // own OG tags are untouched.
+  const shareUrl = `https://data.nospin.media/preview/${encodeURIComponent(url)}?source=kb`;
   const originalHTML = btn.innerHTML;
   const done = () => { btn.innerHTML = '✅'; setTimeout(() => { btn.innerHTML = originalHTML; }, 2000); };
   try {
