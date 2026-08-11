@@ -145,9 +145,15 @@ const SB_KEY='sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
 const IMG_K='https://nospin.media/images/keyword/';
 // data.nospin.media's /preview/<id> (server-rendered og:image/twitter:image +
 // publish-state-aware redirect) and /preview-image/<id>.webp (the same
-// generated headline card image) -- national news (news_posts) only for now,
-// see hasPreview below. ai-image-selection-design.md / flask.md.
+// generated headline card image) -- gated per-queue by hasPreview below.
+// National and New England are wired in (backend is queue-aware via an
+// explicit ?source= -- see PREVIEW_SOURCES in app.py); Knowledge Base is a
+// later phase. ai-image-selection-design.md / flask.md.
 const PREVIEW_BASE='https://data.nospin.media';
+// National is the backend's default when ?source= is absent, so its links
+// must stay exactly as they were before this queue-aware extension --
+// no suffix. Every other wired-in queue gets an explicit ?source=<key>.
+function previewQS(){return activeSource==='national'?'':'?source='+activeSource}
 const KW_IMG={politics:'politics',economy:'economy',health:'health',legal:'court',war:'war',crime:'crime',science:'science',technology:'technology',ai:'ai',world:'world',environment:'environment',military:'military'};
 
 let _affiliateData=null,_keywordAffiliateData=null;
@@ -163,10 +169,9 @@ const QUEUE_CONFIGS={
     slots:['06:15','08:45','10:15','11:45','13:15','14:30','15:45','17:15','18:30','20:45'],
     idField:'url',headlineField:'headline',summaryField:'summary',
     hasStoryImages:true,
-    // Preview URL + generated headline .webp: only news_posts is wired into
-    // the backend's preview pipeline today (generate_and_cache_preview_image()
-    // and /preview/<id> are both hardcoded to news_posts). Extending to
-    // New England is a separate backend change, not done here.
+    // Preview URL + generated headline .webp -- see previewQS()/PREVIEW_BASE
+    // above. National is the backend's default table when ?source= is
+    // absent, so this queue's links carry no query string at all.
     hasPreview:true,
     supabaseTable:'news_posts',supabasePublishedFilter:'used=eq.true',
     storyPage:'story.html',archivePage:'news.html'
@@ -178,6 +183,10 @@ const QUEUE_CONFIGS={
     slots:['08:45','12:30','15:45','18:30'],
     idField:'url',headlineField:'headline',summaryField:'summary',
     hasStoryImages:true,
+    // 2026-08-11: wired into the same preview pipeline as national, via an
+    // explicit ?source=ne the backend maps straight to news_ne -- see
+    // PREVIEW_SOURCES in app.py. Not a table-guessing fallback.
+    hasPreview:true,
     supabaseTable:'news_ne',supabasePublishedFilter:'used=eq.true',
     storyPage:'ne_story.html',archivePage:'new-england.html'
   },
@@ -392,7 +401,7 @@ window.toggleSummary=toggleSummary;
 async function shareUrlOnly(id,btn){
   const config=QUEUE_CONFIGS[activeSource];
   const url=config.hasPreview
-    ?PREVIEW_BASE+'/preview/'+encodeURIComponent(id)
+    ?PREVIEW_BASE+'/preview/'+encodeURIComponent(id)+previewQS()
     :window.location.origin+window.location.pathname+'?source='+activeSource+'&id='+id;
   const conf=btn.querySelector('.share-confirm-url');
   try{
@@ -405,7 +414,7 @@ window.shareUrlOnly=shareUrlOnly;
 async function shareUnpublished(id,headline,btn){
   const config=QUEUE_CONFIGS[activeSource];
   const url=config.hasPreview
-    ?PREVIEW_BASE+'/preview/'+encodeURIComponent(id)
+    ?PREVIEW_BASE+'/preview/'+encodeURIComponent(id)+previewQS()
     :window.location.origin+window.location.pathname+'?source='+activeSource+'&id='+id;
   const hl=(headline||'').replace(/\n/g,' \u2014 ').trim();
   const text=hl+'\n'+url;
@@ -652,11 +661,11 @@ async function loadStories(){
       // Hero: the generated .webp used as the card's primary image --
       // standing in for the old per-story/keyword photo, so the queue
       // shows exactly what a share will look like. Wrapped in a link to
-      // /preview/<id> (national only, see hasPreview on the config). The
-      // separate right-side preview thumbnail this used to sit next to was
-      // removed (2026-07-29) as a duplicate now that the hero itself shows
-      // the real generated image. card-top-bg (the old thumb/keyword
-      // background) is still
+      // /preview/<id> (gated by hasPreview on the config -- national and
+      // NE as of 2026-08-11, KB is a later phase). The separate right-side
+      // preview thumbnail this used to sit next to was removed (2026-07-29)
+      // as a duplicate now that the hero itself shows the real generated
+      // image. card-top-bg (the old thumb/keyword background) is still
       // rendered underneath, just hidden via inline style, so it's already
       // in the DOM ready to reappear the instant cardHeroFallback() runs --
       // no extra fetch needed for the fallback path. The client-rendered
@@ -664,10 +673,10 @@ async function loadStories(){
       // hidden for the same reason and only reappears on fallback.
       const heroTag=config.hasPreview?'a':'div';
       const heroAttrs=config.hasPreview
-        ?' href="'+PREVIEW_BASE+'/preview/'+encodeURIComponent(idVal)+'" target="_blank" rel="noopener" title="Open social preview in a new tab"'
+        ?' href="'+PREVIEW_BASE+'/preview/'+encodeURIComponent(idVal)+previewQS()+'" target="_blank" rel="noopener" title="Open social preview in a new tab"'
         :'';
       const heroImgHTML=config.hasPreview
-        ?'<img class="card-hero-img" src="'+PREVIEW_BASE+'/preview-image/'+encodeURIComponent(idVal)+'.webp" alt="Generated social-preview image for: '+safeHL.replace(/"/g,'&quot;')+'" loading="lazy" onerror="cardHeroFallback(this)">'
+        ?'<img class="card-hero-img" src="'+PREVIEW_BASE+'/preview-image/'+encodeURIComponent(idVal)+'.webp'+previewQS()+'" alt="Generated social-preview image for: '+safeHL.replace(/"/g,'&quot;')+'" loading="lazy" onerror="cardHeroFallback(this)">'
         :'';
       const fallbackTextClass=config.hasPreview?' card-hero-fallback-text':'';
 
