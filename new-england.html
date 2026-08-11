@@ -204,6 +204,13 @@ const SB_REACTIONS='https://dckmflnbprhmaqysuued.supabase.co/rest/v1/story_react
 const IMG_S='https://nospin.media/images/story/';
 const IMG_K='https://nospin.media/images/keyword/';
 const STORY_PAGE='ne_story.html';
+// Rich /preview/ URL for explicit Share/Copy actions only -- same
+// data.nospin.media/preview/<id>?source= mechanism index.html's
+// PREVIEW_STORY already uses for National, just with ?source=ne appended
+// (see PREVIEW_SOURCES in app.py). Ordinary navigation still uses
+// STORY_PAGE above -- this constant is only referenced by the four share
+// functions below.
+const PREVIEW_STORY_NE='https://data.nospin.media/preview/';
 
 const REACTIONS=[
   {key:'helpful',   emoji:'👍',label:'Helpful'},
@@ -428,10 +435,10 @@ function rxnStripHTML(storyId,isHero){
 /* ── SHARE ── */
 function _copyNE(text,msg,fbId){const fb=document.getElementById(fbId);const done=()=>{if(fb){fb.textContent=msg;fb.classList.add('visible');setTimeout(()=>fb.classList.remove('visible'),2200)}};navigator.clipboard.writeText(text).then(done).catch(()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:0;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done()})}
 function toggleShareNE(wrapId){const w=document.getElementById(wrapId);if(!w)return;w.classList.toggle('open');if(w.classList.contains('open')){setTimeout(()=>{document.addEventListener('click',function h(e){if(!w.contains(e.target)){w.classList.remove('open');document.removeEventListener('click',h)}})},0)}}
-function shareNENative(id){const url=window.location.origin+'/'+STORY_PAGE+'?story='+encodeURIComponent(id);if(navigator.share)navigator.share({url}).catch(()=>{});else navigator.clipboard.writeText(url).catch(()=>{})}
-function shareNELink(id,wrapId,fbId){document.getElementById(wrapId)?.classList.remove('open');_copyNE(window.location.origin+'/'+STORY_PAGE+'?story='+encodeURIComponent(id),'\u2705 Link copied!',fbId)}
-function shareNETitle(id,headline,wrapId,fbId){document.getElementById(wrapId)?.classList.remove('open');const url=window.location.origin+'/'+STORY_PAGE+'?story='+encodeURIComponent(id);const hl=(headline||'').replace(/\n/g,': ').trim();_copyNE(hl+'\n'+url,'\u2705 Copied!',fbId)}
-function shareNESummary(id,wrapId,fbId){document.getElementById(wrapId)?.classList.remove('open');const url=window.location.origin+'/'+STORY_PAGE+'?story='+encodeURIComponent(id);const s=allStories.find(x=>x.url===id)||{};const sum=getFirstPara(s.summary||'').substring(0,280);_copyNE(sum+'\n\n'+url,'\u2705 Copied!',fbId)}
+function shareNENative(id){const url=PREVIEW_STORY_NE+encodeURIComponent(id)+'?source=ne';if(navigator.share)navigator.share({url}).catch(()=>{});else navigator.clipboard.writeText(url).catch(()=>{})}
+function shareNELink(id,wrapId,fbId){document.getElementById(wrapId)?.classList.remove('open');_copyNE(PREVIEW_STORY_NE+encodeURIComponent(id)+'?source=ne','\u2705 Link copied!',fbId)}
+function shareNETitle(id,headline,wrapId,fbId){document.getElementById(wrapId)?.classList.remove('open');const url=PREVIEW_STORY_NE+encodeURIComponent(id)+'?source=ne';const hl=(headline||'').replace(/\n/g,': ').trim();_copyNE(hl+'\n'+url,'\u2705 Copied!',fbId)}
+function shareNESummary(id,wrapId,fbId){document.getElementById(wrapId)?.classList.remove('open');const url=PREVIEW_STORY_NE+encodeURIComponent(id)+'?source=ne';const s=allStories.find(x=>x.url===id)||{};const sum=getFirstPara(s.summary||'').substring(0,280);_copyNE(sum+'\n\n'+url,'\u2705 Copied!',fbId)}
 function shareDropdownHTML(id,headline,wrapId,fbId,isSm){
   const safeHl=(headline||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' ');
   const btnCls=isSm?'btn-sm-share':'btn-share';const btnTxt=isSm?'\uD83D\uDD17 \u25BE':'\uD83D\uDD17 Share \u25BE';
