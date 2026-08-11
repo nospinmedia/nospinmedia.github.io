@@ -197,6 +197,17 @@ const QUEUE_CONFIGS={
     slots:['08:00'],
     idField:'id',headlineField:'title',summaryField:'content',
     hasStoryImages:false,
+    // 2026-08-11: wired into the same preview pipeline as national/NE, via
+    // an explicit ?source=kb the backend maps straight to knowledge_base --
+    // see PREVIEW_SOURCES in app.py. KB's permanent identity is
+    // article_key (matches knowledge_base.article_key = daily_posts.url =
+    // knowledge.html?id=, see "Knowledge Base identity migration" in
+    // github-pages.md), NOT the numeric `id` this queue's idField already
+    // uses everywhere else (edit endpoint, Review panel, single-story
+    // highlight/redirect-check below) -- previewIdField lets the preview-
+    // specific link builders use article_key without touching any of that
+    // existing numeric-id plumbing.
+    hasPreview:true,previewIdField:'article_key',
     // Once published, KB articles are written to Supabase daily_posts (read by
     // knowledge.html) — a different table/page than this queue's own
     // unpublished-source data. No unpublished-side story/archive page exists
@@ -613,6 +624,11 @@ async function loadStories(){
 
     groups[date].forEach(({story,thumb,storyRule})=>{
       const idVal=story[config.idField];
+      // The /preview/ system's identity for this story -- equal to idVal
+      // everywhere except KB, which shares/hero-links by article_key while
+      // every other use of this card's id (Review panel, edit calls, the
+      // single-story highlight/redirect-check above) stays on idVal/id.
+      const previewIdVal=config.previewIdField?story[config.previewIdField]:idVal;
       const headlineVal=story[config.headlineField];
       const summaryVal=story[config.summaryField];
 
@@ -628,6 +644,7 @@ async function loadStories(){
 
       const safeHL=(headlineVal||'').replace(/'/g,"\\'").replace(/\n/g,' ').replace(/\r/g,'');
       const safeId=String(idVal||'').replace(/'/g,"\\'");
+      const safePreviewId=String(previewIdVal||'').replace(/'/g,"\\'");
 
       const hlRaw=(headlineVal||'').trim();
       const nlIdx=hlRaw.indexOf('\n');
@@ -673,10 +690,10 @@ async function loadStories(){
       // hidden for the same reason and only reappears on fallback.
       const heroTag=config.hasPreview?'a':'div';
       const heroAttrs=config.hasPreview
-        ?' href="'+PREVIEW_BASE+'/preview/'+encodeURIComponent(idVal)+previewQS()+'" target="_blank" rel="noopener" title="Open social preview in a new tab"'
+        ?' href="'+PREVIEW_BASE+'/preview/'+encodeURIComponent(previewIdVal)+previewQS()+'" target="_blank" rel="noopener" title="Open social preview in a new tab"'
         :'';
       const heroImgHTML=config.hasPreview
-        ?'<img class="card-hero-img" src="'+PREVIEW_BASE+'/preview-image/'+encodeURIComponent(idVal)+'.webp'+previewQS()+'" alt="Generated social-preview image for: '+safeHL.replace(/"/g,'&quot;')+'" loading="lazy" onerror="cardHeroFallback(this)">'
+        ?'<img class="card-hero-img" src="'+PREVIEW_BASE+'/preview-image/'+encodeURIComponent(previewIdVal)+'.webp'+previewQS()+'" alt="Generated social-preview image for: '+safeHL.replace(/"/g,'&quot;')+'" loading="lazy" onerror="cardHeroFallback(this)">'
         :'';
       const fallbackTextClass=config.hasPreview?' card-hero-fallback-text':'';
 
@@ -697,8 +714,8 @@ async function loadStories(){
         +'<div class="card-footer">'
         +(hasMore?'<button class="story-link" onclick="toggleSummary(this)">'+(storyId?'Show less ↑':'Show more ↓')+'</button>':'<span></span>')
         +'<button class="btn-review" onclick="toggleReview(\''+safeId+'\',\''+safeHL+'\')">&#x270F;&#xFE0F; Review</button>'
-        +'<button class="story-link" onclick="shareUnpublished(\''+safeId+'\',\''+safeHL+'\',this)">&#x1F4CB; Title+Link <span class="share-confirm"></span></button>'
-        +'<button class="story-link" onclick="shareUrlOnly(\''+safeId+'\'  ,this)">&#x1F517; Link only <span class="share-confirm-url"></span></button>'
+        +'<button class="story-link" onclick="shareUnpublished(\''+safePreviewId+'\',\''+safeHL+'\',this)">&#x1F4CB; Title+Link <span class="share-confirm"></span></button>'
+        +'<button class="story-link" onclick="shareUrlOnly(\''+safePreviewId+'\'  ,this)">&#x1F517; Link only <span class="share-confirm-url"></span></button>'
         +'<span class="post-time-tag"><strong>Post Time:</strong> '+timeLabel+' EST</span>'
         +'<button class="story-link" onclick="copyTitleOnly(\''+safeId+'\',this)">&#x1F4DD; Title <span class="share-confirm-title"></span></button>'
         +'<button class="story-link" onclick="copyStoryOnly(\''+safeId+'\',this)">&#x1F4F0; Story <span class="share-confirm-story"></span></button>'
