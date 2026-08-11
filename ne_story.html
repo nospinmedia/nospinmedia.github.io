@@ -437,7 +437,11 @@ async function loadStory(){
   document.querySelector('meta[name="twitter:title"]').setAttribute('content',(s.headline||'').replace('\n',' '));
   document.querySelector('meta[name="twitter:description"]').setAttribute('content',(s.summary||'').substring(0,180));
   window._storyHeadline=s.headline;
-  window._storyUrl=location.origin+'/ne_story.html?story='+storyId;
+  // Rich /preview/ URL, same mechanism story.html already uses for
+  // National (see PREVIEW_SOURCES in app.py) -- the four share functions
+  // below (copyLinkOnly/copyWithTitle/copyWithSummary/nativeShare) already
+  // just consume window._storyUrl, unchanged.
+  window._storyUrl='https://data.nospin.media/preview/'+storyId+'?source=ne';
   const hl=(s.headline||'').trim();const nl=hl.indexOf('\n');
   const line1=nl>-1?hl.substring(0,nl).trim():hl;const line2=nl>-1?hl.substring(nl+1).trim():'';
   const topicBg=NE_TOPIC_BG[topic]||NE_TOPIC_BG.newengland;
