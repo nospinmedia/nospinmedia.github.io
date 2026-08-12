@@ -111,6 +111,50 @@
       color: #a02020;
       font-size: 0.9rem;
     }
+    h2 {
+      font-size: 1.05rem;
+      margin: 32px 0 12px;
+    }
+    .sugg-card {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+    }
+    .sugg-original {
+      color: #333;
+      margin-bottom: 6px;
+      cursor: default;
+    }
+    .sugg-headline {
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+    }
+    .sugg-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      font-size: 0.76rem;
+      color: #667;
+    }
+    .sugg-badge {
+      background: #eef2f7;
+      border-radius: 10px;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+    .sugg-badge.terminal-complete { background: #e6f4ea; color: #1a7a3a; }
+    .sugg-badge.terminal-duplicate { background: #eef2f7; color: #556; }
+    .sugg-badge.terminal-not-selected { background: #fce8e6; color: #a02020; }
+    .sugg-badge.terminal-needs-review { background: #fff3cd; color: #8a6500; }
+    .sugg-empty {
+      color: #888;
+      font-size: 0.85rem;
+    }
   </style>
 </head>
 <body>
@@ -143,28 +187,35 @@
     </div>
 
     <div class="status-box" id="statusBox">
-      <div class="stage-line" id="stageLine">Submitted</div>
+      <div class="stage-line" id="stageLine">Received</div>
       <div class="stage-track" id="stageTrack"></div>
+    </div>
+
+    <div class="suggestions-section" id="suggestionsSection" style="display:none;">
+      <h2>Your Story Suggestions</h2>
+      <div id="suggestionsList"></div>
     </div>
   </div>
 
 <script>
 const API_BASE = "https://data.nospin.media/api/submit-story";
 
-const STAGES = ["submitted", "duplicate_check", "research", "writing", "qa", "complete"];
-const STAGE_LABELS = {
-  submitted: "Submitted",
-  duplicate_check: "Duplicate Check",
-  research: "Research",
-  writing: "Writing",
-  qa: "QA",
-  complete: "Complete",
+// Display wording now comes from the server (app.py: STAGE_DISPLAY /
+// OUTCOME_DISPLAY) so this page and any future surface can never say
+// something different for the same underlying state -- this is just the
+// non-terminal progress-track order and per-outcome icon/badge lookup.
+const STAGE_ORDER = ["Received", "Research", "Writing", "Editorial Q"];
+const OUTCOME_ICONS = {
+  "In NSM Queue": "✅",
+  "Duplicate": "ℹ️",
+  "Not Selected": "❌",
+  "Needs Review": "🕵️",
 };
-const TERMINAL_LABELS = {
-  complete: "✅ Complete — placed in the selected queue",
-  duplicate: "ℹ️ Already covered — this appears to already be in our system",
-  could_not_complete: "❌ Could not complete",
-  needs_review: "🕵️ Needs editorial review — our team has been notified",
+const STAGE_BADGE_CLASS = {
+  "In NSM Queue": "complete",
+  "Duplicate": "duplicate",
+  "Not Selected": "not-selected",
+  "Needs Review": "needs-review",
 };
 
 // Invite code lives ONLY in the URL fragment -- never sent to any server
@@ -178,11 +229,18 @@ function getInviteFromFragment() {
 const INVITE = getInviteFromFragment();
 let pollTimer = null;
 
+function escapeHtml(s) {
+  if (s === null || s === undefined) return "";
+  return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   if (!INVITE) {
     document.getElementById("formArea").style.display = "none";
     document.getElementById("noInvite").style.display = "block";
+    return;
   }
+  loadMySubmissions();
 });
 
 function showError(msg) {
@@ -228,7 +286,7 @@ async function submitStory() {
     }
     document.getElementById("formArea").style.display = "none";
     document.getElementById("statusBox").style.display = "block";
-    renderStage("submitted");
+    renderStage("Received", false);
     startPolling(body.status_token);
   } catch (err) {
     showError("Network error — please try again.");
@@ -237,20 +295,22 @@ async function submitStory() {
   }
 }
 
-function renderStage(stage) {
+function renderStage(stage, terminal) {
   const line = document.getElementById("stageLine");
   const track = document.getElementById("stageTrack");
 
-  if (TERMINAL_LABELS[stage] && !STAGES.includes(stage)) {
-    line.textContent = TERMINAL_LABELS[stage];
-  } else {
-    line.textContent = STAGE_LABELS[stage] || stage;
+  if (terminal) {
+    const icon = OUTCOME_ICONS[stage] || "";
+    line.textContent = `${icon} ${stage}`.trim();
+    track.innerHTML = "";
+    return;
   }
 
-  const idx = STAGES.indexOf(stage);
-  track.innerHTML = STAGES.map((s, i) => {
+  line.textContent = stage;
+  const idx = STAGE_ORDER.indexOf(stage);
+  track.innerHTML = STAGE_ORDER.map((s, i) => {
     const cls = idx === -1 ? "" : (i < idx ? "done" : (i === idx ? "current" : ""));
-    return `<span class="${cls}">${STAGE_LABELS[s]}</span>`;
+    return `<span class="${cls}">${s}</span>`;
   }).join(" → ");
 }
 
@@ -265,15 +325,78 @@ async function pollStatus(token) {
     if (!res.ok) return;
     const data = await res.json();
 
+    renderStage(data.stage, data.terminal);
     if (data.terminal) {
       clearInterval(pollTimer);
-      renderStage(data.terminal_outcome);
-    } else {
-      renderStage(data.public_stage);
+      loadMySubmissions(); // refresh the list now that this one has settled
     }
   } catch (err) {
     // transient — next tick retries
   }
+}
+
+/* ══════════════════════════════════════════
+   YOUR STORY SUGGESTIONS — observer-only history for this invite. Fetched
+   on page load and again once the current session's own submission (if
+   any) reaches a terminal state — no continuous polling of the list
+   itself, since "come back later" only needs a fresh load.
+══════════════════════════════════════════ */
+function truncate(text, max) {
+  if (!text) return "";
+  return text.length > max ? text.slice(0, max) + "…" : text;
+}
+
+async function loadMySubmissions() {
+  if (!INVITE) return;
+  try {
+    const res = await fetch(`${API_BASE}/my-submissions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ invite: INVITE }),
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    renderSuggestions(data.submissions || []);
+  } catch (err) {
+    // transient — leave whatever was last shown
+  }
+}
+
+function renderSuggestions(items) {
+  const section = document.getElementById("suggestionsSection");
+  const list = document.getElementById("suggestionsList");
+  section.style.display = "block";
+
+  if (!items.length) {
+    list.innerHTML = `<div class="sugg-empty">No submissions yet.</div>`;
+    return;
+  }
+
+  list.innerHTML = items.map(renderSuggestionCard).join("");
+}
+
+function renderSuggestionCard(item) {
+  const badgeClass = STAGE_BADGE_CLASS[item.stage] || "";
+  const regionLabel = item.region === "ne" ? "New England" : "National";
+  const when = item.submitted_at ? new Date(item.submitted_at).toLocaleString() : "";
+  const headlineLine = item.resulting_headline
+    ? `<div class="sugg-headline">${escapeHtml(item.resulting_headline)}</div>`
+    : "";
+  const scoreBadge = (item.score !== null && item.score !== undefined)
+    ? `<span class="sugg-badge">Score: ${Math.round(item.score)}</span>`
+    : "";
+
+  return `
+    <div class="sugg-card">
+      <div class="sugg-original" title="${escapeHtml(item.original_suggestion)}">${escapeHtml(truncate(item.original_suggestion, 180))}</div>
+      ${headlineLine}
+      <div class="sugg-meta">
+        <span class="sugg-badge">${regionLabel}</span>
+        ${scoreBadge}
+        <span class="sugg-badge terminal-${badgeClass}">${escapeHtml(item.stage)}</span>
+        <span>${when}</span>
+      </div>
+    </div>`;
 }
 </script>
 </body>
