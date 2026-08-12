@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <title>Submit a Story Idea - No Spin Media</title>
+  <style>
+    body {
+      font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      background: #f4f6f8;
+      color: #1a1a1a;
+      margin: 0;
+      padding: 24px 16px 60px;
+    }
+    .wrap {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 1.4rem;
+      margin: 0 0 6px;
+    }
+    p.lead {
+      color: #555;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      margin: 0 0 24px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin: 16px 0 6px;
+    }
+    label:first-of-type { margin-top: 0; }
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      min-height: 110px;
+      padding: 10px;
+      font-size: 0.92rem;
+      font-family: inherit;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      resize: vertical;
+    }
+    .region-row {
+      display: flex;
+      gap: 16px;
+    }
+    .region-row label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      margin: 0;
+      cursor: pointer;
+    }
+    button {
+      margin-top: 18px;
+      width: 100%;
+      padding: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      background: #1a5aa0;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: #9db8d6;
+      cursor: not-allowed;
+    }
+    .status-box {
+      display: none;
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 8px;
+      background: #eef2f7;
+      font-size: 0.9rem;
+    }
+    .stage-line {
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .stage-track {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 0.78rem;
+      color: #667;
+    }
+    .stage-track span.done { color: #1a7a3a; font-weight: 600; }
+    .stage-track span.current { color: #1a5aa0; font-weight: 700; }
+    .error-msg {
+      color: #a02020;
+      font-size: 0.85rem;
+      margin-top: 10px;
+      display: none;
+    }
+    .no-invite {
+      color: #a02020;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Submit a Story Idea</h1>
+    <p class="lead">
+      Send a lead directly into No Spin Media's editorial pipeline. A headline,
+      a topic, a URL, or a brief description is enough — our team's own
+      research/writing/review process takes it from there.
+    </p>
+
+    <div class="card">
+      <div id="formArea">
+        <label for="storyText">Headline, topic, URL, or brief story idea</label>
+        <textarea id="storyText" maxlength="4000" placeholder="e.g. Major transit strike shuts down downtown commute — or paste a news article URL"></textarea>
+
+        <label>Region</label>
+        <div class="region-row">
+          <label><input type="radio" name="region" value="national" checked /> National</label>
+          <label><input type="radio" name="region" value="ne" /> New England</label>
+        </div>
+
+        <button id="submitBtn" onclick="submitStory()">Submit Story Idea</button>
+        <div class="error-msg" id="errorMsg"></div>
+      </div>
+
+      <div id="noInvite" class="no-invite" style="display:none;">
+        This link is missing its access code. Please use the exact URL you were given.
+      </div>
+    </div>
+
+    <div class="status-box" id="statusBox">
+      <div class="stage-line" id="stageLine">Submitted</div>
+      <div class="stage-track" id="stageTrack"></div>
+    </div>
+  </div>
+
+<script>
+const API_BASE = "https://data.nospin.media/api/submit-story";
+
+const STAGES = ["submitted", "duplicate_check", "research", "writing", "qa", "complete"];
+const STAGE_LABELS = {
+  submitted: "Submitted",
+  duplicate_check: "Duplicate Check",
+  research: "Research",
+  writing: "Writing",
+  qa: "QA",
+  complete: "Complete",
+};
+const TERMINAL_LABELS = {
+  complete: "✅ Complete — placed in the selected queue",
+  duplicate: "ℹ️ Already covered — this appears to already be in our system",
+  could_not_complete: "❌ Could not complete",
+  needs_review: "🕵️ Needs editorial review — our team has been notified",
+};
+
+// Invite code lives ONLY in the URL fragment -- never sent to any server
+// as part of the page load itself, never logged anywhere.
+function getInviteFromFragment() {
+  const hash = window.location.hash.replace(/^#/, "");
+  const params = new URLSearchParams(hash);
+  return params.get("invite") || "";
+}
+
+const INVITE = getInviteFromFragment();
+let pollTimer = null;
+
+window.addEventListener("DOMContentLoaded", () => {
+  if (!INVITE) {
+    document.getElementById("formArea").style.display = "none";
+    document.getElementById("noInvite").style.display = "block";
+  }
+});
+
+function showError(msg) {
+  const el = document.getElementById("errorMsg");
+  el.textContent = msg;
+  el.style.display = "block";
+}
+
+function clearError() {
+  document.getElementById("errorMsg").style.display = "none";
+}
+
+async function submitStory() {
+  clearError();
+  const text = document.getElementById("storyText").value.trim();
+  const region = document.querySelector('input[name="region"]:checked').value;
+
+  if (!text) {
+    showError("Please enter a headline, topic, URL, or brief story idea.");
+    return;
+  }
+  if (!INVITE) {
+    showError("This link is missing its access code.");
+    return;
+  }
+
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true;
+  btn.textContent = "Submitting…";
+
+  try {
+    const res = await fetch(`${API_BASE}/submit`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text, region, invite: INVITE }),
+    });
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      showError(body.error || "Something went wrong. Please try again later.");
+      btn.disabled = false;
+      btn.textContent = "Submit Story Idea";
+      return;
+    }
+    document.getElementById("formArea").style.display = "none";
+    document.getElementById("statusBox").style.display = "block";
+    renderStage("submitted");
+    startPolling(body.status_token);
+  } catch (err) {
+    showError("Network error — please try again.");
+    btn.disabled = false;
+    btn.textContent = "Submit Story Idea";
+  }
+}
+
+function renderStage(stage) {
+  const line = document.getElementById("stageLine");
+  const track = document.getElementById("stageTrack");
+
+  if (TERMINAL_LABELS[stage] && !STAGES.includes(stage)) {
+    line.textContent = TERMINAL_LABELS[stage];
+  } else {
+    line.textContent = STAGE_LABELS[stage] || stage;
+  }
+
+  const idx = STAGES.indexOf(stage);
+  track.innerHTML = STAGES.map((s, i) => {
+    const cls = idx === -1 ? "" : (i < idx ? "done" : (i === idx ? "current" : ""));
+    return `<span class="${cls}">${STAGE_LABELS[s]}</span>`;
+  }).join(" → ");
+}
+
+function startPolling(token) {
+  pollTimer = setInterval(() => pollStatus(token), 4000);
+  pollStatus(token);
+}
+
+async function pollStatus(token) {
+  try {
+    const res = await fetch(`${API_BASE}/status/${encodeURIComponent(token)}`);
+    if (!res.ok) return;
+    const data = await res.json();
+
+    if (data.terminal) {
+      clearInterval(pollTimer);
+      renderStage(data.terminal_outcome);
+    } else {
+      renderStage(data.public_stage);
+    }
+  } catch (err) {
+    // transient — next tick retries
+  }
+}
+</script>
+</body>
+</html>
