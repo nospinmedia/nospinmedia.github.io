@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B2CDHQWR45"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-B2CDHQWR45');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>No Spin Media</title>
+    <link rel="stylesheet" href="style.css" />
+    
+    <!-- Google AdSense -->
+    <script async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053277983719011"
+    crossorigin="anonymous"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #222;
+            padding-top: 70px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 2rem;
+        }
+
+        .main {
+            flex: 1 1 60%;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        .sidebar {
+            flex: 1 1 30%;
+            background: #fff;
+            padding: 1rem;
+            margin-top: 2rem;
+            border-left: 2px solid #eee;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+            align-self: flex-start;
+        }
+
+        h1 { font-size: 2rem; margin-top: 0; }
+        h2 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+
+        .button {
+            display: inline-block;
+            margin: 0.5rem 0;
+            padding: 0.6rem 1rem;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        #feedbackForm input, #feedbackForm textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #feedbackForm button {
+            background: #0073e6;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #feedbackForm button:hover { background: #005bb5; }
+        #formStatus {
+            font-size: 0.9em;
+            color: green;
+            margin: 6px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+            .sidebar {
+                margin-top: 1rem;
+                border-left: none;
+                border-top: 2px solid #eee;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="site-header"></div>
+
+    <div class="container">
+        <div class="main">
+
+            <h1>Independent News. Clear Facts. No Spin.</h1>
+
+            <p>
+            <strong>🧭 No Spin Media</strong> is an independent news platform focused on delivering verified information without political bias, editorial spin, or sensationalism. Our goal is simple: provide clear, factual reporting so readers can understand what is happening and why it matters.
+            </p>
+
+            <p>
+            We combine modern technology with careful editorial oversight to produce concise, readable news summaries based on reporting from reputable sources. Every story is written to prioritize accuracy, transparency, and context.
+            </p>
+
+            <h2>What You'll Find Here</h2>
+            <ul>
+                <li>📰 <strong>National & Global News</strong> – Clear summaries of major developments in politics, policy, technology, and world events.</li>
+                <li>📍 <strong>New England Coverage</strong> – Regional reporting focused on issues, policy decisions, and stories affecting communities across the Northeast.</li>
+                <li>📅 <strong>Daily Posts</strong> – Historical moments, cultural milestones, and notable events connected to today's date.</li>
+                <li>🛠 <strong>Helpful Utilities</strong> – Simple tools and resources designed to make everyday tasks easier.</li>
+            </ul>
+
+            <h2>Our Approach</h2>
+            <ul>
+                <li>✔ <strong>Fact-First Reporting</strong> – Stories are created using information that has been verified through multiple reputable sources.</li>
+                <li>✔ <strong>No Editorial Spin</strong> – Our goal is clarity and context, not persuasion.</li>
+                <li>✔ <strong>Technology With Oversight</strong> – Modern tools help us process information efficiently, while editorial controls ensure accuracy and integrity.</li>
+            </ul>
+
+            <p>
+            Whether you're catching up on major headlines or exploring daily historical context, No Spin Media is designed to make staying informed straightforward and reliable.
+            </p>
+
+            <p>
+                <a class="button" href="news.html">Read the News</a>
+                <a class="button" href="new-england.html">New England Coverage</a>
+                <a class="button" href="daily.html">Today's Posts</a>
+                <a class="button" href="sponsor.html">Support Our Work</a>
+            </p>
+
+        </div>
+
+        <div class="sidebar">
+            <h2>Support Us 💙</h2>
+            <p>Like what we're doing? Help keep No Spin Media running:</p>
+            <p><strong>Venmo:</strong><br/>
+                <a href="https://venmo.com/NoSpinMedia" target="_blank">@NoSpinMedia</a>
+            </p>
+
+            <h2>Follow Us</h2>
+            <p>📘 <a href="https://facebook.com/NoSpinNewsAI" target="_blank">facebook.com/NoSpinNewsAI</a></p>
+            <p>🔺 <a href="https://reddit.com/r/NoSpinMedia" target="_blank">reddit.com/r/NoSpinMedia</a></p>
+            <p>🟦 <a href="https://bsky.app/profile/nospinmedia.bsky.social" target="_blank">nospinmedia.bsky.social</a></p>
+
+            <h2>We ❤️ Your Thoughts!</h2>
+            <p>Have an idea, suggestion, or just want to say hi? We read every single message you send. 😊</p>
+            <p>You can also reach us directly at: <strong>nospinmedia.ai@gmail.com</strong></p>
+
+            <form id="feedbackForm">
+                <input type="text" id="name" name="name" placeholder="Your first name">
+                <input type="email" id="email" name="email" placeholder="you@email.com" required>
+                <textarea id="message" name="message" rows="4" placeholder="Your feedback..." required></textarea>
+                <p id="formStatus"></p>
+                <button type="submit">💬 Send Feedback</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
+    </footer>
+
+    <script>
+
+        /* ══════════════════════════════════════════
+           LOCAL NETWORK DETECTION
+           Reads the localStorage flag that dropoff.html
+           writes when visited on the local network.
+           If fresh (< 8 hours), shows internal nav links.
+           ══════════════════════════════════════════ */
+        function nsmShowLocalLinks() {
+            try {
+                const stored = parseInt(localStorage.getItem("nsm_local_seen") || "0");
+                const age    = Date.now() - stored;
+                if (stored && age < 8 * 60 * 60 * 1000) {
+                    ["desktop-dropoff", "desktop-images",
+                     "mobile-dropoff",  "mobile-images"].forEach(function(id) {
+                        var el = document.getElementById(id);
+                        if (el) el.classList.add("visible");
+                    });
+                }
+            } catch(e) {}
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('site-header').innerHTML = html;
+
+                    const hamburger = document.getElementById('hamburger');
+                    const mobileNav = document.getElementById('mobile-nav');
+
+                    if (hamburger && mobileNav) {
+                        function toggleMobileNav() {
+                            mobileNav.classList.toggle('open');
+                            hamburger.classList.toggle('active');
+                        }
+
+                        hamburger.addEventListener('click', toggleMobileNav);
+                        hamburger.addEventListener('touchstart', function(e) {
+                            e.preventDefault();
+                            toggleMobileNav();
+                        }, { passive: false });
+
+                        mobileNav.querySelectorAll('a').forEach(link => {
+                            link.addEventListener('click', () => {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active');
+                            });
+                        });
+
+                        window.addEventListener('resize', function() {
+                            if (window.innerWidth > 768) {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active');
+                            }
+                        });
+                    }
+
+                    /* ── Show internal links if on local network ── */
+                    nsmShowLocalLinks();
+                })
+                .catch(err => console.error("Error loading header.html:", err));
+
+            // Feedback form
+            const feedbackForm = document.getElementById('feedbackForm');
+            if (feedbackForm) {
+                feedbackForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const status = document.getElementById('formStatus');
+                    status.textContent = "⏳ Sending...";
+
+                    const data = {
+                        name:    document.getElementById('name').value || "Someone",
+                        email:   document.getElementById('email').value,
+                        subject: "About Page Feedback",
+                        message: document.getElementById('message').value
+                    };
+
+                    try {
+                        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'text/plain'},
+                            body: JSON.stringify(data)
+                        });
+
+                        let result = {};
+                        try { result = await res.json(); } catch(err) { result = { status: "success" }; }
+
+                        if (result.status === "success") {
+                            status.textContent = "✅ Thanks! Your feedback was sent.";
+                            this.reset();
+                        } else {
+                            status.textContent = "❌ Error sending. Please try again.";
+                        }
+                        setTimeout(() => { status.textContent = ""; }, 5000);
+                    } catch(err) {
+                        status.textContent = "❌ Failed to send! Check connection.";
+                        setTimeout(() => { status.textContent = ""; }, 5000);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
