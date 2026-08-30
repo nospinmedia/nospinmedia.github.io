@@ -5,6 +5,24 @@
    or a fetch() that breaks under file://) is what keeps this a single
    reusable piece across every page, including generated state pages. */
 
+/* Shared jurisdiction index (data/jurisdictions.json — {id, name, status},
+   generated automatically from data/states/*.json and data/territories/
+   *.json, see generate_jurisdictions_index.py). Defined here rather than
+   in js/main.js since layout.js loads on every page unconditionally
+   (feedback-form state dropdown), while main.js only loads where the
+   full state selector control is used. main.js reuses this same
+   function/cache instead of redefining it. */
+var VC_JURISDICTIONS_PROMISE = null;
+
+function vcFetchJurisdictions(basePath) {
+    if (!VC_JURISDICTIONS_PROMISE) {
+        VC_JURISDICTIONS_PROMISE = fetch((basePath || "") + "data/jurisdictions.json")
+            .then(function (r) { return r.json(); })
+            .then(function (data) { return data.jurisdictions; });
+    }
+    return VC_JURISDICTIONS_PROMISE;
+}
+
 function vcRenderLayout() {
     var base = (typeof window.VC_BASE === "string") ? window.VC_BASE : "";
 
@@ -117,28 +135,11 @@ function vcRenderLayout() {
 var VC_FEEDBACK_ENDPOINT =
     "https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec";
 
-/* Same 50 states + D.C. used by the state selector (js/main.js) —
-   duplicated here in full rather than depended on, since not every
-   page that needs this form also loads main.js. */
-var VC_FEEDBACK_STATES = [
-    ["AL","Alabama"],["AK","Alaska"],["AZ","Arizona"],["AR","Arkansas"],["CA","California"],
-    ["CO","Colorado"],["CT","Connecticut"],["DE","Delaware"],["DC","District of Columbia"],
-    ["FL","Florida"],["GA","Georgia"],["HI","Hawaii"],["ID","Idaho"],["IL","Illinois"],
-    ["IN","Indiana"],["IA","Iowa"],["KS","Kansas"],["KY","Kentucky"],["LA","Louisiana"],
-    ["ME","Maine"],["MD","Maryland"],["MA","Massachusetts"],["MI","Michigan"],["MN","Minnesota"],
-    ["MS","Mississippi"],["MO","Missouri"],["MT","Montana"],["NE","Nebraska"],["NV","Nevada"],
-    ["NH","New Hampshire"],["NJ","New Jersey"],["NM","New Mexico"],["NY","New York"],
-    ["NC","North Carolina"],["ND","North Dakota"],["OH","Ohio"],["OK","Oklahoma"],["OR","Oregon"],
-    ["PA","Pennsylvania"],["RI","Rhode Island"],["SC","South Carolina"],["SD","South Dakota"],
-    ["TN","Tennessee"],["TX","Texas"],["UT","Utah"],["VT","Vermont"],["VA","Virginia"],
-    ["WA","Washington"],["WV","West Virginia"],["WI","Wisconsin"],["WY","Wyoming"]
-];
-
-function vcFeedbackStateOptionsHTML(preselect) {
+function vcFeedbackStateOptionsHTML(jurisdictions, preselect) {
     var html = '<option value="">General (not state-specific)</option>';
-    VC_FEEDBACK_STATES.forEach(function (pair) {
-        var selected = (pair[0] === preselect) ? " selected" : "";
-        html += '<option value="' + pair[0] + '"' + selected + '>' + pair[1] + '</option>';
+    jurisdictions.forEach(function (j) {
+        var selected = (j.id === preselect) ? " selected" : "";
+        html += '<option value="' + j.id + '"' + selected + '>' + j.name + '</option>';
     });
     return html;
 }
@@ -171,9 +172,7 @@ function vcRenderFeedbackForm() {
                 '<div class="vc-feedback-row">' +
                     '<div>' +
                         '<label class="vc-sr-only" for="vc-fb-state">State or territory</label>' +
-                        '<select id="vc-fb-state">' +
-                            vcFeedbackStateOptionsHTML(preselectState) +
-                        '</select>' +
+                        '<select id="vc-fb-state"><option value="">Loading states…</option></select>' +
                     '</div>' +
                     '<div>' +
                         '<label class="vc-sr-only" for="vc-fb-reason">Reason for contacting us</label>' +
@@ -197,6 +196,28 @@ function vcRenderFeedbackForm() {
     main.appendChild(mount);
 
     document.getElementById("vc-feedback-form").addEventListener("submit", vcSubmitFeedback);
+
+    var base = (typeof window.VC_BASE === "string") ? window.VC_BASE : "";
+    vcFetchJurisdictions(base).then(function (jurisdictions) {
+        document.getElementById("vc-fb-state").innerHTML = vcFeedbackStateOptionsHTML(jurisdictions, preselectState);
+    });
+}
+
+/* Turns the URL hash (e.g. "#voter_id") into the human-readable heading
+   actually shown for that section on the page (e.g. "Voter ID
+   Requirements"), by reading whatever heading element is already
+   rendered inside it -- rather than a second hardcoded id->label map to
+   keep in sync with the section labels in each jurisdiction's own data
+   or each page's own markup. Falls back to the raw hash if no matching
+   element/heading is found, and to "" (rendered as "(none)") if there's
+   no hash at all -- e.g. a report from the Voting Center homepage. */
+function vcHumanReadableSectionName() {
+    if (!window.location.hash) return "";
+    var id = window.location.hash.slice(1);
+    var el = document.getElementById(id);
+    if (!el) return id;
+    var heading = el.querySelector("h1, h2, h3, h4") || (/^H[1-4]$/.test(el.tagName) ? el : null);
+    return heading ? heading.textContent.trim() : id;
 }
 
 function vcSubmitFeedback(e) {
@@ -210,7 +231,7 @@ function vcSubmitFeedback(e) {
     var stateEl = document.getElementById("vc-fb-state");
     var reason = reasonEl.value;
     var stateLabel = stateEl.selectedOptions[0] ? stateEl.selectedOptions[0].textContent : "General (not state-specific)";
-    var section = window.location.hash ? window.location.hash.replace("#", "") : "";
+    var section = vcHumanReadableSectionName();
     var page = window.location.href;
 
     var subject = "Voting Center — " + reason + " — " + stateLabel;
@@ -227,6 +248,7 @@ function vcSubmitFeedback(e) {
     var data = {
         name: document.getElementById("vc-fb-name").value || "Someone",
         email: document.getElementById("vc-fb-email").value || "",
+        source: "Voting Center",
         subject: subject,
         message: bodyLines.join("\n")
     };

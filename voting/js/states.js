@@ -1,8 +1,10 @@
 /* Reusable state-page template renderer.
-   One HTML file (states/index.html) + this script + data/states.json (+
-   data/elections.json for the federal "next election" glance fact) covers
-   all 50 states + D.C. — reading ?state=XX from the URL rather than
-   existing as 51 separately-maintained pages. */
+   One HTML file (states/index.html) + this script covers all 50 states +
+   D.C. (plus territories once added) — reading ?state=XX from the URL and
+   fetching only that one jurisdiction's own file from data/states/<ID>.json
+   or data/territories/<ID>.json, rather than existing as 51+ separately-
+   maintained pages or loading every jurisdiction's data at once. Also
+   fetches data/elections.json for the federal "next election" glance fact. */
 
 var VC_SECTION_ORDER = [
     "register", "check_registration", "deadlines", "polling_place",
@@ -12,8 +14,8 @@ var VC_SECTION_ORDER = [
 ];
 
 /* Which sections get a compact tile in "at a glance." A constant here
-   (rather than repeated per-state in states.json) since every state
-   surfaces the same handful of high-value facts. */
+   (rather than repeated per jurisdiction) since every state surfaces the
+   same handful of high-value facts. */
 var VC_GLANCE_SECTION_KEYS = ["deadlines", "early_voting", "voter_id", "absentee_mail"];
 
 var VC_QUICK_ACTIONS = [
@@ -197,6 +199,21 @@ function vcFieldHTML(key, section, stateName) {
     return html;
 }
 
+/* Loads exactly one jurisdiction's own file -- never the full collection.
+   Tries data/states/<ID>.json first, then data/territories/<ID>.json (for
+   AS/GU/MP/PR/VI once those are added), so the template doesn't need to
+   know in advance which directory a given code lives in. Resolves to
+   null (not a rejection) when neither exists, so the caller can show the
+   normal "not recognized" message either way. */
+function vcFetchJurisdictionData(stateId) {
+    return fetch("../data/states/" + stateId + ".json").then(function (r) {
+        if (r.ok) return r.json();
+        return fetch("../data/territories/" + stateId + ".json").then(function (r2) {
+            return r2.ok ? r2.json() : null;
+        });
+    }).catch(function () { return null; });
+}
+
 function vcRenderStatePage() {
     var params = new URLSearchParams(window.location.search);
     var stateParam = (params.get("state") || "").toUpperCase();
@@ -213,13 +230,20 @@ function vcRenderStatePage() {
         return;
     }
 
+    if (!/^[A-Z]{2}$/.test(stateParam)) {
+        vcSetSeoTags(canonicalBase, "noindex, follow");
+        contentWrap.innerHTML = '<div class="vc-wrap vc-narrow"><div class="vc-card"><p>We don\'t recognize that state code. <a href="index.html">Choose your state again</a>.</p></div></div>';
+        pickerWrap.style.display = "none";
+        contentWrap.style.display = "block";
+        return;
+    }
+
     Promise.all([
-        fetch("../data/states.json").then(function (r) { return r.json(); }),
+        vcFetchJurisdictionData(stateParam),
         fetch("../data/elections.json").then(function (r) { return r.json(); })
     ]).then(function (results) {
-        var statesData = results[0];
+        var state = results[0];
         var electionsData = results[1];
-        var state = statesData.states.find(function (s) { return s.id === stateParam; });
 
         if (!state) {
             vcSetSeoTags(canonicalBase, "noindex, follow");

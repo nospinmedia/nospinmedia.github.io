@@ -1,8 +1,8 @@
 # No Spin Media Voting Center
 
-A standalone, nonpartisan static site for voter information and education — registration, ways to vote, polling places, ID requirements, and state-by-state guides. Visually designed to feel like a section of [nospin.media](https://nospin.media), but built and deployed as its own repository/site.
+A standalone, nonpartisan static site for voter information and education — registration, ways to vote, polling places, ID requirements, and state-by-state guides. Visually designed to feel like a section of [nospin.media](https://nospin.media).
 
-**Status: Phase 1 — architecture, design, and templates.** No real per-state voting rules have been populated yet; every state's content is explicit placeholder data (see `data/states.json`). This site is not yet linked from the main NSM site or Knowledge Base.
+**Deployed at [https://nospin.media/voting/](https://nospin.media/voting/)** as a self-contained `voting/` directory inside the `nospinmedia.github.io` repo — not linked from the main NSM site's navigation, homepage, or Knowledge Base yet; that happens deliberately at formal launch.
 
 ## What this is
 
@@ -18,24 +18,68 @@ Strictly nonpartisan voter information and education. It explains how voting wor
 - `elections.html` — upcoming elections, driven by `data/elections.json`
 - `news.html` — reserved placeholder for a future NSM news feed integration
 - `about.html` — nonpartisan commitment, verification process, corrections
-- `states/index.html` — **one reusable template** for all 50 states + D.C., rendered client-side from `data/states.json` via `?state=XX` in the URL. Not 51 separate pages.
+- `states/index.html` — **one reusable template** for all 50 states + D.C. (territories to follow), rendered client-side via `?state=XX` in the URL. Not 51+ separate pages, and each page load fetches only that one jurisdiction's own file — never the full collection.
 
-## Data files (`data/`)
+## Jurisdiction data (`data/states/`, `data/territories/`)
 
-- `states.json` — all 51 states/D.C., each with the 15 required fields (register, check registration, deadlines, polling place, Election Day, polling hours, early voting, absentee/mail, voter ID, accessible voting, military/overseas, student voting, sample ballot, contact, official resources). Every field currently carries `status: "placeholder"` and a placeholder notice — **not real voting information yet**.
+Each state/D.C. is its own file: `data/states/AL.json`, `data/states/CA.json`, ... `data/states/WY.json`, `data/states/DC.json`. Territories (AS, GU, MP, PR, VI) will land in `data/territories/` the same way as they're added — that directory exists now but is empty. **This is the only authoritative copy of each jurisdiction's voting information** — there is no separate consolidated file duplicating this content.
+
+Each jurisdiction file has the same shape:
+
+```
+{
+  "id", "name", "status", "last_verified",
+  "next_state_election": {...} | null,
+  "glance_notes": [...],
+  "sections": {
+    "register", "check_registration", "deadlines", "polling_place",
+    "election_day", "polling_hours", "early_voting", "absentee_mail",
+    "voter_id", "accessible_voting", "military_overseas", "student_voting",
+    "sample_ballot", "contact", "official_resources"
+  }
+}
+```
+
+Each section carries: `label`, `status`, `content`, `glance_value`, `source_url`, `source_name`, `last_verified`, `flagged_reason`, `flagged_at`, `internal_note`, `reverify_after_days`.
+
+**`status`** (both top-level and per-section) is one of `placeholder` / `in_review` / `needs_review` / `verified`. Only `verified` jurisdictions are indexable (search-engine crawlable) and appear in `sitemap.xml` — see js/states.js's SEO handling and `generate_sitemap.py`. A checker can flag a section `needs_review` (with `flagged_reason`/`flagged_at`) without touching its published `content`/`source_url`/`last_verified` — those represent the last human-verified instruction and are never auto-cleared.
+
+New Hampshire (`NH`) is the reference implementation and the only currently-`verified` jurisdiction. Every other jurisdiction is `in_review` or `placeholder` — real content, but not yet independently re-verified against primary sources the way NH was.
+
+### Two generated files — never hand-edit these
+
+- **`data/jurisdictions.json`** — a `{id, name, status}` index built from every file in `data/states/` and `data/territories/`. This is what the state picker (`js/main.js`) and the feedback form's state dropdown (`js/layout.js`) actually read — neither hardcodes a state list. Regenerate after adding/removing a jurisdiction file: `python3 generate_jurisdictions_index.py`
+- **`sitemap.xml`** — built from the same per-jurisdiction files, including only `verified` ones (plus all static pages, unconditionally). Regenerate whenever a jurisdiction's status changes: `python3 generate_sitemap.py`
+
+### Validate before every deploy
+
+`python3 validate_jurisdictions.py` checks every file in `data/states/` and `data/territories/` against the schema above (exact field sets, valid status enum, non-empty content unless placeholder, no stray Markdown-link syntax in URLs) and exits non-zero if anything is malformed. Deploys should not proceed past a failing validation run.
+
+## Other data files (`data/`)
+
 - `faq.json` — general, nonpartisan FAQ content (safe generic civic education, not state-specific claims)
 - `elections.json` — one verified federal date (2026 general election, Nov 3, 2026) plus placeholder architecture for state/local dates
 - `resources.json` — verified national official resources (Vote.gov, USA.gov, EAC.gov, FVAP.gov)
 
-Every changeable data item supports `source_url`, `source_name`, `last_verified`, and `status` fields so a future automated process can flag stale information for human re-verification.
+## Feedback / report form
+
+Every page includes a "Have a Voting Question or Found an Update?" form (injected by `js/layout.js`, not duplicated per-page HTML). It reuses the exact same submission mechanism as the public Knowledge Base "Suggest an article" form on `knowledge.html` — same Google Apps Script endpoint, same `{name, email, subject, message}` payload, same honeypot — with a `source: "Voting Center"` field and a `"Voting Center — <reason> — <state>"` subject prefix so submissions are distinguishable from Games/Knowledge Base ones without any schema change. State auto-preselects from `?state=XX`; the section (if the reader arrived via a `#anchor`) is captured as the actual human-readable heading text, not the raw anchor id; the page URL is captured automatically. **Note:** as of this writing, the shared Apps Script backend still has a hardcoded "Sent from the Games feedback form" footer regardless of source — fixing that requires editing the Apps Script itself (Google-hosted, not in this repo), which needs the `source` field this form already sends to branch the footer correctly per form.
+
+## SEO / crawlability
+
+- `<link rel="canonical">` is static on all 12 non-state pages, hardcoded to `https://nospin.media/voting/...`.
+- State pages set `canonical`, `robots`, and `description` **dynamically** per `?state=XX` in `js/states.js`, since it's one template covering every jurisdiction: `verified` → `index, follow`; everything else → `noindex, follow`. This flips automatically the next time a page loads after a status change — no manual step.
+- `robots.txt` must live at the true site root (`nospin.media/robots.txt`), not inside `voting/` — a per-directory one isn't honored by crawlers. It points to `voting/sitemap.xml`.
 
 ## Design
 
 Shared visual language with nospin.media: black fixed header, Arial, `#f4f4f4` body background, white rounded cards with soft shadows, same mobile hamburger nav pattern. A small teal "🗳️ Voting Center" badge next to the logo and a `#0e6e6a` accent color distinguish this section without breaking the shared identity. Header/footer are rendered from `js/layout.js` (one JS template, not copy-pasted per page) so nav changes happen in one place.
 
-## Not yet done (by design — see the project brief)
+## Not yet done
 
-- Real per-state voting rules (currently all placeholder)
-- Real state/local election dates
+- Independent primary-source verification for 49 of 51 jurisdictions (only NH is `verified`)
+- Territories (AS, GU, MP, PR, VI)
+- Real state/local election dates beyond the few captured per-jurisdiction
 - Live NSM news feed into `news.html`
 - Any link from the main NSM site, Knowledge Base, or promotional house-ad units
+- The Apps Script backend's per-source footer fix (see Feedback form, above)

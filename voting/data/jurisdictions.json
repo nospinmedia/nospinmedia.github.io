@@ -1,0 +1,310 @@
+{
+  "jurisdictions": [
+    {
+      "id": "AL",
+      "name": "Alabama",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "AK",
+      "name": "Alaska",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "AZ",
+      "name": "Arizona",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "AR",
+      "name": "Arkansas",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "CA",
+      "name": "California",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "CO",
+      "name": "Colorado",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "CT",
+      "name": "Connecticut",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "DE",
+      "name": "Delaware",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "DC",
+      "name": "District of Columbia",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "FL",
+      "name": "Florida",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "GA",
+      "name": "Georgia",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "HI",
+      "name": "Hawaii",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "ID",
+      "name": "Idaho",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "IL",
+      "name": "Illinois",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "IN",
+      "name": "Indiana",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "IA",
+      "name": "Iowa",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "KS",
+      "name": "Kansas",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "KY",
+      "name": "Kentucky",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "LA",
+      "name": "Louisiana",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "ME",
+      "name": "Maine",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "MD",
+      "name": "Maryland",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "MA",
+      "name": "Massachusetts",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "MI",
+      "name": "Michigan",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "MN",
+      "name": "Minnesota",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "MS",
+      "name": "Mississippi",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "MO",
+      "name": "Missouri",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "MT",
+      "name": "Montana",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "NE",
+      "name": "Nebraska",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "NV",
+      "name": "Nevada",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "NH",
+      "name": "New Hampshire",
+      "status": "verified",
+      "kind": "states"
+    },
+    {
+      "id": "NJ",
+      "name": "New Jersey",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "NM",
+      "name": "New Mexico",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "NY",
+      "name": "New York",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "NC",
+      "name": "North Carolina",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "ND",
+      "name": "North Dakota",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "OH",
+      "name": "Ohio",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "OK",
+      "name": "Oklahoma",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "OR",
+      "name": "Oregon",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "PA",
+      "name": "Pennsylvania",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "RI",
+      "name": "Rhode Island",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "SC",
+      "name": "South Carolina",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "SD",
+      "name": "South Dakota",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "TN",
+      "name": "Tennessee",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "TX",
+      "name": "Texas",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "UT",
+      "name": "Utah",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "VT",
+      "name": "Vermont",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "VA",
+      "name": "Virginia",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "WA",
+      "name": "Washington",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "WV",
+      "name": "West Virginia",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "WI",
+      "name": "Wisconsin",
+      "status": "in_review",
+      "kind": "states"
+    },
+    {
+      "id": "WY",
+      "name": "Wyoming",
+      "status": "in_review",
+      "kind": "states"
+    }
+  ]
+}
