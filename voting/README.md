@@ -44,7 +44,7 @@ Each section carries: `label`, `status`, `content`, `glance_value`, `source_url`
 
 **`status`** (both top-level and per-section) is one of `placeholder` / `in_review` / `needs_review` / `verified`. Only `verified` jurisdictions are indexable (search-engine crawlable) and appear in `sitemap.xml` — see js/states.js's SEO handling and `generate_sitemap.py`. A checker can flag a section `needs_review` (with `flagged_reason`/`flagged_at`) without touching its published `content`/`source_url`/`last_verified` — those represent the last human-verified instruction and are never auto-cleared.
 
-New Hampshire (`NH`) is the reference implementation and the only currently-`verified` jurisdiction. Every other jurisdiction is `in_review` or `placeholder` — real content, but not yet independently re-verified against primary sources the way NH was.
+New Hampshire (`NH`) is the reference implementation and the only currently-`verified` jurisdiction. Every other jurisdiction (50 states + D.C.) is populated with real, sourced content and currently `in_review` — none are `placeholder` — but not yet independently re-verified against primary sources the way NH was.
 
 ### Two generated files — never hand-edit these
 
@@ -90,7 +90,7 @@ Shared visual language with nospin.media: black fixed header, Arial, `#f4f4f4` b
 
 ## Not yet done
 
-- Independent primary-source verification for 49 of 51 jurisdictions (only NH is `verified`)
+- Independent primary-source verification for 50 of 51 jurisdictions (only NH is `verified`; the other 50 are populated and `in_review`, not `placeholder`)
 - Territories (AS, GU, MP, PR, VI)
 - Real state/local election dates beyond the few captured per-jurisdiction
 - Live NSM news feed into `news.html`
