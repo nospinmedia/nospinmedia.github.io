@@ -238,12 +238,10 @@ function vcSubmitFeedback(e) {
 
     var bodyLines = [
         "Reason: " + reason,
-        "State/Territory: " + stateLabel,
-        "Section: " + (section || "(none)"),
-        "Page: " + page,
-        "",
-        document.getElementById("vc-fb-message").value
+        "State/Territory: " + stateLabel
     ];
+    if (section) bodyLines.push("Section: " + section);
+    bodyLines.push("Page: " + page, "", document.getElementById("vc-fb-message").value);
 
     var data = {
         name: document.getElementById("vc-fb-name").value || "Someone",
