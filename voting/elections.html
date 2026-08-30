@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Upcoming Elections — No Spin Media Voting Center</title>
+<meta name="description" content="Upcoming federal, state, and local election dates and key deadlines." />
+<link rel="canonical" href="https://nospin.media/voting/elections.html" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main id="main-content">
+
+<div class="vc-page-head">
+    <h1>📅 Upcoming Elections</h1>
+    <p>Key federal dates now, with state and local dates coming in a later phase.</p>
+</div>
+
+<div class="vc-wrap vc-narrow">
+
+    <h2 class="vc-section-title" style="margin-top:0;">Federal Elections</h2>
+    <div class="vc-card" id="vc-federal-elections"></div>
+
+    <h2 class="vc-section-title vc-section">State &amp; Local Elections</h2>
+    <div class="vc-section" id="vc-state-local-placeholder"></div>
+
+    <div class="vc-card vc-section">
+        <h2>Find your state's specific deadlines</h2>
+        <div class="vc-state-select" data-vc-state-selector id="vc-elec-state-selector" data-base="">
+            <label for="vc-elec-select">Your state's registration &amp; voting deadlines:</label>
+            <select id="vc-elec-select"></select>
+            <button type="button">Go</button>
+        </div>
+    </div>
+
+</div>
+
+</main>
+
+<div id="site-footer"></div>
+
+<script>window.VC_BASE = "";</script>
+<script src="js/layout.js"></script>
+<script src="js/main.js"></script>
+<script src="js/elections.js"></script>
+</body>
+</html>

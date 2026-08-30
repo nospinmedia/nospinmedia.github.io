@@ -1,0 +1,137 @@
+{
+  "_comment": "General, nonpartisan voter-education FAQ. These answers describe how voting processes generally work in the U.S. and explicitly direct readers to their state for rules that vary by state. They do not state specific state deadlines/numbers — those live in states.json instead. Safe to treat as real content, not placeholder, since it is general civic education rather than a jurisdiction-specific claim.",
+  "categories": [
+    { "id": "registration", "label": "Registration" },
+    { "id": "eligibility", "label": "Eligibility" },
+    { "id": "moving", "label": "Moving / Address Changes" },
+    { "id": "college", "label": "College Students" },
+    { "id": "id", "label": "Voter ID" },
+    { "id": "mail", "label": "Mail & Absentee Voting" },
+    { "id": "polling", "label": "Polling Places" },
+    { "id": "accessibility", "label": "Accessibility" },
+    { "id": "ballot_tracking", "label": "Ballot Tracking" },
+    { "id": "other", "label": "Other" }
+  ],
+  "items": [
+    {
+      "id": "faq-1",
+      "category": "eligibility",
+      "question": "Who is eligible to vote in the United States?",
+      "answer": "In general, you must be a U.S. citizen, meet your state's minimum age requirement (usually 18 by Election Day), and meet your state's residency requirement. Some states restrict eligibility based on certain felony convictions, with rules on if/when voting rights are restored — these rules vary significantly by state, so check your state's guide for specifics."
+    },
+    {
+      "id": "faq-2",
+      "category": "registration",
+      "question": "How do I register to vote?",
+      "answer": "You can register online (in most states), by mail using the National Mail Voter Registration Form, or in person at your local election office, DMV, or another designated agency. Vote.gov can route you to your state's official registration option."
+    },
+    {
+      "id": "faq-3",
+      "category": "registration",
+      "question": "Is there a deadline to register to vote?",
+      "answer": "Yes — most states have a registration deadline before Election Day, typically ranging from about 30 days before the election to same-day registration in some states. Deadlines vary by state, so check your state's Voting Center page for the specific date."
+    },
+    {
+      "id": "faq-4",
+      "category": "registration",
+      "question": "How do I check whether I'm already registered to vote?",
+      "answer": "Most states offer a free online voter registration lookup tool through their Secretary of State or state election authority website. Your state's Voting Center page links directly to that official tool."
+    },
+    {
+      "id": "faq-5",
+      "category": "moving",
+      "question": "I recently moved. Do I need to re-register to vote?",
+      "answer": "If you moved within the same state, you generally need to update your voter registration address — some states let you do this online, and some let you update it at your polling place on Election Day. If you moved to a different state, you'll need to register in your new state and your old registration will no longer apply there."
+    },
+    {
+      "id": "faq-6",
+      "category": "college",
+      "question": "Can college students vote where they attend school?",
+      "answer": "In most cases, yes — students may choose to register either at their school address or their permanent home address, but generally not both. Some states have specific ID or proof-of-residency requirements for students, so check your state's guide."
+    },
+    {
+      "id": "faq-7",
+      "category": "id",
+      "question": "Do I need photo ID to vote?",
+      "answer": "It depends on your state. Some states require photo ID at the polls, some accept non-photo ID or an affidavit, and some require no ID at all for most voters. Requirements can also differ for first-time voters or mail voters. Check your state's Voter ID Requirements section for the exact rule."
+    },
+    {
+      "id": "faq-8",
+      "category": "mail",
+      "question": "What's the difference between absentee voting and mail voting?",
+      "answer": "The terms are often used interchangeably. Historically 'absentee' meant voting by mail because you couldn't be present in person (e.g., travel, illness, military service), while some states now mail a ballot to every registered voter automatically ('mail voting' or 'vote-by-mail'). Eligibility rules for who can vote by mail vary by state."
+    },
+    {
+      "id": "faq-9",
+      "category": "mail",
+      "question": "How do I request a mail or absentee ballot?",
+      "answer": "Most states let you request one online, by mail, or in person through your local election office. Some states require an application every election; others let you join a permanent mail-voter list. Your state's guide links to the official request process."
+    },
+    {
+      "id": "faq-10",
+      "category": "ballot_tracking",
+      "question": "Can I track my mail ballot to make sure it was received and counted?",
+      "answer": "Many states offer a ballot-tracking tool so you can see when your ballot was mailed, received, and accepted (or if there's an issue that needs fixing). Check your state's official election authority website for its tracking tool, if available."
+    },
+    {
+      "id": "faq-11",
+      "category": "mail",
+      "question": "What happens if my mail ballot is rejected?",
+      "answer": "Ballots are most commonly rejected for a missing or mismatched signature, a late postmark, or a missing witness/ID requirement. Many states are required to notify you and give you a chance to 'cure' (fix) the issue within a deadline — check your state's rules and contact your local election office right away if you're notified of a problem."
+    },
+    {
+      "id": "faq-12",
+      "category": "polling",
+      "question": "How do I find my polling place?",
+      "answer": "Your state or county election authority's website has an official polling place lookup tool, usually by entering your registered address. Polling locations can change between elections, so it's worth checking shortly before each election even if you've voted at the same place before."
+    },
+    {
+      "id": "faq-13",
+      "category": "polling",
+      "question": "What if I show up at the wrong polling place?",
+      "answer": "Poll workers can generally tell you the correct location, or in some states/counties you may be able to vote a provisional ballot or use a vote center that accepts any registered voter from the county. Ask poll workers on-site, or check your state's guide for how this is handled locally."
+    },
+    {
+      "id": "faq-14",
+      "category": "other",
+      "question": "What is a provisional ballot?",
+      "answer": "A provisional ballot is a backup ballot used when there's a question about a voter's eligibility at the polls (for example, their name doesn't appear on the rolls, or they lack required ID). It's set aside and counted later once election officials confirm eligibility. If you're offered a provisional ballot, ask how to confirm afterward that it was counted."
+    },
+    {
+      "id": "faq-15",
+      "category": "other",
+      "question": "What's the difference between a primary and a general election?",
+      "answer": "A primary election is where a political party's voters choose that party's nominee for an office. A general election is where voters choose the actual officeholder from among all parties' nominees (and any independent candidates)."
+    },
+    {
+      "id": "faq-16",
+      "category": "accessibility",
+      "question": "What accessible voting options are available for voters with disabilities?",
+      "answer": "Federal law requires polling places to offer accessible voting equipment and physical access. Many states also offer curbside voting, accessible mail-ballot formats, or in-person assistance. Check your state's Accessible Voting section or contact your local election office for specifics."
+    },
+    {
+      "id": "faq-17",
+      "category": "other",
+      "question": "Can someone help me vote if I need assistance?",
+      "answer": "Yes. Federal law (the Voting Rights Act) generally allows voters who need assistance due to disability or inability to read/write to receive help from a person of their choice — with some exceptions, such as an employer or union representative in some circumstances."
+    },
+    {
+      "id": "faq-18",
+      "category": "other",
+      "question": "How do I get a sample ballot before Election Day?",
+      "answer": "Most county or state election offices publish an official sample ballot online once ballots are finalized, so you can preview every office and question that will appear before you vote. Your state's guide links to that official sample-ballot source."
+    },
+    {
+      "id": "faq-19",
+      "category": "other",
+      "question": "What is a ballot question or referendum?",
+      "answer": "A ballot question (sometimes called a referendum, initiative, or proposition, depending on the state) lets voters directly decide on a specific law, constitutional amendment, or local measure, rather than voting for a candidate. No Spin Media explains what a ballot question is and how to research it — we do not take a position on how anyone should vote on one."
+    },
+    {
+      "id": "faq-20",
+      "category": "other",
+      "question": "How do military and overseas citizens vote?",
+      "answer": "Under the federal Uniformed and Overseas Citizens Absentee Voting Act (UOCAVA), U.S. service members, their eligible family members, and overseas citizens can register and request an absentee ballot using the Federal Post Card Application (FPCA). The Federal Voting Assistance Program (FVAP.gov) is the official resource for this process and for each state's specific rules and deadlines."
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "_comment": "National, non-state-specific official government resources. Verified by fetch/search on 2026-08-30. State-specific resources live in states.json instead, per-state, and are placeholders until reviewed.",
+  "last_reviewed": "2026-08-30",
+  "national": [
+    {
+      "id": "vote-gov",
+      "name": "Vote.gov",
+      "description": "The U.S. government's official portal to register to vote, check registration, and find state-specific voting information.",
+      "url": "https://vote.gov",
+      "source_name": "Vote.gov (U.S. federal government)",
+      "status": "verified",
+      "last_verified": "2026-08-30"
+    },
+    {
+      "id": "usa-gov-voting",
+      "name": "USA.gov — Voting and Elections",
+      "description": "USA.gov's hub for registering to vote, absentee/early voting, and finding your state election office.",
+      "url": "https://www.usa.gov/register-to-vote",
+      "source_name": "USA.gov (U.S. General Services Administration)",
+      "status": "verified",
+      "last_verified": "2026-08-30"
+    },
+    {
+      "id": "eac-gov",
+      "name": "U.S. Election Assistance Commission (EAC)",
+      "description": "Independent, bipartisan federal agency focused on election administration; publishes voter guides and accessibility resources.",
+      "url": "https://www.eac.gov",
+      "source_name": "U.S. Election Assistance Commission",
+      "status": "verified",
+      "last_verified": "2026-08-30"
+    },
+    {
+      "id": "fvap-gov",
+      "name": "Federal Voting Assistance Program (FVAP)",
+      "description": "Official resource for military members, their families, and overseas citizens voting under UOCAVA — includes the Federal Post Card Application.",
+      "url": "https://www.fvap.gov",
+      "source_name": "Federal Voting Assistance Program, U.S. Department of Defense",
+      "status": "verified",
+      "last_verified": "2026-08-30"
+    }
+  ]
+}

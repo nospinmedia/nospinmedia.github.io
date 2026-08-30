@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>State Voting Guide — No Spin Media Voting Center</title>
+<meta name="description" content="State-specific nonpartisan voting information: registration, deadlines, polling places, ID requirements, and official resources." />
+<link rel="canonical" href="https://nospin.media/voting/states/index.html" />
+<link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<main id="main-content">
+
+<div id="vc-state-picker" style="display:none;">
+    <div class="vc-page-head">
+        <h1>📍 State Voting Guides</h1>
+        <p>Choose your state for registration, deadlines, polling places, ID requirements, and more — all in one place, sourced back to official government resources.</p>
+    </div>
+    <div class="vc-wrap vc-narrow">
+        <div class="vc-state-select" data-vc-state-selector id="vc-states-index-selector" data-base="../">
+            <label for="vc-states-index-select">Select your state:</label>
+            <select id="vc-states-index-select"></select>
+            <button type="button">Go</button>
+        </div>
+        <div class="vc-banner vc-banner-placeholder vc-section">
+            ⚠️ We're populating states one at a time, each researched directly from that state's official election authority. Most states currently show placeholder content — <strong>New Hampshire is the first completed, verified state</strong>. See the <a href="../about.html">About page</a> for how status labels work.
+        </div>
+    </div>
+</div>
+
+<div id="vc-state-content" style="display:none;"></div>
+
+</main>
+
+<div id="site-footer"></div>
+
+<script>window.VC_BASE = "../";</script>
+<script src="../js/layout.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/states.js"></script>
+</body>
+</html>

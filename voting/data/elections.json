@@ -1,0 +1,41 @@
+{
+  "_comment": "Upcoming Elections data. Data is kept separate from the elections.html page so a future automated process can update this file (or feed it from the main NSM news database) without touching page layout. Each entry supports source_url/source_name/last_verified/status so items can be flagged for human re-verification.",
+  "last_reviewed": "2026-08-30",
+  "federal": [
+    {
+      "id": "2026-general-election",
+      "name": "2026 U.S. General Election (Federal Midterms)",
+      "date": "2026-11-03",
+      "display_date": "November 3, 2026",
+      "description": "All 435 U.S. House seats and 33 U.S. Senate seats are on the ballot, along with many state and local races. Federal law sets Election Day as the Tuesday after the first Monday in November of even-numbered years.",
+      "source_url": "https://www.eac.gov",
+      "source_name": "U.S. Election Assistance Commission",
+      "status": "verified",
+      "last_verified": "2026-08-30"
+    }
+  ],
+  "state_and_local": {
+    "status": "placeholder",
+    "note": "State and local election dates, primaries, and deadlines are not yet populated. This structure is a placeholder to demonstrate the architecture — real per-state entries are added in a later phase, sourced from each state's official election authority, not invented here.",
+    "example_entry_shape": {
+      "id": "example-only",
+      "state": "XX",
+      "name": "Example placeholder — not a real election",
+      "date": null,
+      "type": "primary | general | special | local",
+      "description": "PLACEHOLDER TEXT — do not treat as real.",
+      "source_url": null,
+      "source_name": null,
+      "status": "placeholder",
+      "last_verified": null
+    }
+  },
+  "deadline_types_supported": [
+    "voter_registration_deadline",
+    "early_voting_start",
+    "early_voting_end",
+    "absentee_request_deadline",
+    "absentee_return_deadline",
+    "election_day"
+  ]
+}

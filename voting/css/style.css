@@ -1,0 +1,709 @@
+/* ============================================================
+   No Spin Media Voting Center — shared stylesheet
+   Visual language matches nospin.media (black header, Arial,
+   #f4f4f4 body, white rounded cards with soft shadows) so this
+   reads as a section of NSM, not a separate site. Voting-Center
+   specific components (action cards, badges, state selector,
+   FAQ) are added below that base.
+   ============================================================ */
+
+* { box-sizing: border-box; }
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    padding-top: 70px;
+    background: #f4f4f4;
+    color: #222;
+    line-height: 1.6;
+}
+
+a { color: #0e6e6a; }
+a:hover { color: #0a4f4c; }
+
+/* ---------- Header (matches nospin.media header.html) ---------- */
+
+header {
+    box-sizing: border-box;
+    background: #111;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 2rem;
+    min-height: 70px;
+    width: 100%;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.header-logo-text {
+    font-family: Arial, sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    margin: 0;
+    line-height: 1;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.vc-badge {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: rgba(15, 179, 170, 0.18);
+    color: #4fd1c5;
+    border: 1px solid rgba(79, 209, 197, 0.5);
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+header nav { display: flex; align-items: center; }
+
+header nav a {
+    color: #fff;
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+header nav a:hover { color: #4fd1c5; }
+
+header nav a.vc-nsm-link {
+    color: #ccc;
+    font-weight: normal;
+    border-left: 1px solid #444;
+    padding-left: 20px;
+}
+header nav a.vc-nsm-link:hover { color: #fff; }
+
+.hamburger-menu {
+    display: none;
+    background: none;
+    border: none;
+    font: inherit;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #fff;
+    padding: 5px;
+    z-index: 1001;
+    transition: color 0.3s;
+}
+.hamburger-menu.active { color: #4fd1c5; }
+.hamburger-menu:focus-visible {
+    outline: 2px solid #4fd1c5;
+    outline-offset: 2px;
+}
+
+.mobile-nav {
+    flex-direction: column;
+    position: fixed;
+    top: 70px;
+    right: 0;
+    background: #222;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    padding: 1rem 0;
+    z-index: 1002;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    display: flex;
+}
+.mobile-nav.open { transform: translateX(0); }
+.mobile-nav a {
+    color: #fff;
+    padding: 12px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    border-bottom: 1px solid #333;
+    text-align: right;
+}
+.mobile-nav a.vc-nsm-link { color: #4fd1c5; }
+
+@media (max-width: 768px) {
+    header { padding: 0.5rem 1rem; }
+    .header-logo-text { font-size: 1.15rem; }
+    .vc-badge { font-size: 0.55rem; padding: 3px 7px; }
+    header nav { display: none; }
+    .hamburger-menu { display: block; }
+}
+
+/* ---------- Layout shell ---------- */
+
+.vc-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.vc-narrow { max-width: 820px; }
+
+@media (max-width: 700px) {
+    .vc-wrap { padding: 1.1rem; }
+}
+
+/* ---------- Hero ---------- */
+
+.vc-hero {
+    background: linear-gradient(135deg, #111 0%, #0e3f3d 100%);
+    color: #fff;
+    padding: 3rem 2rem;
+    text-align: center;
+}
+.vc-hero h1 {
+    font-size: 2.4rem;
+    margin: 0 0 0.7rem;
+}
+.vc-hero p {
+    font-size: 1.15rem;
+    color: #dfece9;
+    max-width: 640px;
+    margin: 0 auto;
+}
+.vc-hero-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.14);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+}
+@media (max-width: 700px) {
+    .vc-hero { padding: 2.2rem 1.2rem; }
+    .vc-hero h1 { font-size: 1.7rem; }
+    .vc-hero p { font-size: 1rem; }
+}
+
+/* ---------- Page header (non-hero inner pages) ---------- */
+
+.vc-page-head {
+    background: #111;
+    color: #fff;
+    padding: 2rem;
+    text-align: center;
+}
+.vc-page-head h1 { margin: 0 0 0.4rem; font-size: 1.9rem; }
+.vc-page-head p { color: #ccc; margin: 0; max-width: 680px; margin: 0 auto; }
+
+/* ---------- Cards ---------- */
+
+.vc-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+}
+
+section + section, .vc-section { margin-top: 2rem; }
+
+.vc-section-title {
+    font-size: 1.4rem;
+    margin: 0 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* ---------- Action cards (the 8 big homepage buttons) ---------- */
+
+.vc-action-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.vc-action-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 1.4rem 1.2rem;
+    text-decoration: none;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-top: 4px solid #0e6e6a;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.vc-action-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+.vc-action-card .vc-action-icon { font-size: 1.9rem; }
+.vc-action-card .vc-action-title { font-size: 1.05rem; font-weight: bold; color: #111; }
+.vc-action-card .vc-action-desc { font-size: 0.88rem; color: #555; }
+
+/* ---------- State selector ---------- */
+
+.vc-state-select {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 1.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+}
+.vc-state-select label {
+    font-weight: bold;
+    font-size: 1.05rem;
+}
+.vc-state-select select {
+    flex: 1 1 220px;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #fff;
+}
+.vc-state-select button {
+    background: #0e6e6a;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+}
+.vc-state-select button:hover { background: #0a4f4c; }
+
+/* ---------- Badges / banners ---------- */
+
+.vc-pill {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+.vc-pill-verified { background: #e3f6e3; color: #1e7a1e; }
+.vc-pill-placeholder { background: #fff3cd; color: #8a6400; }
+.vc-pill-needs-review { background: #fde3d8; color: #a4441a; }
+.vc-pill-in-review { background: #e0ecfd; color: #1a4fa0; }
+
+.vc-banner {
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    font-size: 0.92rem;
+    margin-bottom: 1.2rem;
+}
+.vc-banner-placeholder {
+    background: #fff8e1;
+    border: 1px solid #f0d78c;
+    color: #6b5300;
+}
+.vc-banner-info {
+    background: #eaf1fd;
+    border: 1px solid #b9d0f5;
+    color: #1a4fa0;
+}
+.vc-banner-warning {
+    background: #fdeee5;
+    border: 1px solid #f0bfa0;
+    color: #a4441a;
+}
+.vc-banner-trust {
+    background: #eef7f6;
+    border: 1px solid #bfe3e0;
+    color: #0a4f4c;
+}
+
+.vc-last-verified {
+    font-size: 0.82rem;
+    color: #666;
+    margin-top: 0.3rem;
+}
+
+/* External/government links — anything leaving the Voting Center for an
+   official .gov (or similar) source. Always blue + a ↗ suffix + new tab,
+   so they read as visually distinct from NSM's own internal (teal) links
+   no matter where they appear on the site. */
+.vc-official-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #1a56db;
+    text-decoration: none;
+    border: 1px solid #1a56db;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-top: 0.5rem;
+}
+.vc-official-link:hover { background: #1a56db; color: #fff; }
+
+.vc-official-link-inline {
+    color: #1a56db;
+    font-weight: bold;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.vc-official-link-inline:hover { text-decoration: underline; }
+
+/* ---------- Field rows (state page sections) ---------- */
+
+.vc-field {
+    border-bottom: 1px solid #eee;
+    padding: 1.1rem 0;
+    scroll-margin-top: 90px;
+}
+.vc-field:last-child { border-bottom: none; }
+.vc-field-head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+}
+.vc-field-head h3 { margin: 0; font-size: 1.05rem; }
+.vc-field p { margin: 0 0 0.4rem; color: #333; }
+.vc-field-meta {
+    font-size: 0.8rem;
+    color: #707070;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+}
+.vc-field-meta .vc-dot::before { content: "·"; margin-right: 0.4rem; color: #ccc; }
+
+/* ---------- Quick actions (compact action grid used on state pages) ---------- */
+
+.vc-quick-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.7rem;
+    margin-top: 1rem;
+}
+.vc-quick-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 0.9rem 0.8rem;
+    text-decoration: none;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.3rem;
+    border-top: 3px solid #0e6e6a;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.vc-quick-card:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.14); }
+.vc-quick-card .vc-quick-icon { font-size: 1.5rem; }
+.vc-quick-card .vc-quick-title { font-size: 0.86rem; font-weight: bold; color: #111; }
+
+/* ---------- "At a Glance" ---------- */
+
+.vc-glance-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 1.4rem;
+    margin-top: 1.5rem;
+}
+.vc-glance-card h2 {
+    margin: 0 0 1rem;
+    font-size: 1.2rem;
+}
+.vc-glance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+}
+.vc-glance-tile {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 0.9rem 1rem;
+}
+.vc-glance-tile .vc-glance-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #707070;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+}
+.vc-glance-tile .vc-glance-value {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #111;
+    margin-bottom: 0.3rem;
+}
+.vc-glance-election {
+    grid-column: 1 / -1;
+    background: #eef7f6;
+    border: 1px solid #bfe3e0;
+}
+.vc-glance-notes {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+    font-size: 0.88rem;
+    color: #444;
+}
+.vc-glance-notes ul { margin: 0.3rem 0 0; padding-left: 1.2rem; }
+
+/* ---------- FAQ ---------- */
+
+.vc-faq-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+}
+.vc-faq-search {
+    flex: 1 1 240px;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+.vc-faq-cat {
+    background: #eee;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: bold;
+    color: #444;
+}
+.vc-faq-cat.active { background: #0e6e6a; border-color: #0e6e6a; color: #fff; }
+
+.vc-faq-item {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+    padding: 1rem 1.2rem;
+    margin-bottom: 0.8rem;
+    cursor: pointer;
+}
+.vc-faq-q {
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+.vc-faq-q h3 {
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+}
+.vc-faq-a {
+    margin-top: 0.6rem;
+    color: #333;
+    display: none;
+}
+.vc-faq-item.open .vc-faq-a { display: block; }
+.vc-faq-tag {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #0e6e6a;
+    font-weight: bold;
+}
+
+/* ---------- Simple grid of link cards (Get Ready / Ways to Vote hubs) ---------- */
+
+.vc-link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+}
+.vc-link-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 1.2rem;
+}
+.vc-link-card h3 { margin-top: 0; font-size: 1.05rem; }
+.vc-link-card p { font-size: 0.9rem; color: #555; }
+
+/* ---------- Placeholder / news / elections list ---------- */
+
+.vc-placeholder-box {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    color: #707070;
+    background: #fafafa;
+}
+
+/* ---------- Footer ---------- */
+
+.vc-footer {
+    background: #111;
+    color: #ccc;
+    margin-top: 3rem;
+    padding: 2.5rem 2rem 1.2rem;
+}
+.vc-footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2rem;
+}
+.vc-footer-title { color: #fff; font-weight: bold; margin-bottom: 0.6rem; }
+.vc-footer-col p { margin: 0.3rem 0; font-size: 0.88rem; }
+.vc-footer-col a { color: #4fd1c5; text-decoration: none; }
+.vc-footer-col a:hover { text-decoration: underline; }
+.vc-footer-bottom {
+    max-width: 1100px;
+    margin: 1.5rem auto 0;
+    padding-top: 1.2rem;
+    border-top: 1px solid #333;
+    font-size: 0.78rem;
+    color: #888;
+}
+@media (max-width: 700px) {
+    .vc-footer-inner { grid-template-columns: 1fr; }
+}
+
+/* ---------- Misc ---------- */
+
+.vc-muted { color: #666; }
+.vc-mt0 { margin-top: 0; }
+
+/* Visually hidden but still available to assistive tech (standard pattern) */
+.vc-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- Feedback / report form (reusable, injected by layout.js) ---------- */
+
+.vc-feedback-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 1.4rem;
+    margin-top: 2.5rem;
+}
+.vc-feedback-card h2 {
+    margin: 0 0 0.4rem;
+    font-size: 1.2rem;
+}
+.vc-feedback-card > p {
+    margin: 0 0 1rem;
+    color: #555;
+    font-size: 0.9rem;
+}
+.vc-feedback-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.vc-feedback-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.vc-feedback-row > * { flex: 1 1 220px; }
+.vc-feedback-card input,
+.vc-feedback-card select,
+.vc-feedback-card textarea {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+    background: #fff;
+}
+.vc-feedback-card input:focus,
+.vc-feedback-card select:focus,
+.vc-feedback-card textarea:focus {
+    outline: 2px solid #0e6e6a;
+    outline-offset: 1px;
+    border-color: #0e6e6a;
+}
+.vc-feedback-card textarea { resize: vertical; }
+.vc-feedback-hint {
+    font-size: 0.78rem;
+    color: #707070;
+    margin: -4px 0 0;
+}
+.vc-feedback-privacy {
+    font-size: 0.76rem;
+    color: #707070;
+    line-height: 1.5;
+}
+.vc-feedback-status {
+    font-size: 0.85rem;
+    font-weight: bold;
+    min-height: 1.2em;
+}
+.vc-feedback-card button[type="submit"] {
+    background: #0e6e6a;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.92rem;
+    align-self: flex-start;
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
+}
+.vc-feedback-card button[type="submit"]:hover { background: #0a4f4c; }
+
+/* Skip-to-main-content link: hidden until keyboard-focused (standard pattern) */
+.vc-skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #fff;
+    color: #0e6e6a;
+    font-weight: bold;
+    padding: 10px 16px;
+    z-index: 2000;
+    text-decoration: none;
+    border-radius: 0 0 6px 0;
+    transition: top 0.15s ease;
+}
+.vc-skip-link:focus {
+    top: 0;
+}
