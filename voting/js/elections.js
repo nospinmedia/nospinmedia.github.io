@@ -12,6 +12,7 @@ function vcRenderElections() {
                 '<h3>' + item.name + ' <span class="vc-pill vc-pill-verified">Verified</span></h3>' +
                 '<p><strong>' + (item.display_date || item.date) + '</strong> — ' + item.description + '</p>' +
                 '<a class="vc-official-link" href="' + item.source_url + '" target="_blank" rel="noopener">Official Source ↗</a>' +
+                (item.kb_link ? '<p class="vc-kb-note"><a class="vc-kb-link" href="' + item.kb_link + '" target="_blank" rel="noopener">' + item.kb_label + ' ↗</a></p>' : '') +
                 '<div class="vc-last-verified">Last verified: ' + item.last_verified + '</div>' +
                 '</div>';
         }).join("");

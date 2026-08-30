@@ -281,6 +281,12 @@ function vcRenderStatePage() {
         });
         html += '</div>';
 
+        if (state.id === "NH") {
+            html += '<div class="vc-card vc-section">' +
+                '<p class="vc-kb-note" style="margin-top:0;">📚 New Hampshire holds the first presidential primary in the nation. <a class="vc-kb-link" href="https://nospin.media/knowledge.html?id=20260802120031061" target="_blank" rel="noopener">Learn about the First-in-the-Nation Primary ↗</a></p>' +
+                '</div>';
+        }
+
         html += '<p style="margin-top:1.5rem;"><a href="index.html">← Choose a different state</a></p>';
         html += '</div>';
 

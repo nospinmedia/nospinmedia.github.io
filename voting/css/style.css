@@ -368,6 +368,62 @@ section + section, .vc-section { margin-top: 2rem; }
 }
 .vc-official-link-inline:hover { text-decoration: underline; }
 
+/* Knowledge Base explainer links — background/context reading on the main
+   NSM site (nospin.media/knowledge.html), never the Voting Center's own
+   content. Deliberately a third color (muted plum) so these never get
+   confused with internal Voting Center links (teal) or official
+   government action links (blue, .vc-official-link) — an explainer link
+   must always read as lower-emphasis than an official government link
+   wherever both appear near each other. */
+.vc-kb-link {
+    color: #5a3e85;
+    font-weight: bold;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.vc-kb-link:hover { text-decoration: underline; }
+
+.vc-kb-note {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 0.4rem;
+}
+.vc-kb-note .vc-kb-link { font-size: 0.85rem; }
+
+.vc-kb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+.vc-kb-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 1.2rem;
+    border-top: 4px solid #5a3e85;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.vc-kb-card h3 { margin: 0; font-size: 1rem; color: #222; }
+.vc-kb-card p { margin: 0; font-size: 0.88rem; color: #555; flex-grow: 1; }
+
+.vc-kb-explore {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #5a3e85;
+    text-decoration: none;
+    border: 1px solid #5a3e85;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-top: 1.2rem;
+}
+.vc-kb-explore:hover { background: #5a3e85; color: #fff; }
+
 /* ---------- Field rows (state page sections) ---------- */
 
 .vc-field {

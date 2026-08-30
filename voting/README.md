@@ -61,6 +61,19 @@ New Hampshire (`NH`) is the reference implementation and the only currently-`ver
 - `elections.json` — one verified federal date (2026 general election, Nov 3, 2026) plus placeholder architecture for state/local dates
 - `resources.json` — verified national official resources (Vote.gov, USA.gov, EAC.gov, FVAP.gov)
 
+## Knowledge Base integration
+
+The homepage's "📚 Understand Voting & Elections" section and several contextual in-page links point to existing, canonical NSM Knowledge Base explainers (`https://nospin.media/knowledge.html?id=<url>`, opened in a new tab) — the Voting Center never copies or duplicates KB article content, it only links out. Styled with the third link tier, `.vc-kb-link`/`.vc-kb-note`/`.vc-kb-card`/`.vc-kb-explore` (muted plum, `css/style.css`), deliberately lower-emphasis than `.vc-official-link` — wherever a KB link and an official-government-action link appear together (e.g. `elections.html`'s EAC entry), the government link stays visually primary.
+
+Current KB links (all verified against the live Supabase-backed KB data, not guessed):
+- Homepage cards: Mail-In Voting, Voting Machines, Primary Election, Caucus, EAC, 270 Electoral Votes
+- `ways-to-vote.html#election-day` → Voting Machines explainer; `#absentee-mail` → Mail-In Voting explainer
+- `faq.html` (`faq-15`, primary vs. general) → Primary Election explainer
+- `elections.html` federal entry (via `data/elections.json`'s optional `kb_link`/`kb_label` fields, rendered by `js/elections.js` only when present) → EAC explainer
+- `states/index.html?state=NH` → New Hampshire's First-in-the-Nation Presidential Primary explainer (hardcoded to `state.id === "NH"` in `js/states.js` — a genuine one-off special case, not a new jurisdiction-schema field, so `validate_jurisdictions.py` and the other 50 jurisdiction files are untouched)
+
+The KB's topic/category system is tag-based (`daily_posts.tags`, a free-form array unique to each article — there is no fixed category enum), so a "Voting & Elections" grouping would mean adding that tag string to the qualifying articles' `tags` arrays directly in the KB's live data — not a Voting Center change. Not yet done; proposed article set reported to the site owner for confirmation before any such change.
+
 ## Feedback / report form
 
 Every page includes a "Have a Voting Question or Found an Update?" form (injected by `js/layout.js`, not duplicated per-page HTML). It reuses the exact same submission mechanism as the public Knowledge Base "Suggest an article" form on `knowledge.html` — same Google Apps Script endpoint, same `{name, email, subject, message}` payload, same honeypot — with a `source: "Voting Center"` field and a `"Voting Center — <reason> — <state>"` subject prefix so submissions are distinguishable from Games/Knowledge Base ones without any schema change. State auto-preselects from `?state=XX`; the section (if the reader arrived via a `#anchor`) is captured as the actual human-readable heading text, not the raw anchor id; the page URL is captured automatically. **Note:** as of this writing, the shared Apps Script backend still has a hardcoded "Sent from the Games feedback form" footer regardless of source — fixing that requires editing the Apps Script itself (Google-hosted, not in this repo), which needs the `source` field this form already sends to branch the footer correctly per form.
@@ -81,5 +94,5 @@ Shared visual language with nospin.media: black fixed header, Arial, `#f4f4f4` b
 - Territories (AS, GU, MP, PR, VI)
 - Real state/local election dates beyond the few captured per-jurisdiction
 - Live NSM news feed into `news.html`
-- Any link from the main NSM site, Knowledge Base, or promotional house-ad units
+- Any link *from* the main NSM site or its Knowledge Base *to* the Voting Center (the reverse direction — Voting Center → Knowledge Base — now exists, see "Knowledge Base integration" above); promotional house-ad units
 - The Apps Script backend's per-source footer fix (see Feedback form, above)
