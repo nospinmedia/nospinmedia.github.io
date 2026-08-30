@@ -570,6 +570,9 @@ function renderRecommendation(tag){
 function getQueryParam(param) {
   return new URLSearchParams(window.location.search).get(param);
 }
+function slugify(label) {
+  return (label || '').toString().toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
 function formatDateLabel(dateStr) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr || 'Undated';
   const [y, m, d] = dateStr.split('-');
@@ -586,12 +589,25 @@ function readingTime(text){
 const TAG_COLORS = {
   history:'#b5651d',health:'#0f8b8d',politics:'#5b4b8a',science:'#1d6fa5',
   economy:'#946200',business:'#946200',war:'#8a1f2d',security:'#8a1f2d',
-  world:'#1d6fa5',law:'#5b4b8a',technology:'#1d6fa5',environment:'#0f8b8d'
+  world:'#1d6fa5',law:'#5b4b8a',technology:'#1d6fa5',environment:'#0f8b8d',
+  'voting & elections':'#5a3e85'
 };
 function getTagColor(tag) {
   const key = (tag || '').toLowerCase().trim();
   return TAG_COLORS[key] || '#2a7a2a';
 }
+
+/* A curated cross-cutting topic sourced from the granular `tags` array
+   rather than the single post_tag category each article already has (see
+   loadPosts()'s dedicated fetch below, and buildTopicList/applyFilter) --
+   lets this topic span articles filed under different post_tag categories
+   without reassigning/losing that category, and without being capped by
+   the recent-50 fetch the normal list view uses. */
+const KB_VOTING_ELECTIONS_TAG = 'voting & elections';
+const KB_VOTING_ELECTIONS_SLUG = 'voting-and-elections';
+const KB_VOTING_ELECTIONS_LABEL = 'Voting & Elections';
+const KB_VOTING_ELECTIONS_DATATAG = '__voting_elections__';
+let votingElectionsPosts = [];
 
 function formatSummary(post) {
   const raw = (post.post_comment && post.post_comment.trim()) ? post.post_comment.trim() : extractPreview(post.comment_text);
@@ -852,9 +868,10 @@ async function loadPosts() {
     return;
   }
 
-  const [res, kwData] = await Promise.all([
+  const [res, kwData, veRes] = await Promise.all([
     fetch(`${SUPABASE_URL}/daily_posts?select=*&post_type=eq.knowledge&order=id.desc&limit=50`, { headers: { apikey: SUPABASE_KEY } }),
-    fetch('/affiliate/keyword-affiliates.json').then(r => r.ok ? r.json() : { rules: [] }).catch(() => ({ rules: [] }))
+    fetch('/affiliate/keyword-affiliates.json').then(r => r.ok ? r.json() : { rules: [] }).catch(() => ({ rules: [] })),
+    fetch(`${SUPABASE_URL}/daily_posts?select=*&post_type=eq.knowledge&tags=cs.${encodeURIComponent(JSON.stringify([KB_VOTING_ELECTIONS_TAG]))}&order=id.desc`, { headers: { apikey: SUPABASE_KEY } }).then(r => r.ok ? r.json() : []).catch(() => [])
   ]);
   const rawPosts = await res.json();
   // The content pipeline occasionally republishes the same explainer under a
@@ -873,8 +890,32 @@ async function loadPosts() {
   });
   _kwRules = kwData;
 
+  const veSeenHeadlines = new Set();
+  votingElectionsPosts = (Array.isArray(veRes) ? veRes : []).filter(p => {
+    const key = (p.headline_text || '').trim().toLowerCase();
+    if (!key) return true;
+    if (veSeenHeadlines.has(key)) return false;
+    veSeenHeadlines.add(key);
+    return true;
+  });
+
   buildTopicList(allPosts);
   buildRecentList(allPosts);
+
+  // URL-addressable topic filtering (knowledge.html?topic=<slug>) -- selects
+  // the matching rail button before the first render so a shared/bookmarked
+  // link lands directly on that filtered view. Silently falls back to "all"
+  // (already active by default) if the slug doesn't match any current topic.
+  const topicParam = getQueryParam('topic');
+  if (topicParam) {
+    const buttons = Array.from(document.querySelectorAll('#kb-topic-list .kb-topic-item'));
+    const match = buttons.find(b => b.dataset.topicSlug === topicParam);
+    if (match) {
+      buttons.forEach(b => b.classList.remove('active'));
+      match.classList.add('active');
+    }
+  }
+
   // Not renderList(allPosts) — if the user already typed a search term or
   // picked a topic while this fetch was still in flight (very plausible:
   // this is a real round trip to Supabase), that unconditionally blows away
@@ -890,10 +931,13 @@ function buildTopicList(posts) {
   posts.forEach(p => { const t = p.post_tag || 'Other'; counts[t] = (counts[t] || 0) + 1; });
   const tags = Object.keys(counts).sort();
 
-  let html = `<button type="button" class="kb-topic-item active" data-tag="all"><span class="kb-topic-dot" style="background:var(--blue)"></span><span class="kb-topic-name">All Explainers</span><span class="kb-topic-count">${posts.length}</span></button>`;
+  let html = `<button type="button" class="kb-topic-item active" data-tag="all" data-topic-slug="all"><span class="kb-topic-dot" style="background:var(--blue)"></span><span class="kb-topic-name">All Explainers</span><span class="kb-topic-count">${posts.length}</span></button>`;
   tags.forEach(t => {
-    html += `<button type="button" class="kb-topic-item" data-tag="${t.replace(/"/g,'&quot;')}" style="--tag-color:${getTagColor(t)}"><span class="kb-topic-dot"></span><span class="kb-topic-name">${t}</span><span class="kb-topic-count">${counts[t]}</span></button>`;
+    html += `<button type="button" class="kb-topic-item" data-tag="${t.replace(/"/g,'&quot;')}" data-topic-slug="${slugify(t)}" style="--tag-color:${getTagColor(t)}"><span class="kb-topic-dot"></span><span class="kb-topic-name">${t}</span><span class="kb-topic-count">${counts[t]}</span></button>`;
   });
+  if (votingElectionsPosts.length > 0) {
+    html += `<button type="button" class="kb-topic-item" data-tag="${KB_VOTING_ELECTIONS_DATATAG}" data-topic-slug="${KB_VOTING_ELECTIONS_SLUG}" style="--tag-color:${getTagColor(KB_VOTING_ELECTIONS_LABEL)}"><span class="kb-topic-dot"></span><span class="kb-topic-name">${KB_VOTING_ELECTIONS_LABEL}</span><span class="kb-topic-count">${votingElectionsPosts.length}</span></button>`;
+  }
   el.innerHTML = html;
   el.querySelectorAll('.kb-topic-item').forEach(item => {
     item.addEventListener('click', () => {
@@ -934,7 +978,9 @@ function applyFilter() {
   const selectedTag = activeTag();
   const rawQuery = document.getElementById('kbSearch').value.trim();
   const query = rawQuery.toLowerCase();
-  let filtered = selectedTag === 'all' ? allPosts : allPosts.filter(p => p.post_tag === selectedTag);
+  let filtered = selectedTag === 'all'
+    ? allPosts
+    : (selectedTag === KB_VOTING_ELECTIONS_DATATAG ? votingElectionsPosts : allPosts.filter(p => p.post_tag === selectedTag));
   if (query) {
     filtered = filtered.filter(p => {
       const haystack = `${p.headline_text || ''} ${p.post_comment || ''} ${p.comment_text || ''}`.toLowerCase();
@@ -942,14 +988,15 @@ function applyFilter() {
     });
   }
 
+  const selectedLabel = selectedTag === KB_VOTING_ELECTIONS_DATATAG ? KB_VOTING_ELECTIONS_LABEL : selectedTag;
   let filterLabel = null;
   if (selectedTag !== 'all' || query) {
     const bits = [];
     if (query) bits.push(`matching “${rawQuery}”`);
-    if (selectedTag !== 'all') bits.push(`in ${selectedTag}`);
+    if (selectedTag !== 'all') bits.push(`in ${selectedLabel}`);
     filterLabel = `${filtered.length} explainer${filtered.length === 1 ? '' : 's'} ${bits.join(' ')}`;
   }
-  const topicHint = selectedTag !== 'all' ? selectedTag : (filtered[0] ? filtered[0].post_tag : '');
+  const topicHint = selectedTag !== 'all' ? selectedLabel : (filtered[0] ? filtered[0].post_tag : '');
 
   renderList(filtered, filterLabel, topicHint);
 }
