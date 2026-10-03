@@ -420,40 +420,6 @@ function copyWithSummary(){_closeShare();const s=window._storyData||{};const opt
 function nativeShare(){if(navigator.share)navigator.share({title:window._storyHeadline||'No Spin Media',url:window._storyUrl||location.href}).catch(()=>{});else copyLinkOnly()}
 function convertMarkdown(text){if(!text)return'';text=text.replace(/\\n\\n/g,'\n\n').replace(/\\n/g,'\n');text=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');text=text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,'<em>$1</em>');return text}
 
-/* ── SEARCH METADATA (2026-10-03) ──
-   After the story loads: <title>, meta description, self-referencing
-   canonical, and NewsArticle JSON-LD. Each element is found-or-created
-   (never appended twice) and fully overwritten, so re-running this for
-   another story can't leave duplicates or a previous story's values.
-   datePublished is Supabase posted_at, never the displayed "1h ago" text.
-   Open Graph/Twitter tags are still set separately, unchanged. */
-function nsmHeadEl(selector,create){let el=document.head.querySelector(selector);if(!el){el=create();document.head.appendChild(el)}return el}
-function setStorySearchMetadata(s,page,section,imageUrl){
-  const strip=t=>(t||'').replace(/^[\p{Extended_Pictographic}‍️\s]+|[\p{Extended_Pictographic}‍️\s]+$/gu,'').trim();
-  const hl=(s.headline||'').trim();const nl=hl.indexOf('\n');
-  const headline=strip(nl>-1?hl.substring(0,nl):hl)||'Story';
-  const subhead=strip(nl>-1?hl.substring(nl+1):'');
-  const plain=(s.summary||'').replace(/\\n/g,' ').replace(/\*+/g,'').replace(/\s+/g,' ').trim();
-  let desc=plain||subhead||headline+'. Independent news from No Spin Media.';
-  if(desc.length>160){const cut=desc.substring(0,157);const sp=cut.lastIndexOf(' ');desc=(sp>100?cut.substring(0,sp):cut).replace(/[\s,;:.\-–—]+$/,'')+'…'}
-  const canonical='https://nospin.media/'+page+'?story='+encodeURIComponent(s.url);
-  document.title=headline+' | No Spin Media';
-  nsmHeadEl('meta[name="description"]',()=>{const m=document.createElement('meta');m.setAttribute('name','description');return m}).setAttribute('content',desc);
-  nsmHeadEl('link[rel="canonical"]',()=>{const l=document.createElement('link');l.setAttribute('rel','canonical');return l}).setAttribute('href',canonical);
-  const org={'@type':'Organization','name':'No Spin Media','url':'https://nospin.media/',
-    'logo':{'@type':'ImageObject','url':'https://nospin.media/images/NSM-Logo.png','width':1024,'height':1024}};
-  const ld={'@context':'https://schema.org','@type':'NewsArticle','headline':headline.substring(0,110),
-    'description':desc,'url':canonical,'mainEntityOfPage':{'@type':'WebPage','@id':canonical},
-    'inLanguage':'en-US','isAccessibleForFree':true,'author':org,'publisher':org};
-  const published=s.posted_at?new Date(s.posted_at):null;
-  if(published&&!isNaN(published))ld.datePublished=published.toISOString();
-  if(section)ld.articleSection=section;
-  if(imageUrl){try{ld.image=[new URL(imageUrl,'https://nospin.media/').href]}catch(e){}}
-  if(Array.isArray(s.tags)&&s.tags.length)ld.keywords=s.tags.filter(t=>typeof t==='string').join(', ');
-  const sc=nsmHeadEl('script#nsm-article-jsonld',()=>{const x=document.createElement('script');x.type='application/ld+json';x.id='nsm-article-jsonld';return x});
-  sc.textContent=JSON.stringify(ld);
-}
-
 /* ── MAIN STORY LOADER ── */
 async function loadStory(){
   const storyId=new URLSearchParams(location.search).get('story');
@@ -485,7 +451,6 @@ async function loadStory(){
   const topicLabel=NE_TOPIC_LABELS[topic]||'New England';
   const pillCls='story-pill tp-'+(topic||'newengland');
   const imgResult=await getStoryImage(storyId,s.headline);
-  setStorySearchMetadata(s,'ne_story.html',topicLabel,imgResult&&imgResult.url);
   let heroBgStyle=imgResult?'background-image:url(\''+imgResult.url+'\');background-size:cover;background-position:center;':'background:'+topicBg+';';
   let captionHTML='';
   if(imgResult){const meta=imgResult.meta;let cap='',cred='';if(meta){cap=meta.caption||'';cred=meta.credit||''}else if(s.image_caption){const pts=s.image_caption.split(/\nCredit:/i);cap=pts[0].trim();if(pts[1])cred=pts[1].trim()}if(cap||cred)captionHTML='<div class="story-img-caption">'+cap+(cred?'<span class="story-img-credit">Credit: '+cred+'</span>':'')+'</div>'}

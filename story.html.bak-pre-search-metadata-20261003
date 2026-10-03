@@ -14,6 +14,7 @@
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Story | No Spin Media</title>
+<meta name="robots" content="noindex">
 <meta property="og:site_name" content="No Spin Media">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://nospin.media/preview.png">
@@ -605,40 +606,6 @@ function buildRightRailHTML(recPicks){
   return'<div class="rail">'+recPicks.map((item,i)=>'<div class="rail-section">'+railRecCardHTML(item,labels[i]||'Curated Pick')+'</div>').join('')+'</div>';
 }
 
-/* ── SEARCH METADATA (2026-10-03) ──
-   After the story loads: <title>, meta description, self-referencing
-   canonical, and NewsArticle JSON-LD. Each element is found-or-created
-   (never appended twice) and fully overwritten, so re-running this for
-   another story can't leave duplicates or a previous story's values.
-   datePublished is Supabase posted_at, never the displayed "1h ago" text.
-   Open Graph/Twitter tags are still set separately, unchanged. */
-function nsmHeadEl(selector,create){let el=document.head.querySelector(selector);if(!el){el=create();document.head.appendChild(el)}return el}
-function setStorySearchMetadata(s,page,section,imageUrl){
-  const strip=t=>(t||'').replace(/^[\p{Extended_Pictographic}‍️\s]+|[\p{Extended_Pictographic}‍️\s]+$/gu,'').trim();
-  const hl=(s.headline||'').trim();const nl=hl.indexOf('\n');
-  const headline=strip(nl>-1?hl.substring(0,nl):hl)||'Story';
-  const subhead=strip(nl>-1?hl.substring(nl+1):'');
-  const plain=(s.summary||'').replace(/\\n/g,' ').replace(/\*+/g,'').replace(/\s+/g,' ').trim();
-  let desc=plain||subhead||headline+'. Independent news from No Spin Media.';
-  if(desc.length>160){const cut=desc.substring(0,157);const sp=cut.lastIndexOf(' ');desc=(sp>100?cut.substring(0,sp):cut).replace(/[\s,;:.\-–—]+$/,'')+'…'}
-  const canonical='https://nospin.media/'+page+'?story='+encodeURIComponent(s.url);
-  document.title=headline+' | No Spin Media';
-  nsmHeadEl('meta[name="description"]',()=>{const m=document.createElement('meta');m.setAttribute('name','description');return m}).setAttribute('content',desc);
-  nsmHeadEl('link[rel="canonical"]',()=>{const l=document.createElement('link');l.setAttribute('rel','canonical');return l}).setAttribute('href',canonical);
-  const org={'@type':'Organization','name':'No Spin Media','url':'https://nospin.media/',
-    'logo':{'@type':'ImageObject','url':'https://nospin.media/images/NSM-Logo.png','width':1024,'height':1024}};
-  const ld={'@context':'https://schema.org','@type':'NewsArticle','headline':headline.substring(0,110),
-    'description':desc,'url':canonical,'mainEntityOfPage':{'@type':'WebPage','@id':canonical},
-    'inLanguage':'en-US','isAccessibleForFree':true,'author':org,'publisher':org};
-  const published=s.posted_at?new Date(s.posted_at):null;
-  if(published&&!isNaN(published))ld.datePublished=published.toISOString();
-  if(section)ld.articleSection=section;
-  if(imageUrl){try{ld.image=[new URL(imageUrl,'https://nospin.media/').href]}catch(e){}}
-  if(Array.isArray(s.tags)&&s.tags.length)ld.keywords=s.tags.filter(t=>typeof t==='string').join(', ');
-  const sc=nsmHeadEl('script#nsm-article-jsonld',()=>{const x=document.createElement('script');x.type='application/ld+json';x.id='nsm-article-jsonld';return x});
-  sc.textContent=JSON.stringify(ld);
-}
-
 /* ── MAIN STORY LOADER ── */
 function wordCount(text){return(text||'').trim().split(/\s+/).filter(Boolean).length}
 function readTime(text){return Math.max(1,Math.round(wordCount(text)/200))}
@@ -673,7 +640,6 @@ async function loadStory(){
   const topic=s.topic||'world';const topicCls='tp-'+topic;const topicLabel=TOPIC_LABELS[topic]||(topic?topic[0].toUpperCase()+topic.slice(1):'World');
 
   const imgResult=await getStoryImage(storyId,s.headline,s.summary,s.image_filename,s.image_source);
-  setStorySearchMetadata(s,'story.html',topicLabel,imgResult&&imgResult.url);
   let heroHTML='';
   if(imgResult){
     const meta=imgResult.meta;let cap='',cred='';
