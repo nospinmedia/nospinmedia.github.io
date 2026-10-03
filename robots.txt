@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
+Sitemap: https://nospin.media/sitemap.xml
 Sitemap: https://nospin.media/voting/sitemap.xml
