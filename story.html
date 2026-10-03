@@ -565,7 +565,7 @@ async function loadContinueReading(storyId,storyTags,recCard3){
   let html='<section class="continue">';
   if(related.length){
     html+='<div class="section-block"><div class="continue-label">Related stories</div><div class="continue-list">'
-      +related.map(r=>'<a class="continue-item" href="story2.html?story='+encodeURIComponent(r.url)+'"><span class="continue-item-title">'+(r.headline||'').replace('\n',': ')+'</span>'+(r.posted_at?'<span class="continue-item-meta">'+fmtFullDate(r.posted_at)+'</span>':'')+'</a>').join('')
+      +related.map(r=>'<a class="continue-item" href="story.html?story='+encodeURIComponent(r.url)+'"><span class="continue-item-title">'+(r.headline||'').replace('\n',': ')+'</span>'+(r.posted_at?'<span class="continue-item-meta">'+fmtFullDate(r.posted_at)+'</span>':'')+'</a>').join('')
       +'</div></div>';
   }
   if(learnMore.length){
@@ -583,7 +583,7 @@ function buildLeftRailHTML(related,learnMore,webOnly){
   let html='<div class="rail">';
   if(related.length){
     html+='<div class="rail-section"><div class="rail-kicker">Related Stories</div><div class="rail-list">'
-      +related.map(r=>'<a class="rail-item" href="story2.html?story='+encodeURIComponent(r.url)+'"><span class="rail-item-title">'+(r.headline||'').replace('\n',': ')+'</span>'+(r.posted_at?'<span class="rail-item-meta">'+fmtFullDate(r.posted_at)+'</span>':'')+'</a>').join('')
+      +related.map(r=>'<a class="rail-item" href="story.html?story='+encodeURIComponent(r.url)+'"><span class="rail-item-title">'+(r.headline||'').replace('\n',': ')+'</span>'+(r.posted_at?'<span class="rail-item-meta">'+fmtFullDate(r.posted_at)+'</span>':'')+'</a>').join('')
       +'</div></div>';
   }
   if(learnMore.length){
@@ -605,6 +605,10 @@ function buildRightRailHTML(recPicks){
   return'<div class="rail">'+recPicks.map((item,i)=>'<div class="rail-section">'+railRecCardHTML(item,labels[i]||'Curated Pick')+'</div>').join('')+'</div>';
 }
 
+/* Story summaries are stored as markdown (**bold**, *italic*, # headings,
+   literal \n). Plain-text version for <meta> descriptions only -- the
+   visible article still renders through convertMarkdown(). (2026-10-03) */
+function markdownToPlain(t){return(t||'').replace(/\\n/g,'\n').replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/^[ \t]*#{1,6}[ \t]+/gm,'').replace(/(\*\*|__)(.+?)\1/g,'$2').replace(/(^|[^*\w])\*(?!\s)([^*\n]+?)\*(?!\*)/g,'$1$2').replace(/`([^`]+)`/g,'$1').replace(/\*{2,}/g,'').replace(/\s+/g,' ').trim()}
 /* ── SEARCH METADATA (2026-10-03) ──
    After the story loads: <title>, meta description, self-referencing
    canonical, and NewsArticle JSON-LD. Each element is found-or-created
@@ -618,7 +622,7 @@ function setStorySearchMetadata(s,page,section,imageUrl){
   const hl=(s.headline||'').trim();const nl=hl.indexOf('\n');
   const headline=strip(nl>-1?hl.substring(0,nl):hl)||'Story';
   const subhead=strip(nl>-1?hl.substring(nl+1):'');
-  const plain=(s.summary||'').replace(/\\n/g,' ').replace(/\*+/g,'').replace(/\s+/g,' ').trim();
+  const plain=markdownToPlain(s.summary);
   let desc=plain||subhead||headline+'. Independent news from No Spin Media.';
   if(desc.length>160){const cut=desc.substring(0,157);const sp=cut.lastIndexOf(' ');desc=(sp>100?cut.substring(0,sp):cut).replace(/[\s,;:.\-–—]+$/,'')+'…'}
   const canonical='https://nospin.media/'+page+'?story='+encodeURIComponent(s.url);
@@ -654,9 +658,9 @@ async function loadStory(){
   const [recPicks,reactTotals]=await Promise.all([buildRecommendationCards(),loadReactions(storyId)]);
   const storedReaction=getStoredReaction(storyId);
   document.querySelector('meta[property="og:title"]').setAttribute('content',(s.headline||'').replace('\n',' '));
-  document.querySelector('meta[property="og:description"]').setAttribute('content',(s.summary||'').substring(0,180));
+  document.querySelector('meta[property="og:description"]').setAttribute('content',markdownToPlain(s.summary).substring(0,180));
   document.querySelector('meta[name="twitter:title"]').setAttribute('content',(s.headline||'').replace('\n',' '));
-  document.querySelector('meta[name="twitter:description"]').setAttribute('content',(s.summary||'').substring(0,180));
+  document.querySelector('meta[name="twitter:description"]').setAttribute('content',markdownToPlain(s.summary).substring(0,180));
   window._storyHeadline=s.headline;
   window._storyUrl='https://data.nospin.media/preview/'+storyId;
 

@@ -420,6 +420,10 @@ function copyWithSummary(){_closeShare();const s=window._storyData||{};const opt
 function nativeShare(){if(navigator.share)navigator.share({title:window._storyHeadline||'No Spin Media',url:window._storyUrl||location.href}).catch(()=>{});else copyLinkOnly()}
 function convertMarkdown(text){if(!text)return'';text=text.replace(/\\n\\n/g,'\n\n').replace(/\\n/g,'\n');text=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');text=text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,'<em>$1</em>');return text}
 
+/* Story summaries are stored as markdown (**bold**, *italic*, # headings,
+   literal \n). Plain-text version for <meta> descriptions only -- the
+   visible article still renders through convertMarkdown(). (2026-10-03) */
+function markdownToPlain(t){return(t||'').replace(/\\n/g,'\n').replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/^[ \t]*#{1,6}[ \t]+/gm,'').replace(/(\*\*|__)(.+?)\1/g,'$2').replace(/(^|[^*\w])\*(?!\s)([^*\n]+?)\*(?!\*)/g,'$1$2').replace(/`([^`]+)`/g,'$1').replace(/\*{2,}/g,'').replace(/\s+/g,' ').trim()}
 /* ── SEARCH METADATA (2026-10-03) ──
    After the story loads: <title>, meta description, self-referencing
    canonical, and NewsArticle JSON-LD. Each element is found-or-created
@@ -433,7 +437,7 @@ function setStorySearchMetadata(s,page,section,imageUrl){
   const hl=(s.headline||'').trim();const nl=hl.indexOf('\n');
   const headline=strip(nl>-1?hl.substring(0,nl):hl)||'Story';
   const subhead=strip(nl>-1?hl.substring(nl+1):'');
-  const plain=(s.summary||'').replace(/\\n/g,' ').replace(/\*+/g,'').replace(/\s+/g,' ').trim();
+  const plain=markdownToPlain(s.summary);
   let desc=plain||subhead||headline+'. Independent news from No Spin Media.';
   if(desc.length>160){const cut=desc.substring(0,157);const sp=cut.lastIndexOf(' ');desc=(sp>100?cut.substring(0,sp):cut).replace(/[\s,;:.\-–—]+$/,'')+'…'}
   const canonical='https://nospin.media/'+page+'?story='+encodeURIComponent(s.url);
@@ -469,10 +473,10 @@ async function loadStory(){
   const [,reactTotals]=await Promise.all([loadAllAffiliateTiles(matchedRule),loadReactions(storyId)]);
   const storedReaction=getStoredReaction(storyId);
   document.querySelector('meta[property="og:title"]').setAttribute('content',(s.headline||'').replace('\n',' '));
-  document.querySelector('meta[property="og:description"]').setAttribute('content',(s.summary||'').substring(0,180));
+  document.querySelector('meta[property="og:description"]').setAttribute('content',markdownToPlain(s.summary).substring(0,180));
   document.querySelector('meta[property="og:url"]').setAttribute('content',location.href);
   document.querySelector('meta[name="twitter:title"]').setAttribute('content',(s.headline||'').replace('\n',' '));
-  document.querySelector('meta[name="twitter:description"]').setAttribute('content',(s.summary||'').substring(0,180));
+  document.querySelector('meta[name="twitter:description"]').setAttribute('content',markdownToPlain(s.summary).substring(0,180));
   window._storyHeadline=s.headline;
   // Rich /preview/ URL, same mechanism story.html already uses for
   // National (see PREVIEW_SOURCES in app.py) -- the four share functions
