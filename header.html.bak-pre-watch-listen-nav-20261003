@@ -156,13 +156,6 @@
         z-index: 1002 !important;
         transform: translateX(100%);
         transition: transform 0.3s ease;
-        /* Menu can be taller than a short phone screen; keep every item
-           reachable by scrolling inside the panel. */
-        box-sizing: border-box;
-        max-height: calc(100vh - 70px);
-        max-height: calc(100dvh - 70px);
-        overflow-y: auto;
-        overscroll-behavior: contain;
     }
 
     .mobile-nav.open { transform: translateX(0); }
@@ -181,11 +174,7 @@
        to fit without clipping. Below that, the hamburger menu already
        fits everything cleanly, so it's the safer choice over shrinking
        nav text/spacing to force a narrower row to fit. */
-    /* 2026-10-03: raised from 1560px when Watch + Listen were added (about
-       +140px of row). 1800px keeps the full row comfortably clear of
-       crowding, with headroom for a desktop scrollbar and font differences;
-       narrower screens get the hamburger menu, which lists everything. */
-    @media (max-width: 1800px) {
+    @media (max-width: 1560px) {
         header {
             padding: 0.5rem 1rem !important;
             justify-content: space-between !important;
@@ -213,8 +202,6 @@
             <a href="https://nospin.media/news.html">Archive</a>
             <a href="https://nospin.media/new-england.html">New England</a>
             <a href="https://nospin.media/knowledge.html">Knowledge</a>
-            <a href="https://nospin.media/watch/">Watch</a>
-            <a href="https://nospin.media/listen/">Listen</a>
             <a href="https://nospin.media/voting/" class="nav-voting-pill">🗳️ Voting Center</a>
             <a href="https://nospin.media/daily.html">Daily</a>
             <a href="https://nospin.media/utilities/index.html">Utilities</a>
@@ -245,8 +232,6 @@
         <a href="https://nospin.media/news.html">Archive</a>
         <a href="https://nospin.media/new-england.html">New England</a>
         <a href="https://nospin.media/knowledge.html">Knowledge</a>
-        <a href="https://nospin.media/watch/">Watch</a>
-        <a href="https://nospin.media/listen/">Listen</a>
         <a href="https://nospin.media/voting/">Voting Center</a>
         <a href="https://nospin.media/daily.html">Daily</a>
         <a href="https://nospin.media/utilities/index.html">Utilities</a>
