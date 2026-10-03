@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="/affiliate/config.js"></script><!-- Amazon Associates master switch -->
+<style>html:not(.amazon-aff-on) .amazon-aff{display:none!important}</style>
 <meta charset="UTF-8"/>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-B2CDHQWR45"></script>
@@ -250,7 +252,7 @@ footer.site-footer{text-align:center;padding:2rem 1rem;font-size:.8rem;color:var
 </main>
 <footer class="site-footer">
   &copy; 2026 <span id="footer-compass" onclick="toggleAdminPanel()" style="cursor:default;user-select:none;">🧭</span> No Spin Media. Independent. Truth-focused.<br>
-  <span style="font-size:.72rem;color:var(--faint);">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span><br>
+  <span class="amazon-aff"><span style="font-size:.72rem;color:var(--faint);">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span><br></span>
   <a href="https://data.nospin.media/rss/free" target="_blank" style="font-size:.78rem;color:var(--faint);">📡 Follow No Spin Media via RSS</a>
 </footer>
 
@@ -342,7 +344,7 @@ function resolveBackLink(){
 
 /* ── AFFILIATE / RECOMMENDATION DATA ── */
 let _affiliateData=null;
-async function loadAffiliateData(){if(_affiliateData)return _affiliateData;try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_affiliateData=await r.json()}catch(e){}return _affiliateData||{}}
+async function loadAffiliateData(){if(_affiliateData)return _affiliateData;if(window.AMAZON_AFFILIATES_ENABLED===true)try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_affiliateData=await r.json()}catch(e){}return _affiliateData||{}}
 function getRandomLink(item){return(item.links||[])[Math.floor(Math.random()*(item.links||[]).length)]||'#'}
 /* must_show is tri-state in the real data: true (always force-include),
    false (ordinary pool item), or the string "hide" (temporarily disabled,

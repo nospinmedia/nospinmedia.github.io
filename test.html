@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="/affiliate/config.js"></script><!-- Amazon Associates master switch -->
+<style>html:not(.amazon-aff-on) .amazon-aff{display:none!important}</style>
 <meta charset="UTF-8">
-<title>Amazon Widget Test</title>
+<title>Test</title>
 </head>
 
 <body>
 
-<h2>Amazon Widget Test</h2>
+<h2 class="amazon-aff">Amazon Widget Test</h2>
 
 <div id="amazon-widget"></div>
 
@@ -21,7 +23,9 @@ window.amzn_assoc_default_search_phrase = "space exploration books";
 window.amzn_assoc_default_category = "Books";
 </script>
 
-<script src="https://z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US"></script>
+<script>
+if(window.AMAZON_AFFILIATES_ENABLED===true){document.title="Amazon Widget Test";var s=document.createElement("script");s.src="https://z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US";document.body.appendChild(s)}
+</script>
 
 </body>
 </html>

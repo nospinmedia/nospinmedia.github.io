@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="/affiliate/config.js"></script><!-- Amazon Associates master switch -->
+<style>html:not(.amazon-aff-on) .amazon-aff{display:none!important}</style>
 <meta charset="UTF-8"/>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-B2CDHQWR45"></script>
@@ -145,6 +147,7 @@ function renderTileHTML(item){
 }
 
 async function loadAffiliateTiles(){
+  if(window.AMAZON_AFFILIATES_ENABLED!==true)return;
   const data=await loadAffiliateData();
 
   const bookItems=(data.books?.items||[]).filter(i=>i.must_show!=='hide');
@@ -399,7 +402,7 @@ document.addEventListener('DOMContentLoaded',function(){
 <body>
 <div id="site-header"></div>
 <div class="container">
-  <div class="left-ad" id="left-ad">
+  <div class="left-ad amazon-aff" id="left-ad">
     <div class="reading-label">🧭 NSM Reading List</div>
     <div id="book-tiles"></div>
     <div class="reading-disclosure">Selecting a title supports independent journalism at no extra cost to you.</div>
@@ -412,15 +415,15 @@ document.addEventListener('DOMContentLoaded',function(){
     </div>
     <div id="news-container"></div>
   </div>
-  <div class="right-ad" id="right-ad">
+  <div class="right-ad amazon-aff" id="right-ad">
     <div class="reading-label">🧭 NSM Field Gear</div>
     <div id="gear-tiles"></div>
     <div class="reading-disclosure">Selecting an item supports independent journalism at no extra cost to you.</div>
   </div>
 </div>
 <footer>
-  © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
-  <span style="font-size:.8rem;color:#aaa;">Some links on this site are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
+  © 2026 🧭 No Spin Media. Independent. Truth-focused.<span class="amazon-aff"><br>
+  <span style="font-size:.8rem;color:#aaa;">Some links on this site are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span></span>
 </footer>
 </body>
 </html>

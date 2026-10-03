@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="/affiliate/config.js"></script><!-- Amazon Associates master switch -->
+<style>html:not(.amazon-aff-on) .amazon-aff{display:none!important}</style>
 <meta charset="UTF-8"/>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-B2CDHQWR45"></script>
@@ -870,7 +872,7 @@ async function loadPosts() {
 
   const [res, kwData, veRes] = await Promise.all([
     fetch(`${SUPABASE_URL}/daily_posts?select=*&post_type=eq.knowledge&order=id.desc&limit=50`, { headers: { apikey: SUPABASE_KEY } }),
-    fetch('/affiliate/keyword-affiliates.json').then(r => r.ok ? r.json() : { rules: [] }).catch(() => ({ rules: [] })),
+    (window.AMAZON_AFFILIATES_ENABLED===true ? fetch('/affiliate/keyword-affiliates.json').then(r => r.ok ? r.json() : { rules: [] }).catch(() => ({ rules: [] })) : Promise.resolve({ rules: [] })),
     fetch(`${SUPABASE_URL}/daily_posts?select=*&post_type=eq.knowledge&tags=cs.${encodeURIComponent(JSON.stringify([KB_VOTING_ELECTIONS_TAG]))}&order=id.desc`, { headers: { apikey: SUPABASE_KEY } }).then(r => r.ok ? r.json() : []).catch(() => [])
   ]);
   const rawPosts = await res.json();
@@ -1142,7 +1144,7 @@ document.addEventListener('DOMContentLoaded', function () {
           </form>
           <div class="kb-rail-tip">Tip: "What is..." and "How does..." questions make the best explainers.</div>
         </div>
-        <div class="kb-rail-card">
+        <div class="kb-rail-card amazon-aff">
           <div class="kb-rail-section-label">Recommended Reading</div>
           <div id="kb-recommendation"></div>
           <div class="kb-recommend-disclosure">Selecting a pick supports independent journalism at no extra cost to you.</div>
@@ -1163,8 +1165,8 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 
 <footer>
-  © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>
-  <span style="font-size:.8rem;color:#aaa;">Some links on this site are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
+  © 2026 🧭 No Spin Media. Independent. Truth-focused.<span class="amazon-aff"><br>
+  <span style="font-size:.8rem;color:#aaa;">Some links on this site are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span></span>
 </footer>
 </body>
 </html>

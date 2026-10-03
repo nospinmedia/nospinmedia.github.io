@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="/affiliate/config.js"></script><!-- Amazon Associates master switch -->
+<style>html:not(.amazon-aff-on) .amazon-aff{display:none!important}</style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   <title>Tip Calculator | No Spin Utilities</title>
@@ -362,7 +364,7 @@
     </div>
 
     <!-- Mobile affiliate insert 1: after calculator, before feedback -->
-    <div class="mobile-affiliate-insert" id="mobile-affiliate-1"></div>
+    <div class="mobile-affiliate-insert amazon-aff" id="mobile-affiliate-1"></div>
 
     <!-- Sidebar: support + feedback -->
     <div class="sidebar">
@@ -384,7 +386,7 @@
     </div>
 
     <!-- Mobile affiliate insert 2: after feedback -->
-    <div class="mobile-affiliate-insert" id="mobile-affiliate-2"></div>
+    <div class="mobile-affiliate-insert amazon-aff" id="mobile-affiliate-2"></div>
 
   </div>
 
@@ -394,8 +396,8 @@
 
   <footer>
     © 2026 No Spin Media. Independent. Truth-focused.<br>
-    Seriously factual, surprisingly fun.<br>
-    <span style="font-size:.75rem;color:#aaa;">
+    Seriously factual, surprisingly fun.<span class="amazon-aff"><br></span>
+    <span class="amazon-aff" style="font-size:.75rem;color:#aaa;">
       Some links on this site are affiliate links. As an Amazon Associate we earn from qualifying purchases.
     </span>
   </footer>
@@ -458,6 +460,7 @@
     }
 
     async function loadAffiliateTiles() {
+      if(window.AMAZON_AFFILIATES_ENABLED!==true)return;
       const data = await loadAffiliateData();
       const bookItems = data.books?.items || [];
       const gearItems = data.gear?.items || [];

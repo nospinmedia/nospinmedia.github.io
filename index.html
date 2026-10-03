@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="/affiliate/config.js"></script><!-- Amazon Associates master switch -->
+<style>html:not(.amazon-aff-on) .amazon-aff{display:none!important}</style>
 <meta charset="UTF-8"/>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-B2CDHQWR45"></script>
@@ -566,13 +568,13 @@ function shareDropdownHTML(id,headline,wrapId,fbId,isSm){
     +'</div>';
 }
 
-async function getAff(){if(_aff)return _aff;try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_aff=await r.json()}catch(e){}return _aff||{}}
-async function getKw(){if(_kw)return _kw;try{const r=await fetch('/affiliate/keyword-affiliates.json');if(r.ok)_kw=await r.json()}catch(e){}return _kw||{rules:[]}}
+async function getAff(){if(_aff)return _aff;if(window.AMAZON_AFFILIATES_ENABLED===true)try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_aff=await r.json()}catch(e){}return _aff||{}}
+async function getKw(){if(_kw)return _kw;if(window.AMAZON_AFFILIATES_ENABLED===true)try{const r=await fetch('/affiliate/keyword-affiliates.json');if(r.ok)_kw=await r.json()}catch(e){}return _kw||{rules:[]}}
 function wordMatch(hay,kw){const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-zA-Z])'+esc+'(?![a-zA-Z])','i').test(hay)}
 
 /* ── SIDEBAR IMAGE TILES ── */
 let _affData=null;
-async function loadAffData(){if(_affData)return _affData;try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_affData=await r.json()}catch(e){}return _affData||{}}
+async function loadAffData(){if(_affData)return _affData;if(window.AMAZON_AFFILIATES_ENABLED===true)try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_affData=await r.json()}catch(e){}return _affData||{}}
 function getRandomLink(item){return(item.links||[])[Math.floor(Math.random()*(item.links||[]).length)]||'#'}
 
 /* must_show values: true = pinned, false = normal pool, "hide" = excluded */
@@ -897,7 +899,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 <body>
 <div id="site-header"></div>
 <div class="index-wrap">
-  <div class="index-sidebar-l">
+  <div class="index-sidebar-l amazon-aff">
     <div class="sidebar-label">&#x1F9ED; NSM Picks</div>
     <div id="book-tiles"></div>
     <div class="sidebar-disclosure">Selecting a title supports independent journalism at no extra cost.</div>
@@ -910,15 +912,15 @@ document.addEventListener('DOMContentLoaded',()=>{
     <div id="feed-tabs" class="feed-tabs"></div>
     <div id="nsm-feed"><div class="feed-loading"><div class="spinner"></div>Loading stories&#x2026;</div></div>
   </div>
-  <div class="index-sidebar-r">
+  <div class="index-sidebar-r amazon-aff">
     <div class="sidebar-label">&#x1F9ED; NSM Picks</div>
     <div id="gear-tiles"></div>
     <div class="sidebar-disclosure">Selecting an item supports independent journalism at no extra cost.</div>
   </div>
 </div>
 <footer>
-  &copy; 2026 &#x1F9ED; No Spin Media. Independent. Truth-focused.<br>
-  <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
+  &copy; 2026 &#x1F9ED; No Spin Media. Independent. Truth-focused.<span class="amazon-aff"><br>
+  <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span></span>
 </footer>
 </body>
 </html>

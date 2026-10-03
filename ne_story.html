@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="/affiliate/config.js"></script><!-- Amazon Associates master switch -->
+<style>html:not(.amazon-aff-on) .amazon-aff{display:none!important}</style>
 <meta charset="UTF-8"/>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-B2CDHQWR45"></script>
@@ -229,8 +231,8 @@ function resolveBackLink(){
 /* ── AFFILIATE ── */
 /* must_show values: true = pinned, false = normal pool, "hide" = excluded */
 let _affiliateData=null,_keywordAffiliateData=null;
-async function loadAffiliateData(){if(_affiliateData)return _affiliateData;try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_affiliateData=await r.json()}catch(e){}return _affiliateData||{}}
-async function loadKeywordAffiliateData(){if(_keywordAffiliateData)return _keywordAffiliateData;try{const r=await fetch('/affiliate/keyword-affiliates.json');if(r.ok)_keywordAffiliateData=await r.json()}catch(e){}return _keywordAffiliateData||{rules:[]}}
+async function loadAffiliateData(){if(_affiliateData)return _affiliateData;if(window.AMAZON_AFFILIATES_ENABLED===true)try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_affiliateData=await r.json()}catch(e){}return _affiliateData||{}}
+async function loadKeywordAffiliateData(){if(_keywordAffiliateData)return _keywordAffiliateData;if(window.AMAZON_AFFILIATES_ENABLED===true)try{const r=await fetch('/affiliate/keyword-affiliates.json');if(r.ok)_keywordAffiliateData=await r.json()}catch(e){}return _keywordAffiliateData||{rules:[]}}
 function findKeywordMatch(text,rules){if(!text||!rules||!rules.length)return null;let best=null,bestScore=0;for(const rule of rules){const score=(rule.keywords||[]).filter(kw=>wordMatch(text,kw)).length;if(score>bestScore){bestScore=score;best=rule}}return best}
 function getRandomLink(item){return(item.links||[])[Math.floor(Math.random()*(item.links||[]).length)]||'#'}
 
@@ -258,6 +260,7 @@ function bookTileHTML(b){const tl=(b.title||'').split('\\n').map(l=>'<div>'+l+'<
 function gearTileHTML(g){const tLen=(g.title||'').replace(/\\n/g,'').length;const tSize=tLen<=6?38:tLen<=8?32:tLen<=10?28:tLen<=13?24:20;const tl=(g.title||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');const sub=(g.subtitle||'').split('\\n').map(l=>'<div>'+l+'</div>').join('');return'<a href="'+g.url+'" target="_blank" rel="noopener nofollow sponsored" class="aff-card aff-card-gear" title="Recommended gear \u2014 supports NSM at no extra cost"><div class="gear-card-wrap"><div class="gear-sheen"></div><div class="gear-inner-border"></div><div class="gear-clip-t"></div><div class="gear-clip-b"></div><div class="gear-clip-l"></div><div class="gear-clip-r"></div><div class="gear-content"><div class="gear-cat">'+(g.category_label||'')+'</div><div class="gear-title" style="font-size:'+tSize+'px;">'+tl+'</div><div class="gear-icon">'+(g.icon||'\u2699\uFE0F')+'</div><div class="gear-rule"></div><div class="gear-sub">'+sub+'</div></div><div class="gear-brand gear-brand-bottom"><div class="gear-brand-rule"></div><div class="gear-brand-name">\uD83E\uDDED\u00A0 No Spin Media Pick</div><div class="gear-brand-sub">'+randSupport()+'</div></div></div></a>'}
 
 async function loadAllAffiliateTiles(matchedRule){
+  if(window.AMAZON_AFFILIATES_ENABLED!==true)return;
   const data=await loadAffiliateData();
   /* Filter out hidden items at the source */
   const bookItems=(data.books?.items||[]).filter(i=>i.must_show!=='hide');
@@ -518,7 +521,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 <body>
 <div id="site-header"></div>
 <div class="story-wrap">
-  <div class="story-sidebar-l">
+  <div class="story-sidebar-l amazon-aff">
     <div class="sidebar-label">🧭 NSM Reading List</div>
     <div id="book-tiles"></div>
     <div class="sidebar-disclosure">Selecting a title supports independent journalism at no extra cost.</div>
@@ -526,15 +529,15 @@ document.addEventListener('DOMContentLoaded',()=>{
   <div class="story-main">
     <div id="story-container" style="min-height:300px;"></div>
   </div>
-  <div class="story-sidebar-r">
+  <div class="story-sidebar-r amazon-aff">
     <div class="sidebar-label">🧭 NSM Field Gear</div>
     <div id="gear-tiles"></div>
     <div class="sidebar-disclosure">Selecting an item supports independent journalism at no extra cost.</div>
   </div>
 </div>
 <footer>
-  &copy; 2026 <span id="footer-compass" onclick="toggleAdminPanel()" style="cursor:default;user-select:none;">🧭</span> No Spin Media. Independent. Truth-focused.<br>
-  <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
+  &copy; 2026 <span id="footer-compass" onclick="toggleAdminPanel()" style="cursor:default;user-select:none;">🧭</span> No Spin Media. Independent. Truth-focused.<span class="amazon-aff"><br>
+  <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span></span>
 </footer>
 </body>
 </html>

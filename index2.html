@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="/affiliate/config.js"></script><!-- Amazon Associates master switch -->
+<style>html:not(.amazon-aff-on) .amazon-aff{display:none!important}</style>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>No Spin Media</title>
@@ -357,8 +359,8 @@ function textCardHTML(s,showPill){
 }
 
 /* ── AFFILIATE ── */
-async function getAff(){if(_aff)return _aff;try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_aff=await r.json()}catch(e){}return _aff||{}}
-async function getKw(){if(_kw)return _kw;try{const r=await fetch('/affiliate/keyword-affiliates.json');if(r.ok)_kw=await r.json()}catch(e){}return _kw||{rules:[]}}
+async function getAff(){if(_aff)return _aff;if(window.AMAZON_AFFILIATES_ENABLED===true)try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_aff=await r.json()}catch(e){}return _aff||{}}
+async function getKw(){if(_kw)return _kw;if(window.AMAZON_AFFILIATES_ENABLED===true)try{const r=await fetch('/affiliate/keyword-affiliates.json');if(r.ok)_kw=await r.json()}catch(e){}return _kw||{rules:[]}}
 function wordMatch(hay,kw){const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-zA-Z])'+esc+'(?![a-zA-Z])','i').test(hay)}
 function topTwoRules(stories,rules){
   if(!stories||!rules||!stories.length||!rules.length)return{bookRule:null,gearRule:null};
@@ -673,8 +675,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   <div id="nsm-feed"><div class="feed-loading"><div class="spinner"></div>Loading stories&#x2026;</div></div>
 </div>
 <footer>
-  &copy; 2026 &#x1F9ED; No Spin Media. Independent. Truth-focused.<br>
-  <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span>
+  &copy; 2026 &#x1F9ED; No Spin Media. Independent. Truth-focused.<span class="amazon-aff"><br>
+  <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span></span>
 </footer>
 </body>
 </html>
