@@ -77,6 +77,18 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .hero-hl-line2{font-family:var(--font-b);font-size:.9rem;font-weight:400;color:rgba(255,255,255,.82);display:block;line-height:1.3}
 .hero-body{padding:.95rem 1.5rem 1rem}
 .hero-summary{font-size:.9rem;line-height:1.68;color:var(--muted);margin-bottom:.6rem}
+.hero-excerpt p{margin-bottom:.7em}.hero-excerpt p:last-child{margin-bottom:0}
+.kb-context.kb-empty{display:none}
+/* nothing to show (no KB match, affiliates off): keep the column width so the feed doesn't jump between tabs */
+html:not(.amazon-aff-on) .index-sidebar-l:has(> .kb-context.kb-empty){visibility:hidden}
+.kb-list{display:flex;flex-direction:column}
+.kb-item{display:block;padding:.7rem 0;text-decoration:none;border-bottom:1px solid var(--border)}
+.kb-item:first-child{padding-top:0}.kb-item:last-child{border-bottom:none}
+.kb-item-title{font-size:.84rem;font-weight:700;color:var(--text);line-height:1.38;display:block}
+.kb-item:hover .kb-item-title{color:var(--blue)}
+.kb-item-desc{font-size:.72rem;color:var(--dimmed);line-height:1.45;display:block;margin-top:.2rem}
+.kb-more{display:inline-block;margin-top:.6rem;font-size:.75rem;font-weight:600;color:var(--blue);text-decoration:none}
+.kb-mobile{display:none}
 .hero-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .hero-meta{display:flex;align-items:center;gap:8px}
 .hero-time{font-size:11px;color:var(--dimmed)}
@@ -204,6 +216,8 @@ footer{text-align:center;padding:1.5rem 1rem;font-size:.8rem;color:#999;border-t
   body{background:#EBEBEB}
   .index-wrap{flex-direction:column;padding:.75rem .75rem 1.5rem;gap:0}
   .index-sidebar-l,.index-sidebar-r{display:none}
+  .kb-mobile{display:block;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;margin-top:1rem;box-shadow:var(--shadow)}
+  .kb-mobile.kb-empty{display:none}
   .index-main{width:100%}
   .archive-header{border-radius:0;border-left:none;border-right:none;border-top:none;margin:0 0 .75rem}
   .search-form{display:grid;grid-template-columns:1fr 1fr;gap:6px}
@@ -567,7 +581,105 @@ function injectMobileAd(feed){
   }
 }
 
-function heroHTML(s,db,badgeText){
+/* Featured story: ~150-220 words of the full article, whole paragraphs
+   where possible, same markdown handling as story.html's convertMarkdown().
+   (Same as index.html.) */
+function heroExcerpt(s){
+  const text=(s.summary||'').replace(/\\n/g,'\n').replace(/\*\*(.*?)\*\*/g,'$1').replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,'<em>$1</em>');
+  const paras=text.split(/\n\s*\n/).map(p=>p.replace(/\s+/g,' ').trim()).filter(Boolean);
+  const MIN=150,MAX=220,out=[];let n=0;
+  for(const p of paras){
+    if(n>=MIN)break;
+    const w=p.split(' ').length;
+    if(n+w<=MAX){out.push(p);n+=w;continue}
+    /* paragraph would overshoot: keep whole sentences up to MAX, else cut words */
+    const sents=p.match(/[^.!?]+[.!?]+["\u201D)]?(?=\s|$)/g)||[p];let part='';
+    for(const st of sents){const sw=st.trim().split(' ').length;if(n+sw>MAX)break;part+=(part?' ':'')+st.trim();n+=sw}
+    if(!part)part=p.split(' ').slice(0,MAX-n).join(' ')+'\u2026';
+    out.push(part);break;
+  }
+  return out.map(p=>'<p>'+p+'</p>').join('');
+}
+
+/* ── BACKGROUND & CONTEXT (KB) — same tag matching as story.html/index.html ── */
+const SB_DAILY_POSTS='https://dckmflnbprhmaqysuued.supabase.co/rest/v1/daily_posts';
+const LOW_WEIGHT_TAGS=['government','business','public health','international relations','weather','law enforcement'];
+const NSM_CACHE_TTL=3600000;
+function normTag(t){return(t||'').toString().trim().toLowerCase()}
+function parseTags(raw){if(Array.isArray(raw))return raw;if(typeof raw==='string'){try{const p=JSON.parse(raw);return Array.isArray(p)?p:[]}catch(e){return[]}}return[]}
+function scoreTagOverlap(aTags,bTags){
+  const aSet=new Set(parseTags(aTags).map(normTag));const bSet=new Set(parseTags(bTags).map(normTag));
+  let score=0,specificMatches=0;
+  aSet.forEach(tag=>{if(!tag||!bSet.has(tag))return;if(LOW_WEIGHT_TAGS.includes(tag))score+=1;else{score+=3;specificMatches++;}});
+  return{score,specificMatches};
+}
+/* news_ne has no tags column, so New England stories are matched by finding
+   the KB article's tags in the story text. Plain-text hits are noisier than
+   curated tags, so this needs >=2 distinct specific tags (one is not enough:
+   "leaves" hit a fire story, "health" a drowning). Short tags (ice, ai, ev)
+   only match as uppercase acronyms so "ice" can't mean frozen water. */
+function scoreTextOverlap(story,kbTags){
+  if(story._kbText===undefined)story._kbText=((story.headline||'')+' '+(story.summary||'')).replace(/\\n/g,' ').replace(/\*+/g,'');
+  const cs=story._kbText,ci=cs.toLowerCase();let score=0,specificMatches=0;
+  new Set(parseTags(kbTags).map(normTag)).forEach(tag=>{
+    if(!tag)return;const esc=tag.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    const hit=/^[a-z]{1,3}$/.test(tag)?new RegExp('(?<![A-Za-z0-9])'+esc.toUpperCase()+'(?![A-Za-z0-9])').test(cs):new RegExp('(?<![a-z0-9])'+esc+'(?![a-z0-9])').test(ci);
+    if(!hit)return;if(LOW_WEIGHT_TAGS.includes(tag))score+=1;else{score+=3;specificMatches++;}
+  });
+  return{score,specificMatches};
+}
+function stripMarkdownForPreview(text){if(!text)return'';return text.replace(/^#+\s*/gm,'').replace(/\*\*(.*?)\*\*/g,'$1').replace(/\*(.*?)\*/g,'$1').replace(/`(.*?)`/g,'$1').replace(/\[(.*?)\]\(.*?\)/g,'$1').trim()}
+function firstSentence(text,maxLen){
+  const clean=stripMarkdownForPreview(text);if(!clean)return'';
+  const match=clean.match(/^.*?[.!?](?=\s|$)/);let sentence=match?match[0].trim():clean;
+  if(sentence.length>maxLen)sentence=sentence.slice(0,maxLen).trim()+'…';
+  else if(sentence.length===clean.length&&clean.length>maxLen)sentence=sentence.slice(0,maxLen).trim()+'…';
+  return sentence;
+}
+function nsmCacheGet(key){try{const raw=localStorage.getItem(key);if(!raw)return null;const parsed=JSON.parse(raw);if(!parsed||!Array.isArray(parsed.data))return null;return parsed}catch(e){return null}}
+function nsmCacheSet(key,data){try{localStorage.setItem(key,JSON.stringify({timestamp:Date.now(),data}))}catch(e){}}
+function nsmCacheFresh(entry){return entry&&(Date.now()-entry.timestamp)<NSM_CACHE_TTL}
+async function nsmFetchCached(cacheKey,url){
+  const cached=nsmCacheGet(cacheKey);if(nsmCacheFresh(cached))return cached.data;
+  try{const res=await fetch(url,{headers:{apikey:SB_KEY}});if(!res.ok)throw new Error('HTTP '+res.status);const data=await res.json();nsmCacheSet(cacheKey,data);return data}
+  catch(e){if(cached)return cached.data;return[]}
+}
+/* KB comment_text opens with a "# <title>" heading line; skip it, and fall back
+   to a word-boundary cut when an abbreviation ("U.S.") ends the sentence early. */
+function kbDesc(k,maxLen){
+  const body=(k.comment_text||'').replace(/^\s*#[^\n]*\n+/,'');
+  const c=stripMarkdownForPreview(body).replace(/\s+/g,' ');
+  const d=firstSentence(body,Infinity);if(d.length>=40&&d.length<=maxLen)return d;
+  if(c.length<=maxLen)return c;
+  return c.slice(0,maxLen).replace(/\s+\S*$/,'').replace(/[,;:]$/,'')+'\u2026';
+}
+function escHTML(t){return(t||'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c])}
+let _kbReq=0;
+/* KB articles ranked by match score summed across the stories on screen.
+   textMode=true for New England (no tags column) — see scoreTextOverlap(). */
+async function renderKbContext(stories,textMode){
+  const req=++_kbReq;
+  const kb=await nsmFetchCached('NSM_knowledgeArticles',SB_DAILY_POSTS+'?select=id,headline_text,url,tags,comment_text&post_type=eq.knowledge&order=id.desc');
+  if(req!==_kbReq)return;
+  const minSpecific=textMode?2:1;
+  const ranked=(Array.isArray(kb)?kb:[]).map(k=>{
+    let score=0,hits=0;
+    stories.forEach(s=>{const r=textMode?scoreTextOverlap(s,k.tags):scoreTagOverlap(s.tags,k.tags);if(r.specificMatches>=minSpecific){score+=r.score;hits++}});
+    return{k,score,hits};
+  }).filter(r=>r.hits>0).sort((a,b)=>b.score-a.score||b.hits-a.hits||(b.k.id-a.k.id));
+  const seenId=new Set(),seenTitle=new Set(),picks=[];
+  for(const{k}of ranked){
+    const kbId=k.url?k.url:k.id,title=normTag(k.headline_text);
+    if(seenId.has(String(kbId))||(title&&seenTitle.has(title)))continue;
+    seenId.add(String(kbId));if(title)seenTitle.add(title);picks.push(k);
+    if(picks.length>=6)break;
+  }
+  const list=picks.map(k=>{const desc=kbDesc(k,100);const kbId=k.url?k.url:k.id;return'<a class="kb-item" href="knowledge.html?id='+encodeURIComponent(kbId)+'"><span class="kb-item-title">'+escHTML(k.headline_text)+'</span>'+(desc?'<span class="kb-item-desc">'+escHTML(desc)+'</span>':'')+'</a>'}).join('');
+  const html='<div class="sidebar-label">\uD83D\uDCDA Background &amp; Context</div><div class="kb-list">'+list+'</div><a class="kb-more" href="knowledge.html">Knowledge Base \u2192</a>';
+  ['kb-context','kb-mobile'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=picks.length?html:'';el.classList.toggle('kb-empty',!picks.length)});
+}
+
+function heroHTML(s,db,badgeText,full){
   const p=parseHL(s.headline),t=s.topic||'world',ts=timeSince(s.posted_at),maj=s.importance==='major';
   const pg=getStoryPage(db);
   const sum=stripMd((s.summary||'').split('\n\n')[0]).substring(0,220);
@@ -582,13 +694,13 @@ function heroHTML(s,db,badgeText){
     +'<span class="hero-hl-line1">'+escapeHtml(p.line1)+'</span>'+(p.line2?'<span class="hero-hl-line2">'+escapeHtml(p.line2)+'</span>':'')
     +'</div></div>'
     +'<div class="hero-body">'
-    +'<div class="hero-summary">'+sum+'</div>'
+    +'<div class="hero-summary'+(full?' hero-excerpt':'')+'">'+((full&&heroExcerpt(s))||sum)+'</div>'
     +rxnStripHTML(s.url,true)
     +'<div class="hero-footer">'
     +'<div class="hero-meta">'+pillC(t)+'<span class="hero-time">'+impDot(s.importance)+ts+'</span></div>'
     +'<div class="hero-actions">'
     +shareDropdownHTML(s.url,db,s.headline||'',wrapId,fbId,false)
-    +'<a class="btn-read" href="'+pg+'?story='+encodeURIComponent(s.url)+'" onclick="event.stopPropagation()">View Story \u2192</a>'
+    +'<a class="btn-read" href="'+pg+'?story='+encodeURIComponent(s.url)+'" onclick="event.stopPropagation()">'+(full?'Continue Reading':'View Story')+' \u2192</a>'
     +'</div></div></div></div>';
 }
 
@@ -633,7 +745,7 @@ async function showPreSearchHero(){
   try{
     const cols=db==='news_ne'
       ?'headline,summary,posted_at,url,reddit_post_id'
-      :'headline,summary,social_bluesky,social_threads,social_facebook,posted_at,url,topic,importance,style,reddit_post_id,image_filename,image_source';
+      :'headline,summary,social_bluesky,social_threads,social_facebook,posted_at,url,topic,importance,style,reddit_post_id,image_filename,image_source,tags';
     const usedFilter=db==='news_posts'?'&used=eq.true':'';
 
     const [recentRes, hotRes] = await Promise.all([
@@ -678,7 +790,7 @@ async function showPreSearchHero(){
 
     let html='';
     html+='<div class="section-label">Latest Story</div>';
-    html+=heroHTML(topStory,db,'\uD83D\uDCF0 Top Story');
+    html+=heroHTML(topStory,db,'\uD83D\uDCF0 Top Story',true);
 
     if(hottestStory){
       html+='<div class="section-label">\uD83D\uDD25 Hottest in Last 48 Hours</div>';
@@ -691,6 +803,8 @@ async function showPreSearchHero(){
       if(rest.length>3)html+='<div class="cards-grid-3">'+rest.slice(3,6).map(s=>cardHTML(s,db)).join('')+'</div>';
     }
 
+    /* KB rail: rank against the latest 30 loaded, not just the ~8 rendered, so the default view isn't near-empty */
+    renderKbContext(recent,db==='news_ne');
     countEl.innerHTML='<span style="color:var(--dimmed);font-size:11px;">Showing latest \u2014 use filters above to search the full archive</span>';
     feed.innerHTML=html;
 
@@ -706,6 +820,7 @@ async function displayStories(stories,db){
   const feed=document.getElementById('news-feed');
   if(!stories||!stories.length){feed.innerHTML='<div class="no-results">\uD83D\uDD0D No stories found. Try different filters.</div>';return}
   _affPlacementToggle=0;_currentStories=stories;
+  renderKbContext(stories.slice(0,30),db==='news_ne');
   await Promise.all([preloadImages(stories),loadAffiliateTiles(stories),batchLoadReactions(stories.map(s=>s.url))]);
   let html='';
   const first=stories.slice(0,3);
@@ -761,7 +876,7 @@ async function searchArchive(){
 
   const selectCols=db==='news_ne'
     ?'headline,summary,posted_at,url,reddit_post_id'
-    :'headline,summary,social_bluesky,social_threads,social_facebook,posted_at,url,topic,importance,style,reddit_post_id,image_filename,image_source';
+    :'headline,summary,social_bluesky,social_threads,social_facebook,posted_at,url,topic,importance,style,reddit_post_id,image_filename,image_source,tags';
 
   const params=new URLSearchParams();
   params.set('select',selectCols);
@@ -828,10 +943,13 @@ document.addEventListener('DOMContentLoaded',()=>{
 <body>
 <div id="site-header"></div>
 <div class="index-wrap">
-  <div class="index-sidebar-l amazon-aff">
+  <div class="index-sidebar-l">
+    <div id="kb-context" class="kb-context kb-empty"></div>
+    <div class="amazon-aff">
     <div class="sidebar-label">&#x1F9ED; NSM Picks</div>
     <div id="book-tiles"></div>
     <div class="sidebar-disclosure">Selecting a title supports independent journalism at no extra cost.</div>
+    </div>
   </div>
   <div class="index-main">
     <div class="archive-header">
@@ -867,6 +985,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     </div>
     <div class="results-bar"><div id="results-count"></div></div>
     <div id="news-feed"><div class="feed-loading"><div class="spinner"></div>Loading stories&#x2026;</div></div>
+    <div id="kb-mobile" class="kb-mobile kb-empty"></div>
   </div>
   <div class="index-sidebar-r amazon-aff">
     <div class="sidebar-label">&#x1F9ED; NSM Picks</div>

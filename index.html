@@ -109,6 +109,8 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .hero-summary{font-size:.9rem;line-height:1.68;color:var(--muted);margin-bottom:.6rem}
 .hero-excerpt p{margin-bottom:.7em}.hero-excerpt p:last-child{margin-bottom:0}
 .kb-context.kb-empty{display:none}
+/* nothing to show (no KB match, affiliates off): keep the column width so the feed doesn't jump between tabs */
+html:not(.amazon-aff-on) .index-sidebar-l:has(> .kb-context.kb-empty){visibility:hidden}
 .kb-list{display:flex;flex-direction:column}
 .kb-item{display:block;padding:.7rem 0;text-decoration:none;border-bottom:1px solid var(--border)}
 .kb-item:first-child{padding-top:0}.kb-item:last-child{border-bottom:none}
@@ -828,9 +830,10 @@ async function nsmFetchCached(cacheKey,url){
    to a word-boundary cut when an abbreviation ("U.S.") ends the sentence early. */
 function kbDesc(k,maxLen){
   const body=(k.comment_text||'').replace(/^\s*#[^\n]*\n+/,'');
-  const d=firstSentence(body,maxLen);if(d.length>=40)return d;
-  const c=stripMarkdownForPreview(body).replace(/\s+/g,' ');if(c.length<=maxLen)return c;
-  return c.slice(0,maxLen).replace(/\s+\S*$/,'')+'\u2026';
+  const c=stripMarkdownForPreview(body).replace(/\s+/g,' ');
+  const d=firstSentence(body,Infinity);if(d.length>=40&&d.length<=maxLen)return d;
+  if(c.length<=maxLen)return c;
+  return c.slice(0,maxLen).replace(/\s+\S*$/,'').replace(/[,;:]$/,'')+'\u2026';
 }
 function escHTML(t){return(t||'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c])}
 let _kbReq=0;
