@@ -2,6 +2,23 @@
   "keywords": [
     {
       "match": [
+        "hurricane",
+        "hurricanes",
+        "tropical cyclone",
+        "tropical depression",
+        "typhoon",
+        "cyclone",
+        "national hurricane center",
+        "hurricane warning",
+        "hurricane watch",
+        "tropical storm warning",
+        "tropical storm watch",
+        "hurricane season"
+      ],
+      "image": "hurricane.webp"
+    },
+    {
+      "match": [
         "peace talks",
         "ceasefire talks",
         "diplomatic talks",
