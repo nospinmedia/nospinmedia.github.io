@@ -643,16 +643,27 @@ function setStorySearchMetadata(s,page,section,imageUrl){
   sc.textContent=JSON.stringify(ld);
 }
 
+/* ── NOT-FOUND NOINDEX (2026-10-08) ──
+   GitHub Pages returns 200 for every ?story= value, so a missing story is a
+   soft 404 unless the page itself says noindex. Called only on a definitive
+   miss: no ?story= param, Supabase answered 200 with zero rows, or 400 (a
+   malformed id). A network error or 5xx is treated as transient and leaves
+   the page indexable, so a Supabase outage can't noindex real stories. */
+function nsmMarkNotFound(label){
+  nsmHeadEl('meta[name="robots"]',()=>{const m=document.createElement('meta');m.setAttribute('name','robots');return m}).setAttribute('content','noindex');
+  document.title=label+' not found | No Spin Media';
+}
+
 /* ── MAIN STORY LOADER ── */
 function wordCount(text){return(text||'').trim().split(/\s+/).filter(Boolean).length}
 function readTime(text){return Math.max(1,Math.round(wordCount(text)/200))}
 
 async function loadStory(){
   const storyId=new URLSearchParams(location.search).get('story');
-  if(!storyId){document.getElementById('story-container').innerHTML='<p style="padding:2rem;color:#999;">Story not found.</p>';return}
+  if(!storyId){document.getElementById('story-container').innerHTML='<p style="padding:2rem;color:#999;">Story not found.</p>';nsmMarkNotFound('Story');return}
   const res=await fetch(SB_URL+'?select=*&url=eq.'+storyId,{headers:{apikey:SB_KEY}});
   const data=await res.json();
-  if(!data.length){document.getElementById('story-container').innerHTML='<p style="padding:2rem;color:#999;">Story not found.</p>';return}
+  if(!data.length){document.getElementById('story-container').innerHTML='<p style="padding:2rem;color:#999;">Story not found.</p>';if((res.ok&&Array.isArray(data))||res.status===400)nsmMarkNotFound('Story');return}
   const s=data[0];
   window._storyData=s;
   const [recPicks,reactTotals]=await Promise.all([buildRecommendationCards(),loadReactions(storyId)]);

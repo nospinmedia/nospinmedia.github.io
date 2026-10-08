@@ -44,6 +44,9 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .sidebar-disclosure{margin-top:10px;font-size:.62rem;color:#ccc;line-height:1.4;font-style:italic}
 .archive-header{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:1.1rem 1.4rem 1rem;margin-bottom:1rem;border-left:3px solid var(--blue)}
 .archive-header-top{display:flex;align-items:baseline;gap:.65rem;flex-wrap:wrap;margin-bottom:.85rem}
+.archive-browse{margin-top:.75rem;font-size:12px;color:var(--dimmed)}
+.archive-browse a{color:var(--blue);font-weight:600;text-decoration:none}
+.archive-browse a:hover{text-decoration:underline}
 .archive-title{font-family:var(--font-h);font-size:1.4rem;color:var(--text);line-height:1.2}
 .archive-subtitle{font-size:.8rem;color:var(--dimmed)}
 .search-form{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
@@ -860,6 +863,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         <button type="button" onclick="searchArchive()" class="search-btn">Search Archive</button>
         <button type="button" onclick="clearSearch()" class="clear-btn">Clear</button>
       </div>
+      <div class="archive-browse">&#x1F4C5; Prefer to browse? <a href="https://nospin.media/archive/">See every story by month &#x2192;</a></div>
     </div>
     <div class="results-bar"><div id="results-count"></div></div>
     <div id="news-feed"><div class="feed-loading"><div class="spinner"></div>Loading stories&#x2026;</div></div>
@@ -871,7 +875,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   </div>
 </div>
 <footer>
-  &copy; 2026 &#x1F9ED; No Spin Media. Independent. Truth-focused.<span class="amazon-aff"><br>
+  &copy; 2026 &#x1F9ED; No Spin Media. Independent. Truth-focused. &middot; <a href="https://nospin.media/archive/" style="color:inherit">Monthly archive</a><span class="amazon-aff"><br>
   <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span></span>
 </footer>
 </body>

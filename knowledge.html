@@ -866,6 +866,15 @@ async function loadPosts() {
     if (data && data[0]) {
       renderSingleArticle(data[0]);
       loadRelatedNewsAndKnowledge(data[0]);
+    } else if ((res.ok && Array.isArray(data)) || res.status === 400) {
+      // Not-found noindex (2026-10-08): GitHub Pages returns 200 for any
+      // ?id=, so a missing article must say noindex itself or it's a soft
+      // 404. Definitive misses only (200 + zero rows, or 400 malformed id);
+      // a network error/5xx leaves the page indexable.
+      let robots = document.head.querySelector('meta[name="robots"]');
+      if (!robots) { robots = document.createElement('meta'); robots.setAttribute('name', 'robots'); document.head.appendChild(robots); }
+      robots.setAttribute('content', 'noindex');
+      document.title = 'Article not found | No Spin Media';
     }
     return;
   }
