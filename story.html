@@ -75,6 +75,7 @@ body{font-family:var(--font-b);background:var(--canvas);color:var(--ink-soft);pa
 .byline-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 0;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);margin-bottom:2.1rem;flex-wrap:wrap}
 .byline{font-size:.85rem;font-weight:700;color:var(--ink-soft)}
 .byline-sub{display:block;font-size:.76rem;font-weight:400;color:var(--faint);margin-top:1px}
+.byline-link{color:inherit;text-decoration:none}.byline-link:hover{text-decoration:underline}
 .share-cluster{position:relative;display:flex;align-items:center;gap:6px}
 .icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--hairline-strong);background:var(--paper);display:inline-flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;color:var(--muted);transition:border-color .15s,color .15s,background .15s}
 .icon-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-tint)}
@@ -617,8 +618,12 @@ function markdownToPlain(t){return(t||'').replace(/\\n/g,'\n').replace(/\[([^\]]
    datePublished is Supabase posted_at, never the displayed "1h ago" text.
    Open Graph/Twitter tags are still set separately, unchanged. */
 function nsmHeadEl(selector,create){let el=document.head.querySelector(selector);if(!el){el=create();document.head.appendChild(el)}return el}
+/* ── VISIBLE PUBLISH TIME (2026-10-xx) ──
+   Absolute date + time in Eastern Time inside <time datetime>, so readers
+   and Google see the same publication moment the JSON-LD declares. */
+function nsmPubTime(iso){const d=iso?new Date(iso):null;if(!d||isNaN(d))return'';const txt=d.toLocaleString('en-US',{timeZone:'America/New_York',month:'long',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})+' ET';return'Published <time datetime="'+d.toISOString()+'">'+txt+'</time>'}
 function setStorySearchMetadata(s,page,section,imageUrl){
-  const strip=t=>(t||'').replace(/^[\p{Extended_Pictographic}‍️\s]+|[\p{Extended_Pictographic}‍️\s]+$/gu,'').trim();
+  const strip=t=>(t||'').replace(/^[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}‍️\s]+|[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}‍️\s]+$/gu,'').trim();
   const hl=(s.headline||'').trim();const nl=hl.indexOf('\n');
   const headline=strip(nl>-1?hl.substring(0,nl):hl)||'Story';
   const subhead=strip(nl>-1?hl.substring(nl+1):'');
@@ -633,11 +638,14 @@ function setStorySearchMetadata(s,page,section,imageUrl){
     'logo':{'@type':'ImageObject','url':'https://nospin.media/images/NSM-Logo.png','width':1024,'height':1024}};
   const ld={'@context':'https://schema.org','@type':'NewsArticle','headline':headline.substring(0,110),
     'description':desc,'url':canonical,'mainEntityOfPage':{'@type':'WebPage','@id':canonical},
-    'inLanguage':'en-US','isAccessibleForFree':true,'author':org,'publisher':org};
+    'inLanguage':'en-US','isAccessibleForFree':true,
+    'author':{'@type':'Organization','name':'No Spin Media Newsroom','url':'https://nospin.media/editorial-standards.html'},
+    'publisher':Object.assign({},org,{'publishingPrinciples':'https://nospin.media/editorial-standards.html'})};
   const published=s.posted_at?new Date(s.posted_at):null;
-  if(published&&!isNaN(published))ld.datePublished=published.toISOString();
+  if(published&&!isNaN(published)){ld.datePublished=published.toISOString();ld.dateModified=ld.datePublished}
   if(section)ld.articleSection=section;
   if(imageUrl){try{ld.image=[new URL(imageUrl,'https://nospin.media/').href]}catch(e){}}
+  else{ld.image=['https://data.nospin.media/preview-image/'+encodeURIComponent(s.url)+'.webp'+(page==='ne_story.html'?'?source=ne':'')]}
   if(Array.isArray(s.tags)&&s.tags.length)ld.keywords=s.tags.filter(t=>typeof t==='string').join(', ');
   const sc=nsmHeadEl('script#nsm-article-jsonld',()=>{const x=document.createElement('script');x.type='application/ld+json';x.id='nsm-article-jsonld';return x});
   sc.textContent=JSON.stringify(ld);
@@ -680,7 +688,7 @@ async function loadStory(){
      for social/list views), but at H1 display size on a premium article page
      both GPT-5 and Gemini flagged it as reading like a social feed, not a
      newsroom. Content itself is untouched — this only affects rendering. */
-  const EMOJI_STRIP_RE=/^[\p{Extended_Pictographic}‍️\s]+|[\p{Extended_Pictographic}‍️\s]+$/gu;
+  const EMOJI_STRIP_RE=/^[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}‍️\s]+|[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}‍️\s]+$/gu;
   const hl=(s.headline||'').trim();const nl=hl.indexOf('\n');
   let line1=nl>-1?hl.substring(0,nl).trim():hl;let line2=nl>-1?hl.substring(nl+1).trim():'';
   line1=line1.replace(EMOJI_STRIP_RE,'').trim();
@@ -736,7 +744,7 @@ async function loadStory(){
     +'</div>'
     +'<h1 class="headline">'+line1+'</h1>'
     +(line2?'<p class="deck">'+line2+'</p>':'')
-    +'<div class="byline-row"><span class="byline">No Spin Media Newsroom<span class="byline-sub">Independent. Fact-focused. No spin.</span></span>'
+    +'<div class="byline-row"><span class="byline">By <a class="byline-link" href="/editorial-standards.html">No Spin Media Newsroom</a><span class="byline-sub">'+(nsmPubTime(s.posted_at)||'Independent. Fact-focused. No spin.')+'</span></span>'
     +'<div class="share-cluster" id="share-wrap">'
     +'<button class="icon-btn" title="Share" onclick="toggleShareMenu()">🔗</button>'
     +'<span class="share-feedback" id="share-feedback"></span>'

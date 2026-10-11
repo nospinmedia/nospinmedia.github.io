@@ -1,309 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-B2CDHQWR45"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-B2CDHQWR45');
-  </script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B2CDHQWR45"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-B2CDHQWR45');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>AI Transparency | No Spin Media</title>
+    <meta name="description" content="How No Spin Media uses artificial intelligence in its newsroom, what people decide, and the limits of our process.">
+    <link rel="canonical" href="https://nospin.media/ai.html">
+    <link rel="stylesheet" href="style.css" />
+    
+    <!-- Google AdSense -->
+    <script async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053277983719011"
+    crossorigin="anonymous"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #222;
+            padding-top: 70px;
+        }
 
-  <script async
-  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7053277983719011"
-  crossorigin="anonymous"></script>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 2rem;
+        }
 
-  <title>Why AI? | No Spin Media</title>
+        .main {
+            flex: 1 1 60%;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
 
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f7f7f7;
-      color: #222;
-      padding-top: 70px;
-      line-height: 1.6;
-    }
+        .sidebar {
+            flex: 1 1 30%;
+            background: #fff;
+            padding: 1rem;
+            margin-top: 2rem;
+            border-left: 2px solid #eee;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+            align-self: flex-start;
+        }
 
-    /* ── Outer layout: two-column on desktop ── */
-    .ai-page-container {
-      display: flex;
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 2rem;
-      gap: 2rem;
-      align-items: flex-start;
-    }
+        h1 { font-size: 2rem; margin-top: 0; }
+        h2 { font-size: 1.3rem; margin-bottom: 0.5rem; }
 
-    /* ── Main article ── */
-    .main {
-      flex: 1 1 0;
-      min-width: 0;
-      background: #fff;
-      border-radius: 8px;
-      padding: 2rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      box-sizing: border-box;
-    }
+        .button {
+            display: inline-block;
+            margin: 0.5rem 0;
+            padding: 0.6rem 1rem;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
 
-    h1 {
-      margin-top: 0;
-      font-size: 2rem;
-      text-align: center;
-    }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
 
-    .main p {
-      margin-bottom: 1rem;
-      font-size: 1.05rem;
-    }
+        #feedbackForm input, #feedbackForm textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #feedbackForm button {
+            background: #0073e6;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #feedbackForm button:hover { background: #005bb5; }
+        #formStatus {
+            font-size: 0.9em;
+            color: green;
+            margin: 6px 0;
+            text-align: center;
+        }
 
-    /* ── Sidebar ── */
-    .sidebar {
-      width: 300px;
-      min-width: 300px;
-      flex-shrink: 0;
-      background: #fff;
-      padding: 1.2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      box-sizing: border-box;
-      align-self: flex-start;
-    }
-
-    .sidebar h2 {
-      margin: 0 0 0.5rem 0;
-      font-size: 1.15rem;
-      font-weight: bold;
-      color: #222;
-    }
-
-    .sidebar p {
-      font-size: 0.9rem;
-      color: #444;
-      margin: 0 0 0.8rem 0;
-    }
-
-    /* ── Form ── */
-    #feedbackForm {
-      margin-top: 0.5rem;
-    }
-
-    #feedbackForm input,
-    #feedbackForm textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 5px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-      font-size: 0.95rem;
-      background: #fff;
-    }
-
-    #feedbackForm textarea {
-      resize: vertical;
-    }
-
-    #feedbackForm button {
-      background: #0073e6;
-      color: #fff;
-      border: none;
-      padding: 12px;
-      width: 100%;
-      font-weight: bold;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1rem;
-      margin-top: 4px;
-    }
-
-    #feedbackForm button:hover { background: #005bb5; }
-
-    #formStatus {
-      font-size: 0.9em;
-      color: green;
-      margin: 6px 0;
-      text-align: center;
-    }
-
-    footer {
-      margin-top: 3rem;
-      padding: 1rem;
-      background: #f4f4f4;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #666;
-    }
-
-    footer a {
-      color: #0066cc;
-      text-decoration: none;
-    }
-
-    footer a:hover { text-decoration: underline; }
-
-    /* ── Mobile ── */
-    @media (max-width: 900px) {
-      .ai-page-container {
-        flex-direction: column;
-        padding: 0 1rem;
-        margin: 1rem auto;
-      }
-
-      .sidebar {
-        width: 100%;
-        min-width: 0;
-      }
-
-      h1 { font-size: 1.6rem; }
-    }
-  </style>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      fetch('header.html')
-        .then(res => res.text())
-        .then(html => {
-          document.getElementById('site-header').innerHTML = html;
-
-          const hamburger = document.getElementById('hamburger');
-          const mobileNav = document.getElementById('mobile-nav');
-
-          if (hamburger && mobileNav) {
-            hamburger.addEventListener('click', () => {
-              mobileNav.classList.toggle('open');
-              hamburger.classList.toggle('active');
-            });
-            mobileNav.querySelectorAll('a').forEach(link => {
-              link.addEventListener('click', () => {
-                mobileNav.classList.remove('open');
-                hamburger.classList.remove('active');
-              });
-            });
-            window.addEventListener('resize', function() {
-              if (window.innerWidth > 768) {
-                mobileNav.classList.remove('open');
-                hamburger.classList.remove('active');
-              }
-            });
-          }
-        });
-
-      const feedbackForm = document.getElementById('feedbackForm');
-      if (feedbackForm) {
-        feedbackForm.addEventListener('submit', async function(e) {
-          e.preventDefault();
-          const status = document.getElementById('formStatus');
-          status.textContent = "⏳ Sending...";
-
-          const data = {
-            name:    document.getElementById('name').value || "Someone",
-            email:   document.getElementById('email').value,
-            subject: "Why AI Feedback",
-            message: document.getElementById('message').value
-          };
-
-          try {
-            const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
-              method: 'POST',
-              headers: {'Content-Type':'text/plain'},
-              body: JSON.stringify(data)
-            });
-
-            let result = {};
-            try { result = await res.json(); } catch (err) { result = { status: "success" }; }
-
-            if (result.status === "success") {
-              status.textContent = "✅ Thanks! We love hearing your thoughts.";
-              this.reset();
-            } else {
-              status.textContent = "❌ Error sending. Please try again.";
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+            .sidebar {
+                margin-top: 1rem;
+                border-left: none;
+                border-top: 2px solid #eee;
             }
-            setTimeout(() => { status.textContent = ""; }, 5000);
-          } catch (err) {
-            status.textContent = "❌ Failed to send! Check connection.";
-            setTimeout(() => { status.textContent = ""; }, 5000);
-          }
-        });
-      }
-    });
-  </script>
+        }
+    
+        mark.review { background: #fff3b0; padding: 0 2px; border-bottom: 2px solid #e0b000; }
+        .tagline { font-size: 1.1rem; }
+        .updated { color: #666; font-size: 0.9rem; }
+        dl.types dt { font-weight: bold; margin-top: 0.8rem; }
+        dl.types dd { margin: 0.2rem 0 0 1rem; }
+        .main ol li, .main ul li { margin-bottom: 0.4rem; line-height: 1.5; }
+        .main p { line-height: 1.6; }
+        .footer-links a { color: #555; margin: 0 0.4rem; }
+        #topic { width: 100%; padding: 8px; margin: 6px 0; border: 1px solid #ccc; border-radius: 4px; }
+    </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+    <div id="site-header"></div>
 
-  <div class="ai-page-container">
+    <div class="container">
+        <div class="main">
+            <h1>AI Transparency</h1>
 
-    <main class="main">
-      <h1>Why AI? Why No Spin?</h1>
+<p>News moves quickly, and major stories develop across many sources at once. That can make it hard to separate confirmed facts from analysis, opinion, or incomplete reporting. We created 🧭 No Spin Media to give readers a clear, structured view of the news: what is known, what remains uncertain, and the context needed to draw their own conclusions.</p>
 
-      <p>
-        News today moves quickly, and major stories often develop across many sources as new information becomes
-        available. In that environment, it can be difficult to separate confirmed facts from analysis, opinion, or
-        incomplete reporting. We created 🧭 No Spin Media to provide a clear, structured view of the news focused
-        on verified information. Our goal is simple: present what is known, explain what remains uncertain, and
-        allow readers to draw their own conclusions.
-      </p>
+<h2>What Artificial Intelligence Does</h2>
+<p>AI is a tool in our editorial process. It helps us monitor news sources, research and cross-check facts across multiple sources, draft articles in a consistent and neutral style, and apply our editorial rules on accuracy, attribution, and neutral language.</p>
 
-      <p>
-        🧭 No Spin Media uses artificial intelligence as a tool to help organize information, identify key developments,
-        and create original news summaries based on verified reporting. We do not copy article text or republish
-        content from other organizations. Instead, the system produces new summaries focused on confirmed facts
-        and relevant context, designed to help readers quickly understand the story.
-      </p>
+<h2>What People Do</h2>
+<p>Our editors set No Spin Media's editorial priorities and influence what we cover: they choose and review the sources we monitor, set the rules our AI-assisted process follows, monitor what is published, and handle corrections. We remain responsible for everything we publish.</p>
 
-      <p>
-        Technology alone does not publish our content. <strong>Every story is reviewed by a human before publication</strong>
-        to help ensure accuracy, clarity, and consistency with our editorial standards. When important details remain
-        unconfirmed or are still developing, we identify that uncertainty clearly within the story.
-      </p>
+<h2>What We Don't Do</h2>
+<ul>
+  <li>We don't reproduce other publishers' articles as our own. Our articles are independently written using researched and attributed information from multiple sources.</li>
+  <li>We don't present AI-generated images as photographs. Illustrations created with AI are labeled "AI-generated illustration."</li>
+  <li>We don't publish opinion pieces or tell readers what to think.</li>
+</ul>
 
-      <p>
-        AI helps us apply the same editorial process to every article. Our approach is designed to prioritize factual
-        accuracy, neutral presentation, and transparency while avoiding speculation, sensationalism, and unsupported
-        conclusions. Readers should be able to quickly understand what happened, what is confirmed, and what information
-        may still be evolving.
-      </p>
+<h2>The Limits</h2>
+<p>No process, human or automated, is perfect. When an error gets through, we correct it openly. See our <a href="corrections.html">Corrections Policy</a>.</p>
 
-      <p>
-        🧭 No Spin Media is not a replacement for journalism. It depends on the work of reporters, researchers, and
-        news organizations that gather, verify, and publish information around the world. Our role is to present
-        verified information in a clear, concise format that helps readers stay informed efficiently.
-      </p>
+<h2>Our Role</h2>
+<p>🧭 No Spin Media depends on the work of reporters, researchers, and news organizations that gather and publish information around the world, and on official records and public data. Our role is to bring that information together accurately, clearly, and without spin.</p>
 
-      <p>
-        We believe people benefit from news that is straightforward, transparent, and easy to understand.
-        Thank you for being part of the No Spin Media community.
-      </p>
-    </main>
+<p>Read our full <a href="editorial-standards.html">Editorial Standards</a>.</p>
 
-    <aside class="sidebar">
-      <h2>🤖 Tell us what you think about AI!</h2>
-      <p>Have thoughts on how we use AI? We read every message. 😊</p>
-      <p>You can also reach us at: <strong>nospinmedia.ai@gmail.com</strong></p>
-      <form id="feedbackForm">
-        <input type="text"  id="name"    name="name"    placeholder="Your first name">
-        <input type="email" id="email"   name="email"   placeholder="you@email.com" required>
-        <textarea           id="message" name="message" rows="4" placeholder="Your thoughts... Be honest!"></textarea>
-        <p id="formStatus"></p>
-        <button type="submit">💬 Send Feedback</button>
-      </form>
-    </aside>
+        </div>
 
-  </div>
+        <div class="sidebar">
+            <h2>Send Us a Message</h2>
+            <form id="feedbackForm">
+                <input type="text" id="name" name="name" placeholder="Your first name (optional)">
+                <input type="email" id="email" name="email" placeholder="you@email.com" required>
+                <textarea id="message" name="message" rows="6" placeholder="Your message..." required></textarea>
+                <p id="formStatus"></p>
+                <button type="submit">💬 Send Message</button>
+            </form>
+            <p style="font-size:0.9em;color:#666">Or email <a href="mailto:nospinmedia.ai@gmail.com">nospinmedia.ai@gmail.com</a></p>
 
-  <footer>
-    © 2026 🧭 No Spin Media. Independent. Truth-focused. |
-    <a href="mailto:nospinmedia.ai@gmail.com">nospinmedia.ai@gmail.com</a> |
-    <a href="https://facebook.com/NoSpinNewsAI" target="_blank">Facebook</a>
-  </footer>
+            <h2>About Our Journalism</h2>
+            <p><a href="editorial-standards.html">Editorial Standards</a></p>
+            <p><a href="ai.html">AI Transparency</a></p>
+            <p><a href="corrections.html">Corrections Policy</a></p>
+            <p><a href="contact.html">Contact Us</a></p>
+        </div>
+    </div>
 
+    <footer>
+        <div class="footer-links"><a href="about.html">About</a>·<a href="editorial-standards.html">Editorial Standards</a>·<a href="ai.html">AI Transparency</a>·<a href="corrections.html">Corrections</a>·<a href="contact.html">Contact</a>·<a href="privacy.html">Privacy</a>·<a href="terms.html">Terms</a></div>
+        © 2026 🧭 No Spin Media. Independent. Truth-focused.<br>Seriously factual, surprisingly fun.
+    </footer>
+
+    <script>
+
+        /* ══════════════════════════════════════════
+           LOCAL NETWORK DETECTION
+           Reads the localStorage flag that dropoff.html
+           writes when visited on the local network.
+           If fresh (< 8 hours), shows internal nav links.
+           ══════════════════════════════════════════ */
+        function nsmShowLocalLinks() {
+            try {
+                const stored = parseInt(localStorage.getItem("nsm_local_seen") || "0");
+                const age    = Date.now() - stored;
+                if (stored && age < 8 * 60 * 60 * 1000) {
+                    ["desktop-dropoff", "desktop-images",
+                     "mobile-dropoff",  "mobile-images"].forEach(function(id) {
+                        var el = document.getElementById(id);
+                        if (el) el.classList.add("visible");
+                    });
+                }
+            } catch(e) {}
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('header.html')
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('site-header').innerHTML = html;
+
+                    const hamburger = document.getElementById('hamburger');
+                    const mobileNav = document.getElementById('mobile-nav');
+
+                    if (hamburger && mobileNav) {
+                        function toggleMobileNav() {
+                            mobileNav.classList.toggle('open');
+                            hamburger.classList.toggle('active');
+                        }
+
+                        hamburger.addEventListener('click', toggleMobileNav);
+                        hamburger.addEventListener('touchstart', function(e) {
+                            e.preventDefault();
+                            toggleMobileNav();
+                        }, { passive: false });
+
+                        mobileNav.querySelectorAll('a').forEach(link => {
+                            link.addEventListener('click', () => {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active');
+                            });
+                        });
+
+                        window.addEventListener('resize', function() {
+                            if (window.innerWidth > 768) {
+                                mobileNav.classList.remove('open');
+                                hamburger.classList.remove('active');
+                            }
+                        });
+                    }
+
+                    /* ── Show internal links if on local network ── */
+                    nsmShowLocalLinks();
+                })
+                .catch(err => console.error("Error loading header.html:", err));
+
+            // Feedback form
+            const feedbackForm = document.getElementById('feedbackForm');
+            if (feedbackForm) {
+                feedbackForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const status = document.getElementById('formStatus');
+                    status.textContent = "⏳ Sending...";
+
+                    const data = {
+                        name:    document.getElementById('name').value || "Someone",
+                        email:   document.getElementById('email').value,
+                        subject: (document.getElementById('topic') ? document.getElementById('topic').value + " (Contact Page)" : "AI Feedback"),
+                        message: document.getElementById('message').value
+                    };
+
+                    try {
+                        const res = await fetch('https://script.google.com/macros/s/AKfycbwr26uY61Dip94_QwzyLh1JDSIFdYHJgqL_scKGLdRd9O42VLDBvt2XzkA67tjphJrs/exec', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'text/plain'},
+                            body: JSON.stringify(data)
+                        });
+
+                        let result = {};
+                        try { result = await res.json(); } catch(err) { result = { status: "success" }; }
+
+                        if (result.status === "success") {
+                            status.textContent = "✅ Thanks! Your feedback was sent.";
+                            this.reset();
+                        } else {
+                            status.textContent = "❌ Error sending. Please try again.";
+                        }
+                        setTimeout(() => { status.textContent = ""; }, 5000);
+                    } catch(err) {
+                        status.textContent = "❌ Failed to send! Check connection.";
+                        setTimeout(() => { status.textContent = ""; }, 5000);
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
