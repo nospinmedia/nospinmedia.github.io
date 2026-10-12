@@ -209,20 +209,4 @@
       <news:title>DeSantis Withdraws Death Warrant, Halting Florida Execution</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261010064500001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-10T18:30:43-04:00</news:publication_date>
-      <news:title>Trump Asks Supreme Court to Revive Lawsuit Against Hillary Clinton</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261010074500001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-10T18:30:43-04:00</news:publication_date>
-      <news:title>Maine Hospitals Sue Federal Government Over Drug Discount Changes</news:title>
-    </news:news>
-  </url>
 </urlset>
