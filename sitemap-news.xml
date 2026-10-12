@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261012061500002</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-12T08:46:00-04:00</news:publication_date>
+      <news:title>Russia Strikes Ukrainian Power Plants After Trump Announces Ceasefire</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/ne_story.html?story=20261012084500001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-12T08:45:47-04:00</news:publication_date>
+      <news:title>New England Senators Challenge Trump&#x27;s Russian Diesel Deal</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261012061500001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-10T10:16:09-04:00</news:publication_date>
       <news:title>Ukraine Strikes Russian Fuel Sites Hours After Trump-Putin Diesel Deal</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261010052000001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-10T08:46:33-04:00</news:publication_date>
-      <news:title>Powerful Earthquake Rocks Panama, Damaging Buildings</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261010071500001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-10T08:45:46-04:00</news:publication_date>
-      <news:title>18-Year-Old Surrenders After Fatal Boston Gas Station Shooting</news:title>
     </news:news>
   </url>
 </urlset>
