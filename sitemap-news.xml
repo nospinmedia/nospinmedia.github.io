@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261013052317001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-13T15:45:51-04:00</news:publication_date>
+      <news:title>Pennsylvania Reports Sixth Measles-Associated Death</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/ne_story.html?story=20261013104723001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-13T15:45:30-04:00</news:publication_date>
+      <news:title>Pentagon Clears Way for Bath Iron Works to Build Second Destroyer</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261013082541001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -191,22 +207,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-11T17:15:37-04:00</news:publication_date>
       <news:title>Pope Leo condemns death penalty amid U.S. execution livestream controversy</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261011094500129</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-11T15:45:32-04:00</news:publication_date>
-      <news:title>Justice Department investigates five TV networks over Trump coverage</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261011110500133</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-11T15:45:02-04:00</news:publication_date>
-      <news:title>Massachusetts man killed by police after allegedly trying to hit pedestrians</news:title>
     </news:news>
   </url>
 </urlset>
