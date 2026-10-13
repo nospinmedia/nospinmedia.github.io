@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/ne_story.html?story=20261013112638001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-13T12:30:22-04:00</news:publication_date>
+      <news:title>Trespasser Dies After Contact With Red Line Third Rail</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261013080437001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -199,14 +207,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-11T13:16:15-04:00</news:publication_date>
       <news:title>Drone strike kills 41 displaced civilians in Sudan</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261011131500135</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-11T12:30:42-04:00</news:publication_date>
-      <news:title>Brigham nurses postpone planned strike after hospital makes final offer</news:title>
     </news:news>
   </url>
 </urlset>
