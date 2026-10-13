@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261013091342001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-13T08:46:47-04:00</news:publication_date>
+      <news:title>Saudi Arabia Investigates Air Defense Failures After Deadly Airport Attacks</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/ne_story.html?story=20261013102518001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-13T08:45:32-04:00</news:publication_date>
+      <news:title>Cyber Incident Disrupts Stop &amp; Shop and Hannaford Online Services</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261013051624001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -191,22 +207,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-11T10:16:11-04:00</news:publication_date>
       <news:title>Gunman kills 8 at Pennsylvania family home</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261011050200123</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-11T08:45:51-04:00</news:publication_date>
-      <news:title>Riyadh airport attack kills 12, injures 309</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261011163000136</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-11T08:45:02-04:00</news:publication_date>
-      <news:title>Peak foliage draws visitors to New Hampshire and Vermont despite soaring gas prices</news:title>
     </news:news>
   </url>
 </urlset>
