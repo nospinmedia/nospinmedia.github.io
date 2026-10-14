@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/ne_story.html?story=20261014123000002</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-14T12:30:33-04:00</news:publication_date>
+      <news:title>Connecticut Adds $12.7 Million in Winter Heating Assistance</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261014114500001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -199,14 +207,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-12T13:16:22-04:00</news:publication_date>
       <news:title>Federal Judge Halts $20 Million Taxpayer-Funded Trump Ad Campaign</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261012123000002</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-12T12:30:45-04:00</news:publication_date>
-      <news:title>Driver Killed in Boston Crash as Criminal Investigation Begins</news:title>
     </news:news>
   </url>
 </urlset>
