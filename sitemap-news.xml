@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261014084500001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-14T08:46:28-04:00</news:publication_date>
+      <news:title>Houthi Missile Attack Hits Saudi Aramco Headquarters</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/ne_story.html?story=20261014084500002</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-14T08:45:29-04:00</news:publication_date>
+      <news:title>Six States Launch 3-Day Crackdown on Dangerous Driving</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261014061500001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -191,22 +207,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-12T10:15:52-04:00</news:publication_date>
       <news:title>North Korea Fires Multiple Ballistic Missiles Toward Japan</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261012061500002</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-12T08:46:00-04:00</news:publication_date>
-      <news:title>Russia Strikes Ukrainian Power Plants After Trump Announces Ceasefire</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261012084500001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-12T08:45:47-04:00</news:publication_date>
-      <news:title>New England Senators Challenge Trump&#x27;s Russian Diesel Deal</news:title>
     </news:news>
   </url>
 </urlset>
