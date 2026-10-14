@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261014143000001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-14T14:31:05-04:00</news:publication_date>
+      <news:title>Congo Ebola Outbreak Surpasses 9,000 Cases and 4,300 Deaths</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261014131500001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -199,14 +207,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-12T15:45:40-04:00</news:publication_date>
       <news:title>Drake Maye Scores 5 Touchdowns as Patriots Crush Raiders 45–17</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261012061500006</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-12T14:30:36-04:00</news:publication_date>
-      <news:title>Five Family Members Dead in Georgia Murder-Suicide</news:title>
     </news:news>
   </url>
 </urlset>
