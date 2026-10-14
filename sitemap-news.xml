@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261014154500001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-14T15:46:00-04:00</news:publication_date>
+      <news:title>Bank of America Hit With $1.2 Billion Fine Over Money Laundering Failures</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/ne_story.html?story=20261014154500002</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-14T15:45:44-04:00</news:publication_date>
+      <news:title>Burlington Man Accused of Killing Wife With Flashlight Pleads Not Guilty</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261014184500001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -199,22 +215,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-12T17:16:06-04:00</news:publication_date>
       <news:title>139 Migrants Die in Djibouti Boat Disaster</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261012061500007</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-12T15:46:12-04:00</news:publication_date>
-      <news:title>Deadly Airstrike Hits Gold Mine Near Sudan-Egypt Border</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261012154500003</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-12T15:45:40-04:00</news:publication_date>
-      <news:title>Drake Maye Scores 5 Touchdowns as Patriots Crush Raiders 45–17</news:title>
     </news:news>
   </url>
 </urlset>
