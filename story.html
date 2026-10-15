@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>/* ── EARLY CANONICAL (2026-10-15) ──
+   Runs first, before any network request, so the canonical exists even if
+   the Supabase load is slow or fails. Built only from ?story= (tracking
+   params, other params and #fragments are dropped), using the exact same
+   formula setStorySearchMetadata() later rewrites it with. Removed again by
+   nsmDropCanonical() if the story turns out to be missing or unloadable. */
+(function(){try{var id=new URLSearchParams(location.search).get('story');if(!id)return;var c='https://nospin.media/story.html?story='+encodeURIComponent(id);var l=document.createElement('link');l.setAttribute('rel','canonical');l.setAttribute('href',c);document.head.appendChild(l);}catch(e){}})();</script>
 <script src="/affiliate/config.js"></script><!-- Amazon Associates master switch -->
 <style>html:not(.amazon-aff-on) .amazon-aff{display:none!important}</style>
 <meta charset="UTF-8"/>
@@ -657,6 +664,9 @@ function setStorySearchMetadata(s,page,section,imageUrl){
    miss: no ?story= param, Supabase answered 200 with zero rows, or 400 (a
    malformed id). A network error or 5xx is treated as transient and leaves
    the page indexable, so a Supabase outage can't noindex real stories. */
+/* Remove the early canonical when the story can't be shown (missing, invalid
+   or failed to load), so it never points at a nonexistent article. (2026-10-15) */
+function nsmDropCanonical(){document.head.querySelectorAll('link[rel="canonical"]').forEach(el=>el.remove())}
 function nsmMarkNotFound(label){
   nsmHeadEl('meta[name="robots"]',()=>{const m=document.createElement('meta');m.setAttribute('name','robots');return m}).setAttribute('content','noindex');
   document.title=label+' not found | No Spin Media';
@@ -671,9 +681,14 @@ async function loadStory(){
   if(!storyId){document.getElementById('story-container').innerHTML='<p style="padding:2rem;color:#999;">Story not found.</p>';nsmMarkNotFound('Story');return}
   const res=await fetch(SB_URL+'?select=*&url=eq.'+storyId,{headers:{apikey:SB_KEY}});
   const data=await res.json();
-  if(!data.length){document.getElementById('story-container').innerHTML='<p style="padding:2rem;color:#999;">Story not found.</p>';if((res.ok&&Array.isArray(data))||res.status===400)nsmMarkNotFound('Story');return}
+  if(!data.length){document.getElementById('story-container').innerHTML='<p style="padding:2rem;color:#999;">Story not found.</p>';nsmDropCanonical();if((res.ok&&Array.isArray(data))||res.status===400)nsmMarkNotFound('Story');return}
   const s=data[0];
   window._storyData=s;
+  /* Search metadata right after retrieval (2026-10-15), before the affiliate,
+     reactions and image lookups, so a failure there can't leave the page
+     without title/canonical/JSON-LD. Re-run below once the hero image is known. */
+  const topic=s.topic||'world';const topicCls='tp-'+topic;const topicLabel=TOPIC_LABELS[topic]||(topic?topic[0].toUpperCase()+topic.slice(1):'World');
+  try{setStorySearchMetadata(s,'story.html',topicLabel)}catch(e){console.warn('search metadata failed',e)}
   const [recPicks,reactTotals]=await Promise.all([buildRecommendationCards(),loadReactions(storyId)]);
   const storedReaction=getStoredReaction(storyId);
   document.querySelector('meta[property="og:title"]').setAttribute('content',(s.headline||'').replace('\n',' '));
@@ -693,10 +708,9 @@ async function loadStory(){
   let line1=nl>-1?hl.substring(0,nl).trim():hl;let line2=nl>-1?hl.substring(nl+1).trim():'';
   line1=line1.replace(EMOJI_STRIP_RE,'').trim();
   line2=line2.replace(EMOJI_STRIP_RE,'').trim();
-  const topic=s.topic||'world';const topicCls='tp-'+topic;const topicLabel=TOPIC_LABELS[topic]||(topic?topic[0].toUpperCase()+topic.slice(1):'World');
 
   const imgResult=await getStoryImage(storyId,s.headline,s.summary,s.image_filename,s.image_source);
-  setStorySearchMetadata(s,'story.html',topicLabel,imgResult&&imgResult.url);
+  if(imgResult&&imgResult.url){try{setStorySearchMetadata(s,'story.html',topicLabel,imgResult.url)}catch(e){console.warn('search metadata failed',e)}}
   let heroHTML='';
   if(imgResult){
     const meta=imgResult.meta;let cap='',cred='';
@@ -873,7 +887,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('site-header').innerHTML=html;
     const ham=document.getElementById('hamburger'),nav=document.getElementById('mobile-nav');
     if(ham&&nav){ham.onclick=()=>{nav.classList.toggle('open');ham.classList.toggle('active')};nav.querySelectorAll('a').forEach(a=>{a.onclick=()=>{nav.classList.remove('open');ham.classList.remove('active')}});}
-    loadStory();
+    loadStory().catch(e=>{if(!window._storyData)nsmDropCanonical();throw e});
   });
 });
 </script>
