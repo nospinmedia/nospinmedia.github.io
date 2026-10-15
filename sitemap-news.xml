@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261014201500001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-14T20:45:56-04:00</news:publication_date>
+      <news:title>Trump Announces Major Oil, Gas and Mineral Exploration Plans for Greenland</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261014183000001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-13T06:16:04-04:00</news:publication_date>
       <news:title>Federal Agents Search Rep. Ilhan Omar&#x27;s Washington Home</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261012061500008</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-12T20:45:48-04:00</news:publication_date>
-      <news:title>Rare Super El Niño Could Break Historic Records</news:title>
     </news:news>
   </url>
 </urlset>
