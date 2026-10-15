@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261015103000001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-15T15:46:25-04:00</news:publication_date>
+      <news:title>Eight States Sue OpenAI Over ChatGPT Safety Concerns</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/ne_story.html?story=20261015154500001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-15T15:45:25-04:00</news:publication_date>
+      <news:title>Former Healey Aide Charged With Federal Food Assistance Fraud</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261015111500001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -231,22 +247,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-13T17:16:09-04:00</news:publication_date>
       <news:title>Man Dies After Falling From Roller Coaster at Six Flags Over Georgia</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261013052317001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-13T15:45:51-04:00</news:publication_date>
-      <news:title>Pennsylvania Reports Sixth Measles-Associated Death</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261013104723001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-13T15:45:30-04:00</news:publication_date>
-      <news:title>Pentagon Clears Way for Bath Iron Works to Build Second Destroyer</news:title>
     </news:news>
   </url>
 </urlset>
