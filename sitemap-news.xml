@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261016060431001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-16T14:49:10-04:00</news:publication_date>
+      <news:title>Nine Fired FBI Employees Sue Trump Administration for Their Jobs Back</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261016070824001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -247,14 +255,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-14T15:45:44-04:00</news:publication_date>
       <news:title>Burlington Man Accused of Killing Wife With Flashlight Pleads Not Guilty</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261014184500001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-14T14:45:08-04:00</news:publication_date>
-      <news:title>Six Flags Shuts Down 9 Roller Coasters Across 6 Parks</news:title>
     </news:news>
   </url>
 </urlset>
