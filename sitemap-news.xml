@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261016053017001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-16T18:31:21-04:00</news:publication_date>
+      <news:title>U.S. Producer Prices Jump Most in 4½ Years</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/ne_story.html?story=20261016093826001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-16T18:30:56-04:00</news:publication_date>
+      <news:title>Bail Revoked for Former Healey Aide LaMar Cook After New Federal Charges</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261016065218001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -239,22 +255,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-14T20:45:56-04:00</news:publication_date>
       <news:title>Trump Announces Major Oil, Gas and Mineral Exploration Plans for Greenland</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261014183000001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-14T18:31:09-04:00</news:publication_date>
-      <news:title>Trump Reconsiders Livestream of Fort Hood Shooter&#x27;s Execution</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261014183000002</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-14T18:30:08-04:00</news:publication_date>
-      <news:title>Collins and Jackson Clash Over ICE, Heating Costs and Tariffs</news:title>
     </news:news>
   </url>
 </urlset>
