@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/ne_story.html?story=20261017065000000</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-17T08:45:51-04:00</news:publication_date>
+      <news:title>Suspicious Letter Forces Evacuation of Sen. Susan Collins&#x27; Portland Office</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/story.html?story=20261017050000000</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-17T08:45:36-04:00</news:publication_date>
+      <news:title>Father of Two Identified as Bystander Who Stopped Oregon School Shooter</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261017045200000</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -247,22 +263,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-15T10:16:11-04:00</news:publication_date>
       <news:title>U.S. Inflation Climbs to 3.7% as Energy Costs Surge</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261015074500001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-15T08:46:28-04:00</news:publication_date>
-      <news:title>Zelenskyy Ends Pause on Strikes Against Russian Oil Refineries</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261015090000001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-15T08:45:45-04:00</news:publication_date>
-      <news:title>Boston School Security Official Charged With Rape at State Police Barracks</news:title>
     </news:news>
   </url>
 </urlset>
