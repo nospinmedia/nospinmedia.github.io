@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261017062000000</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-17T18:52:08-04:00</news:publication_date>
+      <news:title>Ukraine Targets Yandex Data Centers in New Front of War With Russia</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261017052000000</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -263,14 +271,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-15T20:45:49-04:00</news:publication_date>
       <news:title>ICE Rejects Automatic Body-Camera Safeguards Despite Federal Warnings</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261015101500001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-15T18:54:58-04:00</news:publication_date>
-      <news:title>Cornell President Admits He Failed to Follow Up on Sexual Assault Report</news:title>
     </news:news>
   </url>
 </urlset>
