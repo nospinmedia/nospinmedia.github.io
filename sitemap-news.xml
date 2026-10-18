@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261018050500001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-18T08:45:52-04:00</news:publication_date>
+      <news:title>Deadly Incident Sparks Major Fire at Canadian Military Base</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/ne_story.html?story=20261018065500001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-18T08:45:37-04:00</news:publication_date>
+      <news:title>Hateful Graffiti Found Across Three Manchester Neighborhoods</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261018060500001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -255,22 +271,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-16T10:15:59-04:00</news:publication_date>
       <news:title>Two Women Sue Former Rep. Matt Gaetz, Alleging Sex Trafficking</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261016051543001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-16T08:45:39-04:00</news:publication_date>
-      <news:title>Trump Administration Sues California Over 20,000 Mail Ballots</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261016083241001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-16T08:45:39-04:00</news:publication_date>
-      <news:title>New Hampshire Takes Student ID Voting Dispute to Supreme Court</news:title>
     </news:news>
   </url>
 </urlset>
