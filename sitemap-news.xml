@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261018052500001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-18T17:16:11-04:00</news:publication_date>
+      <news:title>Man Fatally Shot on Midtown Manhattan Subway Platform</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261018045300001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -247,14 +255,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-16T18:30:56-04:00</news:publication_date>
       <news:title>Bail Revoked for Former Healey Aide LaMar Cook After New Federal Charges</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261016065218001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-16T17:15:55-04:00</news:publication_date>
-      <news:title>Seven Sailors Missing After Drones Strike Tankers Near Romania</news:title>
     </news:news>
   </url>
 </urlset>
