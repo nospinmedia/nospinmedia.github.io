@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261018060500001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-18T06:16:17-04:00</news:publication_date>
+      <news:title>Ship Attacks Around Strait of Hormuz Reach Wartime High</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261017055000000</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -263,14 +271,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-16T08:45:39-04:00</news:publication_date>
       <news:title>New Hampshire Takes Student ID Voting Dispute to Supreme Court</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261016050112001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-16T06:16:14-04:00</news:publication_date>
-      <news:title>Three Children and Teacher Killed in Oregon Elementary School Shooting</news:title>
     </news:news>
   </url>
 </urlset>
