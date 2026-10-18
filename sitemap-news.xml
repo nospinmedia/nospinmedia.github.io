@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261018055500001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-18T18:31:17-04:00</news:publication_date>
+      <news:title>Iowa Senate Race Moves Into Toss-Up Territory</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/ne_story.html?story=20261018064500001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-18T18:30:13-04:00</news:publication_date>
+      <news:title>Massachusetts Teens Invite 7-Year-Old Sitting Alone to Join Them</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261018052500001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -239,22 +255,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-16T18:52:24-04:00</news:publication_date>
       <news:title>President Trump Invokes Executive Privilege in Kennedy Center Lawsuit</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261016053017001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-16T18:31:21-04:00</news:publication_date>
-      <news:title>U.S. Producer Prices Jump Most in 4½ Years</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261016093826001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-16T18:30:56-04:00</news:publication_date>
-      <news:title>Bail Revoked for Former Healey Aide LaMar Cook After New Federal Charges</news:title>
     </news:news>
   </url>
 </urlset>
