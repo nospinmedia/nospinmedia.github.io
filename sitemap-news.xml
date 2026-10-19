@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261019054732841</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-19T10:15:50-04:00</news:publication_date>
+      <news:title>Trump Endorses Netanyahu Nine Days Before Israeli Election</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261019052918463</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -231,22 +239,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-17T11:45:38-04:00</news:publication_date>
       <news:title>Young Voters Shift Away From Trump and Republicans Ahead of Midterms</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261017064000000</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-17T10:34:05-04:00</news:publication_date>
-      <news:title>Democrats Build Cash Advantage as Musk Remains Major GOP Donor</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261017061000000</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-17T10:16:29-04:00</news:publication_date>
-      <news:title>Wall Street Anxiety Grows as AI Selloff Meets $110 Oil</news:title>
     </news:news>
   </url>
 </urlset>
