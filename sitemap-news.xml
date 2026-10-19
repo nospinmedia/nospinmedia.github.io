@@ -225,12 +225,4 @@
       <news:title>Elon Musk Settles Lawsuits Over $1 Million Election Giveaways</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261017062000000</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-17T18:52:08-04:00</news:publication_date>
-      <news:title>Ukraine Targets Yandex Data Centers in New Front of War With Russia</news:title>
-    </news:news>
-  </url>
 </urlset>
