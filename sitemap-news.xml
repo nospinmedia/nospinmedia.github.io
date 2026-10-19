@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/ne_story.html?story=20261019074853194</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-19T12:30:58-04:00</news:publication_date>
+      <news:title>Patriots Hold Off Jets 26-19 for Third Straight Win</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261019060431852</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -231,14 +239,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-17T13:15:55-04:00</news:publication_date>
       <news:title>Trump Threatens Jail for California Officials in Mail-Ballot Dispute</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261017073000000</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-17T12:30:45-04:00</news:publication_date>
-      <news:title>200 Franklin Towers Residents Must Relocate During Major Renovation</news:title>
     </news:news>
   </url>
 </urlset>
