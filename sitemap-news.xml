@@ -233,12 +233,4 @@
       <news:title>Suspicious Letters Target Massachusetts Elections Office and Congressman</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261017063000000</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-17T14:48:08-04:00</news:publication_date>
-      <news:title>Judge Dismisses Child Sex Abuse Charges Against Actor Timothy Busfield</news:title>
-    </news:news>
-  </url>
 </urlset>
