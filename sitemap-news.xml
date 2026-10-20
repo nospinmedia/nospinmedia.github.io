@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261020053500001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-20T08:46:36-04:00</news:publication_date>
+      <news:title>Russia seeks to prevent renewed Iran war as Lavrov visits Tehran</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/ne_story.html?story=20261020063500001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-20T08:45:54-04:00</news:publication_date>
+      <news:title>Minogue says he would govern Massachusetts without a lieutenant governor</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261020044000001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-18T10:15:53-04:00</news:publication_date>
       <news:title>Trump’s Russia Sanctions Waiver Draws Bipartisan Backlash</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261018050500001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-18T08:45:52-04:00</news:publication_date>
-      <news:title>Deadly Incident Sparks Major Fire at Canadian Military Base</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261018065500001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-18T08:45:37-04:00</news:publication_date>
-      <news:title>Hateful Graffiti Found Across Three Manchester Neighborhoods</news:title>
     </news:news>
   </url>
 </urlset>
