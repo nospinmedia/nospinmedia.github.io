@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261020051500001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-20T13:15:32-04:00</news:publication_date>
+      <news:title>DOJ charges 28 green card holders with election crimes in California</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/ne_story.html?story=20261020062500001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-18T14:31:35-04:00</news:publication_date>
       <news:title>Truck Drives Through Kansas Youth Soccer Game, Killing Two</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261018054500001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-18T13:16:17-04:00</news:publication_date>
-      <news:title>Zelenskyy Says Starlink Restrictions Inside Ukraine Appear Deliberate</news:title>
     </news:news>
   </url>
 </urlset>
