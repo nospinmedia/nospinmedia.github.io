@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261019063251874</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-19T20:46:20-04:00</news:publication_date>
+      <news:title>Trump Sets November Start for Overhaul of Historic D.C. Golf Course</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261019070143862</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-18T06:16:17-04:00</news:publication_date>
       <news:title>Ship Attacks Around Strait of Hormuz Reach Wartime High</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261017055000000</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-17T20:45:32-04:00</news:publication_date>
-      <news:title>Elon Musk Settles Lawsuits Over $1 Million Election Giveaways</news:title>
     </news:news>
   </url>
 </urlset>
