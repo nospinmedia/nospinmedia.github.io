@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261021061412119</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-21T17:16:02-04:00</news:publication_date>
+      <news:title>U.S. pending home sales fall to record low</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/ne_story.html?story=20261021065512163</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,14 +215,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-19T18:30:03-04:00</news:publication_date>
       <news:title>20-Year-Old Seriously Injured in Lewiston Stabbing</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261019061847293</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-19T17:15:39-04:00</news:publication_date>
-      <news:title>Congress Demands Answers Over Starlink Disruptions in Ukraine</news:title>
     </news:news>
   </url>
 </urlset>
