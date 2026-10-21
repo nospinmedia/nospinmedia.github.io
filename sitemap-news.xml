@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261021050312039</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-21T08:46:27-04:00</news:publication_date>
+      <news:title>Nigeria confirms first Ebola case of latest outbreak</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/ne_story.html?story=20261021073112172</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-21T08:45:14-04:00</news:publication_date>
+      <news:title>Massachusetts House leaders reject Healey&#x27;s gas tax suspension</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261021045112027</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -199,22 +215,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-19T10:15:50-04:00</news:publication_date>
       <news:title>Trump Endorses Netanyahu Nine Days Before Israeli Election</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261019052918463</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-19T08:46:07-04:00</news:publication_date>
-      <news:title>Macron Calls for Calm After France&#x27;s Worst Unrest in Years</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261019073642517</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-19T08:45:11-04:00</news:publication_date>
-      <news:title>Massachusetts Lt. Governor Candidate Suspends Campaign After OUI Arrest</news:title>
     </news:news>
   </url>
 </urlset>
