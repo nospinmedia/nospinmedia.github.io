@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261021064112114</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-21T18:31:08-04:00</news:publication_date>
+      <news:title>Food importer challenges Trump&#x27;s 50% tariffs on Canadian goods</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/ne_story.html?story=20261021074612195</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-21T18:30:20-04:00</news:publication_date>
+      <news:title>Hartford police union challenges warrant in officer manslaughter case</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261021061412119</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -199,22 +215,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-19T20:46:20-04:00</news:publication_date>
       <news:title>Trump Sets November Start for Overhaul of Historic D.C. Golf Course</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261019070143862</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-19T18:31:24-04:00</news:publication_date>
-      <news:title>Cost-of-Living Protests Spread Across Four European Countries</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261019081729456</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-19T18:30:03-04:00</news:publication_date>
-      <news:title>20-Year-Old Seriously Injured in Lewiston Stabbing</news:title>
     </news:news>
   </url>
 </urlset>
