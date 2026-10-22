@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/story.html?story=20261022044912001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-22T08:46:21-04:00</news:publication_date>
+      <news:title>Critical PHP flaws trigger global security scramble</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/ne_story.html?story=20261022074453001</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-22T08:45:22-04:00</news:publication_date>
+      <news:title>U.S. releases 315,000 barrels from Northeast heating oil reserve</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/story.html?story=20261022064318001</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -199,22 +215,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-20T10:16:09-04:00</news:publication_date>
       <news:title>France imposes curfews after worst rioting in years</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261020053500001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-20T08:46:36-04:00</news:publication_date>
-      <news:title>Russia seeks to prevent renewed Iran war as Lavrov visits Tehran</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261020063500001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-20T08:45:54-04:00</news:publication_date>
-      <news:title>Minogue says he would govern Massachusetts without a lieutenant governor</news:title>
     </news:news>
   </url>
 </urlset>
