@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <script src="/affiliate/config.js"></script><!-- Amazon Associates master switch -->
+<script src="/assets/article/links.js"></script><!-- static article links (2026-10-22) -->
+<script>function nsmHref(s,i,f){try{return window.nsmArticleHref?window.nsmArticleHref(s,i,f):f}catch(e){return f}}</script>
 <style>html:not(.amazon-aff-on) .amazon-aff{display:none!important}</style>
 <meta charset="UTF-8"/>
 <!-- Google tag (gtag.js) -->
@@ -673,7 +675,7 @@ async function renderKbContext(stories,textMode){
     seenId.add(String(kbId));if(title)seenTitle.add(title);picks.push(k);
     if(picks.length>=6)break;
   }
-  const list=picks.map(k=>{const desc=kbDesc(k,100);const kbId=k.url?k.url:k.id;return'<a class="kb-item" href="knowledge.html?id='+encodeURIComponent(kbId)+'"><span class="kb-item-title">'+escHTML(k.headline_text)+'</span>'+(desc?'<span class="kb-item-desc">'+escHTML(desc)+'</span>':'')+'</a>'}).join('');
+  const list=picks.map(k=>{const desc=kbDesc(k,100);const kbId=k.url?k.url:k.id;return'<a class="kb-item" href="'+nsmHref('knowledge',kbId,'knowledge.html?id='+encodeURIComponent(kbId))+'"><span class="kb-item-title">'+escHTML(k.headline_text)+'</span>'+(desc?'<span class="kb-item-desc">'+escHTML(desc)+'</span>':'')+'</a>'}).join('');
   const html='<div class="sidebar-label">\uD83D\uDCDA Background &amp; Context</div><div class="kb-list">'+list+'</div><a class="kb-more" href="knowledge.html">Knowledge Base \u2192</a>';
   ['kb-context','kb-mobile'].forEach(id=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=picks.length?html:'';el.classList.toggle('kb-empty',!picks.length)});
 }
@@ -681,7 +683,7 @@ async function renderKbContext(stories,textMode){
 function heroHTML(s){
   const p=parseHL(s.headline),t=s._topic,ts=timeSince(s.posted_at);
   const sum=getFirstPara(s.summary);const wrapId='sw-hero-'+s.url,fbId='sf-hero-'+s.url;
-  return'<div class="hero-card" onclick="window.location=\''+STORY_PAGE+'?story='+encodeURIComponent(s.url)+'\'">'
+  return'<div class="hero-card" onclick="window.location=\''+nsmHref('new-england',s.url,STORY_PAGE+'?story='+encodeURIComponent(s.url))+'\'">'
     +'<div class="hero-top '+topCls(t)+'"><div class="hero-top-bg" style="'+topBG(s.url,t)+'"></div>'
     +'<div class="hero-top-scrim"></div><div class="hero-top-content">'
     +'<div class="hero-badge">\uD83D\uDCCD New England</div>'
@@ -691,14 +693,14 @@ function heroHTML(s){
     +rxnStripHTML(s.url,true)
     +'<div class="hero-footer"><div class="hero-meta">'+pillC(t)+'<span class="hero-time">'+ts+'</span></div>'
     +'<div class="hero-actions">'+shareDropdownHTML(s.url,s.headline||'',wrapId,fbId,false)
-    +'<a class="btn-read" href="'+STORY_PAGE+'?story='+encodeURIComponent(s.url)+'" onclick="event.stopPropagation()">Continue Reading \u2192</a>'
+    +'<a class="btn-read" href="'+nsmHref('new-england',s.url,STORY_PAGE+'?story='+encodeURIComponent(s.url))+'" onclick="event.stopPropagation()">Continue Reading \u2192</a>'
     +'</div></div></div></div>';
 }
 function cardHTML(s,showPill){
   if(showPill===undefined)showPill=true;
   const p=parseHL(s.headline),t=s._topic,ts=timeSince(s.posted_at);
   const sum=getFirstPara(s.summary);const wrapId='sw-'+s.url,fbId='sf-'+s.url;
-  return'<div class="story-card" onclick="window.location=\''+STORY_PAGE+'?story='+encodeURIComponent(s.url)+'\'">'
+  return'<div class="story-card" onclick="window.location=\''+nsmHref('new-england',s.url,STORY_PAGE+'?story='+encodeURIComponent(s.url))+'\'">'
     +'<div class="card-top '+topCls(t)+'"><div class="card-top-bg" style="'+topBG(s.url,t)+'"></div>'
     +'<div class="card-top-scrim"></div><div class="card-top-content">'
     +(showPill?'<div class="card-pill-row">'+pillW(t)+'</div>':'')
@@ -708,7 +710,7 @@ function cardHTML(s,showPill){
     +rxnStripHTML(s.url,false)
     +'<div class="card-footer"><span class="card-time">'+ts+'</span>'
     +'<div class="card-actions">'+shareDropdownHTML(s.url,s.headline||'',wrapId,fbId,true)
-    +'<a class="btn-sm-read" href="'+STORY_PAGE+'?story='+encodeURIComponent(s.url)+'" onclick="event.stopPropagation()">View Story \u2192</a>'
+    +'<a class="btn-sm-read" href="'+nsmHref('new-england',s.url,STORY_PAGE+'?story='+encodeURIComponent(s.url))+'" onclick="event.stopPropagation()">View Story \u2192</a>'
     +'</div></div></div></div>';
 }
 function textCardHTML(s,showPill){
@@ -716,13 +718,13 @@ function textCardHTML(s,showPill){
   const p=parseHL(s.headline),t=s._topic,ts=timeSince(s.posted_at);
   const hl=p.line2?p.line1+' '+p.line2:p.line1;const sum=getFirstPara(s.summary).substring(0,140);
   const wrapId='sw-tc-'+s.url,fbId='sf-tc-'+s.url;
-  return'<div class="text-card" onclick="window.location=\''+STORY_PAGE+'?story='+encodeURIComponent(s.url)+'\'">'
+  return'<div class="text-card" onclick="window.location=\''+nsmHref('new-england',s.url,STORY_PAGE+'?story='+encodeURIComponent(s.url))+'\'">'
     +(showPill?pillC(t):'')+'<div class="text-card-headline">'+hl+'</div>'
     +'<div class="text-card-summary">'+sum+'</div>'
     +rxnStripHTML(s.url,false)
     +'<div class="card-footer"><span class="card-time">'+ts+'</span>'
     +'<div class="card-actions">'+shareDropdownHTML(s.url,s.headline||'',wrapId,fbId,true)
-    +'<a class="btn-sm-read" href="'+STORY_PAGE+'?story='+encodeURIComponent(s.url)+'" onclick="event.stopPropagation()">View Story \u2192</a>'
+    +'<a class="btn-sm-read" href="'+nsmHref('new-england',s.url,STORY_PAGE+'?story='+encodeURIComponent(s.url))+'" onclick="event.stopPropagation()">View Story \u2192</a>'
     +'</div></div></div>';
 }
 

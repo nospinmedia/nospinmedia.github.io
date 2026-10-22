@@ -7,8 +7,15 @@
    params, other params and #fragments are dropped), using the exact same
    formula setStorySearchMetadata() later rewrites it with. Removed again by
    nsmDropCanonical() if the story turns out to be missing or unloadable. */
-(function(){try{var id=new URLSearchParams(location.search).get('story');if(!id)return;var c='https://nospin.media/story.html?story='+encodeURIComponent(id);var l=document.createElement('link');l.setAttribute('rel','canonical');l.setAttribute('href',c);document.head.appendChild(l);}catch(e){}})();</script>
+(function(){try{var id=new URLSearchParams(location.search).get('story');if(!id)return;var c='https://nospin.media/story.html?story='+encodeURIComponent(id);var l=document.createElement('link');l.setAttribute('rel','canonical');l.setAttribute('href',c);document.head.appendChild(l);
+/* Static page redirect (2026-10-22): stories published since the static-page cutover also exist
+   at /news/<id>.html. If that file exists (HEAD 200), the canonical moves there and the
+   visitor is sent there, keeping any other query params (e.g. utm_*). Older stories have no static
+   page (HEAD 404) and keep rendering here exactly as before. */
+if(/^[A-Za-z0-9_-]{1,64}$/.test(id)&&window.fetch){var s='/news/'+id+'.html';fetch(s,{method:'HEAD',cache:'no-cache'}).then(function(r){if(!r.ok)return;window.NSM_STATIC_URL=s;l.setAttribute('href','https://nospin.media'+s);var q=new URLSearchParams(location.search);q.delete('story');q=q.toString();location.replace(s+(q?'?'+q:'')+location.hash)}).catch(function(){})}}catch(e){}})();</script>
 <script src="/affiliate/config.js"></script><!-- Amazon Associates master switch -->
+<script src="/assets/article/links.js"></script><!-- static article links (2026-10-22) -->
+<script>function nsmHref(s,i,f){try{return window.nsmArticleHref?window.nsmArticleHref(s,i,f):f}catch(e){return f}}</script>
 <style>html:not(.amazon-aff-on) .amazon-aff{display:none!important}</style>
 <meta charset="UTF-8"/>
 <!-- Google tag (gtag.js) -->
@@ -573,12 +580,12 @@ async function loadContinueReading(storyId,storyTags,recCard3){
   let html='<section class="continue">';
   if(related.length){
     html+='<div class="section-block"><div class="continue-label">Related stories</div><div class="continue-list">'
-      +related.map(r=>'<a class="continue-item" href="story.html?story='+encodeURIComponent(r.url)+'"><span class="continue-item-title">'+(r.headline||'').replace('\n',': ')+'</span>'+(r.posted_at?'<span class="continue-item-meta">'+fmtFullDate(r.posted_at)+'</span>':'')+'</a>').join('')
+      +related.map(r=>'<a class="continue-item" href="'+nsmHref('news',r.url,'story.html?story='+encodeURIComponent(r.url))+'"><span class="continue-item-title">'+(r.headline||'').replace('\n',': ')+'</span>'+(r.posted_at?'<span class="continue-item-meta">'+fmtFullDate(r.posted_at)+'</span>':'')+'</a>').join('')
       +'</div></div>';
   }
   if(learnMore.length){
     html+='<div class="section-block"><div class="continue-label">Background &amp; context</div><div class="continue-list">'
-      +learnMore.map(k=>{const desc=firstSentence(k.comment_text,140);const kbId=k.url?k.url:k.id;return'<a class="continue-item" href="knowledge.html?id='+encodeURIComponent(kbId)+'"><span class="continue-item-title">'+(k.headline_text||'')+'</span>'+(desc?'<span class="continue-item-desc">'+desc+'</span>':'')+'</a>'}).join('')
+      +learnMore.map(k=>{const desc=firstSentence(k.comment_text,140);const kbId=k.url?k.url:k.id;return'<a class="continue-item" href="'+nsmHref('knowledge',kbId,'knowledge.html?id='+encodeURIComponent(kbId))+'"><span class="continue-item-title">'+(k.headline_text||'')+'</span>'+(desc?'<span class="continue-item-desc">'+desc+'</span>':'')+'</a>'}).join('')
       +'</div></div>';
   }
   if(recCard3)html+='<div class="section-block">'+recCard3+'</div>';
@@ -591,12 +598,12 @@ function buildLeftRailHTML(related,learnMore,webOnly){
   let html='<div class="rail">';
   if(related.length){
     html+='<div class="rail-section"><div class="rail-kicker">Related Stories</div><div class="rail-list">'
-      +related.map(r=>'<a class="rail-item" href="story.html?story='+encodeURIComponent(r.url)+'"><span class="rail-item-title">'+(r.headline||'').replace('\n',': ')+'</span>'+(r.posted_at?'<span class="rail-item-meta">'+fmtFullDate(r.posted_at)+'</span>':'')+'</a>').join('')
+      +related.map(r=>'<a class="rail-item" href="'+nsmHref('news',r.url,'story.html?story='+encodeURIComponent(r.url))+'"><span class="rail-item-title">'+(r.headline||'').replace('\n',': ')+'</span>'+(r.posted_at?'<span class="rail-item-meta">'+fmtFullDate(r.posted_at)+'</span>':'')+'</a>').join('')
       +'</div></div>';
   }
   if(learnMore.length){
     html+='<div class="rail-section"><div class="rail-kicker">Background &amp; Context</div><div class="rail-list">'
-      +learnMore.map(k=>{const desc=firstSentence(k.comment_text,100);const kbId=k.url?k.url:k.id;return'<a class="rail-item" href="knowledge.html?id='+encodeURIComponent(kbId)+'"><span class="rail-item-title">'+(k.headline_text||'')+'</span>'+(desc?'<span class="rail-item-meta">'+desc+'</span>':'')+'</a>'}).join('')
+      +learnMore.map(k=>{const desc=firstSentence(k.comment_text,100);const kbId=k.url?k.url:k.id;return'<a class="rail-item" href="'+nsmHref('knowledge',kbId,'knowledge.html?id='+encodeURIComponent(kbId))+'"><span class="rail-item-title">'+(k.headline_text||'')+'</span>'+(desc?'<span class="rail-item-meta">'+desc+'</span>':'')+'</a>'}).join('')
       +'</div></div>';
   }
   if(webOnly){
@@ -637,7 +644,7 @@ function setStorySearchMetadata(s,page,section,imageUrl){
   const plain=markdownToPlain(s.summary);
   let desc=plain||subhead||headline+'. Independent news from No Spin Media.';
   if(desc.length>160){const cut=desc.substring(0,157);const sp=cut.lastIndexOf(' ');desc=(sp>100?cut.substring(0,sp):cut).replace(/[\s,;:.\-–—]+$/,'')+'…'}
-  const canonical='https://nospin.media/'+page+'?story='+encodeURIComponent(s.url);
+  const canonical=s._canonical||(window.NSM_STATIC_URL?'https://nospin.media'+window.NSM_STATIC_URL:'https://nospin.media/'+page+'?story='+encodeURIComponent(s.url));
   document.title=headline+' | No Spin Media';
   nsmHeadEl('meta[name="description"]',()=>{const m=document.createElement('meta');m.setAttribute('name','description');return m}).setAttribute('content',desc);
   nsmHeadEl('link[rel="canonical"]',()=>{const l=document.createElement('link');l.setAttribute('rel','canonical');return l}).setAttribute('href',canonical);
@@ -672,15 +679,22 @@ function nsmMarkNotFound(label){
   document.title=label+' not found | No Spin Media';
 }
 
+/* ── STATIC PAGE (2026-10-22) ──
+   On /news/<id>.html the generator (~/nsm_sitemap) embeds this story's public
+   fields as #nsm-static-story. The page then renders from them instead of
+   fetching Supabase -- same code path, same result as story.html?story=<id>. */
+function nsmStaticStory(){if(nsmStaticStory._v!==undefined)return nsmStaticStory._v;let v=null;const el=document.getElementById('nsm-static-story');if(el){try{v=JSON.parse(el.textContent)}catch(e){}}return nsmStaticStory._v=v}
+function nsmStoryParam(){const st=nsmStaticStory();return st?st.url:new URLSearchParams(location.search).get('story')}
 /* ── MAIN STORY LOADER ── */
 function wordCount(text){return(text||'').trim().split(/\s+/).filter(Boolean).length}
 function readTime(text){return Math.max(1,Math.round(wordCount(text)/200))}
 
 async function loadStory(){
-  const storyId=new URLSearchParams(location.search).get('story');
+  const storyId=nsmStoryParam();
   if(!storyId){document.getElementById('story-container').innerHTML='<p style="padding:2rem;color:#999;">Story not found.</p>';nsmMarkNotFound('Story');return}
-  const res=await fetch(SB_URL+'?select=*&url=eq.'+storyId,{headers:{apikey:SB_KEY}});
-  const data=await res.json();
+  const st=nsmStaticStory();
+  const res=st?{ok:true,status:200}:await fetch(SB_URL+'?select=*&url=eq.'+storyId,{headers:{apikey:SB_KEY}});
+  const data=st?[st]:await res.json();
   if(!data.length){document.getElementById('story-container').innerHTML='<p style="padding:2rem;color:#999;">Story not found.</p>';nsmDropCanonical();if((res.ok&&Array.isArray(data))||res.status===400)nsmMarkNotFound('Story');return}
   const s=data[0];
   window._storyData=s;
@@ -822,7 +836,7 @@ async function loadStory(){
 async function showAdminPanel(){
   const panel=document.getElementById('reddit-admin-panel');if(!panel)return;
   panel.classList.add('open');
-  const storyId=new URLSearchParams(location.search).get('story');
+  const storyId=nsmStoryParam();
   const updatedEl=document.getElementById('radmin-updated');
   const seedInput=document.getElementById('radmin-seed-input');
   const commentsInput=document.getElementById('radmin-comments-input');
@@ -845,7 +859,7 @@ async function showAdminPanel(){
 function hideAdminPanel(){const panel=document.getElementById('reddit-admin-panel');if(panel)panel.classList.remove('open');const s=document.getElementById('radmin-status');if(s)s.textContent='';const si=document.getElementById('radmin-seed-input');if(si)si.value='';const ci=document.getElementById('radmin-comments-input');if(ci)ci.value='';}
 function toggleAdminPanel(){const panel=document.getElementById('reddit-admin-panel');if(panel&&panel.classList.contains('open'))hideAdminPanel();else showAdminPanel();}
 async function saveRedditStats(){
-  const storyId=new URLSearchParams(location.search).get('story');if(!storyId)return;
+  const storyId=nsmStoryParam();if(!storyId)return;
   const seedInput=document.getElementById('radmin-seed-input');const commentsInput=document.getElementById('radmin-comments-input');
   const statusEl=document.getElementById('radmin-status');const saveBtn=document.getElementById('radmin-save-btn');
   const seedVal=seedInput.value.trim();const commentsVal=commentsInput.value.trim();

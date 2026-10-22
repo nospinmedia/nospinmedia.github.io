@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>/* ── OLD-URL REDIRECT (2026-10-22) ──
+   Knowledge Base articles published since the static-page cutover also exist at
+   /knowledge/<id>.html. If that file exists (HEAD 200), knowledge.html?id=<id> sends the
+   visitor there (other query params kept) and points the canonical at it; older
+   articles have no static page (HEAD 404) and render here exactly as before. */
+(function(){try{var id=new URLSearchParams(location.search).get('id');if(!id||!/^[A-Za-z0-9_-]{1,64}$/.test(id)||!window.fetch)return;var s='/knowledge/'+id+'.html';fetch(s,{method:'HEAD',cache:'no-cache'}).then(function(r){if(!r.ok)return;var l=document.createElement('link');l.setAttribute('rel','canonical');l.setAttribute('href','https://nospin.media'+s);document.head.appendChild(l);var q=new URLSearchParams(location.search);q.delete('id');q=q.toString();location.replace(s+(q?'?'+q:'')+location.hash)}).catch(function(){})}catch(e){}})();</script>
 <script src="/affiliate/config.js"></script><!-- Amazon Associates master switch -->
+<script src="/assets/article/links.js"></script><!-- static article links (2026-10-22) -->
+<script>function nsmHref(s,i,f){try{return window.nsmArticleHref?window.nsmArticleHref(s,i,f):f}catch(e){return f}}</script>
 <style>html:not(.amazon-aff-on) .amazon-aff{display:none!important}</style>
 <meta charset="UTF-8"/>
 <!-- Google tag (gtag.js) -->
@@ -379,14 +387,14 @@ async function loadRelatedNewsAndKnowledge(currentPost){
   let html='';
   if(relatedNews.length){
     html+='<div class="related-card"><div class="related-label">📰 LATEST NEWS ABOUT THIS TOPIC</div><div class="related-list">'
-      +relatedNews.map(r=>'<a class="related-item" href="story.html?story='+encodeURIComponent(r.url)+'"><span class="related-item-title">'+(r.headline||'').replace('\n',': ')+'</span>'+(r.posted_at?'<span class="related-item-date">'+fmtFullDate(r.posted_at)+'</span>':'')+'</a>').join('')
+      +relatedNews.map(r=>'<a class="related-item" href="'+nsmHref('news',r.url,'story.html?story='+encodeURIComponent(r.url))+'"><span class="related-item-title">'+(r.headline||'').replace('\n',': ')+'</span>'+(r.posted_at?'<span class="related-item-date">'+fmtFullDate(r.posted_at)+'</span>':'')+'</a>').join('')
       +'</div></div>';
   }
   if(relatedKB.length){
     html+='<div class="learnmore-card"><div class="related-label">📚 RELATED KNOWLEDGE</div><div class="related-kb-list">'
       +relatedKB.map(k=>{
         const desc=firstSentence(k.comment_text,145);
-        const href='knowledge.html?id='+encodeURIComponent(k.url?k.url:k.id);
+        const href=nsmHref('knowledge',k.url?k.url:k.id,'knowledge.html?id='+encodeURIComponent(k.url?k.url:k.id));
         return'<a class="related-kb-item" href="'+href+'"><span class="related-kb-item-title">📖 '+(k.headline_text||'')+'</span>'
           +(desc?'<span class="related-kb-item-desc">'+desc+'</span>':'')
           +'</a>';
@@ -679,7 +687,7 @@ function wireShare(el, p) {
   if (shareBtn) shareBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); sharePost(p.url, shareBtn); });
 }
 function goToArticle(url) {
-  window.location.href = 'knowledge.html?id=' + encodeURIComponent(url);
+  window.location.href = nsmHref('knowledge', url, 'knowledge.html?id=' + encodeURIComponent(url));
 }
 
 /* ── COVER STORY ── */
@@ -723,7 +731,7 @@ function coverHTML(p) {
         <button class="kb-share-btn" title="Copy link to this article" aria-label="Copy link">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="10.5" x2="15.4" y2="6.5"></line><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line></svg>
         </button>
-        <a class="kb-open-link" href="knowledge.html?id=${encodeURIComponent(p.url)}" onclick="event.stopPropagation()">Read Full Explainer <span class="cta-arrow">→</span></a>
+        <a class="kb-open-link" href="${nsmHref('knowledge', p.url, 'knowledge.html?id=' + encodeURIComponent(p.url))}" onclick="event.stopPropagation()">Read Full Explainer <span class="cta-arrow">→</span></a>
       </div>
     </div>
   </div>`;
@@ -753,7 +761,7 @@ function cardHTML(p) {
         <button class="kb-share-btn" title="Copy link to this article" aria-label="Copy link">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="10.5" x2="15.4" y2="6.5"></line><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line></svg>
         </button>
-        <a class="kb-open-link" href="knowledge.html?id=${encodeURIComponent(p.url)}" onclick="event.stopPropagation()">Read Full Explainer <span class="cta-arrow">→</span></a>
+        <a class="kb-open-link" href="${nsmHref('knowledge', p.url, 'knowledge.html?id=' + encodeURIComponent(p.url))}" onclick="event.stopPropagation()">Read Full Explainer <span class="cta-arrow">→</span></a>
       </div>
     </div>
   </div>`;
@@ -853,8 +861,20 @@ function renderSingleArticle(p) {
   });
 }
 
+/* ── STATIC PAGE (2026-10-22) ──
+   On /knowledge/<id>.html the generator (~/nsm_sitemap) embeds this article's public
+   fields as #nsm-static-story; the single-article view renders from them instead of
+   fetching Supabase -- same code path, same result as knowledge.html?id=<id>. */
+function nsmStaticStory(){if(nsmStaticStory._v!==undefined)return nsmStaticStory._v;let v=null;const el=document.getElementById('nsm-static-story');if(el){try{v=JSON.parse(el.textContent)}catch(e){}}return nsmStaticStory._v=v}
+
 /* ── DATA LOAD ── */
 async function loadPosts() {
+  const st = nsmStaticStory();
+  if (st) {
+    renderSingleArticle(st);
+    loadRelatedNewsAndKnowledge(st);
+    return;
+  }
   const sharedId = getQueryParam('id');
 
   if (sharedId) {
@@ -975,7 +995,7 @@ function buildRecentList(posts) {
     return !isNaN(d) && d.getTime() >= weekAgo;
   }).slice(0, 6);
   if (!recent.length) { el.closest('.kb-rail-section')?.remove(); return; }
-  el.innerHTML = recent.map(p => `<a class="kb-item" href="knowledge.html?id=${encodeURIComponent(p.url)}">
+  el.innerHTML = recent.map(p => `<a class="kb-item" href="${nsmHref('knowledge', p.url, 'knowledge.html?id=' + encodeURIComponent(p.url))}">
     <span class="kb-item-title">${p.headline_text || 'Untitled'}</span>
     <span class="kb-item-desc">${formatDateLabel(p.post_date)}</span>
   </a>`).join('');

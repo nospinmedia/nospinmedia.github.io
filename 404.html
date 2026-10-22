@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Page not found | No Spin Media</title>
+<script>/* Static article fallback (2026-10-22): a missing /news/<id>.html,
+   /new-england/<id>.html or /knowledge/<id>.html goes to the story's original
+   URL, which renders it from Supabase (and only redirects back if the static
+   page exists, so this can't loop). Every other missing page shows this page. */
+(function(){var m=location.pathname.match(/^\/(news|new-england|knowledge)\/([A-Za-z0-9_-]{1,64})\.html$/);if(!m)return;
+var old={'news':'/story.html?story=','new-england':'/ne_story.html?story=','knowledge':'/knowledge.html?id='}[m[1]];
+location.replace(old+encodeURIComponent(m[2]));})();</script>
+<style>body{font-family:'Segoe UI',Arial,sans-serif;background:#f7f6f1;color:#2a2924;margin:0;padding:4rem 1rem;text-align:center}
+a{color:#0066CC;font-weight:600}h1{font-size:1.6rem;margin-bottom:.6rem}</style>
+</head>
+<body>
+<h1>Page not found</h1>
+<p>That page doesn't exist on No Spin Media.</p>
+<p><a href="/">Latest news</a> &middot; <a href="/archive/">Story archive</a> &middot; <a href="/knowledge.html">Knowledge Base</a></p>
+</body>
+</html>
