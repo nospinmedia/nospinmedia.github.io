@@ -1,0 +1,210 @@
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#16160f;--ink-soft:#2a2924;--muted:#68675f;--faint:#96958b;
+  --hairline:#e6e3da;--hairline-strong:#d5d2c6;
+  --paper:#ffffff;--canvas:#f7f6f1;
+  --accent:#0066CC;--accent-deep:#004c99;--accent-tint:#eaf2fb;
+  --font-h:'DM Serif Display',Georgia,serif;--font-b:'DM Sans','Segoe UI',Arial,sans-serif;
+  --measure:660px;--stage:700px;
+  --r-lg:18px;--r-md:12px;--r-sm:7px;
+}
+.tp-politics{--tp:#1c4f9c}.tp-economy{--tp:#106b34}.tp-health{--tp:#9c530b}
+.tp-legal{--tp:#5a2ca0}.tp-war{--tp:#a31d1d}.tp-crime{--tp:#a31d1d}
+.tp-science{--tp:#0b6f8f}.tp-technology{--tp:#1c3f9c}.tp-ai{--tp:#5a1f9c}
+.tp-world{--tp:#58564c}.tp-environment{--tp:#146b2e}.tp-military{--tp:#7a4416}
+
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);background:var(--canvas);color:var(--ink-soft);padding-top:70px;-webkit-font-smoothing:antialiased}
+
+/* ── READING PROGRESS ── */
+.progress-rail{position:fixed;top:70px;left:0;width:100%;height:3px;background:transparent;z-index:900;pointer-events:none}
+.progress-fill{height:100%;width:0%;background:var(--accent);transition:width .08s linear}
+@media(max-width:768px){.progress-rail{top:70px}}
+
+/* ── STAGE ── */
+.article-stage{max-width:var(--stage);margin:0 auto;padding:2.75rem 1.5rem 4rem}
+@media(max-width:640px){.article-stage{padding:1.6rem 1.1rem 3rem}}
+
+.util-row{margin-bottom:1.75rem}
+.back-link{font-size:.86rem;font-weight:600;color:var(--muted);text-decoration:none;letter-spacing:.01em}
+.back-link:hover{color:var(--accent)}
+
+/* ── HEAD BLOCK ── */
+.eyebrow{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin-bottom:1.1rem;color:var(--muted)}
+.eyebrow-topic{color:var(--tp,var(--accent))}
+.eyebrow-dot{color:var(--hairline-strong);font-weight:400}
+.badge-exclusive{color:var(--accent-deep);letter-spacing:.09em;font-weight:800}
+
+.headline{font-family:var(--font-h);font-weight:400;font-size:clamp(1.9rem,1.15rem + 3vw,3.15rem);line-height:1.12;color:var(--ink);letter-spacing:-.01em;margin-bottom:.85rem}
+.deck{font-family:var(--font-b);font-weight:400;font-size:clamp(1.05rem,.95rem + .4vw,1.3rem);line-height:1.5;color:var(--muted);max-width:62ch;margin-bottom:1.5rem}
+
+.byline-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 0;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);margin-bottom:2.1rem;flex-wrap:wrap}
+.byline{font-size:.85rem;font-weight:700;color:var(--ink-soft)}
+.byline-sub{display:block;font-size:.76rem;font-weight:400;color:var(--faint);margin-top:1px}
+.byline-link{color:inherit;text-decoration:none}.byline-link:hover{text-decoration:underline}
+.share-cluster{position:relative;display:flex;align-items:center;gap:6px}
+.icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--hairline-strong);background:var(--paper);display:inline-flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;color:var(--muted);transition:border-color .15s,color .15s,background .15s}
+.icon-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-tint)}
+.share-feedback{font-size:.78rem;color:#1a7a3c;font-weight:600;white-space:nowrap}
+.share-dropdown{display:none;position:absolute;top:calc(100% + 8px);right:0;background:var(--paper);border:1px solid var(--hairline);border-radius:var(--r-md);box-shadow:0 10px 30px rgba(20,20,15,.14);min-width:230px;z-index:100;overflow:hidden}
+.share-cluster.open .share-dropdown{display:block}
+.share-dropdown button{display:block;width:100%;text-align:left;background:none;border:none;padding:.7rem .95rem;font-size:.86rem;color:var(--ink-soft);cursor:pointer;border-bottom:1px solid var(--hairline);font-family:var(--font-b)}
+.share-dropdown button:last-child{border-bottom:none}
+.share-dropdown button:hover{background:var(--accent-tint);color:var(--accent-deep)}
+.share-opt-desc{display:block;font-size:.72rem;color:var(--faint);margin-top:1px;font-weight:400}
+
+/* ── HERO ── */
+.hero-figure{margin:0 0 2.3rem}
+.hero-frame{position:relative;border-radius:3px;overflow:hidden;background:var(--hairline);aspect-ratio:16/9.2}
+.hero-frame img{width:100%;height:100%;object-fit:cover;display:block}
+figcaption.hero-cap{margin-top:.7rem;padding-top:.55rem;border-top:1px solid var(--hairline);font-size:.82rem;color:var(--muted);line-height:1.5}
+.hero-cap .credit{font-size:.82rem;color:var(--faint)}
+.hero-cap .credit::before{content:"  —  "}
+.topic-rule{height:4px;width:56px;border-radius:3px;background:var(--tp,var(--accent));margin-bottom:1.9rem}
+
+/* ── PROSE ── */
+.prose{font-size:1.08rem;line-height:1.75;color:var(--ink-soft)}
+.prose p{margin-bottom:1.5rem}
+.prose p:first-of-type{font-size:1.24rem;color:var(--ink)}
+.prose p:last-child{margin-bottom:0}
+.prose strong{font-weight:600}
+.prose em{font-style:italic}
+
+/* ── RECOMMENDATION (native ad) CARDS ── */
+/* Deliberately NOT a filled/rounded "widget" box (both GPT-5 and Gemini
+   flagged the earlier gray-card version as reading like a banner-ad
+   container). A hairline rule + small kicker reads as an editorial
+   "read next" module instead — same restraint as the Related/Continue
+   Reading list it sits alongside. */
+.rec-card{margin:2.1rem 0;padding-top:1.2rem;border-top:1px solid var(--hairline-strong)}
+.rec-eyebrow{font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:.85rem}
+.rec-body{display:flex;gap:1rem;align-items:center}
+.rec-thumb{width:56px;height:56px;border-radius:3px;object-fit:cover;flex-shrink:0;background:var(--hairline)}
+.rec-text{flex:1;min-width:0}
+.rec-title{font-size:.98rem;font-weight:700;color:var(--ink);line-height:1.35;text-decoration:none;display:block}
+.rec-title:hover{color:var(--accent-deep)}
+.rec-sub{font-size:.8rem;color:var(--muted);margin-top:.2rem;line-height:1.4}
+.rec-tag{color:var(--faint);font-weight:600;text-transform:uppercase;font-size:.7rem;letter-spacing:.04em}
+.rec-link-wrap{text-decoration:none;display:block;color:inherit}
+
+/* ── DISCUSSION ── */
+.discussion{margin:2.3rem 0;padding:1.6rem 0;border-top:1px solid var(--hairline-strong);border-bottom:1px solid var(--hairline-strong);text-align:left}
+.discussion-label{font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:.85rem;display:flex;align-items:center;gap:.4rem}
+.discussion-q{font-family:var(--font-h);font-style:italic;font-size:clamp(1.15rem,1rem + .5vw,1.5rem);line-height:1.5;color:var(--ink)}
+
+/* ── REACTIONS ── */
+.reactions{margin:2.1rem 0}
+.reactions-label{font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:1rem}
+.reactions-grid{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.reaction-btn{display:inline-flex;align-items:center;gap:6px;padding:.5rem .85rem;border-radius:24px;cursor:pointer;background:var(--paper);border:1px solid var(--hairline-strong);color:var(--muted);transition:all .15s;font-family:var(--font-b);line-height:1}
+.reaction-btn:hover{border-color:var(--accent);background:var(--accent-tint)}
+.reaction-emoji{font-size:1.15rem;line-height:1}
+.reaction-count{font-size:.78rem;font-weight:700;color:var(--muted);min-width:10px}
+.reaction-btn.selected{background:var(--accent-tint);border-color:var(--accent)}
+.reaction-btn.selected .reaction-count{color:var(--accent-deep)}
+.reaction-grid-divider{width:1px;height:22px;background:var(--hairline-strong);margin:0 4px}
+.reddit-static{cursor:default!important}
+.reddit-comment-link:hover{background:#FFF4F0!important;border-color:#FFCDB8!important}
+.reddit-comment-link:hover .reaction-count{color:#CC4400!important}
+.eng-story-row{display:flex;align-items:center;gap:10px;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--hairline)}
+.eng-story-icon{font-size:1.4rem;line-height:1}
+.eng-story-label{font-size:.84rem;font-weight:700;color:var(--ink);display:block}
+.eng-story-tip{font-size:.75rem;color:var(--faint);display:block;margin-top:1px}
+.reddit-cta{margin-top:1.1rem;font-size:.85rem}
+.reddit-cta a{color:var(--accent-deep);font-weight:600;text-decoration:none}
+.reddit-cta a:hover{text-decoration:underline}
+.reddit-cta .sep{color:var(--hairline-strong);margin:0 .5rem}
+.reddit-cta .sub-link{color:var(--muted);font-weight:600;text-decoration:none}
+.reddit-cta .sub-link:hover{color:var(--accent-deep)}
+
+/* ── CONTINUE READING ── */
+.continue{margin:3.2rem 0 0}
+.continue-label{font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--ink)}
+.continue-list{display:flex;flex-direction:column}
+.continue-item{display:block;padding:1rem 0;text-decoration:none;border-bottom:1px solid var(--hairline)}
+.continue-item:last-child{border-bottom:none}
+.continue-item-title{font-size:1rem;font-weight:700;color:var(--ink);line-height:1.4;display:block}
+.continue-item:hover .continue-item-title{color:var(--accent-deep)}
+.continue-item-meta{font-size:.78rem;color:var(--faint);display:block;margin-top:.3rem}
+.continue-item-desc{font-size:.85rem;color:var(--muted);margin-top:.3rem;line-height:1.5;display:block}
+.section-block{margin-bottom:2.2rem}
+.section-block:last-child{margin-bottom:0}
+
+/* ── ADMIN PANEL (unchanged, dev-only) ── */
+#reddit-admin-panel{display:none;position:fixed;bottom:24px;right:24px;z-index:9000;width:300px;background:var(--paper);border:1.5px solid #d0d0cc;border-radius:var(--r-md);box-shadow:0 8px 32px rgba(0,0,0,.18);padding:14px 16px 16px;font-family:var(--font-b)}
+#reddit-admin-panel.open{display:block}
+.radmin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.radmin-title{font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.radmin-close{background:none;border:none;cursor:pointer;font-size:1rem;color:var(--faint);line-height:1;padding:2px 4px;border-radius:4px}
+.radmin-close:hover{background:var(--canvas);color:var(--ink)}
+.radmin-updated{font-size:.67rem;color:#bbb;margin-bottom:10px;min-height:14px;line-height:1.4}
+.radmin-updated span{font-weight:600;color:#999}
+.radmin-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.radmin-field label{font-size:.72rem;font-weight:700;color:var(--muted);display:block;margin-bottom:4px}
+.radmin-field input{width:100%;padding:7px 9px;border:1px solid var(--hairline-strong);border-radius:7px;font-family:var(--font-b);font-size:.9rem;color:var(--ink);background:var(--canvas);outline:none;text-align:center}
+.radmin-field input:focus{border-color:var(--accent);background:#fff}
+.radmin-actions{display:flex;gap:8px;align-items:center}
+.radmin-save{flex:1;padding:7px 0;border-radius:20px;border:none;background:var(--accent);color:#fff;font-size:.82rem;font-weight:700;cursor:pointer;font-family:var(--font-b)}
+.radmin-save:disabled{background:#aaa;cursor:default}
+.radmin-status{font-size:.75rem;font-weight:600;min-height:16px}
+.radmin-status.ok{color:green}
+.radmin-status.err{color:#CC2200}
+.radmin-hint{margin-top:10px;font-size:.67rem;color:#bbb;line-height:1.5;border-top:1px solid var(--hairline);padding-top:8px}
+
+footer.site-footer{text-align:center;padding:2rem 1rem;font-size:.8rem;color:var(--faint);border-top:1px solid var(--hairline);margin-top:1rem}
+
+/* ══════════════════════════════════════════════════════════════
+   DESKTOP THREE-COLUMN LAYOUT (>=1180px only)
+   Applied only when JS decides the viewport is desktop-width at
+   load (mirrors the existing window.innerWidth-at-load pattern
+   already used for the mobile affiliate insert in story.html —
+   not a live-resize-responsive grid). Below that width, or if this
+   class is absent, .article-stage keeps its original single-column
+   rules untouched — the mobile/tablet reading experience is exactly
+   what it already was.
+   ══════════════════════════════════════════════════════════════ */
+.article-stage.stage-3col #story-container{display:contents}
+.article-stage.stage-3col{
+  max-width:1360px;
+  display:grid;
+  grid-template-columns:240px minmax(0,700px) 300px;
+  gap:0 3rem;
+  align-items:start;
+}
+.article-stage.stage-3col .col-center{min-width:0}
+.rail{display:flex;flex-direction:column;gap:2.6rem;position:sticky;top:96px}
+.rail-section{}
+.rail-kicker{font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding-bottom:.6rem;margin-bottom:1.3rem;border-bottom:2px solid var(--ink)}
+
+/* Left rail: related reading + navigation — quiet text-forward list, not a card */
+.rail-list{display:flex;flex-direction:column}
+.rail-item{display:block;padding:.85rem 0;text-decoration:none;border-bottom:1px solid var(--hairline)}
+.rail-item:last-child{border-bottom:none}
+.rail-item-title{font-size:.88rem;font-weight:700;color:var(--ink);line-height:1.4;display:block}
+.rail-item:hover .rail-item-title{color:var(--accent-deep)}
+.rail-item-meta{font-size:.72rem;color:var(--faint);display:block;margin-top:.25rem}
+
+.rail-exclusive{padding:1.1rem 1.2rem;background:var(--accent-tint);border-radius:6px}
+.rail-exclusive .rail-kicker{color:var(--accent-deep);border-bottom:none;padding-bottom:0;margin-bottom:.5rem}
+.rail-exclusive p{font-size:.85rem;color:var(--ink-soft);line-height:1.55;margin:0}
+
+.rail-nav-list{display:flex;flex-direction:column;gap:.6rem}
+.rail-nav-list a{font-size:.86rem;font-weight:600;color:var(--muted);text-decoration:none}
+.rail-nav-list a:hover{color:var(--accent-deep)}
+
+/* Right rail: curated picks — a real magazine "pick" card per item, generous
+   spacing between them rather than a dense stack */
+.rail-rec-card{display:block;text-decoration:none;color:inherit}
+.rail-rec-thumb{width:100%;height:auto;display:block;border-radius:6px;margin-bottom:1rem;border:1px solid var(--hairline)}
+.rail-rec-eyebrow{font-size:.66rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:.45rem}
+.rail-rec-title{font-size:.96rem;font-weight:700;color:var(--ink);line-height:1.35;display:block}
+.rail-rec-card:hover .rail-rec-title{color:var(--accent-deep)}
+.rail-rec-sub{font-size:.8rem;color:var(--muted);display:block;margin-top:.25rem;line-height:1.4}
+.rail-rec-tag{font-size:.68rem;color:var(--faint);text-transform:uppercase;letter-spacing:.04em;font-weight:600;display:block;margin-top:.5rem}
+
+@media(max-width:640px){
+  .rec-body{gap:.75rem}
+  .rec-thumb{width:52px;height:52px}
+  .byline-row{gap:.6rem}
+  .hero-frame{aspect-ratio:4/3.1}
+}

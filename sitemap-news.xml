@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
-    <loc>https://nospin.media/story.html?story=20261022050743001</loc>
+    <loc>https://nospin.media/news/20261022050743001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-22T11:46:18-04:00</news:publication_date>
@@ -10,7 +10,7 @@
     </news:news>
   </url>
   <url>
-    <loc>https://nospin.media/story.html?story=20261022060012001</loc>
+    <loc>https://nospin.media/news/20261022060012001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-22T10:16:22-04:00</news:publication_date>
@@ -18,7 +18,7 @@
     </news:news>
   </url>
   <url>
-    <loc>https://nospin.media/story.html?story=20261022044912001</loc>
+    <loc>https://nospin.media/news/20261022044912001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-22T08:46:21-04:00</news:publication_date>
@@ -26,7 +26,7 @@
     </news:news>
   </url>
   <url>
-    <loc>https://nospin.media/ne_story.html?story=20261022074453001</loc>
+    <loc>https://nospin.media/new-england/20261022074453001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-22T08:45:22-04:00</news:publication_date>
@@ -34,7 +34,7 @@
     </news:news>
   </url>
   <url>
-    <loc>https://nospin.media/story.html?story=20261022064318001</loc>
+    <loc>https://nospin.media/news/20261022064318001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-22T06:15:53-04:00</news:publication_date>

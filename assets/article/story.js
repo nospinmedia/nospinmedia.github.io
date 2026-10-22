@@ -1,0 +1,633 @@
+/* ══════════════════════════════════════════════════════════════
+   story2.html — experimental greenfield article-page redesign.
+   Reuses story.html's proven data-access/business-logic functions
+   verbatim (image resolution, affiliate matching, reactions,
+   share, related/learn-more tag matching) — only the rendering
+   templates and CSS are new. See story2-design-notes.md.
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── CONSTANTS ── */
+const SB_URL = 'https://dckmflnbprhmaqysuued.supabase.co/rest/v1/news_posts';
+const SB_KEY = 'sb_publishable_5uAn1PjQGf2Vmr7qpwGcdg_LOtygPRB';
+const SB_REACTIONS = 'https://dckmflnbprhmaqysuued.supabase.co/rest/v1/story_reaction_totals';
+const SB_DAILY_POSTS = 'https://dckmflnbprhmaqysuued.supabase.co/rest/v1/daily_posts';
+
+const TOPIC_LABELS={politics:'Politics',economy:'Economy',legal:'Legal',health:'Health',science:'Science',ai:'AI',technology:'Technology',war:'War',military:'Military',crime:'Crime',environment:'Environment',world:'World'};
+const REACTIONS=[
+  {key:'helpful',emoji:'👍',label:'Helpful'},
+  {key:'thinking',emoji:'🤔',label:'Makes me think'},
+  {key:'surprised',emoji:'😮',label:'Unexpected'},
+  {key:'concerning',emoji:'⚠️',label:'Concerning'},
+  {key:'important',emoji:'📌',label:'Important'}
+];
+
+/* ── RELATED STORIES / LEARN MORE — TAG MATCHING (unchanged logic) ── */
+const LOW_WEIGHT_TAGS=['government','business','public health','international relations','weather','law enforcement'];
+const NSM_CACHE_TTL=3600000;
+function normTag(t){return(t||'').toString().trim().toLowerCase()}
+function parseTags(raw){if(Array.isArray(raw))return raw;if(typeof raw==='string'){try{const p=JSON.parse(raw);return Array.isArray(p)?p:[]}catch(e){return[]}}return[]}
+function scoreTagOverlap(aTags,bTags){
+  const aSet=new Set(parseTags(aTags).map(normTag));const bSet=new Set(parseTags(bTags).map(normTag));
+  let score=0,specificMatches=0;
+  aSet.forEach(tag=>{if(!tag||!bSet.has(tag))return;if(LOW_WEIGHT_TAGS.includes(tag))score+=1;else{score+=3;specificMatches++;}});
+  return{score,specificMatches};
+}
+function topMatches(currentTags,candidates,getTags,limit){
+  return candidates.map(c=>({item:c,...scoreTagOverlap(currentTags,getTags(c))}))
+    .filter(r=>r.specificMatches>=1).sort((a,b)=>b.score-a.score||(b.item.id-a.item.id)).slice(0,limit).map(r=>r.item);
+}
+function fmtFullDate(ds){if(!ds)return'';const d=new Date(ds);if(isNaN(d))return'';return d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}
+function stripMarkdownForPreview(text){if(!text)return'';return text.replace(/^#+\s*/gm,'').replace(/\*\*(.*?)\*\*/g,'$1').replace(/\*(.*?)\*/g,'$1').replace(/`(.*?)`/g,'$1').replace(/\[(.*?)\]\(.*?\)/g,'$1').trim()}
+function firstSentence(text,maxLen){
+  const clean=stripMarkdownForPreview(text);if(!clean)return'';
+  const match=clean.match(/^.*?[.!?](?=\s|$)/);let sentence=match?match[0].trim():clean;
+  if(sentence.length>maxLen)sentence=sentence.slice(0,maxLen).trim()+'…';
+  else if(sentence.length===clean.length&&clean.length>maxLen)sentence=sentence.slice(0,maxLen).trim()+'…';
+  return sentence;
+}
+function nsmCacheGet(key){try{const raw=localStorage.getItem(key);if(!raw)return null;const parsed=JSON.parse(raw);if(!parsed||!Array.isArray(parsed.data))return null;return parsed}catch(e){return null}}
+function nsmCacheSet(key,data){try{localStorage.setItem(key,JSON.stringify({timestamp:Date.now(),data}))}catch(e){}}
+function nsmCacheFresh(entry){return entry&&(Date.now()-entry.timestamp)<NSM_CACHE_TTL}
+async function nsmFetchCached(cacheKey,url){
+  const cached=nsmCacheGet(cacheKey);if(nsmCacheFresh(cached))return cached.data;
+  try{const res=await fetch(url,{headers:{apikey:SB_KEY}});if(!res.ok)throw new Error('HTTP '+res.status);const data=await res.json();nsmCacheSet(cacheKey,data);return data}
+  catch(e){if(cached)return cached.data;return[]}
+}
+
+/* ── ENGAGEMENT INDICATOR (unchanged logic) ── */
+const ENG_LEVELS=[null,
+  {icon:'👍', label:'Getting Attention',  tip:'This story is getting attention on NSM.'},
+  {icon:'💬', label:'Active Discussion',  tip:'Readers are actively discussing this story on NSM.'},
+  {icon:'🌋', label:'Volcanic',           tip:'This story is volcanically hot on NSM.'},
+  {icon:'🚀', label:'Launching',          tip:'This story is launching with NSM readers.'}
+];
+function storyEngScore(totals){if(!totals)return 0;const thumbsUp=(totals.helpful||0)+(totals.reddit_seed||0);const comments=totals.reddit_comments||0;return thumbsUp+(comments*3)}
+function storyEngLevel(score){if(score<=0)return 0;if(score<25)return 1;if(score<75)return 2;if(score<150)return 3;return 4}
+function engStoryRowHTML(totals){
+  const score=storyEngScore(totals);const lvl=storyEngLevel(score);if(!lvl)return'';
+  const def=ENG_LEVELS[lvl];
+  return'<div class="eng-story-row" title="'+def.tip+'"><span class="eng-story-icon">'+def.icon+'</span><span><span class="eng-story-label">'+def.label+'</span><span class="eng-story-tip">'+def.tip+'</span></span></div>';
+}
+function refreshEngIndicator(totals){
+  const existing=document.getElementById('eng-story-indicator');const html=engStoryRowHTML(totals);
+  if(existing){if(html)existing.outerHTML=html.replace('<div class="eng-story-row"','<div class="eng-story-row" id="eng-story-indicator"');else existing.remove();}
+  else if(html){
+    const grid=document.getElementById('reactions-grid');
+    if(grid){const wrapper=document.createElement('div');wrapper.innerHTML=html.replace('<div class="eng-story-row"','<div class="eng-story-row" id="eng-story-indicator"');grid.parentNode.insertBefore(wrapper.firstElementChild,grid.nextSibling);}
+  }
+}
+
+function resolveBackLink(){
+  const ref=document.referrer;
+  if(ref){try{const u=new URL(ref);if(u.hostname===window.location.hostname){const pg=u.pathname.split('/').pop();if(pg==='news.html')return{href:'news.html',label:'← Archive'};if(pg==='index2.html')return{href:'index2.html',label:'← Latest News'};if(pg===''||pg==='index.html'||pg==='/')return{href:'index.html',label:'← Latest News'};return{href:ref,label:'← Back'};}}catch(e){}}
+  return{href:'index.html',label:'← Latest News'};
+}
+
+/* ── AFFILIATE / RECOMMENDATION DATA ── */
+let _affiliateData=null;
+async function loadAffiliateData(){if(_affiliateData)return _affiliateData;if(window.AMAZON_AFFILIATES_ENABLED===true)try{const r=await fetch('/affiliate/affiliate.json');if(r.ok)_affiliateData=await r.json()}catch(e){}return _affiliateData||{}}
+function getRandomLink(item){return(item.links||[])[Math.floor(Math.random()*(item.links||[]).length)]||'#'}
+/* must_show is tri-state in the real data: true (always force-include),
+   false (ordinary pool item), or the string "hide" (temporarily disabled,
+   e.g. an out-of-season Prime Day promo) — a truthy-check on must_show
+   alone would treat "hide" as "must include", which is backwards. Fixed
+   here; contained to this file only, not touching the shared JSON or the
+   original story.html pickItems() this was adapted from. */
+function pickItems(items,count,exclude){
+  const ex=exclude||new Set();
+  const visible=items.filter(i=>i.must_show!=='hide'&&!ex.has(i.title));
+  const must=visible.filter(i=>i.must_show===true);
+  const opt=[...visible.filter(i=>i.must_show!==true)].sort(()=>0.5-Math.random());
+  const pool=[...must,...opt];
+  const seen=new Set();const result=[];
+  for(const item of pool){if(!seen.has(item.title)&&result.length<count){seen.add(item.title);result.push(item)}}
+  return result;
+}
+const NSM_SUPPORT_MSGS=['Supports independent journalism at no extra cost.','Helps keep NSM free — no extra cost to you.','Curated by the NSM newsroom.','Reader-supported journalism.','Hand-picked by No Spin Media.'];
+function randSupport(){return NSM_SUPPORT_MSGS[Math.floor(Math.random()*NSM_SUPPORT_MSGS.length)]}
+
+/* New, restrained "native recommendation" card — replaces the old
+   skeuomorphic book/gear tiles and the dual full-height sidebars.
+   Same real affiliate items/links/must_show pool logic; presentation
+   is now one small editorial-style card, used sparingly (2-3/page).
+   Two visual variants: a real product photo for ordinary catalog picks,
+   or a colored icon badge for topic-matched picks — those only ever
+   ship a shared generic placeholder photo (the same box/case image for
+   every category), so showing it would look fake; their real per-topic
+   distinctiveness is the icon/category_label/accent_color instead. */
+/* item.house marks NSM's own promotional pick (e.g. the "Facts First" book)
+   rather than a real Amazon affiliate item — it links internally, so it
+   gets real link attributes (no target=_blank/nofollow/sponsored, which
+   only make sense for an external paid link) and an honest tag instead of
+   "Affiliate". */
+function recCardHTML(item,label){
+  const thumb=item.image?'<img class="rec-thumb" src="/affiliate/'+item.image+'" alt="" loading="lazy">':'';
+  const linkAttrs=item.house?'':' target="_blank" rel="noopener nofollow sponsored"';
+  const tag=item.house?'No Spin Media':'Affiliate';
+  return'<div class="rec-card">'
+    +'<div class="rec-eyebrow">'+(label||'Curated Pick')+'</div>'
+    +'<a class="rec-link-wrap" href="'+getRandomLink(item)+'"'+linkAttrs+'>'
+    +'<div class="rec-body">'+thumb+'<div class="rec-text"><span class="rec-title">'+item.title+'</span><span class="rec-sub">'+(item.categoryLabel||'Recommended by the NSM newsroom')+' <span class="rec-tag">· '+tag+'</span></span></div></div>'
+    +'</a></div>';
+}
+/* Desktop right-rail variant — a real magazine "pick" card: the actual cover/
+   product artwork shown full-width and undistorted (many of these images
+   have their own category/title text baked in, so cropping with object-fit
+   would risk cutting that off — width:100%/height:auto instead). */
+function railRecCardHTML(item,label){
+  const thumb=item.image?'<img class="rail-rec-thumb" src="/affiliate/'+item.image+'" alt="'+(item.title||'').replace(/"/g,'')+'" loading="lazy">':'';
+  const linkAttrs=item.house?'':' target="_blank" rel="noopener nofollow sponsored"';
+  const tag=item.house?'From No Spin Media':'Affiliate link';
+  return'<a class="rail-rec-card" href="'+getRandomLink(item)+'"'+linkAttrs+'>'
+    +thumb
+    +'<div class="rail-rec-eyebrow">'+(label||'Curated Pick')+'</div>'
+    +'<span class="rail-rec-title">'+item.title+'</span>'
+    +'<span class="rail-rec-sub">'+(item.categoryLabel||'Recommended by the NSM newsroom')+'</span>'
+    +'<span class="rail-rec-tag">'+tag+'</span>'
+    +'</a>';
+}
+/* Real imagery only — no generic placeholders. The keyword-matched "topical"
+   picks (e.g. a drone story -> "Drone Gear") are tempting for relevance, but
+   every one of the 23 rules in keyword-affiliates.json shares the exact same
+   generic book-default.webp/gear-default.webp stand-in image (confirmed by
+   inspecting the data, not assumed) — showing that would be exactly the
+   generic placeholder graphic this round explicitly asked to avoid. The
+   regular book/gear catalog (affiliate.json) has real, distinct cover art or
+   real product photography for every item instead, so recommendations now
+   draw only from there: one book, one gear pick, one wildcard, each with its
+   own real image. Trade-off: this loses per-story topical keyword matching:
+   with real per-category cover art for the 23 rules, that could come back. */
+/* A couple of pool entries are themselves banner-ad creative — "Want to
+   support No Spin Media? Start shopping here" / "Shop on Amazon" baked
+   directly into the image, real photo or not. Those read as an ad no
+   matter how they're framed, which is exactly what this module is trying
+   not to be, so they're excluded here rather than left for pickItems() to
+   surface at random. */
+const REC_BANNER_TITLES=new Set(['Support No Spin Media','Amazon Home']);
+async function buildRecommendationCards(){
+  const data=await loadAffiliateData();
+  const bookItems=(data.books?.items||[]).filter(i=>!REC_BANNER_TITLES.has(i.title));
+  const gearItems=(data.gear?.items||[]).filter(i=>!REC_BANNER_TITLES.has(i.title));
+  const used=new Set();
+  const picks=[];
+  const book=pickItems(bookItems,1,used);if(book.length){used.add(book[0].title);picks.push(book[0])}
+  const gear=pickItems(gearItems,1,used);if(gear.length){used.add(gear[0].title);picks.push(gear[0])}
+  const wildcard=pickItems([...bookItems,...gearItems],1,used);if(wildcard.length){used.add(wildcard[0].title);picks.push(wildcard[0])}
+  return picks.slice(0,3);
+}
+
+/* ── IMAGE RESOLUTION (unchanged logic) ── */
+async function resolveStoryImage(storyId){for(const ext of['webp','jpg','png']){try{const r=await fetch('/images/news/'+storyId+'.'+ext,{method:'HEAD'});if(r.ok)return'/images/news/'+storyId+'.'+ext}catch(e){}}return null}
+function _imgKwWeight(kw){return Math.max(1,kw.trim().split(/\s+/).length)}
+function _imgIsAcronym(kw){const c=kw.trim();return !c.includes(' ')&&/^[A-Z][A-Z.\-]*[A-Z]$|^[A-Z]{2,}$/.test(c)}
+function _imgKwHit(hayCI,hayCS,kw){
+  const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  if(_imgIsAcronym(kw))return new RegExp('(?<![A-Za-z])'+esc+'(?![A-Za-z])').test(hayCS);
+  return new RegExp('(?<![a-z])'+esc.toLowerCase()+'(?![a-z])').test(hayCI);
+}
+const IMG_CONFIDENCE_THRESHOLD=2;const IMG_HEADLINE_MULTIPLIER=2;
+async function resolveFallbackImage(headline,summary){
+  try{
+    if(!_imgRulesCache){const r=await fetch('/images/news/image-rules.json');if(r.ok)_imgRulesCache=await r.json()}
+    if(_imgRulesCache){
+      const hCS=headline||'',sCS=summary||'',hCI=hCS.toLowerCase(),sCI=sCS.toLowerCase();
+      let bestRule=null,bestScore=0;
+      for(const rule of(_imgRulesCache.keywords||[])){
+        let score=0;
+        for(const kw of rule.match){const w=_imgKwWeight(kw);if(_imgKwHit(hCI,hCS,kw))score+=w*IMG_HEADLINE_MULTIPLIER;else if(_imgKwHit(sCI,sCS,kw))score+=w}
+        if(score>bestScore){bestScore=score;bestRule=rule}
+      }
+      if(bestRule&&bestScore>=IMG_CONFIDENCE_THRESHOLD)return'/images/news/'+bestRule.image;
+    }
+  }catch(e){}
+  return null;
+}
+let _imgRulesCache=null;
+async function fetchImageMeta(p){try{const r=await fetch(p.replace(/\.[^.]+$/,'.json'));if(r.ok)return await r.json()}catch(e){}return null}
+async function getStoryImage(id,headline,summary,imageFilename,imageSource){
+  const si=await resolveStoryImage(id);
+  if(si)return{url:si,meta:await fetchImageMeta(si)};
+  if(imageSource==='ai'&&imageFilename){const aiUrl='/images/news/'+imageFilename;return{url:aiUrl,meta:await fetchImageMeta(aiUrl)}}
+  const fi=await resolveFallbackImage(headline,summary);
+  if(fi)return{url:fi,meta:await fetchImageMeta(fi)};
+  return null;
+}
+
+/* ── SHARE (unchanged logic) ── */
+function _copyToClipboard(text,msg){const fb=document.getElementById('share-feedback');const done=()=>{if(fb){fb.textContent=msg;setTimeout(()=>fb.textContent='',2500)}};navigator.clipboard.writeText(text).then(done).catch(()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:0;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();})}
+function _closeShare(){const w=document.getElementById('share-wrap');if(w)w.classList.remove('open')}
+function toggleShareMenu(){const w=document.getElementById('share-wrap');w.classList.toggle('open');if(w.classList.contains('open')){setTimeout(()=>{document.addEventListener('click',function h(e){if(!w.contains(e.target)){w.classList.remove('open');document.removeEventListener('click',h)}})},0)}}
+function copyLinkOnly(){_closeShare();_copyToClipboard(window._storyUrl||location.href,'✅ Link copied!')}
+function copyWithTitle(){_closeShare();const hl=(window._storyHeadline||'').replace(/\n/g,': ').trim();_copyToClipboard(hl+'\n'+(window._storyUrl||location.href),'✅ Copied with headline!')}
+function copyWithSummary(){_closeShare();const s=window._storyData||{};const opts=[s.social_bluesky,s.social_threads,s.social_facebook].filter(x=>x&&x.trim().length>20);const summary=opts.length?opts[Math.floor(Math.random()*opts.length)]:(s.summary||'').substring(0,280);_copyToClipboard(summary.trim()+'\n\n'+(window._storyUrl||location.href),'✅ Copied with summary!')}
+function nativeShare(){if(navigator.share){navigator.share({title:window._storyHeadline||'No Spin Media',url:window._storyUrl||location.href}).catch(()=>{})}else copyLinkOnly()}
+/* Deliberate departure from story.html's convertMarkdown(): the Writer's
+   ** markers are dropped instead of rendered as <strong>. Both GPT-5 and
+   Gemini independently flagged the resulting mid-paragraph bolding of
+   names/dates as reading like an AI content-farm rather than newsroom
+   prose, even after reducing its font-weight/color contrast — a premium
+   long-form body reads better with plain running text and emphasis used,
+   at most, once per piece. This only affects rendering in this prototype;
+   no source content is changed. */
+function convertMarkdown(text){if(!text)return'';text=text.replace(/\\n\\n/g,'\n\n').replace(/\\n/g,'\n');text=text.replace(/\*\*(.*?)\*\*/g,'$1');text=text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,'<em>$1</em>');return text}
+
+/* ── REACTIONS (unchanged logic) ── */
+async function loadReactions(storyId){
+  try{const res=await fetch(SB_REACTIONS+'?story_id=eq.'+storyId+'&select=helpful,thinking,surprised,concerning,important,story_page_reactions,summary_page_reactions,reddit_seed,reddit_comments,updated_at',{headers:{apikey:SB_KEY}});const data=await res.json();return(data&&data[0])?data[0]:null}catch(e){return null}
+}
+async function upsertReaction(storyId,field,delta,source){
+  const cur=await loadReactions(storyId);const current=cur?(cur[field]||0):0;const newVal=Math.max(0,current+delta);
+  const payload={story_id:storyId,helpful:0,thinking:0,surprised:0,concerning:0,important:0,story_page_reactions:0,summary_page_reactions:0,reddit_seed:0,reddit_comments:0};
+  if(cur)Object.assign(payload,cur);payload[field]=newVal;
+  if(source==='story')payload.story_page_reactions=Math.max(0,(payload.story_page_reactions||0)+delta);
+  const res=await fetch(SB_REACTIONS,{method:'POST',headers:{apikey:SB_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},body:JSON.stringify(payload)});
+  if(!res.ok)throw new Error('Supabase write failed: '+res.status);return newVal;
+}
+function getStoredReaction(storyId){return localStorage.getItem('reaction_'+storyId)||null}
+function setStoredReaction(storyId,key){if(key)localStorage.setItem('reaction_'+storyId,key);else localStorage.removeItem('reaction_'+storyId)}
+
+function commentsItemHTML(totals,redditLink){
+  const comments=(totals&&totals.reddit_comments)||0;if(comments===0)return'';
+  return redditLink
+    ?'<a href="'+redditLink+'" target="_blank" rel="noopener" class="reaction-btn reddit-comment-link" id="reddit-comment-btn" title="Join discussion on Reddit"><span class="reaction-emoji">💬</span><span class="reaction-count" id="reddit-comment-count">'+comments+'</span></a><span class="reaction-grid-divider"></span>'
+    :'<span class="reaction-btn reddit-static" id="reddit-comment-btn"><span class="reaction-emoji">💬</span><span class="reaction-count" id="reddit-comment-count">'+comments+'</span></span><span class="reaction-grid-divider"></span>';
+}
+function updateRedditDisplay(seed,comments,helpful){
+  const helpfulBtn=document.querySelector('.reaction-btn[data-key="helpful"] .reaction-count');if(helpfulBtn)helpfulBtn.textContent=((helpful||0)+(seed||0))||'';
+  const cmEl=document.getElementById('reddit-comment-count');if(cmEl)cmEl.textContent=(comments||0)>0?(comments||0):'';
+}
+function reactionsHTML(storyId,totals,selected,redditLink){
+  window._redditLink=redditLink||'';window._redditSeed=(totals&&totals.reddit_seed)||0;
+  const comments=commentsItemHTML(totals,redditLink);
+  const items=REACTIONS.map(r=>{
+    const isSel=selected===r.key;let count=totals?(totals[r.key]||0):0;if(r.key==='helpful')count=count+(window._redditSeed||0);
+    return'<button class="reaction-btn'+(isSel?' selected':'')+'" data-key="'+r.key+'" title="'+r.label+'" aria-label="'+r.label+'" onclick="handleReaction(\''+storyId+'\',\''+r.key+'\')"><span class="reaction-emoji">'+r.emoji+'</span><span class="reaction-count">'+(count>0?count:'')+'</span></button>';
+  }).join('');
+  const engRow=engStoryRowHTML(totals)?engStoryRowHTML(totals).replace('<div class="eng-story-row"','<div class="eng-story-row" id="eng-story-indicator"'):'';
+  let redditCta='';
+  if(redditLink)redditCta='<div class="reddit-cta"><a href="'+redditLink+'" target="_blank" rel="noopener">Join the discussion on Reddit →</a><span class="sep">·</span><a class="sub-link" href="https://reddit.com/r/NoSpinMedia" target="_blank" rel="noopener">r/NoSpinMedia</a></div>';
+  return'<section class="reactions"><div class="reactions-label">How NSM readers reacted</div><div class="reactions-grid" id="reactions-grid">'+items+comments+'</div>'+engRow+redditCta+'</section>';
+}
+async function handleReaction(storyId,key){
+  const prev=getStoredReaction(storyId);const isSame=prev===key;
+  const grid=document.getElementById('reactions-grid');if(!grid)return;
+  const snapshot={};grid.querySelectorAll('.reaction-btn').forEach(btn=>{snapshot[btn.dataset.key]={count:parseInt(btn.querySelector('.reaction-count').textContent)||0,selected:btn.classList.contains('selected')}});
+  const deltas={};if(isSame){deltas[key]=-1}else{if(prev)deltas[prev]=-1;deltas[key]=1}
+  grid.querySelectorAll('.reaction-btn').forEach(btn=>{
+    const k=btn.dataset.key;const countEl=btn.querySelector('.reaction-count');const cur=parseInt(countEl.textContent)||0;
+    if(deltas[k]){const next=Math.max(0,cur+deltas[k]);countEl.textContent=next>0?next:'';}
+    if(isSame)btn.classList.remove('selected');else btn.classList.toggle('selected',k===key);
+  });
+  setStoredReaction(storyId,isSame?null:key);
+  try{
+    if(isSame)await upsertReaction(storyId,key,-1,'story');
+    else{if(prev)await upsertReaction(storyId,prev,-1,'story');await upsertReaction(storyId,key,1,'story')}
+    const fresh=await loadReactions(storyId);
+    if(fresh){updateRedditDisplay(fresh.reddit_seed,fresh.reddit_comments,fresh.helpful);refreshEngIndicator(fresh);}
+  }catch(e){
+    grid.querySelectorAll('.reaction-btn').forEach(btn=>{const k=btn.dataset.key;const countEl=btn.querySelector('.reaction-count');countEl.textContent=snapshot[k].count>0?snapshot[k].count:'';btn.classList.toggle('selected',snapshot[k].selected)});
+    setStoredReaction(storyId,prev);
+  }
+}
+
+/* ── RELATED STORIES / LEARN MORE → "Continue Reading" (same matching, new template) ── */
+async function fetchRelatedAndLearnMore(storyId,storyTags){
+  if(!parseTags(storyTags).length)return{related:[],learnMore:[]};
+  const [stories,kb]=await Promise.all([
+    nsmFetchCached('NSM_recentStories',SB_URL+'?select=id,headline,url,tags,posted_at&order=id.desc&limit=300'),
+    nsmFetchCached('NSM_knowledgeArticles',SB_DAILY_POSTS+'?select=id,headline_text,url,tags,comment_text&post_type=eq.knowledge&order=id.desc')
+  ]);
+  const relatedCandidates=stories.filter(s=>s.url!==storyId);
+  return{related:topMatches(storyTags,relatedCandidates,c=>c.tags,3),learnMore:topMatches(storyTags,kb,c=>c.tags,2)};
+}
+
+async function loadContinueReading(storyId,storyTags,recCard3){
+  const container=document.getElementById('continue-container');if(!container)return;
+  const{related,learnMore}=await fetchRelatedAndLearnMore(storyId,storyTags);
+  let html='<section class="continue">';
+  if(related.length){
+    html+='<div class="section-block"><div class="continue-label">Related stories</div><div class="continue-list">'
+      +related.map(r=>'<a class="continue-item" href="'+nsmHref('news',r.url,'story.html?story='+encodeURIComponent(r.url))+'"><span class="continue-item-title">'+(r.headline||'').replace('\n',': ')+'</span>'+(r.posted_at?'<span class="continue-item-meta">'+fmtFullDate(r.posted_at)+'</span>':'')+'</a>').join('')
+      +'</div></div>';
+  }
+  if(learnMore.length){
+    html+='<div class="section-block"><div class="continue-label">Background &amp; context</div><div class="continue-list">'
+      +learnMore.map(k=>{const desc=firstSentence(k.comment_text,140);const kbId=k.url?k.url:k.id;return'<a class="continue-item" href="'+nsmHref('knowledge',kbId,'knowledge.html?id='+encodeURIComponent(kbId))+'"><span class="continue-item-title">'+(k.headline_text||'')+'</span>'+(desc?'<span class="continue-item-desc">'+desc+'</span>':'')+'</a>'}).join('')
+      +'</div></div>';
+  }
+  if(recCard3)html+='<div class="section-block">'+recCard3+'</div>';
+  html+='</section>';
+  container.innerHTML=html;
+}
+
+/* ── DESKTOP THREE-COLUMN RAILS (>=1180px at load only) ── */
+function buildLeftRailHTML(related,learnMore,webOnly){
+  let html='<div class="rail">';
+  if(related.length){
+    html+='<div class="rail-section"><div class="rail-kicker">Related Stories</div><div class="rail-list">'
+      +related.map(r=>'<a class="rail-item" href="'+nsmHref('news',r.url,'story.html?story='+encodeURIComponent(r.url))+'"><span class="rail-item-title">'+(r.headline||'').replace('\n',': ')+'</span>'+(r.posted_at?'<span class="rail-item-meta">'+fmtFullDate(r.posted_at)+'</span>':'')+'</a>').join('')
+      +'</div></div>';
+  }
+  if(learnMore.length){
+    html+='<div class="rail-section"><div class="rail-kicker">Background &amp; Context</div><div class="rail-list">'
+      +learnMore.map(k=>{const desc=firstSentence(k.comment_text,100);const kbId=k.url?k.url:k.id;return'<a class="rail-item" href="'+nsmHref('knowledge',kbId,'knowledge.html?id='+encodeURIComponent(kbId))+'"><span class="rail-item-title">'+(k.headline_text||'')+'</span>'+(desc?'<span class="rail-item-meta">'+desc+'</span>':'')+'</a>'}).join('')
+      +'</div></div>';
+  }
+  if(webOnly){
+    html+='<div class="rail-section rail-exclusive"><div class="rail-kicker">Website Exclusive</div><p>This story was published only on nospin.media and was not distributed to social platforms.</p></div>';
+  }
+  html+='<div class="rail-section"><div class="rail-kicker">Explore NSM</div><div class="rail-nav-list">'
+    +'<a href="news.html">Archive</a><a href="new-england.html">New England</a><a href="knowledge.html">Knowledge Base</a><a href="daily.html">Daily Digest</a>'
+    +'</div></div>';
+  html+='</div>';
+  return html;
+}
+function buildRightRailHTML(recPicks){
+  const labels=['Curated Pick','Stay Informed','Affiliate Pick'];
+  return'<div class="rail">'+recPicks.map((item,i)=>'<div class="rail-section">'+railRecCardHTML(item,labels[i]||'Curated Pick')+'</div>').join('')+'</div>';
+}
+
+/* Story summaries are stored as markdown (**bold**, *italic*, # headings,
+   literal \n). Plain-text version for <meta> descriptions only -- the
+   visible article still renders through convertMarkdown(). (2026-10-03) */
+function markdownToPlain(t){return(t||'').replace(/\\n/g,'\n').replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/^[ \t]*#{1,6}[ \t]+/gm,'').replace(/(\*\*|__)(.+?)\1/g,'$2').replace(/(^|[^*\w])\*(?!\s)([^*\n]+?)\*(?!\*)/g,'$1$2').replace(/`([^`]+)`/g,'$1').replace(/\*{2,}/g,'').replace(/\s+/g,' ').trim()}
+/* ── SEARCH METADATA (2026-10-03) ──
+   After the story loads: <title>, meta description, self-referencing
+   canonical, and NewsArticle JSON-LD. Each element is found-or-created
+   (never appended twice) and fully overwritten, so re-running this for
+   another story can't leave duplicates or a previous story's values.
+   datePublished is Supabase posted_at, never the displayed "1h ago" text.
+   Open Graph/Twitter tags are still set separately, unchanged. */
+function nsmHeadEl(selector,create){let el=document.head.querySelector(selector);if(!el){el=create();document.head.appendChild(el)}return el}
+/* ── VISIBLE PUBLISH TIME (2026-10-xx) ──
+   Absolute date + time in Eastern Time inside <time datetime>, so readers
+   and Google see the same publication moment the JSON-LD declares. */
+function nsmPubTime(iso){const d=iso?new Date(iso):null;if(!d||isNaN(d))return'';const txt=d.toLocaleString('en-US',{timeZone:'America/New_York',month:'long',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})+' ET';return'Published <time datetime="'+d.toISOString()+'">'+txt+'</time>'}
+function setStorySearchMetadata(s,page,section,imageUrl){
+  const strip=t=>(t||'').replace(/^[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}‍️\s]+|[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}‍️\s]+$/gu,'').trim();
+  const hl=(s.headline||'').trim();const nl=hl.indexOf('\n');
+  const headline=strip(nl>-1?hl.substring(0,nl):hl)||'Story';
+  const subhead=strip(nl>-1?hl.substring(nl+1):'');
+  const plain=markdownToPlain(s.summary);
+  let desc=plain||subhead||headline+'. Independent news from No Spin Media.';
+  if(desc.length>160){const cut=desc.substring(0,157);const sp=cut.lastIndexOf(' ');desc=(sp>100?cut.substring(0,sp):cut).replace(/[\s,;:.\-–—]+$/,'')+'…'}
+  const canonical=s._canonical||(window.NSM_STATIC_URL?'https://nospin.media'+window.NSM_STATIC_URL:'https://nospin.media/'+page+'?story='+encodeURIComponent(s.url));
+  document.title=headline+' | No Spin Media';
+  nsmHeadEl('meta[name="description"]',()=>{const m=document.createElement('meta');m.setAttribute('name','description');return m}).setAttribute('content',desc);
+  nsmHeadEl('link[rel="canonical"]',()=>{const l=document.createElement('link');l.setAttribute('rel','canonical');return l}).setAttribute('href',canonical);
+  const org={'@type':'Organization','name':'No Spin Media','url':'https://nospin.media/',
+    'logo':{'@type':'ImageObject','url':'https://nospin.media/images/NSM-Logo.png','width':1024,'height':1024}};
+  const ld={'@context':'https://schema.org','@type':'NewsArticle','headline':headline.substring(0,110),
+    'description':desc,'url':canonical,'mainEntityOfPage':{'@type':'WebPage','@id':canonical},
+    'inLanguage':'en-US','isAccessibleForFree':true,
+    'author':{'@type':'Organization','name':'No Spin Media Newsroom','url':'https://nospin.media/editorial-standards.html'},
+    'publisher':Object.assign({},org,{'publishingPrinciples':'https://nospin.media/editorial-standards.html'})};
+  const published=s.posted_at?new Date(s.posted_at):null;
+  if(published&&!isNaN(published)){ld.datePublished=published.toISOString();ld.dateModified=ld.datePublished}
+  if(section)ld.articleSection=section;
+  if(imageUrl){try{ld.image=[new URL(imageUrl,'https://nospin.media/').href]}catch(e){}}
+  else{ld.image=['https://data.nospin.media/preview-image/'+encodeURIComponent(s.url)+'.webp'+(page==='ne_story.html'?'?source=ne':'')]}
+  if(Array.isArray(s.tags)&&s.tags.length)ld.keywords=s.tags.filter(t=>typeof t==='string').join(', ');
+  const sc=nsmHeadEl('script#nsm-article-jsonld',()=>{const x=document.createElement('script');x.type='application/ld+json';x.id='nsm-article-jsonld';return x});
+  sc.textContent=JSON.stringify(ld);
+}
+
+/* ── NOT-FOUND NOINDEX (2026-10-08) ──
+   GitHub Pages returns 200 for every ?story= value, so a missing story is a
+   soft 404 unless the page itself says noindex. Called only on a definitive
+   miss: no ?story= param, Supabase answered 200 with zero rows, or 400 (a
+   malformed id). A network error or 5xx is treated as transient and leaves
+   the page indexable, so a Supabase outage can't noindex real stories. */
+/* Remove the early canonical when the story can't be shown (missing, invalid
+   or failed to load), so it never points at a nonexistent article. (2026-10-15) */
+function nsmDropCanonical(){document.head.querySelectorAll('link[rel="canonical"]').forEach(el=>el.remove())}
+function nsmMarkNotFound(label){
+  nsmHeadEl('meta[name="robots"]',()=>{const m=document.createElement('meta');m.setAttribute('name','robots');return m}).setAttribute('content','noindex');
+  document.title=label+' not found | No Spin Media';
+}
+
+/* ── STATIC PAGE (2026-10-22) ──
+   On /news/<id>.html the generator (~/nsm_sitemap) embeds this story's public
+   fields as #nsm-static-story. The page then renders from them instead of
+   fetching Supabase -- same code path, same result as story.html?story=<id>. */
+function nsmStaticStory(){if(nsmStaticStory._v!==undefined)return nsmStaticStory._v;let v=null;const el=document.getElementById('nsm-static-story');if(el){try{v=JSON.parse(el.textContent)}catch(e){}}return nsmStaticStory._v=v}
+function nsmStoryParam(){const st=nsmStaticStory();return st?st.url:new URLSearchParams(location.search).get('story')}
+/* ── MAIN STORY LOADER ── */
+function wordCount(text){return(text||'').trim().split(/\s+/).filter(Boolean).length}
+function readTime(text){return Math.max(1,Math.round(wordCount(text)/200))}
+
+async function loadStory(){
+  const storyId=nsmStoryParam();
+  if(!storyId){document.getElementById('story-container').innerHTML='<p style="padding:2rem;color:#999;">Story not found.</p>';nsmMarkNotFound('Story');return}
+  const st=nsmStaticStory();
+  const res=st?{ok:true,status:200}:await fetch(SB_URL+'?select=*&url=eq.'+storyId,{headers:{apikey:SB_KEY}});
+  const data=st?[st]:await res.json();
+  if(!data.length){document.getElementById('story-container').innerHTML='<p style="padding:2rem;color:#999;">Story not found.</p>';nsmDropCanonical();if((res.ok&&Array.isArray(data))||res.status===400)nsmMarkNotFound('Story');return}
+  const s=data[0];
+  window._storyData=s;
+  /* Search metadata right after retrieval (2026-10-15), before the affiliate,
+     reactions and image lookups, so a failure there can't leave the page
+     without title/canonical/JSON-LD. Re-run below once the hero image is known. */
+  const topic=s.topic||'world';const topicCls='tp-'+topic;const topicLabel=TOPIC_LABELS[topic]||(topic?topic[0].toUpperCase()+topic.slice(1):'World');
+  try{setStorySearchMetadata(s,'story.html',topicLabel)}catch(e){console.warn('search metadata failed',e)}
+  const [recPicks,reactTotals]=await Promise.all([buildRecommendationCards(),loadReactions(storyId)]);
+  const storedReaction=getStoredReaction(storyId);
+  document.querySelector('meta[property="og:title"]').setAttribute('content',(s.headline||'').replace('\n',' '));
+  document.querySelector('meta[property="og:description"]').setAttribute('content',markdownToPlain(s.summary).substring(0,180));
+  document.querySelector('meta[name="twitter:title"]').setAttribute('content',(s.headline||'').replace('\n',' '));
+  document.querySelector('meta[name="twitter:description"]').setAttribute('content',markdownToPlain(s.summary).substring(0,180));
+  window._storyHeadline=s.headline;
+  window._storyUrl='https://data.nospin.media/preview/'+storyId;
+
+  /* Strip a leading/trailing emoji glyph from the headline/deck for display —
+     the AI writer prepends/appends one to every headline (a scannability aid
+     for social/list views), but at H1 display size on a premium article page
+     both GPT-5 and Gemini flagged it as reading like a social feed, not a
+     newsroom. Content itself is untouched — this only affects rendering. */
+  const EMOJI_STRIP_RE=/^[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}‍️\s]+|[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}‍️\s]+$/gu;
+  const hl=(s.headline||'').trim();const nl=hl.indexOf('\n');
+  let line1=nl>-1?hl.substring(0,nl).trim():hl;let line2=nl>-1?hl.substring(nl+1).trim():'';
+  line1=line1.replace(EMOJI_STRIP_RE,'').trim();
+  line2=line2.replace(EMOJI_STRIP_RE,'').trim();
+
+  const imgResult=await getStoryImage(storyId,s.headline,s.summary,s.image_filename,s.image_source);
+  if(imgResult&&imgResult.url){try{setStorySearchMetadata(s,'story.html',topicLabel,imgResult.url)}catch(e){console.warn('search metadata failed',e)}}
+  let heroHTML='';
+  if(imgResult){
+    const meta=imgResult.meta;let cap='',cred='';
+    if(meta){cap=meta.caption||'';cred=meta.credit||''}
+    else if(s.image_caption){const pts=s.image_caption.split(/\nCredit:/i);cap=pts[0].trim();if(pts[1])cred=pts[1].trim()}
+    heroHTML='<figure class="hero-figure"><div class="hero-frame"><img src="'+imgResult.url+'" alt="'+line1.replace(/"/g,'')+'" loading="eager"></div>'
+      +((cap||cred)?'<figcaption class="hero-cap">'+cap+(cred?'<span class="credit">'+cred+'</span>':'')+'</figcaption>':'')
+      +'</figure>';
+  }else{
+    heroHTML='<div class="topic-rule '+topicCls+'" style="background:var(--tp)"></div>';
+  }
+
+  function timeSince(ds){if(!ds)return'';const d=new Date(ds);if(isNaN(d))return'';const m=Math.floor((Date.now()-d)/60000);if(m<2)return'Just now';if(m<60)return m+'m ago';if(m<1440)return Math.floor(m/60)+'h ago';if(m<2880)return'Yesterday';if(m<10080)return Math.floor(m/1440)+'d ago';return d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}
+  const dateStr=timeSince(s.posted_at);
+
+  const cleanText=convertMarkdown(s.summary||'');const paras=cleanText.split('\n\n');
+  let bodyParas=[],discussionQ='';
+  paras.forEach((p,i)=>{
+    const trimmed=p.trim();
+    if(i===paras.length-1&&trimmed.endsWith('?')){
+      const sentences=trimmed.match(/[^.!?]+[.!?]+(?:\s+|$)/g)||[trimmed];
+      discussionQ=sentences.pop().trim();
+      const rest=sentences.join('').trim();
+      if(rest)bodyParas.push(rest);
+    }else{
+      bodyParas.push(p);
+    }
+  });
+  const bodyHTML=bodyParas.map(p=>'<p>'+p+'</p>').join('');
+
+  let redditLink='';
+  if(s.reddit_post_id){try{const parsed=JSON.parse(s.reddit_post_id);if(parsed.jquery?.[10]?.[3]?.[0])redditLink=parsed.jquery[10][3][0]}catch(e){}}
+
+  const back=resolveBackLink();
+  const rt=readTime(s.summary);
+  const exclusiveBadge=s.web_only?'<span class="badge-exclusive">Website Exclusive</span>':'';
+
+  const articleHeadHTML=
+    '<nav class="util-row"><a href="'+back.href+'" class="back-link">'+back.label+'</a></nav>'
+    +'<div class="article-head">'
+    +'<div class="eyebrow"><span class="eyebrow-topic '+topicCls+'" style="color:var(--tp)">'+topicLabel+'</span>'
+    +(dateStr?'<span class="eyebrow-dot">·</span><span class="eyebrow-date">'+dateStr+'</span>':'')
+    +'<span class="eyebrow-dot">·</span><span class="eyebrow-read">'+rt+' min read</span>'
+    +exclusiveBadge
+    +'</div>'
+    +'<h1 class="headline">'+line1+'</h1>'
+    +(line2?'<p class="deck">'+line2+'</p>':'')
+    +'<div class="byline-row"><span class="byline">By <a class="byline-link" href="/editorial-standards.html">No Spin Media Newsroom</a><span class="byline-sub">'+(nsmPubTime(s.posted_at)||'Independent. Fact-focused. No spin.')+'</span></span>'
+    +'<div class="share-cluster" id="share-wrap">'
+    +'<button class="icon-btn" title="Share" onclick="toggleShareMenu()">🔗</button>'
+    +'<span class="share-feedback" id="share-feedback"></span>'
+    +'<div class="share-dropdown">'
+    +'<button onclick="nativeShare()">📱 Share<span class="share-opt-desc">Native share / copy link</span></button>'
+    +'<button onclick="copyLinkOnly()">🔗 Copy link<span class="share-opt-desc">Just the URL</span></button>'
+    +'<button onclick="copyWithTitle()">📋 Copy with headline<span class="share-opt-desc">Headline + link</span></button>'
+    +'<button onclick="copyWithSummary()">📝 Copy with summary<span class="share-opt-desc">Story summary + link</span></button>'
+    +'</div></div></div>'
+    +'</div>'
+    +heroHTML
+    +'<div class="prose">'+bodyHTML+'</div>';
+
+  const discussionHTML=discussionQ?'<section class="discussion"><div class="discussion-label">Community discussion</div><div class="discussion-q">"'+discussionQ+'"</div></section>':'';
+  const reactionsBlockHTML=reactionsHTML(storyId,reactTotals,storedReaction,redditLink);
+
+  /* Desktop (>=1180px at load) gets the three-column magazine layout from
+     this round's request; everything else keeps the exact single-column
+     mobile/tablet experience that was explicitly asked NOT to change —
+     same markup, same loadContinueReading() call, untouched. Viewport is
+     checked once at load, matching the existing window.innerWidth pattern
+     story.html already uses for its own mobile affiliate insert, rather
+     than a live-resizing grid. */
+  const isDesktop=window.innerWidth>=1180;
+
+  if(isDesktop){
+    const {related,learnMore}=await fetchRelatedAndLearnMore(storyId,s.tags);
+    const leftRailHTML=buildLeftRailHTML(related,learnMore,s.web_only);
+    const rightRailHTML=buildRightRailHTML(recPicks);
+    document.getElementById('story-container').innerHTML=
+      '<div class="rail-left">'+leftRailHTML+'</div>'
+      +'<div class="col-center">'+articleHeadHTML+discussionHTML+reactionsBlockHTML+'</div>'
+      +'<div class="rail-right">'+rightRailHTML+'</div>';
+    document.querySelector('.article-stage').classList.add('stage-3col');
+  }else{
+    const rec1=recPicks[0]?recCardHTML(recPicks[0],'Curated Pick'):'';
+    const rec2=recPicks[1]?recCardHTML(recPicks[1],'Curated Pick'):'';
+    const rec3=recPicks[2]?recCardHTML(recPicks[2],'Curated Pick'):'';
+    document.getElementById('story-container').innerHTML=
+      articleHeadHTML
+      +rec1
+      +discussionHTML
+      +reactionsBlockHTML
+      +rec2
+      +'<div id="continue-container"></div>';
+    loadContinueReading(storyId,s.tags,rec3);
+  }
+
+  /* reading progress */
+  const onScroll=()=>{
+    const el=document.documentElement;
+    const scrolled=el.scrollTop;const max=el.scrollHeight-el.clientHeight;
+    const pct=max>0?Math.min(100,(scrolled/max)*100):0;
+    const bar=document.getElementById('progress-fill');if(bar)bar.style.width=pct+'%';
+  };
+  document.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+}
+
+/* ── REDDIT ADMIN PANEL (unchanged, dev-only, Shift+`) ── */
+async function showAdminPanel(){
+  const panel=document.getElementById('reddit-admin-panel');if(!panel)return;
+  panel.classList.add('open');
+  const storyId=nsmStoryParam();
+  const updatedEl=document.getElementById('radmin-updated');
+  const seedInput=document.getElementById('radmin-seed-input');
+  const commentsInput=document.getElementById('radmin-comments-input');
+  if(storyId){
+    if(updatedEl)updatedEl.innerHTML='Loading current values…';
+    try{
+      const cur=await loadReactions(storyId);
+      if(cur){
+        if(seedInput)seedInput.placeholder=String(cur.reddit_seed||0);
+        if(commentsInput)commentsInput.placeholder=String(cur.reddit_comments||0);
+        if(updatedEl){
+          if(cur.updated_at){const d=new Date(cur.updated_at);const mins=Math.floor((Date.now()-d)/60000);let when=mins<2?'just now':mins<60?mins+'m ago':mins<1440?Math.floor(mins/60)+'h ago':d.toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});updatedEl.innerHTML='Current: 👍 <span>'+(cur.reddit_seed||0)+'</span> &nbsp;💬 <span>'+(cur.reddit_comments||0)+'</span> &nbsp;·&nbsp; updated <span>'+when+'</span>';}
+          else updatedEl.innerHTML='Current: 👍 <span>'+(cur.reddit_seed||0)+'</span> &nbsp;💬 <span>'+(cur.reddit_comments||0)+'</span>';
+        }
+      }else{if(updatedEl)updatedEl.innerHTML='No existing record for this story.';if(seedInput)seedInput.placeholder='0';if(commentsInput)commentsInput.placeholder='0';}
+    }catch(e){if(updatedEl)updatedEl.innerHTML='Could not load current values.';}
+  }
+  setTimeout(()=>{if(seedInput)seedInput.focus()},50);
+}
+function hideAdminPanel(){const panel=document.getElementById('reddit-admin-panel');if(panel)panel.classList.remove('open');const s=document.getElementById('radmin-status');if(s)s.textContent='';const si=document.getElementById('radmin-seed-input');if(si)si.value='';const ci=document.getElementById('radmin-comments-input');if(ci)ci.value='';}
+function toggleAdminPanel(){const panel=document.getElementById('reddit-admin-panel');if(panel&&panel.classList.contains('open'))hideAdminPanel();else showAdminPanel();}
+async function saveRedditStats(){
+  const storyId=nsmStoryParam();if(!storyId)return;
+  const seedInput=document.getElementById('radmin-seed-input');const commentsInput=document.getElementById('radmin-comments-input');
+  const statusEl=document.getElementById('radmin-status');const saveBtn=document.getElementById('radmin-save-btn');
+  const seedVal=seedInput.value.trim();const commentsVal=commentsInput.value.trim();
+  if(seedVal===''&&commentsVal===''){statusEl.className='radmin-status err';statusEl.textContent='Enter at least one value to save';return;}
+  saveBtn.disabled=true;statusEl.className='radmin-status';statusEl.textContent='Saving…';
+  try{
+    const cur=await loadReactions(storyId);
+    const payload={story_id:storyId,helpful:0,thinking:0,surprised:0,concerning:0,important:0,story_page_reactions:0,summary_page_reactions:0,reddit_seed:0,reddit_comments:0};
+    if(cur)Object.assign(payload,cur);
+    if(seedVal!=='')payload.reddit_seed=Math.max(0,parseInt(seedVal)||0);
+    if(commentsVal!=='')payload.reddit_comments=Math.max(0,parseInt(commentsVal)||0);
+    const res=await fetch(SB_REACTIONS,{method:'POST',headers:{apikey:SB_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},body:JSON.stringify(payload)});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    updateRedditDisplay(payload.reddit_seed,payload.reddit_comments,payload.helpful);refreshEngIndicator(payload);
+    statusEl.className='radmin-status ok';statusEl.textContent='✅ Saved — 👍 '+(payload.helpful+payload.reddit_seed)+' 💬 '+payload.reddit_comments;
+    const updatedEl=document.getElementById('radmin-updated');if(updatedEl)updatedEl.innerHTML='Current: 👍 <span>'+payload.reddit_seed+'</span> &nbsp;💬 <span>'+payload.reddit_comments+'</span> &nbsp;·&nbsp; updated <span>just now</span>';
+    if(seedVal!==''){seedInput.value='';seedInput.placeholder=String(payload.reddit_seed);}
+    if(commentsVal!==''){commentsInput.value='';commentsInput.placeholder=String(payload.reddit_comments);}
+  }catch(e){statusEl.className='radmin-status err';statusEl.textContent='Error: '+e.message}
+  finally{saveBtn.disabled=false}
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded',()=>{
+  document.body.insertAdjacentHTML('beforeend',
+    '<div id="reddit-admin-panel">'
+    +'<div class="radmin-header"><span class="radmin-title">📋 Reddit Stats</span><button class="radmin-close" onclick="hideAdminPanel()" title="Close">✕</button></div>'
+    +'<div class="radmin-updated" id="radmin-updated"></div>'
+    +'<div class="radmin-fields">'
+    +'<div class="radmin-field"><label for="radmin-seed-input">👍 Upvotes</label><input type="number" id="radmin-seed-input" min="0" placeholder="—"></div>'
+    +'<div class="radmin-field"><label for="radmin-comments-input">💬 Comments</label><input type="number" id="radmin-comments-input" min="0" placeholder="—"></div>'
+    +'</div>'
+    +'<div class="radmin-actions"><button class="radmin-save" id="radmin-save-btn" onclick="saveRedditStats()">Save</button><span class="radmin-status" id="radmin-status"></span></div>'
+    +'<div class="radmin-hint">Trigger: <strong>Shift + `</strong> &nbsp;·&nbsp; Leave a field blank to keep existing value</div>'
+    +'</div>'
+  );
+  document.addEventListener('keydown',e=>{if(e.shiftKey&&e.key==='`')toggleAdminPanel()});
+  fetch('header.html').then(r=>r.text()).then(html=>{
+    document.getElementById('site-header').innerHTML=html;
+    const ham=document.getElementById('hamburger'),nav=document.getElementById('mobile-nav');
+    if(ham&&nav){ham.onclick=()=>{nav.classList.toggle('open');ham.classList.toggle('active')};nav.querySelectorAll('a').forEach(a=>{a.onclick=()=>{nav.classList.remove('open');ham.classList.remove('active')}});}
+    loadStory().catch(e=>{if(!window._storyData)nsmDropCanonical();throw e});
+  });
+});
