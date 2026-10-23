@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261023054500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-23T06:15:54-04:00</news:publication_date>
+      <news:title>Russia pounds Kyiv as Ukraine sends hundreds of drones toward Moscow</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261022065827001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-21T08:45:14-04:00</news:publication_date>
       <news:title>Massachusetts House leaders reject Healey&#x27;s gas tax suspension</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261021045112027</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-21T06:15:54-04:00</news:publication_date>
-      <news:title>Drone strike kills at least 153 at Abyei market</news:title>
     </news:news>
   </url>
 </urlset>
