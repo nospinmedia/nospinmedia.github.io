@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261023060000001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-23T11:45:34-04:00</news:publication_date>
+      <news:title>DOJ investigates Corey Lewandowski over conduct at Homeland Security</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261023064500001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-21T12:30:37-04:00</news:publication_date>
       <news:title>Rhode Island Democratic Party chair resigns after husband&#x27;s indictment</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261021051012209</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-21T11:46:03-04:00</news:publication_date>
-      <news:title>Trump administration says more than 300,000 U.S. visas revoked</news:title>
     </news:news>
   </url>
 </urlset>
