@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261023071500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-23T17:15:50-04:00</news:publication_date>
+      <news:title>President Trump says Elon Musk restored Ukraine&#x27;s Starlink access</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261023073000001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-21T18:30:20-04:00</news:publication_date>
       <news:title>Hartford police union challenges warrant in officer manslaughter case</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261021061412119</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-21T17:16:02-04:00</news:publication_date>
-      <news:title>U.S. pending home sales fall to record low</news:title>
     </news:news>
   </url>
 </urlset>
