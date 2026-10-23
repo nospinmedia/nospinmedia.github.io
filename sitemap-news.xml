@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261023073000001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-23T15:46:16-04:00</news:publication_date>
+      <news:title>Polling group says its 2026 election surveys were completely fabricated</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261023074500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-23T15:45:56-04:00</news:publication_date>
+      <news:title>Massachusetts agrees to $10 million settlement over death of David Almond</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261023061500001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-21T17:16:02-04:00</news:publication_date>
       <news:title>U.S. pending home sales fall to record low</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261021065512163</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-21T15:45:42-04:00</news:publication_date>
-      <news:title>&#x27;Operation Wicked Safe&#x27; nets thousands of citations across New England</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261021062712224</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-21T15:45:35-04:00</news:publication_date>
-      <news:title>Kagan says Supreme Court rulings are worsening political polarization</news:title>
     </news:news>
   </url>
 </urlset>
