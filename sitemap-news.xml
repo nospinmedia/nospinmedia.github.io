@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261022065827001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-22T20:46:21-04:00</news:publication_date>
+      <news:title>Trump administration asks Supreme Court to restart Big Bend border wall</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261022053241001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-21T06:15:54-04:00</news:publication_date>
       <news:title>Drone strike kills at least 153 at Abyei market</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/story.html?story=20261020043500001</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-20T20:46:09-04:00</news:publication_date>
-      <news:title>Kenyan cult leader convicted of murdering 190 children</news:title>
     </news:news>
   </url>
 </urlset>
