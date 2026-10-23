@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261023081500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-23T12:30:40-04:00</news:publication_date>
+      <news:title>New England heating oil prices surge above $6 a gallon</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261023060000001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-21T13:16:26-04:00</news:publication_date>
       <news:title>LA review raises questions about DOJ&#x27;s 20,000-voter list</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/ne_story.html?story=20261021071912169</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-21T12:30:37-04:00</news:publication_date>
-      <news:title>Rhode Island Democratic Party chair resigns after husband&#x27;s indictment</news:title>
     </news:news>
   </url>
 </urlset>
