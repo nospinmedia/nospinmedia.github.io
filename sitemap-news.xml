@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261024100342816.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-24T15:46:17-04:00</news:publication_date>
+      <news:title>Gunmen Open Fire at Church Funeral in Jordan, Killing 7</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261024113952741.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-24T15:45:34-04:00</news:publication_date>
+      <news:title>Justice Department Investigates Gun Permit Delays in Two Connecticut Cities</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261024103147628.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-22T17:15:53-04:00</news:publication_date>
       <news:title>Russia frees American Stephen Hubbard after more than four years</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261022061437001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-22T15:46:29-04:00</news:publication_date>
-      <news:title>Democrats sue Trump administration over election demands</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261022075931001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-22T15:45:26-04:00</news:publication_date>
-      <news:title>New York man charged after great white shark captured off Cape Cod</news:title>
     </news:news>
   </url>
 </urlset>
