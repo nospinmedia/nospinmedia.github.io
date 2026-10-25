@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261025055000001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-25T11:46:31-04:00</news:publication_date>
+      <news:title>New York Archdiocese agrees to $800 million abuse settlement</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261025053500001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-23T12:30:40-04:00</news:publication_date>
       <news:title>New England heating oil prices surge above $6 a gallon</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261023060000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-23T11:45:34-04:00</news:publication_date>
-      <news:title>DOJ investigates Corey Lewandowski over conduct at Homeland Security</news:title>
     </news:news>
   </url>
 </urlset>
