@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261025062000001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-25T14:30:45-04:00</news:publication_date>
+      <news:title>Who controls Ukraine&#x27;s battlefield internet: Musk or the U.S. government?</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261025060500001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-23T15:45:56-04:00</news:publication_date>
       <news:title>Massachusetts agrees to $10 million settlement over death of David Almond</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261023061500001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-23T14:30:40-04:00</news:publication_date>
-      <news:title>Judge orders President Trump to testify under oath in $10 billion BBC lawsuit</news:title>
     </news:news>
   </url>
 </urlset>
