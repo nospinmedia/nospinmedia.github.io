@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261025052000001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-25T08:46:11-04:00</news:publication_date>
+      <news:title>12 injured near Florida A&amp;M stadium</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261025084500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-25T08:45:52-04:00</news:publication_date>
+      <news:title>Judge blocks DHS door-to-door voter investigations in Connecticut and 8 states</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261025051000001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-23T10:15:53-04:00</news:publication_date>
       <news:title>Iran says seven oil tankers were hit in Strait of Hormuz</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261023050000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-23T08:45:38-04:00</news:publication_date>
-      <news:title>Supreme Court lets New Hampshire fully restrict student IDs for voting</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261023051500001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-23T08:45:36-04:00</news:publication_date>
-      <news:title>Powerful earthquake kills at least 16 in Tibet</news:title>
     </news:news>
   </url>
 </urlset>
