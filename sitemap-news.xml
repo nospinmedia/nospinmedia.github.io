@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261025060500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-25T13:15:54-04:00</news:publication_date>
+      <news:title>France erupts in protests again as 400,000 take to streets</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/new-england/20261025154500001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-23T14:30:40-04:00</news:publication_date>
       <news:title>Judge orders President Trump to testify under oath in $10 billion BBC lawsuit</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261023063000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-23T13:16:03-04:00</news:publication_date>
-      <news:title>Virginia state Sen. Louise Lucas charged in federal marijuana conspiracy</news:title>
     </news:news>
   </url>
 </urlset>
