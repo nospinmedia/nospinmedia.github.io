@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261025053500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-25T10:15:55-04:00</news:publication_date>
+      <news:title>DOJ tells California counties to set aside questioned ballots</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261025052000001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-23T11:45:34-04:00</news:publication_date>
       <news:title>DOJ investigates Corey Lewandowski over conduct at Homeland Security</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261023064500001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-23T10:15:53-04:00</news:publication_date>
-      <news:title>Iran says seven oil tankers were hit in Strait of Hormuz</news:title>
     </news:news>
   </url>
 </urlset>
