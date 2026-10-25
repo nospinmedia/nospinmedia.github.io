@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261025065000001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-25T17:16:27-04:00</news:publication_date>
+      <news:title>Trump says he has the ‘right to run again’ in 2028</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/new-england/20261025123000001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-23T18:30:16-04:00</news:publication_date>
       <news:title>New Haven agrees to $16.5 million wrongful conviction settlement</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261023071500001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-23T17:15:50-04:00</news:publication_date>
-      <news:title>President Trump says Elon Musk restored Ukraine&#x27;s Starlink access</news:title>
     </news:news>
   </url>
 </urlset>
