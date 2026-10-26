@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261026054512001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-26T18:31:23-04:00</news:publication_date>
+      <news:title>Explosion sparks fire at world’s largest oat mill in Iowa</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261026110000001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-26T18:30:31-04:00</news:publication_date>
+      <news:title>Westborough police chief placed on leave after Shrewsbury police call</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261026063817001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,22 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-24T20:45:36-04:00</news:publication_date>
       <news:title>Oregon Father Who Stopped School Shooter Describes Decision to Run Inside</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261024093251847.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-24T18:31:17-04:00</news:publication_date>
-      <news:title>Mississippi Officer Who Fatally Shot 1-Year-Old Kohen Wiley Resigns</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261024115237648.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-24T18:30:32-04:00</news:publication_date>
-      <news:title>New England Has Avoided the AI Data Center Boom — So Far</news:title>
     </news:news>
   </url>
 </urlset>
