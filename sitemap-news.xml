@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261026062341001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-26T13:15:35-04:00</news:publication_date>
+      <news:title>Israel expands West Bank operation after attack kills two soldiers</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/new-england/20261026102637001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-24T14:30:49-04:00</news:publication_date>
       <news:title>AI Agents Are Already Accessing Customer Bank Accounts, Security Report Finds</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261024091827463.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-24T13:16:21-04:00</news:publication_date>
-      <news:title>First Russian Diesel Shipment Under Trump-Putin Deal Heads for U.S.</news:title>
     </news:news>
   </url>
 </urlset>
