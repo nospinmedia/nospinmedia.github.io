@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261026102637001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-26T12:30:44-04:00</news:publication_date>
+      <news:title>Boston mother charged with manslaughter after 4-year-old dies from fentanyl</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261026091547001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-24T13:16:21-04:00</news:publication_date>
       <news:title>First Russian Diesel Shipment Under Trump-Putin Deal Heads for U.S.</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261024111743852.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-24T12:30:04-04:00</news:publication_date>
-      <news:title>Boston Dynamics Workers Push Back on ICE&#x27;s Planned Use of Robot Dogs</news:title>
     </news:news>
   </url>
 </urlset>
