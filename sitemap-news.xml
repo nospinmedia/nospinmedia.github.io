@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261026051500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-26T06:16:04-04:00</news:publication_date>
+      <news:title>Serbia’s Vučić concedes defeat to student-led movement</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261025072000001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-24T08:45:39-04:00</news:publication_date>
       <news:title>Justice Department Sending Election Monitors to Portland and Lewiston</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261024085013519.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-24T06:16:11-04:00</news:publication_date>
-      <news:title>Severe Flooding Forces Rooftop Rescues Across Four Corners Region</news:title>
     </news:news>
   </url>
 </urlset>
