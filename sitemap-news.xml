@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261027062514001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-27T10:16:26-04:00</news:publication_date>
+      <news:title>Inflation remains a major concern one week before midterms</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261027053742001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-25T11:46:31-04:00</news:publication_date>
       <news:title>New York Archdiocese agrees to $800 million abuse settlement</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261025053500001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-25T10:15:55-04:00</news:publication_date>
-      <news:title>DOJ tells California counties to set aside questioned ballots</news:title>
     </news:news>
   </url>
 </urlset>
