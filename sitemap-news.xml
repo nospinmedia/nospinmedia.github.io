@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261027060942001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-27T18:31:10-04:00</news:publication_date>
+      <news:title>Six citizens sue over Trump’s White House media restrictions</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261027084237001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-27T18:30:45-04:00</news:publication_date>
+      <news:title>Massachusetts installs nearly 90 wrong-way detection systems</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261027052916001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,22 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-25T20:46:06-04:00</news:publication_date>
       <news:title>Trump casts Florida midterm ballot early after years of attacking mail voting</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261025070500001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-25T18:31:09-04:00</news:publication_date>
-      <news:title>Obama calls Trump presidency ‘chaos and cruelty’ on campaign trail</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261025183000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-25T18:30:25-04:00</news:publication_date>
-      <news:title>Trumbull&#x27;s data center ban won&#x27;t stop existing site from adding AI</news:title>
     </news:news>
   </url>
 </urlset>
