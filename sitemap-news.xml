@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261027055218001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-27T11:46:03-04:00</news:publication_date>
+      <news:title>DOJ moves to charge James Comey for third time</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261027062514001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-25T12:30:45-04:00</news:publication_date>
       <news:title>More than 130 evacuated after power failure at Lexington nursing home</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261025055000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-25T11:46:31-04:00</news:publication_date>
-      <news:title>New York Archdiocese agrees to $800 million abuse settlement</news:title>
     </news:news>
   </url>
 </urlset>
