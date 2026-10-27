@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261027083412001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-27T15:45:39-04:00</news:publication_date>
+      <news:title>Two Massachusetts biotech firms announce major job cuts</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/news/20261027052148001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-27T15:45:34-04:00</news:publication_date>
+      <news:title>15-year-old to face adult charges in FAMU shooting</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261027054327001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,22 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-25T17:16:27-04:00</news:publication_date>
       <news:title>Trump says he has the ‘right to run again’ in 2028</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261025123000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-25T15:45:46-04:00</news:publication_date>
-      <news:title>Three-alarm fire brings HazMat teams to Newburyport chemical plant</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261025063500001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-25T15:45:41-04:00</news:publication_date>
-      <news:title>Audi announces $4.2 billion Georgia factory creating 4,500 jobs</news:title>
     </news:news>
   </url>
 </urlset>
