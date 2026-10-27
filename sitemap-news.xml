@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261027061736001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-27T13:16:09-04:00</news:publication_date>
+      <news:title>Trump offers $1 million for voter fraud tips</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/new-england/20261027091426001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-25T14:30:45-04:00</news:publication_date>
       <news:title>Who controls Ukraine&#x27;s battlefield internet: Musk or the U.S. government?</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261025060500001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-25T13:15:54-04:00</news:publication_date>
-      <news:title>France erupts in protests again as 400,000 take to streets</news:title>
     </news:news>
   </url>
 </urlset>
