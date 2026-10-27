@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261027053742001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-27T08:46:08-04:00</news:publication_date>
+      <news:title>Bolsonaro’s party recognizes Lula victory</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261027093158001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-27T08:45:06-04:00</news:publication_date>
+      <news:title>Maine fines Bobby Charles campaign $22,658 over contributions</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261027051432001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,22 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-25T10:15:55-04:00</news:publication_date>
       <news:title>DOJ tells California counties to set aside questioned ballots</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261025052000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-25T08:46:11-04:00</news:publication_date>
-      <news:title>12 injured near Florida A&amp;M stadium</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261025084500001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-25T08:45:52-04:00</news:publication_date>
-      <news:title>Judge blocks DHS door-to-door voter investigations in Connecticut and 8 states</news:title>
     </news:news>
   </url>
 </urlset>
