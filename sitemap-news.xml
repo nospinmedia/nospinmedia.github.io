@@ -225,12 +225,4 @@
       <news:title>María Corina Machado returns to Venezuela after 10 months abroad</news:title>
     </news:news>
   </url>
-  <url>
-    <loc>https://nospin.media/news/20261026164800001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-26T16:53:38-04:00</news:publication_date>
-      <news:title>Star Trek&#x27;s Walter Koenig dies at 90</news:title>
-    </news:news>
-  </url>
 </urlset>
