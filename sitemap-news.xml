@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261028054219001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-28T12:30:42-04:00</news:publication_date>
+      <news:title>Former Burlington school administrator investigated over $1.8 million</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261028044311001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-26T13:15:35-04:00</news:publication_date>
       <news:title>Israel expands West Bank operation after attack kills two soldiers</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261026102637001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-26T12:30:44-04:00</news:publication_date>
-      <news:title>Boston mother charged with manslaughter after 4-year-old dies from fentanyl</news:title>
     </news:news>
   </url>
 </urlset>
