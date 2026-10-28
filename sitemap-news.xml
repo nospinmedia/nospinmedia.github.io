@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261028051438001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-28T15:45:59-04:00</news:publication_date>
+      <news:title>Trump administration proposes major rollback of oil and gas methane rules</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261028053618001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-28T15:45:20-04:00</news:publication_date>
+      <news:title>Barre officer’s credibility concerns affect dozens of criminal cases</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261028045017001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,22 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-26T16:53:38-04:00</news:publication_date>
       <news:title>Star Trek&#x27;s Walter Koenig dies at 90</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261026061024001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-26T15:45:49-04:00</news:publication_date>
-      <news:title>North Korea displays artillery near border as dispute with South reaches UN</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261026104128001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-26T15:45:10-04:00</news:publication_date>
-      <news:title>Man accused of targeting three Boston banks in just 27 minutes</news:title>
     </news:news>
   </url>
 </urlset>
