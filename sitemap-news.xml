@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261028045124001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-28T10:16:02-04:00</news:publication_date>
+      <news:title>Rare Ukraine-Russia truce holds around starving occupied town</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261028044712001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-26T11:45:44-04:00</news:publication_date>
       <news:title>Saudi Arabia, Pakistan and Turkey send senior officials to Iran for security talks</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261026053642001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-26T10:16:08-04:00</news:publication_date>
-      <news:title>Trump invokes 9/11 while attacking El-Sayed in Michigan Senate race</news:title>
     </news:news>
   </url>
 </urlset>
