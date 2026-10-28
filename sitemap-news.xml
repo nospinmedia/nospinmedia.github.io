@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261028045017001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-28T14:31:04-04:00</news:publication_date>
+      <news:title>FBI searches donor’s Beverly Hills mansion in Eric Swalwell investigation</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261028050342001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-26T15:45:10-04:00</news:publication_date>
       <news:title>Man accused of targeting three Boston banks in just 27 minutes</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261026055823001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-26T14:30:39-04:00</news:publication_date>
-      <news:title>Appeals court questions DOJ bid to segregate 20,000 California ballots</news:title>
     </news:news>
   </url>
 </urlset>
