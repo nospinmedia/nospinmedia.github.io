@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261029054000000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-29T14:31:06-04:00</news:publication_date>
+      <news:title>Judge rejects DOJ bid to segregate 20,000 California ballots</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261029051500000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-27T15:45:34-04:00</news:publication_date>
       <news:title>15-year-old to face adult charges in FAMU shooting</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261027054327001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-27T14:31:30-04:00</news:publication_date>
-      <news:title>Anthropic files for IPO as revenue surges to $16.3 billion</news:title>
     </news:news>
   </url>
 </urlset>
