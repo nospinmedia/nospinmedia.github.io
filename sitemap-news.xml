@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261029050100000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-29T06:16:16-04:00</news:publication_date>
+      <news:title>Qatar presents Iran with new draft aimed at ending war</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261028050926001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-27T08:45:06-04:00</news:publication_date>
       <news:title>Maine fines Bobby Charles campaign $22,658 over contributions</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261027051432001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-27T06:16:21-04:00</news:publication_date>
-      <news:title>Israel votes with Netanyahu’s political future at stake</news:title>
     </news:news>
   </url>
 </urlset>
