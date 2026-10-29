@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261029052000000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-29T18:31:20-04:00</news:publication_date>
+      <news:title>Labor and civil rights leader Dolores Huerta dies at 96</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261029060000000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-29T18:30:06-04:00</news:publication_date>
+      <news:title>Legal groups sue over ICE policy concealing detainee locations</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261029053500000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,22 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-27T20:46:04-04:00</news:publication_date>
       <news:title>FTC and 20 states sue Dollar General over pricing</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261027060942001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-27T18:31:10-04:00</news:publication_date>
-      <news:title>Six citizens sue over Trump’s White House media restrictions</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261027084237001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-27T18:30:45-04:00</news:publication_date>
-      <news:title>Massachusetts installs nearly 90 wrong-way detection systems</news:title>
     </news:news>
   </url>
 </urlset>
