@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261029053000000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-29T15:46:34-04:00</news:publication_date>
+      <news:title>James O&#x27;Keefe and Cam Higby charged over Minnesota voting stunt</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261029055000000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-29T15:45:13-04:00</news:publication_date>
+      <news:title>South Portland limits city cooperation with immigration enforcement</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261029054000000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-27T17:15:54-04:00</news:publication_date>
       <news:title>Microsoft offers voluntary buyouts to 60,000 workers</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261027083412001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-27T15:45:39-04:00</news:publication_date>
-      <news:title>Two Massachusetts biotech firms announce major job cuts</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261027052148001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-27T15:45:34-04:00</news:publication_date>
-      <news:title>15-year-old to face adult charges in FAMU shooting</news:title>
     </news:news>
   </url>
 </urlset>
