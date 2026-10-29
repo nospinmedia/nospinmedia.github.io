@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261029050500000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-29T10:16:46-04:00</news:publication_date>
+      <news:title>Spain train collision kills at least 68 people</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261029051000000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-27T11:46:03-04:00</news:publication_date>
       <news:title>DOJ moves to charge James Comey for third time</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261027062514001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-27T10:16:26-04:00</news:publication_date>
-      <news:title>Inflation remains a major concern one week before midterms</news:title>
     </news:news>
   </url>
 </urlset>
