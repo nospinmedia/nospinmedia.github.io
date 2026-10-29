@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261028050926001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-28T20:46:19-04:00</news:publication_date>
+      <news:title>DNA links Ted Bundy to Utah teenager’s 1974 murder</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261028052043001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-27T06:16:21-04:00</news:publication_date>
       <news:title>Israel votes with Netanyahu’s political future at stake</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261026093218001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-26T20:45:43-04:00</news:publication_date>
-      <news:title>AI data center boom pushes power-line battles hundreds of miles away</news:title>
     </news:news>
   </url>
 </urlset>
