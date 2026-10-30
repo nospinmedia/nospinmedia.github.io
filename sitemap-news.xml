@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261030070536001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-30T18:30:54-04:00</news:publication_date>
+      <news:title>Family sues Shaw&#x27;s after Saco truck driver&#x27;s death</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/news/20261030052641001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-30T18:30:49-04:00</news:publication_date>
+      <news:title>U.S. economy grows 3.4% in third quarter</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261030054823001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,22 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-28T20:46:19-04:00</news:publication_date>
       <news:title>DNA links Ted Bundy to Utah teenager’s 1974 murder</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261028052043001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-28T18:31:21-04:00</news:publication_date>
-      <news:title>Grand jury declines to indict former Trump aide Cassidy Hutchinson</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261028055027001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-28T18:30:06-04:00</news:publication_date>
-      <news:title>Brown University classrooms closed after deadly shooting to reopen</news:title>
     </news:news>
   </url>
 </urlset>
