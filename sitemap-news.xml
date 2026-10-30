@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261030053817001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-30T08:45:57-04:00</news:publication_date>
+      <news:title>Russian drone strike kills 14 at Ukraine train station</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261030065714001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-30T08:45:22-04:00</news:publication_date>
+      <news:title>14-year-old arrested with loaded ghost gun at Boston school</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261030064922001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,22 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-28T10:16:02-04:00</news:publication_date>
       <news:title>Rare Ukraine-Russia truce holds around starving occupied town</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261028044712001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-28T08:45:49-04:00</news:publication_date>
-      <news:title>Israel election remains deadlocked as votes are counted</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261028052741001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-28T08:45:45-04:00</news:publication_date>
-      <news:title>Two adults found dead, 8-year-old shot in Manchester home</news:title>
     </news:news>
   </url>
 </urlset>
