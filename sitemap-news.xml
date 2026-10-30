@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261030064922001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-30T06:16:26-04:00</news:publication_date>
+      <news:title>Netanyahu&#x27;s bloc loses majority as Israel faces deadlock</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261029054500000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-28T08:45:45-04:00</news:publication_date>
       <news:title>Two adults found dead, 8-year-old shot in Manchester home</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261028045917001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-28T06:15:48-04:00</news:publication_date>
-      <news:title>Manhunt expands after convicted murderer escapes Tennessee prison</news:title>
     </news:news>
   </url>
 </urlset>
