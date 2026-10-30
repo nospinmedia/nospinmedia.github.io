@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261030064137001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-30T14:31:01-04:00</news:publication_date>
+      <news:title>DOJ expands election scrutiny with California subpoenas</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261030062153001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-28T15:45:20-04:00</news:publication_date>
       <news:title>Barre officer’s credibility concerns affect dozens of criminal cases</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261028045017001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-28T14:31:04-04:00</news:publication_date>
-      <news:title>FBI searches donor’s Beverly Hills mansion in Eric Swalwell investigation</news:title>
     </news:news>
   </url>
 </urlset>
