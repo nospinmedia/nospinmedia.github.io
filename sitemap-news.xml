@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261030061247001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-30T15:46:07-04:00</news:publication_date>
+      <news:title>Pentagon fires top military planner over alleged leaks</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261030071843001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-30T15:45:26-04:00</news:publication_date>
+      <news:title>Vermont gets $4.5 million in General Motors privacy settlement</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261030064137001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,22 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-28T17:16:20-04:00</news:publication_date>
       <news:title>U.S. cost of Iran war climbs above $47 billion</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261028051438001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-28T15:45:59-04:00</news:publication_date>
-      <news:title>Trump administration proposes major rollback of oil and gas methane rules</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261028053618001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-28T15:45:20-04:00</news:publication_date>
-      <news:title>Barre officer’s credibility concerns affect dozens of criminal cases</news:title>
     </news:news>
   </url>
 </urlset>
