@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261030055918001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-30T20:45:59-04:00</news:publication_date>
+      <news:title>Judge blocks part of Medicaid work requirement rule</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/new-england/20261030070536001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-29T06:16:16-04:00</news:publication_date>
       <news:title>Qatar presents Iran with new draft aimed at ending war</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261028050926001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-28T20:46:19-04:00</news:publication_date>
-      <news:title>DNA links Ted Bundy to Utah teenager’s 1974 murder</news:title>
     </news:news>
   </url>
 </urlset>
