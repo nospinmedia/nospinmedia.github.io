@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261031073842051.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-31T12:30:55-04:00</news:publication_date>
+      <news:title>Man dies after Boston police shooting in Brighton</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261031050317042.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-29T13:16:06-04:00</news:publication_date>
       <news:title>Data leak exposes more than 40,000 Homeland Security workers</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261029055500000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-29T12:30:01-04:00</news:publication_date>
-      <news:title>Vermont state senator pleads not guilty to domestic assault charge</news:title>
     </news:news>
   </url>
 </urlset>
