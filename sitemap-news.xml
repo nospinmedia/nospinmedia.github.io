@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261101051142001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-01T06:16:24-05:00</news:publication_date>
+      <news:title>Pregnant woman killed in Spirit Halloween store shooting</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261031060328047.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-30T08:45:22-04:00</news:publication_date>
       <news:title>14-year-old arrested with loaded ghost gun at Boston school</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261030064922001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-30T06:16:26-04:00</news:publication_date>
-      <news:title>Netanyahu&#x27;s bloc loses majority as Israel faces deadlock</news:title>
     </news:news>
   </url>
 </urlset>
