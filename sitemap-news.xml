@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261101061237001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-01T15:45:50-05:00</news:publication_date>
+      <news:title>D.C. and Virginia sue to block Trump&#x27;s proposed 250-foot arch</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261101070419001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-01T15:45:33-05:00</news:publication_date>
+      <news:title>Texas teen wanted in fatal South Station stabbing turns himself in</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261101055743001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-30T17:16:16-04:00</news:publication_date>
       <news:title>DoorDash agrees to buy Instacart for $17 billion</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261030061247001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-30T15:46:07-04:00</news:publication_date>
-      <news:title>Pentagon fires top military planner over alleged leaks</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261030071843001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-30T15:45:26-04:00</news:publication_date>
-      <news:title>Vermont gets $4.5 million in General Motors privacy settlement</news:title>
     </news:news>
   </url>
 </urlset>
