@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261031060328047.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-10-31T20:46:10-04:00</news:publication_date>
+      <news:title>Judge opens misconduct inquiry in Trump golf course case</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261031062147083.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-30T06:16:26-04:00</news:publication_date>
       <news:title>Netanyahu&#x27;s bloc loses majority as Israel faces deadlock</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261029054500000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-29T20:45:48-04:00</news:publication_date>
-      <news:title>Putin praises Musk as Russia builds its own Starlink rival</news:title>
     </news:news>
   </url>
 </urlset>
