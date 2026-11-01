@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261101054127001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-01T08:46:17-05:00</news:publication_date>
+      <news:title>U.S. warns Russia of credible mass-casualty threat in Moscow</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261101074631001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-01T08:45:31-05:00</news:publication_date>
+      <news:title>Maine Senate race remains tight days before Election Day</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261101051142001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-30T10:15:53-04:00</news:publication_date>
       <news:title>Binance hit by record $6.3 billion crypto heist</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261030053817001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-30T08:45:57-04:00</news:publication_date>
-      <news:title>Russian drone strike kills 14 at Ukraine train station</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261030065714001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-30T08:45:22-04:00</news:publication_date>
-      <news:title>14-year-old arrested with loaded ghost gun at Boston school</news:title>
     </news:news>
   </url>
 </urlset>
