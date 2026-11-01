@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261101063852001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-01T17:15:46-05:00</news:publication_date>
+      <news:title>Judge permanently dismisses Trump&#x27;s lawsuit against Wall Street Journal</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261101061237001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-30T18:30:49-04:00</news:publication_date>
       <news:title>U.S. economy grows 3.4% in third quarter</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261030054823001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-30T17:16:16-04:00</news:publication_date>
-      <news:title>DoorDash agrees to buy Instacart for $17 billion</news:title>
     </news:news>
   </url>
 </urlset>
