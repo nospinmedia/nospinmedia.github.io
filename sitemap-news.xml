@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261101065124001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-01T20:46:07-05:00</news:publication_date>
+      <news:title>NASA&#x27;s Swift telescope is about to fall back to Earth</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261101062348001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-31T06:16:09-04:00</news:publication_date>
       <news:title>Judge bars DOJ threats against election officials</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261030055918001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-30T20:45:59-04:00</news:publication_date>
-      <news:title>Judge blocks part of Medicaid work requirement rule</news:title>
     </news:news>
   </url>
 </urlset>
