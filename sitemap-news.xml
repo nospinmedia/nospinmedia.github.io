@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261102051500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-02T11:45:56-05:00</news:publication_date>
+      <news:title>Russian strikes knock out power and water across parts of Ukraine</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261102045500001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-10-31T12:30:55-04:00</news:publication_date>
       <news:title>Man dies after Boston police shooting in Brighton</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261031050317042.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-10-31T11:45:51-04:00</news:publication_date>
-      <news:title>Tech sell-off sends Wall Street to worst day since June</news:title>
     </news:news>
   </url>
 </urlset>
