@@ -81,9 +81,11 @@ async function loadAllAffiliateTiles(matchedRule){
 /* ── IMAGE RESOLUTION ── */
 let _imgRulesCache=null;
 async function resolveStoryImage(storyId){for(const ext of['webp','jpg','png']){try{const r=await fetch('/images/news/'+storyId+'.'+ext,{method:'HEAD'});if(r.ok)return'/images/news/'+storyId+'.'+ext}catch(e){}}return null}
-async function resolveFallbackImage(headline){try{if(!_imgRulesCache){const r=await fetch('/images/news/image-rules.json');if(r.ok)_imgRulesCache=await r.json()}if(_imgRulesCache){const h=(headline||'').toLowerCase();for(const rule of(_imgRulesCache.keywords||[])){if(rule.match.some(kw=>{const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-z])'+esc+'(?![a-z])','i').test(h)}))return'/images/news/'+rule.image}}}catch(e){}return null}
+/* 2026-11-02: curated news-image-rules.json (headline match only, as before); library images are labelled below. */
+async function resolveFallbackImage(headline){try{if(!_imgRulesCache){const r=await fetch('/images/news/news-image-rules.json');if(r.ok)_imgRulesCache=await r.json()}if(_imgRulesCache){const h=(headline||'').toLowerCase();for(const rule of(_imgRulesCache.keywords||[])){if(rule.match.some(kw=>{const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-z])'+esc+'(?![a-z])','i').test(h)}))return'/images/news/'+rule.image}}}catch(e){}return null}
 async function fetchImageMeta(p){try{const r=await fetch(p.replace(/\.[^.]+$/,'.json'));if(r.ok)return await r.json()}catch(e){}return null}
-async function getStoryImage(id,headline){const si=await resolveStoryImage(id);if(si)return{url:si,meta:await fetchImageMeta(si)};const fi=await resolveFallbackImage(headline);if(fi)return{url:fi,meta:await fetchImageMeta(fi)};return null}
+async function getStoryImage(id,headline){const si=await resolveStoryImage(id);if(si)return{url:si,meta:await fetchImageMeta(si),kind:'own'};const fi=await resolveFallbackImage(headline);if(fi)return{url:fi,meta:await fetchImageMeta(fi),kind:'library'};return null}
+function nsmImgLabel(meta){if(meta&&meta.label)return String(meta.label);const t=((meta&&meta.caption)||'')+' '+((meta&&meta.credit)||'');return/ai-generated|ai illustration|generated with|illustration/i.test(t)?'Illustration':'File photo'}
 
 /* ── REACTIONS ── */
 const REACTIONS=[
@@ -325,13 +327,14 @@ async function loadStory(){
   if(imgResult&&imgResult.url){try{setStorySearchMetadata(s,'ne_story.html','New England',imgResult.url)}catch(e){console.warn('search metadata failed',e)}}
   let heroBgStyle=imgResult?'background-image:url(\''+imgResult.url+'\');background-size:cover;background-position:center;':'background:'+topicBg+';';
   let captionHTML='';
-  if(imgResult){const meta=imgResult.meta;let cap='',cred='';if(meta){cap=meta.caption||'';cred=meta.credit||''}else if(s.image_caption){const pts=s.image_caption.split(/\nCredit:/i);cap=pts[0].trim();if(pts[1])cred=pts[1].trim()}if(cap||cred)captionHTML='<div class="story-img-caption">'+cap+(cred?'<span class="story-img-credit">Credit: '+cred+'</span>':'')+'</div>'}
+  if(imgResult){const meta=imgResult.meta;let cap='',cred='';if(meta){cap=meta.caption||'';cred=meta.credit||''}else if(s.image_caption){const pts=s.image_caption.split(/\nCredit:/i);cap=pts[0].trim();if(pts[1])cred=pts[1].trim()}const imgLabel=imgResult.kind==='library'?nsmImgLabel(meta):'';if(cap||cred||imgLabel)captionHTML='<div class="story-img-caption">'+(imgLabel?'<span class="story-img-label">'+imgLabel+'</span>':'')+cap+(cred?'<span class="story-img-credit">Credit: '+cred+'</span>':'')+'</div>'}
   function timeSince(ds){if(!ds)return'';const d=new Date(ds);if(isNaN(d))return'';const m=Math.floor((Date.now()-d)/60000);if(m<2)return'Just now';if(m<60)return m+'m ago';if(m<1440)return Math.floor(m/60)+'h ago';if(m<2880)return'Yesterday';if(m<10080)return Math.floor(m/1440)+'d ago';return d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}
   const dateStr=timeSince(s.posted_at);
   const cleanText=convertMarkdown(s.summary||'');const paras=cleanText.split('\n\n');
   let bodyParas=[],discussionQ='';
   for(const p of paras){if(p.trim().endsWith('?')&&paras.indexOf(p)===paras.length-1)discussionQ=p.trim();else bodyParas.push(p)}
   const bodyHTML=bodyParas.map(p=>'<p>'+p+'</p>').join('');
+  let sourcesHTML='';try{if(typeof nsmSourcesHTML==='function')sourcesHTML=nsmSourcesHTML(s._sources||nsmParseSources(s.original_url))}catch(e){console.warn('sources failed',e)}
   let redditLink='';
   if(s.reddit_post_id){try{const parsed=JSON.parse(s.reddit_post_id);if(parsed.jquery?.[10]?.[3]?.[0])redditLink=parsed.jquery[10][3][0]}catch(e){console.warn('Reddit parse failed')}}
   const back=resolveBackLink();
@@ -351,6 +354,7 @@ async function loadStory(){
     +'<span class="story-byline">By <a class="byline-link" href="/editorial-standards.html">No Spin Media Newsroom</a>'+(s.posted_at?' · '+nsmPubTime(s.posted_at):'')+'</span>'
     +'</div></div></div>'
     +'<div class="story-body-card"><div class="story-content">'+bodyHTML+'</div>'
+    +sourcesHTML
     +(discussionQ?'<div class="discussion-label">Community Discussion</div><div class="story-discussion">\uD83D\uDCAC '+discussionQ+'</div>':'')
     +'</div>'
     +reactionsHTML(storyId,reactTotals,storedReaction,redditLink)

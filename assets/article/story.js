@@ -32,9 +32,9 @@ function scoreTagOverlap(aTags,bTags){
   aSet.forEach(tag=>{if(!tag||!bSet.has(tag))return;if(LOW_WEIGHT_TAGS.includes(tag))score+=1;else{score+=3;specificMatches++;}});
   return{score,specificMatches};
 }
-function topMatches(currentTags,candidates,getTags,limit){
+function topMatches(currentTags,candidates,getTags,limit,minSpecific){
   return candidates.map(c=>({item:c,...scoreTagOverlap(currentTags,getTags(c))}))
-    .filter(r=>r.specificMatches>=1).sort((a,b)=>b.score-a.score||(b.item.id-a.item.id)).slice(0,limit).map(r=>r.item);
+    .filter(r=>r.specificMatches>=(minSpecific||1)).sort((a,b)=>b.score-a.score||(b.item.id-a.item.id)).slice(0,limit).map(r=>r.item);
 }
 function fmtFullDate(ds){if(!ds)return'';const d=new Date(ds);if(isNaN(d))return'';return d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}
 function stripMarkdownForPreview(text){if(!text)return'';return text.replace(/^#+\s*/gm,'').replace(/\*\*(.*?)\*\*/g,'$1').replace(/\*(.*?)\*/g,'$1').replace(/`(.*?)`/g,'$1').replace(/\[(.*?)\]\(.*?\)/g,'$1').trim()}
@@ -186,15 +186,18 @@ function _imgKwHit(hayCI,hayCS,kw){
   return new RegExp('(?<![a-z])'+esc.toLowerCase()+'(?![a-z])').test(hayCI);
 }
 const IMG_CONFIDENCE_THRESHOLD=2;const IMG_HEADLINE_MULTIPLIER=2;
+/* 2026-11-02 (AdSense review): fallback images come from the curated
+   news-image-rules.json and need a keyword IN THE HEADLINE (summary-only
+   matches assigned unrelated images). No match -> no image (topic bar). */
 async function resolveFallbackImage(headline,summary){
   try{
-    if(!_imgRulesCache){const r=await fetch('/images/news/image-rules.json');if(r.ok)_imgRulesCache=await r.json()}
+    if(!_imgRulesCache){const r=await fetch('/images/news/news-image-rules.json');if(r.ok)_imgRulesCache=await r.json()}
     if(_imgRulesCache){
-      const hCS=headline||'',sCS=summary||'',hCI=hCS.toLowerCase(),sCI=sCS.toLowerCase();
+      const hCS=headline||'',hCI=hCS.toLowerCase();
       let bestRule=null,bestScore=0;
       for(const rule of(_imgRulesCache.keywords||[])){
         let score=0;
-        for(const kw of rule.match){const w=_imgKwWeight(kw);if(_imgKwHit(hCI,hCS,kw))score+=w*IMG_HEADLINE_MULTIPLIER;else if(_imgKwHit(sCI,sCS,kw))score+=w}
+        for(const kw of rule.match){if(_imgKwHit(hCI,hCS,kw))score+=_imgKwWeight(kw)*IMG_HEADLINE_MULTIPLIER}
         if(score>bestScore){bestScore=score;bestRule=rule}
       }
       if(bestRule&&bestScore>=IMG_CONFIDENCE_THRESHOLD)return'/images/news/'+bestRule.image;
@@ -206,12 +209,15 @@ let _imgRulesCache=null;
 async function fetchImageMeta(p){try{const r=await fetch(p.replace(/\.[^.]+$/,'.json'));if(r.ok)return await r.json()}catch(e){}return null}
 async function getStoryImage(id,headline,summary,imageFilename,imageSource){
   const si=await resolveStoryImage(id);
-  if(si)return{url:si,meta:await fetchImageMeta(si)};
-  if(imageSource==='ai'&&imageFilename){const aiUrl='/images/news/'+imageFilename;return{url:aiUrl,meta:await fetchImageMeta(aiUrl)}}
+  if(si)return{url:si,meta:await fetchImageMeta(si),kind:'own'};
+  if(imageSource==='ai'&&imageFilename){const aiUrl='/images/news/'+imageFilename;return{url:aiUrl,meta:await fetchImageMeta(aiUrl),kind:'library'}}
   const fi=await resolveFallbackImage(headline,summary);
-  if(fi)return{url:fi,meta:await fetchImageMeta(fi)};
+  if(fi)return{url:fi,meta:await fetchImageMeta(fi),kind:'library'};
   return null;
 }
+/* Library (non-story) images are labelled so readers never take them for a
+   photo of the event: "Illustration" for AI-generated art, else "File photo". */
+function nsmImgLabel(meta){if(meta&&meta.label)return String(meta.label);const t=((meta&&meta.caption)||'')+' '+((meta&&meta.credit)||'');return/ai-generated|ai illustration|generated with|illustration/i.test(t)?'Illustration':'File photo'}
 
 /* ── SHARE (unchanged logic) ── */
 function _copyToClipboard(text,msg){const fb=document.getElementById('share-feedback');const done=()=>{if(fb){fb.textContent=msg;setTimeout(()=>fb.textContent='',2500)}};navigator.clipboard.writeText(text).then(done).catch(()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:0;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();})}
@@ -298,7 +304,22 @@ async function fetchRelatedAndLearnMore(storyId,storyTags){
     nsmFetchCached('NSM_knowledgeArticles',SB_DAILY_POSTS+'?select=id,headline_text,url,tags,comment_text&post_type=eq.knowledge&order=id.desc')
   ]);
   const relatedCandidates=stories.filter(s=>s.url!==storyId);
-  return{related:topMatches(storyTags,relatedCandidates,c=>c.tags,3),learnMore:topMatches(storyTags,kb,c=>c.tags,2)};
+  const headline=(window._storyData&&window._storyData.headline)||'';
+  return{related:topMatches(storyTags,relatedCandidates,c=>c.tags,3,2),learnMore:kbMatches(storyTags,headline,kb,2)};
+}
+/* 2026-11-02: only reliable connections. Related stories need 2+ shared
+   specific tags (one shared tag linked e.g. a Ukraine grid story to a Panama
+   earthquake). A Knowledge Base explainer is linked only when a shared tag is
+   one of the explainer's first three (its main subject) AND that tag appears
+   in the story headline, or the two share 2+ specific tags. No match -> no list. */
+function kbMatches(storyTags,headline,kb,limit){
+  const st=new Set(parseTags(storyTags).map(normTag).filter(t=>t&&!LOW_WEIGHT_TAGS.includes(t)));
+  if(!st.size)return[];
+  const hl=(headline||'').toLowerCase();
+  const inHl=t=>new RegExp('(?<![a-z])'+t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?![a-z])').test(hl);
+  return kb.map(k=>{const kt=parseTags(k.tags).map(normTag);const shared=kt.filter(t=>st.has(t));const primary=kt.slice(0,3).filter(t=>st.has(t));
+      return{item:k,shared:shared.length,ok:primary.length>0&&(primary.some(inHl)||shared.length>=2)}})
+    .filter(r=>r.ok).sort((a,b)=>b.shared-a.shared||(b.item.id-a.item.id)).slice(0,limit).map(r=>r.item);
 }
 
 async function loadContinueReading(storyId,storyTags,recCard3){
@@ -457,8 +478,10 @@ async function loadStory(){
     const meta=imgResult.meta;let cap='',cred='';
     if(meta){cap=meta.caption||'';cred=meta.credit||''}
     else if(s.image_caption){const pts=s.image_caption.split(/\nCredit:/i);cap=pts[0].trim();if(pts[1])cred=pts[1].trim()}
-    heroHTML='<figure class="hero-figure"><div class="hero-frame"><img src="'+imgResult.url+'" alt="'+line1.replace(/"/g,'')+'" loading="eager"></div>'
-      +((cap||cred)?'<figcaption class="hero-cap">'+cap+(cred?'<span class="credit">'+cred+'</span>':'')+'</figcaption>':'')
+    const imgLabel=imgResult.kind==='library'?nsmImgLabel(meta):'';
+    const imgAlt=imgResult.kind==='library'?(cap||imgLabel):line1;
+    heroHTML='<figure class="hero-figure"><div class="hero-frame"><img src="'+imgResult.url+'" alt="'+imgAlt.replace(/"/g,'')+'" loading="eager"></div>'
+      +((cap||cred||imgLabel)?'<figcaption class="hero-cap">'+(imgLabel?'<span class="hero-label">'+imgLabel+'</span>':'')+cap+(cred?'<span class="credit">'+cred+'</span>':'')+'</figcaption>':'')
       +'</figure>';
   }else{
     heroHTML='<div class="topic-rule '+topicCls+'" style="background:var(--tp)"></div>';
@@ -481,6 +504,7 @@ async function loadStory(){
     }
   });
   const bodyHTML=bodyParas.map(p=>'<p>'+p+'</p>').join('');
+  let sourcesHTML='';try{if(typeof nsmSourcesHTML==='function')sourcesHTML=nsmSourcesHTML(s._sources||nsmParseSources(s.original_url))}catch(e){console.warn('sources failed',e)}
 
   let redditLink='';
   if(s.reddit_post_id){try{const parsed=JSON.parse(s.reddit_post_id);if(parsed.jquery?.[10]?.[3]?.[0])redditLink=parsed.jquery[10][3][0]}catch(e){}}
@@ -511,7 +535,8 @@ async function loadStory(){
     +'</div></div></div>'
     +'</div>'
     +heroHTML
-    +'<div class="prose">'+bodyHTML+'</div>';
+    +'<div class="prose">'+bodyHTML+'</div>'
+    +sourcesHTML;
 
   const discussionHTML=discussionQ?'<section class="discussion"><div class="discussion-label">Community discussion</div><div class="discussion-q">"'+discussionQ+'"</div></section>':'';
   const reactionsBlockHTML=reactionsHTML(storyId,reactTotals,storedReaction,redditLink);

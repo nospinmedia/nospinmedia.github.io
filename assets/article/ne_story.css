@@ -41,6 +41,18 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .story-pill{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:20px}
 .story-img-caption{padding:8px 1.6rem;background:var(--surface2);border-top:1px solid var(--border);font-size:.72rem;color:var(--dimmed);line-height:1.5}
 .story-img-credit{font-size:.68rem;color:#bbb;display:block;margin-top:2px}
+.story-img-label{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);border-radius:3px;padding:0 .35rem;margin-right:.45rem;line-height:1.6;vertical-align:1px}
+/* ── SOURCES (2026-11-02) ── */
+.nsm-sources{margin:1.5rem 0 .4rem;padding:1rem 1.15rem;border:1px solid var(--border);border-radius:8px;background:var(--surface2)}
+.nsm-sources-title{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 .5rem}
+.nsm-sources-list{list-style:none;margin:0;padding:0}
+.nsm-sources-list li{margin:.2rem 0;font-size:.93rem;line-height:1.5;overflow-wrap:anywhere}
+.nsm-sources-list a{color:#1A5C1A;font-weight:600;text-decoration:underline;text-underline-offset:2px}
+.nsm-sources-host{color:var(--dimmed);font-size:.78rem;margin-left:.45rem}
+.nsm-sources-also{margin:.5rem 0 0;font-size:.86rem;line-height:1.55;color:var(--muted)}
+.nsm-sources-label{font-weight:600}
+.nsm-sources-note{margin:.5rem 0 0;font-size:.76rem}
+.nsm-sources-note a{color:var(--dimmed);text-decoration:underline;text-underline-offset:2px}
 .story-body-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:1.75rem 2rem 1.5rem;margin-bottom:.75rem}
 .story-content{font-family:var(--font-b);font-size:1.07rem;line-height:1.82;color:#1a1a1a}
 .story-content p{margin-bottom:1.35rem}
