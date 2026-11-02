@@ -334,9 +334,9 @@ async function loadStory(){
   let bodyParas=[],discussionQ='';
   for(const p of paras){if(p.trim().endsWith('?')&&paras.indexOf(p)===paras.length-1)discussionQ=p.trim();else bodyParas.push(p)}
   const bodyHTML=bodyParas.map(p=>'<p>'+p+'</p>').join('');
-  let sourcesHTML='';try{if(typeof nsmSourcesHTML==='function')sourcesHTML=nsmSourcesHTML(s._sources||nsmParseSources(s.original_url))}catch(e){console.warn('sources failed',e)}
   let redditLink='';
-  if(s.reddit_post_id){try{const parsed=JSON.parse(s.reddit_post_id);if(parsed.jquery?.[10]?.[3]?.[0])redditLink=parsed.jquery[10][3][0]}catch(e){console.warn('Reddit parse failed')}}
+  if(s._reddit_link)redditLink=s._reddit_link;
+  else if(s.reddit_post_id){try{const parsed=JSON.parse(s.reddit_post_id);if(parsed.jquery?.[10]?.[3]?.[0])redditLink=parsed.jquery[10][3][0]}catch(e){console.warn('Reddit parse failed')}}
   const back=resolveBackLink();
   document.getElementById('story-container').innerHTML=
     '<a href="'+back.href+'" class="back-link">\u2190 '+back.label+'</a>'
@@ -354,7 +354,6 @@ async function loadStory(){
     +'<span class="story-byline">By <a class="byline-link" href="/editorial-standards.html">No Spin Media Newsroom</a>'+(s.posted_at?' · '+nsmPubTime(s.posted_at):'')+'</span>'
     +'</div></div></div>'
     +'<div class="story-body-card"><div class="story-content">'+bodyHTML+'</div>'
-    +sourcesHTML
     +(discussionQ?'<div class="discussion-label">Community Discussion</div><div class="story-discussion">\uD83D\uDCAC '+discussionQ+'</div>':'')
     +'</div>'
     +reactionsHTML(storyId,reactTotals,storedReaction,redditLink)

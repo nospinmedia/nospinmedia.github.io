@@ -225,7 +225,7 @@ function _closeShare(){const w=document.getElementById('share-wrap');if(w)w.clas
 function toggleShareMenu(){const w=document.getElementById('share-wrap');w.classList.toggle('open');if(w.classList.contains('open')){setTimeout(()=>{document.addEventListener('click',function h(e){if(!w.contains(e.target)){w.classList.remove('open');document.removeEventListener('click',h)}})},0)}}
 function copyLinkOnly(){_closeShare();_copyToClipboard(window._storyUrl||location.href,'✅ Link copied!')}
 function copyWithTitle(){_closeShare();const hl=(window._storyHeadline||'').replace(/\n/g,': ').trim();_copyToClipboard(hl+'\n'+(window._storyUrl||location.href),'✅ Copied with headline!')}
-function copyWithSummary(){_closeShare();const s=window._storyData||{};const opts=[s.social_bluesky,s.social_threads,s.social_facebook].filter(x=>x&&x.trim().length>20);const summary=opts.length?opts[Math.floor(Math.random()*opts.length)]:(s.summary||'').substring(0,280);_copyToClipboard(summary.trim()+'\n\n'+(window._storyUrl||location.href),'✅ Copied with summary!')}
+function copyWithSummary(){_closeShare();const s=window._storyData||{};const opts=[s.social_bluesky,s.social_threads,s.social_facebook].filter(x=>x&&x.trim().length>20);const summary=opts.length?opts[Math.floor(Math.random()*opts.length)]:markdownToPlain(s.summary).substring(0,280);_copyToClipboard(summary.trim()+'\n\n'+(window._storyUrl||location.href),'✅ Copied with summary!')}
 function nativeShare(){if(navigator.share){navigator.share({title:window._storyHeadline||'No Spin Media',url:window._storyUrl||location.href}).catch(()=>{})}else copyLinkOnly()}
 /* Deliberate departure from story.html's convertMarkdown(): the Writer's
    ** markers are dropped instead of rendered as <strong>. Both GPT-5 and
@@ -471,7 +471,8 @@ async function loadStory(){
   line1=line1.replace(EMOJI_STRIP_RE,'').trim();
   line2=line2.replace(EMOJI_STRIP_RE,'').trim();
 
-  const imgResult=await getStoryImage(storyId,s.headline,s.summary,s.image_filename,s.image_source);
+  /* Static pages embed the generator's resolved hero (_hero) instead of the pipeline's image fields (2026-11-02). */
+  const imgResult=s._hero!==undefined?(s._hero?{url:s._hero.url,meta:await fetchImageMeta(s._hero.url),kind:s._hero.kind}:null):await getStoryImage(storyId,s.headline,s.summary,s.image_filename,s.image_source);
   if(imgResult&&imgResult.url){try{setStorySearchMetadata(s,'story.html',topicLabel,imgResult.url)}catch(e){console.warn('search metadata failed',e)}}
   let heroHTML='';
   if(imgResult){
@@ -504,10 +505,10 @@ async function loadStory(){
     }
   });
   const bodyHTML=bodyParas.map(p=>'<p>'+p+'</p>').join('');
-  let sourcesHTML='';try{if(typeof nsmSourcesHTML==='function')sourcesHTML=nsmSourcesHTML(s._sources||nsmParseSources(s.original_url))}catch(e){console.warn('sources failed',e)}
 
   let redditLink='';
-  if(s.reddit_post_id){try{const parsed=JSON.parse(s.reddit_post_id);if(parsed.jquery?.[10]?.[3]?.[0])redditLink=parsed.jquery[10][3][0]}catch(e){}}
+  if(s._reddit_link)redditLink=s._reddit_link;
+  else if(s.reddit_post_id){try{const parsed=JSON.parse(s.reddit_post_id);if(parsed.jquery?.[10]?.[3]?.[0])redditLink=parsed.jquery[10][3][0]}catch(e){}}
 
   const back=resolveBackLink();
   const rt=readTime(s.summary);
@@ -535,8 +536,7 @@ async function loadStory(){
     +'</div></div></div>'
     +'</div>'
     +heroHTML
-    +'<div class="prose">'+bodyHTML+'</div>'
-    +sourcesHTML;
+    +'<div class="prose">'+bodyHTML+'</div>';
 
   const discussionHTML=discussionQ?'<section class="discussion"><div class="discussion-label">Community discussion</div><div class="discussion-q">"'+discussionQ+'"</div></section>':'';
   const reactionsBlockHTML=reactionsHTML(storyId,reactTotals,storedReaction,redditLink);
