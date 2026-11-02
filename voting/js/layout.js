@@ -91,6 +91,15 @@ function vcRenderLayout() {
                 '</div>' +
             '</div>' +
             '<div class="vc-footer-bottom">This page is nonpartisan and does not recommend candidates, parties, or positions. It is a section of <a href="https://nospin.media/index.html" target="_blank" rel="noopener">No Spin Media</a>, presented independently of the main news site.</div>' +
+            '<div class="vc-footer-bottom" style="padding-top:0">' +
+                '<a href="https://nospin.media/about.html">About No Spin Media</a> &middot; ' +
+                '<a href="https://nospin.media/editorial-standards.html">Editorial Standards</a> &middot; ' +
+                '<a href="https://nospin.media/ai.html">AI Transparency</a> &middot; ' +
+                '<a href="https://nospin.media/corrections.html">Corrections</a> &middot; ' +
+                '<a href="https://nospin.media/contact.html">Contact</a> &middot; ' +
+                '<a href="https://nospin.media/privacy.html">Privacy</a> &middot; ' +
+                '<a href="https://nospin.media/terms.html">Terms</a>' +
+            '</div>' +
         '</footer>';
 
     var headerMount = document.getElementById("site-header");

@@ -464,7 +464,7 @@ async function resolveImg(url,headline,summary,imageFilename,imageSource){
   // case.
   if(imageSource==='ai'&&imageFilename){_imgCache[url]='/images/news/'+imageFilename;return _imgCache[url]}
   try{
-    if(!_imgRules){const r=await fetch('/images/news/image-rules.json');if(r.ok)_imgRules=await r.json()}
+    if(!_imgRules){const r=await fetch('/images/news/news-image-rules.json');if(r.ok)_imgRules=await r.json()}
     if(_imgRules){const h=(headline||'').toLowerCase();for(const rule of(_imgRules.keywords||[])){if(rule.match.some(kw=>{const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-z])'+esc+'(?![a-z])','i').test(h)})){_imgCache[url]='/images/news/'+rule.image;return _imgCache[url]}}}
   }catch(e){}
   _imgCache[url]=null;return null;
@@ -998,6 +998,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 <footer>
   &copy; 2026 &#x1F9ED; No Spin Media. Independent. Truth-focused. &middot; <a href="https://nospin.media/archive/" style="color:inherit">Monthly archive</a><span class="amazon-aff"><br>
   <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span></span>
+  <style>.nsm-footer-links{margin:.6rem auto;font-size:.8rem;line-height:1.9;text-align:center}.nsm-footer-links a{color:inherit;text-decoration:underline;text-underline-offset:2px;white-space:nowrap}</style><nav class="nsm-footer-links" aria-label="About No Spin Media"><a href="/about.html">About</a> · <a href="/editorial-standards.html">Editorial Standards</a> · <a href="/ai.html">AI Transparency</a> · <a href="/corrections.html">Corrections</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></nav>
 </footer>
 </body>
 </html>

@@ -368,16 +368,16 @@ async function resolveImg(url,headline,summary,imageFilename,imageSource){
   // case.
   if(imageSource==='ai'&&imageFilename){_imgCache[url]='/images/news/'+imageFilename;return _imgCache[url]}
   try{
-    if(!_imgRules){const r=await fetch('/images/news/image-rules.json');if(r.ok)_imgRules=await r.json()}
+    /* 2026-11-02 (AdSense review): curated news-image-rules.json, headline
+       matches only -- same rule as the article page (story.html). */
+    if(!_imgRules){const r=await fetch('/images/news/news-image-rules.json');if(r.ok)_imgRules=await r.json()}
     if(_imgRules){
-      const hCS=headline||'',sCS=summary||'',hCI=hCS.toLowerCase(),sCI=sCS.toLowerCase();
+      const hCS=headline||'',hCI=hCS.toLowerCase();
       let bestRule=null,bestScore=0;
       for(const rule of(_imgRules.keywords||[])){
         let score=0;
         for(const kw of rule.match){
-          const w=_imgKwWeight(kw);
-          if(_imgKwHit(hCI,hCS,kw))score+=w*IMG_HEADLINE_MULTIPLIER;
-          else if(_imgKwHit(sCI,sCS,kw))score+=w;
+          if(_imgKwHit(hCI,hCS,kw))score+=_imgKwWeight(kw)*IMG_HEADLINE_MULTIPLIER;
         }
         if(score>bestScore){bestScore=score;bestRule=rule}
       }
@@ -396,10 +396,21 @@ function timeSince(ds){
   return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
 }
 function stripMd(t){return(t||'').replace(/\*\*(.*?)\*\*/g,'$1').replace(/\*(.*?)\*/g,'$1').replace(/\\n/g,' ').replace(/\n/g,' ').trim()}
-function randSummary(s){
-  const opts=[s.social_bluesky,s.social_threads,s.social_facebook].filter(x=>x&&x.trim().length>20);
-  if(opts.length)return opts[Math.floor(Math.random()*opts.length)];
-  const r=stripMd(s.summary||'');return r.substring(0,220)+(r.length>220?'\u2026':'');
+/* 2026-11-02 (AdSense review): cards show a fixed excerpt of the article
+   itself -- its opening sentence(s), ~110-240 characters -- instead of a
+   random pick of the story's social-media posts (the same text NSM publishes
+   on Facebook/Bluesky/Threads). Name kept so existing callers are unchanged. */
+function randSummary(s){return cardExcerpt(s)}
+const EXCERPT_ABBR=/(?:^|[\s(])(?:[A-Z]|U\.S|U\.K|U\.N|Mr|Mrs|Ms|Dr|St|Sen|Rep|Gov|Gen|Lt|Col|Sgt|Jr|Sr|No|vs|Inc|Co|Corp|Ltd|Mt|Ft|Jan|Feb|Aug|Sept|Oct|Nov|Dec)\.$/;
+function cardExcerpt(s){
+  const r=stripMd(s.summary||'').replace(/\s+/g,' ').trim();if(!r)return'';
+  const sents=[],re=/([.!?])(["\u201D\u2019)]?)\s+(?=["\u201C\u2018(]?[A-Z0-9])/g;let m,start=0;
+  while((m=re.exec(r))){const end=m.index+1;if(m[1]==='.'&&EXCERPT_ABBR.test(r.slice(start,end)))continue;sents.push(r.slice(start,end+m[2].length).trim());start=m.index+m[0].length}
+  if(start<r.length)sents.push(r.slice(start).trim());
+  let out='';
+  for(const st of sents){if(!out){out=st}else if((out+' '+st).length<=240){out+=' '+st}else break;if(out.length>=110)break}
+  if(out.length>260)out=out.slice(0,240).replace(/\s+\S*$/,'')+'\u2026';
+  return out;
 }
 /* Featured story: ~150-220 words of the full article, whole paragraphs
    where possible, same markdown handling as story.html's convertMarkdown(). */
@@ -873,7 +884,6 @@ async function renderFeed(stories){
 
   let html='<div class="refresh-bar">'
     +'<span class="story-count">Latest Updates \u00b7 '+stories.length+' stories</span>'
-    +'<button class="refresh-btn" onclick="rotateSummaries()"><span class="spin-icon">\u21bb</span> Shuffle Feed</button>'
     +'</div>';
 
   html+=heroHTML(heroStory);
@@ -1032,6 +1042,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 <footer>
   &copy; 2026 &#x1F9ED; No Spin Media. Independent. Truth-focused.<span class="amazon-aff"><br>
   <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span></span>
+  <style>.nsm-footer-links{margin:.6rem auto;font-size:.8rem;line-height:1.9;text-align:center}.nsm-footer-links a{color:inherit;text-decoration:underline;text-underline-offset:2px;white-space:nowrap}</style><nav class="nsm-footer-links" aria-label="About No Spin Media"><a href="/about.html">About</a> · <a href="/editorial-standards.html">Editorial Standards</a> · <a href="/ai.html">AI Transparency</a> · <a href="/corrections.html">Corrections</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></nav>
 </footer>
 </body>
 </html>

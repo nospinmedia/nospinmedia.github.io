@@ -15,6 +15,7 @@
 if(/^[A-Za-z0-9_-]{1,64}$/.test(id)&&window.fetch){var s='/news/'+id+'.html';fetch(s,{method:'HEAD',cache:'no-cache'}).then(function(r){if(!r.ok)return;window.NSM_STATIC_URL=s;l.setAttribute('href','https://nospin.media'+s);var q=new URLSearchParams(location.search);q.delete('story');q=q.toString();location.replace(s+(q?'?'+q:'')+location.hash)}).catch(function(){})}}catch(e){}})();</script>
 <script src="/affiliate/config.js"></script><!-- Amazon Associates master switch -->
 <script src="/assets/article/links.js"></script><!-- static article links (2026-10-22) -->
+<script src="/assets/nsm-sources.js"></script><!-- Sources section (2026-11-02) -->
 <script>function nsmHref(s,i,f){try{return window.nsmArticleHref?window.nsmArticleHref(s,i,f):f}catch(e){return f}}</script>
 <style>html:not(.amazon-aff-on) .amazon-aff{display:none!important}</style>
 <meta charset="UTF-8"/>
@@ -109,6 +110,18 @@ figcaption.hero-cap{margin-top:.7rem;padding-top:.55rem;border-top:1px solid var
 .hero-cap .credit{font-size:.82rem;color:var(--faint)}
 .hero-cap .credit::before{content:"  —  "}
 .topic-rule{height:4px;width:56px;border-radius:3px;background:var(--tp,var(--accent));margin-bottom:1.9rem}
+.hero-cap .hero-label{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--hairline);border-radius:3px;padding:0 .4rem;margin-right:.5rem;line-height:1.6;vertical-align:1px}
+/* ── SOURCES (2026-11-02) ── */
+.nsm-sources{margin:2rem 0 1.6rem;padding:1.05rem 1.2rem;border:1px solid var(--hairline);border-radius:4px;background:var(--surface,transparent)}
+.nsm-sources-title{font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 .55rem}
+.nsm-sources-list{list-style:none;margin:0;padding:0}
+.nsm-sources-list li{margin:.2rem 0;font-size:.95rem;line-height:1.5;overflow-wrap:anywhere}
+.nsm-sources-list a{color:var(--accent-deep,var(--accent));font-weight:600;text-decoration:underline;text-underline-offset:2px}
+.nsm-sources-host{color:var(--faint);font-size:.8rem;margin-left:.45rem}
+.nsm-sources-also{margin:.5rem 0 0;font-size:.88rem;line-height:1.55;color:var(--muted)}
+.nsm-sources-label{font-weight:600}
+.nsm-sources-note{margin:.55rem 0 0;font-size:.78rem}
+.nsm-sources-note a{color:var(--faint);text-decoration:underline;text-underline-offset:2px}
 
 /* ── PROSE ── */
 .prose{font-size:1.08rem;line-height:1.75;color:var(--ink-soft)}
@@ -268,6 +281,7 @@ footer.site-footer{text-align:center;padding:2rem 1rem;font-size:.8rem;color:var
   &copy; 2026 <span id="footer-compass" onclick="toggleAdminPanel()" style="cursor:default;user-select:none;">🧭</span> No Spin Media. Independent. Truth-focused.<br>
   <span class="amazon-aff"><span style="font-size:.72rem;color:var(--faint);">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span><br></span>
   <a href="https://data.nospin.media/rss/free" target="_blank" style="font-size:.78rem;color:var(--faint);">📡 Follow No Spin Media via RSS</a>
+  <style>.nsm-footer-links{margin:.6rem auto;font-size:.8rem;line-height:1.9;text-align:center}.nsm-footer-links a{color:inherit;text-decoration:underline;text-underline-offset:2px;white-space:nowrap}</style><nav class="nsm-footer-links" aria-label="About No Spin Media"><a href="/about.html">About</a> · <a href="/editorial-standards.html">Editorial Standards</a> · <a href="/ai.html">AI Transparency</a> · <a href="/corrections.html">Corrections</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></nav>
 </footer>
 
 <script>
@@ -305,9 +319,9 @@ function scoreTagOverlap(aTags,bTags){
   aSet.forEach(tag=>{if(!tag||!bSet.has(tag))return;if(LOW_WEIGHT_TAGS.includes(tag))score+=1;else{score+=3;specificMatches++;}});
   return{score,specificMatches};
 }
-function topMatches(currentTags,candidates,getTags,limit){
+function topMatches(currentTags,candidates,getTags,limit,minSpecific){
   return candidates.map(c=>({item:c,...scoreTagOverlap(currentTags,getTags(c))}))
-    .filter(r=>r.specificMatches>=1).sort((a,b)=>b.score-a.score||(b.item.id-a.item.id)).slice(0,limit).map(r=>r.item);
+    .filter(r=>r.specificMatches>=(minSpecific||1)).sort((a,b)=>b.score-a.score||(b.item.id-a.item.id)).slice(0,limit).map(r=>r.item);
 }
 function fmtFullDate(ds){if(!ds)return'';const d=new Date(ds);if(isNaN(d))return'';return d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}
 function stripMarkdownForPreview(text){if(!text)return'';return text.replace(/^#+\s*/gm,'').replace(/\*\*(.*?)\*\*/g,'$1').replace(/\*(.*?)\*/g,'$1').replace(/`(.*?)`/g,'$1').replace(/\[(.*?)\]\(.*?\)/g,'$1').trim()}
@@ -459,15 +473,18 @@ function _imgKwHit(hayCI,hayCS,kw){
   return new RegExp('(?<![a-z])'+esc.toLowerCase()+'(?![a-z])').test(hayCI);
 }
 const IMG_CONFIDENCE_THRESHOLD=2;const IMG_HEADLINE_MULTIPLIER=2;
+/* 2026-11-02 (AdSense review): fallback images come from the curated
+   news-image-rules.json and need a keyword IN THE HEADLINE (summary-only
+   matches assigned unrelated images). No match -> no image (topic bar). */
 async function resolveFallbackImage(headline,summary){
   try{
-    if(!_imgRulesCache){const r=await fetch('/images/news/image-rules.json');if(r.ok)_imgRulesCache=await r.json()}
+    if(!_imgRulesCache){const r=await fetch('/images/news/news-image-rules.json');if(r.ok)_imgRulesCache=await r.json()}
     if(_imgRulesCache){
-      const hCS=headline||'',sCS=summary||'',hCI=hCS.toLowerCase(),sCI=sCS.toLowerCase();
+      const hCS=headline||'',hCI=hCS.toLowerCase();
       let bestRule=null,bestScore=0;
       for(const rule of(_imgRulesCache.keywords||[])){
         let score=0;
-        for(const kw of rule.match){const w=_imgKwWeight(kw);if(_imgKwHit(hCI,hCS,kw))score+=w*IMG_HEADLINE_MULTIPLIER;else if(_imgKwHit(sCI,sCS,kw))score+=w}
+        for(const kw of rule.match){if(_imgKwHit(hCI,hCS,kw))score+=_imgKwWeight(kw)*IMG_HEADLINE_MULTIPLIER}
         if(score>bestScore){bestScore=score;bestRule=rule}
       }
       if(bestRule&&bestScore>=IMG_CONFIDENCE_THRESHOLD)return'/images/news/'+bestRule.image;
@@ -479,12 +496,15 @@ let _imgRulesCache=null;
 async function fetchImageMeta(p){try{const r=await fetch(p.replace(/\.[^.]+$/,'.json'));if(r.ok)return await r.json()}catch(e){}return null}
 async function getStoryImage(id,headline,summary,imageFilename,imageSource){
   const si=await resolveStoryImage(id);
-  if(si)return{url:si,meta:await fetchImageMeta(si)};
-  if(imageSource==='ai'&&imageFilename){const aiUrl='/images/news/'+imageFilename;return{url:aiUrl,meta:await fetchImageMeta(aiUrl)}}
+  if(si)return{url:si,meta:await fetchImageMeta(si),kind:'own'};
+  if(imageSource==='ai'&&imageFilename){const aiUrl='/images/news/'+imageFilename;return{url:aiUrl,meta:await fetchImageMeta(aiUrl),kind:'library'}}
   const fi=await resolveFallbackImage(headline,summary);
-  if(fi)return{url:fi,meta:await fetchImageMeta(fi)};
+  if(fi)return{url:fi,meta:await fetchImageMeta(fi),kind:'library'};
   return null;
 }
+/* Library (non-story) images are labelled so readers never take them for a
+   photo of the event: "Illustration" for AI-generated art, else "File photo". */
+function nsmImgLabel(meta){if(meta&&meta.label)return String(meta.label);const t=((meta&&meta.caption)||'')+' '+((meta&&meta.credit)||'');return/ai-generated|ai illustration|generated with|illustration/i.test(t)?'Illustration':'File photo'}
 
 /* ── SHARE (unchanged logic) ── */
 function _copyToClipboard(text,msg){const fb=document.getElementById('share-feedback');const done=()=>{if(fb){fb.textContent=msg;setTimeout(()=>fb.textContent='',2500)}};navigator.clipboard.writeText(text).then(done).catch(()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:0;left:-9999px';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();})}
@@ -571,7 +591,22 @@ async function fetchRelatedAndLearnMore(storyId,storyTags){
     nsmFetchCached('NSM_knowledgeArticles',SB_DAILY_POSTS+'?select=id,headline_text,url,tags,comment_text&post_type=eq.knowledge&order=id.desc')
   ]);
   const relatedCandidates=stories.filter(s=>s.url!==storyId);
-  return{related:topMatches(storyTags,relatedCandidates,c=>c.tags,3),learnMore:topMatches(storyTags,kb,c=>c.tags,2)};
+  const headline=(window._storyData&&window._storyData.headline)||'';
+  return{related:topMatches(storyTags,relatedCandidates,c=>c.tags,3,2),learnMore:kbMatches(storyTags,headline,kb,2)};
+}
+/* 2026-11-02: only reliable connections. Related stories need 2+ shared
+   specific tags (one shared tag linked e.g. a Ukraine grid story to a Panama
+   earthquake). A Knowledge Base explainer is linked only when a shared tag is
+   one of the explainer's first three (its main subject) AND that tag appears
+   in the story headline, or the two share 2+ specific tags. No match -> no list. */
+function kbMatches(storyTags,headline,kb,limit){
+  const st=new Set(parseTags(storyTags).map(normTag).filter(t=>t&&!LOW_WEIGHT_TAGS.includes(t)));
+  if(!st.size)return[];
+  const hl=(headline||'').toLowerCase();
+  const inHl=t=>new RegExp('(?<![a-z])'+t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?![a-z])').test(hl);
+  return kb.map(k=>{const kt=parseTags(k.tags).map(normTag);const shared=kt.filter(t=>st.has(t));const primary=kt.slice(0,3).filter(t=>st.has(t));
+      return{item:k,shared:shared.length,ok:primary.length>0&&(primary.some(inHl)||shared.length>=2)}})
+    .filter(r=>r.ok).sort((a,b)=>b.shared-a.shared||(b.item.id-a.item.id)).slice(0,limit).map(r=>r.item);
 }
 
 async function loadContinueReading(storyId,storyTags,recCard3){
@@ -730,8 +765,10 @@ async function loadStory(){
     const meta=imgResult.meta;let cap='',cred='';
     if(meta){cap=meta.caption||'';cred=meta.credit||''}
     else if(s.image_caption){const pts=s.image_caption.split(/\nCredit:/i);cap=pts[0].trim();if(pts[1])cred=pts[1].trim()}
-    heroHTML='<figure class="hero-figure"><div class="hero-frame"><img src="'+imgResult.url+'" alt="'+line1.replace(/"/g,'')+'" loading="eager"></div>'
-      +((cap||cred)?'<figcaption class="hero-cap">'+cap+(cred?'<span class="credit">'+cred+'</span>':'')+'</figcaption>':'')
+    const imgLabel=imgResult.kind==='library'?nsmImgLabel(meta):'';
+    const imgAlt=imgResult.kind==='library'?(cap||imgLabel):line1;
+    heroHTML='<figure class="hero-figure"><div class="hero-frame"><img src="'+imgResult.url+'" alt="'+imgAlt.replace(/"/g,'')+'" loading="eager"></div>'
+      +((cap||cred||imgLabel)?'<figcaption class="hero-cap">'+(imgLabel?'<span class="hero-label">'+imgLabel+'</span>':'')+cap+(cred?'<span class="credit">'+cred+'</span>':'')+'</figcaption>':'')
       +'</figure>';
   }else{
     heroHTML='<div class="topic-rule '+topicCls+'" style="background:var(--tp)"></div>';
@@ -754,6 +791,7 @@ async function loadStory(){
     }
   });
   const bodyHTML=bodyParas.map(p=>'<p>'+p+'</p>').join('');
+  let sourcesHTML='';try{if(typeof nsmSourcesHTML==='function')sourcesHTML=nsmSourcesHTML(s._sources||nsmParseSources(s.original_url))}catch(e){console.warn('sources failed',e)}
 
   let redditLink='';
   if(s.reddit_post_id){try{const parsed=JSON.parse(s.reddit_post_id);if(parsed.jquery?.[10]?.[3]?.[0])redditLink=parsed.jquery[10][3][0]}catch(e){}}
@@ -784,7 +822,8 @@ async function loadStory(){
     +'</div></div></div>'
     +'</div>'
     +heroHTML
-    +'<div class="prose">'+bodyHTML+'</div>';
+    +'<div class="prose">'+bodyHTML+'</div>'
+    +sourcesHTML;
 
   const discussionHTML=discussionQ?'<section class="discussion"><div class="discussion-label">Community discussion</div><div class="discussion-q">"'+discussionQ+'"</div></section>':'';
   const reactionsBlockHTML=reactionsHTML(storyId,reactTotals,storedReaction,redditLink);

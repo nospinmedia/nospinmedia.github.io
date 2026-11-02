@@ -1,0 +1,375 @@
+{
+ "_note": "Keyword fallback images (2026-11-02 AdSense review). A rule is used only when one of its keywords appears in the story HEADLINE. Only generic images belong here (no identifiable unrelated event); they are labelled 'Illustration' or 'File photo' on article pages. No match -> no image. Retired 2026-11-02 for showing a specific unrelated event: military-drone, missile-launch, fighter-jet, us-navy-frigate, nasa-rocket.",
+ "keywords": [
+  {
+   "image": "hurricane.webp",
+   "match": [
+    "hurricane",
+    "hurricanes",
+    "tropical cyclone",
+    "tropical depression",
+    "typhoon",
+    "cyclone",
+    "national hurricane center",
+    "hurricane warning",
+    "hurricane watch",
+    "tropical storm warning",
+    "tropical storm watch",
+    "hurricane season",
+    "tropical storm"
+   ]
+  },
+  {
+   "image": "diplomacy-meeting.webp",
+   "match": [
+    "peace talks",
+    "ceasefire talks",
+    "diplomatic talks",
+    "diplomatic negotiations",
+    "peace negotiations",
+    "peace deal",
+    "peace plan",
+    "peace summit",
+    "summit talks",
+    "bilateral talks",
+    "talks collapse",
+    "ceasefire deal",
+    "ceasefire proposal",
+    "negotiators",
+    "mediators"
+   ]
+  },
+  {
+   "image": "ai-brain.webp",
+   "match": [
+    "artificial intelligence",
+    "generative AI",
+    "large language model",
+    "LLM",
+    "AI model",
+    "AI models",
+    "AI regulation",
+    "AI safety",
+    "AI chip",
+    "AI chips",
+    "AI chatbot",
+    "chatbot",
+    "OpenAI",
+    "ChatGPT"
+   ]
+  },
+  {
+   "image": "cyberattack-data-breach.webp",
+   "match": [
+    "cyberattack",
+    "cyber attack",
+    "cyberattacks",
+    "ransomware",
+    "data breach",
+    "hacking group",
+    "hackers",
+    "hacked",
+    "network intrusion",
+    "malware",
+    "crypto heist",
+    "crypto theft"
+   ]
+  },
+  {
+   "image": "police-generic.webp",
+   "match": [
+    "police shooting",
+    "officer involved shooting",
+    "police chase",
+    "police standoff",
+    "police investigation",
+    "law enforcement operation",
+    "police officer",
+    "police officers",
+    "police department"
+   ]
+  },
+  {
+   "image": "ice-enforcement.webp",
+   "match": [
+    "ICE",
+    "ICE agents",
+    "ICE officers",
+    "ICE detention",
+    "immigration enforcement",
+    "immigration agents",
+    "immigration arrests",
+    "immigration raid",
+    "immigration raids",
+    "deportation",
+    "deportations",
+    "deported"
+   ]
+  },
+  {
+   "image": "volcano-eruption.webp",
+   "match": [
+    "volcano",
+    "volcanic eruption",
+    "eruption",
+    "volcanic ash",
+    "ash plume",
+    "lava flow",
+    "volcanic activity",
+    "active volcano"
+   ]
+  },
+  {
+   "image": "fda-logo.webp",
+   "match": [
+    "FDA",
+    "Food and Drug Administration",
+    "drug approval",
+    "drug recall",
+    "food recall"
+   ]
+  },
+  {
+   "image": "who-hq.webp",
+   "match": [
+    "World Health Organization",
+    "WHO director",
+    "WHO report",
+    "WHO warning",
+    "WHO officials",
+    "WHO declares",
+    "WHO chief"
+   ]
+  },
+  {
+   "image": "white-house.webp",
+   "match": [
+    "white house",
+    "oval office",
+    "executive order",
+    "executive orders",
+    "presidential order"
+   ]
+  },
+  {
+   "image": "corporate-merger.webp",
+   "match": [
+    "merger",
+    "mergers",
+    "buyout",
+    "takeover bid",
+    "hostile takeover",
+    "acquisition deal",
+    "proxy battle",
+    "unsolicited offer"
+   ]
+  },
+  {
+   "image": "us-capitol.webp",
+   "match": [
+    "congress",
+    "congressional",
+    "capitol hill",
+    "house of representatives",
+    "house votes",
+    "house passes",
+    "house panel",
+    "senate votes",
+    "senate passes",
+    "senate panel",
+    "senate committee",
+    "committee hearing",
+    "congressional hearing",
+    "house republicans",
+    "house democrats",
+    "senate republicans",
+    "senate democrats",
+    "government shutdown"
+   ]
+  },
+  {
+   "image": "court-gavel.webp",
+   "match": [
+    "supreme court",
+    "appeals court",
+    "federal court",
+    "district court",
+    "court rules",
+    "court ruling",
+    "judge",
+    "judges",
+    "federal judge",
+    "lawsuit",
+    "lawsuits",
+    "sues",
+    "sued",
+    "criminal trial",
+    "murder trial",
+    "on trial",
+    "stands trial",
+    "jury",
+    "grand jury",
+    "plea deal",
+    "pleads guilty",
+    "guilty",
+    "convicted",
+    "conviction",
+    "sentenced",
+    "sentencing",
+    "indicted",
+    "indictment",
+    "federal prosecutors"
+   ]
+  },
+  {
+   "image": "refinery.webp",
+   "match": [
+    "refinery",
+    "refineries",
+    "petrochemical",
+    "refining"
+   ]
+  },
+  {
+   "image": "strait-of-hormuz-satellite.webp",
+   "match": [
+    "strait of hormuz",
+    "hormuz",
+    "oil tanker",
+    "oil tankers",
+    "tanker traffic",
+    "persian gulf shipping"
+   ]
+  },
+  {
+   "image": "oil-pumpjack.webp",
+   "match": [
+    "crude oil",
+    "oil prices",
+    "oil production",
+    "oil market",
+    "oil supply",
+    "OPEC",
+    "oilfield",
+    "oil drilling"
+   ]
+  },
+  {
+   "image": "cargo-containers.webp",
+   "match": [
+    "tariff",
+    "tariffs",
+    "trade war",
+    "trade deal",
+    "import tariffs",
+    "trade deficit",
+    "trade surplus",
+    "shipping containers",
+    "imports",
+    "exports"
+   ]
+  },
+  {
+   "image": "vatican-pope.webp",
+   "match": [
+    "pope",
+    "vatican",
+    "pontiff",
+    "holy see",
+    "papal"
+   ]
+  },
+  {
+   "image": "food-bank.webp",
+   "match": [
+    "food bank",
+    "food banks",
+    "food assistance",
+    "food aid",
+    "food insecurity",
+    "food pantry",
+    "food pantries",
+    "SNAP benefits"
+   ]
+  },
+  {
+   "image": "spacex-starship-launch.webp",
+   "match": [
+    "Starship",
+    "Super Heavy",
+    "Starbase",
+    "Starship flight",
+    "Starship test flight"
+   ]
+  },
+  {
+   "image": "wildfire-forest-smoke.webp",
+   "match": [
+    "wildfire",
+    "wildfires",
+    "brush fire",
+    "forest fire",
+    "bushfire"
+   ]
+  },
+  {
+   "image": "heatwave-warning-highway.webp",
+   "match": [
+    "heatwave",
+    "heat wave",
+    "extreme heat",
+    "record heat",
+    "heat advisory"
+   ]
+  },
+  {
+   "image": "chemical-refinery-response.webp",
+   "match": [
+    "chemical leak",
+    "chemical spill",
+    "toxic leak",
+    "hazmat",
+    "hazardous materials",
+    "chemical exposure"
+   ]
+  },
+  {
+   "image": "iran-general.webp",
+   "match": [
+    "Iran",
+    "Iranian",
+    "Tehran",
+    "IRGC",
+    "Khamenei"
+   ]
+  },
+  {
+   "image": "west-bank-general.webp",
+   "match": [
+    "West Bank",
+    "Palestinian Authority",
+    "Jewish settlements",
+    "settler violence",
+    "settler attack",
+    "settlers",
+    "Jenin",
+    "Nablus",
+    "Hebron",
+    "Ramallah"
+   ]
+  },
+  {
+   "image": "israel-general.webp",
+   "match": [
+    "Israeli government",
+    "Israeli cabinet",
+    "Israeli parliament",
+    "Knesset",
+    "Israeli elections",
+    "Israeli election",
+    "Israeli coalition",
+    "Netanyahu"
+   ]
+  }
+ ]
+}

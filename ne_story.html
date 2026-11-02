@@ -15,6 +15,7 @@
 if(/^[A-Za-z0-9_-]{1,64}$/.test(id)&&window.fetch){var s='/new-england/'+id+'.html';fetch(s,{method:'HEAD',cache:'no-cache'}).then(function(r){if(!r.ok)return;window.NSM_STATIC_URL=s;l.setAttribute('href','https://nospin.media'+s);o.setAttribute('content',l.href);var q=new URLSearchParams(location.search);q.delete('story');q=q.toString();location.replace(s+(q?'?'+q:'')+location.hash)}).catch(function(){})}}catch(e){}})();</script>
 <script src="/affiliate/config.js"></script><!-- Amazon Associates master switch -->
 <script src="/assets/article/links.js"></script><!-- static article links (2026-10-22) -->
+<script src="/assets/nsm-sources.js"></script><!-- Sources section (2026-11-02) -->
 <script>function nsmHref(s,i,f){try{return window.nsmArticleHref?window.nsmArticleHref(s,i,f):f}catch(e){return f}}</script>
 <style>html:not(.amazon-aff-on) .amazon-aff{display:none!important}</style>
 <meta charset="UTF-8"/>
@@ -89,6 +90,18 @@ body{font-family:var(--font-b);background:var(--bg);color:var(--text);padding-to
 .story-pill{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:20px}
 .story-img-caption{padding:8px 1.6rem;background:var(--surface2);border-top:1px solid var(--border);font-size:.72rem;color:var(--dimmed);line-height:1.5}
 .story-img-credit{font-size:.68rem;color:#bbb;display:block;margin-top:2px}
+.story-img-label{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);border-radius:3px;padding:0 .35rem;margin-right:.45rem;line-height:1.6;vertical-align:1px}
+/* ── SOURCES (2026-11-02) ── */
+.nsm-sources{margin:1.5rem 0 .4rem;padding:1rem 1.15rem;border:1px solid var(--border);border-radius:8px;background:var(--surface2)}
+.nsm-sources-title{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 .5rem}
+.nsm-sources-list{list-style:none;margin:0;padding:0}
+.nsm-sources-list li{margin:.2rem 0;font-size:.93rem;line-height:1.5;overflow-wrap:anywhere}
+.nsm-sources-list a{color:#1A5C1A;font-weight:600;text-decoration:underline;text-underline-offset:2px}
+.nsm-sources-host{color:var(--dimmed);font-size:.78rem;margin-left:.45rem}
+.nsm-sources-also{margin:.5rem 0 0;font-size:.86rem;line-height:1.55;color:var(--muted)}
+.nsm-sources-label{font-weight:600}
+.nsm-sources-note{margin:.5rem 0 0;font-size:.76rem}
+.nsm-sources-note a{color:var(--dimmed);text-decoration:underline;text-underline-offset:2px}
 .story-body-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:1.75rem 2rem 1.5rem;margin-bottom:.75rem}
 .story-content{font-family:var(--font-b);font-size:1.07rem;line-height:1.82;color:#1a1a1a}
 .story-content p{margin-bottom:1.35rem}
@@ -297,9 +310,11 @@ async function loadAllAffiliateTiles(matchedRule){
 /* ── IMAGE RESOLUTION ── */
 let _imgRulesCache=null;
 async function resolveStoryImage(storyId){for(const ext of['webp','jpg','png']){try{const r=await fetch('/images/news/'+storyId+'.'+ext,{method:'HEAD'});if(r.ok)return'/images/news/'+storyId+'.'+ext}catch(e){}}return null}
-async function resolveFallbackImage(headline){try{if(!_imgRulesCache){const r=await fetch('/images/news/image-rules.json');if(r.ok)_imgRulesCache=await r.json()}if(_imgRulesCache){const h=(headline||'').toLowerCase();for(const rule of(_imgRulesCache.keywords||[])){if(rule.match.some(kw=>{const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-z])'+esc+'(?![a-z])','i').test(h)}))return'/images/news/'+rule.image}}}catch(e){}return null}
+/* 2026-11-02: curated news-image-rules.json (headline match only, as before); library images are labelled below. */
+async function resolveFallbackImage(headline){try{if(!_imgRulesCache){const r=await fetch('/images/news/news-image-rules.json');if(r.ok)_imgRulesCache=await r.json()}if(_imgRulesCache){const h=(headline||'').toLowerCase();for(const rule of(_imgRulesCache.keywords||[])){if(rule.match.some(kw=>{const esc=kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');return new RegExp('(?<![a-z])'+esc+'(?![a-z])','i').test(h)}))return'/images/news/'+rule.image}}}catch(e){}return null}
 async function fetchImageMeta(p){try{const r=await fetch(p.replace(/\.[^.]+$/,'.json'));if(r.ok)return await r.json()}catch(e){}return null}
-async function getStoryImage(id,headline){const si=await resolveStoryImage(id);if(si)return{url:si,meta:await fetchImageMeta(si)};const fi=await resolveFallbackImage(headline);if(fi)return{url:fi,meta:await fetchImageMeta(fi)};return null}
+async function getStoryImage(id,headline){const si=await resolveStoryImage(id);if(si)return{url:si,meta:await fetchImageMeta(si),kind:'own'};const fi=await resolveFallbackImage(headline);if(fi)return{url:fi,meta:await fetchImageMeta(fi),kind:'library'};return null}
+function nsmImgLabel(meta){if(meta&&meta.label)return String(meta.label);const t=((meta&&meta.caption)||'')+' '+((meta&&meta.credit)||'');return/ai-generated|ai illustration|generated with|illustration/i.test(t)?'Illustration':'File photo'}
 
 /* ── REACTIONS ── */
 const REACTIONS=[
@@ -541,13 +556,14 @@ async function loadStory(){
   if(imgResult&&imgResult.url){try{setStorySearchMetadata(s,'ne_story.html','New England',imgResult.url)}catch(e){console.warn('search metadata failed',e)}}
   let heroBgStyle=imgResult?'background-image:url(\''+imgResult.url+'\');background-size:cover;background-position:center;':'background:'+topicBg+';';
   let captionHTML='';
-  if(imgResult){const meta=imgResult.meta;let cap='',cred='';if(meta){cap=meta.caption||'';cred=meta.credit||''}else if(s.image_caption){const pts=s.image_caption.split(/\nCredit:/i);cap=pts[0].trim();if(pts[1])cred=pts[1].trim()}if(cap||cred)captionHTML='<div class="story-img-caption">'+cap+(cred?'<span class="story-img-credit">Credit: '+cred+'</span>':'')+'</div>'}
+  if(imgResult){const meta=imgResult.meta;let cap='',cred='';if(meta){cap=meta.caption||'';cred=meta.credit||''}else if(s.image_caption){const pts=s.image_caption.split(/\nCredit:/i);cap=pts[0].trim();if(pts[1])cred=pts[1].trim()}const imgLabel=imgResult.kind==='library'?nsmImgLabel(meta):'';if(cap||cred||imgLabel)captionHTML='<div class="story-img-caption">'+(imgLabel?'<span class="story-img-label">'+imgLabel+'</span>':'')+cap+(cred?'<span class="story-img-credit">Credit: '+cred+'</span>':'')+'</div>'}
   function timeSince(ds){if(!ds)return'';const d=new Date(ds);if(isNaN(d))return'';const m=Math.floor((Date.now()-d)/60000);if(m<2)return'Just now';if(m<60)return m+'m ago';if(m<1440)return Math.floor(m/60)+'h ago';if(m<2880)return'Yesterday';if(m<10080)return Math.floor(m/1440)+'d ago';return d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}
   const dateStr=timeSince(s.posted_at);
   const cleanText=convertMarkdown(s.summary||'');const paras=cleanText.split('\n\n');
   let bodyParas=[],discussionQ='';
   for(const p of paras){if(p.trim().endsWith('?')&&paras.indexOf(p)===paras.length-1)discussionQ=p.trim();else bodyParas.push(p)}
   const bodyHTML=bodyParas.map(p=>'<p>'+p+'</p>').join('');
+  let sourcesHTML='';try{if(typeof nsmSourcesHTML==='function')sourcesHTML=nsmSourcesHTML(s._sources||nsmParseSources(s.original_url))}catch(e){console.warn('sources failed',e)}
   let redditLink='';
   if(s.reddit_post_id){try{const parsed=JSON.parse(s.reddit_post_id);if(parsed.jquery?.[10]?.[3]?.[0])redditLink=parsed.jquery[10][3][0]}catch(e){console.warn('Reddit parse failed')}}
   const back=resolveBackLink();
@@ -567,6 +583,7 @@ async function loadStory(){
     +'<span class="story-byline">By <a class="byline-link" href="/editorial-standards.html">No Spin Media Newsroom</a>'+(s.posted_at?' · '+nsmPubTime(s.posted_at):'')+'</span>'
     +'</div></div></div>'
     +'<div class="story-body-card"><div class="story-content">'+bodyHTML+'</div>'
+    +sourcesHTML
     +(discussionQ?'<div class="discussion-label">Community Discussion</div><div class="story-discussion">\uD83D\uDCAC '+discussionQ+'</div>':'')
     +'</div>'
     +reactionsHTML(storyId,reactTotals,storedReaction,redditLink)
@@ -627,6 +644,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 <footer>
   &copy; 2026 <span id="footer-compass" onclick="toggleAdminPanel()" style="cursor:default;user-select:none;">🧭</span> No Spin Media. Independent. Truth-focused.<span class="amazon-aff"><br>
   <span style="font-size:.72rem;color:#bbb;">Some links are affiliate links. As an Amazon Associate we earn from qualifying purchases.</span></span>
+  <style>.nsm-footer-links{margin:.6rem auto;font-size:.8rem;line-height:1.9;text-align:center}.nsm-footer-links a{color:inherit;text-decoration:underline;text-underline-offset:2px;white-space:nowrap}</style><nav class="nsm-footer-links" aria-label="About No Spin Media"><a href="/about.html">About</a> · <a href="/editorial-standards.html">Editorial Standards</a> · <a href="/ai.html">AI Transparency</a> · <a href="/corrections.html">Corrections</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></nav>
 </footer>
 </body>
 </html>
