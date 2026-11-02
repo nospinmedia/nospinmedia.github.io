@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NSM — Local Access Enabled</title>
+  <meta name="robots" content="noindex">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -62,9 +63,28 @@
   <script>
     const FLAG_KEY = "nsm_local_seen";
 
-    // Write flag with current timestamp — valid for 30 days
-    // (about.html reads this and shows internal links if < 30 days old)
+    const BASE_KEY = "nsm_local_base";
+    const PRIVATE_BASE = /^http:\/\/(10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)(:\d{1,5})?$/;
+
+    // Write flag with current timestamp (the About/Standards pages show the
+    // internal links while it is fresh). The internal address is NOT in this
+    // public page: it comes from the owner's private setup link
+    // (enable-local.html#base=http://<LAN address>:<port>), is stored only in
+    // this browser, and the fragment is removed from the address bar.
     try {
+      const m = location.hash.match(/(?:^#|&)base=([^&]+)/);
+      if (m) {
+        const base = decodeURIComponent(m[1]).replace(/\/+$/, "");
+        if (PRIVATE_BASE.test(base)) localStorage.setItem(BASE_KEY, base);
+        history.replaceState(null, "", location.pathname);
+      }
+      if (!PRIVATE_BASE.test(localStorage.getItem(BASE_KEY) || "")) {
+        document.getElementById("status").textContent = "⚠️ Setup link needed";
+        document.getElementById("status").style.color = "#ff9900";
+        document.getElementById("desc").textContent =
+          "Open your private local-access setup link once on this browser to enable the Dropoff and Images links.";
+        throw "nobase";
+      }
       localStorage.setItem(FLAG_KEY, Date.now().toString());
       document.getElementById("status").textContent = "✅ Local links enabled!";
       document.getElementById("status").style.color = "#00cc66";
@@ -72,15 +92,18 @@
         "Dropoff and Images links will now appear in the navigation on this browser. " +
         "Visit this page again anytime to refresh the setting.";
     } catch(e) {
+      if (e === "nobase") { /* message already shown */ } else {
       document.getElementById("status").textContent = "❌ Could not save setting.";
       document.getElementById("status").style.color = "#cc3333";
       document.getElementById("desc").textContent =
         "localStorage may be blocked in this browser. Try disabling private/incognito mode.";
+      }
     }
 
     function disableLocal() {
       try {
         localStorage.removeItem(FLAG_KEY);
+        localStorage.removeItem(BASE_KEY);
         document.getElementById("status").textContent = "🚫 Local links disabled.";
         document.getElementById("status").style.color = "#ff9900";
         document.getElementById("desc").textContent =

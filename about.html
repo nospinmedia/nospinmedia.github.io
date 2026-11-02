@@ -214,6 +214,18 @@
            writes when visited on the local network.
            If fresh (< 8 hours), shows internal nav links.
            ══════════════════════════════════════════ */
+        /* Internal Dropoff/Images links (2026-11-02): the LAN address is not in the
+           public HTML. enable-local.html stores it in this browser's localStorage
+           (nsm_local_base) from a private setup link; only a private-network
+           http address is accepted. No stored address -> the links stay hidden. */
+        function nsmLocalHref(el){
+            try {
+                var base = localStorage.getItem("nsm_local_base") || "";
+                if (!/^http:\/\/(10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)(:\d{1,5})?$/.test(base)) return false;
+                el.href = base + (el.getAttribute("data-nsm-local") || "/");
+                return true;
+            } catch(e) { return false; }
+        }
         function nsmShowLocalLinks() {
             try {
                 const stored = parseInt(localStorage.getItem("nsm_local_seen") || "0");
@@ -222,7 +234,7 @@
                     ["desktop-dropoff", "desktop-images",
                      "mobile-dropoff",  "mobile-images"].forEach(function(id) {
                         var el = document.getElementById(id);
-                        if (el) el.classList.add("visible");
+                        if (el && nsmLocalHref(el)) el.classList.add("visible");
                     });
                 }
             } catch(e) {}

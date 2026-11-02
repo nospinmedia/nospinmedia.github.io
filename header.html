@@ -224,11 +224,11 @@
             <!-- Internal links — shown only when localStorage flag is set -->
             <a id="desktop-dropoff"
                class="internal-nav-link"
-               href="http://192.168.194.152:9090/dropoff"
+               href="/enable-local.html" data-nsm-local="/dropoff"
                target="_blank">📥 Dropoff</a>
             <a id="desktop-images"
                class="internal-nav-link"
-               href="http://192.168.194.152:9090/image-upload"
+               href="/enable-local.html" data-nsm-local="/image-upload"
                target="_blank">🖼️ Images</a>
             <span class="social-icons">
                 <a href="https://reddit.com/r/NoSpinMedia" target="_blank" title="Reddit">👽</a>
@@ -260,11 +260,11 @@
         <!-- Internal links in mobile nav -->
         <a id="mobile-dropoff"
            class="internal-nav-link"
-           href="http://192.168.194.152:9090/dropoff"
+           href="/enable-local.html" data-nsm-local="/dropoff"
            target="_blank">📥 Dropoff</a>
         <a id="mobile-images"
            class="internal-nav-link"
-           href="http://192.168.194.152:9090/image-upload"
+           href="/enable-local.html" data-nsm-local="/image-upload"
            target="_blank">🖼️ Images</a>
         <div class="mobile-social">
             <a href="https://reddit.com/r/NoSpinMedia" target="_blank">👽 Reddit</a>
@@ -303,6 +303,18 @@ function initHamburger() {
    Links stay visible until you clear the flag
    or visit enable-local.html and click Disable.
    ══════════════════════════════════════════ */
+/* Internal Dropoff/Images links (2026-11-02): the LAN address is not in the
+   public HTML. enable-local.html stores it in this browser's localStorage
+   (nsm_local_base) from a private setup link; only a private-network
+   http address is accepted. No stored address -> the links stay hidden. */
+function nsmLocalHref(el){
+    try {
+        var base = localStorage.getItem("nsm_local_base") || "";
+        if (!/^http:\/\/(10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)(:\d{1,5})?$/.test(base)) return false;
+        el.href = base + (el.getAttribute("data-nsm-local") || "/");
+        return true;
+    } catch(e) { return false; }
+}
 function nsmCheckLocalLinks() {
     try {
         var flag = localStorage.getItem("nsm_local_seen");
@@ -318,7 +330,7 @@ function nsmCheckLocalLinks() {
         ];
         ids.forEach(function(id) {
             var el = document.getElementById(id);
-            if (el) el.classList.add("visible");
+            if (el && nsmLocalHref(el)) el.classList.add("visible");
         });
     } catch(e) {
         // localStorage blocked — fail silently
