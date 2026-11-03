@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261103043812000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-03T13:16:22-05:00</news:publication_date>
+      <news:title>High fuel costs follow voters into Election Day</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/new-england/20261103045324000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-01T14:30:52-05:00</news:publication_date>
       <news:title>Analysis finds major errors in DOJ California voter list</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261101050531001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-01T13:16:25-05:00</news:publication_date>
-      <news:title>Iran orders military response without geographic limits</news:title>
     </news:news>
   </url>
 </urlset>
