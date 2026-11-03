@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261103041604000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-03T10:15:40-05:00</news:publication_date>
+      <news:title>Supreme Court rejects California ballot challenge</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261103041057000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-01T11:45:40-05:00</news:publication_date>
       <news:title>Iranian negotiators meet Qatari mediators as U.S. weighs new strikes</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261101044958001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-01T10:16:05-05:00</news:publication_date>
-      <news:title>Early voting surpasses 2022 midterm total</news:title>
     </news:news>
   </url>
 </urlset>
