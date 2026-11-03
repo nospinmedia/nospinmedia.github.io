@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261103041057000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-03T08:46:21-05:00</news:publication_date>
+      <news:title>U.S. strikes Iran&#x27;s Qeshm Island</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261103044831000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-03T08:45:33-05:00</news:publication_date>
+      <news:title>New Hampshire wildfire grows to about 300 acres</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261103041732000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-01T10:16:05-05:00</news:publication_date>
       <news:title>Early voting surpasses 2022 midterm total</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261101054127001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-01T08:46:17-05:00</news:publication_date>
-      <news:title>U.S. warns Russia of credible mass-casualty threat in Moscow</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261101074631001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-01T08:45:31-05:00</news:publication_date>
-      <news:title>Maine Senate race remains tight days before Election Day</news:title>
     </news:news>
   </url>
 </urlset>
