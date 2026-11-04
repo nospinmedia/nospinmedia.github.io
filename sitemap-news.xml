@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261104061137001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-04T18:31:24-05:00</news:publication_date>
+      <news:title>Missouri voters reject Republican-drawn House map</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261104065137001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-04T18:30:16-05:00</news:publication_date>
+      <news:title>Democrats dominate New England congressional races</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261104062348001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-02T20:46:18-05:00</news:publication_date>
       <news:title>Trump rallies in Iowa and Kansas in final midterm push</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261102044000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-02T18:30:59-05:00</news:publication_date>
-      <news:title>Sen. Chris Murphy hospitalized after stroke</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261102053500001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-02T18:30:01-05:00</news:publication_date>
-      <news:title>Connecticut Sen. Chris Murphy hospitalized after stroke</news:title>
     </news:news>
   </url>
 </urlset>
