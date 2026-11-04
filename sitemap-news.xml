@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261103042341000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-03T20:46:11-05:00</news:publication_date>
+      <news:title>Judge accuses DOJ of &#x27;weaponization&#x27;</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261103044327000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-02T06:16:00-05:00</news:publication_date>
       <news:title>Democrats hold midterm advantage as voters seek change</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261101065124001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-01T20:46:07-05:00</news:publication_date>
-      <news:title>NASA&#x27;s Swift telescope is about to fall back to Earth</news:title>
     </news:news>
   </url>
 </urlset>
