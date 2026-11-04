@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261104050217001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-04T08:46:02-05:00</news:publication_date>
+      <news:title>Democrats score historic victories in Texas</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261104073146001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-04T08:45:06-05:00</news:publication_date>
+      <news:title>Democrats dominate New England as two GOP governors hold on</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261104044812001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-02T10:15:49-05:00</news:publication_date>
       <news:title>Judge dismisses DOJ lawsuit over Alaska Senate race</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261102044500001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-02T08:45:57-05:00</news:publication_date>
-      <news:title>Trump picks Reflecting Pool for final midterm pitch</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261102052000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-02T08:45:05-05:00</news:publication_date>
-      <news:title>Pingree holds 12-point lead in final Maine governor poll</news:title>
     </news:news>
   </url>
 </urlset>
