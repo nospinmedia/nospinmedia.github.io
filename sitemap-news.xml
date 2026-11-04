@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261104054831001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-04T15:46:24-05:00</news:publication_date>
+      <news:title>Amy Acton wins Ohio governor&#x27;s race</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261104070423001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-04T15:45:18-05:00</news:publication_date>
+      <news:title>Wild River Fire grows beyond 375 acres in White Mountains</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261104055914001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-02T17:16:29-05:00</news:publication_date>
       <news:title>All 9 killed after Learjet crashes in Florida</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261102043000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-02T15:45:52-05:00</news:publication_date>
-      <news:title>Halloween weekend shootings leave at least 6 dead</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261102052500001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-02T15:45:52-05:00</news:publication_date>
-      <news:title>4,000 Brigham nurses set date for open-ended strike</news:title>
     </news:news>
   </url>
 </urlset>
