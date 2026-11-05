@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261105062417001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-05T18:30:54-05:00</news:publication_date>
+      <news:title>N.H. man charged after Election Day assault at polling site</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/news/20261105040547001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-05T18:30:39-05:00</news:publication_date>
+      <news:title>Mississippi chemical plant explosion sends black smoke over Greenville</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261105052844001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-03T20:46:11-05:00</news:publication_date>
       <news:title>Judge accuses DOJ of &#x27;weaponization&#x27;</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261103044327000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-03T18:30:47-05:00</news:publication_date>
-      <news:title>2 dead, 2 injured in California beach shooting</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261103050316000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-03T18:30:24-05:00</news:publication_date>
-      <news:title>Groups renew challenge to Maine transgender athlete policies</news:title>
     </news:news>
   </url>
 </urlset>
