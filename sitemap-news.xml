@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261105052844001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-05T17:15:49-05:00</news:publication_date>
+      <news:title>U.S. Marine dies after training incident in Japan</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261105042631001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-03T18:30:24-05:00</news:publication_date>
       <news:title>Groups renew challenge to Maine transgender athlete policies</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261103043017000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-03T17:15:40-05:00</news:publication_date>
-      <news:title>Learjet may have broken apart before Florida crash</news:title>
     </news:news>
   </url>
 </urlset>
