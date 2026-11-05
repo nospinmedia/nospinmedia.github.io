@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261105041723001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-05T06:15:51-05:00</news:publication_date>
+      <news:title>Democrats take control of House and Senate</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261104063742001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-03T08:45:33-05:00</news:publication_date>
       <news:title>New Hampshire wildfire grows to about 300 acres</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261103041732000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-03T06:15:57-05:00</news:publication_date>
-      <news:title>Election Day arrives across the U.S.</news:title>
     </news:news>
   </url>
 </urlset>
