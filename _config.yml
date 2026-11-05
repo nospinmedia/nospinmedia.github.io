@@ -1,0 +1,5 @@
+# Publish /watch/<id>/ pages whose YouTube ID starts with "_" (Jekyll hides those by default).
+# Matches "_" + exactly 10 ID characters. Do not widen: _docs/ and this file must stay unpublished.
+# See media-pages.md in the NSM docs.
+include:
+  - "_[A-Za-z0-9_-][A-Za-z0-9_-][A-Za-z0-9_-][A-Za-z0-9_-][A-Za-z0-9_-][A-Za-z0-9_-][A-Za-z0-9_-][A-Za-z0-9_-][A-Za-z0-9_-][A-Za-z0-9_-]"
