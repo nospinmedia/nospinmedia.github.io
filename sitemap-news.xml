@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261105045622001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-05T11:46:25-05:00</news:publication_date>
+      <news:title>Dow surges more than 1,500 points after midterms</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261105044517001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-03T12:30:11-05:00</news:publication_date>
       <news:title>Judge dismisses federal lawsuit against Harvard</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261103042513000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-03T11:45:42-05:00</news:publication_date>
-      <news:title>Trump approval stands at 32% before midterms</news:title>
     </news:news>
   </url>
 </urlset>
