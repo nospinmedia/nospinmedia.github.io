@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261105042631001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-05T15:45:36-05:00</news:publication_date>
+      <news:title>Hong Kong activist Joshua Wong sentenced to 10 years</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261105055716001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-05T15:45:02-05:00</news:publication_date>
+      <news:title>Democrats strengthen control in Vermont and take over New Hampshire Legislature</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261105043812001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-03T17:15:40-05:00</news:publication_date>
       <news:title>Learjet may have broken apart before Florida crash</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261103042118000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-03T15:46:03-05:00</news:publication_date>
-      <news:title>Child dies from measles in New York</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261103045819000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-03T15:45:15-05:00</news:publication_date>
-      <news:title>Recorder recovered from jet that crashed off Nantucket</news:title>
     </news:news>
   </url>
 </urlset>
