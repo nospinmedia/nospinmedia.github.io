@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261106043646001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-06T13:16:01-05:00</news:publication_date>
+      <news:title>Newsom moves to commute all 548 California death sentences</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/new-england/20261106051743001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-04T14:30:59-05:00</news:publication_date>
       <news:title>Chris Pappas wins New Hampshire Senate race</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261104053926001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-04T13:16:15-05:00</news:publication_date>
-      <news:title>Roy Cooper wins North Carolina Senate race</news:title>
     </news:news>
   </url>
 </urlset>
