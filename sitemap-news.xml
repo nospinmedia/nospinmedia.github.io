@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261105052137001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-05T20:45:58-05:00</news:publication_date>
+      <news:title>CVS Health plans split into two companies</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/new-england/20261105062417001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-04T06:15:48-05:00</news:publication_date>
       <news:title>Democrats win control of House and Senate</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261103042341000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-03T20:46:11-05:00</news:publication_date>
-      <news:title>Judge accuses DOJ of &#x27;weaponization&#x27;</news:title>
     </news:news>
   </url>
 </urlset>
