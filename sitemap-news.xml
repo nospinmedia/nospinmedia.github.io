@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261106051037001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-06T15:46:30-05:00</news:publication_date>
+      <news:title>Hegseth could face impeachment vote as early as next week</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261106052358001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-06T15:45:43-05:00</news:publication_date>
+      <news:title>Massachusetts voters reject changes to tax rebate formula</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261106050218001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-04T17:16:15-05:00</news:publication_date>
       <news:title>GOP redistricting fails to prevent Democratic House gains</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261104054831001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-04T15:46:24-05:00</news:publication_date>
-      <news:title>Amy Acton wins Ohio governor&#x27;s race</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261104070423001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-04T15:45:18-05:00</news:publication_date>
-      <news:title>Wild River Fire grows beyond 375 acres in White Mountains</news:title>
     </news:news>
   </url>
 </urlset>
