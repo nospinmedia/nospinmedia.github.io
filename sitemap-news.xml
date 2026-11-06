@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261106050218001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-06T14:31:07-05:00</news:publication_date>
+      <news:title>Trump asks New York appeals court to overturn 34 felony convictions</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261106043646001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-04T15:45:18-05:00</news:publication_date>
       <news:title>Wild River Fire grows beyond 375 acres in White Mountains</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261104055914001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-04T14:30:59-05:00</news:publication_date>
-      <news:title>Chris Pappas wins New Hampshire Senate race</news:title>
     </news:news>
   </url>
 </urlset>
