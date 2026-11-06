@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261106044018001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-06T17:16:07-05:00</news:publication_date>
+      <news:title>Colorado police officer killed, 3 wounded in shootout</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261106051037001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-04T18:30:16-05:00</news:publication_date>
       <news:title>Democrats dominate New England congressional races</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261104062348001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-04T17:16:15-05:00</news:publication_date>
-      <news:title>GOP redistricting fails to prevent Democratic House gains</news:title>
     </news:news>
   </url>
 </urlset>
