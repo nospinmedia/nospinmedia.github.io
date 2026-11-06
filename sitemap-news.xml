@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261106044712001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-06T08:46:09-05:00</news:publication_date>
+      <news:title>Iran sends U.S. nuclear proposal through Qatar</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261106053124001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-06T08:45:02-05:00</news:publication_date>
+      <news:title>Dunlap concedes to LePage, but Maine race isn&#x27;t legally over</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261106043312001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-04T10:16:34-05:00</news:publication_date>
       <news:title>Troy Jackson unseats Susan Collins in Maine</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261104050217001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-04T08:46:02-05:00</news:publication_date>
-      <news:title>Democrats score historic victories in Texas</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261104073146001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-04T08:45:06-05:00</news:publication_date>
-      <news:title>Democrats dominate New England as two GOP governors hold on</news:title>
     </news:news>
   </url>
 </urlset>
