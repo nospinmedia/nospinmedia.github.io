@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261107045600004.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-07T14:30:29-05:00</news:publication_date>
+      <news:title>U.S. measles cases surpass 5,000</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261107045700005.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-05T15:45:02-05:00</news:publication_date>
       <news:title>Democrats strengthen control in Vermont and take over New Hampshire Legislature</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261105043812001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-05T14:31:03-05:00</news:publication_date>
-      <news:title>Voters decide abortion rights in several states</news:title>
     </news:news>
   </url>
 </urlset>
