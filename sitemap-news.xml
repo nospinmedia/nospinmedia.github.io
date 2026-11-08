@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261108101247001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-08T15:45:51-05:00</news:publication_date>
+      <news:title>U.S. offers $20 million for information on Iran’s nuclear program</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261108103142001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-08T15:45:16-05:00</news:publication_date>
+      <news:title>Former Suffield Academy headmaster went missing amid IRS probe</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261108095617001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-06T17:16:07-05:00</news:publication_date>
       <news:title>Colorado police officer killed, 3 wounded in shootout</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261106051037001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-06T15:46:30-05:00</news:publication_date>
-      <news:title>Hegseth could face impeachment vote as early as next week</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261106052358001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-06T15:45:43-05:00</news:publication_date>
-      <news:title>Massachusetts voters reject changes to tax rebate formula</news:title>
     </news:news>
   </url>
 </urlset>
