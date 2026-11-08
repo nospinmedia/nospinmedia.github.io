@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261108100312001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-08T18:30:46-05:00</news:publication_date>
+      <news:title>Judge seeks outside review of government statements in Trump golf case</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261108103824001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-08T18:30:43-05:00</news:publication_date>
+      <news:title>I-195 reopens after East Providence bridge demolition</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261108101722001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-06T20:46:05-05:00</news:publication_date>
       <news:title>Washington voters approve transgender athlete restrictions</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261106045126001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-06T18:31:00-05:00</news:publication_date>
-      <news:title>Wisconsin reports first measles death since 1990</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261106053912001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-06T18:30:19-05:00</news:publication_date>
-      <news:title>Maine towns vote to temporarily halt new data centers</news:title>
     </news:news>
   </url>
 </urlset>
