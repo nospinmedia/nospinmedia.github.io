@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261109051527001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-09T14:31:29-05:00</news:publication_date>
+      <news:title>Arrest made after deadly shooting at Winston-Salem State</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261109051042001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-07T15:45:09-05:00</news:publication_date>
       <news:title>Teen accused of killing Maine paddleboarder to face adult court</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261107045600004.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-07T14:30:29-05:00</news:publication_date>
-      <news:title>U.S. measles cases surpass 5,000</news:title>
     </news:news>
   </url>
 </urlset>
