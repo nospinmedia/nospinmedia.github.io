@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261109044624001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-09T08:45:44-05:00</news:publication_date>
+      <news:title>Kraków gunman dies after killing six in city square</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261109053624001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-09T08:45:04-05:00</news:publication_date>
+      <news:title>Rain helps crews gain ground on White Mountains wildfire</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261109044832001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-07T10:16:12-05:00</news:publication_date>
       <news:title>Democrats take full control of Arizona government</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261107045500003.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-07T08:45:40-05:00</news:publication_date>
-      <news:title>Russia launches massive overnight attack on Kyiv</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261107054500012.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-07T08:45:33-05:00</news:publication_date>
-      <news:title>White Mountains wildfire reaches historic scale amid drought</news:title>
     </news:news>
   </url>
 </urlset>
