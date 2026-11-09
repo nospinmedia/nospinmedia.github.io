@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261109054236001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-09T18:30:59-05:00</news:publication_date>
+      <news:title>Maine fines Bristol solar project nearly $94,000</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/news/20261109052218001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-09T18:30:42-05:00</news:publication_date>
+      <news:title>Southwest floods push Lake Powell up more than 20 feet</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261109045632001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-07T20:46:02-05:00</news:publication_date>
       <news:title>Scientists find evidence of blood cells in 115-million-year-old dinosaur bone</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261107050000008.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-07T18:31:16-05:00</news:publication_date>
-      <news:title>Thomas Markle arrested on federal child sexual abuse material charge</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261107055500013.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-07T18:30:10-05:00</news:publication_date>
-      <news:title>Eight Maine communities approve limits on mobile home lot rents</news:title>
     </news:news>
   </url>
 </urlset>
