@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261109054823001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-09T15:45:52-05:00</news:publication_date>
+      <news:title>Walpole firefighter-paramedic Elizabeth Hunt dies at 35</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/news/20261109050641001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-09T15:45:41-05:00</news:publication_date>
+      <news:title>Native American women make history across U.S. elections</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261109051527001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-07T17:16:18-05:00</news:publication_date>
       <news:title>Three senior Justice Department officials resign</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261107045900007.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-07T15:46:24-05:00</news:publication_date>
-      <news:title>U.S. adds 165,000 jobs in October</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261107060500014.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-07T15:45:09-05:00</news:publication_date>
-      <news:title>Teen accused of killing Maine paddleboarder to face adult court</news:title>
     </news:news>
   </url>
 </urlset>
