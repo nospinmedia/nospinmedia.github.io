@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261110044000001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-10T18:31:15-05:00</news:publication_date>
+      <news:title>Steel plant explosion in Turkey kills 16 workers</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261110055000001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-10T18:30:07-05:00</news:publication_date>
+      <news:title>Two major New England offshore wind farms fully operational</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261110042000001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-08T20:45:41-05:00</news:publication_date>
       <news:title>Astronomers discover dead star surrounded by two debris rings</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261108100312001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-08T18:30:46-05:00</news:publication_date>
-      <news:title>Judge seeks outside review of government statements in Trump golf case</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261108103824001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-08T18:30:43-05:00</news:publication_date>
-      <news:title>I-195 reopens after East Providence bridge demolition</news:title>
     </news:news>
   </url>
 </urlset>
