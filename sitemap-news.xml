@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261110050000001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-10T08:46:17-05:00</news:publication_date>
+      <news:title>Trump questions midterm results after previously accepting them</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261110053000001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-10T08:45:52-05:00</news:publication_date>
+      <news:title>Vermont confirms multiple measles cases in Orleans County</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261110045200001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-08T10:16:07-05:00</news:publication_date>
       <news:title>Six killed in Kraków market square shooting</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261108095241001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-08T08:46:06-05:00</news:publication_date>
-      <news:title>Russian strikes hit Ukraine’s energy network ahead of talks</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261108104537001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-08T08:45:54-05:00</news:publication_date>
-      <news:title>New Hampshire grocery distributor strike disrupts deliveries</news:title>
     </news:news>
   </url>
 </urlset>
