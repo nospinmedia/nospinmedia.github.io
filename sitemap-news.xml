@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261110044500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-10T10:15:48-05:00</news:publication_date>
+      <news:title>Trump says FBI is looking into Nvidia CEO Jensen Huang</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261110050000001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-08T11:45:43-05:00</news:publication_date>
       <news:title>Eisenkot gets first chance to form Israeli government</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261108044258001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-08T10:16:07-05:00</news:publication_date>
-      <news:title>Six killed in Kraków market square shooting</news:title>
     </news:news>
   </url>
 </urlset>
