@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261111052518001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-11T18:30:57-05:00</news:publication_date>
+      <news:title>DNA links four grizzlies to deaths of mother and daughter</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261111112853001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-11T18:30:12-05:00</news:publication_date>
+      <news:title>Vermont homelessness declines statewide but rises around Burlington</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261111051247001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-09T20:45:35-05:00</news:publication_date>
       <news:title>NASA opens applications for its next astronaut class</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261109054236001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-09T18:30:59-05:00</news:publication_date>
-      <news:title>Maine fines Bristol solar project nearly $94,000</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261109052218001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-09T18:30:42-05:00</news:publication_date>
-      <news:title>Southwest floods push Lake Powell up more than 20 feet</news:title>
     </news:news>
   </url>
 </urlset>
