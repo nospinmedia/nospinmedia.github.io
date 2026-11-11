@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261111061243001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-11T06:16:24-05:00</news:publication_date>
+      <news:title>Russia and Ukraine return to U.S.-mediated peace talks after nine months</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261110043100001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-09T08:45:04-05:00</news:publication_date>
       <news:title>Rain helps crews gain ground on White Mountains wildfire</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261109044832001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-09T06:16:26-05:00</news:publication_date>
-      <news:title>Houthi missile attack damages Aramco building in Riyadh</news:title>
     </news:news>
   </url>
 </urlset>
