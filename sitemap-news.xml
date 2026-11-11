@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261110043100001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-10T20:45:31-05:00</news:publication_date>
+      <news:title>Russell Brand sentenced to 10½ years in prison</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261110044000001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-09T06:16:26-05:00</news:publication_date>
       <news:title>Houthi missile attack damages Aramco building in Riyadh</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261108100634001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-08T20:45:41-05:00</news:publication_date>
-      <news:title>Astronomers discover dead star surrounded by two debris rings</news:title>
     </news:news>
   </url>
 </urlset>
