@@ -510,6 +510,28 @@ function nativeShare(){if(navigator.share){navigator.share({title:window._storyH
    long-form body reads better with plain running text and emphasis used,
    at most, once per piece. This only affects rendering in this prototype;
    no source content is changed. */
+/* ── CLOSING-QUESTION SPLIT (2026-11-11) ──
+   The last paragraph, when it ends with "?", is shown as the discussion
+   question; any sentences before the final one stay in the article body.
+   Lossless by construction: one cut point, so body + question is always the
+   whole paragraph. A sentence ends at . ! or ? (plus any closing quote or
+   bracket) followed by whitespace and a capital, digit or opening quote;
+   never after an abbreviation such as "U.S.", "D.C.", "Mr." or an initial.
+   When unsure, it does not split, so text is never lost.
+   Same rule as nsm_split_question() in ~/nsm_sitemap/static_pages.py. */
+/* a lone capital is an initial only after a capitalized word ("John F.") or at the start;
+   "the platform X." still ends a sentence */
+const NSM_Q_INITIAL=/(?:^|[A-Z][A-Za-z'\u2019-]*\s)[A-Z]\.$/;
+const NSM_Q_ABBR=/(?:^|[\s("'\u201C\u2018])(?:[A-Za-z]\.(?:[A-Za-z]\.)+|(?:Mr|Mrs|Ms|Dr|St|Jr|Sr|Gov|Sen|Rep|Gen|Lt|Col|Sgt|Capt|Cmdr|Adm|Prof|Rev|Hon|Pres|Supt|Atty|Det|Insp|Ofc|vs|etc|Inc|Co|Corp|Ltd|Bros|No|Nos|Vol|Fig|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec|Ft|Mt|Ave|Blvd|Rd|Hwy|Rte|approx|est|Dept|Univ|Assn|Gov't)\.)$/;
+function nsmSplitQuestion(t){
+  const re=/[.!?]+["'\u201D\u2019)\]]*\s+(?=["'\u201C\u2018(\[]?[A-Z0-9])/g;let cut=-1,m;
+  while((m=re.exec(t))){
+    const punct=m[0].replace(/["'\u201D\u2019)\]\s]+$/,'');
+    if(punct==='.'){const b=t.slice(0,m.index+1);if(NSM_Q_ABBR.test(b)||NSM_Q_INITIAL.test(b))continue}
+    cut=m.index+m[0].length;
+  }
+  return cut<0?{rest:'',q:t.trim()}:{rest:t.slice(0,cut).trim(),q:t.slice(cut).trim()};
+}
 function convertMarkdown(text){if(!text)return'';text=text.replace(/\\n\\n/g,'\n\n').replace(/\\n/g,'\n');text=text.replace(/\*\*(.*?)\*\*/g,'$1');text=text.replace(/(?<!\*)\*(?!\s)([^*]+?)\*(?!\*)/g,'<em>$1</em>');return text}
 
 /* ── REACTIONS (unchanged logic) ── */
@@ -771,10 +793,9 @@ async function loadStory(){
   paras.forEach((p,i)=>{
     const trimmed=p.trim();
     if(i===paras.length-1&&trimmed.endsWith('?')){
-      const sentences=trimmed.match(/[^.!?]+[.!?]+(?:\s+|$)/g)||[trimmed];
-      discussionQ=sentences.pop().trim();
-      const rest=sentences.join('').trim();
-      if(rest)bodyParas.push(rest);
+      const sp=nsmSplitQuestion(trimmed);
+      discussionQ=sp.q;
+      if(sp.rest)bodyParas.push(sp.rest);
     }else{
       bodyParas.push(p);
     }
