@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261111110426001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-11T15:45:41-05:00</news:publication_date>
+      <news:title>$16 billion data center proposal draws opposition in Sutton, Massachusetts</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/news/20261111053624001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-11T15:45:37-05:00</news:publication_date>
+      <news:title>U.S. charges three men over alleged Iran-backed terror plots</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261111045517001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-09T17:16:20-05:00</news:publication_date>
       <news:title>U.S. AI safety center begins reporting informally to White House</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261109054823001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-09T15:45:52-05:00</news:publication_date>
-      <news:title>Walpole firefighter-paramedic Elizabeth Hunt dies at 35</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261109050641001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-09T15:45:41-05:00</news:publication_date>
-      <news:title>Native American women make history across U.S. elections</news:title>
     </news:news>
   </url>
 </urlset>
