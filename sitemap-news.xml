@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261111072136001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-11T13:16:03-05:00</news:publication_date>
+      <news:title>House blocks effort to impeach Defense Secretary Pete Hegseth</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/new-england/20261111101842001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-09T14:31:29-05:00</news:publication_date>
       <news:title>Arrest made after deadly shooting at Winston-Salem State</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261109051042001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-09T13:16:07-05:00</news:publication_date>
-      <news:title>Trump names Stephen Miller White House chief of staff</news:title>
     </news:news>
   </url>
 </urlset>
