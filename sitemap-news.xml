@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261112154512001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-12T13:15:44-05:00</news:publication_date>
+      <news:title>Democrats plan Trump administration probes as White House pushes back</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/new-england/20261112123012001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-10T14:31:17-05:00</news:publication_date>
       <news:title>Senate advances major energy bill in lame-duck session</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261110052000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-10T13:16:07-05:00</news:publication_date>
-      <news:title>FBI investigates suspected homicide aboard Caribbean cruise</news:title>
     </news:news>
   </url>
 </urlset>
