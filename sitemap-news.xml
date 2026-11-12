@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261112131512001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-12T10:16:16-05:00</news:publication_date>
+      <news:title>Iran warns U.S. military bases in Europe could be targeted</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261112183012001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-10T11:45:42-05:00</news:publication_date>
       <news:title>France blames Iran for cyberattack on 700 grocery stores</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261110044500001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-10T10:15:48-05:00</news:publication_date>
-      <news:title>Trump says FBI is looking into Nvidia CEO Jensen Huang</news:title>
     </news:news>
   </url>
 </urlset>
