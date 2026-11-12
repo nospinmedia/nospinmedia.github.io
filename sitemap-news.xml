@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261112113012001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-12T18:31:16-05:00</news:publication_date>
+      <news:title>Biden says cancer diagnosis would have ended his 2024 campaign</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261112183012001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-12T18:30:56-05:00</news:publication_date>
+      <news:title>Rutland unveils new World War II memorial</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261112044512001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-10T20:45:31-05:00</news:publication_date>
       <news:title>Russell Brand sentenced to 10½ years in prison</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261110044000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-10T18:31:15-05:00</news:publication_date>
-      <news:title>Steel plant explosion in Turkey kills 16 workers</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261110055000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-10T18:30:07-05:00</news:publication_date>
-      <news:title>Two major New England offshore wind farms fully operational</news:title>
     </news:news>
   </url>
 </urlset>
