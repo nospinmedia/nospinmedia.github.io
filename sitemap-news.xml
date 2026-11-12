@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261112101512001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-12T11:46:18-05:00</news:publication_date>
+      <news:title>Israeli strike on Gaza hospital kills 6, including surgeon</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261112131512001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-10T12:30:20-05:00</news:publication_date>
       <news:title>Massachusetts State Police agrees to pay Karen Read $100,000</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261110051000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-10T11:45:42-05:00</news:publication_date>
-      <news:title>France blames Iran for cyberattack on 700 grocery stores</news:title>
     </news:news>
   </url>
 </urlset>
