@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261112183012001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-12T08:46:21-05:00</news:publication_date>
+      <news:title>House petition forces vote on new Epstein files bill</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261112084512001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-12T08:46:00-05:00</news:publication_date>
+      <news:title>Brigham nurses reach tentative deal, averting strike</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261112095105001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-10T10:15:48-05:00</news:publication_date>
       <news:title>Trump says FBI is looking into Nvidia CEO Jensen Huang</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261110050000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-10T08:46:17-05:00</news:publication_date>
-      <news:title>Trump questions midterm results after previously accepting them</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261110053000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-10T08:45:52-05:00</news:publication_date>
-      <news:title>Vermont confirms multiple measles cases in Orleans County</news:title>
     </news:news>
   </url>
 </urlset>
