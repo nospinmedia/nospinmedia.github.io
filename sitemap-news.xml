@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261113204513001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-13T18:31:33-05:00</news:publication_date>
+      <news:title>SpaceX plans $74 billion AI expansion in Texas and Arizona</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261113183013001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-13T18:30:21-05:00</news:publication_date>
+      <news:title>25 Maine areas selected for federal investment tax program</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261113171513001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,22 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-11T20:46:21-05:00</news:publication_date>
       <news:title>Democratic state gains put national popular vote plan within reach</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261111052518001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-11T18:30:57-05:00</news:publication_date>
-      <news:title>DNA links four grizzlies to deaths of mother and daughter</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261111112853001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-11T18:30:12-05:00</news:publication_date>
-      <news:title>Vermont homelessness declines statewide but rises around Burlington</news:title>
     </news:news>
   </url>
 </urlset>
