@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261113114513001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-13T10:16:24-05:00</news:publication_date>
+      <news:title>U.S. envoys meet Putin, then Zelenskyy in Ukraine peace push</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261113101513001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-11T11:46:25-05:00</news:publication_date>
       <news:title>Jim Jordan elected to lead House Republicans after midterm losses</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261111044735001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-11T10:16:34-05:00</news:publication_date>
-      <news:title>Fed officials signal faster rate hikes as inflation persists</news:title>
     </news:news>
   </url>
 </urlset>
