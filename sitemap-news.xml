@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261113101513001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-13T08:45:44-05:00</news:publication_date>
+      <news:title>Microsoft outage disrupts services worldwide</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261113154513001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-13T08:45:11-05:00</news:publication_date>
+      <news:title>Search underway for missing 18-year-old in Needham</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261113061513001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-11T10:16:34-05:00</news:publication_date>
       <news:title>Fed officials signal faster rate hikes as inflation persists</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261111043812001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-11T08:45:55-05:00</news:publication_date>
-      <news:title>U.S. inflation rises more than expected in October</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261111100137001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-11T08:45:20-05:00</news:publication_date>
-      <news:title>Former Stoughton officer convicted of killing Sandra Birchmore</news:title>
     </news:news>
   </url>
 </urlset>
