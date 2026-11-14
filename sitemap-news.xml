@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261114063752001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-14T06:16:17-05:00</news:publication_date>
+      <news:title>SpaceX launches 15th Starship flight as 22-hour orbital test continues</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261113183013001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-12T08:46:00-05:00</news:publication_date>
       <news:title>Brigham nurses reach tentative deal, averting strike</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261112095105001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-12T06:16:13-05:00</news:publication_date>
-      <news:title>U.S. envoys arrive in Moscow for talks with Putin</news:title>
     </news:news>
   </url>
 </urlset>
