@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261114065924001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-14T17:15:46-05:00</news:publication_date>
+      <news:title>Son of former CIA Director John Brennan arrested on federal charge</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261114054837001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-12T18:30:56-05:00</news:publication_date>
       <news:title>Rutland unveils new World War II memorial</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261112044512001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-12T17:16:24-05:00</news:publication_date>
-      <news:title>Scott Colom wins historic Mississippi Senate race</news:title>
     </news:news>
   </url>
 </urlset>
