@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261114044231001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-14T11:45:59-05:00</news:publication_date>
+      <news:title>FAA lifts nationwide ground stop</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261114053247001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-12T12:30:09-05:00</news:publication_date>
       <news:title>ICE agent in fatal Maine shooting faced prior red flags</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261112101512001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-12T11:46:18-05:00</news:publication_date>
-      <news:title>Israeli strike on Gaza hospital kills 6, including surgeon</news:title>
     </news:news>
   </url>
 </urlset>
