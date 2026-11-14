@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261114051842001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-14T08:46:24-05:00</news:publication_date>
+      <news:title>Ukraine launches nearly 1,200 drones at Russia</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261114073126001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-14T08:45:10-05:00</news:publication_date>
+      <news:title>New England airports recover after nationwide FAA ground stop</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261114063752001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,22 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-12T10:16:16-05:00</news:publication_date>
       <news:title>Iran warns U.S. military bases in Europe could be targeted</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261112183012001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-12T08:46:21-05:00</news:publication_date>
-      <news:title>House petition forces vote on new Epstein files bill</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261112084512001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-12T08:46:00-05:00</news:publication_date>
-      <news:title>Brigham nurses reach tentative deal, averting strike</news:title>
     </news:news>
   </url>
 </urlset>
