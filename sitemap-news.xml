@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261113183013001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-13T20:46:27-05:00</news:publication_date>
+      <news:title>U.S. returns more than $12 billion in resource proceeds to Venezuela</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261113204513001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-12T06:16:13-05:00</news:publication_date>
       <news:title>U.S. envoys arrive in Moscow for talks with Putin</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261111050542001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-11T20:46:21-05:00</news:publication_date>
-      <news:title>Democratic state gains put national popular vote plan within reach</news:title>
     </news:news>
   </url>
 </urlset>
