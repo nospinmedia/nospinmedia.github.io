@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261114071543001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-14T12:30:48-05:00</news:publication_date>
+      <news:title>Microsoft outage disrupts public services across New England</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261114044231001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-12T13:15:44-05:00</news:publication_date>
       <news:title>Democrats plan Trump administration probes as White House pushes back</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261112123012001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-12T12:30:09-05:00</news:publication_date>
-      <news:title>ICE agent in fatal Maine shooting faced prior red flags</news:title>
     </news:news>
   </url>
 </urlset>
