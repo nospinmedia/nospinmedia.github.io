@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261114060319001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-14T14:31:21-05:00</news:publication_date>
+      <news:title>Trump threatens to double Mexico tariffs over migrant caravans</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261114050518001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-12T15:45:28-05:00</news:publication_date>
       <news:title>Kennedy family joins legal fight over Trump&#x27;s proposed arch</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261112094812001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-12T14:30:32-05:00</news:publication_date>
-      <news:title>Brooklyn building collapse kills 2 and injures 17</news:title>
     </news:news>
   </url>
 </urlset>
