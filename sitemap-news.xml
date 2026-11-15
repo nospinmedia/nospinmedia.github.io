@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261115071500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-15T15:45:41-05:00</news:publication_date>
+      <news:title>Boston residents rally after South End Technology Center closes</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/news/20261115064118441.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-15T15:45:33-05:00</news:publication_date>
+      <news:title>UPS cargo plane and Copa passenger jet collide at Miami airport</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261115072418350.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,22 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-13T16:43:32-05:00</news:publication_date>
       <news:title>FAA halts departures nationwide amid communications problems</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261113123013001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-13T15:45:57-05:00</news:publication_date>
-      <news:title>New Bedford standoff ends with suspect found dead</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261113131513001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-13T15:45:43-05:00</news:publication_date>
-      <news:title>Doctor identified as gunman in deadly D.C. shooting</news:title>
     </news:news>
   </url>
 </urlset>
