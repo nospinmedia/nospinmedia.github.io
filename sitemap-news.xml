@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261115072418350.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-15T14:31:31-05:00</news:publication_date>
+      <news:title>Italy fines Meta €805 million over access to users&#x27; photos</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261115070918304.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-13T15:45:43-05:00</news:publication_date>
       <news:title>Doctor identified as gunman in deadly D.C. shooting</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261113084513001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-13T14:31:26-05:00</news:publication_date>
-      <news:title>Eight dead after Brooklyn apartment building collapse</news:title>
     </news:news>
   </url>
 </urlset>
