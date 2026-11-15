@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261114062147001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-14T20:46:00-05:00</news:publication_date>
+      <news:title>Microsoft restores Outlook and Teams after worldwide outage</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/new-england/20261114080217001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -223,14 +231,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-13T06:16:24-05:00</news:publication_date>
       <news:title>Nvidia CEO Jensen Huang resigns after 33 years</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261112171512001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-12T20:45:52-05:00</news:publication_date>
-      <news:title>AI-powered buoy listens for endangered killer whales</news:title>
     </news:news>
   </url>
 </urlset>
