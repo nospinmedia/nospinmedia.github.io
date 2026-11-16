@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261116134500000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-16T08:46:08-05:00</news:publication_date>
+      <news:title>Zelensky says Starshield limits are allowing Russian strikes through</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261116113000000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-16T08:45:21-05:00</news:publication_date>
+      <news:title>Drake Maye reportedly expected to be out &#x27;a while&#x27; after ankle injury</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261116123000000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -199,22 +215,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-14T10:15:44-05:00</news:publication_date>
       <news:title>Trump, Xi and Putin to hold first three-way meeting in China</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261114051842001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-14T08:46:24-05:00</news:publication_date>
-      <news:title>Ukraine launches nearly 1,200 drones at Russia</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261114073126001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-14T08:45:10-05:00</news:publication_date>
-      <news:title>New England airports recover after nationwide FAA ground stop</news:title>
     </news:news>
   </url>
 </urlset>
