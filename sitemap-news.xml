@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261116101500000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-16T15:46:12-05:00</news:publication_date>
+      <news:title>Trump-backed RNC chairman faces internal challenge after midterm losses</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261116153000000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-16T15:45:02-05:00</news:publication_date>
+      <news:title>Massachusetts consumers to get $11.5 million in lease relief</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261116104500000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -199,22 +215,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-14T17:15:46-05:00</news:publication_date>
       <news:title>Son of former CIA Director John Brennan arrested on federal charge</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261114054837001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-14T15:46:28-05:00</news:publication_date>
-      <news:title>U.S. measles deaths rise to 10 as cases top 5,400</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261114074638001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-14T15:45:08-05:00</news:publication_date>
-      <news:title>Connecticut company&#x27;s river cruise ship struck by tanker in New Orleans</news:title>
     </news:news>
   </url>
 </urlset>
