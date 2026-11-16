@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261116183000000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-16T18:30:56-05:00</news:publication_date>
+      <news:title>Missing Massachusetts lawyer found dead after weekend search</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/news/20261116114500000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-16T18:30:44-05:00</news:publication_date>
+      <news:title>Nearly 1,500 migrants reach Canary Islands in single day</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261116095800000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -199,22 +215,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-14T20:46:00-05:00</news:publication_date>
       <news:title>Microsoft restores Outlook and Teams after worldwide outage</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261114080217001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-14T18:30:41-05:00</news:publication_date>
-      <news:title>Malden man charged with murder in sister&#x27;s death</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261114045122001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-14T18:30:37-05:00</news:publication_date>
-      <news:title>All 180 survive after tanker strikes New Orleans river cruise ship</news:title>
     </news:news>
   </url>
 </urlset>
