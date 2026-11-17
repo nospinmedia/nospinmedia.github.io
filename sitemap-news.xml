@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261117061347001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-17T14:31:05-05:00</news:publication_date>
+      <news:title>Chase Software Bug Disrupts Banking Transactions Nationwide</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261117065512001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,14 +215,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-15T15:45:33-05:00</news:publication_date>
       <news:title>UPS cargo plane and Copa passenger jet collide at Miami airport</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261115072418350.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-15T14:31:31-05:00</news:publication_date>
-      <news:title>Italy fines Meta €805 million over access to users&#x27; photos</news:title>
     </news:news>
   </url>
 </urlset>
