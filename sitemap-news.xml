@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261117070843001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-17T08:46:03-05:00</news:publication_date>
+      <news:title>Suspect In Custody After Bomb Found At Illinois Ethanol Plant</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261117073924001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-17T08:45:14-05:00</news:publication_date>
+      <news:title>Recount Confirms Democrat&#x27;s 53-Vote Win In Maine Senate Race</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261117051645001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -199,22 +215,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-15T10:16:11-05:00</news:publication_date>
       <news:title>Israeli strike kills senior Hamas commander in southern Gaza</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261115060118309.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-15T08:46:26-05:00</news:publication_date>
-      <news:title>FAA expects U.S. air travel to normalize by late Sunday</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261115074500001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-15T08:46:00-05:00</news:publication_date>
-      <news:title>Salem teen sentenced after shooting girlfriend in head</news:title>
     </news:news>
   </url>
 </urlset>
