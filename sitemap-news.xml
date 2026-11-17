@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261117053642001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-17T10:16:37-05:00</news:publication_date>
+      <news:title>Ukraine Targets Crimean Bridge For Second Straight Night</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261117070843001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,14 +215,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-15T11:45:39-05:00</news:publication_date>
       <news:title>U.S. floats NATO membership in exchange for Ukraine leaving Donbas</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261115061718424.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-15T10:16:11-05:00</news:publication_date>
-      <news:title>Israeli strike kills senior Hamas commander in southern Gaza</news:title>
     </news:news>
   </url>
 </urlset>
