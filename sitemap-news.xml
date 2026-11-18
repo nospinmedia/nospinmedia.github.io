@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261118045736001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-18T06:16:37-05:00</news:publication_date>
+      <news:title>Iran expands attacks to U.S. base in Kuwait</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261117062752001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-16T08:45:21-05:00</news:publication_date>
       <news:title>Drake Maye reportedly expected to be out &#x27;a while&#x27; after ankle injury</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261116123000000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-16T06:16:15-05:00</news:publication_date>
-      <news:title>Houthis take Bab al-Mandeb coastline as Yemeni forces pull back</news:title>
     </news:news>
   </url>
 </urlset>
