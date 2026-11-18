@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261118051043001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-18T08:46:16-05:00</news:publication_date>
+      <news:title>Ukraine collapses major span of Russia&#x27;s Crimean Bridge</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261118074138001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-18T08:45:53-05:00</news:publication_date>
+      <news:title>Healey blames Trump administration after U.S. loses measles elimination status</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261118045736001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-16T10:16:37-05:00</news:publication_date>
       <news:title>Army whistleblower says warnings were ignored before deadly Iran strike</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261116134500000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-16T08:46:08-05:00</news:publication_date>
-      <news:title>Zelensky says Starshield limits are allowing Russian strikes through</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261116113000000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-16T08:45:21-05:00</news:publication_date>
-      <news:title>Drake Maye reportedly expected to be out &#x27;a while&#x27; after ankle injury</news:title>
     </news:news>
   </url>
 </urlset>
