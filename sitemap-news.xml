@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261118060214001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-18T17:15:41-05:00</news:publication_date>
+      <news:title>Judge orders partial release of records behind search of Ilhan Omar&#x27;s home</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/new-england/20261118065924001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-16T18:30:44-05:00</news:publication_date>
       <news:title>Nearly 1,500 migrants reach Canary Islands in single day</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261116095800000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-16T17:15:45-05:00</news:publication_date>
-      <news:title>Vulcan rocket fails during flight with 40 Amazon satellites aboard</news:title>
     </news:news>
   </url>
 </urlset>
