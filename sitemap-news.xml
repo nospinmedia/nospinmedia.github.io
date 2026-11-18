@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261118064518001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-18T10:16:04-05:00</news:publication_date>
+      <news:title>Measles surge puts Trump administration&#x27;s vaccine response under scrutiny</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261118051043001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-16T11:45:50-05:00</news:publication_date>
       <news:title>Estonia to close all road crossings with Russia after sabotage attempt</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261116141500000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-16T10:16:37-05:00</news:publication_date>
-      <news:title>Army whistleblower says warnings were ignored before deadly Iran strike</news:title>
     </news:news>
   </url>
 </urlset>
