@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261118054823001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-18T18:31:21-05:00</news:publication_date>
+      <news:title>8-year-old Haitian boy returns home after nearly two weeks in federal custody</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261118072746001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-18T18:30:09-05:00</news:publication_date>
+      <news:title>Wild River Fire reaches 59% containment in White Mountains</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261118060214001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-16T20:45:59-05:00</news:publication_date>
       <news:title>International student enrollment drops sharply at U.S. colleges</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261116183000000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-16T18:30:56-05:00</news:publication_date>
-      <news:title>Missing Massachusetts lawyer found dead after weekend search</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261116114500000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-16T18:30:44-05:00</news:publication_date>
-      <news:title>Nearly 1,500 migrants reach Canary Islands in single day</news:title>
     </news:news>
   </url>
 </urlset>
