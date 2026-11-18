@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261118065924001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-18T15:45:59-05:00</news:publication_date>
+      <news:title>Maine electric bills are going up again in January</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/news/20261118052541001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-18T15:45:58-05:00</news:publication_date>
+      <news:title>Man accused of destroying $60 million U.S. military plane with ax</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261118063247001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-16T17:15:45-05:00</news:publication_date>
       <news:title>Vulcan rocket fails during flight with 40 Amazon satellites aboard</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261116101500000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-16T15:46:12-05:00</news:publication_date>
-      <news:title>Trump-backed RNC chairman faces internal challenge after midterm losses</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261116153000000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-16T15:45:02-05:00</news:publication_date>
-      <news:title>Massachusetts consumers to get $11.5 million in lease relief</news:title>
     </news:news>
   </url>
 </urlset>
