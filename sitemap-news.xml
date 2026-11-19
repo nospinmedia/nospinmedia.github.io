@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261119045137001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-19T10:16:16-05:00</news:publication_date>
+      <news:title>Army to detonate nearly 5 tons of unstable explosive in Iowa</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261119042813001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-17T11:45:51-05:00</news:publication_date>
       <news:title>17 Killed In Two Mass Shootings In South Africa</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261117053642001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-17T10:16:37-05:00</news:publication_date>
-      <news:title>Ukraine Targets Crimean Bridge For Second Straight Night</news:title>
     </news:news>
   </url>
 </urlset>
