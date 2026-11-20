@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261120052200000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-20T18:31:11-05:00</news:publication_date>
+      <news:title>Senate passes bipartisan bill to speed energy and infrastructure permits</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261120061600000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-20T18:30:19-05:00</news:publication_date>
+      <news:title>Judge orders release of 18-year-old after warrantless Maine immigration arrest</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261120051400000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-18T20:46:16-05:00</news:publication_date>
       <news:title>Apple blames major service outage on internal update</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261118054823001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-18T18:31:21-05:00</news:publication_date>
-      <news:title>8-year-old Haitian boy returns home after nearly two weeks in federal custody</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261118072746001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-18T18:30:09-05:00</news:publication_date>
-      <news:title>Wild River Fire reaches 59% containment in White Mountains</news:title>
     </news:news>
   </url>
 </urlset>
