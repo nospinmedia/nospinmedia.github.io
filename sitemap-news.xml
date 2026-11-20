@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261120062400000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-20T12:30:08-05:00</news:publication_date>
+      <news:title>14-year-old charged with murder in great-aunt&#x27;s Lowell death</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261120044000000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-18T13:16:32-05:00</news:publication_date>
       <news:title>U.S. Army officer suspected of spying for Russia transferred to American custody</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261118071432001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-18T12:30:29-05:00</news:publication_date>
-      <news:title>Wave of major tech outages raises concerns in New Hampshire</news:title>
     </news:news>
   </url>
 </urlset>
