@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261120055900000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-20T08:45:59-05:00</news:publication_date>
+      <news:title>Quinnipiac lockdown lifted after hourslong search for possible gunman</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/news/20261120045800000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-20T08:45:47-05:00</news:publication_date>
+      <news:title>Peltola officially wins Alaska Senate race with first-round majority</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261120044600000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-18T10:16:04-05:00</news:publication_date>
       <news:title>Measles surge puts Trump administration&#x27;s vaccine response under scrutiny</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261118051043001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-18T08:46:16-05:00</news:publication_date>
-      <news:title>Ukraine collapses major span of Russia&#x27;s Crimean Bridge</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261118074138001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-18T08:45:53-05:00</news:publication_date>
-      <news:title>Healey blames Trump administration after U.S. loses measles elimination status</news:title>
     </news:news>
   </url>
 </urlset>
