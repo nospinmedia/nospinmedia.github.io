@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261120050600000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-20T13:16:15-05:00</news:publication_date>
+      <news:title>Stocks suffer worst losing streak since 2023 as investors retreat</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/new-england/20261120062400000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-18T14:30:44-05:00</news:publication_date>
       <news:title>FAA shuts down new routers after nationwide ground stop</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261118061732001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-18T13:16:32-05:00</news:publication_date>
-      <news:title>U.S. Army officer suspected of spying for Russia transferred to American custody</news:title>
     </news:news>
   </url>
 </urlset>
