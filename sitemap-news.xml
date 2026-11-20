@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261119050624001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-19T20:46:13-05:00</news:publication_date>
+      <news:title>DOJ expands Alaska &#x27;Decoy Dan&#x27; investigation after election</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261119043826001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-18T06:16:37-05:00</news:publication_date>
       <news:title>Iran expands attacks to U.S. base in Kuwait</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261117062752001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-17T20:45:49-05:00</news:publication_date>
-      <news:title>NYC Disbands NYPD Unit Used For Protests And Counterterrorism</news:title>
     </news:news>
   </url>
 </urlset>
