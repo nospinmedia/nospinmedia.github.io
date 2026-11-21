@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261120045000000.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-20T20:45:46-05:00</news:publication_date>
+      <news:title>Anthropic IPO wealth spills into housing market</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261120052200000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-19T06:15:43-05:00</news:publication_date>
       <news:title>Israeli tanks cross Gaza ceasefire boundary</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261118044000001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-18T20:46:16-05:00</news:publication_date>
-      <news:title>Apple blames major service outage on internal update</news:title>
     </news:news>
   </url>
 </urlset>
