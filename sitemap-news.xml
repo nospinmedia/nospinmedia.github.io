@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261121044500003.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-21T17:16:27-05:00</news:publication_date>
+      <news:title>Judge Approves $7.25 Billion Roundup Cancer Settlement</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261121053000006.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-19T18:30:51-05:00</news:publication_date>
       <news:title>Maine hunter who vanished in 1975 was killed, investigators say</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261119045918001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-19T17:16:05-05:00</news:publication_date>
-      <news:title>House Democrat orders Trump allies to preserve records</news:title>
     </news:news>
   </url>
 </urlset>
