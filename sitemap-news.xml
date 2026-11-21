@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261121041500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-21T06:16:31-05:00</news:publication_date>
+      <news:title>Russian Missiles Land In NATO Member Poland</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261120045000000.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-19T08:45:31-05:00</news:publication_date>
       <news:title>Vermont police dispatch and records system remains offline</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261119042345001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-19T06:15:43-05:00</news:publication_date>
-      <news:title>Israeli tanks cross Gaza ceasefire boundary</news:title>
     </news:news>
   </url>
 </urlset>
