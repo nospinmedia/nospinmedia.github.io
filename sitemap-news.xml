@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261122045217001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-22T08:46:23-05:00</news:publication_date>
+      <news:title>Russian Strike Kills 2 In Zelenskyy’s Hometown</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261122061043001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-22T08:45:06-05:00</news:publication_date>
+      <news:title>Coastal Storm Targets New England With Heavy Rain And Gusty Winds</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261122044512001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-20T10:16:21-05:00</news:publication_date>
       <news:title>Senate blocks House-passed resolution limiting Trump&#x27;s Iran war powers</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261120055900000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-20T08:45:59-05:00</news:publication_date>
-      <news:title>Quinnipiac lockdown lifted after hourslong search for possible gunman</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261120045800000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-20T08:45:47-05:00</news:publication_date>
-      <news:title>Peltola officially wins Alaska Senate race with first-round majority</news:title>
     </news:news>
   </url>
 </urlset>
