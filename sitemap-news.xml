@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261122054826001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-22T10:15:44-05:00</news:publication_date>
+      <news:title>Israeli Strike Kills 3 In Vehicle Carrying Food In Gaza</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261122045217001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-20T11:45:49-05:00</news:publication_date>
       <news:title>UN court finds Myanmar committed genocide against Rohingya</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261120053900000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-20T10:16:21-05:00</news:publication_date>
-      <news:title>Senate blocks House-passed resolution limiting Trump&#x27;s Iran war powers</news:title>
     </news:news>
   </url>
 </urlset>
