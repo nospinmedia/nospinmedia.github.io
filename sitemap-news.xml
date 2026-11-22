@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261122053417001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-22T15:46:01-05:00</news:publication_date>
+      <news:title>Denmark Says Russia Plotted Assassination On Its Soil</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261122062418001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-22T15:45:44-05:00</news:publication_date>
+      <news:title>New England Grocers Step Up Thanksgiving Food Aid As Demand Surges</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261122052641001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-20T17:15:54-05:00</news:publication_date>
       <news:title>JPMorgan, Visa and Mastercard vendors targeted in cyberattack</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261120054800000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-20T15:46:41-05:00</news:publication_date>
-      <news:title>Judge allows core of Trump&#x27;s $15 billion New York Times lawsuit to proceed</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261120060700000.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-20T15:45:43-05:00</news:publication_date>
-      <news:title>Boston researchers find blood marker that may detect CTE during life</news:title>
     </news:news>
   </url>
 </urlset>
