@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261123051837001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-23T15:46:11-05:00</news:publication_date>
+      <news:title>Intelligence chief defends Trump calling Putin a &#x27;friend&#x27;</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261123060241001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-23T15:45:29-05:00</news:publication_date>
+      <news:title>Logan Airport tests autonomous wheelchairs and cleaning robots</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261123050132001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-21T17:16:27-05:00</news:publication_date>
       <news:title>Judge Approves $7.25 Billion Roundup Cancer Settlement</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261121053000006.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-21T15:46:10-05:00</news:publication_date>
-      <news:title>U.K. And EU Sign Biggest Deal Since Brexit</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261121070000012.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-21T15:45:44-05:00</news:publication_date>
-      <news:title>Federal Judge Blocks Connecticut Restrictions On ICE Agents</news:title>
     </news:news>
   </url>
 </urlset>
