@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261123061437001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-23T08:45:57-05:00</news:publication_date>
+      <news:title>Medford officers rescue seven residents from intentionally set house fire</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/news/20261123050924001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-23T08:45:42-05:00</news:publication_date>
+      <news:title>Delta automation outage disrupts Thanksgiving travel nationwide</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261123043015001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-21T10:16:26-05:00</news:publication_date>
       <news:title>Powerful Earthquake Strikes Peru&#x27;s Andes</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261121051500005.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-21T08:46:22-05:00</news:publication_date>
-      <news:title>COP31 Climate Talks Go Into Overtime Over Fossil Fuel Fight</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261121080000014.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-21T08:45:29-05:00</news:publication_date>
-      <news:title>Drake Maye Has Fractured Fibula, Could Miss Rest Of Season</news:title>
     </news:news>
   </url>
 </urlset>
