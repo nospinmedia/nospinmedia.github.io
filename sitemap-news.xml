@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261123050132001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-23T14:31:18-05:00</news:publication_date>
+      <news:title>U.S. intelligence tracked Nvidia-linked woman in contact with Chinese spy agency</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261123042317001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-21T15:45:44-05:00</news:publication_date>
       <news:title>Federal Judge Blocks Connecticut Restrictions On ICE Agents</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261121054500007.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-21T14:31:00-05:00</news:publication_date>
-      <news:title>Trump Threatens Penalties For U.S. Tech Firms Building AI Centers Abroad</news:title>
     </news:news>
   </url>
 </urlset>
