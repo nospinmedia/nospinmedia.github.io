@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261123044521001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-23T10:16:40-05:00</news:publication_date>
+      <news:title>Ukraine says sea drones sank Russian warship in Libya</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/new-england/20261123061437001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-21T11:45:43-05:00</news:publication_date>
       <news:title>Nasdaq Wipes Out All Of Its 2026 Gains As Stocks Plunge</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261121064500011.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-21T10:16:26-05:00</news:publication_date>
-      <news:title>Powerful Earthquake Strikes Peru&#x27;s Andes</news:title>
     </news:news>
   </url>
 </urlset>
