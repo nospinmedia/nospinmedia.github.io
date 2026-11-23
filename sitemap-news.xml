@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261123045218001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-23T18:31:19-05:00</news:publication_date>
+      <news:title>Amtrak train derails after striking truck in Louisiana</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261123054426001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-23T18:30:04-05:00</news:publication_date>
+      <news:title>Dozen animals rescued from South Berwick house fire</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261123052741001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-21T20:45:55-05:00</news:publication_date>
       <news:title>Appeals Court Halts Army Plan To Detonate 5 Tons Of Explosive</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261121063000010.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-21T18:30:59-05:00</news:publication_date>
-      <news:title>GTA VI Shatters Records With $3.79 Billion In First-Day Sales</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261121073000013.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-21T18:30:20-05:00</news:publication_date>
-      <news:title>New Haven Reaches $30 Million Wrongful-Conviction Settlement</news:title>
     </news:news>
   </url>
 </urlset>
