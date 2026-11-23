@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261123052741001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-23T17:15:55-05:00</news:publication_date>
+      <news:title>Trump hosts third meme coin gala as $TRUMP falls below $1</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261123051837001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-21T18:30:20-05:00</news:publication_date>
       <news:title>New Haven Reaches $30 Million Wrongful-Conviction Settlement</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261121044500003.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-21T17:16:27-05:00</news:publication_date>
-      <news:title>Judge Approves $7.25 Billion Roundup Cancer Settlement</news:title>
     </news:news>
   </url>
 </urlset>
