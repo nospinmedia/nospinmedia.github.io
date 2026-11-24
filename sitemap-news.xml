@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261123043812001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-23T20:46:27-05:00</news:publication_date>
+      <news:title>Appeals court blocks pregnant-worker law against Texas</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261123045218001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-22T06:15:41-05:00</news:publication_date>
       <news:title>Iranian Attack Sparks Fire At Bahrain Industrial Facility</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261121050000004.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-21T20:45:55-05:00</news:publication_date>
-      <news:title>Appeals Court Halts Army Plan To Detonate 5 Tons Of Explosive</news:title>
     </news:news>
   </url>
 </urlset>
