@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261124063244001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-24T06:15:40-05:00</news:publication_date>
+      <news:title>Iran vows to use &#x27;all available means&#x27; against U.S. naval blockade</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261123043812001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-22T08:45:06-05:00</news:publication_date>
       <news:title>Coastal Storm Targets New England With Heavy Rain And Gusty Winds</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261122044512001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-22T06:15:41-05:00</news:publication_date>
-      <news:title>Iranian Attack Sparks Fire At Bahrain Industrial Facility</news:title>
     </news:news>
   </url>
 </urlset>
