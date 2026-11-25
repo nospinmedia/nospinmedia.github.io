@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261125052341001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-25T08:46:17-05:00</news:publication_date>
+      <news:title>U.S. prepares new tariffs on China, EU and 14 other economies</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261125074312001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-25T08:45:16-05:00</news:publication_date>
+      <news:title>Teenager unaccounted for after three-alarm Montpelier apartment fire</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261125045112001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-23T10:16:40-05:00</news:publication_date>
       <news:title>Ukraine says sea drones sank Russian warship in Libya</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261123061437001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-23T08:45:57-05:00</news:publication_date>
-      <news:title>Medford officers rescue seven residents from intentionally set house fire</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261123050924001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-23T08:45:42-05:00</news:publication_date>
-      <news:title>Delta automation outage disrupts Thanksgiving travel nationwide</news:title>
     </news:news>
   </url>
 </urlset>
