@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261125063217001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-25T15:46:05-05:00</news:publication_date>
+      <news:title>Judge orders Fulton County to turn over FBI-seized 2020 election records</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261125081736001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-25T15:45:46-05:00</news:publication_date>
+      <news:title>Baystate Health to resume gender-affirming care for minors</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261125055927001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-23T17:15:55-05:00</news:publication_date>
       <news:title>Trump hosts third meme coin gala as $TRUMP falls below $1</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261123051837001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-23T15:46:11-05:00</news:publication_date>
-      <news:title>Intelligence chief defends Trump calling Putin a &#x27;friend&#x27;</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261123060241001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-23T15:45:29-05:00</news:publication_date>
-      <news:title>Logan Airport tests autonomous wheelchairs and cleaning robots</news:title>
     </news:news>
   </url>
 </urlset>
