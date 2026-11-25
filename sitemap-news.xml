@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261125055927001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-25T14:31:10-05:00</news:publication_date>
+      <news:title>Unsealed records reveal unusual fight before search of Ilhan Omar&#x27;s home</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261125054218001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-23T15:45:29-05:00</news:publication_date>
       <news:title>Logan Airport tests autonomous wheelchairs and cleaning robots</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261123050132001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-23T14:31:18-05:00</news:publication_date>
-      <news:title>U.S. intelligence tracked Nvidia-linked woman in contact with Chinese spy agency</news:title>
     </news:news>
   </url>
 </urlset>
