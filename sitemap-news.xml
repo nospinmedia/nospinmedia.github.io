@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261125072451001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-25T11:45:36-05:00</news:publication_date>
+      <news:title>Kilmar Abrego Garcia leaves U.S. for Spain after prolonged deportation fight</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261125050535001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-23T12:30:14-05:00</news:publication_date>
       <news:title>Swatting threat shuts down Woods Hole ferry service</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261123053618001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-23T11:46:31-05:00</news:publication_date>
-      <news:title>Eisenkot calls West Bank settler arson attacks &#x27;Jewish terrorism&#x27;</news:title>
     </news:news>
   </url>
 </urlset>
