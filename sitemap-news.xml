@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261126101500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-26T12:30:25-05:00</news:publication_date>
+      <news:title>Massachusetts lottery winner arrested by ICE days after claiming $1 million</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261126052500001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-24T13:16:09-05:00</news:publication_date>
       <news:title>Trump gets new path to potentially erase hush-money conviction</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261124072136001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-24T12:30:48-05:00</news:publication_date>
-      <news:title>Boston sues Trump administration over new immigrant housing rule</news:title>
     </news:news>
   </url>
 </urlset>
