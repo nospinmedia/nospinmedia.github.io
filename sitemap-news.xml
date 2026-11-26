@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261126061500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-26T18:31:08-05:00</news:publication_date>
+      <news:title>Army calls Iowa explosives detonation a success</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261126104500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-26T18:30:18-05:00</news:publication_date>
+      <news:title>MIT lab backed Army plan for Iowa explosives blast</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261126055500001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-24T20:46:47-05:00</news:publication_date>
       <news:title>Rep. Jimmy Gomez to resign after ethics panel finds evidence of sexual misconduct</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261124061959001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-24T18:31:20-05:00</news:publication_date>
-      <news:title>Democrats put steps toward Medicare for All on their 2027 agenda</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261124080753001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-24T18:30:38-05:00</news:publication_date>
-      <news:title>Maine sets new midterm turnout record with 731,486 ballots</news:title>
     </news:news>
   </url>
 </urlset>
