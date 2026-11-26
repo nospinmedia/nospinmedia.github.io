@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261126074500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-26T08:46:33-05:00</news:publication_date>
+      <news:title>FedEx cargo jet overruns runway at Miami airport</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261126091500001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-26T08:45:59-05:00</news:publication_date>
+      <news:title>Man killed during fight at Chelsea high school football game</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261126042500001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-24T10:16:02-05:00</news:publication_date>
       <news:title>Trump says he convinced Nvidia to bring Jensen Huang back as CEO</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261124044731001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-24T08:45:46-05:00</news:publication_date>
-      <news:title>South Korea scrambles fighter jets as Russian military aircraft approach</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261124074315001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-24T08:45:23-05:00</news:publication_date>
-      <news:title>Thanksgiving storm targets all six New England states</news:title>
     </news:news>
   </url>
 </urlset>
