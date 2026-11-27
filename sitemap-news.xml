@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261127052714001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-27T17:16:14-05:00</news:publication_date>
+      <news:title>Mexican president blasts DEA over cartel tip lines</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261127044736001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-25T18:30:08-05:00</news:publication_date>
       <news:title>Which Maine jobs are most exposed to AI?</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261125070618001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-25T17:16:30-05:00</news:publication_date>
-      <news:title>President Trump awards Rudy Giuliani nation&#x27;s highest civilian honor</news:title>
     </news:news>
   </url>
 </urlset>
