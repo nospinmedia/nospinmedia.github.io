@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261127054637001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-27T18:31:17-05:00</news:publication_date>
+      <news:title>UK contacts roughly 100,000 military reservists</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261127063417001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-27T18:30:32-05:00</news:publication_date>
+      <news:title>Westbrook dancers face extended NYC stay after parade delay</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261127052714001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-25T20:46:02-05:00</news:publication_date>
       <news:title>Family demands bodycam footage after Georgia officer kills 16-year-old</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261125061542001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-25T18:30:37-05:00</news:publication_date>
-      <news:title>House Democrat expands probe into Trump Jr.-linked investment firm</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261125083547001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-25T18:30:08-05:00</news:publication_date>
-      <news:title>Which Maine jobs are most exposed to AI?</news:title>
     </news:news>
   </url>
 </urlset>
