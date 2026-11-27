@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261127051943001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-27T06:16:01-05:00</news:publication_date>
+      <news:title>Taiwan enters final day of campaigning as China sends warplanes</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261126081500001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-25T08:45:16-05:00</news:publication_date>
       <news:title>Teenager unaccounted for after three-alarm Montpelier apartment fire</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261125045112001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-25T06:15:59-05:00</news:publication_date>
-      <news:title>Hackers breach unclassified CIA intelligence system</news:title>
     </news:news>
   </url>
 </urlset>
