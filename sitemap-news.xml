@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261127044736001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-27T15:46:16-05:00</news:publication_date>
+      <news:title>Israel intensifies targeted killings of Hamas leaders in Gaza</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261127062248001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-27T15:45:02-05:00</news:publication_date>
+      <news:title>Four Weymouth firefighters injured in engine rollover</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261127043952001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-25T17:16:30-05:00</news:publication_date>
       <news:title>President Trump awards Rudy Giuliani nation&#x27;s highest civilian honor</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261125063217001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-25T15:46:05-05:00</news:publication_date>
-      <news:title>Judge orders Fulton County to turn over FBI-seized 2020 election records</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261125081736001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-25T15:45:46-05:00</news:publication_date>
-      <news:title>Baystate Health to resume gender-affirming care for minors</news:title>
     </news:news>
   </url>
 </urlset>
