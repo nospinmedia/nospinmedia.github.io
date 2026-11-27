@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261127043952001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-27T14:30:42-05:00</news:publication_date>
+      <news:title>Two Italian technicians killed in drone attack in Kuwait</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261127050218001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-25T15:45:46-05:00</news:publication_date>
       <news:title>Baystate Health to resume gender-affirming care for minors</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261125055927001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-25T14:31:10-05:00</news:publication_date>
-      <news:title>Unsealed records reveal unusual fight before search of Ilhan Omar&#x27;s home</news:title>
     </news:news>
   </url>
 </urlset>
