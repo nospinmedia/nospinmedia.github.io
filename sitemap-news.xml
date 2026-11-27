@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/new-england/20261127055742001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-27T12:30:07-05:00</news:publication_date>
+      <news:title>Boston man identified as victim in Chelsea football game shooting</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261127042545001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -215,14 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-25T13:15:45-05:00</news:publication_date>
       <news:title>Canada says it &#x27;doesn&#x27;t report to the United States&#x27;</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261125075824001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-25T12:30:44-05:00</news:publication_date>
-      <news:title>Massachusetts turkey farm shut down days before Thanksgiving</news:title>
     </news:news>
   </url>
 </urlset>
