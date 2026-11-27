@@ -2,6 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
+    <loc>https://nospin.media/news/20261127043118001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-27T08:46:00-05:00</news:publication_date>
+      <news:title>Zelenskyy warns Russia is preparing massive new strike</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://nospin.media/new-england/20261127061034001.html</loc>
+    <news:news>
+      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
+      <news:publication_date>2026-11-27T08:45:55-05:00</news:publication_date>
+      <news:title>Thanksgiving storm knocks out power across New England</news:title>
+    </news:news>
+  </url>
+  <url>
     <loc>https://nospin.media/news/20261127051943001.html</loc>
     <news:news>
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
@@ -207,22 +223,6 @@
       <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
       <news:publication_date>2026-11-25T10:16:04-05:00</news:publication_date>
       <news:title>U.S. jury convicts Huawei on 10 of 12 federal counts</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/news/20261125052341001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-25T08:46:17-05:00</news:publication_date>
-      <news:title>U.S. prepares new tariffs on China, EU and 14 other economies</news:title>
-    </news:news>
-  </url>
-  <url>
-    <loc>https://nospin.media/new-england/20261125074312001.html</loc>
-    <news:news>
-      <news:publication><news:name>No Spin Media</news:name><news:language>en</news:language></news:publication>
-      <news:publication_date>2026-11-25T08:45:16-05:00</news:publication_date>
-      <news:title>Teenager unaccounted for after three-alarm Montpelier apartment fire</news:title>
     </news:news>
   </url>
 </urlset>
